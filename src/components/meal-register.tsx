@@ -83,6 +83,8 @@ const MealRegister: FC<Props> = ({
     preparation = '',
     portions: portionsData = [],
   }: MealForm): void {
+    if (!setAccount) return;
+
     const id = setAccount.meal({
       portions: portionsData,
       name,

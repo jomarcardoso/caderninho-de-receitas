@@ -34,6 +34,8 @@ const MealPageStyle: FC<{ editing: boolean }> = ({
   const { style, setStyle } = useContext(StyleContext);
 
   useEffect(() => {
+    if (!setStyle) return;
+
     setStyle({
       ...style,
       bgBody: editing ? 'white' : '',

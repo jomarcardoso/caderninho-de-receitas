@@ -3,6 +3,7 @@
     "outDir": "./types/",
     "noImplicitAny": true,
     "noImplicitReturns": true,
+    "strictNullChecks": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react"

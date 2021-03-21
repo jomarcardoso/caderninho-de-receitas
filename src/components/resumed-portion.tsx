@@ -17,9 +17,9 @@ const useStyles = (padding = 0) =>
       alignItems: 'flex-end',
       flex: 1,
       justifyContent: 'center',
-      padding: padding || null,
+      padding,
       '&:last-child': {
-        paddingBottom: padding || null,
+        paddingBottom: padding,
       },
     },
     badge: {

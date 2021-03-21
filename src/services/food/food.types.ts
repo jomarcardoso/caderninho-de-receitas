@@ -114,24 +114,24 @@ interface Vitamins {
 export interface PureFood {
   id: number;
   name: string;
-  description?: string;
+  description: string;
   enName: string;
-  image?: string;
-  gi?: number;
-  calories?: number;
-  acidification?: number;
-  carbohydrates?: number;
-  proteins?: number;
-  saturedFats?: number;
-  monounsaturatedFats?: number;
-  totalFat?: number;
-  dietaryFiber?: number;
-  minerals?: Partial<Minerals>;
-  vitamins?: Partial<Vitamins>;
-  gl?: number;
+  image: string;
+  gi: number;
+  calories: number;
+  acidification: number;
+  carbohydrates: number;
+  proteins: number;
+  saturedFats: number;
+  monounsaturatedFats: number;
+  totalFat: number;
+  dietaryFiber: number;
+  minerals: Partial<Minerals>;
+  vitamins: Partial<Vitamins>;
+  gl: number;
   aminoAcids: AminoAcids;
-  unitOfMeasurement?: UnitOfMeasurement;
-  oneMeasures?: Array<Measure>;
+  unitOfMeasurement: UnitOfMeasurement;
+  oneMeasures: Array<Measure>;
   keys: Array<string>;
 }
 

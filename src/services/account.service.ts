@@ -21,7 +21,7 @@ export interface AccountData {
  * @deprecated
  */
 export interface AccountDataV1 extends AccountData {
-  hasReadAdvertise: boolean;
+  hasReadAdvertise?: boolean;
 }
 
 export interface AccountAndSet {
@@ -56,7 +56,8 @@ function get(foods: Array<Food>): Account {
   if (typeof window === 'undefined') return SHAPE_ACCOUNT;
 
   const accountData: AccountData | AccountDataV1 =
-    JSON.parse(localStorage.getItem(ACCOUNT_LOCAL_STORAGE)) ?? SHAPE_ACCOUNT;
+    JSON.parse(localStorage.getItem(ACCOUNT_LOCAL_STORAGE) || 'null') ??
+    SHAPE_ACCOUNT;
 
   const localVersion = accountData.version || 0;
 
