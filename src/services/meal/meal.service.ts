@@ -4,15 +4,23 @@ import { Portion } from '../portion/portion.types';
 import { Meal, MealData, MEAL_DATA } from './meal.types';
 
 export function calculateCalories(portions: Array<Portion> = []): number {
-  return portions.reduce((sum, portion) => {
-    return sum + portion.calories;
-  }, 0);
+  return Number(
+    portions
+      .reduce((sum, portion) => {
+        return sum + portion.calories;
+      }, 0)
+      .toFixed(0),
+  );
 }
 
 export function calculateCarbohidrates(portions: Array<Portion> = []): number {
-  return portions.reduce((sum, portion) => {
-    return sum + portion.calories;
-  }, 0);
+  return Number(
+    portions
+      .reduce((sum, portion) => {
+        return sum + portion.calories;
+      }, 0)
+      .toFixed(0),
+  );
 }
 
 export function calculateGI(portions: Array<Portion> = []): number {
