@@ -5,18 +5,18 @@ import {
   Measure,
   Measurer,
   FoodService,
-  SHAPE_MEASURE,
+  MEASURE,
   FOOD,
 } from '../food';
-import { Portion, SHAPE_PORTION, UnFormat } from './portion.types';
+import { Portion, PORTION, UnFormat } from './portion.types';
 
 function getQuantityByMeasure(
-  measure: Measure = SHAPE_MEASURE,
+  measure: Measure = MEASURE,
   food: Food = FOOD,
 ): number {
   const measureByMeasurer: Measure =
     food.oneMeasures.find((oneMeasure) => oneMeasure.type === measure.type) ||
-    SHAPE_MEASURE;
+    MEASURE;
 
   return measure.quantity * measureByMeasurer.quantity;
 }
@@ -78,7 +78,7 @@ function portionFromString({ text, foods }: PortionFromStringArgs): Portion {
 
   const measure = measureFromString(text.substring(0, foodIndex));
 
-  if (!food) return SHAPE_PORTION;
+  if (!food) return PORTION;
 
   // const food = foods[portionData.foodId - 1];
   const quantity = getQuantityByMeasure(measure, food);

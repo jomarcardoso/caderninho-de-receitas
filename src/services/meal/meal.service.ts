@@ -4,15 +4,23 @@ import { Portion } from '../portion/portion.types';
 import { Meal, MealData, MEAL_DATA } from './meal.types';
 
 export function calculateCalories(portions: Array<Portion> = []): number {
-  return portions.reduce((sum, portion) => {
-    return sum + portion.calories;
-  }, 0);
+  return Number(
+    portions
+      .reduce((sum, portion) => {
+        return sum + portion.calories;
+      }, 0)
+      .toFixed(0),
+  );
 }
 
 export function calculateCarbohidrates(portions: Array<Portion> = []): number {
-  return portions.reduce((sum, portion) => {
-    return sum + portion.calories;
-  }, 0);
+  return Number(
+    portions
+      .reduce((sum, portion) => {
+        return sum + portion.calories;
+      }, 0)
+      .toFixed(0),
+  );
 }
 
 export function calculateGI(portions: Array<Portion> = []): number {
@@ -138,11 +146,11 @@ export function format({
 
   return {
     ...mealData,
-    id: mealData.id,
+    id: mealData?.id ?? Math.round(Math.random() * 1000),
     portions,
     calories: calculateCalories(portions),
     name: mealData.name,
-    description: mealData.description,
+    description: mealData?.description ?? '',
     image,
     gi: calculateGI(portions),
     acidification: calculateAcidification(portions),
@@ -169,7 +177,7 @@ export function formatToShare(mealData: MealData): string {
 }
 
 export function unFormatToShare(paramString: string): MealData {
-  const json = new URLSearchParams(paramString).get('mealData');
+  const json = new URLSearchParams(paramString).get('mealData') ?? 'null';
 
   const mealData: MealData = JSON.parse(json);
 

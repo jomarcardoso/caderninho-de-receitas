@@ -19,6 +19,13 @@ module.exports = {
     'gatsby-plugin-eslint',
     `gatsby-plugin-sass`,
     `gatsby-theme-material-ui`,
+    // {
+    //   resolve: `gatsby-theme-material-ui`,
+    //   options: {
+    //     disableAutoprefixing: false,
+    //     disableMinification: false,
+    //   },
+    // },
     `gatsby-plugin-react-helmet`,
     'gatsby-plugin-react-svg',
     {
@@ -42,8 +49,8 @@ module.exports = {
         name: `SAÚDE EM PONTOS`,
         short_name: `Saúde em Pontos`,
         start_url: `/`,
-        background_color: `#f2f7e9`,
-        theme_color: `#4d7a60`,
+        background_color: `#fffffb`,
+        theme_color: `#5f4339`,
         display: `standalone`,
         icon: `src/images/original.png`,
         cache_busting_mode: 'none',

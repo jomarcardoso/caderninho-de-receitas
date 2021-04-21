@@ -4,7 +4,7 @@ import { FoodMyFoodData } from './db.types';
 import {
   Food,
   UnitOfMeasurement,
-  SHAPE_AMINO_ACIDS,
+  AMINO_ACIDS,
   FOOD,
   PURE_FOOD,
 } from '../services/food';
@@ -453,7 +453,7 @@ const foods: Array<Food> = [
     image: '/images/food/strawberry.svg',
     calories: 0,
     carbohydrates: 6,
-    aminoAcids: SHAPE_AMINO_ACIDS,
+    aminoAcids: AMINO_ACIDS,
   },
   {
     ...FOOD,
@@ -619,6 +619,7 @@ const foods: Array<Food> = [
     id: 17,
     gi: 16,
     image: '/images/food/carrot.svg',
+    keys: ['cenoura ralada', 'cenouras raladas', 'pedaços de cenoura'],
     oneMeasures: [
       {
         quantity: 61,
@@ -688,237 +689,223 @@ const foods: Array<Food> = [
       },
     ],
   },
+  {
+    ...FOOD,
+    id: 19,
+    name: 'Aveia',
+    enName: 'oat',
+    calories: 394,
+    carbohydrates: 66.6,
+    proteins: 13.9,
+    dietaryFiber: 9.1,
+    minerals: {
+      calcium: 47.9,
+      phosphorus: 153.4,
+      manganese: 1.9,
+      magnesium: 118.8,
+      potassium: 336.3,
+      iron: 4.5,
+      zinc: 2.6,
+      sodium: 4.6,
+    },
+    vitamins: {
+      c: 1.4,
+    },
+    image: '/images/food/oats.svg',
+    oneMeasures: [
+      {
+        quantity: 234,
+        type: 'CUP',
+      },
+    ],
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    aminoAcids: {
+      tryptophan: 40,
+      threonine: 96,
+      isoleucine: 116,
+      leucine: 216,
+      lysine: 135,
+      methionine: 46,
+      cystine: 97,
+      phenylalanine: 142,
+      tyrosine: 101,
+      valine: 160,
+      histidine: 54,
+      arginine: 167,
+      alanine: 124,
+      asparticAcid: 302,
+      glutamicAcid: 623,
+      glycine: 147,
+      proline: 96,
+      serine: 151,
+      glutamine: 0,
+    },
+    keys: ['aveia em flocos', 'flocos de aveia'],
+    flour: {
+      ...PURE_FOOD,
+      name: 'Farinha de aveia',
+      enName: 'oat-flour',
+      keys: ['farelo de aveia'],
+      gi: 72,
+    },
+  },
+  {
+    ...format(coconutData),
+    id: 20,
+    name: 'Coco ralado',
+    gi: 42,
+    enName: 'coconut',
+    image: '/images/food/coconut.svg',
+    oneMeasures: [
+      {
+        quantity: 80,
+        type: 'CUP',
+      },
+      {
+        quantity: 5,
+        type: 'TABLE_SPOON',
+      },
+      {
+        quantity: 1.5,
+        type: 'TEA_SPOON',
+      },
+    ],
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: ['coco', 'côco', 'cocos', 'côcos'],
+  },
+  {
+    ...format(eggData),
+    id: 21,
+    name: 'Ovo',
+    enName: 'egg',
+    gi: 0,
+    image: '/images/food/egg.svg',
+    oneMeasures: [
+      {
+        quantity: 46,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: ['ovos'],
+  },
+  {
+    ...format(chickenData),
+    id: 22,
+    gi: 0,
+    name: 'Frango',
+    enName: 'chicken',
+    image: '/images/food/chicken.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: ['galinha', 'peito de frango', 'coxa de frango'],
+  },
+  {
+    ...format(oliveOilData),
+    id: 23,
+    name: 'Azeite de oliva',
+    gi: 0,
+    enName: 'olive-oil',
+    image: '/images/food/olive-oil.svg',
+    unitOfMeasurement: UnitOfMeasurement.liter,
+    keys: ['azeite', 'óleo de oliva', 'azeite de oliva extra virgem'],
+    oneMeasures: [
+      {
+        quantity: 240,
+        type: 'CUP',
+      },
+      {
+        quantity: 15,
+        type: 'TABLE_SPOON',
+      },
+      {
+        quantity: 5,
+        type: 'TEA_SPOON',
+      },
+    ],
+  },
+  {
+    ...format(sugarData),
+    id: 24,
+    name: 'Açúcar branco',
+    enName: 'sugar',
+    gi: 92,
+    image: '/images/food/sugar.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: ['açúcar'],
+    oneMeasures: [
+      {
+        quantity: 160,
+        type: 'CUP',
+      },
+      {
+        quantity: 10,
+        type: 'TABLE_SPOON',
+      },
+      {
+        quantity: 3.5,
+        type: 'TEA_SPOON',
+      },
+    ],
+  },
+  {
+    ...format(wheatFlourData),
+    id: 25,
+    name: 'Farinha de trigo',
+    enName: 'wheat-flour',
+    gi: 85,
+    image: '/images/food/wheat-flour.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: ['farinha branca', 'farinha'],
+    oneMeasures: [
+      {
+        quantity: 120,
+        type: 'CUP',
+      },
+      {
+        quantity: 7.5,
+        type: 'TABLE_SPOON',
+      },
+      {
+        quantity: 2.5,
+        type: 'TEA_SPOON',
+      },
+    ],
+  },
+  {
+    ...format(sugarData), // TODO: precisa diferenciar do açúcar branco
+    id: 26,
+    name: 'Açúcar mascavo',
+    enName: 'brown-sugar',
+    gi: 80,
+    image: '/images/food/sugar.svg', // TODO: precisa diferenciar do açúcar branco
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: ['açúcar escuro', 'açúcar integral'],
+    oneMeasures: [
+      {
+        quantity: 160,
+        type: 'CUP',
+      },
+      {
+        quantity: 10,
+        type: 'TABLE_SPOON',
+      },
+      {
+        quantity: 3.5,
+        type: 'TEA_SPOON',
+      },
+    ],
+  },
+  {
+    ...format(sugarData), // TODO: precisa diferenciar do açúcar branco
+    id: 27,
+    name: 'Bolo de cenoura',
+    enName: 'carrot-cake',
+    gi: 67,
+    image: '/images/food/carrot-cake.svg', // TODO: precisa diferenciar do açúcar branco
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: [],
+  },
 ];
-
-const oat: Food = {
-  ...FOOD,
-  id: 19,
-  name: 'Aveia',
-  enName: 'oat',
-  calories: 394,
-  carbohydrates: 66.6,
-  proteins: 13.9,
-  dietaryFiber: 9.1,
-  minerals: {
-    calcium: 47.9,
-    phosphorus: 153.4,
-    manganese: 1.9,
-    magnesium: 118.8,
-    potassium: 336.3,
-    iron: 4.5,
-    zinc: 2.6,
-    sodium: 4.6,
-  },
-  vitamins: {
-    c: 1.4,
-  },
-  image: '/images/food/oats.svg',
-  oneMeasures: [
-    {
-      quantity: 234,
-      type: 'CUP',
-    },
-  ],
-  unitOfMeasurement: UnitOfMeasurement.gram,
-  aminoAcids: {
-    tryptophan: 40,
-    threonine: 96,
-    isoleucine: 116,
-    leucine: 216,
-    lysine: 135,
-    methionine: 46,
-    cystine: 97,
-    phenylalanine: 142,
-    tyrosine: 101,
-    valine: 160,
-    histidine: 54,
-    arginine: 167,
-    alanine: 124,
-    asparticAcid: 302,
-    glutamicAcid: 623,
-    glycine: 147,
-    proline: 96,
-    serine: 151,
-    glutamine: 0,
-  },
-  keys: [],
-  flour: {
-    ...PURE_FOOD,
-    name: 'Farinha de aveia',
-    enName: 'oat-flour',
-    keys: ['farelo de aveia'],
-    gi: 72,
-  },
-};
-
-foods.push(oat);
-
-const coconut: Food = {
-  ...format(coconutData),
-  id: 20,
-  name: 'Coco ralado',
-  gi: 42,
-  enName: 'coconut',
-  image: '/images/food/coconut.svg',
-  oneMeasures: [
-    {
-      quantity: 80,
-      type: 'CUP',
-    },
-    {
-      quantity: 5,
-      type: 'TABLE_SPOON',
-    },
-    {
-      quantity: 1.5,
-      type: 'TEA_SPOON',
-    },
-  ],
-  unitOfMeasurement: UnitOfMeasurement.gram,
-  keys: ['coco', 'côco', 'cocos', 'côcos'],
-};
-
-foods.push(coconut);
-
-const egg: Food = {
-  ...format(eggData),
-  id: 21,
-  name: 'Ovo',
-  enName: 'egg',
-  gi: 0,
-  image: '/images/food/egg.svg',
-  oneMeasures: [
-    {
-      quantity: 46,
-      type: 'UNITY',
-    },
-  ],
-  unitOfMeasurement: UnitOfMeasurement.gram,
-  keys: ['ovos'],
-};
-
-foods.push(egg);
-
-const chicken: Food = {
-  ...format(chickenData),
-  id: 22,
-  gi: 0,
-  name: 'Frango',
-  enName: 'chicken',
-  image: '/images/food/chicken.svg',
-  unitOfMeasurement: UnitOfMeasurement.gram,
-  keys: ['galinha'],
-};
-
-foods.push(chicken);
-
-const oliveOil: Food = {
-  ...format(oliveOilData),
-  id: 23,
-  name: 'Azeite de oliva',
-  gi: 0,
-  enName: 'olive-oil',
-  image: '/images/food/olive-oil.svg',
-  unitOfMeasurement: UnitOfMeasurement.liter,
-  keys: ['azeite'],
-  oneMeasures: [
-    {
-      quantity: 240,
-      type: 'CUP',
-    },
-    {
-      quantity: 15,
-      type: 'TABLE_SPOON',
-    },
-    {
-      quantity: 5,
-      type: 'TEA_SPOON',
-    },
-  ],
-};
-
-foods.push(oliveOil);
-
-const sugar: Food = {
-  ...format(sugarData),
-  id: 24,
-  name: 'Açúcar branco',
-  enName: 'sugar',
-  gi: 92,
-  image: '/images/food/sugar.svg',
-  unitOfMeasurement: UnitOfMeasurement.gram,
-  keys: ['açúcar'],
-  oneMeasures: [
-    {
-      quantity: 160,
-      type: 'CUP',
-    },
-    {
-      quantity: 10,
-      type: 'TABLE_SPOON',
-    },
-    {
-      quantity: 3.5,
-      type: 'TEA_SPOON',
-    },
-  ],
-};
-
-foods.push(sugar);
-
-const wheatFlour: Food = {
-  ...format(wheatFlourData),
-  id: 25,
-  name: 'Farinha de trigo',
-  enName: 'wheat-flour',
-  gi: 85,
-  image: '/images/food/wheat-flour.svg',
-  unitOfMeasurement: UnitOfMeasurement.gram,
-  keys: ['farinha branca', 'farinha'],
-  oneMeasures: [
-    {
-      quantity: 120,
-      type: 'CUP',
-    },
-    {
-      quantity: 7.5,
-      type: 'TABLE_SPOON',
-    },
-    {
-      quantity: 2.5,
-      type: 'TEA_SPOON',
-    },
-  ],
-};
-
-foods.push(wheatFlour);
-
-const brownSugar: Food = {
-  ...format(sugarData), // TODO: precisa diferenciar do açúcar branco
-  id: 26,
-  name: 'Açúcar mascavo',
-  enName: 'brown-sugar',
-  gi: 80,
-  image: '/images/food/sugar.svg', // TODO: precisa diferenciar do açúcar branco
-  unitOfMeasurement: UnitOfMeasurement.gram,
-  keys: ['açúcar escuro', 'açúcar integral'],
-  oneMeasures: [
-    {
-      quantity: 160,
-      type: 'CUP',
-    },
-    {
-      quantity: 10,
-      type: 'TABLE_SPOON',
-    },
-    {
-      quantity: 3.5,
-      type: 'TEA_SPOON',
-    },
-  ],
-};
-
-foods.push(brownSugar);
 
 fs.writeFileSync(
   path.resolve(__dirname, 'food.json'),

@@ -18,7 +18,7 @@ export interface Measure {
   quantity: number;
 }
 
-export const SHAPE_MEASURE: Measure = {
+export const MEASURE: Measure = {
   type: 'LITERAL',
   quantity: 0,
 };
@@ -50,7 +50,7 @@ export interface NonEssencialAminoAcids {
 
 export type AminoAcids = EssencialAminoAcids & NonEssencialAminoAcids;
 
-export const SHAPE_AMINO_ACIDS: AminoAcids = {
+export const AMINO_ACIDS: AminoAcids = {
   alanine: 0,
   arginine: 0,
   asparticAcid: 0,
@@ -114,24 +114,24 @@ interface Vitamins {
 export interface PureFood {
   id: number;
   name: string;
-  description?: string;
+  description: string;
   enName: string;
-  image?: string;
-  gi?: number;
-  calories?: number;
-  acidification?: number;
-  carbohydrates?: number;
-  proteins?: number;
-  saturedFats?: number;
-  monounsaturatedFats?: number;
-  totalFat?: number;
-  dietaryFiber?: number;
-  minerals?: Partial<Minerals>;
-  vitamins?: Partial<Vitamins>;
-  gl?: number;
+  image: string;
+  gi: number;
+  calories: number;
+  acidification: number;
+  carbohydrates: number;
+  proteins: number;
+  saturedFats: number;
+  monounsaturatedFats: number;
+  totalFat: number;
+  dietaryFiber: number;
+  minerals: Partial<Minerals>;
+  vitamins: Partial<Vitamins>;
+  gl: number;
   aminoAcids: AminoAcids;
-  unitOfMeasurement?: UnitOfMeasurement;
-  oneMeasures?: Array<Measure>;
+  unitOfMeasurement: UnitOfMeasurement;
+  oneMeasures: Array<Measure>;
   keys: Array<string>;
 }
 
@@ -141,7 +141,7 @@ export interface Food extends PureFood {
   juice: PureFood;
 }
 
-export const SHAPE_MINERALS: Minerals = {
+export const MINERALS: Minerals = {
   calcium: 0,
   copper: 0,
   iron: 0,
@@ -153,7 +153,7 @@ export const SHAPE_MINERALS: Minerals = {
   zinc: 0,
 };
 
-export const SHAPE_VITAMINS: Vitamins = {
+export const VITAMINS: Vitamins = {
   a: 0,
   alphaCarotene: 0,
   b12: 0,
@@ -203,7 +203,7 @@ export enum TRANSLATED_AMINO_ACIDS {
 }
 
 export const PURE_FOOD: PureFood = {
-  aminoAcids: SHAPE_AMINO_ACIDS,
+  aminoAcids: AMINO_ACIDS,
   enName: '',
   id: 0,
   keys: [],
@@ -216,14 +216,14 @@ export const PURE_FOOD: PureFood = {
   gi: 0,
   gl: 0,
   image: '',
-  minerals: SHAPE_MINERALS,
+  minerals: MINERALS,
   monounsaturatedFats: 0,
   oneMeasures: [],
   proteins: 0,
   saturedFats: 0,
   totalFat: 0,
   unitOfMeasurement: UnitOfMeasurement.gram,
-  vitamins: SHAPE_VITAMINS,
+  vitamins: VITAMINS,
 };
 
 export const FOOD: Food = {

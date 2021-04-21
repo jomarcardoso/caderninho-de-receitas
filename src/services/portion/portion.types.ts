@@ -1,4 +1,4 @@
-import { Food, AminoAcids, Measure, SHAPE_AMINO_ACIDS } from '../food';
+import { Food, AminoAcids, Measure, AMINO_ACIDS } from '../food';
 import { FOOD } from '../food/food.types';
 
 export interface Portion {
@@ -13,8 +13,8 @@ export interface Portion {
 
 export type UnFormat = (portion: Portion) => string;
 
-export const SHAPE_PORTION: Portion = {
-  aminoAcids: SHAPE_AMINO_ACIDS,
+export const PORTION: Portion = {
+  aminoAcids: AMINO_ACIDS,
   calories: 0,
   carbohydrates: 0,
   food: FOOD,

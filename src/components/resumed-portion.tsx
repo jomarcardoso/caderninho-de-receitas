@@ -4,7 +4,7 @@ import Grid, { GridProps } from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Card from './card/card';
-import { Portion, SHAPE_PORTION } from '../services/portion/portion.types';
+import { Portion, PORTION } from '../services/portion/portion.types';
 import Image from './image';
 
 const useStyles = (padding = 0) =>
@@ -17,9 +17,9 @@ const useStyles = (padding = 0) =>
       alignItems: 'flex-end',
       flex: 1,
       justifyContent: 'center',
-      padding: padding || null,
+      padding,
       '&:last-child': {
-        paddingBottom: padding || null,
+        paddingBottom: padding,
       },
     },
     badge: {
@@ -34,7 +34,7 @@ interface Props extends GridProps {
 }
 
 const ResumedPortion: FC<Props> = ({
-  portion = SHAPE_PORTION,
+  portion = PORTION,
   hideBadge = false,
   padding = 0,
   ...props
