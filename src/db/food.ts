@@ -4,7 +4,7 @@ import { FoodMyFoodData } from './db.types';
 import {
   Food,
   UnitOfMeasurement,
-  SHAPE_AMINO_ACIDS,
+  AMINO_ACIDS,
   FOOD,
   PURE_FOOD,
 } from '../services/food';
@@ -453,7 +453,7 @@ const foods: Array<Food> = [
     image: '/images/food/strawberry.svg',
     calories: 0,
     carbohydrates: 6,
-    aminoAcids: SHAPE_AMINO_ACIDS,
+    aminoAcids: AMINO_ACIDS,
   },
   {
     ...FOOD,

@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Card from '../components/card/card';
 import StyleContext from '../contexts/style';
 import Layout from '../components/layout/layout';
-import { SHAPE_ACCOUNT } from '../services/account.service';
+import { ACCOUNT } from '../services/account.service';
 import AccountContext from '../contexts/account-context';
 import { MealService, MEAL_DATA, MEAL } from '../services/meal';
 import ScoreComponent from '../components/score';
@@ -51,7 +51,7 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
   const foods = useContext(FoodsContext);
   const initialId = Number(location?.hash?.replace('#', '') ?? 0);
   const [id, setId] = useState(initialId);
-  const { account = SHAPE_ACCOUNT } = useContext(AccountContext);
+  const { account = ACCOUNT } = useContext(AccountContext);
   let meal = MEAL;
   let mealData = MEAL_DATA;
   const [editing, setEditing] = useState(!id);

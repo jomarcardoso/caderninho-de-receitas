@@ -31,7 +31,7 @@ export interface AccountAndSet {
 
 const ACCOUNT_LOCAL_STORAGE = 'saude-em-pontos';
 
-export const SHAPE_ACCOUNT: Account = {
+export const ACCOUNT: Account = {
   meals: [],
   version: 0,
 };
@@ -47,17 +47,17 @@ function format({
     meals:
       accountData?.meals?.map((mealData) =>
         MealService.format({ mealData, foods }),
-      ) ?? SHAPE_ACCOUNT.meals,
+      ) ?? ACCOUNT.meals,
     version: CURRENT_VERSION,
   };
 }
 
 function get(foods: Array<Food>): Account {
-  if (typeof window === 'undefined') return SHAPE_ACCOUNT;
+  if (typeof window === 'undefined') return ACCOUNT;
 
   const accountData: AccountData | AccountDataV1 =
     JSON.parse(localStorage.getItem(ACCOUNT_LOCAL_STORAGE) || 'null') ??
-    SHAPE_ACCOUNT;
+    ACCOUNT;
 
   const localVersion = accountData.version || 0;
 

@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
   AminoAcids,
-  SHAPE_AMINO_ACIDS,
+  AMINO_ACIDS,
   TRANSLATED_AMINO_ACIDS,
 } from '../services/food';
 
@@ -31,7 +31,7 @@ interface Props {
   aminoAcids: AminoAcids;
 }
 
-const AminoAcidsTable: FC<Props> = ({ aminoAcids = SHAPE_AMINO_ACIDS }) => {
+const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
   const classes = useStyles();
   const essentialAminoAcids = [
     {

@@ -1,4 +1,4 @@
-import { AminoAcids, SHAPE_AMINO_ACIDS } from '../food';
+import { AminoAcids, AMINO_ACIDS } from '../food';
 import { Portion } from '../portion/portion.types';
 
 export interface Meal {
@@ -43,7 +43,7 @@ export const MEAL: Meal = {
   acidification: 0,
   gl: 0,
   carbohydrates: 0,
-  aminoAcids: SHAPE_AMINO_ACIDS,
+  aminoAcids: AMINO_ACIDS,
   preparation: '',
 };
 
