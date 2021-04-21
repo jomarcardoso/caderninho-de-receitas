@@ -895,6 +895,16 @@ const foods: Array<Food> = [
       },
     ],
   },
+  {
+    ...format(sugarData), // TODO: precisa diferenciar do açúcar branco
+    id: 27,
+    name: 'Bolo de cenoura',
+    enName: 'carrot-cake',
+    gi: 67,
+    image: '/images/food/carrot-cake.svg', // TODO: precisa diferenciar do açúcar branco
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: [],
+  },
 ];
 
 fs.writeFileSync(

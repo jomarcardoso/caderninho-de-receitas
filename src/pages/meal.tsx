@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import ShareIcon from '@material-ui/icons/Share';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import Divider from '@material-ui/core/Divider';
 import Card from '../components/card/card';
@@ -24,6 +25,12 @@ import Preparation from '../components/preparation/preparation';
 const useStyles = makeStyles({
   imageBanner: {
     padding: '30px',
+    position: 'relative',
+  },
+  buttonBanner: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
   },
 });
 
@@ -97,6 +104,14 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
             <>
               <Grid item xs={12}>
                 <Card className={classes.imageBanner}>
+                  <Fab
+                    size="small"
+                    color="secondary"
+                    className={classes.buttonBanner}
+                    onClick={handleShare}
+                  >
+                    <ShareIcon fontSize="small" />
+                  </Fab>
                   <Grid container justify="center">
                     <Grid item xs={6}>
                       <Image src={meal.image} />
@@ -111,14 +126,13 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
                       {meal.name}
                     </Typography>
                   </Grid>
-                  <Grid item xs={1}>
-                    <IconButton onClick={() => setEditing(true)} size="small">
-                      <EditRoundedIcon fontSize="small" />
-                    </IconButton>
-                  </Grid>
-                  <Grid item xs={1}>
-                    <IconButton onClick={handleShare} size="small">
-                      <ShareIcon fontSize="small" />
+                  <Grid item xs={2}>
+                    <IconButton
+                      onClick={() => setEditing(true)}
+                      size="medium"
+                      color="secondary"
+                    >
+                      <EditRoundedIcon fontSize="default" />
                     </IconButton>
                   </Grid>
                 </Grid>
@@ -127,7 +141,7 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
                 <Typography>{meal.description}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Divider />
+                <Divider color="secondary" />
               </Grid>
               <Grid item xs={12}>
                 <Ingredients portions={meal.portions} />

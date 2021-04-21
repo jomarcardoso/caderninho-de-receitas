@@ -19,9 +19,17 @@ export const primary = {
   dark: '#5f4339',
 };
 
-export const dark = '#121212';
+export const dark = '#212121';
 
 export const light = '#f8f8f8';
+
+export const gray = {
+  darker: '#444',
+  dark: '#555',
+  medium: '#999',
+  light: '#d8d8d8',
+  lighter: '#e8e8e8',
+};
 
 export const borderPrimary = {
   borderColor: primary.light,
@@ -41,7 +49,7 @@ function theme({ bgBody = '' }: Style) {
         main: dark,
       },
       // action,
-      // divider: '#d6d6d6',
+      divider: gray.dark,
       // grey: {
       //   '800': '#f4f4f4',
       //   '700': '#f1f1f1',

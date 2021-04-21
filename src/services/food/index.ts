@@ -11,9 +11,6 @@ export {
   MINERALS,
   VITAMINS,
   TRANSLATED_AMINO_ACIDS,
-} from './food.types';
-
-export type {
   AminoAcids,
   EssencialAminoAcids,
   Food,
