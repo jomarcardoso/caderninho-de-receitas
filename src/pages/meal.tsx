@@ -13,6 +13,7 @@ import Layout from '../components/layout/layout';
 import { ACCOUNT } from '../services/account.service';
 import AccountContext from '../contexts/account-context';
 import { MealService, MEAL_DATA, MEAL } from '../services/meal';
+import { UrlService } from '../services/url';
 import ScoreComponent from '../components/score';
 import MealRegister from '../components/meal-register';
 import { CurrentPage } from '../services/page.service';
@@ -82,17 +83,18 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
     mealData = MealService.unFormat(meal);
   }
 
-  function handleShare() {
+  async function handleShare() {
     const toShare = MealService.formatToShare(mealData);
     const url = `${location.origin}/meal/?${toShare}` ?? '';
     const title = mealData.name || 'Receita';
+    const urlShort = await UrlService.shortener(url);
 
     if (!navigator.share) return;
 
     navigator.share({
       title,
       text: title,
-      url,
+      url: urlShort,
     });
   }
 
