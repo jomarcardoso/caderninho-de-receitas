@@ -75,7 +75,7 @@ const SEO: FC<Props> = ({
 
   if (meta) fullMeta.concat(meta);
 
-  if (window) {
+  if (typeof window !== 'undefined') {
     window.key = '74eaf481e67ca237033c5a2c53509d77';
   }
 
