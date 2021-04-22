@@ -75,7 +75,9 @@ const SEO: FC<Props> = ({
 
   if (meta) fullMeta.concat(meta);
 
-  window.key = '74eaf481e67ca237033c5a2c53509d77';
+  if (window) {
+    window.key = '74eaf481e67ca237033c5a2c53509d77';
+  }
 
   return (
     <Helmet
