@@ -11,12 +11,14 @@ export async function shortener(url = ''): Promise<string> {
 
   headers.append('Content-Type', 'application/json');
   headers.append('Authorization', 'Token ZkK6gSuEoZNv');
+  headers.append('Access-Control-Allow-Headers', '*');
 
   try {
     const response = await fetch('https://url.gratis/api/url/add', {
       method: 'POST',
       headers,
       body: json,
+      mode: 'no-cors',
     });
 
     if (!response.ok) {
