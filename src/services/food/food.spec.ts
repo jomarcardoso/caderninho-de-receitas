@@ -5,7 +5,7 @@ const MOCK_CARROT: Food = {
   ...FOOD,
   name: 'Cenoura',
   enName: 'carrot',
-  keys: ['cenoura ralada']
+  keys: ['cenoura ralada'],
 };
 
 const MOCK_APPLE: Food = {
@@ -18,17 +18,22 @@ const MOCK_JERIMUM: Food = {
   ...FOOD,
   name: 'Jerimum',
   enName: 'pumpkin',
-  keys: ['abóbora', 'abobora']
+  keys: ['abóbora', 'abobora'],
 };
 
 const MOCK_CARROT_CAKE: Food = {
   ...FOOD,
   name: 'Bolo de cenoura',
   enName: 'carrot cake',
-  keys: ['bolo', 'cenoura']
+  keys: ['bolo', 'cenoura'],
 };
 
-const MOCK_FOODS: Array<Food> = [MOCK_CARROT, MOCK_APPLE, MOCK_JERIMUM, MOCK_CARROT_CAKE]
+const MOCK_FOODS: Array<Food> = [
+  MOCK_CARROT,
+  MOCK_APPLE,
+  MOCK_JERIMUM,
+  MOCK_CARROT_CAKE,
+];
 
 describe('FoodService', () => {
   describe('getFoodByString', () => {
@@ -59,15 +64,21 @@ describe('FoodService', () => {
     });
 
     it('exact bolo de cenoura on the list of keys', () => {
-      const result = getFoodByString({ foods: MOCK_FOODS, text: 'bolo de cenoura' });
+      const result = getFoodByString({
+        foods: MOCK_FOODS,
+        text: 'bolo de cenoura',
+      });
 
       expect(result).toStrictEqual({ food: MOCK_CARROT_CAKE, index: 0 });
     });
 
     it('cenoura ralada on the list like cenoura', () => {
-      const result = getFoodByString({ foods: MOCK_FOODS, text: 'cenoura ralada' });
+      const result = getFoodByString({
+        foods: MOCK_FOODS,
+        text: 'cenoura ralada',
+      });
 
       expect(result).toStrictEqual({ food: MOCK_CARROT, index: 0 });
     });
   });
-})
+});

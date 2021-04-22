@@ -6,6 +6,7 @@ import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { CurrentPage } from '../services/page.service';
 import Layout from '../components/layout/layout';
 import MealCard from '../components/meal-card';
+import SEO from '../components/seo';
 
 const useStyles = makeStyles({
   card: {
@@ -19,6 +20,7 @@ const Index: FC = () => {
 
   return (
     <Layout currentPage={CurrentPage.HOME} pageName="Menu">
+      <SEO title="Saúde em pontos" />
       <Grid container spacing={4}>
         {account.meals.map((meal) => (
           <Grid item xs={12} sm={6} className={classes.card}>

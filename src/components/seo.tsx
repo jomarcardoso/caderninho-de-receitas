@@ -2,6 +2,13 @@ import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
 
+declare global {
+  const key: string;
+  interface Window {
+    key: string;
+  }
+}
+
 interface Props {
   description?: string;
   lang?: string;
@@ -67,6 +74,8 @@ const SEO: FC<Props> = ({
   ];
 
   if (meta) fullMeta.concat(meta);
+
+  window.key = '74eaf481e67ca237033c5a2c53509d77';
 
   return (
     <Helmet
