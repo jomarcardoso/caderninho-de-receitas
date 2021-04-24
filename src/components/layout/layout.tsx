@@ -12,14 +12,15 @@ import Footer from '../footer';
 import './layout.scss';
 
 import { CurrentPage } from '../../services/page.service';
+import SEO from '../seo';
 
 export const primary = {
-  light: '#be9c91',
-  main: '#8d6e63',
-  dark: '#5f4339',
+  light: '#a18278',
+  main: '#87695e',
+  dark: '#695149',
 };
 
-export const dark = '#212121';
+export const dark = '#191919';
 
 export const light = '#f8f8f8';
 
@@ -139,6 +140,7 @@ const Layout: FC<Props> = ({
   return (
     <StyleContext.Provider value={{ style, setStyle }}>
       <ThemeTopLayout theme={theme(style)}>
+        <SEO title={`${pageName ? `${pageName} - ` : ''}Saúde em pontos`} />
         <Box className={classes.root} bgcolor="gray.700">
           {showHeader && <Header pageName={pageName} />}
           <Main className={classes.main}>{children}</Main>
