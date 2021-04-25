@@ -52,7 +52,7 @@ module.exports = {
         background_color: `#f8f8f8`,
         theme_color: `#87695e`,
         display: `standalone`,
-        icon: `src/images/original.png`,
+        icon: `src/images/original6.png`,
         cache_busting_mode: 'none',
       },
     },
