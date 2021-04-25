@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Box from '@material-ui/core/Box';
 // @ts-expect-error instalação esquisita
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -136,6 +136,12 @@ const Layout: FC<Props> = ({
 }) => {
   const classes = useStyles();
   const [style, setStyle] = useState<Style>({});
+  const [, setReRender] = useState(false);
+
+  // fix wrong render with JS
+  useEffect(() => {
+    setReRender(true);
+  }, []);
 
   return (
     <StyleContext.Provider value={{ style, setStyle }}>
