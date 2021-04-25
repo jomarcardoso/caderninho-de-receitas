@@ -34,6 +34,8 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - [granola/aveia](https://www.flaticon.com/premium-icon/breakfast_1652097?term=oats&page=1&position=38)
 - [bolo de cenoura](https://www.flaticon.com/premium-icon/carrot-cake_2447809?term=carrot%20cake&page=1&position=2&page=1&position=2&related_id=2447809&origin=search)
 - [açucar](https://www.flaticon.com/premium-icon/sugar_2315968?term=sugar&page=1&position=11&page=1&position=11&related_id=2315968&origin=search)
+- [Milho](https://www.flaticon.com/premium-icon/corn_2303677?term=corn&page=1&position=64&page=1&position=64&related_id=2303677&origin=search)
+- [Molho de tomate](https://www.flaticon.com/premium-icon/sauce_3093568?term=sauce&page=1&position=6&page=1&position=6&related_id=3093568&origin=search)
 
 ## URL Shortener
 
