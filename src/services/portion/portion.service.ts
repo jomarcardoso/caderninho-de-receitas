@@ -25,6 +25,18 @@ function measureFromString(text = ''): Measure {
   const lowText = text.toLowerCase();
   let type: Measurer = 'UNITY';
 
+  if (lowText.includes('peito')) {
+    type = 'BREAST';
+  }
+
+  if (lowText.includes('lata')) {
+    type = 'CAN';
+  }
+
+  if (lowText.includes('dente')) {
+    type = 'CLOVE';
+  }
+
   if (
     lowText.includes('xícara') ||
     lowText.includes('xicara') ||
@@ -41,7 +53,17 @@ function measureFromString(text = ''): Measure {
     type = 'TEA_SPOON';
   }
 
-  if (/(\dg|\d\sgrama)/.test(lowText)) type = 'LITERAL';
+  if (/((\d|\d\s)(g|kg)|\d\sgrama)/.test(lowText)) type = 'LITERAL';
+
+  if (type === 'UNITY') {
+    if (lowText.includes('pequeno') || lowText.includes('pequena')) {
+      type = 'UNITY_SMALL';
+    }
+
+    if (lowText.includes('grande')) {
+      type = 'UNITY_LARGE';
+    }
+  }
 
   const valueSplit = lowText.split(' ') || [];
   const quantityString =
@@ -57,6 +79,17 @@ function measureFromString(text = ''): Measure {
 
   if (lowText.includes('e meio') || lowText.includes('e meia')) quantity += 0.5;
 
+  const isInKiloGram = lowText.includes('kg');
+
+  if (type === 'LITERAL' && isInKiloGram) {
+    quantity *= 1000;
+  }
+
+  if (lowText.includes('a gosto') || lowText.includes('à gosto')) {
+    quantity = 0;
+    type = 'LITERAL';
+  }
+
   return {
     quantity,
     type,
@@ -71,12 +104,12 @@ interface PortionFromStringArgs {
 }
 
 function portionFromString({ text, foods }: PortionFromStringArgs): Portion {
-  const { food, index: foodIndex } = FoodService.getFoodByString({
+  const { food } = FoodService.getFoodByString({
     foods,
     text,
   });
 
-  const measure = measureFromString(text.substring(0, foodIndex));
+  const measure = measureFromString(text);
 
   if (!food) return PORTION;
 

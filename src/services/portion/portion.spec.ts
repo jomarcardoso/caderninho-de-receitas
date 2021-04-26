@@ -127,5 +127,56 @@ describe('PortionService', () => {
         measure,
       );
     });
+
+    it('2 peitos de frango desfiado', () => {
+      const measure: Measure = {
+        quantity: 2,
+        type: 'BREAST',
+      };
+
+      expect(measureFromString('2 peitos de frango desfiado')).toStrictEqual(
+        measure,
+      );
+    });
+
+    it('duas latas de molho de tomate pronto', () => {
+      const measure: Measure = {
+        quantity: 2,
+        type: 'CAN',
+      };
+
+      expect(
+        measureFromString('duas latas de molho de tomate pronto'),
+      ).toStrictEqual(measure);
+    });
+
+    it('1 cebola pequena bem picadinha', () => {
+      const measure: Measure = {
+        quantity: 1,
+        type: 'UNITY_SMALL',
+      };
+
+      expect(measureFromString('1 cebola pequena bem picadinha')).toStrictEqual(
+        measure,
+      );
+    });
+
+    it('1 kg de batata', () => {
+      const measure: Measure = {
+        quantity: 1000,
+        type: 'LITERAL',
+      };
+
+      expect(measureFromString('1 kg de batata')).toStrictEqual(measure);
+    });
+
+    it('um dente de alho', () => {
+      const measure: Measure = {
+        quantity: 1,
+        type: 'CLOVE',
+      };
+
+      expect(measureFromString('um dente de alho')).toStrictEqual(measure);
+    });
   });
 });

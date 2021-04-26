@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import HomeIcon from '@material-ui/icons/Home';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -21,43 +21,51 @@ interface Props {
   currentPage: CurrentPage;
 }
 
-const Footer: FC<Props> = ({ currentPage = CurrentPage.NONE }) => {
+const Footer: FC<Props> = ({ currentPage = CurrentPage.HOME }) => {
   const classes = useStyles();
 
-  return (
-    <Box
-      borderTop={1}
-      borderColor="text.secondary"
-      component="footer"
-      className={classes.root}
-      zIndex={1}
-    >
-      <BottomNavigation>
-        <Link to="/">
-          <BottomNavigationAction
-            label="Início"
-            icon={
-              currentPage === CurrentPage.HOME ? (
-                <HomeIcon color="primary" />
-              ) : (
-                <HomeOutlinedIcon />
-              )
-            }
-          />
-        </Link>
-        <Link to="/meal">
-          <BottomNavigationAction
-            label="Cadastrar refeição"
-            icon={
-              <RestaurantOutlinedIcon
-                color={currentPage === CurrentPage.MEAL ? 'primary' : 'inherit'}
-              />
-            }
-          />
-        </Link>
-      </BottomNavigation>
-    </Box>
-  );
+  function render() {
+    return (
+      <Box
+        borderTop={1}
+        borderColor="text.secondary"
+        component="footer"
+        className={classes.root}
+        zIndex={1}
+      >
+        <BottomNavigation>
+          <Link to="/">
+            <BottomNavigationAction
+              label="Início"
+              icon={
+                currentPage === CurrentPage.HOME ? (
+                  <HomeIcon color="primary" />
+                ) : (
+                  <HomeOutlinedIcon />
+                )
+              }
+            />
+          </Link>
+          <Link to="/meal">
+            <BottomNavigationAction
+              label="Cadastrar refeição"
+              icon={
+                <RestaurantOutlinedIcon
+                  color={
+                    currentPage === CurrentPage.MEAL ? 'primary' : 'inherit'
+                  }
+                />
+              }
+            />
+          </Link>
+        </BottomNavigation>
+      </Box>
+    );
+  }
+
+  const renderMemo = useMemo(render, [currentPage, classes]);
+
+  return renderMemo;
 };
 
 export default Footer;

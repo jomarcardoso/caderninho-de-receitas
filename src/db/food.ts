@@ -7,6 +7,8 @@ import {
   AMINO_ACIDS,
   FOOD,
   PURE_FOOD,
+  MINERALS,
+  VITAMINS,
 } from '../services/food';
 import {
   coconut as coconutData,
@@ -513,6 +515,12 @@ const foods: Array<Food> = [
       serine: 40,
       glutamine: 0,
     },
+    oneMeasures: [
+      {
+        quantity: 31.4,
+        type: 'CLOVE',
+      },
+    ],
   },
   {
     ...FOOD,
@@ -798,6 +806,12 @@ const foods: Array<Food> = [
     image: '/images/food/chicken.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
     keys: ['galinha', 'peito de frango', 'coxa de frango'],
+    oneMeasures: [
+      {
+        quantity: 400,
+        type: 'BREAST',
+      },
+    ],
   },
   {
     ...format(oliveOilData),
@@ -912,6 +926,18 @@ const foods: Array<Food> = [
     enName: 'salt',
     image: '/images/food/salt.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
+    calories: 0,
+    totalFat: 0,
+    saturedFats: 0,
+    monounsaturatedFats: 0,
+    minerals: {
+      ...MINERALS,
+      sodium: 38.758,
+      calcium: 24,
+      iron: 0.3,
+      magnesium: 1,
+      potassium: 8,
+    },
   },
   {
     ...FOOD,
@@ -920,6 +946,26 @@ const foods: Array<Food> = [
     enName: 'potato',
     image: '/images/food/potato.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
+    calories: 77,
+    carbohydrates: 17,
+    dietaryFiber: 2.2,
+    sugar: 0.8,
+    proteins: 2,
+    totalFat: 0.1,
+    keys: ['batatinha', 'batata inglesa'],
+    minerals: {
+      ...MINERALS,
+      sodium: 6,
+      potassium: 421,
+      iron: 0.8,
+      magnesium: 23,
+      calcium: 12,
+    },
+    vitamins: {
+      ...VITAMINS,
+      c: 19.7,
+      b6: 0.3,
+    },
   },
   {
     ...FOOD,
@@ -928,6 +974,36 @@ const foods: Array<Food> = [
     enName: 'onion',
     image: '/images/food/onion.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
+    calories: 40,
+    carbohydrates: 9,
+    dietaryFiber: 1.7,
+    sugar: 4.2,
+    oneMeasures: [
+      {
+        quantity: 100,
+        type: 'UNITY_SMALL',
+      },
+      {
+        quantity: 125,
+        type: 'UNITY',
+      },
+      {
+        quantity: 150,
+        type: 'UNITY_LARGE',
+      },
+    ],
+    minerals: {
+      ...MINERALS,
+      sodium: 4,
+      potassium: 146,
+      iron: 0.2,
+      magnesium: 10,
+      calcium: 23,
+    },
+    vitamins: {
+      c: 7.4,
+      b6: 0.1,
+    },
   },
   {
     ...FOOD,
@@ -944,6 +1020,11 @@ const foods: Array<Food> = [
     enName: 'corn',
     image: '/images/food/corn.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
+    calories: 98,
+    proteins: 3.2,
+    totalFat: 2.4,
+    carbohydrates: 17.1,
+    dietaryFiber: 4.6,
   },
   {
     ...FOOD,
@@ -952,6 +1033,12 @@ const foods: Array<Food> = [
     enName: 'tomato-sauce',
     image: '/images/food/tomato-sauce.svg',
     unitOfMeasurement: UnitOfMeasurement.liter,
+    oneMeasures: [
+      {
+        quantity: 350,
+        type: 'CAN',
+      },
+    ],
   },
   {
     ...FOOD,
