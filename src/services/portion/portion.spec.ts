@@ -1,5 +1,5 @@
 import { Measure } from '../food';
-import PortionService from './portion.service';
+import PortionService, { verifyIsLiteral } from './portion.service';
 
 describe('PortionService', () => {
   describe('measureFromString', () => {
@@ -177,6 +177,62 @@ describe('PortionService', () => {
       };
 
       expect(measureFromString('um dente de alho')).toStrictEqual(measure);
+    });
+  });
+
+  describe('verifyIsLiteral', () => {
+    it('100 g de frango: true', () => {
+      const isLiteral = verifyIsLiteral('100 g de frango');
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('100g de frango: true', () => {
+      const isLiteral = verifyIsLiteral('100g de frango');
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('100 kg de frango: true', () => {
+      const isLiteral = verifyIsLiteral('100 kg de frango');
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('100kg de frango: true', () => {
+      const isLiteral = verifyIsLiteral('100kg de frango');
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('1 galeto: false', () => {
+      const isLiteral = verifyIsLiteral('1 galeto');
+
+      expect(isLiteral).toBe(false);
+    });
+
+    it('5 kilogramas de queijo', () => {
+      const isLiteral = verifyIsLiteral('5 kilogramas de queijo');
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('5 kilos', () => {
+      const isLiteral = verifyIsLiteral('5 kilos');
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('200 gramas de queijo', () => {
+      const isLiteral = verifyIsLiteral('200 gramas de queijo');
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('20 fatias de queijo', () => {
+      const isLiteral = verifyIsLiteral('20 fatias de queijo');
+
+      expect(isLiteral).toBe(false);
     });
   });
 });

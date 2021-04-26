@@ -21,6 +21,10 @@ function getQuantityByMeasure(
   return measure.quantity * measureByMeasurer.quantity;
 }
 
+export function verifyIsLiteral(string = ''): boolean {
+  return /((\d|\d\s)(g|kg)\s)|\d\s(kilo|grama)/.test(string);
+}
+
 function measureFromString(text = ''): Measure {
   const lowText = text.toLowerCase();
   let type: Measurer = 'UNITY';
@@ -53,7 +57,7 @@ function measureFromString(text = ''): Measure {
     type = 'TEA_SPOON';
   }
 
-  if (/((\d|\d\s)(g|kg)|\d\sgrama)/.test(lowText)) type = 'LITERAL';
+  if (verifyIsLiteral(lowText)) type = 'LITERAL';
 
   if (type === 'UNITY') {
     if (lowText.includes('pequeno') || lowText.includes('pequena')) {
