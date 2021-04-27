@@ -1,29 +1,51 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Portion } from '../../services/portion/portion.types';
+import { PORTION, Portion } from '../../services/portion/portion.types';
 import Image from '../image';
-import { FOOD } from '../../services/food';
 import Section from '../section/section';
+import ModalPortion from '../modal-portion/modal-portion';
 
 interface Props {
   portions: Array<Portion>;
 }
 
 const Ingredients: FC<Props> = ({ portions = [] }) => {
+  const [portionOnModal, setPortionOnModal] = useState<Portion>(PORTION);
+  const [openedPortionModal, setOpenedPortionModal] = useState(false);
+
+  function handleClickPortion(portion: Portion) {
+    setPortionOnModal(portion);
+    setOpenedPortionModal(true);
+  }
+
+  function handleClose() {
+    setOpenedPortionModal(false);
+  }
+
   return (
     <Section title="Ingredientes">
+      <ModalPortion
+        portion={portionOnModal}
+        open={openedPortionModal}
+        onClose={handleClose}
+      />
       <List>
-        {portions.map(({ food = FOOD, description = '' }) => (
-          <ListItem button disableGutters key={food.id}>
+        {portions.map((portion) => (
+          <ListItem
+            button
+            disableGutters
+            key={portion.food.id}
+            onClick={() => handleClickPortion(portion)}
+          >
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={2}>
-                <Image src={food.image} alt={food.name} />
+                <Image src={portion.food.image} alt={portion.food.name} />
               </Grid>
               <Grid item xs={10}>
-                <Typography>{description}</Typography>
+                <Typography>{portion.description}</Typography>
               </Grid>
             </Grid>
           </ListItem>

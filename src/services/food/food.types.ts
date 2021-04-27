@@ -8,7 +8,12 @@ export const MeasurerValues = {
   TABLE_SPOON: 'colhar de sopa',
   TEA_SPOON: 'colher de chá',
   UNITY: 'unidade',
+  UNITY_SMALL: 'unidade pequena',
+  UNITY_LARGE: 'unidade grande',
   LITERAL: '',
+  CAN: 'lata',
+  BREAST: 'peito',
+  CLOVE: 'dente',
 };
 
 export type Measurer = keyof typeof MeasurerValues;
@@ -126,6 +131,7 @@ export interface PureFood {
   monounsaturatedFats: number;
   totalFat: number;
   dietaryFiber: number;
+  sugar: number;
   minerals: Partial<Minerals>;
   vitamins: Partial<Vitamins>;
   gl: number;
@@ -134,6 +140,15 @@ export interface PureFood {
   oneMeasures: Array<Measure>;
   keys: Array<string>;
 }
+
+export enum FoodVersions {
+  RAW = 'RAW',
+  JUICE = 'JUICE',
+  BOILED = 'BOILED',
+  FLOUR = 'FLOUR',
+}
+
+export type FoodVersion = keyof typeof FoodVersions;
 
 export interface Food extends PureFood {
   flour: PureFood;
@@ -213,6 +228,7 @@ export const PURE_FOOD: PureFood = {
   carbohydrates: 0,
   description: '',
   dietaryFiber: 0,
+  sugar: 0,
   gi: 0,
   gl: 0,
   image: '',

@@ -14,6 +14,8 @@ export {
   AminoAcids,
   EssencialAminoAcids,
   Food,
+  FoodVersions,
+  FoodVersion,
   Measure,
   Measurer,
   NonEssencialAminoAcids,
