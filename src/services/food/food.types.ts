@@ -141,6 +141,15 @@ export interface PureFood {
   keys: Array<string>;
 }
 
+export enum FoodVersions {
+  RAW = 'RAW',
+  JUICE = 'JUICE',
+  BOILED = 'BOILED',
+  FLOUR = 'FLOUR',
+}
+
+export type FoodVersion = keyof typeof FoodVersions;
+
 export interface Food extends PureFood {
   flour: PureFood;
   boiled: PureFood;

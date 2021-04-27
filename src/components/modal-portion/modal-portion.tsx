@@ -3,7 +3,10 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import React, { FC } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import { Portion } from '../../services/portion/portion.types';
+import FoodDetailed from '../food-detailed/food-detailed';
 
 interface Props {
   portion: Portion;
@@ -30,10 +33,12 @@ const ModalPortion: FC<ModalPortionProps> = ({ portion, ...props }) => {
     >
       <Card className={classes.root}>
         <CardContent>
-          <div>{portion.quantity}</div>
-          <div>{portion.measure.type}</div>
-          <div>{portion.measure.quantity}</div>
-          <div>{portion.food.name}</div>
+          <Grid item xs={12}>
+            <Typography component="h1" variant="h1">
+              {portion.food.name} ({portion.quantity}g)
+            </Typography>
+          </Grid>
+          <FoodDetailed food={portion.food} quantity={portion.quantity} />
         </CardContent>
       </Card>
     </Modal>
