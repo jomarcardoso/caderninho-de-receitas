@@ -2,7 +2,7 @@
   "name": "health-in-points",
   "private": true,
   "description": "An App to create and to evaluate our cook recipes",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "author": "Jomar Cardoso <jomar.cardoso@cwi.com.br>",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
