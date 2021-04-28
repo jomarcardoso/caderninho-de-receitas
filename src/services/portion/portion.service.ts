@@ -10,10 +10,12 @@ import {
 } from '../food';
 import { Portion, PORTION, UnFormat } from './portion.types';
 
-function getQuantityByMeasure(
+export function getQuantityByMeasure(
   measure: Measure = MEASURE,
   food: Food = FOOD,
 ): number {
+  if (measure.type === 'LITERAL') return measure.quantity;
+
   const measureByMeasurer: Measure =
     food.oneMeasures.find((oneMeasure) => oneMeasure.type === measure.type) ||
     MEASURE;

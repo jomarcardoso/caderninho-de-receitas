@@ -1025,6 +1025,12 @@ const foods: Array<Food> = [
     totalFat: 2.4,
     carbohydrates: 17.1,
     dietaryFiber: 4.6,
+    oneMeasures: [
+      {
+        quantity: 170,
+        type: 'CAN',
+      },
+    ],
   },
   {
     ...FOOD,

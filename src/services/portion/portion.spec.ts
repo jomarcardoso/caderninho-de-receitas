@@ -1,5 +1,8 @@
 import { Measure } from '../food';
-import PortionService, { verifyIsLiteral } from './portion.service';
+import PortionService, {
+  verifyIsLiteral,
+  // getQuantityByMeasure,
+} from './portion.service';
 
 describe('PortionService', () => {
   describe('measureFromString', () => {
@@ -179,6 +182,15 @@ describe('PortionService', () => {
       expect(measureFromString('um dente de alho')).toStrictEqual(measure);
     });
   });
+
+  // describe('getQuantityByMeasure', () => {
+  //   it('1000 g', () => {
+  //     const quantiy = getQuantityByMeasure({
+  //       quantity: 1000,
+  //       type: 'LITERAL',
+  //     });
+  //   });
+  // });
 
   describe('verifyIsLiteral', () => {
     it('100 g de frango: true', () => {
