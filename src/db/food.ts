@@ -845,7 +845,7 @@ const foods: Array<Food> = [
     gi: 92,
     image: '/images/food/sugar.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
-    keys: ['açúcar'],
+    keys: ['açúcar', 'açucar'],
     oneMeasures: [
       {
         quantity: 160,
@@ -1069,6 +1069,48 @@ const foods: Array<Food> = [
     enName: 'cream-cheese',
     image: '/images/food/cream-cheese.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
+  },
+  {
+    ...FOOD,
+    id: 37,
+    name: 'Leite',
+    enName: 'milk',
+    image: '/images/food/milk.svg',
+    unitOfMeasurement: UnitOfMeasurement.liter,
+  },
+  {
+    ...FOOD,
+    id: 38,
+    name: 'Fermento',
+    enName: 'yeast',
+    image: '/images/food/yeast.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+  },
+  {
+    ...FOOD,
+    id: 39,
+    name: 'Óleo de soja',
+    enName: 'soy-oil',
+    image: '/images/food/oil.svg',
+    unitOfMeasurement: UnitOfMeasurement.liter,
+    keys: ['óleo'],
+  },
+  {
+    ...FOOD,
+    id: 40,
+    name: 'Manteiga',
+    enName: 'butter',
+    image: '/images/food/butter.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+  },
+  {
+    ...FOOD,
+    id: 41,
+    name: 'Pão caseiro',
+    enName: 'homebread',
+    image: '/images/food/bread.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: ['pão', 'pãozinho'],
   },
 ];
 
