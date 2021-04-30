@@ -1112,6 +1112,14 @@ const foods: Array<Food> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
     keys: ['pão', 'pãozinho'],
   },
+  {
+    ...FOOD,
+    id: 42,
+    name: 'Cuca',
+    enName: 'crumb-cake',
+    image: '/images/food/cuca.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+  },
 ];
 
 fs.writeFileSync(

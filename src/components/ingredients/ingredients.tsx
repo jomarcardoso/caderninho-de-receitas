@@ -41,10 +41,10 @@ const Ingredients: FC<Props> = ({ portions = [] }) => {
             onClick={() => handleClickPortion(portion)}
           >
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={2}>
+              <Grid item xs={2} sm={1}>
                 <Image src={portion.food.image} alt={portion.food.name} />
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={10} sm={11}>
                 <Typography>{portion.description}</Typography>
               </Grid>
             </Grid>

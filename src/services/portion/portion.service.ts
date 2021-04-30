@@ -16,11 +16,25 @@ export function getQuantityByMeasure(
 ): number {
   if (measure.type === 'LITERAL') return measure.quantity;
 
-  const measureByMeasurer: Measure =
+  let { quantity = 0 }: Measure =
     food.oneMeasures.find((oneMeasure) => oneMeasure.type === measure.type) ||
     MEASURE;
 
-  return measure.quantity * measureByMeasurer.quantity;
+  if (quantity === 0) {
+    if (measure.type === 'CUP') {
+      quantity = 150;
+    }
+
+    if (measure.type === 'TABLE_SPOON') {
+      quantity = 15;
+    }
+
+    if (measure.type === 'TEA_SPOON') {
+      quantity = 5;
+    }
+  }
+
+  return measure.quantity * quantity;
 }
 
 export function verifyIsLiteral(string = ''): boolean {
@@ -81,9 +95,19 @@ function measureFromString(text = ''): Measure {
 
   if (isNaN(quantity) || !quantity) quantity = 1;
 
-  if (lowText.startsWith('meio') || lowText.startsWith('meia')) quantity = 0.5;
+  if (
+    lowText.startsWith('meio') ||
+    lowText.startsWith('meia') ||
+    lowText.startsWith('1/2')
+  )
+    quantity = 0.5;
 
-  if (lowText.includes('e meio') || lowText.includes('e meia')) quantity += 0.5;
+  if (
+    lowText.includes('e meio') ||
+    lowText.includes('e meia') ||
+    lowText.includes('e 1/2')
+  )
+    quantity += 0.5;
 
   const isInKiloGram = lowText.includes('kg');
 

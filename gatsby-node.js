@@ -18,6 +18,7 @@ exports.createPages = ({ graphql, actions }) => {
               calories
               gl
               carbohydrates
+              unitOfMeasurement
               aminoAcids {
                 methionine
                 leucine

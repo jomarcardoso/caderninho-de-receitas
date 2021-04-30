@@ -15,6 +15,7 @@ const useFoods = (): Array<Food> => {
             gi
             gl
             carbohydrates
+            unitOfMeasurement
             aminoAcids {
               methionine
               leucine
