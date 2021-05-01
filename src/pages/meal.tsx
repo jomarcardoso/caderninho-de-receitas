@@ -11,6 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import Card from '../components/card/card';
 import StyleContext from '../contexts/style';
 import Layout from '../components/layout/layout';
+import Image from '../components/image';
 import { ACCOUNT } from '../services/account.service';
 import AccountContext from '../contexts/account-context';
 import { MealService, MEAL_DATA, MEAL } from '../services/meal';
@@ -20,7 +21,6 @@ import MealRegister from '../components/meal-register';
 import { CurrentPage } from '../services/page.service';
 import AminoAcidsTable from '../components/aminoacids-table';
 import FoodsContext from '../contexts/foods-context';
-import Image from '../components/image';
 import Ingredients from '../components/ingredients/ingredients';
 import Preparation from '../components/preparation/preparation';
 

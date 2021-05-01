@@ -1,7 +1,15 @@
-import React, { FC, HTMLAttributes, HTMLProps, ReactElement } from 'react';
+import React, { FC, ReactElement } from 'react';
+import MaterialImage, { ImageProps } from 'material-ui-image';
 
-const Image: FC<HTMLProps<HTMLImageElement>> = (props): ReactElement => {
-  return <img {...(props as HTMLAttributes<HTMLImageElement>)} alt="" />;
+const Image: FC<ImageProps> = ({ alt = '', ...props }): ReactElement => {
+  return (
+    <MaterialImage
+      imageStyle={{ width: '100%' }}
+      style={{ width: '100%' }}
+      alt={alt}
+      {...props}
+    />
+  );
 };
 
 export default Image;

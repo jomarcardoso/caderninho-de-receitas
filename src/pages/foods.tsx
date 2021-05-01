@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Image from '../components/image';
 import Layout from '../components/layout/layout';
 import FoodsContext from '../contexts/foods-context';
 
@@ -74,7 +75,7 @@ const Foods: FC = () => {
                         color="inherit"
                       >
                         <ListItemIcon className={classes.selectIcon}>
-                          <img className={classes.img} src={image} alt="" />
+                          <Image className={classes.img} src={image} alt="" />
                         </ListItemIcon>
                         <ListItemText primary={name} />
                       </Link>

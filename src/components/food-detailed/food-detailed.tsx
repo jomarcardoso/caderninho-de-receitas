@@ -3,8 +3,8 @@ import List from '@material-ui/core/List';
 import Grid, { GridProps } from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
-import AminoAcidsTable from '../aminoacids-table';
 import Image from '../image';
+import AminoAcidsTable from '../aminoacids-table';
 import { Food, FoodVersion } from '../../services/food';
 
 interface Props {

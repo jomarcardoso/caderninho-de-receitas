@@ -3,8 +3,8 @@ import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { PORTION, Portion } from '../../services/portion/portion.types';
 import Image from '../image';
+import { PORTION, Portion } from '../../services/portion/portion.types';
 import Section from '../section/section';
 import ModalPortion from '../modal-portion/modal-portion';
 
