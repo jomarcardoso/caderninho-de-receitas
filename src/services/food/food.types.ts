@@ -156,6 +156,12 @@ export interface Food extends PureFood {
   juice: PureFood;
 }
 
+export interface FoodData extends Partial<PureFood> {
+  flour?: Partial<PureFood>;
+  boiled?: Partial<PureFood>;
+  juice?: Partial<PureFood>;
+}
+
 export const MINERALS: Minerals = {
   calcium: 0,
   copper: 0,

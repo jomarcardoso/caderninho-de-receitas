@@ -1,5 +1,5 @@
 import { useStaticQuery, graphql } from 'gatsby';
-import { Food } from '../services/food';
+import { Food, FoodData, FoodService } from '../services/food';
 
 const useFoods = (): Array<Food> => {
   const data = useStaticQuery(graphql`
@@ -57,7 +57,9 @@ const useFoods = (): Array<Food> => {
     }
   `);
 
-  return data.file.childDbJson.foods;
+  const foodDatas = data.file.childDbJson.foods as Array<FoodData>;
+
+  return foodDatas.map(FoodService.format);
 };
 
 export default useFoods;

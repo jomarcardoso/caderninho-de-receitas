@@ -1,4 +1,4 @@
-import { Food, FOOD } from './food.types';
+import { Food, FOOD, FoodData, PureFood } from './food.types';
 
 interface GetFoodByStringArgs {
   text: string;
@@ -103,3 +103,39 @@ export const getFoodByString: GetFoodByString = ({ foods = [], text = '' }) => {
 
   return { food, index };
 };
+
+function formatPure(data: FoodData): PureFood {
+  return {
+    acidification: data?.acidification ?? FOOD.acidification,
+    aminoAcids: data?.aminoAcids ?? FOOD.aminoAcids,
+    calories: data?.calories ?? FOOD.calories,
+    carbohydrates: data?.carbohydrates ?? FOOD.carbohydrates,
+    description: data?.description ?? FOOD.description,
+    dietaryFiber: data?.dietaryFiber ?? FOOD.dietaryFiber,
+    enName: data?.enName ?? FOOD.enName,
+    gi: data?.gi ?? FOOD.gi,
+    gl: data?.gl ?? FOOD.gl,
+    id: data?.id ?? FOOD.id,
+    image: data?.image ?? FOOD.image,
+    keys: data?.keys ?? FOOD.keys,
+    minerals: data?.minerals ?? FOOD.minerals,
+    monounsaturatedFats: data?.monounsaturatedFats ?? FOOD.monounsaturatedFats,
+    name: data?.name ?? FOOD.name,
+    oneMeasures: data?.oneMeasures ?? FOOD.oneMeasures,
+    proteins: data?.proteins ?? FOOD.proteins,
+    saturedFats: data?.saturedFats ?? FOOD.saturedFats,
+    sugar: data?.sugar ?? FOOD.sugar,
+    totalFat: data?.totalFat ?? FOOD.totalFat,
+    unitOfMeasurement: data?.unitOfMeasurement ?? FOOD.unitOfMeasurement,
+    vitamins: data?.vitamins ?? FOOD.vitamins,
+  };
+}
+
+export function format(data: FoodData): Food {
+  return {
+    ...formatPure(data),
+    boiled: formatPure(data?.boiled ?? FOOD.boiled),
+    flour: formatPure(data?.flour ?? FOOD.flour),
+    juice: formatPure(data?.juice ?? FOOD.juice),
+  };
+}
