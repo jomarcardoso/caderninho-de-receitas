@@ -1,6 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import ShareIcon from '@material-ui/icons/Share';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,6 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import Card from '../components/card/card';
 import StyleContext from '../contexts/style';
 import Layout from '../components/layout/layout';
+import Image from '../components/image';
 import { ACCOUNT } from '../services/account.service';
 import AccountContext from '../contexts/account-context';
 import { MealService, MEAL_DATA, MEAL } from '../services/meal';
@@ -19,7 +21,6 @@ import MealRegister from '../components/meal-register';
 import { CurrentPage } from '../services/page.service';
 import AminoAcidsTable from '../components/aminoacids-table';
 import FoodsContext from '../contexts/foods-context';
-import Image from '../components/image';
 import Ingredients from '../components/ingredients/ingredients';
 import Preparation from '../components/preparation/preparation';
 
@@ -115,7 +116,7 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
                     <ShareIcon fontSize="small" />
                   </Fab>
                   <Grid container justify="center">
-                    <Grid item xs={6}>
+                    <Grid item xs={6} sm={5} md={4}>
                       <Image src={meal.image} />
                     </Grid>
                   </Grid>
@@ -129,13 +130,15 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <IconButton
-                      onClick={() => setEditing(true)}
-                      size="medium"
-                      color="secondary"
-                    >
-                      <EditRoundedIcon fontSize="default" />
-                    </IconButton>
+                    <Box display="flex" justifyContent="flex-end">
+                      <IconButton
+                        onClick={() => setEditing(true)}
+                        size="medium"
+                        color="secondary"
+                      >
+                        <EditRoundedIcon fontSize="default" />
+                      </IconButton>
+                    </Box>
                   </Grid>
                 </Grid>
               </Grid>

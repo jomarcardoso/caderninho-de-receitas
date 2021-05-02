@@ -1,4 +1,16 @@
-import { Food, FOOD } from './food.types';
+import {
+  AminoAcids,
+  AMINO_ACIDS,
+  Food,
+  FOOD,
+  FoodData,
+  PureFood,
+  VITAMINS,
+  Vitamins,
+  VitaminsData,
+  AminoAcidsData,
+  PureFoodData,
+} from './food.types';
 
 interface GetFoodByStringArgs {
   text: string;
@@ -103,3 +115,61 @@ export const getFoodByString: GetFoodByString = ({ foods = [], text = '' }) => {
 
   return { food, index };
 };
+
+function formatVitamins(data?: VitaminsData): Vitamins {
+  return Object.keys(VITAMINS).reduce((object, key) => {
+    const vitaminKey = key as keyof Vitamins;
+
+    return {
+      ...object,
+      [key]: data?.[vitaminKey] ?? VITAMINS[vitaminKey],
+    };
+  }, {}) as Vitamins;
+}
+
+export function formatAminoAcids(data?: AminoAcidsData): AminoAcids {
+  return Object.keys(AMINO_ACIDS).reduce((object, key) => {
+    const vitaminKey = key as keyof AminoAcids;
+
+    return {
+      ...object,
+      [key]: data?.[vitaminKey] ?? AMINO_ACIDS[vitaminKey],
+    };
+  }, {}) as AminoAcids;
+}
+
+export function formatPure(data?: PureFoodData): PureFood {
+  return {
+    acidification: data?.acidification ?? FOOD.acidification,
+    aminoAcids: formatAminoAcids(data?.aminoAcids),
+    calories: data?.calories ?? FOOD.calories,
+    carbohydrates: data?.carbohydrates ?? FOOD.carbohydrates,
+    description: data?.description ?? FOOD.description,
+    dietaryFiber: data?.dietaryFiber ?? FOOD.dietaryFiber,
+    enName: data?.enName ?? FOOD.enName,
+    gi: data?.gi ?? FOOD.gi,
+    gl: data?.gl ?? FOOD.gl,
+    id: data?.id ?? FOOD.id,
+    image: data?.image ?? FOOD.image,
+    keys: data?.keys ?? FOOD.keys,
+    minerals: data?.minerals ?? FOOD.minerals,
+    monounsaturatedFats: data?.monounsaturatedFats ?? FOOD.monounsaturatedFats,
+    name: data?.name ?? FOOD.name,
+    oneMeasures: data?.oneMeasures ?? FOOD.oneMeasures,
+    proteins: data?.proteins ?? FOOD.proteins,
+    saturedFats: data?.saturedFats ?? FOOD.saturedFats,
+    sugar: data?.sugar ?? FOOD.sugar,
+    totalFat: data?.totalFat ?? FOOD.totalFat,
+    unitOfMeasurement: data?.unitOfMeasurement ?? FOOD.unitOfMeasurement,
+    vitamins: formatVitamins(data?.vitamins),
+  };
+}
+
+export function format(data: FoodData): Food {
+  return {
+    ...formatPure(data),
+    boiled: formatPure(data?.boiled),
+    flour: formatPure(data?.flour),
+    juice: formatPure(data?.juice),
+  };
+}

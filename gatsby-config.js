@@ -5,6 +5,7 @@ module.exports = {
     author: `@jomarcardoso`,
   },
   plugins: [
+    'gatsby-plugin-ts-config',
     `gatsby-plugin-typescript`,
     'gatsby-plugin-typescript-checker',
     {

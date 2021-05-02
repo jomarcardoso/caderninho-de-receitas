@@ -2,13 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import { FoodMyFoodData } from './db.types';
 import {
-  Food,
   UnitOfMeasurement,
   AMINO_ACIDS,
-  FOOD,
   PURE_FOOD,
   MINERALS,
   VITAMINS,
+  FoodData,
 } from '../services/food';
 import {
   coconut as coconutData,
@@ -20,9 +19,8 @@ import {
   avocado,
 } from './src';
 
-function format(food: FoodMyFoodData): Food {
+function format(food: FoodMyFoodData): FoodData {
   return {
-    ...FOOD,
     saturedFats: food.FASAT,
     calories: food.ENERC_KCAL,
     enName: encodeURIComponent(food.name1.toLowerCase().replace(/\s/, '-')),
@@ -53,9 +51,8 @@ function format(food: FoodMyFoodData): Food {
   };
 }
 
-const foods: Array<Food> = [
+const foods: Array<FoodData> = [
   {
-    ...FOOD,
     name: 'Maçã Fugi',
     enName: 'apple',
     id: 1,
@@ -94,7 +91,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     name: 'Pêra',
     enName: 'pear',
     id: 2,
@@ -131,7 +127,6 @@ const foods: Array<Food> = [
     ],
   },
   {
-    ...FOOD,
     name: 'Banana Prata',
     enName: 'silver-banana',
     id: 3,
@@ -170,7 +165,6 @@ const foods: Array<Food> = [
     ],
   },
   {
-    ...FOOD,
     name: 'Arroz Branco',
     enName: 'white-rice',
     id: 4,
@@ -210,7 +204,6 @@ const foods: Array<Food> = [
     keys: ['arroz'],
   },
   {
-    ...FOOD,
     name: 'Feijão',
     enName: 'bean',
     id: 5,
@@ -258,7 +251,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     name: 'Banana Nanica',
     enName: 'nanica-banana',
     id: 6,
@@ -290,7 +282,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     name: 'Banana Mysore',
     enName: 'mysore-banana',
     id: 7,
@@ -322,7 +313,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     name: 'Laranja',
     enName: 'orange',
     id: 8,
@@ -368,7 +358,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     name: 'Polenta',
     enName: 'polenta',
     id: 9,
@@ -407,7 +396,6 @@ const foods: Array<Food> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...FOOD,
     name: 'Pão Francês',
     enName: 'bread-roll',
     id: 10,
@@ -446,7 +434,6 @@ const foods: Array<Food> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...FOOD,
     name: 'Morango',
     enName: 'strawberry',
     id: 11,
@@ -458,7 +445,6 @@ const foods: Array<Food> = [
     aminoAcids: AMINO_ACIDS,
   },
   {
-    ...FOOD,
     id: 12,
     name: 'pastel',
     enName: 'pasty',
@@ -487,7 +473,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     id: 13,
     name: 'alho',
     enName: 'garlic',
@@ -523,7 +508,6 @@ const foods: Array<Food> = [
     ],
   },
   {
-    ...FOOD,
     id: 14,
     enName: 'lettuce',
     name: 'alface',
@@ -553,7 +537,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     id: 15,
     name: 'Presunto',
     enName: 'ham',
@@ -584,7 +567,6 @@ const foods: Array<Food> = [
     keys: [],
   },
   {
-    ...FOOD,
     id: 16,
     name: 'Abacaxi',
     enName: 'pineapple',
@@ -621,7 +603,6 @@ const foods: Array<Food> = [
     keys: [],
   },
   {
-    ...FOOD,
     enName: 'carrot',
     name: 'Cenoura',
     id: 17,
@@ -698,7 +679,6 @@ const foods: Array<Food> = [
     ],
   },
   {
-    ...FOOD,
     id: 19,
     name: 'Aveia',
     enName: 'oat',
@@ -845,7 +825,7 @@ const foods: Array<Food> = [
     gi: 92,
     image: '/images/food/sugar.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
-    keys: ['açúcar'],
+    keys: ['açúcar', 'açucar'],
     oneMeasures: [
       {
         quantity: 160,
@@ -910,7 +890,6 @@ const foods: Array<Food> = [
     ],
   },
   {
-    ...FOOD,
     ...format(sugarData), // TODO: precisa diferenciar do açúcar branco
     id: 27,
     name: 'Bolo de cenoura',
@@ -920,7 +899,6 @@ const foods: Array<Food> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...FOOD,
     id: 28,
     name: 'Sal',
     enName: 'salt',
@@ -940,7 +918,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     id: 29,
     name: 'Batata',
     enName: 'potato',
@@ -968,7 +945,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     id: 30,
     name: 'Cebola',
     enName: 'onion',
@@ -1006,7 +982,6 @@ const foods: Array<Food> = [
     },
   },
   {
-    ...FOOD,
     id: 31,
     name: 'Pimenta',
     enName: 'pepper',
@@ -1014,9 +989,8 @@ const foods: Array<Food> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...FOOD,
     id: 32,
-    name: 'Milho verde',
+    name: 'Milho',
     enName: 'corn',
     image: '/images/food/corn.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
@@ -1025,9 +999,18 @@ const foods: Array<Food> = [
     totalFat: 2.4,
     carbohydrates: 17.1,
     dietaryFiber: 4.6,
+    oneMeasures: [
+      {
+        quantity: 170,
+        type: 'CAN',
+      },
+    ],
+    keys: ['milho verde'],
+    flour: {
+      name: 'Fubá',
+    },
   },
   {
-    ...FOOD,
     id: 33,
     name: 'Molho de tomate',
     enName: 'tomato-sauce',
@@ -1041,7 +1024,6 @@ const foods: Array<Food> = [
     ],
   },
   {
-    ...FOOD,
     id: 34,
     name: 'Manteiga de amendoim',
     enName: 'peanut-butter',
@@ -1049,7 +1031,6 @@ const foods: Array<Food> = [
     unitOfMeasurement: UnitOfMeasurement.liter,
   },
   {
-    ...FOOD,
     id: 35,
     name: 'Margarina',
     enName: 'margarine',
@@ -1057,11 +1038,54 @@ const foods: Array<Food> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...FOOD,
     id: 36,
     name: 'Requeijão',
     enName: 'cream-cheese',
     image: '/images/food/cream-cheese.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+  },
+  {
+    id: 37,
+    name: 'Leite',
+    enName: 'milk',
+    image: '/images/food/milk.svg',
+    unitOfMeasurement: UnitOfMeasurement.liter,
+  },
+  {
+    id: 38,
+    name: 'Fermento',
+    enName: 'yeast',
+    image: '/images/food/yeast.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+  },
+  {
+    id: 39,
+    name: 'Óleo de soja',
+    enName: 'soy-oil',
+    image: '/images/food/oil.svg',
+    unitOfMeasurement: UnitOfMeasurement.liter,
+    keys: ['óleo'],
+  },
+  {
+    id: 40,
+    name: 'Manteiga',
+    enName: 'butter',
+    image: '/images/food/butter.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+  },
+  {
+    id: 41,
+    name: 'Pão caseiro',
+    enName: 'homebread',
+    image: '/images/food/bread.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    keys: ['pão', 'pãozinho'],
+  },
+  {
+    id: 42,
+    name: 'Cuca',
+    enName: 'crumb-cake',
+    image: '/images/food/cuca.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
 ];
