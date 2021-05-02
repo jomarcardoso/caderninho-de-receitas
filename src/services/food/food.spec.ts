@@ -1,5 +1,5 @@
 import { FoodService } from '.';
-import { FOOD, Food } from './food.types';
+import { AminoAcids, AMINO_ACIDS, FOOD, Food } from './food.types';
 
 const MOCK_CARROT: Food = {
   ...FOOD,
@@ -79,6 +79,35 @@ describe('FoodService', () => {
       });
 
       expect(result).toStrictEqual({ food: MOCK_CARROT, index: 0 });
+    });
+  });
+
+  describe('formatAminoAcids', () => {
+    const { formatAminoAcids } = FoodService;
+
+    it('calls empty', () => {
+      const result = formatAminoAcids();
+
+      expect(result).toStrictEqual(AMINO_ACIDS);
+    });
+
+    it('calls with histidine 200', () => {
+      const result = formatAminoAcids({
+        histidine: 200,
+      });
+
+      const expected: AminoAcids = {
+        ...AMINO_ACIDS,
+        histidine: 200,
+      };
+
+      expect(result).toStrictEqual(expected);
+    });
+
+    it('calls with empty object', () => {
+      const result = formatAminoAcids({});
+
+      expect(result).toStrictEqual(AMINO_ACIDS);
     });
   });
 });

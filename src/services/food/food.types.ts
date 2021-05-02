@@ -55,6 +55,8 @@ export interface NonEssencialAminoAcids {
 
 export type AminoAcids = EssencialAminoAcids & NonEssencialAminoAcids;
 
+export type AminoAcidsData = Partial<AminoAcids>;
+
 export const AMINO_ACIDS: AminoAcids = {
   alanine: 0,
   arginine: 0,
@@ -89,31 +91,31 @@ export interface Minerals {
   zinc: number;
 }
 
-interface Vitamins {
-  c?: number;
-  b1?: number;
-  b2?: number;
-  b5?: number;
-  b6?: number;
-  b7?: number;
-  b9?: number;
-  folicAcid?: number;
-  foodFolate?: number;
-  folateDFE?: number;
-  choline?: number;
-  b12?: number;
-  retinol?: number;
-  betaCarotene?: number;
-  alphaCarotene?: number;
-  cryptoxanthinCarotene?: number;
-  a?: number;
-  lycopene?: number;
-  e?: number;
-  d?: number;
-  d2?: number;
-  d3?: number;
-  k?: number;
-  k1?: number;
+export interface Vitamins {
+  c: number;
+  b1: number;
+  b2: number;
+  b5: number;
+  b6: number;
+  b7: number;
+  b9: number;
+  folicAcid: number;
+  foodFolate: number;
+  folateDFE: number;
+  choline: number;
+  b12: number;
+  retinol: number;
+  betaCarotene: number;
+  alphaCarotene: number;
+  cryptoxanthinCarotene: number;
+  a: number;
+  lycopene: number;
+  e: number;
+  d: number;
+  d2: number;
+  d3: number;
+  k: number;
+  k1: number;
 }
 
 export interface PureFood {
@@ -141,6 +143,12 @@ export interface PureFood {
   keys: Array<string>;
 }
 
+export interface PureFoodData
+  extends Partial<Omit<PureFood, 'vitamins' | 'aminoAcids'>> {
+  vitamins?: VitaminsData;
+  aminoAcids?: AminoAcidsData;
+}
+
 export enum FoodVersions {
   RAW = 'RAW',
   JUICE = 'JUICE',
@@ -156,10 +164,10 @@ export interface Food extends PureFood {
   juice: PureFood;
 }
 
-export interface FoodData extends Partial<PureFood> {
-  flour?: Partial<PureFood>;
-  boiled?: Partial<PureFood>;
-  juice?: Partial<PureFood>;
+export interface FoodData extends PureFoodData {
+  flour?: PureFoodData;
+  boiled?: PureFoodData;
+  juice?: PureFoodData;
 }
 
 export const MINERALS: Minerals = {
@@ -200,6 +208,8 @@ export const VITAMINS: Vitamins = {
   lycopene: 0,
   retinol: 0,
 };
+
+export type VitaminsData = Partial<Vitamins>;
 
 export enum TRANSLATED_AMINO_ACIDS {
   alanine = 'Alanina',

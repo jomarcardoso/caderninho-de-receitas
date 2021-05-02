@@ -1,4 +1,5 @@
 const path = require('path');
+const { FoodService, FoodData, Food } = require('./src/services/food');
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
@@ -65,7 +66,11 @@ exports.createPages = ({ graphql, actions }) => {
       throw result.errors;
     }
 
-    result.data.file.childDbJson.foods.forEach((edge) => {
+    const foodDatas = result.data.file.childDbJson.foods as Array<typeof FoodData>;
+
+    const foods: Array<typeof Food> = foodDatas.map(FoodService.format);
+
+    foods.forEach((edge) => {
       createPage({
         path: `food/${edge.enName}`,
         component: foodPage,

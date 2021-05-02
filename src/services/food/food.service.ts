@@ -1,4 +1,16 @@
-import { Food, FOOD, FoodData, PureFood } from './food.types';
+import {
+  AminoAcids,
+  AMINO_ACIDS,
+  Food,
+  FOOD,
+  FoodData,
+  PureFood,
+  VITAMINS,
+  Vitamins,
+  VitaminsData,
+  AminoAcidsData,
+  PureFoodData,
+} from './food.types';
 
 interface GetFoodByStringArgs {
   text: string;
@@ -104,10 +116,32 @@ export const getFoodByString: GetFoodByString = ({ foods = [], text = '' }) => {
   return { food, index };
 };
 
-function formatPure(data: FoodData): PureFood {
+function formatVitamins(data?: VitaminsData): Vitamins {
+  return Object.keys(VITAMINS).reduce((object, key) => {
+    const vitaminKey = key as keyof Vitamins;
+
+    return {
+      ...object,
+      [key]: data?.[vitaminKey] ?? VITAMINS[vitaminKey],
+    };
+  }, {}) as Vitamins;
+}
+
+export function formatAminoAcids(data?: AminoAcidsData): AminoAcids {
+  return Object.keys(AMINO_ACIDS).reduce((object, key) => {
+    const vitaminKey = key as keyof AminoAcids;
+
+    return {
+      ...object,
+      [key]: data?.[vitaminKey] ?? AMINO_ACIDS[vitaminKey],
+    };
+  }, {}) as AminoAcids;
+}
+
+export function formatPure(data?: PureFoodData): PureFood {
   return {
     acidification: data?.acidification ?? FOOD.acidification,
-    aminoAcids: data?.aminoAcids ?? FOOD.aminoAcids,
+    aminoAcids: formatAminoAcids(data?.aminoAcids),
     calories: data?.calories ?? FOOD.calories,
     carbohydrates: data?.carbohydrates ?? FOOD.carbohydrates,
     description: data?.description ?? FOOD.description,
@@ -127,15 +161,15 @@ function formatPure(data: FoodData): PureFood {
     sugar: data?.sugar ?? FOOD.sugar,
     totalFat: data?.totalFat ?? FOOD.totalFat,
     unitOfMeasurement: data?.unitOfMeasurement ?? FOOD.unitOfMeasurement,
-    vitamins: data?.vitamins ?? FOOD.vitamins,
+    vitamins: formatVitamins(data?.vitamins),
   };
 }
 
 export function format(data: FoodData): Food {
   return {
     ...formatPure(data),
-    boiled: formatPure(data?.boiled ?? FOOD.boiled),
-    flour: formatPure(data?.flour ?? FOOD.flour),
-    juice: formatPure(data?.juice ?? FOOD.juice),
+    boiled: formatPure(data?.boiled),
+    flour: formatPure(data?.flour),
+    juice: formatPure(data?.juice),
   };
 }
