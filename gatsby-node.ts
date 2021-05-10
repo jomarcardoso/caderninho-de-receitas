@@ -46,15 +46,6 @@ exports.createPages = ({ graphql, actions }) => {
                 quantity
                 type
               }
-              juice {
-                name
-                image
-                enName
-                gi
-                calories
-                gl
-                carbohydrates
-              }
             }
           }
         }

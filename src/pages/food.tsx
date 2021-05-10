@@ -27,7 +27,7 @@ const FoodPage: FC<Props> = ({ pageContext: food }) => {
                 cru
               </Button>
             </Grid>
-            {food?.juice?.name && (
+            {/* {food?.juice?.name && (
               <Grid item>
                 <Button
                   variant={version === 'JUICE' ? 'contained' : 'outlined'}
@@ -37,7 +37,7 @@ const FoodPage: FC<Props> = ({ pageContext: food }) => {
                   suco
                 </Button>
               </Grid>
-            )}
+            )} */}
           </Grid>
         </Grid>
         <Grid item xs={12}>

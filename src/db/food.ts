@@ -4,7 +4,7 @@ import { FoodMyFoodData } from './db.types';
 import {
   UnitOfMeasurement,
   AMINO_ACIDS,
-  PURE_FOOD,
+  FOOD,
   MINERALS,
   VITAMINS,
   FoodData,
@@ -348,14 +348,6 @@ const foods: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: UnitOfMeasurement.liter,
-    juice: {
-      ...PURE_FOOD,
-      image: '/images/food/orange-juice.svg',
-      name: 'Suco de Laranja',
-      enName: 'orange-juice',
-      gi: 50,
-      gl: 6,
-    },
   },
   {
     name: 'Polenta',
@@ -603,9 +595,9 @@ const foods: Array<FoodData> = [
     keys: [],
   },
   {
+    id: 17,
     enName: 'carrot',
     name: 'Cenoura',
-    id: 17,
     gi: 16,
     image: '/images/food/carrot.svg',
     keys: ['cenoura ralada', 'cenouras raladas', 'pedaços de cenoura'],
@@ -636,10 +628,6 @@ const foods: Array<FoodData> = [
       proline: 54,
       serine: 54,
       glutamine: 0,
-    },
-    boiled: {
-      ...PURE_FOOD,
-      gi: 38,
     },
   },
   {
@@ -729,13 +717,6 @@ const foods: Array<FoodData> = [
       glutamine: 0,
     },
     keys: ['aveia em flocos', 'flocos de aveia'],
-    flour: {
-      ...PURE_FOOD,
-      name: 'Farinha de aveia',
-      enName: 'oat-flour',
-      keys: ['farelo de aveia'],
-      gi: 72,
-    },
   },
   {
     ...format(coconutData),
@@ -1006,9 +987,6 @@ const foods: Array<FoodData> = [
       },
     ],
     keys: ['milho verde'],
-    flour: {
-      name: 'Fubá',
-    },
   },
   {
     id: 33,
@@ -1087,6 +1065,38 @@ const foods: Array<FoodData> = [
     enName: 'crumb-cake',
     image: '/images/food/cuca.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
+  },
+  {
+    id: 43,
+    image: '/images/food/orange-juice.svg',
+    name: 'Suco de Laranja',
+    enName: 'orange-juice',
+    gi: 50,
+    gl: 6,
+    version: 'JUICE',
+    rawId: 8,
+  },
+  {
+    id: 44,
+    name: 'Cenoura cozida',
+    gi: 38,
+    version: 'BOILED',
+    rawId: 17,
+  },
+  {
+    id: 45,
+    name: 'Farinha de aveia',
+    enName: 'oat-flour',
+    keys: ['farelo de aveia'],
+    gi: 72,
+    version: 'FLOUR',
+    rawId: 19,
+  },
+  {
+    name: 'Fubá',
+    keys: ['farinha de milho'],
+    version: 'FLOUR',
+    rawId: 32,
   },
 ];
 
