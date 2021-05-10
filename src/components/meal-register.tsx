@@ -151,12 +151,13 @@ const MealRegister: FC<Props> = ({
                     {values.portions.map((value, index) => (
                       <Grid item xs={12}>
                         <Grid container spacing={1} alignItems="stretch">
-                          <ResumedPortion
-                            portion={fullPortions[index]}
-                            xs={2}
-                            hideBadge
-                            padding={6}
-                          />
+                          <Grid item xs={2}>
+                            <ResumedPortion
+                              portion={fullPortions[index]}
+                              hideBadge
+                              padding={6}
+                            />
+                          </Grid>
                           <Grid item xs={10}>
                             <FormControl
                               variant="standard"
