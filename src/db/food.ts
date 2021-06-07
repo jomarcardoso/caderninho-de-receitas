@@ -4,7 +4,6 @@ import { FoodMyFoodData } from './db.types';
 import {
   UnitOfMeasurement,
   AMINO_ACIDS,
-  FOOD,
   MINERALS,
   VITAMINS,
   FoodData,
@@ -1079,6 +1078,7 @@ const foods: Array<FoodData> = [
   {
     id: 44,
     name: 'Cenoura cozida',
+    enName: 'boiled-carrot',
     gi: 38,
     version: 'BOILED',
     rawId: 17,
@@ -1093,9 +1093,19 @@ const foods: Array<FoodData> = [
     rawId: 19,
   },
   {
+    id: 46,
     name: 'Fubá',
+    enName: 'cornflour',
     keys: ['farinha de milho'],
     version: 'FLOUR',
+    rawId: 32,
+  },
+  {
+    id: 47,
+    name: 'Amido de milho',
+    enName: 'maize-starch',
+    keys: ['maizena'],
+    version: 'REFINED_FLOUR',
     rawId: 32,
   },
 ];
