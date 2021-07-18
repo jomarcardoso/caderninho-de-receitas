@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ThemeTopLayout from 'gatsby-theme-material-ui-top-layout/src/components/top-layout';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import { createTheme } from '@material-ui/core/styles';
 import StyleContext, { Style } from '../../contexts/style';
 import Header from '../header';
 import Main from '../main';
@@ -43,7 +43,7 @@ export const borderSecondary = {
 };
 
 function theme({ bgBody = '' }: Style) {
-  return createMuiTheme({
+  return createTheme({
     palette: {
       primary,
       secondary: {
