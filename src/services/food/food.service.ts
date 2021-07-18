@@ -4,12 +4,10 @@ import {
   Food,
   FOOD,
   FoodData,
-  PureFood,
   VITAMINS,
   Vitamins,
   VitaminsData,
   AminoAcidsData,
-  PureFoodData,
 } from './food.types';
 
 interface GetFoodByStringArgs {
@@ -138,7 +136,7 @@ export function formatAminoAcids(data?: AminoAcidsData): AminoAcids {
   }, {}) as AminoAcids;
 }
 
-export function formatPure(data?: PureFoodData): PureFood {
+export function format(data?: FoodData): Food {
   return {
     acidification: data?.acidification ?? FOOD.acidification,
     aminoAcids: formatAminoAcids(data?.aminoAcids),
@@ -162,14 +160,7 @@ export function formatPure(data?: PureFoodData): PureFood {
     totalFat: data?.totalFat ?? FOOD.totalFat,
     unitOfMeasurement: data?.unitOfMeasurement ?? FOOD.unitOfMeasurement,
     vitamins: formatVitamins(data?.vitamins),
-  };
-}
-
-export function format(data: FoodData): Food {
-  return {
-    ...formatPure(data),
-    boiled: formatPure(data?.boiled),
-    flour: formatPure(data?.flour),
-    juice: formatPure(data?.juice),
+    version: data?.version ?? FOOD.version,
+    rawId: data?.id ?? FOOD.rawId,
   };
 }

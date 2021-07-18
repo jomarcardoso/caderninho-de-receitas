@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Badge from '@material-ui/core/Badge';
-import Grid, { GridProps } from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
+import { CardProps } from '@material-ui/core/Card';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Image from './image';
 import Card from './card/card';
@@ -24,10 +24,11 @@ const useStyles = (padding = 0) =>
     },
     badge: {
       flex: 1,
+      padding: '10px',
     },
   });
 
-interface Props extends GridProps {
+interface Props extends CardProps {
   portion: Portion;
   hideBadge?: boolean;
   padding?: number;
@@ -35,28 +36,26 @@ interface Props extends GridProps {
 
 const ResumedPortion: FC<Props> = ({
   portion = PORTION,
-  hideBadge = false,
+  hideBadge = true,
   padding = 0,
   ...props
 }) => {
   const classes = useStyles(padding)();
 
   return (
-    <Grid item {...props} className={classes.box}>
-      <Card className={classes.card}>
-        <CardContent className={classes.card}>
-          <Badge
-            max={9999}
-            className={classes.badge}
-            badgeContent={!hideBadge ? `${portion.quantity}g` : null}
-            color="secondary"
-            component="div"
-          >
-            <Image src={portion.food.image} alt={portion.food.name} />
-          </Badge>
-        </CardContent>
-      </Card>
-    </Grid>
+    <Card className={classes.card} {...props}>
+      <CardContent className={classes.card}>
+        <Badge
+          max={9999}
+          className={classes.badge}
+          badgeContent={!hideBadge ? `${portion.quantity}g` : null}
+          color="secondary"
+          component="div"
+        >
+          <Image src={portion.food.image} alt={portion.food.name} />
+        </Badge>
+      </CardContent>
+    </Card>
   );
 };
 

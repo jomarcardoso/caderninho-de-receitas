@@ -18,20 +18,11 @@ export type FoodDetailedProps = GridProps & Props;
 const FoodDetailed: FC<FoodDetailedProps> = ({
   food,
   quantity = 100,
-  version = 'RAW',
   ...props
 }) => {
-  let { image, gi, calories, carbohydrates, gl } = food;
+  const { image, gi, calories, carbohydrates, gl } = food;
   const { aminoAcids } = food;
   const multiplier = quantity / 100;
-
-  if (version === 'JUICE') {
-    image = food.juice.image;
-    gi = food.juice.gi;
-    calories = food.juice.calories;
-    carbohydrates = food.juice.carbohydrates;
-    gl = food.juice.gl;
-  }
 
   function renderQuality({ name: foodName = '', value = 0 }) {
     return (

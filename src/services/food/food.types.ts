@@ -118,7 +118,7 @@ export interface Vitamins {
   k1: number;
 }
 
-export interface PureFood {
+export interface Food {
   id: number;
   name: string;
   description: string;
@@ -141,34 +141,25 @@ export interface PureFood {
   unitOfMeasurement: UnitOfMeasurement;
   oneMeasures: Array<Measure>;
   keys: Array<string>;
+  version: FoodVersion;
+  rawId: number;
 }
 
-export interface PureFoodData
-  extends Partial<Omit<PureFood, 'vitamins' | 'aminoAcids'>> {
+export interface FoodData
+  extends Partial<Omit<Food, 'vitamins' | 'aminoAcids'>> {
   vitamins?: VitaminsData;
   aminoAcids?: AminoAcidsData;
 }
 
 export enum FoodVersions {
-  RAW = 'RAW',
-  JUICE = 'JUICE',
-  BOILED = 'BOILED',
-  FLOUR = 'FLOUR',
+  RAW = 'cru',
+  JUICE = 'suco',
+  BOILED = 'cozinhado',
+  FLOUR = 'farinha integral',
+  REFINED_FLOUR = 'farinha refinada',
 }
 
 export type FoodVersion = keyof typeof FoodVersions;
-
-export interface Food extends PureFood {
-  flour: PureFood;
-  boiled: PureFood;
-  juice: PureFood;
-}
-
-export interface FoodData extends PureFoodData {
-  flour?: PureFoodData;
-  boiled?: PureFoodData;
-  juice?: PureFoodData;
-}
 
 export const MINERALS: Minerals = {
   calcium: 0,
@@ -233,7 +224,7 @@ export enum TRANSLATED_AMINO_ACIDS {
   valine = 'Valina',
 }
 
-export const PURE_FOOD: PureFood = {
+export const FOOD: Food = {
   aminoAcids: AMINO_ACIDS,
   enName: '',
   id: 0,
@@ -256,11 +247,6 @@ export const PURE_FOOD: PureFood = {
   totalFat: 0,
   unitOfMeasurement: UnitOfMeasurement.gram,
   vitamins: VITAMINS,
-};
-
-export const FOOD: Food = {
-  ...PURE_FOOD,
-  boiled: PURE_FOOD,
-  flour: PURE_FOOD,
-  juice: PURE_FOOD,
+  version: 'RAW',
+  rawId: 0,
 };

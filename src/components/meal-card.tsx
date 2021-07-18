@@ -27,6 +27,10 @@ const useStyles = makeStyles({
     flex: 1,
     backgroundColor: light,
   },
+  list: {
+    flexWrap: 'nowrap',
+    overflowX: 'auto',
+  },
 });
 
 interface Props {
@@ -41,7 +45,7 @@ const MealCard: FC<Props> = ({ meal }) => {
       (portionBefore, portionCurrent) =>
         portionCurrent.quantity - portionBefore.quantity,
     )
-    .slice(0, 3);
+    .slice(0, 4);
 
   return (
     <Link to={`/meal#${meal.id}`} state={{ meal }} className={classes.cardLink}>
@@ -57,13 +61,11 @@ const MealCard: FC<Props> = ({ meal }) => {
           <CardContent>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} className={classes.list}>
                   {mainIngredients.map((portion) => (
-                    <ResumedPortion
-                      portion={portion}
-                      key={portion.food.id}
-                      xs={4}
-                    />
+                    <Grid item xs={3} key={portion.food.id}>
+                      <ResumedPortion portion={portion} />
+                    </Grid>
                   ))}
                 </Grid>
               </Grid>

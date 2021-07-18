@@ -6,6 +6,7 @@ import { borderPrimary } from '../layout/layout';
 const useStyles = makeStyles({
   root: {
     ...borderPrimary,
+    overflow: 'initial',
   },
 });
 
