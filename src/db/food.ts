@@ -1061,8 +1061,8 @@ const foods: Array<FoodData> = [
   {
     id: 42,
     name: 'Cuca',
+    image: '/images/food/bread.svg',
     enName: 'crumb-cake',
-    image: '/images/food/cuca.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
@@ -1077,6 +1077,7 @@ const foods: Array<FoodData> = [
   },
   {
     id: 44,
+    image: '/images/food/carrot.svg',
     name: 'Cenoura cozida',
     enName: 'boiled-carrot',
     gi: 38,
@@ -1085,6 +1086,7 @@ const foods: Array<FoodData> = [
   },
   {
     id: 45,
+    image: '/images/food/oat-flour.svg',
     name: 'Farinha de aveia',
     enName: 'oat-flour',
     keys: ['farelo de aveia'],
@@ -1095,6 +1097,7 @@ const foods: Array<FoodData> = [
   {
     id: 46,
     name: 'Fubá',
+    image: '/images/food/corn-flour.svg',
     enName: 'cornflour',
     keys: ['farinha de milho'],
     version: 'FLOUR',
@@ -1103,6 +1106,7 @@ const foods: Array<FoodData> = [
   {
     id: 47,
     name: 'Amido de milho',
+    image: '/images/food/corn-flour.svg',
     enName: 'maize-starch',
     keys: ['maizena'],
     version: 'REFINED_FLOUR',

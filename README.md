@@ -22,8 +22,14 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - [site com busca de alimentos dos aminoácidos](https://tools.myfooddata.com/nutrition-comparison.php?foods=173735&serv=100g&qty=1)
 - [json de alimento](https://tools.myfooddata.com/api/food/Eggs)
 
+## Ícones
+
+- https://www.svgrepo.com/
+- https://www.flaticon.com/
+
 ## Ícones futuros
 
+- [Farinha de milho 2](https://www.flaticon.com/premium-icon/corn_4127166?term=corn&page=3&position=25&page=3&position=25&related_id=4127166&origin=search)
 - [farinha de milho](https://www.flaticon.com/premium-icon/corn_1676841?term=corn&page=1&position=65)
 - [feijão](https://www.flaticon.com/premium-icon/red-beans_2079330?term=bean&page=1&position=60)
 - [presunto](https://www.flaticon.com/premium-icon/ham_2069197?term=ham&page=1&position=11)
