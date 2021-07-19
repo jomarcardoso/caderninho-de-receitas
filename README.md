@@ -26,6 +26,7 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 
 - https://www.svgrepo.com/
 - https://www.flaticon.com/
+- https://freeicons.io/
 
 ## Ícones futuros
 

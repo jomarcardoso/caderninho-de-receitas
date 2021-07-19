@@ -115,7 +115,7 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
                   >
                     <ShareIcon fontSize="small" />
                   </Fab>
-                  <Grid container justify="center">
+                  <Grid container justifyContent="center">
                     <Grid item xs={6} sm={5} md={4}>
                       <Image src={meal.image} />
                     </Grid>
@@ -136,7 +136,7 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
                         size="medium"
                         color="secondary"
                       >
-                        <EditRoundedIcon fontSize="default" />
+                        <EditRoundedIcon fontSize="medium" />
                       </IconButton>
                     </Box>
                   </Grid>

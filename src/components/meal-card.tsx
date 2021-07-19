@@ -76,7 +76,7 @@ const MealCard: FC<Props> = ({ meal }) => {
           <Grid
             container
             spacing={2}
-            justify="space-between"
+            justifyContent="space-between"
             alignItems="flex-end"
           >
             <Grid item xs={12}>

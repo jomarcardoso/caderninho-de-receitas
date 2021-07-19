@@ -162,5 +162,6 @@ export function format(data?: FoodData): Food {
     vitamins: formatVitamins(data?.vitamins),
     version: data?.version ?? FOOD.version,
     rawId: data?.id ?? FOOD.rawId,
+    cholesterol: data?.cholesterol ?? FOOD.cholesterol,
   };
 }

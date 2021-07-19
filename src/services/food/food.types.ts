@@ -14,6 +14,7 @@ export const MeasurerValues = {
   CAN: 'lata',
   BREAST: 'peito',
   CLOVE: 'dente',
+  SLICE: 'fatia',
 };
 
 export type Measurer = keyof typeof MeasurerValues;
@@ -89,12 +90,14 @@ export interface Minerals {
   potassium: number;
   copper: number;
   zinc: number;
+  fluoride: number;
 }
 
 export interface Vitamins {
   c: number;
   b1: number;
   b2: number;
+  b3: number;
   b5: number;
   b6: number;
   b7: number;
@@ -131,6 +134,7 @@ export interface Food {
   proteins: number;
   saturedFats: number;
   monounsaturatedFats: number;
+  cholesterol: number;
   totalFat: number;
   dietaryFiber: number;
   sugar: number;
@@ -171,6 +175,7 @@ export const MINERALS: Minerals = {
   potassium: 0,
   sodium: 0,
   zinc: 0,
+  fluoride: 0,
 };
 
 export const VITAMINS: Vitamins = {
@@ -179,6 +184,7 @@ export const VITAMINS: Vitamins = {
   b12: 0,
   b1: 0,
   b2: 0,
+  b3: 0,
   b5: 0,
   b6: 0,
   b7: 0,
@@ -245,6 +251,7 @@ export const FOOD: Food = {
   proteins: 0,
   saturedFats: 0,
   totalFat: 0,
+  cholesterol: 0,
   unitOfMeasurement: UnitOfMeasurement.gram,
   vitamins: VITAMINS,
   version: 'RAW',
