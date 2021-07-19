@@ -21,7 +21,7 @@ const PortionsContainer: FC<Props> = ({ meal = MEAL }) => {
   return (
     <Grid item xs={12}>
       <Box className={classes.portionsContainer} bgcolor="grey.600">
-        <Grid container spacing={2} component="ul" justify="center">
+        <Grid container spacing={2} component="ul" justifyContent="center">
           {meal.portions.map((portion) => (
             <Grid item key={portion.food.id} xs={6} sm={4} md={3} lg={2}>
               <ResumedPortion portion={portion} />

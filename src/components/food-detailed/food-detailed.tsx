@@ -27,7 +27,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
   function renderQuality({ name: foodName = '', value = 0 }) {
     return (
       <ListItem disableGutters>
-        <Grid container spacing={1} justify="space-between">
+        <Grid container spacing={1} justifyContent="space-between">
           <Grid item>
             <Typography component="h2">{foodName}</Typography>
           </Grid>
@@ -40,7 +40,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
   }
 
   return (
-    <Grid container spacing={4} justify="center" {...props}>
+    <Grid container spacing={4} justifyContent="center" {...props}>
       <Grid item xs={8} sm={6} md={4}>
         <Image src={image} alt="" />
       </Grid>

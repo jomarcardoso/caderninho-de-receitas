@@ -15,7 +15,7 @@ const FoodPage: FC<Props> = ({ pageContext: food }) => {
 
   return (
     <Layout pageName={name}>
-      <Grid container spacing={4} justify="center">
+      <Grid container spacing={4} justifyContent="center">
         <Grid item xs={12}>
           <Grid container spacing={1}>
             <Grid item>

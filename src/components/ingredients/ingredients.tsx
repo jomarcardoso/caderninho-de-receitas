@@ -3,6 +3,7 @@ import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import Image from '../image';
 import { PORTION, Portion } from '../../services/portion/portion.types';
 import Section from '../section/section';
@@ -42,7 +43,9 @@ const Ingredients: FC<Props> = ({ portions = [] }) => {
           >
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={2} sm={1}>
-                <Image src={portion.food.image} alt={portion.food.name} />
+                <Box bgcolor="white" padding={1}>
+                  <Image src={portion.food.image} alt={portion.food.name} />
+                </Box>
               </Grid>
               <Grid item xs={10} sm={11}>
                 <Typography>{portion.description}</Typography>

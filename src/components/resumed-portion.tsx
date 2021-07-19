@@ -24,7 +24,6 @@ const useStyles = (padding = 0) =>
     },
     badge: {
       flex: 1,
-      padding: '10px',
     },
   });
 
@@ -52,7 +51,11 @@ const ResumedPortion: FC<Props> = ({
           color="secondary"
           component="div"
         >
-          <Image src={portion.food.image} alt={portion.food.name} />
+          <Image
+            disableSpinner={!portion.food.image}
+            src={portion.food.image}
+            alt={portion.food.name}
+          />
         </Badge>
       </CardContent>
     </Card>

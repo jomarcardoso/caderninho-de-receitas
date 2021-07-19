@@ -18,9 +18,6 @@ const useStyles = makeStyles({
   formControl: {
     display: 'flex',
   },
-  imageBanner: {
-    padding: '30px',
-  },
 });
 
 interface Props {
