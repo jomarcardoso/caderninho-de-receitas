@@ -64,7 +64,7 @@ const MealCard: FC<Props> = ({ meal }) => {
                 <Grid container spacing={2} className={classes.list}>
                   {mainIngredients.map((portion) => (
                     <Grid item xs={3} key={portion.food.id}>
-                      <ResumedPortion portion={portion} />
+                      <ResumedPortion padding={6} portion={portion} />
                     </Grid>
                   ))}
                 </Grid>
