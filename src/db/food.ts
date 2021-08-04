@@ -16,6 +16,10 @@ import {
   sugar as sugarData,
   wheatFlour as wheatFlourData,
   avocado,
+  onion,
+  pepper,
+  corn,
+  tomato,
 } from './src';
 
 function format(food: FoodMyFoodData): FoodData {
@@ -925,6 +929,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(onion),
     id: 30,
     name: 'Cebola',
     enName: 'onion',
@@ -962,6 +967,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(pepper),
     id: 31,
     name: 'Pimenta',
     enName: 'pepper',
@@ -969,6 +975,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    ...format(corn),
     id: 32,
     name: 'Milho',
     enName: 'corn',
@@ -988,6 +995,7 @@ const foods: Array<FoodData> = [
     keys: ['milho verde'],
   },
   {
+    ...format(tomato),
     id: 33,
     name: 'Molho de tomate',
     enName: 'tomato-sauce',
@@ -1113,7 +1121,7 @@ const foods: Array<FoodData> = [
     rawId: 32,
   },
   {
-    // https://tools.myfooddata.com/nutrition-comparison/170457/100g/1
+    ...format(tomato),
     id: 48,
     name: 'Tomate',
     enName: 'tomato',
