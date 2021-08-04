@@ -26,6 +26,10 @@ import {
   oat,
   butter,
   milk,
+  margarine,
+  garlic,
+  strawberry,
+  orange,
 } from './src';
 
 function format(food: FoodMyFoodData): FoodData {
@@ -322,6 +326,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(orange as unknown as FoodMyFoodData),
     name: 'Laranja',
     enName: 'orange',
     id: 8,
@@ -435,6 +440,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    ...format(strawberry as unknown as FoodMyFoodData),
     name: 'Morango',
     enName: 'strawberry',
     id: 11,
@@ -474,6 +480,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(garlic as unknown as FoodMyFoodData),
     id: 13,
     name: 'alho',
     enName: 'garlic',
@@ -1026,6 +1033,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.liter,
   },
   {
+    ...format(margarine as unknown as FoodMyFoodData),
     id: 35,
     name: 'Margarina',
     enName: 'margarine',
@@ -1040,8 +1048,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...format(milk as any),
+    ...format(milk as unknown as FoodMyFoodData),
     id: 37,
     name: 'Leite',
     enName: 'milk',

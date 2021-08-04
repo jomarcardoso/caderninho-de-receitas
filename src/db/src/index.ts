@@ -31,3 +31,11 @@ export { default as oat } from './oat';
 export { default as butter } from './butter';
 
 export { default as milk } from './milk.json';
+
+export { default as margarine } from './margarine.json';
+
+export { default as garlic } from './garlic.json';
+
+export { default as strawberry } from './strawberry.json';
+
+export { default as orange } from './orange.json';
