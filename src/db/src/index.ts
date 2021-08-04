@@ -19,3 +19,13 @@ export { default as pepper } from './pepper';
 export { default as corn } from './corn';
 
 export { default as tomato } from './tomato';
+
+export { default as ham } from './ham';
+
+export { default as pineapple } from './pineapple';
+
+export { default as carrot } from './carrot';
+
+export { default as oat } from './oat';
+
+export { default as butter } from './butter';

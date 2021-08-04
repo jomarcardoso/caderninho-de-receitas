@@ -20,6 +20,11 @@ import {
   pepper,
   corn,
   tomato,
+  ham,
+  pineapple,
+  carrot,
+  oat,
+  butter,
 } from './src';
 
 function format(food: FoodMyFoodData): FoodData {
@@ -532,6 +537,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(ham),
     id: 15,
     name: 'Presunto',
     enName: 'ham',
@@ -562,6 +568,7 @@ const foods: Array<FoodData> = [
     keys: [],
   },
   {
+    ...format(pineapple),
     id: 16,
     name: 'Abacaxi',
     enName: 'pineapple',
@@ -598,6 +605,7 @@ const foods: Array<FoodData> = [
     keys: [],
   },
   {
+    ...format(carrot),
     id: 17,
     enName: 'carrot',
     name: 'Cenoura',
@@ -670,6 +678,7 @@ const foods: Array<FoodData> = [
     ],
   },
   {
+    ...format(oat),
     id: 19,
     name: 'Aveia',
     enName: 'oat',
@@ -1213,10 +1222,17 @@ const foods: Array<FoodData> = [
     image: '/images/food/sandwich.svg',
   },
   {
+    ...format(ham),
     id: 51,
     name: 'Peito de peru defumado',
     enName: 'ham',
     image: '/images/food/ham.svg',
+  },
+  {
+    ...format(butter),
+    id: 51,
+    name: 'Manteiga',
+    enName: 'butter',
   },
 ];
 
