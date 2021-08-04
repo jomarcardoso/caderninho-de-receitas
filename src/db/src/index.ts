@@ -29,3 +29,5 @@ export { default as carrot } from './carrot';
 export { default as oat } from './oat';
 
 export { default as butter } from './butter';
+
+export { default as milk } from './milk.json';

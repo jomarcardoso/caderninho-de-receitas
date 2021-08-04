@@ -25,6 +25,7 @@ import {
   carrot,
   oat,
   butter,
+  milk,
 } from './src';
 
 function format(food: FoodMyFoodData): FoodData {
@@ -1039,6 +1040,8 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...format(milk as any),
     id: 37,
     name: 'Leite',
     enName: 'milk',
@@ -1061,6 +1064,7 @@ const foods: Array<FoodData> = [
     keys: ['óleo'],
   },
   {
+    ...format(butter),
     id: 40,
     name: 'Manteiga',
     enName: 'butter',
@@ -1227,12 +1231,6 @@ const foods: Array<FoodData> = [
     name: 'Peito de peru defumado',
     enName: 'ham',
     image: '/images/food/ham.svg',
-  },
-  {
-    ...format(butter),
-    id: 51,
-    name: 'Manteiga',
-    enName: 'butter',
   },
 ];
 
