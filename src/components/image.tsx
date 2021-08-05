@@ -5,7 +5,7 @@ const Image: FC<ImageProps> = ({ alt = '', ...props }): ReactElement => {
   return (
     <MaterialImage
       imageStyle={{ width: '100%' }}
-      style={{ width: '100%' }}
+      style={{ width: '100%', backgroundColor: 'transparent' }}
       alt={alt}
       {...props}
     />

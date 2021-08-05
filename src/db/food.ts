@@ -61,6 +61,23 @@ function format(food: FoodMyFoodData): FoodData {
     carbohydrates: food.CHOCDF,
     proteins: Number(food.PROCNT),
     totalFat: Number(food.FAT),
+    vitamins: {
+      c: food.VITC,
+      a: food.VITA_RAE, // talvez não
+      betaCarotene: food.CARTB,
+      alphaCarotene: food.CARTA,
+    },
+    minerals: {
+      calcium: food.CA,
+      iron: food.FE,
+      potassium: food.K,
+      magnesium: food.MG,
+      phosphorus: food.P,
+      manganese: food.MN,
+      copper: food.CU,
+      sodium: food.NA,
+      zinc: food.ZN,
+    },
   };
 }
 
@@ -574,6 +591,13 @@ const foods: Array<FoodData> = [
       glutamine: 0,
     },
     keys: [],
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    oneMeasures: [
+      {
+        quantity: 30,
+        type: 'SLICE',
+      },
+    ],
   },
   {
     ...format(pineapple),
@@ -589,27 +613,6 @@ const foods: Array<FoodData> = [
       },
     ],
     image: '/images/food/pineapple.svg',
-    aminoAcids: {
-      alanine: 33,
-      arginine: 19,
-      asparticAcid: 121,
-      cystine: 14,
-      glutamicAcid: 79,
-      glutamine: 0,
-      glycine: 24,
-      histidine: 10,
-      isoleucine: 19,
-      leucine: 24,
-      lysine: 26,
-      methionine: 12,
-      phenylalanine: 21,
-      proline: 17,
-      serine: 35,
-      threonine: 19,
-      tryptophan: 5,
-      tyrosine: 19,
-      valine: 24,
-    },
     keys: [],
   },
   {
@@ -1225,6 +1228,13 @@ const foods: Array<FoodData> = [
       proline: 3251,
       serine: 1547,
     },
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    oneMeasures: [
+      {
+        quantity: 30,
+        type: 'SLICE',
+      },
+    ],
   },
   {
     id: 50,
@@ -1238,6 +1248,13 @@ const foods: Array<FoodData> = [
     name: 'Peito de peru defumado',
     enName: 'ham',
     image: '/images/food/ham.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    oneMeasures: [
+      {
+        quantity: 30,
+        type: 'SLICE',
+      },
+    ],
   },
 ];
 
