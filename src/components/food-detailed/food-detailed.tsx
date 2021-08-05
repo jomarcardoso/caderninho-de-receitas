@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import Image from '../image';
 import AminoAcidsTable from '../aminoacids-table';
-import { Food, FoodVersion } from '../../services/food';
+import { Food, FoodVersion, MINERALS, VITAMINS } from '../../services/food';
 
 interface Props {
   food: Food;
@@ -27,8 +27,8 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
     carbohydrates,
     gl,
     proteins,
-    vitamins,
-    minerals,
+    vitamins = VITAMINS,
+    minerals = MINERALS,
   } = food;
   const { aminoAcids } = food;
   const multiplier = quantity / 100;
