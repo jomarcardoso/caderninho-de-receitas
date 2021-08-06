@@ -16,6 +16,20 @@ import {
   sugar as sugarData,
   wheatFlour as wheatFlourData,
   avocado,
+  onion,
+  pepper,
+  corn,
+  tomato,
+  ham,
+  pineapple,
+  carrot,
+  oat,
+  butter,
+  milk,
+  margarine,
+  garlic,
+  strawberry,
+  orange,
 } from './src';
 
 function format(food: FoodMyFoodData): FoodData {
@@ -47,6 +61,23 @@ function format(food: FoodMyFoodData): FoodData {
     carbohydrates: food.CHOCDF,
     proteins: Number(food.PROCNT),
     totalFat: Number(food.FAT),
+    vitamins: {
+      c: food.VITC,
+      a: food.VITA_RAE, // talvez não
+      betaCarotene: food.CARTB,
+      alphaCarotene: food.CARTA,
+    },
+    minerals: {
+      calcium: food.CA,
+      iron: food.FE,
+      potassium: food.K,
+      magnesium: food.MG,
+      phosphorus: food.P,
+      manganese: food.MN,
+      copper: food.CU,
+      sodium: food.NA,
+      zinc: food.ZN,
+    },
   };
 }
 
@@ -312,6 +343,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(orange as unknown as FoodMyFoodData),
     name: 'Laranja',
     enName: 'orange',
     id: 8,
@@ -425,6 +457,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    ...format(strawberry as unknown as FoodMyFoodData),
     name: 'Morango',
     enName: 'strawberry',
     id: 11,
@@ -464,6 +497,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(garlic as unknown as FoodMyFoodData),
     id: 13,
     name: 'alho',
     enName: 'garlic',
@@ -528,6 +562,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(ham),
     id: 15,
     name: 'Presunto',
     enName: 'ham',
@@ -556,8 +591,16 @@ const foods: Array<FoodData> = [
       glutamine: 0,
     },
     keys: [],
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    oneMeasures: [
+      {
+        quantity: 30,
+        type: 'SLICE',
+      },
+    ],
   },
   {
+    ...format(pineapple),
     id: 16,
     name: 'Abacaxi',
     enName: 'pineapple',
@@ -570,30 +613,10 @@ const foods: Array<FoodData> = [
       },
     ],
     image: '/images/food/pineapple.svg',
-    aminoAcids: {
-      alanine: 33,
-      arginine: 19,
-      asparticAcid: 121,
-      cystine: 14,
-      glutamicAcid: 79,
-      glutamine: 0,
-      glycine: 24,
-      histidine: 10,
-      isoleucine: 19,
-      leucine: 24,
-      lysine: 26,
-      methionine: 12,
-      phenylalanine: 21,
-      proline: 17,
-      serine: 35,
-      threonine: 19,
-      tryptophan: 5,
-      tyrosine: 19,
-      valine: 24,
-    },
     keys: [],
   },
   {
+    ...format(carrot),
     id: 17,
     enName: 'carrot',
     name: 'Cenoura',
@@ -666,6 +689,7 @@ const foods: Array<FoodData> = [
     ],
   },
   {
+    ...format(oat),
     id: 19,
     name: 'Aveia',
     enName: 'oat',
@@ -925,6 +949,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(onion),
     id: 30,
     name: 'Cebola',
     enName: 'onion',
@@ -962,6 +987,7 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(pepper),
     id: 31,
     name: 'Pimenta',
     enName: 'pepper',
@@ -969,6 +995,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    ...format(corn),
     id: 32,
     name: 'Milho',
     enName: 'corn',
@@ -988,6 +1015,7 @@ const foods: Array<FoodData> = [
     keys: ['milho verde'],
   },
   {
+    ...format(tomato),
     id: 33,
     name: 'Molho de tomate',
     enName: 'tomato-sauce',
@@ -1008,6 +1036,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.liter,
   },
   {
+    ...format(margarine as unknown as FoodMyFoodData),
     id: 35,
     name: 'Margarina',
     enName: 'margarine',
@@ -1022,6 +1051,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    ...format(milk as unknown as FoodMyFoodData),
     id: 37,
     name: 'Leite',
     enName: 'milk',
@@ -1044,6 +1074,7 @@ const foods: Array<FoodData> = [
     keys: ['óleo'],
   },
   {
+    ...format(butter),
     id: 40,
     name: 'Manteiga',
     enName: 'butter',
@@ -1113,7 +1144,7 @@ const foods: Array<FoodData> = [
     rawId: 32,
   },
   {
-    // https://tools.myfooddata.com/nutrition-comparison/170457/100g/1
+    ...format(tomato),
     id: 48,
     name: 'Tomate',
     enName: 'tomato',
@@ -1197,6 +1228,13 @@ const foods: Array<FoodData> = [
       proline: 3251,
       serine: 1547,
     },
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    oneMeasures: [
+      {
+        quantity: 30,
+        type: 'SLICE',
+      },
+    ],
   },
   {
     id: 50,
@@ -1205,10 +1243,18 @@ const foods: Array<FoodData> = [
     image: '/images/food/sandwich.svg',
   },
   {
+    ...format(ham),
     id: 51,
     name: 'Peito de peru defumado',
     enName: 'ham',
     image: '/images/food/ham.svg',
+    unitOfMeasurement: UnitOfMeasurement.gram,
+    oneMeasures: [
+      {
+        quantity: 30,
+        type: 'SLICE',
+      },
+    ],
   },
 ];
 

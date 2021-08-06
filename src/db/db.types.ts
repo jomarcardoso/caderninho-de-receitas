@@ -24,4 +24,17 @@ export interface FoodMyFoodData {
   FAT: number; // totalFat
   ENERC_KCAL: number; // calories
   FASAT: number; // saturedFats
+  VITC: number; // c vitamin
+  VITA_RAE: number; // a vitamin
+  CARTB: number; // beta carotene
+  CARTA: number; // alfa carotene
+  CA: number; // calcium
+  FE: number; // iron
+  K: number; // potassium, k
+  MG: number; // magnesium
+  P: number; // phosphorus
+  MN: number; // manganese
+  CU: number; // copper
+  NA: number; // sodium
+  ZN: number; // zinc
 }

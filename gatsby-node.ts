@@ -19,7 +19,47 @@ exports.createPages = ({ graphql, actions }) => {
               calories
               gl
               carbohydrates
+              proteins
               unitOfMeasurement
+              minerals {
+                sodium
+                calcium
+                phosphorus
+                manganese
+                magnesium
+                iron
+                potassium
+                copper
+                zinc
+                fluoride
+              }
+              vitamins {
+                c
+                b1
+                b2
+                b3
+                b5
+                b6
+                b7
+                b9
+                folicAcid
+                foodFolate
+                folateDFE
+                choline
+                b12
+                retinol
+                betaCarotene
+                alphaCarotene
+                cryptoxanthinCarotene
+                a
+                lycopene
+                e
+                d
+                d2
+                d3
+                k
+                k1
+              }
               aminoAcids {
                 methionine
                 leucine
@@ -57,7 +97,9 @@ exports.createPages = ({ graphql, actions }) => {
       throw result.errors;
     }
 
-    const foodDatas = result.data.file.childDbJson.foods as Array<typeof FoodData>;
+    const foodDatas = result.data.file.childDbJson.foods as Array<
+      typeof FoodData
+    >;
 
     const foods: Array<typeof Food> = foodDatas.map(FoodService.format);
 
