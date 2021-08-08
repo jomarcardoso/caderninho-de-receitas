@@ -26,8 +26,17 @@ export interface FoodMyFoodData {
   FASAT: number; // saturedFats
   VITC: number; // c vitamin
   VITA_RAE: number; // a vitamin
-  CARTB: number; // beta carotene
-  CARTA: number; // alfa carotene
+  CARTB: number; // beta carotene vitamin
+  CARTA: number; // alfa carotene vitamin
+  LYCPN: number; // lycopene vitamin
+  VITK1: number; // k vitamin
+  CHOLN: number; // choline vitamin
+  NIA: number; // b3
+  VITB12: number; // b12
+  RIBF: number; // b2
+  PANTAC: number; // b5
+  VITB6A: number; // b6
+  VITD_IU: number; // d
   CA: number; // calcium
   FE: number; // iron
   K: number; // potassium, k
