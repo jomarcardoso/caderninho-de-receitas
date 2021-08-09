@@ -38,12 +38,8 @@ const useFoods = (): Array<Food> => {
               b6
               b7
               b9
-              folicAcid
-              foodFolate
-              folateDFE
               choline
               b12
-              retinol
               betaCarotene
               alphaCarotene
               cryptoxanthinCarotene
@@ -54,7 +50,6 @@ const useFoods = (): Array<Food> => {
               d2
               d3
               k
-              k1
             }
             aminoAcids {
               methionine

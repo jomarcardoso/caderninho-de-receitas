@@ -1,12 +1,10 @@
+import { VitaminService } from '../vitamin';
 import {
   AminoAcids,
   AMINO_ACIDS,
   Food,
   FOOD,
   FoodData,
-  VITAMINS,
-  Vitamins,
-  VitaminsData,
   AminoAcidsData,
 } from './food.types';
 
@@ -114,17 +112,6 @@ export const getFoodByString: GetFoodByString = ({ foods = [], text = '' }) => {
   return { food, index };
 };
 
-function formatVitamins(data?: VitaminsData): Vitamins {
-  return Object.keys(VITAMINS).reduce((object, key) => {
-    const vitaminKey = key as keyof Vitamins;
-
-    return {
-      ...object,
-      [key]: data?.[vitaminKey] ?? VITAMINS[vitaminKey],
-    };
-  }, {}) as Vitamins;
-}
-
 export function formatAminoAcids(data?: AminoAcidsData): AminoAcids {
   return Object.keys(AMINO_ACIDS).reduce((object, key) => {
     const vitaminKey = key as keyof AminoAcids;
@@ -159,7 +146,7 @@ export function format(data?: FoodData): Food {
     sugar: data?.sugar ?? FOOD.sugar,
     totalFat: data?.totalFat ?? FOOD.totalFat,
     unitOfMeasurement: data?.unitOfMeasurement ?? FOOD.unitOfMeasurement,
-    vitamins: formatVitamins(data?.vitamins),
+    vitamins: VitaminService.format(data?.vitamins),
     version: data?.version ?? FOOD.version,
     rawId: data?.id ?? FOOD.rawId,
     cholesterol: data?.cholesterol ?? FOOD.cholesterol,

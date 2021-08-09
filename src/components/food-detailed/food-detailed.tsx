@@ -1,11 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 import List from '@material-ui/core/List';
 import Grid, { GridProps } from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
+import Round from 'lodash/round';
 import Image from '../image';
 import AminoAcidsTable from '../aminoacids-table';
-import { Food, FoodVersion, MINERALS, VITAMINS } from '../../services/food';
+import { Food, FoodVersion, MINERALS } from '../../services/food';
+import { VITAMIN, VITAMINS } from '../../services/vitamin';
 
 interface Props {
   food: Food;
@@ -34,6 +36,8 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
   const multiplier = quantity / 100;
 
   function renderQuality({ name: foodName = '', value = 0 }) {
+    if (!value) return null;
+
     return (
       <ListItem disableGutters>
         <Grid container spacing={1} justifyContent="space-between">
@@ -42,6 +46,26 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
           </Grid>
           <Grid item>
             <Typography>{value}</Typography>
+          </Grid>
+        </Grid>
+      </ListItem>
+    );
+  }
+
+  function renderVitamin(vitamin = VITAMIN): ReactElement {
+    if (!vitamin.quantity) return <></>;
+
+    return (
+      <ListItem disableGutters>
+        <Grid container spacing={1} justifyContent="space-between">
+          <Grid item>
+            <Typography component="h2">{vitamin.nick}</Typography>
+          </Grid>
+          <Grid item>
+            <Typography style={{ whiteSpace: 'nowrap' }}>
+              {Round(vitamin.quantity, 2)}
+              {vitamin.unity}
+            </Typography>
           </Grid>
         </Grid>
       </ListItem>
@@ -85,69 +109,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <List>
-              {renderQuality({ name: 'A', value: vitamins.a })}
-              {renderQuality({
-                name: 'Alfa-caroteno',
-                value: vitamins.alphaCarotene,
-              })}
-              {renderQuality({ name: 'B1', value: vitamins.b1 })}
-              {renderQuality({ name: 'B2', value: vitamins.b2 })}
-              {renderQuality({ name: 'B3', value: vitamins.b3 })}
-              {renderQuality({ name: 'B5', value: vitamins.b5 })}
-              {renderQuality({ name: 'B6', value: vitamins.b6 })}
-              {renderQuality({ name: 'B7', value: vitamins.b7 })}
-              {renderQuality({ name: 'B9', value: vitamins.b9 })}
-              {renderQuality({ name: 'B12', value: vitamins.b12 })}
-              {renderQuality({
-                name: 'Betacaroteno',
-                value: vitamins.betaCarotene,
-              })}
-              {renderQuality({
-                name: 'C',
-                value: vitamins.c,
-              })}
-              {renderQuality({
-                name: 'Colina',
-                value: vitamins.choline,
-              })}
-              {renderQuality({
-                name: 'Criptoxantina',
-                value: vitamins.cryptoxanthinCarotene,
-              })}
-              {renderQuality({
-                name: 'D',
-                value: vitamins.d,
-              })}
-              {renderQuality({
-                name: 'D2',
-                value: vitamins.d2,
-              })}
-              {renderQuality({
-                name: 'D3',
-                value: vitamins.d3,
-              })}
-              {renderQuality({
-                name: 'E',
-                value: vitamins.e,
-              })}
-              {renderQuality({
-                name: 'Ácido fólico',
-                value: vitamins.folicAcid,
-              })}
-              {renderQuality({
-                name: 'K',
-                value: vitamins.k,
-              })}
-              {renderQuality({
-                name: 'K1',
-                value: vitamins.k1,
-              })}
-              {renderQuality({
-                name: 'Licopeno',
-                value: vitamins.lycopene,
-              })}
-            </List>
+            <List>{Object.values(vitamins).map(renderVitamin)}</List>
           </Grid>
         </Grid>
       </Grid>

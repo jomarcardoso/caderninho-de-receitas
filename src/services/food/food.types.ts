@@ -1,3 +1,5 @@
+import { VITAMINS, Vitamins, VitaminsData } from '../vitamin';
+
 export enum UnitOfMeasurement {
   gram,
   liter,
@@ -93,34 +95,6 @@ export interface Minerals {
   fluoride: number;
 }
 
-export interface Vitamins {
-  c: number;
-  b1: number;
-  b2: number;
-  b3: number;
-  b5: number;
-  b6: number;
-  b7: number;
-  b9: number;
-  folicAcid: number;
-  foodFolate: number;
-  folateDFE: number;
-  choline: number;
-  b12: number;
-  retinol: number;
-  betaCarotene: number;
-  alphaCarotene: number;
-  cryptoxanthinCarotene: number;
-  a: number;
-  lycopene: number;
-  e: number;
-  d: number;
-  d2: number;
-  d3: number;
-  k: number;
-  k1: number;
-}
-
 export interface Food {
   id: number;
   name: string;
@@ -139,7 +113,7 @@ export interface Food {
   dietaryFiber: number;
   sugar: number;
   minerals: Partial<Minerals>;
-  vitamins: Partial<Vitamins>;
+  vitamins: Vitamins;
   gl: number;
   aminoAcids: AminoAcids;
   unitOfMeasurement: UnitOfMeasurement;
@@ -177,36 +151,6 @@ export const MINERALS: Minerals = {
   zinc: 0,
   fluoride: 0,
 };
-
-export const VITAMINS: Vitamins = {
-  a: 0,
-  alphaCarotene: 0,
-  b12: 0,
-  b1: 0,
-  b2: 0,
-  b3: 0,
-  b5: 0,
-  b6: 0,
-  b7: 0,
-  b9: 0,
-  betaCarotene: 0,
-  c: 0,
-  choline: 0,
-  cryptoxanthinCarotene: 0,
-  d2: 0,
-  d3: 0,
-  d: 0,
-  e: 0,
-  folateDFE: 0,
-  folicAcid: 0,
-  foodFolate: 0,
-  k1: 0,
-  k: 0,
-  lycopene: 0,
-  retinol: 0,
-};
-
-export type VitaminsData = Partial<Vitamins>;
 
 export enum TRANSLATED_AMINO_ACIDS {
   alanine = 'Alanina',

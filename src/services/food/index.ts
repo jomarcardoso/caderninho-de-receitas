@@ -8,7 +8,6 @@ export {
   MEASURE,
   FOOD,
   MINERALS,
-  VITAMINS,
   TRANSLATED_AMINO_ACIDS,
   AminoAcids,
   EssencialAminoAcids,

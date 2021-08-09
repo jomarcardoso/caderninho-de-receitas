@@ -5,7 +5,6 @@ import {
   UnitOfMeasurement,
   AMINO_ACIDS,
   MINERALS,
-  VITAMINS,
   FoodData,
 } from '../services/food';
 import {
@@ -31,6 +30,7 @@ import {
   strawberry,
   orange,
 } from './src';
+import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 
 function format(food: FoodMyFoodData): FoodData {
   return {
@@ -62,10 +62,19 @@ function format(food: FoodMyFoodData): FoodData {
     proteins: Number(food.PROCNT),
     totalFat: Number(food.FAT),
     vitamins: {
+      ...VITAMINS_DATA, // tem que tirar isso
       c: food.VITC,
       a: food.VITA_RAE, // talvez não
       betaCarotene: food.CARTB,
       alphaCarotene: food.CARTA,
+      lycopene: food.LYCPN,
+      k: food.VITK1,
+      choline: food.CHOLN,
+      b3: food.NIA,
+      b12: food.VITB12,
+      b2: food.RIBF,
+      b6: food.VITB6A,
+      d: food.VITD_IU,
     },
     minerals: {
       calcium: food.CA,
@@ -697,19 +706,6 @@ const foods: Array<FoodData> = [
     carbohydrates: 66.6,
     proteins: 13.9,
     dietaryFiber: 9.1,
-    minerals: {
-      calcium: 47.9,
-      phosphorus: 153.4,
-      manganese: 1.9,
-      magnesium: 118.8,
-      potassium: 336.3,
-      iron: 4.5,
-      zinc: 2.6,
-      sodium: 4.6,
-    },
-    vitamins: {
-      c: 1.4,
-    },
     image: '/images/food/oats.svg',
     oneMeasures: [
       {
@@ -943,7 +939,7 @@ const foods: Array<FoodData> = [
       calcium: 12,
     },
     vitamins: {
-      ...VITAMINS,
+      ...VITAMINS_DATA,
       c: 19.7,
       b6: 0.3,
     },
@@ -973,18 +969,6 @@ const foods: Array<FoodData> = [
         type: 'UNITY_LARGE',
       },
     ],
-    minerals: {
-      ...MINERALS,
-      sodium: 4,
-      potassium: 146,
-      iron: 0.2,
-      magnesium: 10,
-      calcium: 23,
-    },
-    vitamins: {
-      c: 7.4,
-      b6: 0.1,
-    },
   },
   {
     ...format(pepper),
@@ -1155,36 +1139,6 @@ const foods: Array<FoodData> = [
     proteins: 0.9,
     dietaryFiber: 1.2,
     sugar: 2.6,
-    minerals: {
-      iron: 0.3,
-      calcium: 10,
-      potassium: 237,
-      magnesium: 11,
-      phosphorus: 24,
-      sodium: 5,
-      zinc: 0.2,
-      copper: 0.1,
-      manganese: 0.1,
-      fluoride: 2.3,
-    },
-    vitamins: {
-      a: 42,
-      c: 13.7,
-      b1: 0,
-      b2: 0,
-      b3: 0.6,
-      b5: 0.1,
-      b6: 0.1,
-      b9: 15,
-      folicAcid: 0,
-      foodFolate: 15,
-      choline: 6.7,
-      betaCarotene: 449,
-      alphaCarotene: 101,
-      lycopene: 2573,
-      e: 0.5,
-      k: 7.9,
-    },
     saturedFats: 0,
     oneMeasures: [
       {
