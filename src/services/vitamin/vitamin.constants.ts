@@ -1,31 +1,4 @@
-// type VitaminKey =
-//   | 'c'
-//   | 'b1'
-//   | 'b2'
-//   | 'b3'
-//   | 'b5'
-//   | 'b6'
-//   | 'b7'
-//   | 'b9'
-//   | 'folicAcid'
-//   | 'foodFolate'
-//   | 'folateDFE'
-//   | 'choline'
-//   | 'b12'
-//   | 'retinol'
-//   | 'betaCarotene'
-//   | 'alphaCarotene'
-//   | 'cryptoxanthinCarotene'
-//   | 'a'
-//   | 'lycopene'
-//   | 'e'
-//   | 'd'
-//   | 'd2'
-//   | 'd3'
-//   | 'k'
-//   | 'k1';
-
-import { WeightUnity } from '../unity';
+import { Nutrient } from '../nutrient.constants';
 
 type VitaminNick =
   | ''
@@ -79,14 +52,7 @@ type VitaminName =
   | 'Filoquinona ou Fitomenadiona'
   | 'Licopeno';
 
-export interface Vitamin {
-  key: VitaminKey | '';
-  nick: VitaminNick;
-  name: VitaminName;
-  unity: WeightUnity;
-  dv: number;
-  quantity: number;
-}
+export type Vitamin = Nutrient<VitaminKey, VitaminNick, VitaminName>;
 
 export interface Vitamins {
   c: Vitamin;
@@ -116,7 +82,7 @@ export interface Vitamins {
   // k1: Vitamin;
 }
 
-type VitaminKey = keyof Vitamins;
+export type VitaminKey = keyof Vitamins;
 
 export type VitaminsData = Record<VitaminKey, number>;
 

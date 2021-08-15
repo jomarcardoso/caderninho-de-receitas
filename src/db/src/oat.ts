@@ -311,4 +311,5 @@ export default {
   new: 1,
   UID: null,
   user_ingredients: null,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any;

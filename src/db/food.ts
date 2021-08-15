@@ -1,12 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { FoodMyFoodData } from './db.types';
-import {
-  UnitOfMeasurement,
-  AMINO_ACIDS,
-  MINERALS,
-  FoodData,
-} from '../services/food';
+import { UnitOfMeasurement, AMINO_ACIDS, FoodData } from '../services/food';
 import {
   coconut as coconutData,
   egg as eggData,
@@ -31,6 +26,7 @@ import {
   orange,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
+import { MINERALS_DATA } from '../services/mineral';
 
 function format(food: FoodMyFoodData): FoodData {
   return {
@@ -77,6 +73,7 @@ function format(food: FoodMyFoodData): FoodData {
       d: food.VITD_IU,
     },
     minerals: {
+      ...MINERALS_DATA,
       calcium: food.CA,
       iron: food.FE,
       potassium: food.K,
@@ -259,6 +256,7 @@ const foods: Array<FoodData> = [
     saturedFats: 0.1,
     totalFat: 0.5,
     minerals: {
+      ...MINERALS_DATA,
       sodium: 1.7,
       iron: 2.1,
       calcium: 27,
@@ -909,7 +907,7 @@ const foods: Array<FoodData> = [
     saturedFats: 0,
     monounsaturatedFats: 0,
     minerals: {
-      ...MINERALS,
+      ...MINERALS_DATA,
       sodium: 38.758,
       calcium: 24,
       iron: 0.3,
@@ -931,7 +929,7 @@ const foods: Array<FoodData> = [
     totalFat: 0.1,
     keys: ['batatinha', 'batata inglesa'],
     minerals: {
-      ...MINERALS,
+      ...MINERALS_DATA,
       sodium: 6,
       potassium: 421,
       iron: 0.8,

@@ -6,8 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 import Round from 'lodash/round';
 import Image from '../image';
 import AminoAcidsTable from '../aminoacids-table';
-import { Food, FoodVersion, MINERALS } from '../../services/food';
-import { VITAMIN, VITAMINS } from '../../services/vitamin';
+import { Food, FoodVersion } from '../../services/food';
+import { VITAMINS } from '../../services/vitamin';
+import { MINERALS } from '../../services/mineral';
+import { Nutrient } from '../../services/nutrient.constants';
 
 interface Props {
   food: Food;
@@ -52,19 +54,19 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
     );
   }
 
-  function renderVitamin(vitamin = VITAMIN): ReactElement {
-    if (!vitamin.quantity) return <></>;
+  function renderNutrient(nutrient: Nutrient): ReactElement {
+    if (!nutrient.quantity) return <></>;
 
     return (
       <ListItem disableGutters>
         <Grid container spacing={1} justifyContent="space-between">
           <Grid item>
-            <Typography component="h2">{vitamin.nick}</Typography>
+            <Typography component="h2">{nutrient.nick}</Typography>
           </Grid>
           <Grid item>
             <Typography style={{ whiteSpace: 'nowrap' }}>
-              {Round(vitamin.quantity, 2)}
-              {vitamin.unity}
+              {Round(nutrient.quantity, 2)}
+              {nutrient.unity}
             </Typography>
           </Grid>
         </Grid>
@@ -109,7 +111,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <List>{Object.values(vitamins).map(renderVitamin)}</List>
+            <List>{Object.values(vitamins).map(renderNutrient)}</List>
           </Grid>
         </Grid>
       </Grid>
@@ -121,39 +123,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <List>
-              {renderQuality({ name: 'Cálcio', value: minerals.calcium })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Cobre', value: minerals.copper })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Fluor', value: minerals.fluoride })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Fluoreto', value: minerals.fluoride })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Ferro', value: minerals.iron })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Magnésio', value: minerals.magnesium })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Manganês', value: minerals.manganese })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Fósforo', value: minerals.phosphorus })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Potássio', value: minerals.potassium })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Sódio', value: minerals.sodium })}
-            </List>
-            <List>
-              {renderQuality({ name: 'Zinco', value: minerals.zinc })}
-            </List>
+            <List>{Object.values(minerals).map(renderNutrient)}</List>
           </Grid>
         </Grid>
       </Grid>

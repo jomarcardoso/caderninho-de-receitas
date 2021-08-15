@@ -1,3 +1,4 @@
+import { MineralService } from '../mineral';
 import { VitaminService } from '../vitamin';
 import {
   AminoAcids,
@@ -137,7 +138,6 @@ export function format(data?: FoodData): Food {
     id: data?.id ?? FOOD.id,
     image: data?.image ?? FOOD.image,
     keys: data?.keys ?? FOOD.keys,
-    minerals: data?.minerals ?? FOOD.minerals,
     monounsaturatedFats: data?.monounsaturatedFats ?? FOOD.monounsaturatedFats,
     name: data?.name ?? FOOD.name,
     oneMeasures: data?.oneMeasures ?? FOOD.oneMeasures,
@@ -146,6 +146,7 @@ export function format(data?: FoodData): Food {
     sugar: data?.sugar ?? FOOD.sugar,
     totalFat: data?.totalFat ?? FOOD.totalFat,
     unitOfMeasurement: data?.unitOfMeasurement ?? FOOD.unitOfMeasurement,
+    minerals: MineralService.format(data?.minerals),
     vitamins: VitaminService.format(data?.vitamins),
     version: data?.version ?? FOOD.version,
     rawId: data?.id ?? FOOD.rawId,
