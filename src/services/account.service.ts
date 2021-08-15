@@ -5,6 +5,7 @@ const CURRENT_VERSION = 2;
 
 export interface SetAccount {
   meal: SetMeal;
+  removeMeal(id: number): void;
 }
 
 export interface Account {

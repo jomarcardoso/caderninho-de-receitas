@@ -1,3 +1,4 @@
+import remove from 'lodash/remove';
 import { useState, useEffect } from 'react';
 import AccountService, {
   AccountAndSet,
@@ -45,6 +46,15 @@ export default function useAccount(foods: Array<Food>): AccountAndSet {
     return id;
   }
 
+  function removeMeal(id = 0) {
+    const newMeals = remove(account.meals, (meal) => meal.id !== id);
+
+    _setAccount({
+      ...account,
+      meals: newMeals,
+    });
+  }
+
   useEffect(() => {
     AccountService.save(account);
   }, [account]);
@@ -52,6 +62,7 @@ export default function useAccount(foods: Array<Food>): AccountAndSet {
   const setAccount: SetAccount = {
     // account: _setAccount,
     meal: setMeal,
+    removeMeal,
   };
 
   return {
