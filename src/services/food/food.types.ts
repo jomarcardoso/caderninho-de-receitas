@@ -1,3 +1,4 @@
+import { MINERALS, Minerals, MineralsData } from '../mineral';
 import { VITAMINS, Vitamins, VitaminsData } from '../vitamin';
 
 export enum UnitOfMeasurement {
@@ -82,19 +83,6 @@ export const AMINO_ACIDS: AminoAcids = {
   valine: 0,
 };
 
-export interface Minerals {
-  sodium: number;
-  calcium: number;
-  phosphorus: number;
-  manganese: number;
-  magnesium: number;
-  iron: number;
-  potassium: number;
-  copper: number;
-  zinc: number;
-  fluoride: number;
-}
-
 export interface Food {
   id: number;
   name: string;
@@ -112,7 +100,7 @@ export interface Food {
   totalFat: number;
   dietaryFiber: number;
   sugar: number;
-  minerals: Partial<Minerals>;
+  minerals: Minerals;
   vitamins: Vitamins;
   gl: number;
   aminoAcids: AminoAcids;
@@ -124,7 +112,8 @@ export interface Food {
 }
 
 export interface FoodData
-  extends Partial<Omit<Food, 'vitamins' | 'aminoAcids'>> {
+  extends Partial<Omit<Food, 'minerals' | 'vitamins' | 'aminoAcids'>> {
+  minerals?: MineralsData;
   vitamins?: VitaminsData;
   aminoAcids?: AminoAcidsData;
 }
@@ -138,19 +127,6 @@ export enum FoodVersions {
 }
 
 export type FoodVersion = keyof typeof FoodVersions;
-
-export const MINERALS: Minerals = {
-  calcium: 0,
-  copper: 0,
-  iron: 0,
-  magnesium: 0,
-  manganese: 0,
-  phosphorus: 0,
-  potassium: 0,
-  sodium: 0,
-  zinc: 0,
-  fluoride: 0,
-};
 
 export enum TRANSLATED_AMINO_ACIDS {
   alanine = 'Alanina',

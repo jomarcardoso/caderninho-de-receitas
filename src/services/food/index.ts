@@ -7,7 +7,6 @@ export {
   AMINO_ACIDS,
   MEASURE,
   FOOD,
-  MINERALS,
   TRANSLATED_AMINO_ACIDS,
   AminoAcids,
   EssencialAminoAcids,
@@ -19,5 +18,4 @@ export {
   Measurer,
   NonEssencialAminoAcids,
   UnitOfMeasurement,
-  Minerals,
 } from './food.types';
