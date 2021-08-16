@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Image from '../components/image';
 import Layout from '../components/layout/layout';
 import FoodsContext from '../contexts/foods-context';
+import Page from '../components/page/page';
 
 const useStyles = makeStyles({
   selectIcon: {
@@ -52,45 +53,47 @@ const Foods: FC = () => {
   });
 
   return (
-    <Layout pageName="Alimentos">
-      <TableContainer>
-        <Table size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Medida 100g</TableCell>
-              <TableCell align="right">Calorias</TableCell>
-              <TableCell align="right">Índice Glicêmico</TableCell>
-              <TableCell align="right">Acidificação</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orderedFood.map(
-              ({ name, image, enName, calories, acidification, gi }) => (
-                <TableRow key={name}>
-                  <TableCell component="th" scope="row">
-                    <ListItem className={classes.listItem}>
-                      <Link
-                        to={`/food/${enName}`}
-                        className={classes.anchor}
-                        color="inherit"
-                      >
-                        <ListItemIcon className={classes.selectIcon}>
-                          <Image className={classes.img} src={image} alt="" />
-                        </ListItemIcon>
-                        <ListItemText primary={name} />
-                      </Link>
-                    </ListItem>
-                  </TableCell>
-                  <TableCell align="right">{calories}</TableCell>
-                  <TableCell align="right">{gi}</TableCell>
-                  <TableCell align="right">{acidification}</TableCell>
-                </TableRow>
-              ),
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Layout>
+    <Page>
+      <Layout pageName="Alimentos">
+        <TableContainer>
+          <Table size="small" aria-label="a dense table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Medida 100g</TableCell>
+                <TableCell align="right">Calorias</TableCell>
+                <TableCell align="right">Índice Glicêmico</TableCell>
+                <TableCell align="right">Acidificação</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {orderedFood.map(
+                ({ name, image, enName, calories, acidification, gi }) => (
+                  <TableRow key={name}>
+                    <TableCell component="th" scope="row">
+                      <ListItem className={classes.listItem}>
+                        <Link
+                          to={`/food/${enName}`}
+                          className={classes.anchor}
+                          color="inherit"
+                        >
+                          <ListItemIcon className={classes.selectIcon}>
+                            <Image className={classes.img} src={image} alt="" />
+                          </ListItemIcon>
+                          <ListItemText primary={name} />
+                        </Link>
+                      </ListItem>
+                    </TableCell>
+                    <TableCell align="right">{calories}</TableCell>
+                    <TableCell align="right">{gi}</TableCell>
+                    <TableCell align="right">{acidification}</TableCell>
+                  </TableRow>
+                ),
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Layout>
+    </Page>
   );
 };
 

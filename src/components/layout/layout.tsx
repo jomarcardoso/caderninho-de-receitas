@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Header from '../header';
+import Header, { HeaderProps } from '../header';
 import Main from '../main';
 import Footer from '../footer';
 import './layout.scss';
@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
+    position: 'relative',
   },
   main: {
     flex: 1,
@@ -24,6 +25,7 @@ interface Props {
   showHeader?: boolean;
   showFooter?: boolean;
   currentPage?: CurrentPage;
+  headerProps?: HeaderProps;
 }
 
 const Layout: FC<Props> = ({
@@ -32,18 +34,13 @@ const Layout: FC<Props> = ({
   showHeader = true,
   showFooter = true,
   currentPage = CurrentPage.NONE,
+  headerProps,
 }) => {
   const classes = useStyles();
-  const [, setReRender] = useState(false);
-
-  // fix wrong render with JS
-  useEffect(() => {
-    setReRender(true);
-  }, []);
 
   return (
     <Box className={classes.root} bgcolor="gray.700">
-      {showHeader && <Header pageName={pageName} />}
+      {showHeader && <Header {...headerProps} pageName={pageName} />}
       <Main className={classes.main}>{children}</Main>
       {showFooter && <Footer currentPage={currentPage} />}
     </Box>

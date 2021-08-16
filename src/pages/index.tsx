@@ -9,6 +9,7 @@ import Layout from '../components/layout/layout';
 import MealCard from '../components/meal-card';
 import Panel from '../components/panel/panel';
 import MealPanel from '../panels/meal';
+import SEO from '../components/seo';
 import Page from '../components/page/page';
 
 const useStyles = makeStyles({
@@ -32,9 +33,9 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   const [editingMeal, setEditingMeal] = useState(false);
 
   return (
-    <Page name="Menu">
+    <Page>
       <Box className={classes.display}>
-        <Panel>
+        <Panel id="main-panel">
           <Layout currentPage={CurrentPage.HOME} pageName="Menu">
             <Grid container spacing={4}>
               {account.meals.map((meal) => (
@@ -46,14 +47,22 @@ const Index: FC<{ location: Location }> = ({ location }) => {
           </Layout>
         </Panel>
         <Panel id="meal-panel">
-          <MealPanel
-            location={location}
-            mealId={currentMealId}
-            setMealId={setCurrentMealId}
-            editing={editingMeal}
-            setEditing={setEditingMeal}
-          />
+          <Layout
+            currentPage={CurrentPage.MEAL}
+            pageName="Receita"
+            showFooter={false}
+            headerProps={{ goBackLink: '#main-panel' }}
+          >
+            <MealPanel
+              location={location}
+              mealId={currentMealId}
+              setMealId={setCurrentMealId}
+              editing={editingMeal}
+              setEditing={setEditingMeal}
+            />
+          </Layout>
         </Panel>
+        <SEO title="Saúde em pontos" />
       </Box>
     </Page>
   );

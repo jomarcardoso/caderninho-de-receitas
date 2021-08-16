@@ -1,10 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 // @ts-expect-error instalação esquisita
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ThemeTopLayout from 'gatsby-theme-material-ui-top-layout/src/components/top-layout';
 import { createTheme } from '@material-ui/core/styles';
 import StyleContext, { Style } from '../../contexts/style';
-import SEO from '../seo';
 
 export const primary = {
   light: '#a18278',
@@ -101,12 +100,17 @@ function theme({ bgBody = '' }: Style) {
   });
 }
 
-const Page: FC<{ name: string }> = ({ children, name = '' }) => {
+const Page: FC = ({ children }) => {
   const [style, setStyle] = useState<Style>({});
+  const [, setReRender] = useState(false);
+
+  // fix wrong render with JS
+  useEffect(() => {
+    setReRender(true);
+  }, []);
 
   return (
     <StyleContext.Provider value={{ style, setStyle }}>
-      <SEO title={`${name ? `${name} - ` : ''}Saúde em pontos`} />
       <ThemeTopLayout theme={theme(style)}>{children}</ThemeTopLayout>
     </StyleContext.Provider>
   );
