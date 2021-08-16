@@ -14,6 +14,7 @@ import Image from '../components/image';
 import Layout from '../components/layout/layout';
 import FoodsContext from '../contexts/foods-context';
 import Page from '../components/page/page';
+import { CurrentPage } from '../services/page.service';
 
 const useStyles = makeStyles({
   selectIcon: {
@@ -54,7 +55,7 @@ const Foods: FC = () => {
 
   return (
     <Page>
-      <Layout pageName="Alimentos">
+      <Layout pageName="Alimentos" currentPage={CurrentPage.FOODS}>
         <TableContainer>
           <Table size="small" aria-label="a dense table">
             <TableHead>

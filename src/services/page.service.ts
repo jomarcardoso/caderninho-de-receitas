@@ -2,5 +2,6 @@
 export enum CurrentPage {
   NONE,
   HOME,
+  FOODS,
   MEAL,
 }
