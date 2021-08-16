@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import ButtonMUI, { ButtonProps } from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { borderSecondary } from '../layout/layout';
+import { borderSecondary } from '../page/page';
 
 const useStyles = makeStyles({
   root: {
