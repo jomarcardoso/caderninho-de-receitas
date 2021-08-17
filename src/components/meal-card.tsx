@@ -42,9 +42,10 @@ const useStyles = makeStyles({
 interface Props {
   meal: Meal;
   setMealId(id: number): void;
+  setEditingMeal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MealCard: FC<Props> = ({ meal, setMealId }) => {
+const MealCard: FC<Props> = ({ meal, setMealId, setEditingMeal }) => {
   const { setAccount } = useContext(AccountContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<Element | null>();
@@ -64,6 +65,7 @@ const MealCard: FC<Props> = ({ meal, setMealId }) => {
 
   function handleClickLink() {
     setMealId(meal.id);
+    setEditingMeal(false);
   }
 
   const mainIngredients = meal.portions.sort(

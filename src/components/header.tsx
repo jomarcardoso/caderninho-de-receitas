@@ -1,13 +1,11 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 import AppBar, { AppBarProps } from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Container from '@material-ui/core/Container';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import MenuDrawer from './menu-drawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,17 +30,12 @@ const Header: FC<HeaderProps & AppBarProps> = ({
   goBackLink = '',
 }) => {
   const classes = useStyles();
-  const [opened, setOpened] = useState(false);
-
-  const toggleDrawer = (open: boolean): void => {
-    setOpened(open);
-  };
 
   return (
     <AppBar position="static" role="banner" className={classes.root}>
       <Container maxWidth="md" disableGutters>
         <Toolbar>
-          {goBackLink ? (
+          {goBackLink && (
             <IconButton
               edge="start"
               className={classes.menuButton}
@@ -51,23 +44,12 @@ const Header: FC<HeaderProps & AppBarProps> = ({
             >
               <ArrowBackIcon />
             </IconButton>
-          ) : (
-            <IconButton
-              onClick={() => toggleDrawer(true)}
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton>
           )}
           <Typography variant="h2" component="h1" className={classes.title}>
             {pageName}
           </Typography>
         </Toolbar>
       </Container>
-      <MenuDrawer opened={opened} toggleDrawer={toggleDrawer} />
     </AppBar>
   );
 };

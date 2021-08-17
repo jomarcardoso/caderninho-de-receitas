@@ -30,17 +30,21 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
   const [currentMealId, setCurrentMealId] = useState(0);
-  const [editingMeal, setEditingMeal] = useState(false);
+  const [editingMeal, setEditingMeal] = useState(true);
 
   return (
     <Page>
       <Box className={classes.display}>
         <Panel id="main-panel">
-          <Layout currentPage={CurrentPage.HOME} pageName="Menu">
+          <Layout currentPage={CurrentPage.HOME} pageName="Saúde em pontos">
             <Grid container spacing={4}>
               {account.meals.map((meal) => (
                 <Grid item xs={12} sm={6} className={classes.card}>
-                  <MealCard meal={meal} setMealId={setCurrentMealId} />
+                  <MealCard
+                    meal={meal}
+                    setMealId={setCurrentMealId}
+                    setEditingMeal={setEditingMeal}
+                  />
                 </Grid>
               ))}
             </Grid>

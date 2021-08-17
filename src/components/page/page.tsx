@@ -46,7 +46,7 @@ function theme({ bgBody = '' }: Style) {
       //   '800': '#f4f4f4',
       //   '700': '#f1f1f1',
       //   '600': '#e4e4e4',
-      //   '400': '#c9c9c9',
+      //   '600': '#c9c9c9',
       // },
       background: {
         default: bgBody || light,
@@ -72,17 +72,25 @@ function theme({ bgBody = '' }: Style) {
       borderRadius: 4,
     },
     typography: {
+      allVariants: {
+        fontFamily: 'Dosis, Roboto, Helvetica, Arial, sans-serif',
+        letterSpacing: 1.05,
+      },
+      body1: {
+        fontWeight: 200,
+      },
+      body2: {
+        fontWeight: 200,
+      },
       h1: {
         fontSize: '24px',
         fontWeight: 600,
-        textTransform: 'uppercase',
         color: primary.dark,
         letterSpacing: 1,
       },
       h2: {
         fontSize: '20px',
         fontWeight: 600,
-        textTransform: 'uppercase',
         letterSpacing: 1,
       },
       h3: {
@@ -94,7 +102,7 @@ function theme({ bgBody = '' }: Style) {
       },
       h4: {
         fontSize: '20px',
-        fontWeight: 500,
+        fontWeight: 600,
       },
     },
   });
