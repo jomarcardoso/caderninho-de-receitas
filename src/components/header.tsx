@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: 'white',
   },
 }));
 
@@ -45,7 +46,7 @@ const Header: FC<HeaderProps & AppBarProps> = ({
               <ArrowBackIcon />
             </IconButton>
           )}
-          <Typography variant="h2" component="h1" className={classes.title}>
+          <Typography variant="h1" component="h1" className={classes.title}>
             {pageName}
           </Typography>
         </Toolbar>

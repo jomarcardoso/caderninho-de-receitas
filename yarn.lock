@@ -2452,6 +2452,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fontsource/cinzel@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/cinzel/-/cinzel-4.5.0.tgz#3872b46721eb2637391247994daf5ecac1c43ab9"
+  integrity sha512-qtTzOwAM1A2sWV2rqXqnrdDf2lz/CTGhk4JGpfHNQw4X0uifCixdgrJiSiYvm5cHaiAU4O510GKuCx1H6TmZAQ==
+
 "@fontsource/dosis@^4.5.0":
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@fontsource/dosis/-/dosis-4.5.0.tgz#6a40a21e2e6abcde9e179f710b5fd70fa02a380e"

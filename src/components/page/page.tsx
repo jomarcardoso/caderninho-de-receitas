@@ -83,10 +83,11 @@ function theme({ bgBody = '' }: Style) {
         fontWeight: 200,
       },
       h1: {
+        fontFamily: 'Cinzel, Roboto, Helvetica, Arial, sans-serif',
         fontSize: '24px',
-        fontWeight: 600,
+        fontWeight: 400,
         color: primary.dark,
-        letterSpacing: 1,
+        letterSpacing: 1.1,
       },
       h2: {
         fontSize: '20px',
