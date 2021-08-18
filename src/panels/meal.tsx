@@ -23,6 +23,8 @@ import AminoAcidsTable from '../components/aminoacids-table';
 import FoodsContext from '../contexts/foods-context';
 import Ingredients from '../components/ingredients/ingredients';
 import Preparation from '../components/preparation/preparation';
+import Layout from '../components/layout/layout';
+import { CurrentPage } from '../services/page.service';
 
 const useStyles = makeStyles({
   imageBanner: {
@@ -91,7 +93,7 @@ const MealPanel: FC<{
 
   async function handleShare() {
     const toShare = MealService.formatToShare(mealData);
-    const url = `${location.origin}/meal/?${toShare}` ?? '';
+    const url = `${location.origin}?${toShare}#meal-panel` ?? '';
     const title = mealData.name || 'Receita';
     const urlShort = await UrlService.shortener(url);
 
@@ -105,94 +107,99 @@ const MealPanel: FC<{
   }
 
   return (
-    // <Layout currentPage={CurrentPage.MEAL} pageName={pageName}>
-    <MealPageStyle editing={editing}>
-      <Grid container spacing={4}>
-        {!editing ? (
-          <>
-            <Grid item xs={12}>
-              <Card className={classes.imageBanner}>
-                <Fab
-                  size="small"
-                  color="secondary"
-                  className={classes.buttonBanner}
-                  onClick={handleShare}
-                >
-                  <ShareIcon fontSize="small" />
-                </Fab>
-                <Grid container justifyContent="center">
-                  <Grid item xs={6} sm={5} md={4}>
-                    <Image src={meal.image} />
+    <Layout
+      currentPage={CurrentPage.MEAL}
+      pageName="Receita"
+      showFooter={false}
+      headerProps={{ goBackLink: '#main-panel' }}
+    >
+      <MealPageStyle editing={editing}>
+        <Grid container spacing={4}>
+          {!editing ? (
+            <>
+              <Grid item xs={12}>
+                <Card className={classes.imageBanner}>
+                  <Fab
+                    size="small"
+                    color="secondary"
+                    className={classes.buttonBanner}
+                    onClick={handleShare}
+                  >
+                    <ShareIcon fontSize="small" />
+                  </Fab>
+                  <Grid container justifyContent="center">
+                    <Grid item xs={6} sm={5} md={4}>
+                      <Image src={meal.image} />
+                    </Grid>
+                  </Grid>
+                </Card>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item xs={10}>
+                    <Typography variant="h2" component="h2">
+                      {meal.name}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Box display="flex" justifyContent="flex-end">
+                      <IconButton
+                        onClick={() => setEditing(true)}
+                        size="medium"
+                        color="secondary"
+                      >
+                        <EditRoundedIcon fontSize="medium" />
+                      </IconButton>
+                    </Box>
                   </Grid>
                 </Grid>
-              </Card>
-            </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>{meal.description}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Divider color="secondary" />
+              </Grid>
+              <Grid item xs={12}>
+                <Ingredients portions={meal.portions} />
+              </Grid>
+              <Grid item xs={12}>
+                <Preparation preparation={meal.preparation} />
+              </Grid>
+            </>
+          ) : (
             <Grid item xs={12}>
-              <Grid container spacing={1} alignItems="center">
-                <Grid item xs={10}>
-                  <Typography variant="h1" component="h1">
-                    {meal.name}
-                  </Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Box display="flex" justifyContent="flex-end">
-                    <IconButton
-                      onClick={() => setEditing(true)}
-                      size="medium"
-                      color="secondary"
-                    >
-                      <EditRoundedIcon fontSize="medium" />
-                    </IconButton>
-                  </Box>
+              <MealRegister
+                mealData={mealData}
+                meal={meal}
+                setId={setMealId}
+                editing={editing}
+                setEditing={setEditing}
+              />
+            </Grid>
+          )}
+          {!editing && (
+            <>
+              <Grid item xs={12}>
+                <ScoreComponent meal={meal} />
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h1" component="h2">
+                      Tabela de aminoácidos
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <AminoAcidsTable aminoAcids={meal.aminoAcids} />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>{meal.description}</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Divider color="secondary" />
-            </Grid>
-            <Grid item xs={12}>
-              <Ingredients portions={meal.portions} />
-            </Grid>
-            <Grid item xs={12}>
-              <Preparation preparation={meal.preparation} />
-            </Grid>
-          </>
-        ) : (
-          <Grid item xs={12}>
-            <MealRegister
-              mealData={mealData}
-              meal={meal}
-              setId={setMealId}
-              editing={editing}
-              setEditing={setEditing}
-            />
-          </Grid>
-        )}
-        {!editing && (
-          <>
-            <Grid item xs={12}>
-              <ScoreComponent meal={meal} />
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography variant="h1" component="h2">
-                    Tabela de aminoácidos
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <AminoAcidsTable aminoAcids={meal.aminoAcids} />
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
-        )}
-      </Grid>
-    </MealPageStyle>
-    // </Layout>
+            </>
+          )}
+        </Grid>
+      </MealPageStyle>
+    </Layout>
   );
 };
 

@@ -90,8 +90,10 @@ function theme({ bgBody = '' }: Style) {
         letterSpacing: 1.1,
       },
       h2: {
-        fontSize: '20px',
-        fontWeight: 600,
+        fontFamily: 'Cinzel, Roboto, Helvetica, Arial, sans-serif',
+        color: primary.dark,
+        fontSize: '22px',
+        fontWeight: 400,
         letterSpacing: 1,
       },
       h3: {

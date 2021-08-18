@@ -51,20 +51,13 @@ const Index: FC<{ location: Location }> = ({ location }) => {
           </Layout>
         </Panel>
         <Panel id="meal-panel">
-          <Layout
-            currentPage={CurrentPage.MEAL}
-            pageName="Receita"
-            showFooter={false}
-            headerProps={{ goBackLink: '#main-panel' }}
-          >
-            <MealPanel
-              location={location}
-              mealId={currentMealId}
-              setMealId={setCurrentMealId}
-              editing={editingMeal}
-              setEditing={setEditingMeal}
-            />
-          </Layout>
+          <MealPanel
+            location={location}
+            mealId={currentMealId}
+            setMealId={setCurrentMealId}
+            editing={editingMeal}
+            setEditing={setEditingMeal}
+          />
         </Panel>
         <SEO title="Saúde em pontos" />
       </Box>
