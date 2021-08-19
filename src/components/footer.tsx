@@ -6,7 +6,6 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import RestaurantOutlinedIcon from '@material-ui/icons/RestaurantOutlined';
 import Box from '@material-ui/core/Box';
-import { Link } from 'gatsby';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CurrentPage } from '../services/page.service';
 
@@ -39,33 +38,27 @@ const Footer: FC<Props> = ({ currentPage = CurrentPage.HOME }) => {
       >
         <BottomNavigation>
           <BottomNavigationAction
+            href="#foods-panel"
             label="Alimentos"
             className={classes.button}
             icon={
               currentPage === CurrentPage.FOODS ? (
-                <Link to="/foods">
-                  <LocalPizzaIcon color="primary" />
-                </Link>
+                <LocalPizzaIcon color="primary" />
               ) : (
-                <Link to="/foods">
-                  <LocalPizzaIcon />
-                </Link>
+                <LocalPizzaIcon />
               )
             }
           />
 
           <BottomNavigationAction
+            href="#main-panel"
             label="Início"
             className={classes.button}
             icon={
               currentPage === CurrentPage.HOME ? (
-                <Link to="/">
-                  <HomeIcon color="primary" />
-                </Link>
+                <HomeIcon color="primary" />
               ) : (
-                <Link to="/">
-                  <HomeOutlinedIcon />
-                </Link>
+                <HomeOutlinedIcon />
               )
             }
           />

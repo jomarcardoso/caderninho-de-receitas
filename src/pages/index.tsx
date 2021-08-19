@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -11,6 +11,7 @@ import Panel from '../components/panel/panel';
 import MealPanel from '../panels/meal';
 import SEO from '../components/seo';
 import Page from '../components/page/page';
+import FoodsPanel from '../panels/foods';
 
 const useStyles = makeStyles({
   card: {
@@ -31,10 +32,21 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   const classes = useStyles();
   const [currentMealId, setCurrentMealId] = useState(0);
   const [editingMeal, setEditingMeal] = useState(true);
+  const [hideLeftPanel, setHideLeftPanel] = useState(true);
+
+  useEffect(() => {
+    setHideLeftPanel(false);
+  }, []);
 
   return (
     <Page>
       <Box className={classes.display}>
+        <Panel
+          id="foods-panel"
+          style={{ display: hideLeftPanel ? 'none' : 'initial' }}
+        >
+          <FoodsPanel />
+        </Panel>
         <Panel id="main-panel">
           <Layout currentPage={CurrentPage.HOME} pageName="Saúde em pontos">
             <Grid container spacing={4}>
