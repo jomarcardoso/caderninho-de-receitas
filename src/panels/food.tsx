@@ -4,17 +4,19 @@ import Button from '../components/button/button';
 import { Food, FoodVersion } from '../services/food';
 import Layout from '../components/layout/layout';
 import FoodDetailed from '../components/food-detailed/food-detailed';
+import { HeaderProps } from '../components/header';
 
 interface Props {
   food: Food;
+  headerProps?: HeaderProps;
 }
 
-const FoodPanel: FC<Props> = ({ food }) => {
+const FoodPanel: FC<Props> = ({ food, headerProps }) => {
   const [version, setVersion] = useState<FoodVersion>('RAW');
   const { name = '' } = food;
 
   return (
-    <Layout headerProps={{ pageName: name }}>
+    <Layout headerProps={{ ...headerProps, pageName: name }}>
       <Grid container spacing={4} justifyContent="center">
         <Grid item xs={12}>
           <Grid container spacing={1}>

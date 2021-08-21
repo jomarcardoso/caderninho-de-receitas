@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Dialog from '@material-ui/core/Dialog';
 import { ScrollSpy, createScrollSpyItem } from 'ovos';
+import Slide, { SlideProps } from '@material-ui/core/Slide';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { CurrentPage } from '../services/page.service';
@@ -31,6 +32,10 @@ const useStyles = makeStyles({
     overflow: 'scroll',
   },
 });
+
+const DialogTransition: FC<SlideProps> = (props) => {
+  return <Slide direction="right" {...props} />;
+};
 
 const Index: FC<{ location: Location }> = ({ location }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
@@ -79,8 +84,15 @@ const Index: FC<{ location: Location }> = ({ location }) => {
 
   return (
     <Page>
-      <Dialog fullScreen open={openedFood}>
-        <FoodPanel food={currentFood} />
+      <Dialog
+        fullScreen
+        open={openedFood}
+        TransitionComponent={DialogTransition}
+      >
+        <FoodPanel
+          food={currentFood}
+          headerProps={{ onClose: () => setOpenedFood(false) }}
+        />
       </Dialog>
       <Box className={classes.display} id="root-content">
         <Panel
