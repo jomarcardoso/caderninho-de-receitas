@@ -17,7 +17,6 @@ import FoodsPanel from '../panels/foods';
 import FoodPanel from '../panels/food';
 import { FOOD } from '../services/food';
 import Footer from '../components/footer';
-import Logo from '../components/logo/logo';
 
 const useStyles = makeStyles({
   card: {
@@ -93,7 +92,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
         <Panel id="main-panel">
           <Layout
             currentPage={CurrentPage.HOME}
-            headerProps={{ textAlign: 'center', pageName: <Logo /> }}
+            headerProps={{ textAlign: 'center', pageName: 'Saúde em Pontos' }}
           >
             <Grid container spacing={4}>
               {account.meals.map((meal) => (

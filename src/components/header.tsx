@@ -7,6 +7,7 @@ import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    background: 'white',
     position: 'sticky',
     top: 0,
   },
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: 'white',
   },
 }));
 
@@ -31,7 +31,12 @@ const Header: FC<HeaderProps & AppBarProps> = ({
   const classes = useStyles();
 
   const title = (
-    <Typography variant="h1" component="h1" className={classes.title}>
+    <Typography
+      variant="h1"
+      component="h1"
+      className={classes.title}
+      color="textPrimary"
+    >
       {pageName}
     </Typography>
   );
