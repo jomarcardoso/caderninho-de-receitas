@@ -19,24 +19,18 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  pageName?: string;
   showHeader?: boolean;
   showFooter?: boolean;
   currentPage?: CurrentPage;
   headerProps?: HeaderProps;
 }
 
-const Layout: FC<Props> = ({
-  children,
-  pageName = '',
-  showHeader = true,
-  headerProps,
-}) => {
+const Layout: FC<Props> = ({ children, showHeader = true, headerProps }) => {
   const classes = useStyles();
 
   return (
     <Box className={classes.root} bgcolor="gray.700">
-      {showHeader && <Header {...headerProps} pageName={pageName} />}
+      {showHeader && <Header {...headerProps} />}
       <Main className={classes.main}>{children}</Main>
     </Box>
   );

@@ -44,12 +44,14 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
       return -1;
     }
 
-    // a must be equal to b
     return 0;
   });
 
   return (
-    <Layout pageName="Alimentos" currentPage={CurrentPage.FOODS}>
+    <Layout
+      headerProps={{ pageName: 'Alimentos' }}
+      currentPage={CurrentPage.FOODS}
+    >
       <TableContainer>
         <Table size="small" aria-label="a dense table">
           <TableHead>

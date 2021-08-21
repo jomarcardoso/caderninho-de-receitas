@@ -3,7 +3,7 @@ import Advertise from '../components/advertise';
 import Layout from '../components/layout/layout';
 
 const AdvertisePage: FC = () => (
-  <Layout pageName="Esclarecimentos">
+  <Layout headerProps={{ pageName: 'Esclarecimentos' }}>
     <Advertise />
   </Layout>
 );

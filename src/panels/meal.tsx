@@ -109,9 +109,8 @@ const MealPanel: FC<{
   return (
     <Layout
       currentPage={CurrentPage.MEAL}
-      pageName="Receita"
       showFooter={false}
-      headerProps={{ goBackLink: '#main-panel' }}
+      headerProps={{ pageName: 'Receita' }}
     >
       <MealPageStyle editing={editing}>
         <Grid container spacing={4}>
