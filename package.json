@@ -29,6 +29,7 @@
     "ovos": "^0.11.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
     "sass": "^1.37.5"
   },
   "devDependencies": {

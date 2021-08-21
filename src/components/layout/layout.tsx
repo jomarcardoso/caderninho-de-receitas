@@ -3,7 +3,6 @@ import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Header, { HeaderProps } from '../header';
 import Main from '../main';
-import Footer from '../footer';
 import './layout.scss';
 
 import { CurrentPage } from '../../services/page.service';
