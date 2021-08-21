@@ -56,8 +56,6 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
             <TableRow>
               <TableCell>Medida 100g</TableCell>
               <TableCell align="right">Calorias</TableCell>
-              <TableCell align="right">Índice Glicêmico</TableCell>
-              <TableCell align="right">Acidificação</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

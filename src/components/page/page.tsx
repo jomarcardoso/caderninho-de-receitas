@@ -29,8 +29,13 @@ export const borderPrimary = {
 };
 
 export const borderSecondary = {
-  borderColor: dark,
+  borderColor: gray.dark,
   borderWidth: 1,
+};
+
+export const borderLight = {
+  borderColor: gray.lighter,
+  borderWidth: 0.5,
 };
 
 function theme({ bgBody = '' }: Style) {

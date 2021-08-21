@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Dialog from '@material-ui/core/Dialog';
+import { ScrollSpy, createScrollSpyItem } from 'ovos';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { CurrentPage } from '../services/page.service';
@@ -15,6 +16,7 @@ import Page from '../components/page/page';
 import FoodsPanel from '../panels/foods';
 import FoodPanel from '../panels/food';
 import { FOOD } from '../services/food';
+import Footer from '../components/footer';
 
 const useStyles = makeStyles({
   card: {
@@ -25,7 +27,7 @@ const useStyles = makeStyles({
     width: '100vw',
     scrollSnapType: 'x mandatory',
     scrollBehavior: 'smooth',
-    height: '100vh',
+    height: 'calc(100vh - 57px)',
     overflow: 'scroll',
   },
 });
@@ -38,6 +40,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [openedFood, setOpenedFood] = useState(false);
+  const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
 
   useEffect(() => {
     setHideLeftPanel(false);
@@ -49,12 +52,37 @@ const Index: FC<{ location: Location }> = ({ location }) => {
     setOpenedFood(true);
   }, [currentFood]);
 
+  useEffect(() => {
+    ScrollSpy({
+      method: 'CURRENT',
+      axis: 'x',
+      elRelative: document.querySelector('#root-content') as HTMLElement,
+      list: [
+        createScrollSpyItem({
+          callback: ({ active }) => active && setCurrentPage(CurrentPage.FOODS),
+          elContent: document.querySelector('#foods-panel') as HTMLElement,
+          elMenu: document.querySelector('#foods-panel') as HTMLElement,
+        }),
+        createScrollSpyItem({
+          callback: ({ active }) => active && setCurrentPage(CurrentPage.HOME),
+          elContent: document.querySelector('#main-panel') as HTMLElement,
+          elMenu: document.querySelector('#main-panel') as HTMLElement,
+        }),
+        createScrollSpyItem({
+          callback: ({ active }) => active && setCurrentPage(CurrentPage.MEAL),
+          elContent: document.querySelector('#meal-panel') as HTMLElement,
+          elMenu: document.querySelector('#meal-panel') as HTMLElement,
+        }),
+      ],
+    });
+  }, []);
+
   return (
     <Page>
       <Dialog fullScreen open={openedFood}>
         <FoodPanel food={currentFood} />
       </Dialog>
-      <Box className={classes.display}>
+      <Box className={classes.display} id="root-content">
         <Panel
           id="foods-panel"
           style={{ display: hideLeftPanel ? 'none' : 'initial' }}
@@ -87,6 +115,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
         </Panel>
         <SEO title="Saúde em pontos" />
       </Box>
+      <Footer currentPage={currentPage} />
     </Page>
   );
 };

@@ -8,12 +8,14 @@ import RestaurantOutlinedIcon from '@material-ui/icons/RestaurantOutlined';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CurrentPage } from '../services/page.service';
+import { borderLight } from './page/page';
 
 const useStyles = makeStyles({
   root: {
-    position: 'sticky',
     bottom: 0,
     overflow: 'hidden',
+    position: 'sticky',
+    ...borderLight,
   },
   button: {
     display: 'block',
@@ -29,13 +31,7 @@ const Footer: FC<Props> = ({ currentPage = CurrentPage.HOME }) => {
 
   function render() {
     return (
-      <Box
-        borderTop={1}
-        borderColor="text.secondary"
-        component="footer"
-        className={classes.root}
-        zIndex={1}
-      >
+      <Box borderTop={1} component="footer" className={classes.root} zIndex={1}>
         <BottomNavigation>
           <BottomNavigationAction
             href="#foods-panel"

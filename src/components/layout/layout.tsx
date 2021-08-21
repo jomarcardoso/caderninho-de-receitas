@@ -12,8 +12,6 @@ const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
-    position: 'relative',
   },
   main: {
     flex: 1,
@@ -32,8 +30,6 @@ const Layout: FC<Props> = ({
   children,
   pageName = '',
   showHeader = true,
-  showFooter = true,
-  currentPage = CurrentPage.NONE,
   headerProps,
 }) => {
   const classes = useStyles();
@@ -42,7 +38,6 @@ const Layout: FC<Props> = ({
     <Box className={classes.root} bgcolor="gray.700">
       {showHeader && <Header {...headerProps} pageName={pageName} />}
       <Main className={classes.main}>{children}</Main>
-      {showFooter && <Footer currentPage={currentPage} />}
     </Box>
   );
 };
