@@ -10,7 +10,6 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import Divider from '@material-ui/core/Divider';
 import Card from '../components/card/card';
 import StyleContext from '../contexts/style';
-// import Layout from '../components/layout/layout';
 import Image from '../components/image';
 import { ACCOUNT } from '../services/account.service';
 import AccountContext from '../contexts/account-context';
@@ -18,7 +17,6 @@ import { MealService, MEAL_DATA, MEAL } from '../services/meal';
 import { UrlService } from '../services/url';
 import ScoreComponent from '../components/score';
 import MealRegister from '../components/meal-register';
-// import { CurrentPage } from '../services/page.service';
 import AminoAcidsTable from '../components/aminoacids-table';
 import FoodsContext from '../contexts/foods-context';
 import Ingredients from '../components/ingredients/ingredients';
@@ -70,16 +68,6 @@ const MealPanel: FC<{
   let meal = MEAL;
   let mealData = MEAL_DATA;
   const classes = useStyles();
-
-  // function getPageName(): string {
-  //   if (id) {
-  //     return editing ? 'Editar receita' : 'Receita';
-  //   }
-
-  //   return 'Nova receita';
-  // }
-
-  // const pageName = getPageName();
 
   if (sharedString) {
     // eslint-disable-next-line react-hooks/exhaustive-deps

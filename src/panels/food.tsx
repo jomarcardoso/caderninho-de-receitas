@@ -16,7 +16,7 @@ const FoodPanel: FC<Props> = ({ food, headerProps }) => {
   const { name = '' } = food;
 
   return (
-    <Layout headerProps={{ ...headerProps, pageName: name }}>
+    <Layout headerProps={{ ...headerProps, pageName: name, theme: 'dark' }}>
       <Grid container spacing={4} justifyContent="center">
         <Grid item xs={12}>
           <Grid container spacing={1}>
