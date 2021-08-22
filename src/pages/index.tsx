@@ -1,9 +1,10 @@
+/* eslint-disable */
 import React, { FC, useContext, useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Dialog from '@material-ui/core/Dialog';
-import { ScrollSpy, createScrollSpyItem } from 'ovos';
+// import { ScrollSpy, createScrollSpyItem } from 'ovos';
 import Slide, { SlideProps } from '@material-ui/core/Slide';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
@@ -58,28 +59,41 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   }, [currentFood]);
 
   useEffect(() => {
-    ScrollSpy({
-      method: 'CURRENT',
-      axis: 'x',
-      elRelative: document.querySelector('#root-content') as HTMLElement,
-      list: [
-        createScrollSpyItem({
-          callback: ({ active }) => active && setCurrentPage(CurrentPage.FOODS),
-          elContent: document.querySelector('#foods-panel') as HTMLElement,
-          elMenu: document.querySelector('#foods-panel') as HTMLElement,
-        }),
-        createScrollSpyItem({
-          callback: ({ active }) => active && setCurrentPage(CurrentPage.HOME),
-          elContent: document.querySelector('#main-panel') as HTMLElement,
-          elMenu: document.querySelector('#main-panel') as HTMLElement,
-        }),
-        createScrollSpyItem({
-          callback: ({ active }) => active && setCurrentPage(CurrentPage.MEAL),
-          elContent: document.querySelector('#meal-panel') as HTMLElement,
-          elMenu: document.querySelector('#meal-panel') as HTMLElement,
-        }),
-      ],
-    });
+    const interval = setInterval(async () => {
+      if (typeof window === 'undefined') {
+        return;
+      }
+
+      const { ScrollSpy, createScrollSpyItem } = await import('ovos');
+
+      ScrollSpy({
+        method: 'CURRENT',
+        axis: 'x',
+        elRelative: document.querySelector('#root-content') as HTMLElement,
+        list: [
+          createScrollSpyItem({
+            callback: ({ active }) =>
+              active && setCurrentPage(CurrentPage.FOODS),
+            elContent: document.querySelector('#foods-panel') as HTMLElement,
+            elMenu: document.querySelector('#foods-panel') as HTMLElement,
+          }),
+          createScrollSpyItem({
+            callback: ({ active }) =>
+              active && setCurrentPage(CurrentPage.HOME),
+            elContent: document.querySelector('#main-panel') as HTMLElement,
+            elMenu: document.querySelector('#main-panel') as HTMLElement,
+          }),
+          createScrollSpyItem({
+            callback: ({ active }) =>
+              active && setCurrentPage(CurrentPage.MEAL),
+            elContent: document.querySelector('#meal-panel') as HTMLElement,
+            elMenu: document.querySelector('#meal-panel') as HTMLElement,
+          }),
+        ],
+      });
+
+      clearInterval(interval);
+    }, 1000);
   }, []);
 
   return (

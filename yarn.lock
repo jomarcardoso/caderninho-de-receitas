@@ -11973,10 +11973,10 @@ os-tmpdir@~1.0.2:
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
 
-ovos@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/ovos/-/ovos-0.11.0.tgz#521826265a85d2838593a2bf26b01a13ca2a4f17"
-  integrity sha512-UIszjA/YfKASjeF9yoUm2GVv3SYgXE42mldQouWLHYXGe4FG8FLWIwk4+ZQbQnR8xWBn823+rUJYgWGDP+A3/Q==
+ovos@^0.11.3:
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/ovos/-/ovos-0.11.3.tgz#a7f3307146a2970ec23bbee1dcba568a173eca05"
+  integrity sha512-MzIn/CG4qmrWvjJcZGL+Jnpg8cNV6ya+bLsF+fslqv9L4HnTDg2FWhChqZfo+51e6qYw8McA7JaI1GTqF2ftaQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
     lit-element "^2.5.1"
