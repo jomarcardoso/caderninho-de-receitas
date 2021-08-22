@@ -5,6 +5,14 @@ module.exports = {
     author: `@jomarcardoso`,
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        typekit: {
+          id: process.env.TYPEKIT_ID,
+        },
+      },
+    },
     'gatsby-plugin-ts-config',
     `gatsby-plugin-typescript`,
     'gatsby-plugin-typescript-checker',

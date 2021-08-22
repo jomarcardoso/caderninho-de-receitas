@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -10,7 +10,6 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import Divider from '@material-ui/core/Divider';
 import Card from '../components/card/card';
 import StyleContext from '../contexts/style';
-import Layout from '../components/layout/layout';
 import Image from '../components/image';
 import { ACCOUNT } from '../services/account.service';
 import AccountContext from '../contexts/account-context';
@@ -18,11 +17,12 @@ import { MealService, MEAL_DATA, MEAL } from '../services/meal';
 import { UrlService } from '../services/url';
 import ScoreComponent from '../components/score';
 import MealRegister from '../components/meal-register';
-import { CurrentPage } from '../services/page.service';
 import AminoAcidsTable from '../components/aminoacids-table';
 import FoodsContext from '../contexts/foods-context';
 import Ingredients from '../components/ingredients/ingredients';
 import Preparation from '../components/preparation/preparation';
+import Layout from '../components/layout/layout';
+import { CurrentPage } from '../services/page.service';
 
 const useStyles = makeStyles({
   imageBanner: {
@@ -55,29 +55,24 @@ const MealPageStyle: FC<{ editing: boolean }> = ({
   return <>{children}</>;
 };
 
-const MealPage: FC<{ location: Location }> = ({ location }) => {
+const MealPanel: FC<{
+  location: Location;
+  mealId: number;
+  setMealId(id: number): void;
+  editing: boolean;
+  setEditing(editing: boolean): void;
+}> = ({ location, mealId: id = 0, setMealId, editing = false, setEditing }) => {
   const sharedString = location.search;
   const foods = useContext(FoodsContext);
-  const initialId = Number(location?.hash?.replace('#', '') ?? 0);
-  const [id, setId] = useState(initialId);
   const { account = ACCOUNT } = useContext(AccountContext);
   let meal = MEAL;
   let mealData = MEAL_DATA;
-  const [editing, setEditing] = useState(!id);
   const classes = useStyles();
 
-  function getPageName(): string {
-    if (id) {
-      return editing ? 'Editar receita' : 'Receita';
-    }
-
-    return 'Nova receita';
-  }
-
-  const pageName = getPageName();
-
   if (sharedString) {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     mealData = MealService.unFormatToShare(sharedString);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     meal = MealService.format({ mealData, foods });
   } else {
     meal = account.meals.find(({ id: mealId }) => mealId === id) ?? MEAL;
@@ -86,7 +81,7 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
 
   async function handleShare() {
     const toShare = MealService.formatToShare(mealData);
-    const url = `${location.origin}/meal/?${toShare}` ?? '';
+    const url = `${location.origin}?${toShare}#meal-panel` ?? '';
     const title = mealData.name || 'Receita';
     const urlShort = await UrlService.shortener(url);
 
@@ -100,7 +95,11 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
   }
 
   return (
-    <Layout currentPage={CurrentPage.MEAL} pageName={pageName}>
+    <Layout
+      currentPage={CurrentPage.MEAL}
+      showFooter={false}
+      headerProps={{ pageName: 'Receita' }}
+    >
       <MealPageStyle editing={editing}>
         <Grid container spacing={4}>
           {!editing ? (
@@ -125,7 +124,7 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
               <Grid item xs={12}>
                 <Grid container spacing={1} alignItems="center">
                   <Grid item xs={10}>
-                    <Typography variant="h1" component="h1">
+                    <Typography variant="h2" component="h2">
                       {meal.name}
                     </Typography>
                   </Grid>
@@ -160,7 +159,7 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
               <MealRegister
                 mealData={mealData}
                 meal={meal}
-                setId={setId}
+                setId={setMealId}
                 editing={editing}
                 setEditing={setEditing}
               />
@@ -191,4 +190,4 @@ const MealPage: FC<{ location: Location }> = ({ location }) => {
   );
 };
 
-export default MealPage;
+export default MealPanel;

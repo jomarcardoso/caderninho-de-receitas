@@ -19,8 +19,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Card from './card/card';
 import { Meal } from '../services/meal';
 // import ResumedPortion from './resumed-portion';
-import { light, borderSecondary } from './layout/layout';
 import AccountContext from '../contexts/account-context';
+import { borderSecondary, light } from './page/page';
 
 const useStyles = makeStyles({
   cardLink: {
@@ -41,9 +41,11 @@ const useStyles = makeStyles({
 
 interface Props {
   meal: Meal;
+  setMealId(id: number): void;
+  setEditingMeal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MealCard: FC<Props> = ({ meal }) => {
+const MealCard: FC<Props> = ({ meal, setMealId, setEditingMeal }) => {
   const { setAccount } = useContext(AccountContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<Element | null>();
@@ -61,6 +63,11 @@ const MealCard: FC<Props> = ({ meal }) => {
     handleClose();
   }
 
+  function handleClickLink() {
+    setMealId(meal.id);
+    setEditingMeal(false);
+  }
+
   const mainIngredients = meal.portions.sort(
     (portionBefore, portionCurrent) =>
       portionCurrent.quantity - portionBefore.quantity,
@@ -74,13 +81,13 @@ const MealCard: FC<Props> = ({ meal }) => {
         }
         color="textSecondary"
         title={
-          <Link
-            to={`/meal#${meal.id}`}
-            state={{ meal }}
+          <a
+            href="#meal-panel"
+            onClick={handleClickLink}
             className={classes.cardLink}
           >
             <Typography variant="h3">{meal.name}</Typography>
-          </Link>
+          </a>
         }
         action={
           <div>
