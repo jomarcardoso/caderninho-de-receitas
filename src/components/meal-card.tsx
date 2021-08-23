@@ -86,7 +86,7 @@ const MealCard: FC<Props> = ({ meal, setMealId, setEditingMeal }) => {
             onClick={handleClickLink}
             className={classes.cardLink}
           >
-            <Typography variant="h3">{meal.name}</Typography>
+            <Typography variant="h2">{meal.name}</Typography>
           </a>
         }
         action={

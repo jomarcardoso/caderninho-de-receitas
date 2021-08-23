@@ -2,13 +2,25 @@ import React, { FC, useEffect, useState } from 'react';
 // @ts-expect-error instalação esquisita
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ThemeTopLayout from 'gatsby-theme-material-ui-top-layout/src/components/top-layout';
-import { createTheme } from '@material-ui/core/styles';
+import createTheme from '@material-ui/core/styles/createTheme';
+import { PaletteColor } from '@material-ui/core/styles/createPalette';
 import StyleContext, { Style } from '../../contexts/style';
 
-export const primary = {
-  light: '#a18278',
+const fontFamilyDisplay = 'Cinzel, Roboto, Helvetica, Arial, sans-serif';
+const fontFamilyText = 'Dosis, Roboto, Helvetica, Arial, sans-serif';
+
+export const primary: PaletteColor = {
+  light: '#947368',
   main: '#87695e',
-  dark: '#695149',
+  dark: '#6E564D',
+  contrastText: '#ffffff',
+};
+
+export const secondary: PaletteColor = {
+  light: '#4d4d4d',
+  main: '#191919',
+  dark: '#0a0a0a',
+  contrastText: '#ffffff',
 };
 
 export const dark = '#191919';
@@ -42,75 +54,58 @@ function theme({ bgBody = '' }: Style) {
   return createTheme({
     palette: {
       primary,
-      secondary: {
-        main: dark,
-      },
-      // action,
+      secondary,
       divider: gray.dark,
-      // grey: {
-      //   '800': '#f4f4f4',
-      //   '700': '#f1f1f1',
-      //   '600': '#e4e4e4',
-      //   '600': '#c9c9c9',
-      // },
       background: {
         default: bgBody || light,
-        // paper: '#D7D6D6',
-        // paper: '#BEB2C8',
+        paper: '#ffffff',
       },
-      // type: 'dark',
       text: {
         primary: dark,
         secondary: dark,
       },
-      // success: {
-      //   main: '#4d7a60',
-      // },
-      // warning: {
-      //   main: '#7a794d',
-      // },
-      // error: {
-      //   main: '#7a4d4d',
-      // },
     },
     shape: {
       borderRadius: 4,
     },
     typography: {
-      allVariants: {
-        fontFamily: 'Dosis, Roboto, Helvetica, Arial, sans-serif',
-        letterSpacing: 1.05,
-      },
+      fontFamily: fontFamilyText,
+      fontSize: 14,
       body1: {
         fontWeight: 200,
       },
       body2: {
         fontWeight: 200,
       },
+      button: {
+        fontFamily: fontFamilyDisplay,
+        letterSpacing: 1,
+      },
       h1: {
-        fontFamily: 'Cinzel, Roboto, Helvetica, Arial, sans-serif',
-        fontSize: '24px',
+        fontFamily: fontFamilyDisplay,
+        fontSize: '23px',
         fontWeight: 400,
-        color: primary.dark,
-        letterSpacing: 1.1,
+        color: secondary.main,
+        letterSpacing: 1,
       },
       h2: {
-        fontFamily: 'Cinzel, Roboto, Helvetica, Arial, sans-serif',
+        fontFamily: fontFamilyDisplay,
         color: primary.dark,
-        fontSize: '22px',
+        fontSize: '21px',
         fontWeight: 400,
         letterSpacing: 1,
       },
       h3: {
-        letterSpacing: 1,
-        color: primary.dark,
-        fontSize: '20px',
+        color: secondary.main,
+        fontSize: '18px',
         fontWeight: 600,
-        textTransform: 'capitalize',
+        letterSpacing: 1,
       },
       h4: {
-        fontSize: '20px',
+        color: primary.dark,
+        fontSize: '16px',
         fontWeight: 600,
+        letterSpacing: 1,
       },
     },
   });

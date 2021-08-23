@@ -24,6 +24,7 @@ import {
   garlic,
   strawberry,
   orange,
+  water,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1205,6 +1206,20 @@ const foods: Array<FoodData> = [
       {
         quantity: 30,
         type: 'SLICE',
+      },
+    ],
+  },
+  {
+    ...format(water as unknown as FoodMyFoodData),
+    id: 52,
+    name: 'Água',
+    enName: 'water',
+    image: '/images/food/water.svg',
+    unitOfMeasurement: UnitOfMeasurement.liter,
+    oneMeasures: [
+      {
+        quantity: 240,
+        type: 'CUP',
       },
     ],
   },
