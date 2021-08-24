@@ -83,7 +83,7 @@ function theme({ bgBody = '' }: Style) {
       },
       h1: {
         fontFamily: fontFamilyDisplay,
-        fontSize: '23px',
+        fontSize: '21px',
         fontWeight: 400,
         color: secondary.main,
         letterSpacing: 1,
@@ -91,18 +91,18 @@ function theme({ bgBody = '' }: Style) {
       h2: {
         fontFamily: fontFamilyDisplay,
         color: primary.dark,
-        fontSize: '21px',
+        fontSize: '19px',
         fontWeight: 400,
         letterSpacing: 1,
       },
       h3: {
-        color: secondary.main,
+        color: primary.dark,
         fontSize: '18px',
         fontWeight: 600,
         letterSpacing: 1,
       },
       h4: {
-        color: primary.dark,
+        color: secondary.main,
         fontSize: '16px',
         fontWeight: 600,
         letterSpacing: 1,

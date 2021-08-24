@@ -8,6 +8,8 @@ interface Props {
 }
 
 const Preparation: FC<Props> = ({ preparation = '' }) => {
+  if (!preparation) return <></>;
+
   return (
     <Section title="Modo de preparo">
       <Grid container spacing={1}>
