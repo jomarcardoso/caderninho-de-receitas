@@ -100,11 +100,16 @@ const MealPanel: FC<{
     });
   }
 
+  function handleNewMeal() {
+    setEditing(true);
+    setMealId(0);
+  }
+
   return (
     <Layout
       currentPage={CurrentPage.MEAL}
       showFooter={false}
-      headerProps={{ pageName: meal.name }}
+      headerProps={{ pageName: meal.name || 'Nova receita' }}
     >
       <MealPageStyle editing={editing}>
         <Grid container spacing={4}>
@@ -190,14 +195,17 @@ const MealPanel: FC<{
             </>
           )}
         </Grid>
-        <Fab
-          size="small"
-          color="primary"
-          aria-label="nova receita"
-          className={classes.buttonNew}
-        >
-          <AddIcon />
-        </Fab>
+        {!editing && (
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="nova receita"
+            className={classes.buttonNew}
+            onClick={handleNewMeal}
+          >
+            <AddIcon />
+          </Fab>
+        )}
       </MealPageStyle>
     </Layout>
   );

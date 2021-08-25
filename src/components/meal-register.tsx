@@ -167,7 +167,7 @@ const MealRegister: FC<Props> = ({
                                 value={value}
                                 onBlur={(event) => {
                                   formikHandleBlur(event);
-                                  handleBlur(event);
+                                  handleBlur(event, index);
                                 }}
                               />
                             </FormControl>

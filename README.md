@@ -43,6 +43,7 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - [açucar](https://www.flaticon.com/premium-icon/sugar_2315968?term=sugar&page=1&position=11&page=1&position=11&related_id=2315968&origin=search)
 - [Milho](https://www.flaticon.com/premium-icon/corn_2303677?term=corn&page=1&position=64&page=1&position=64&related_id=2303677&origin=search)
 - [Molho de tomate](https://www.flaticon.com/premium-icon/sauce_3093568?term=sauce&page=1&position=6&page=1&position=6&related_id=3093568&origin=search)
+- [Salsa](https://www.flaticon.com/free-icon/parsley_680947?term=parsley&page=1&position=8&page=1&position=8&related_id=680947&origin=search)
 
 ## URL Shortener
 

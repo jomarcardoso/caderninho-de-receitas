@@ -1223,6 +1223,13 @@ const foods: Array<FoodData> = [
       },
     ],
   },
+  {
+    id: 53,
+    name: 'Salsa',
+    enName: 'parsley',
+    image: '/images/food/parsley.svg',
+    keys: ['salsinha', 'temperinho', 'temperinho verde', 'tempero verde'],
+  },
 ];
 
 fs.writeFileSync(

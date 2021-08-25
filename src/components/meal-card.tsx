@@ -120,36 +120,19 @@ const MealCard: FC<Props> = ({ meal, setMealId, setEditingMeal }) => {
           </div>
         }
       />
-      <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography>{meal.description}</Typography>
-          </Grid>
-          {/* <Grid item xs={12}>
-            <Grid container spacing={2}>
-              {mainIngredients.map((portion) => (
-                <Grid item xs={3} key={portion.food.id}>
-                  <ResumedPortion padding={6} portion={portion} />
-                </Grid>
-              ))}
+      {meal.description && (
+        <CardContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography>{meal.description}</Typography>
             </Grid>
-          </Grid> */}
-        </Grid>
-      </CardContent>
+          </Grid>
+        </CardContent>
+      )}
       <Box bgcolor="grey.300" className={classes.cardBody}>
         <CardContent>
           <Grid container spacing={2}>
-            {/* <Grid item xs={12}>
-              <Typography>{meal.description}</Typography>
-            </Grid> */}
             <Grid item xs={12}>
-              {/* <Grid container spacing={2}>
-                {mainIngredients.map((portion) => (
-                  <Grid item xs={3} key={portion.food.id}>
-                    <ResumedPortion padding={6} portion={portion} />
-                  </Grid>
-                ))}
-              </Grid> */}
               <Typography component="h3" variant="h3">
                 Ingredientes
               </Typography>
