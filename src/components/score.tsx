@@ -35,7 +35,7 @@ const ScoreComponent: FC<Props> = ({ meal }) => {
       <Grid item xs={6} sm={4} className={classes.result}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography component="p" variant="h1" align="center">
+            <Typography component="p" variant="h3" align="center">
               {Math.round(Number(value))}
             </Typography>
             <Typography component="h3" variant="h4" align="center">

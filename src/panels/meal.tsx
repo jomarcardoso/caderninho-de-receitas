@@ -1,13 +1,12 @@
 import React, { FC, useContext, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import ShareIcon from '@material-ui/icons/Share';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import ButtonIcon from '@material-ui/core/Button';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
-import Divider from '@material-ui/core/Divider';
 import Card from '../components/card/card';
 import StyleContext from '../contexts/style';
 import Image from '../components/image';
@@ -23,16 +22,23 @@ import Ingredients from '../components/ingredients/ingredients';
 import Preparation from '../components/preparation/preparation';
 import Layout from '../components/layout/layout';
 import { CurrentPage } from '../services/page.service';
+import Section from '../components/section/section';
 
 const useStyles = makeStyles({
   imageBanner: {
     padding: '30px',
     position: 'relative',
   },
-  buttonBanner: {
-    position: 'absolute',
-    top: '10px',
-    right: '10px',
+  buttonTool: {
+    minWidth: 'initial',
+  },
+  buttonNew: {
+    position: 'sticky',
+    bottom: 15,
+    right: 0,
+    display: 'flex',
+    marginLeft: 'auto',
+    marginTop: 15,
   },
 });
 
@@ -94,59 +100,65 @@ const MealPanel: FC<{
     });
   }
 
+  function handleNewMeal() {
+    setEditing(true);
+    setMealId(0);
+  }
+
   return (
     <Layout
       currentPage={CurrentPage.MEAL}
       showFooter={false}
-      headerProps={{ pageName: 'Receita' }}
+      headerProps={{ pageName: meal.name || 'Nova receita' }}
     >
       <MealPageStyle editing={editing}>
         <Grid container spacing={4}>
           {!editing ? (
             <>
               <Grid item xs={12}>
-                <Card className={classes.imageBanner}>
-                  <Fab
-                    size="small"
-                    color="secondary"
-                    className={classes.buttonBanner}
-                    onClick={handleShare}
-                  >
-                    <ShareIcon fontSize="small" />
-                  </Fab>
-                  <Grid container justifyContent="center">
-                    <Grid item xs={6} sm={5} md={4}>
-                      <Image src={meal.image} />
+                <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <Card className={classes.imageBanner}>
+                      <Grid container justifyContent="center">
+                        <Grid item xs={6} sm={5} md={4}>
+                          <Image src={meal.image} />
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container spacing={1}>
+                      <Grid item>
+                        <ButtonIcon
+                          className={classes.buttonTool}
+                          onClick={() => setEditing(true)}
+                          size="small"
+                          color="secondary"
+                          title="editar"
+                        >
+                          <EditRoundedIcon fontSize="medium" />
+                        </ButtonIcon>
+                      </Grid>
+                      <Grid item>
+                        <ButtonIcon
+                          className={classes.buttonTool}
+                          onClick={handleShare}
+                          size="small"
+                          color="secondary"
+                          title="compartilhar"
+                        >
+                          <ShareIcon fontSize="medium" />
+                        </ButtonIcon>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </Card>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={10}>
-                    <Typography variant="h2" component="h2">
-                      {meal.name}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Box display="flex" justifyContent="flex-end">
-                      <IconButton
-                        onClick={() => setEditing(true)}
-                        size="medium"
-                        color="secondary"
-                      >
-                        <EditRoundedIcon fontSize="medium" />
-                      </IconButton>
-                    </Box>
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Typography>{meal.description}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider color="secondary" />
-              </Grid>
+              {meal.description && (
+                <Grid item xs={12}>
+                  <Typography>{meal.description}</Typography>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <Ingredients portions={meal.portions} />
               </Grid>
@@ -168,23 +180,32 @@ const MealPanel: FC<{
           {!editing && (
             <>
               <Grid item xs={12}>
+                <Typography variant="h1" component="h2">
+                  Informações nutricionais
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
                 <ScoreComponent meal={meal} />
               </Grid>
               <Grid item xs={12}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography variant="h1" component="h2">
-                      Tabela de aminoácidos
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <AminoAcidsTable aminoAcids={meal.aminoAcids} />
-                  </Grid>
-                </Grid>
+                <Section title="Tabela de aminoácidos">
+                  <AminoAcidsTable aminoAcids={meal.aminoAcids} />
+                </Section>
               </Grid>
             </>
           )}
         </Grid>
+        {!editing && (
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="nova receita"
+            className={classes.buttonNew}
+            onClick={handleNewMeal}
+          >
+            <AddIcon />
+          </Fab>
+        )}
       </MealPageStyle>
     </Layout>
   );
