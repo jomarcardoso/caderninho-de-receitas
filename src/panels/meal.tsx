@@ -180,7 +180,7 @@ const MealPanel: FC<{
           {!editing && (
             <>
               <Grid item xs={12}>
-                <Typography variant="h1" component="h2">
+                <Typography variant="h2" component="h2" color="secondary">
                   Informações nutricionais
                 </Typography>
               </Grid>

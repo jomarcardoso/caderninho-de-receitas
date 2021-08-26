@@ -25,6 +25,7 @@ import {
   strawberry,
   orange,
   water,
+  beef,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1229,6 +1230,14 @@ const foods: Array<FoodData> = [
     enName: 'parsley',
     image: '/images/food/parsley.svg',
     keys: ['salsinha', 'temperinho', 'temperinho verde', 'tempero verde'],
+  },
+  {
+    ...format(beef as unknown as FoodMyFoodData),
+    id: 54,
+    name: 'Carne bovina',
+    enName: 'beef',
+    image: '/images/food/beef.svg',
+    keys: ['carne', 'carne de gado', 'carne moída', 'bife'],
   },
 ];
 

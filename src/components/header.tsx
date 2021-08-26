@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, ReactElement } from 'react';
 import AppBar, { AppBarProps } from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -25,6 +25,7 @@ export interface HeaderProps {
   textAlign?: 'center' | 'left' | 'right';
   onClose?(): void;
   theme?: 'light' | 'dark';
+  tools?: ReactNode | ReactElement;
 }
 
 const Header: FC<HeaderProps & AppBarProps> = ({
@@ -32,6 +33,7 @@ const Header: FC<HeaderProps & AppBarProps> = ({
   textAlign = 'left',
   onClose,
   theme = 'light',
+  tools,
 }) => {
   const classes = useStyles();
 
@@ -57,6 +59,7 @@ const Header: FC<HeaderProps & AppBarProps> = ({
       <Container maxWidth="md" disableGutters>
         <Toolbar className={classes.toolbar}>
           {title}
+          {tools}
           {onClose && (
             <IconButton
               onClick={onClose}

@@ -11,14 +11,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
-// import CardMedia from '@material-ui/core/CardMedia';
 import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Card from './card/card';
 import { Meal } from '../services/meal';
-// import ResumedPortion from './resumed-portion';
 import AccountContext from '../contexts/account-context';
 import { borderSecondary, light } from './page/page';
 

@@ -41,3 +41,5 @@ export { default as strawberry } from './strawberry.json';
 export { default as orange } from './orange.json';
 
 export { default as water } from './water.json';
+
+export { default as beef } from './beef.json';
