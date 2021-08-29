@@ -17,6 +17,7 @@ const useFoods = (): Array<Food> => {
             carbohydrates
             proteins
             unitOfMeasurement
+            recipe
             minerals {
               sodium
               calcium

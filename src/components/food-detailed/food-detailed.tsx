@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Round from 'lodash/round';
 import Image from '../image';
 import AminoAcidsTable from '../aminoacids-table';
-import { Food, FoodVersion } from '../../services/food';
+import { Food } from '../../services/food';
 import { VITAMINS } from '../../services/vitamin';
 import { MINERALS } from '../../services/mineral';
 import { Nutrient } from '../../services/nutrient.constants';
@@ -14,7 +14,6 @@ import { Nutrient } from '../../services/nutrient.constants';
 interface Props {
   food: Food;
   quantity?: number;
-  version?: FoodVersion;
 }
 
 export type FoodDetailedProps = GridProps & Props;
@@ -76,9 +75,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
   return (
     <Grid container spacing={4} justifyContent="center" {...props}>
-      <Grid item xs={8} sm={6} md={4}>
-        <Image src={image} alt="" />
-      </Grid>
+      <Image src={image} alt="" aspectRatio={1.25} />
       <Grid item xs={12}>
         <List>
           {renderQuality({ name: 'Índice Glicêmico', value: gi })}

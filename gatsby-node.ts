@@ -21,6 +21,7 @@ exports.createPages = ({ graphql, actions }) => {
               carbohydrates
               proteins
               unitOfMeasurement
+              recipe
               minerals {
                 sodium
                 calcium

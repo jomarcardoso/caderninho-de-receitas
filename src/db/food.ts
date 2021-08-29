@@ -574,7 +574,8 @@ const foods: Array<FoodData> = [
     enName: 'carrot',
     name: 'Cenoura',
     gi: 16,
-    image: '/images/food/carrot.svg',
+    image:
+      'https://images.unsplash.com/photo-1582515073490-39981397c445?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     keys: ['cenoura ralada', 'cenouras raladas', 'pedaços de cenoura'],
     oneMeasures: [
       {
