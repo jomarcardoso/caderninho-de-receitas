@@ -110,6 +110,7 @@ export interface Food {
   version: FoodVersion;
   rawId: number;
   recipe: boolean;
+  icon: string;
 }
 
 export interface FoodData
@@ -178,4 +179,5 @@ export const FOOD: Food = {
   version: 'RAW',
   rawId: 0,
   recipe: false,
+  icon: '',
 };

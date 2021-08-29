@@ -23,6 +23,7 @@ import Layout from '../components/layout/layout';
 import { CurrentPage } from '../services/page.service';
 import Section from '../components/section/section';
 import Image from '../components/image';
+import { Food } from '../services/food';
 
 const useStyles = makeStyles({
   buttonTool: {
@@ -63,7 +64,15 @@ const MealPanel: FC<{
   setMealId(id: number): void;
   editing: boolean;
   setEditing(editing: boolean): void;
-}> = ({ location, mealId: id = 0, setMealId, editing = false, setEditing }) => {
+  setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
+}> = ({
+  location,
+  mealId: id = 0,
+  setMealId,
+  editing = false,
+  setEditing,
+  setCurrentFood,
+}) => {
   const sharedString = location.search;
   const foods = useContext(FoodsContext);
   const { account = ACCOUNT } = useContext(AccountContext);
@@ -153,7 +162,10 @@ const MealPanel: FC<{
                   </Grid>
                 )}
                 <Grid item xs={12}>
-                  <Ingredients portions={meal.portions} />
+                  <Ingredients
+                    portions={meal.portions}
+                    setCurrentFood={setCurrentFood}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <Preparation preparation={meal.preparation} />

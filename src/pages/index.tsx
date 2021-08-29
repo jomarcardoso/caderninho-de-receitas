@@ -205,6 +205,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
             setMealId={setCurrentMealId}
             editing={editingMeal}
             setEditing={setEditingMeal}
+            setCurrentFood={setCurrentFood}
           />
         </Panel>
         <SEO title="Saúde em pontos" />

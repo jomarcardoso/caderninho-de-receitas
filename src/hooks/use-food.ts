@@ -11,6 +11,7 @@ const useFoods = (): Array<Food> => {
             enName
             id
             image
+            icon
             calories
             gi
             gl

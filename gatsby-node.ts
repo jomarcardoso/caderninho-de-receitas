@@ -14,6 +14,7 @@ exports.createPages = ({ graphql, actions }) => {
               name
               id
               image
+              icon
               enName
               gi
               calories

@@ -26,6 +26,26 @@ import {
   orange,
   water,
   beef,
+  pear,
+  apple,
+  banana,
+  whiteRice,
+  blackBean,
+  cornMeal,
+  whiteBread,
+  chickenPasty,
+  greenLeafLettuce,
+  salt,
+  boiledPotato,
+  peanutButterSmooth,
+  creamCheese,
+  soybeanOil,
+  wheatBread,
+  orangeJuice,
+  oatFlour,
+  cornFlour,
+  edamCheese,
+  parsley,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -96,12 +116,15 @@ function format(food: FoodMyFoodData): FoodData {
 
 const foods: Array<FoodData> = [
   {
-    name: 'Maçã Fugi',
-    enName: 'apple',
+    ...format(apple as unknown as FoodMyFoodData),
     id: 1,
+    name: 'Maçã Fuji',
+    enName: 'apple',
     gi: 25,
     gl: 3,
-    image: '/images/food/apple.svg',
+    icon: '/images/food/apple.svg',
+    image:
+      'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     calories: 52,
     carbohydrates: 14,
     unitOfMeasurement: UnitOfMeasurement.gram,
@@ -134,11 +157,14 @@ const foods: Array<FoodData> = [
     },
   },
   {
+    ...format(pear as unknown as FoodMyFoodData),
+    id: 2,
     name: 'Pêra',
     enName: 'pear',
-    id: 2,
     gi: 38,
-    image: '/images/food/pear.svg',
+    icon: '/images/food/pear.svg',
+    image:
+      'https://images.unsplash.com/photo-1562051725-cc35a65c8227?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     calories: 57,
     aminoAcids: {
       tryptophan: 2,
@@ -170,12 +196,15 @@ const foods: Array<FoodData> = [
     ],
   },
   {
+    ...format(banana as unknown as FoodMyFoodData),
     name: 'Banana Prata',
     enName: 'silver-banana',
     id: 3,
     gi: 39,
     gl: 8,
-    image: '/images/food/banana.svg',
+    icon: '/images/food/banana.svg',
+    image:
+      'https://images.unsplash.com/photo-1583485646409-f9feb9af2a67?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     calories: 89,
     carbohydrates: 28,
     aminoAcids: {
@@ -208,13 +237,16 @@ const foods: Array<FoodData> = [
     ],
   },
   {
+    ...format(whiteRice as unknown as FoodMyFoodData),
     name: 'Arroz Branco',
     enName: 'white-rice',
     id: 4,
     gi: 81,
     gl: 18,
     carbohydrates: 32,
-    image: '/images/food/rice.svg',
+    icon: '/images/food/rice.svg',
+    image:
+      'https://images.unsplash.com/photo-1568347355280-d33fdf77d42a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80',
     calories: 130,
     unitOfMeasurement: UnitOfMeasurement.gram,
     oneMeasures: [
@@ -247,12 +279,14 @@ const foods: Array<FoodData> = [
     keys: ['arroz'],
   },
   {
-    name: 'Feijão',
+    ...format(blackBean as unknown as FoodMyFoodData),
+    name: 'Feijão preto',
     enName: 'bean',
     id: 5,
     gi: 29,
-    image: '/images/food/bean.svg',
-    calories: 132,
+    icon: '/images/food/bean.svg',
+    image:
+      'https://minhasaude.proteste.org.br//wp-content/uploads/2020/07/escolher-o-feijao-preto-970x472.jpg',
     unitOfMeasurement: UnitOfMeasurement.gram,
     oneMeasures: [
       {
@@ -260,39 +294,7 @@ const foods: Array<FoodData> = [
         type: 'CUP',
       },
     ],
-    saturedFats: 0.1,
-    totalFat: 0.5,
-    minerals: {
-      ...MINERALS_DATA,
-      sodium: 1.7,
-      iron: 2.1,
-      calcium: 27,
-      potassium: 355,
-      phosphorus: 140,
-    },
-    carbohydrates: 23.7,
-    dietaryFiber: 8.7,
-    aminoAcids: {
-      tryptophan: 105,
-      threonine: 373,
-      isoleucine: 391,
-      leucine: 708,
-      lysine: 608,
-      methionine: 133,
-      cystine: 96,
-      phenylalanine: 479,
-      tyrosine: 250,
-      valine: 464,
-      histidine: 247,
-      arginine: 549,
-      alanine: 372,
-      asparticAcid: 1072,
-      glutamicAcid: 1351,
-      glycine: 346,
-      proline: 376,
-      serine: 482,
-      glutamine: 0,
-    },
+    keys: ['feijão', 'feijoada'],
   },
   {
     name: 'Banana Nanica',
@@ -300,7 +302,7 @@ const foods: Array<FoodData> = [
     id: 6,
     gi: 70,
     gl: 14,
-    image: '/images/food/banana.svg',
+    icon: '/images/food/banana.svg',
     calories: 89,
     carbohydrates: 28,
     aminoAcids: {
@@ -331,7 +333,7 @@ const foods: Array<FoodData> = [
     id: 7,
     gi: 87,
     gl: 6,
-    image: '/images/food/banana.svg',
+    icon: '/images/food/banana.svg',
     calories: 89,
     carbohydrates: 12,
     aminoAcids: {
@@ -362,7 +364,9 @@ const foods: Array<FoodData> = [
     enName: 'orange',
     id: 8,
     gi: 43,
-    image: '/images/food/orange.svg',
+    icon: '/images/food/orange.svg',
+    image:
+      'https://images.unsplash.com/photo-1549888834-3ec93abae044?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     calories: 0,
     carbohydrates: 14,
     oneMeasures: [
@@ -374,35 +378,16 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.liter,
   },
   {
+    ...format(cornMeal as unknown as FoodMyFoodData),
     name: 'Polenta',
-    enName: 'polenta',
+    enName: 'corn-meal',
     id: 9,
     gi: 74,
     gl: 11,
-    image: '/images/food/polenta.svg',
+    icon: '/images/food/polenta.svg',
+    image: 'https://t2.rg.ltmcdn.com/pt/images/4/9/1/polenta_mole_194_600.jpg',
     calories: 0,
     carbohydrates: 21,
-    aminoAcids: {
-      tryptophan: 10,
-      threonine: 54,
-      isoleucine: 51,
-      leucine: 175,
-      lysine: 40,
-      methionine: 30,
-      cystine: 26,
-      phenylalanine: 70,
-      tyrosine: 58,
-      valine: 72,
-      histidine: 44,
-      arginine: 71,
-      alanine: 107,
-      asparticAcid: 99,
-      glutamicAcid: 268,
-      glycine: 59,
-      proline: 125,
-      serine: 68,
-      glutamine: 0,
-    },
     oneMeasures: [
       {
         quantity: 233,
@@ -413,35 +398,17 @@ const foods: Array<FoodData> = [
     recipe: true,
   },
   {
+    ...format(whiteBread as unknown as FoodMyFoodData),
     name: 'Pão Francês',
     enName: 'bread-roll',
     id: 10,
     gi: 100,
     gl: 14,
-    image: '/images/food/bread-roll.svg',
+    icon: '/images/food/bread-roll.svg',
+    image:
+      'https://images.unsplash.com/photo-1580822642566-5138e95313d3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     calories: 0,
     carbohydrates: 20,
-    aminoAcids: {
-      tryptophan: 99,
-      threonine: 255,
-      isoleucine: 336,
-      leucine: 608,
-      lysine: 231,
-      methionine: 153,
-      cystine: 182,
-      phenylalanine: 422,
-      tyrosine: 249,
-      valine: 380,
-      histidine: 188,
-      arginine: 320,
-      alanine: 302,
-      asparticAcid: 414,
-      glutamicAcid: 2772,
-      glycine: 309,
-      proline: 926,
-      serine: 416,
-      glutamine: 0,
-    },
     oneMeasures: [
       {
         quantity: 38,
@@ -457,38 +424,22 @@ const foods: Array<FoodData> = [
     id: 11,
     gi: 53,
     gl: 2,
-    image: '/images/food/strawberry.svg',
+    icon: '/images/food/strawberry.svg',
+    image:
+      'https://images.unsplash.com/photo-1591271300850-22d6784e0a7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     calories: 0,
     carbohydrates: 6,
     aminoAcids: AMINO_ACIDS,
   },
   {
+    ...format(chickenPasty as unknown as FoodMyFoodData),
     id: 12,
     name: 'pastel',
     enName: 'pasty',
-    image: '/images/food/pasty.svg',
-    description: 'pastel de carne, frito',
-    aminoAcids: {
-      tryptophan: 120,
-      threonine: 300,
-      isoleucine: 410,
-      leucine: 810,
-      lysine: 390,
-      methionine: 190,
-      cystine: 70,
-      phenylalanine: 500,
-      tyrosine: 360,
-      valine: 500,
-      arginine: 410,
-      histidine: 180,
-      alanine: 310,
-      asparticAcid: 540,
-      glutamicAcid: 370,
-      glycine: 300,
-      proline: 180,
-      serine: 470,
-      glutamine: 0,
-    },
+    icon: '/images/food/pasty.svg',
+    image:
+      'https://s2.glbimg.com/w5pW4yBkSibfdkhkDE-GGVYd21I=/0x0:1080x608/924x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2021/P/A/rfLBcEQhizbQPhwoBQew/capas-para-materias-gshow-home-2-.jpg',
+    description: 'pastel de frango, frito',
     recipe: true,
   },
   {
@@ -497,7 +448,9 @@ const foods: Array<FoodData> = [
     name: 'alho',
     enName: 'garlic',
     gi: 0,
-    image: '/images/food/garlic.svg',
+    icon: '/images/food/garlic.svg',
+    image:
+      'https://images.unsplash.com/photo-1559454473-27bc85c67728?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=617&q=80',
     description: 'Alho-poró, cru',
     oneMeasures: [
       {
@@ -507,11 +460,14 @@ const foods: Array<FoodData> = [
     ],
   },
   {
+    ...format(greenLeafLettuce as unknown as FoodMyFoodData),
     id: 14,
     enName: 'lettuce',
     name: 'alface',
     gi: 0,
-    image: '/images/food/lettuce.svg',
+    icon: '/images/food/lettuce.svg',
+    image:
+      'https://images.unsplash.com/photo-1622205313162-be1d5712a43f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80',
     description: 'Alface, roxa, crua',
     aminoAcids: {
       tryptophan: 0,
@@ -541,7 +497,9 @@ const foods: Array<FoodData> = [
     name: 'Presunto',
     enName: 'ham',
     gi: 0,
-    image: '/images/food/ham.svg',
+    icon: '/images/food/ham.svg',
+    image:
+      'https://images.unsplash.com/photo-1524438418049-ab2acb7aa48f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     description: 'Presunto, sem capa de gordura',
     keys: [],
     unitOfMeasurement: UnitOfMeasurement.gram,
@@ -565,7 +523,9 @@ const foods: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
-    image: '/images/food/pineapple.svg',
+    icon: '/images/food/pineapple.svg',
+    image:
+      'https://images.unsplash.com/photo-1572859730774-2cb70677d258?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     keys: [],
   },
   {
@@ -574,6 +534,7 @@ const foods: Array<FoodData> = [
     enName: 'carrot',
     name: 'Cenoura',
     gi: 16,
+    icon: '/images/food/carrot.svg',
     image:
       'https://images.unsplash.com/photo-1582515073490-39981397c445?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     keys: ['cenoura ralada', 'cenouras raladas', 'pedaços de cenoura'],
@@ -591,7 +552,9 @@ const foods: Array<FoodData> = [
     name: 'Abacate',
     enName: 'avocado',
     gi: 15,
-    image: '/images/food/avocado.svg',
+    icon: '/images/food/avocado.svg',
+    image:
+      'https://images.unsplash.com/photo-1612215047504-a6c07dbe4f7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
     oneMeasures: [
       {
@@ -605,11 +568,9 @@ const foods: Array<FoodData> = [
     id: 19,
     name: 'Aveia',
     enName: 'oat',
-    calories: 394,
-    carbohydrates: 66.6,
-    proteins: 13.9,
-    dietaryFiber: 9.1,
-    image: '/images/food/oats.svg',
+    icon: '/images/food/oats.svg',
+    image:
+      'https://images.unsplash.com/photo-1586810512929-6b8659fde098?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     oneMeasures: [
       {
         quantity: 234,
@@ -617,27 +578,6 @@ const foods: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: UnitOfMeasurement.gram,
-    aminoAcids: {
-      tryptophan: 40,
-      threonine: 96,
-      isoleucine: 116,
-      leucine: 216,
-      lysine: 135,
-      methionine: 46,
-      cystine: 97,
-      phenylalanine: 142,
-      tyrosine: 101,
-      valine: 160,
-      histidine: 54,
-      arginine: 167,
-      alanine: 124,
-      asparticAcid: 302,
-      glutamicAcid: 623,
-      glycine: 147,
-      proline: 96,
-      serine: 151,
-      glutamine: 0,
-    },
     keys: ['aveia em flocos', 'flocos de aveia'],
   },
   {
@@ -646,7 +586,9 @@ const foods: Array<FoodData> = [
     name: 'Coco ralado',
     gi: 42,
     enName: 'coconut',
-    image: '/images/food/coconut.svg',
+    icon: '/images/food/coconut.svg',
+    image:
+      'https://images.unsplash.com/photo-1580984969071-a8da5656c2fb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     oneMeasures: [
       {
         quantity: 80,
@@ -670,7 +612,9 @@ const foods: Array<FoodData> = [
     name: 'Ovo',
     enName: 'egg',
     gi: 0,
-    image: '/images/food/egg.svg',
+    icon: '/images/food/egg.svg',
+    image:
+      'https://images.unsplash.com/photo-1598965675045-45c5e72c7d05?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80',
     oneMeasures: [
       {
         quantity: 46,
@@ -686,7 +630,9 @@ const foods: Array<FoodData> = [
     gi: 0,
     name: 'Frango',
     enName: 'chicken',
-    image: '/images/food/chicken.svg',
+    icon: '/images/food/chicken.svg',
+    image:
+      'https://images.unsplash.com/photo-1606728035253-49e8a23146de?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
     keys: ['galinha', 'peito de frango', 'coxa de frango'],
     oneMeasures: [
@@ -702,7 +648,9 @@ const foods: Array<FoodData> = [
     name: 'Azeite de oliva',
     gi: 0,
     enName: 'olive-oil',
-    image: '/images/food/olive-oil.svg',
+    icon: '/images/food/olive-oil.svg',
+    image:
+      'https://veja.abril.com.br/wp-content/uploads/2017/06/azeite-023.jpg?quality=70&strip=info&resize=680,453',
     unitOfMeasurement: UnitOfMeasurement.liter,
     keys: ['azeite', 'óleo de oliva', 'azeite de oliva extra virgem'],
     oneMeasures: [
@@ -726,7 +674,9 @@ const foods: Array<FoodData> = [
     name: 'Açúcar branco',
     enName: 'sugar',
     gi: 92,
-    image: '/images/food/sugar.svg',
+    icon: '/images/food/sugar.svg',
+    image:
+      'https://images.unsplash.com/photo-1558467516-f427f3ea3c33?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
     keys: ['açúcar', 'açucar'],
     oneMeasures: [
@@ -750,7 +700,9 @@ const foods: Array<FoodData> = [
     name: 'Farinha de trigo',
     enName: 'wheat-flour',
     gi: 85,
-    image: '/images/food/wheat-flour.svg',
+    icon: '/images/food/wheat-flour.svg',
+    image:
+      'https://images.unsplash.com/photo-1627485937980-221c88ac04f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1062&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
     keys: ['farinha branca', 'farinha'],
     oneMeasures: [
@@ -774,7 +726,8 @@ const foods: Array<FoodData> = [
     name: 'Açúcar mascavo',
     enName: 'brown-sugar',
     gi: 80,
-    image: '/images/food/sugar.svg', // TODO: precisa diferenciar do açúcar branco
+    icon: '/images/food/sugar.svg', // TODO: precisa diferenciar do açúcar branco
+    image: 'https://superbeal.com.br/img/news/site_5d653235ca208.png',
     unitOfMeasurement: UnitOfMeasurement.gram,
     keys: ['açúcar escuro', 'açúcar integral'],
     oneMeasures: [
@@ -797,63 +750,40 @@ const foods: Array<FoodData> = [
     name: 'Bolo de cenoura',
     enName: 'carrot-cake',
     gi: 67,
+    icon: '/images/food/carrot-cake.svg',
     image:
       'https://images.unsplash.com/photo-1595955809761-dcd4c857e147?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
     recipe: true,
   },
   {
+    ...format(salt as unknown as FoodMyFoodData),
     id: 28,
     name: 'Sal',
     enName: 'salt',
-    image: '/images/food/salt.svg',
+    icon: '/images/food/salt.svg',
     unitOfMeasurement: UnitOfMeasurement.gram,
-    calories: 0,
-    totalFat: 0,
-    saturedFats: 0,
-    monounsaturatedFats: 0,
-    minerals: {
-      ...MINERALS_DATA,
-      sodium: 38.758,
-      calcium: 24,
-      iron: 0.3,
-      magnesium: 1,
-      potassium: 8,
-    },
   },
   {
+    ...format(boiledPotato as unknown as FoodMyFoodData),
     id: 29,
     name: 'Batata',
     enName: 'potato',
-    image: '/images/food/potato.svg',
+    description: 'batata inglesa cozida',
+    icon: '/images/food/potato.svg',
+    image:
+      'https://images.unsplash.com/photo-1563012678-bdfec255931b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
-    calories: 77,
-    carbohydrates: 17,
-    dietaryFiber: 2.2,
-    sugar: 0.8,
-    proteins: 2,
-    totalFat: 0.1,
     keys: ['batatinha', 'batata inglesa'],
-    minerals: {
-      ...MINERALS_DATA,
-      sodium: 6,
-      potassium: 421,
-      iron: 0.8,
-      magnesium: 23,
-      calcium: 12,
-    },
-    vitamins: {
-      ...VITAMINS_DATA,
-      c: 19.7,
-      b6: 0.3,
-    },
   },
   {
     ...format(onion),
     id: 30,
     name: 'Cebola',
     enName: 'onion',
-    image: '/images/food/onion.svg',
+    icon: '/images/food/onion.svg',
+    image:
+      'https://images.unsplash.com/photo-1560087706-04151ac8da26?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
     calories: 40,
     carbohydrates: 9,
@@ -879,7 +809,9 @@ const foods: Array<FoodData> = [
     id: 31,
     name: 'Pimenta',
     enName: 'pepper',
-    image: '/images/food/pepper.svg',
+    icon: '/images/food/pepper.svg',
+    image:
+      'https://images.unsplash.com/photo-1526179969422-e92255a5f223?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
@@ -887,7 +819,9 @@ const foods: Array<FoodData> = [
     id: 32,
     name: 'Milho',
     enName: 'corn',
-    image: '/images/food/corn.svg',
+    icon: '/images/food/corn.svg',
+    image:
+      'https://images.unsplash.com/photo-1601171908052-92d5a595199b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1146&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
     calories: 98,
     proteins: 3.2,
@@ -907,7 +841,9 @@ const foods: Array<FoodData> = [
     id: 33,
     name: 'Molho de tomate',
     enName: 'tomato-sauce',
-    image: '/images/food/tomato-sauce.svg',
+    icon: '/images/food/tomato-sauce.svg',
+    image:
+      'https://images.unsplash.com/photo-1472476443507-c7a5948772fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.liter,
     oneMeasures: [
       {
@@ -917,10 +853,13 @@ const foods: Array<FoodData> = [
     ],
   },
   {
+    ...format(peanutButterSmooth as unknown as FoodMyFoodData),
     id: 34,
     name: 'Manteiga de amendoim',
     enName: 'peanut-butter',
-    image: '/images/food/peanut-butter.svg',
+    icon: '/images/food/peanut-butter.svg',
+    image:
+      'https://images.unsplash.com/flagged/photo-1625402535207-953e03369f59?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.liter,
   },
   {
@@ -928,14 +867,19 @@ const foods: Array<FoodData> = [
     id: 35,
     name: 'Margarina',
     enName: 'margarine',
-    image: '/images/food/margarine.svg',
+    icon: '/images/food/margarine.svg',
+    image:
+      'https://www.saudevitalidade.com/wp-content/uploads/2021/02/pao-com-margarina-cafe-da-manha-1571859727604_v2_1920x1146-800x445.jpg',
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    ...format(creamCheese as unknown as FoodMyFoodData),
     id: 36,
     name: 'Requeijão',
     enName: 'cream-cheese',
-    image: '/images/food/cream-cheese.svg',
+    icon: '/images/food/cream-cheese.svg',
+    image:
+      'https://images.unsplash.com/photo-1547920303-9befbe3decc7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
@@ -943,21 +887,28 @@ const foods: Array<FoodData> = [
     id: 37,
     name: 'Leite',
     enName: 'milk',
-    image: '/images/food/milk.svg',
+    icon: '/images/food/milk.svg',
+    image:
+      'https://images.unsplash.com/photo-1608634960479-c70cf0c3dece?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     unitOfMeasurement: UnitOfMeasurement.liter,
   },
   {
     id: 38,
     name: 'Fermento',
     enName: 'yeast',
-    image: '/images/food/yeast.svg',
+    icon: '/images/food/yeast.svg',
+    image:
+      'https://static1.casapraticaqualita.com.br/articles/0/21/30/@/2427-fermento-biologico-fresco-conhecido-com-article_content_img-3.jpg',
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    ...format(soybeanOil as unknown as FoodMyFoodData),
     id: 39,
     name: 'Óleo de soja',
     enName: 'soy-oil',
-    image: '/images/food/oil.svg',
+    icon: '/images/food/oil.svg',
+    image:
+      'https://img.ibxk.com.br/2020/01/22/22215352968302.jpg?w=1120&h=420&mode=crop&scale=both',
     unitOfMeasurement: UnitOfMeasurement.liter,
     keys: ['óleo'],
   },
@@ -966,27 +917,37 @@ const foods: Array<FoodData> = [
     id: 40,
     name: 'Manteiga',
     enName: 'butter',
-    image: '/images/food/butter.svg',
+    icon: '/images/food/butter.svg',
+    image:
+      'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
+    ...format(wheatBread as unknown as FoodMyFoodData),
     id: 41,
     name: 'Pão caseiro',
     enName: 'homebread',
-    image: '/images/food/bread.svg',
+    icon: '/images/food/bread.svg',
+    image:
+      'https://images.unsplash.com/photo-1537200275355-4f0c0714f777?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
-    keys: ['pão', 'pãozinho'],
+    keys: ['pão', 'pãozinho', 'pão integral'],
   },
   {
     id: 42,
     name: 'Cuca',
-    image: '/images/food/bread.svg',
+    icon: '/images/food/bread.svg',
+    image: 'https://cdn.panelinha.com.br/receita/1550859492306-cuca-banana.jpg',
     enName: 'crumb-cake',
     unitOfMeasurement: UnitOfMeasurement.gram,
+    recipe: true,
   },
   {
+    ...format(orangeJuice as unknown as FoodMyFoodData),
     id: 43,
-    image: '/images/food/orange-juice.svg',
+    icon: '/images/food/orange-juice.svg',
+    image:
+      'https://images.unsplash.com/photo-1614065612682-10dbc3db2b31?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=657&q=80',
     name: 'Suco de Laranja',
     enName: 'orange-juice',
     gi: 50,
@@ -995,8 +956,11 @@ const foods: Array<FoodData> = [
     rawId: 8,
   },
   {
+    ...format(carrot as unknown as FoodMyFoodData),
     id: 44,
-    image: '/images/food/carrot.svg',
+    icon: '/images/food/carrot.svg',
+    image:
+      'https://images.unsplash.com/photo-1556909172-89cf0b24ff02?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80',
     name: 'Cenoura cozida',
     enName: 'boiled-carrot',
     gi: 38,
@@ -1004,8 +968,11 @@ const foods: Array<FoodData> = [
     rawId: 17,
   },
   {
+    ...format(oatFlour as unknown as FoodMyFoodData),
     id: 45,
-    image: '/images/food/oat-flour.svg',
+    icon: '/images/food/oat-flour.svg',
+    image:
+      'https://cdn.awsli.com.br/600x450/757/757669/produto/41919778/2bbdd6f3f5.jpg',
     name: 'Farinha de aveia',
     enName: 'oat-flour',
     keys: ['farelo de aveia'],
@@ -1014,9 +981,12 @@ const foods: Array<FoodData> = [
     rawId: 19,
   },
   {
+    ...format(cornFlour as unknown as FoodMyFoodData),
     id: 46,
     name: 'Fubá',
-    image: '/images/food/corn-flour.svg',
+    icon: '/images/food/corn-flour.svg',
+    image:
+      'https://caldobom.com.br/uploads/2018/12/diferenca-entre-fuba-e-farinha-de-milho.jpg',
     enName: 'cornflour',
     keys: ['farinha de milho'],
     version: 'FLOUR',
@@ -1025,7 +995,7 @@ const foods: Array<FoodData> = [
   {
     id: 47,
     name: 'Amido de milho',
-    image: '/images/food/corn-flour.svg',
+    icon: '/images/food/corn-flour.svg',
     enName: 'maize-starch',
     keys: ['maizena'],
     version: 'REFINED_FLOUR',
@@ -1036,7 +1006,9 @@ const foods: Array<FoodData> = [
     id: 48,
     name: 'Tomate',
     enName: 'tomato',
-    image: '/images/food/tomato.svg',
+    icon: '/images/food/tomato.svg',
+    image:
+      'https://images.unsplash.com/photo-1561155713-50f2a38fde2c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
     calories: 18,
     totalFat: 0.2,
@@ -1056,36 +1028,13 @@ const foods: Array<FoodData> = [
     ],
   },
   {
-    // https://tools.myfooddata.com/nutrition-comparison/173419/100g/1
+    ...format(edamCheese as unknown as FoodMyFoodData),
     id: 49,
-    name: 'Queijo',
+    name: 'Queijo Edam',
     enName: 'cheese',
-    image: '/images/food/cheese.svg',
-    calories: 357,
-    totalFat: 28.6,
-    proteins: 25,
-    carbohydrates: 1.4,
-    cholesterol: 89,
-    saturedFats: 18.7,
-    aminoAcids: {
-      tryptophan: 352,
-      threonine: 932,
-      isoleucine: 1308,
-      leucine: 2570,
-      lysine: 2660,
-      methionine: 721,
-      cystine: 255,
-      phenylalanine: 1434,
-      tyrosine: 1457,
-      arginine: 964,
-      histidine: 1034,
-      alanine: 764,
-      asparticAcid: 1747,
-      glutamicAcid: 6150,
-      glycine: 486,
-      proline: 3251,
-      serine: 1547,
-    },
+    icon: '/images/food/cheese.svg',
+    image:
+      'https://heavenly-holland.com/wp-content/uploads/2017/05/cheese10-768x512.jpg',
     unitOfMeasurement: UnitOfMeasurement.gram,
     oneMeasures: [
       {
@@ -1093,11 +1042,13 @@ const foods: Array<FoodData> = [
         type: 'SLICE',
       },
     ],
+    keys: ['queijo'],
   },
   {
     id: 50,
     name: 'Sanduíche',
     enName: 'sandwich',
+    icon: '/images/food/sandwich.svg',
     image:
       'https://images.unsplash.com/photo-1592415486689-125cbbfcbee2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=625&q=80',
     recipe: true,
@@ -1107,7 +1058,9 @@ const foods: Array<FoodData> = [
     id: 51,
     name: 'Peito de peru defumado',
     enName: 'ham',
-    image: '/images/food/ham.svg',
+    icon: '/images/food/ham.svg',
+    image:
+      'https://i2.wp.com/files.agro20.com.br/uploads/2019/11/Peito-de-peru-1.jpg?resize=600%2C338&ssl=1',
     unitOfMeasurement: UnitOfMeasurement.gram,
     oneMeasures: [
       {
@@ -1122,7 +1075,9 @@ const foods: Array<FoodData> = [
     id: 52,
     name: 'Água',
     enName: 'water',
-    image: '/images/food/water.svg',
+    icon: '/images/food/water.svg',
+    image:
+      'https://i2.wp.com/files.agro20.com.br/uploads/2019/11/Peito-de-peru-1.jpg?resize=600%2C338&ssl=1',
     unitOfMeasurement: UnitOfMeasurement.liter,
     oneMeasures: [
       {
@@ -1132,10 +1087,13 @@ const foods: Array<FoodData> = [
     ],
   },
   {
+    ...format(parsley as unknown as FoodMyFoodData),
     id: 53,
     name: 'Salsa',
     enName: 'parsley',
-    image: '/images/food/parsley.svg',
+    icon: '/images/food/parsley.svg',
+    image:
+      'https://images.unsplash.com/photo-1535189487909-a262ad10c165?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=689&q=80',
     keys: ['salsinha', 'temperinho', 'temperinho verde', 'tempero verde'],
   },
   {
@@ -1143,13 +1101,16 @@ const foods: Array<FoodData> = [
     id: 54,
     name: 'Carne bovina',
     enName: 'beef',
-    image: '/images/food/beef.svg',
+    icon: '/images/food/beef.svg',
+    image:
+      'https://images.unsplash.com/photo-1588347785102-2944ba63d0c3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     keys: ['carne', 'carne de gado', 'carne moída', 'bife'],
   },
   {
     id: 55,
     name: 'Galinhada',
     enName: 'chicken-risotto',
+    icon: '/images/food/rice.svg',
     image:
       'https://images.unsplash.com/photo-1461009683693-342af2f2d6ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=731&q=80',
     keys: ['risoto de frango', 'arroz com galinha', 'arroz com frango'],
