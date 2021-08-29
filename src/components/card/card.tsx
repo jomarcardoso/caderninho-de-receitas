@@ -6,7 +6,7 @@ import { borderPrimary } from '../page/page';
 const useStyles = makeStyles({
   root: {
     ...borderPrimary,
-    overflow: 'initial',
+    overflow: 'hidden',
   },
 });
 

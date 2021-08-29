@@ -14,6 +14,7 @@ exports.createPages = ({ graphql, actions }) => {
               name
               id
               image
+              icon
               enName
               gi
               calories
@@ -21,6 +22,7 @@ exports.createPages = ({ graphql, actions }) => {
               carbohydrates
               proteins
               unitOfMeasurement
+              recipe
               minerals {
                 sodium
                 calcium

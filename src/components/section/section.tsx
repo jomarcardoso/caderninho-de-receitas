@@ -11,7 +11,12 @@ const Section: FC<Props> = ({ title = '', children }) => {
     <Grid container spacing={3}>
       {title && (
         <Grid item xs={12}>
-          <Typography component="h2" variant="h2" align="center">
+          <Typography
+            component="h2"
+            variant="h1"
+            color="primary"
+            align="center"
+          >
             {title}
           </Typography>
         </Grid>

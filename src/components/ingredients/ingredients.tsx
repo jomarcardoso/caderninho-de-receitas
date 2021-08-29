@@ -1,50 +1,38 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Image from '../image';
-import { PORTION, Portion } from '../../services/portion/portion.types';
+import { Portion } from '../../services/portion/portion.types';
 import Section from '../section/section';
-import ModalPortion from '../modal-portion/modal-portion';
+import { Food } from '../../services/food';
 
 interface Props {
   portions: Array<Portion>;
+  setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
 }
 
-const Ingredients: FC<Props> = ({ portions = [] }) => {
-  const [portionOnModal, setPortionOnModal] = useState<Portion>(PORTION);
-  const [openedPortionModal, setOpenedPortionModal] = useState(false);
-
-  function handleClickPortion(portion: Portion) {
-    setPortionOnModal(portion);
-    setOpenedPortionModal(true);
-  }
-
-  function handleClose() {
-    setOpenedPortionModal(false);
-  }
-
+const Ingredients: FC<Props> = ({ portions = [], setCurrentFood }) => {
   return (
     <Section title="Ingredientes">
-      <ModalPortion
-        portion={portionOnModal}
-        open={openedPortionModal}
-        onClose={handleClose}
-      />
       <List>
         {portions.map((portion) => (
           <ListItem
             button
             disableGutters
             key={portion.food.id}
-            onClick={() => handleClickPortion(portion)}
+            onClick={() => setCurrentFood(portion.food)}
           >
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={2} sm={1}>
                 <Box bgcolor="white" padding={1}>
-                  <Image src={portion.food.image} alt={portion.food.name} />
+                  <Image
+                    src={portion.food.icon}
+                    alt={portion.food.name}
+                    disableSpinner
+                  />
                 </Box>
               </Grid>
               <Grid item xs={10} sm={11}>

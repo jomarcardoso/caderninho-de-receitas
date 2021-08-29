@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Header, { HeaderProps } from '../header';
-import Main from '../main';
+import Main, { MainProps } from '../main';
 import './layout.scss';
 
 import { CurrentPage } from '../../services/page.service';
@@ -22,15 +22,23 @@ interface Props {
   showFooter?: boolean;
   currentPage?: CurrentPage;
   headerProps?: HeaderProps;
+  mainProps?: MainProps;
 }
 
-const Layout: FC<Props> = ({ children, showHeader = true, headerProps }) => {
+const Layout: FC<Props> = ({
+  children,
+  showHeader = true,
+  headerProps,
+  mainProps,
+}) => {
   const classes = useStyles();
 
   return (
     <Box className={classes.root} bgcolor="gray.700">
       {showHeader && <Header {...headerProps} />}
-      <Main className={classes.main}>{children}</Main>
+      <Main className={classes.main} {...mainProps}>
+        {children}
+      </Main>
     </Box>
   );
 };

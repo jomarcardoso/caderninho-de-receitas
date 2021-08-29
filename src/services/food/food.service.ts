@@ -136,7 +136,8 @@ export function format(data?: FoodData): Food {
     gi: data?.gi ?? FOOD.gi,
     gl: data?.gl ?? FOOD.gl,
     id: data?.id ?? FOOD.id,
-    image: data?.image ?? FOOD.image,
+    image: data?.image ?? data?.icon ?? FOOD.image,
+    icon: data?.icon ?? data?.image ?? FOOD.icon,
     keys: data?.keys ?? FOOD.keys,
     monounsaturatedFats: data?.monounsaturatedFats ?? FOOD.monounsaturatedFats,
     name: data?.name ?? FOOD.name,
@@ -151,5 +152,6 @@ export function format(data?: FoodData): Food {
     version: data?.version ?? FOOD.version,
     rawId: data?.id ?? FOOD.rawId,
     cholesterol: data?.cholesterol ?? FOOD.cholesterol,
+    recipe: data?.recipe ?? FOOD.recipe,
   };
 }

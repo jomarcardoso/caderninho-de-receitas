@@ -1,10 +1,20 @@
 /* eslint-disable */
-import React, { FC, useContext, useState, useEffect } from 'react';
+import React, {
+  FC,
+  useContext,
+  useState,
+  useEffect,
+  SyntheticEvent,
+} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Dialog from '@material-ui/core/Dialog';
-// import { ScrollSpy, createScrollSpyItem } from 'ovos';
 import Slide, { SlideProps } from '@material-ui/core/Slide';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
@@ -19,6 +29,8 @@ import FoodsPanel from '../panels/foods';
 import FoodPanel from '../panels/food';
 import { FOOD } from '../services/food';
 import Footer from '../components/footer';
+import { Meal } from '../services/meal';
+import MealCardResumed from '../components/meal-card-resumed/meal-card-resumed';
 
 const useStyles = makeStyles({
   card: {
@@ -31,6 +43,9 @@ const useStyles = makeStyles({
     scrollBehavior: 'smooth',
     height: 'calc(100vh - 57px)',
     overflow: 'scroll',
+  },
+  toolsButton: {
+    transform: 'translateX(12px)',
   },
 });
 
@@ -47,6 +62,40 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [openedFood, setOpenedFood] = useState(false);
   const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
+  const [anchorElTools, setAnchorElTools] = useState<Element | null>();
+  const [wayToShow, setWayToShow] = useState<'list' | 'box'>('box');
+
+  function handleClickToolsMenu(event: SyntheticEvent) {
+    setAnchorElTools(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorElTools(null);
+  }
+
+  function renderItem(meal: Meal) {
+    if (wayToShow === 'box') {
+      return (
+        <Grid item xs={6} sm={4} className={classes.card}>
+          <MealCardResumed
+            meal={meal}
+            setMealId={setCurrentMealId}
+            setEditingMeal={setEditingMeal}
+          />
+        </Grid>
+      );
+    }
+
+    return (
+      <Grid item xs={12} sm={6} className={classes.card}>
+        <MealCard
+          meal={meal}
+          setMealId={setCurrentMealId}
+          setEditingMeal={setEditingMeal}
+        />
+      </Grid>
+    );
+  }
 
   useEffect(() => {
     setHideLeftPanel(false);
@@ -118,18 +167,34 @@ const Index: FC<{ location: Location }> = ({ location }) => {
         <Panel id="main-panel">
           <Layout
             currentPage={CurrentPage.HOME}
-            headerProps={{ textAlign: 'center', pageName: 'Saúde em Pontos' }}
+            headerProps={{
+              pageName: 'Saúde em Pontos',
+              tools: (
+                <>
+                  <Button
+                    aria-owns={anchorElTools ? 'simple-menu' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClickToolsMenu}
+                    className={classes.toolsButton}
+                  >
+                    <IconButton color="secondary">
+                      <MoreVertIcon />
+                    </IconButton>
+                  </Button>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={anchorElTools}
+                    open={Boolean(anchorElTools)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem>teste</MenuItem>
+                  </Menu>
+                </>
+              ),
+            }}
           >
-            <Grid container spacing={4}>
-              {account.meals.map((meal) => (
-                <Grid item xs={12} sm={6} className={classes.card}>
-                  <MealCard
-                    meal={meal}
-                    setMealId={setCurrentMealId}
-                    setEditingMeal={setEditingMeal}
-                  />
-                </Grid>
-              ))}
+            <Grid container spacing={wayToShow === 'box' ? 2 : 4}>
+              {account.meals.map(renderItem)}
             </Grid>
           </Layout>
         </Panel>
@@ -140,6 +205,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
             setMealId={setCurrentMealId}
             editing={editingMeal}
             setEditing={setEditingMeal}
+            setCurrentFood={setCurrentFood}
           />
         </Panel>
         <SEO title="Saúde em pontos" />

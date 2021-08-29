@@ -11,12 +11,14 @@ const useFoods = (): Array<Food> => {
             enName
             id
             image
+            icon
             calories
             gi
             gl
             carbohydrates
             proteins
             unitOfMeasurement
+            recipe
             minerals {
               sodium
               calcium

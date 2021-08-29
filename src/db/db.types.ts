@@ -1,5 +1,8 @@
 export interface FoodMyFoodData {
+  name: string;
   name1: string;
+  name2: string;
+  name3: string;
   ALA_G: number; // alanine
   ARG_G: number; // arginine
   ASP_G: number; // asparticAcid

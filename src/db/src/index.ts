@@ -41,3 +41,45 @@ export { default as strawberry } from './strawberry.json';
 export { default as orange } from './orange.json';
 
 export { default as water } from './water.json';
+
+export { default as beef } from './beef.json';
+
+export { default as pear } from './pear.json';
+
+export { default as apple } from './apple.json';
+
+export { default as banana } from './banana.json';
+
+export { default as whiteRice } from './white-rice.json';
+
+export { default as blackBean } from './black-bean.json';
+
+export { default as cornMeal } from './corn-meal.json';
+
+export { default as whiteBread } from './white-bread.json';
+
+export { default as chickenPasty } from './chicken-pasty.json';
+
+export { default as greenLeafLettuce } from './green-leaf-lettuce.json';
+
+export { default as salt } from './salt.json';
+
+export { default as boiledPotato } from './boiled-potato.json';
+
+export { default as peanutButterSmooth } from './peanut-butter-smooth.json';
+
+export { default as creamCheese } from './cream-cheese.json';
+
+export { default as soybeanOil } from './soybean-oil.json';
+
+export { default as wheatBread } from './wheat-bread.json';
+
+export { default as orangeJuice } from './orange-juice.json';
+
+export { default as oatFlour } from './oat-flour.json';
+
+export { default as cornFlour } from './corn-flour.json';
+
+export { default as edamCheese } from './edam-cheese.json';
+
+export { default as parsley } from './parsley.json';
