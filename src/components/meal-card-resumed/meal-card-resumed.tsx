@@ -1,3 +1,4 @@
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -5,6 +6,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import React, { FC } from 'react';
 import { Meal } from '../../services/meal';
+import Image from '../image';
 
 interface Props {
   meal: Meal;
@@ -12,23 +14,36 @@ interface Props {
   setEditingMeal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const useStyles = makeStyles({
+  card: {
+    height: '100%',
+  },
+});
+
 const MealCardResumed: FC<Props> = ({ meal, setMealId, setEditingMeal }) => {
+  const classes = useStyles();
+
   function handleClickLink() {
     setMealId(meal.id);
     setEditingMeal(false);
   }
 
   return (
-    <Card>
-      <CardActionArea>
-        <CardMedia component="img" image={meal.image} />
-      </CardActionArea>
-      <CardContent>
-        <a href="#meal-panel" onClick={handleClickLink}>
-          <Typography variant="h2">{meal.name}</Typography>
-        </a>
-      </CardContent>
-    </Card>
+    <a href="#meal-panel" onClick={handleClickLink}>
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardMedia>
+            <Image src={meal.image} alt="" aspectRatio={1.25} />
+          </CardMedia>
+        </CardActionArea>
+        <CardContent>
+          <Typography gutterBottom variant="h2">
+            {meal.name}
+          </Typography>
+          <Typography>{meal.description}</Typography>
+        </CardContent>
+      </Card>
+    </a>
   );
 };
 

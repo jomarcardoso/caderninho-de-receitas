@@ -44,6 +44,9 @@ const useStyles = makeStyles({
     height: 'calc(100vh - 57px)',
     overflow: 'scroll',
   },
+  toolsButton: {
+    transform: 'translateX(12px)',
+  },
 });
 
 const DialogTransition: FC<SlideProps> = (props) => {
@@ -172,6 +175,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
                     aria-owns={anchorElTools ? 'simple-menu' : undefined}
                     aria-haspopup="true"
                     onClick={handleClickToolsMenu}
+                    className={classes.toolsButton}
                   >
                     <IconButton color="secondary">
                       <MoreVertIcon />
@@ -189,7 +193,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
               ),
             }}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={wayToShow === 'box' ? 2 : 4}>
               {account.meals.map(renderItem)}
             </Grid>
           </Layout>

@@ -73,6 +73,14 @@ function measureFromString(text = ''): Measure {
     type = 'TEA_SPOON';
   }
 
+  if (lowText.includes('fatia') || lowText.includes('rodela')) {
+    type = 'SLICE';
+  }
+
+  if (lowText.includes('folha')) {
+    type = 'UNITY';
+  }
+
   if (verifyIsLiteral(lowText)) type = 'LITERAL';
 
   if (type === 'UNITY') {

@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, ReactElement, useContext } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -47,6 +47,28 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
     return 0;
   });
 
+  function renderFood(food: Food): ReactElement {
+    if (food.recipe) return <></>;
+
+    return (
+      <TableRow key={food.name}>
+        <TableCell component="th" scope="row">
+          <ListItem
+            className={classes.listItem}
+            button
+            onClick={() => setCurrentFood(food)}
+          >
+            <ListItemIcon className={classes.selectIcon}>
+              <Image className={classes.img} src={food.image} alt="" />
+            </ListItemIcon>
+            <ListItemText primary={food.name} />
+          </ListItem>
+        </TableCell>
+        <TableCell align="right">{food.calories}</TableCell>
+      </TableRow>
+    );
+  }
+
   return (
     <Layout
       headerProps={{ pageName: 'Alimentos' }}
@@ -60,25 +82,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
               <TableCell align="right">Calorias</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {orderedFood.map((food) => (
-              <TableRow key={food.name}>
-                <TableCell component="th" scope="row">
-                  <ListItem
-                    className={classes.listItem}
-                    button
-                    onClick={() => setCurrentFood(food)}
-                  >
-                    <ListItemIcon className={classes.selectIcon}>
-                      <Image className={classes.img} src={food.image} alt="" />
-                    </ListItemIcon>
-                    <ListItemText primary={food.name} />
-                  </ListItem>
-                </TableCell>
-                <TableCell align="right">{food.calories}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          <TableBody>{orderedFood.map(renderFood)}</TableBody>
         </Table>
       </TableContainer>
     </Layout>

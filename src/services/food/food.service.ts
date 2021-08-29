@@ -151,5 +151,6 @@ export function format(data?: FoodData): Food {
     version: data?.version ?? FOOD.version,
     rawId: data?.id ?? FOOD.rawId,
     cholesterol: data?.cholesterol ?? FOOD.cholesterol,
+    recipe: data?.recipe ?? FOOD.recipe,
   };
 }

@@ -34,7 +34,12 @@ function format(food: FoodMyFoodData): FoodData {
   return {
     saturedFats: food.FASAT,
     calories: food.ENERC_KCAL,
-    enName: encodeURIComponent(food.name1.toLowerCase().replace(/\s/, '-')),
+    enName: encodeURIComponent(
+      food?.name1?.toLowerCase().replace(/\s/, '-') ??
+        food?.name?.toLowerCase().replace(/\s/, '-') ??
+        food?.name3?.toLowerCase().replace(/\s/, '-') ??
+        food?.name2?.toLowerCase().replace(/\s/, '-'),
+    ),
     aminoAcids: {
       alanine: food.ALA_G,
       arginine: food.ARG_G,
@@ -360,27 +365,6 @@ const foods: Array<FoodData> = [
     image: '/images/food/orange.svg',
     calories: 0,
     carbohydrates: 14,
-    aminoAcids: {
-      tryptophan: 2,
-      threonine: 8,
-      isoleucine: 8,
-      leucine: 13,
-      lysine: 9,
-      methionine: 3,
-      cystine: 5,
-      phenylalanine: 9,
-      tyrosine: 4,
-      valine: 1,
-      histidine: 3,
-      arginine: 47,
-      alanine: 15,
-      asparticAcid: 75,
-      glutamicAcid: 33,
-      glycine: 9,
-      proline: 44,
-      serine: 13,
-      glutamine: 0,
-    },
     oneMeasures: [
       {
         quantity: 248,
@@ -426,6 +410,7 @@ const foods: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: UnitOfMeasurement.gram,
+    recipe: true,
   },
   {
     name: 'Pão Francês',
@@ -504,6 +489,7 @@ const foods: Array<FoodData> = [
       serine: 470,
       glutamine: 0,
     },
+    recipe: true,
   },
   {
     ...format(garlic as unknown as FoodMyFoodData),
@@ -513,27 +499,6 @@ const foods: Array<FoodData> = [
     gi: 0,
     image: '/images/food/garlic.svg',
     description: 'Alho-poró, cru',
-    aminoAcids: {
-      tryptophan: 10,
-      threonine: 30,
-      isoleucine: 40,
-      leucine: 70,
-      lysine: 80,
-      methionine: 10,
-      cystine: 0,
-      phenylalanine: 50,
-      tyrosine: 60,
-      valine: 50,
-      arginine: 80,
-      histidine: 20,
-      alanine: 60,
-      asparticAcid: 50,
-      glutamicAcid: 180,
-      glycine: 50,
-      proline: 30,
-      serine: 40,
-      glutamine: 0,
-    },
     oneMeasures: [
       {
         quantity: 31.4,
@@ -578,27 +543,6 @@ const foods: Array<FoodData> = [
     gi: 0,
     image: '/images/food/ham.svg',
     description: 'Presunto, sem capa de gordura',
-    aminoAcids: {
-      tryptophan: 150,
-      threonine: 710,
-      isoleucine: 690,
-      leucine: 1150,
-      lysine: 1280,
-      methionine: 480,
-      cystine: 220,
-      phenylalanine: 630,
-      tyrosine: 550,
-      valine: 720,
-      arginine: 1200,
-      histidine: 890,
-      alanine: 820,
-      asparticAcid: 1370,
-      glutamicAcid: 2360,
-      glycine: 730,
-      proline: 650,
-      serine: 680,
-      glutamine: 0,
-    },
     keys: [],
     unitOfMeasurement: UnitOfMeasurement.gram,
     oneMeasures: [
@@ -639,27 +583,6 @@ const foods: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: UnitOfMeasurement.gram,
-    aminoAcids: {
-      tryptophan: 12,
-      threonine: 191,
-      isoleucine: 77,
-      leucine: 102,
-      lysine: 101,
-      methionine: 20,
-      cystine: 83,
-      phenylalanine: 61,
-      tyrosine: 43,
-      valine: 69,
-      histidine: 40,
-      arginine: 91,
-      alanine: 113,
-      asparticAcid: 190,
-      glutamicAcid: 366,
-      glycine: 47,
-      proline: 54,
-      serine: 54,
-      glutamine: 0,
-    },
   },
   {
     ...format(avocado),
@@ -668,27 +591,6 @@ const foods: Array<FoodData> = [
     enName: 'avocado',
     gi: 15,
     image: '/images/food/avocado.svg',
-    aminoAcids: {
-      tryptophan: 25,
-      threonine: 73,
-      isoleucine: 84,
-      leucine: 143,
-      lysine: 132,
-      methionine: 38,
-      cystine: 27,
-      phenylalanine: 97,
-      tyrosine: 49,
-      valine: 107,
-      histidine: 49,
-      arginine: 88,
-      alanine: 109,
-      asparticAcid: 236,
-      glutamicAcid: 287,
-      glycine: 104,
-      proline: 98,
-      serine: 114,
-      glutamine: 0,
-    },
     unitOfMeasurement: UnitOfMeasurement.gram,
     oneMeasures: [
       {
@@ -890,13 +792,14 @@ const foods: Array<FoodData> = [
     ],
   },
   {
-    ...format(sugarData), // TODO: precisa diferenciar do açúcar branco
     id: 27,
     name: 'Bolo de cenoura',
     enName: 'carrot-cake',
     gi: 67,
-    image: '/images/food/carrot-cake.svg', // TODO: precisa diferenciar do açúcar branco
+    image:
+      'https://images.unsplash.com/photo-1595955809761-dcd4c857e147?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.gram,
+    recipe: true,
   },
   {
     id: 28,
@@ -1194,7 +1097,9 @@ const foods: Array<FoodData> = [
     id: 50,
     name: 'Sanduíche',
     enName: 'sandwich',
-    image: '/images/food/sandwich.svg',
+    image:
+      'https://images.unsplash.com/photo-1592415486689-125cbbfcbee2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=625&q=80',
+    recipe: true,
   },
   {
     ...format(ham),
@@ -1209,6 +1114,7 @@ const foods: Array<FoodData> = [
         type: 'SLICE',
       },
     ],
+    keys: ['peito de peru'],
   },
   {
     ...format(water as unknown as FoodMyFoodData),
@@ -1238,6 +1144,15 @@ const foods: Array<FoodData> = [
     enName: 'beef',
     image: '/images/food/beef.svg',
     keys: ['carne', 'carne de gado', 'carne moída', 'bife'],
+  },
+  {
+    id: 55,
+    name: 'Galinhada',
+    enName: 'chicken-risotto',
+    image:
+      'https://images.unsplash.com/photo-1461009683693-342af2f2d6ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=731&q=80',
+    keys: ['risoto de frango', 'arroz com galinha', 'arroz com frango'],
+    recipe: true,
   },
 ];
 

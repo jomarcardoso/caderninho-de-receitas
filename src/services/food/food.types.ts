@@ -109,6 +109,7 @@ export interface Food {
   keys: Array<string>;
   version: FoodVersion;
   rawId: number;
+  recipe: boolean;
 }
 
 export interface FoodData
@@ -176,4 +177,5 @@ export const FOOD: Food = {
   vitamins: VITAMINS,
   version: 'RAW',
   rawId: 0,
+  recipe: false,
 };
