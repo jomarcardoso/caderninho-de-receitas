@@ -46,6 +46,10 @@ import {
   cornFlour,
   edamCheese,
   parsley,
+  cassava,
+  coriander,
+  lemon,
+  blackPepper,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -303,6 +307,8 @@ const foods: Array<FoodData> = [
     gi: 70,
     gl: 14,
     icon: '/images/food/banana.svg',
+    image:
+      'https://w1.ezcdn.com.br/euorganico/fotos/grande/72fg1/banana-nanica.jpg',
     calories: 89,
     carbohydrates: 28,
     aminoAcids: {
@@ -334,6 +340,8 @@ const foods: Array<FoodData> = [
     gi: 87,
     gl: 6,
     icon: '/images/food/banana.svg',
+    image:
+      'https://www.mundoecologia.com.br/wp-content/gallery/banana-my/Banana-Mysore-2.jpg',
     calories: 89,
     carbohydrates: 12,
     aminoAcids: {
@@ -562,6 +570,7 @@ const foods: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    keys: ['avocado'],
   },
   {
     ...format(oat),
@@ -996,6 +1005,8 @@ const foods: Array<FoodData> = [
     id: 47,
     name: 'Amido de milho',
     icon: '/images/food/corn-flour.svg',
+    image:
+      'https://images.armazemcerealista.com.br/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/a/m/amido-de-milho---100g.jpg',
     enName: 'maize-starch',
     keys: ['maizena'],
     version: 'REFINED_FLOUR',
@@ -1115,6 +1126,114 @@ const foods: Array<FoodData> = [
       'https://images.unsplash.com/photo-1461009683693-342af2f2d6ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=731&q=80',
     keys: ['risoto de frango', 'arroz com galinha', 'arroz com frango'],
     recipe: true,
+  },
+  {
+    ...format(cassava as unknown as FoodMyFoodData),
+    id: 56,
+    name: 'Aipim',
+    enName: 'cassava',
+    icon: '/images/food/cassava.png',
+    image:
+      'https://a-static.mlcdn.com.br/618x463/aipim/fruitexpress/1878daaecaf611eb86614201ac18500e/a80c447bae57a657277ef1e2516cb498.jpg',
+    keys: ['mandioca', 'macacheira', 'cassava'],
+  },
+  {
+    id: 57,
+    name: 'Estrogonofe de Carne',
+    enName: 'beef-stroganoff',
+    icon: '/images/food/stroganoff.png',
+    image:
+      'https://piracanjuba.com.br/content/receitas/cont/0000000056/rec056_1910.jpg',
+    keys: ['strogonofe', 'estrogonofe'],
+    recipe: true,
+  },
+  {
+    id: 58,
+    name: 'Estrogonofe de Frango',
+    enName: 'chicken-stroganoff',
+    icon: '/images/food/stroganoff.png',
+    image:
+      'https://img.cybercook.com.br/imagens/receitas/644/strogonoff-de-frango-1-840x480.jpg?q=75',
+    keys: ['strogonofe', 'estrogonofe'],
+    recipe: true,
+  },
+  {
+    ...format(coriander as unknown as FoodMyFoodData),
+    id: 59,
+    name: 'Coentro',
+    enName: 'coriander',
+    icon: '/images/food/coriander.png',
+    image:
+      'https://s2.glbimg.com/2uv6Zz8Fr8j89rvJC1mZl8wGPdo=/smart/e.glbimg.com/og/ed/f/original/2020/10/27/coriandrum-sativum-coentro-aespeciarista-.jpg',
+  },
+  {
+    ...format(lemon as unknown as FoodMyFoodData),
+    id: 60,
+    name: 'Limão',
+    enName: 'lemon',
+    icon: '/images/food/lemon.png',
+    image:
+      'https://minhasaude.proteste.org.br/wp-content/uploads/2020/10/lim%C3%B5es-970x472.jpg',
+  },
+  {
+    ...format(blackPepper as unknown as FoodMyFoodData),
+    id: 61,
+    name: 'Pimenta do Reino',
+    enName: 'black-pepper',
+    icon: '/images/food/black-pepper.png',
+    image:
+      'http://premiertemperos.com.br/novo/wp-content/uploads/2020/04/1706-1-1200x675.jpg',
+    keys: ['pimenta preta', 'pimenta'],
+  },
+  {
+    id: 62,
+    name: 'Guacamole',
+    enName: 'guacamole',
+    icon: '/images/food/guacamole.png',
+    image: 'https://cdn.panelinha.com.br/receita/1513697612821-guacamole.jpg',
+    recipe: true,
+  },
+  {
+    id: 63,
+    name: 'Molho de Limão e Mel para Salada',
+    enName: 'lemon-and-honey-salad-dressing',
+    icon: '/images/food/sauce.png',
+    image:
+      'https://cdn.panelinha.com.br/receita/1619447331360-molho%2011.07.16.jpg',
+    recipe: true,
+    keys: [
+      'molho de salada',
+      'molho para salada',
+      'molho pra   salada',
+      'molho de limão',
+      'molho de mel',
+    ],
+  },
+  {
+    id: 64,
+    name: 'Mel',
+    enName: 'honey',
+    icon: '/images/food/honey.png',
+    image:
+      'https://images.unsplash.com/photo-1573697610008-4c72b4e9508f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=755&q=80',
+    calories: 304,
+    dietaryFiber: 0.2,
+    sugar: 82,
+    carbohydrates: 82,
+    vitamins: {
+      ...VITAMINS_DATA,
+      c: 0.5,
+      b6: 0,
+    },
+    minerals: {
+      ...MINERALS_DATA,
+      iron: 0.4,
+      magnesium: 2,
+      calcium: 6,
+      potassium: 52,
+      sodium: 4,
+    },
+    keys: ['mel', 'mel de abelha'],
   },
 ];
 

@@ -21,6 +21,13 @@ const MOCK_JERIMUM: Food = {
   keys: ['abóbora', 'abobora'],
 };
 
+const MOCK_HONEY: Food = {
+  ...FOOD,
+  name: 'Mel',
+  enName: 'honey',
+  keys: ['mel'],
+};
+
 const MOCK_CARROT_CAKE: Food = {
   ...FOOD,
   name: 'Bolo de cenoura',
@@ -28,11 +35,26 @@ const MOCK_CARROT_CAKE: Food = {
   keys: ['bolo', 'cenoura'],
 };
 
+const MOCK_LEMON_AND_HONEY_SALAD_DRESSING: Food = {
+  ...FOOD,
+  name: 'Molho de Limão e Mel para Salada',
+  enName: 'lemon-and-honey-salad-dressing',
+  keys: [
+    'molho de salada',
+    'molho para salada',
+    'molho pra salada',
+    'molho de limão',
+    'molho de mel',
+  ],
+};
+
 const MOCK_FOODS: Array<Food> = [
   MOCK_CARROT,
   MOCK_APPLE,
   MOCK_JERIMUM,
   MOCK_CARROT_CAKE,
+  MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
+  MOCK_HONEY,
 ];
 
 describe('FoodService', () => {
@@ -79,6 +101,54 @@ describe('FoodService', () => {
       });
 
       expect(result).toStrictEqual({ food: MOCK_CARROT, index: 0 });
+    });
+
+    it('Molho de salada', () => {
+      const result = getFoodByString({
+        foods: MOCK_FOODS,
+        text: 'molho de salada',
+      });
+
+      expect(result).toStrictEqual({
+        food: MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
+        index: 0,
+      });
+    });
+
+    it('Molho de mel e limão', () => {
+      const result = getFoodByString({
+        foods: MOCK_FOODS,
+        text: 'Molho de mel e limão',
+      });
+
+      expect(result).toStrictEqual({
+        food: MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
+        index: 0,
+      });
+    });
+
+    it('Molho pra salada de mel e limão', () => {
+      const result = getFoodByString({
+        foods: MOCK_FOODS,
+        text: 'Molho pra salada de mel e limão',
+      });
+
+      expect(result).toStrictEqual({
+        food: MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
+        index: 0,
+      });
+    });
+
+    it('1 colher (sopa) de mel', () => {
+      const result = getFoodByString({
+        foods: MOCK_FOODS,
+        text: '1 colher (sopa) de mel',
+      });
+
+      expect(result).toStrictEqual({
+        food: MOCK_HONEY,
+        index: 19,
+      });
     });
   });
 

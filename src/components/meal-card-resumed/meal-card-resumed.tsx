@@ -37,7 +37,7 @@ const MealCardResumed: FC<Props> = ({ meal, setMealId, setEditingMeal }) => {
           </CardMedia>
         </CardActionArea>
         <CardContent>
-          <Typography gutterBottom variant="h2">
+          <Typography gutterBottom variant="h3">
             {meal.name}
           </Typography>
           <Typography>{meal.description}</Typography>

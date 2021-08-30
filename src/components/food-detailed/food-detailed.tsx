@@ -10,6 +10,7 @@ import { Food } from '../../services/food';
 import { VITAMINS } from '../../services/vitamin';
 import { MINERALS } from '../../services/mineral';
 import { Nutrient } from '../../services/nutrient.constants';
+import { light } from '../page/page';
 
 interface Props {
   food: Food;
@@ -75,7 +76,12 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
   return (
     <Grid container spacing={4} justifyContent="center" {...props}>
-      <Image src={image} alt="" aspectRatio={1.25} />
+      <Image
+        src={image}
+        alt=""
+        aspectRatio={1.25}
+        style={{ backgroundColor: light }}
+      />
       <Grid item xs={12}>
         <List>
           {renderQuality({ name: 'Índice Glicêmico', value: gi })}
