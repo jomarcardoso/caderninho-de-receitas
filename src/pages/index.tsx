@@ -193,7 +193,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
               ),
             }}
           >
-            <Grid container spacing={wayToShow === 'box' ? 2 : 4}>
+            <Grid container spacing={wayToShow === 'box' ? 1 : 4}>
               {account.meals.map(renderItem)}
             </Grid>
           </Layout>

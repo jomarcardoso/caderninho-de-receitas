@@ -76,12 +76,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
   return (
     <Grid container spacing={4} justifyContent="center" {...props}>
-      <Image
-        src={image}
-        alt=""
-        aspectRatio={1.25}
-        style={{ backgroundColor: light }}
-      />
+      <Image src={image} alt="" aspectRatio={1.25} />
       <Grid item xs={12}>
         <List>
           {renderQuality({ name: 'Índice Glicêmico', value: gi })}

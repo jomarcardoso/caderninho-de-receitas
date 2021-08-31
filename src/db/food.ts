@@ -50,6 +50,7 @@ import {
   coriander,
   lemon,
   blackPepper,
+  sweetPotato,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1162,6 +1163,7 @@ const foods: Array<FoodData> = [
     id: 59,
     name: 'Coentro',
     enName: 'coriander',
+    keys: ['coentro'],
     icon: '/images/food/coriander.png',
     image:
       'https://s2.glbimg.com/2uv6Zz8Fr8j89rvJC1mZl8wGPdo=/smart/e.glbimg.com/og/ed/f/original/2020/10/27/coriandrum-sativum-coentro-aespeciarista-.jpg',
@@ -1171,6 +1173,7 @@ const foods: Array<FoodData> = [
     id: 60,
     name: 'Limão',
     enName: 'lemon',
+    keys: ['limão', 'limões'],
     icon: '/images/food/lemon.png',
     image:
       'https://minhasaude.proteste.org.br/wp-content/uploads/2020/10/lim%C3%B5es-970x472.jpg',
@@ -1183,7 +1186,7 @@ const foods: Array<FoodData> = [
     icon: '/images/food/black-pepper.png',
     image:
       'http://premiertemperos.com.br/novo/wp-content/uploads/2020/04/1706-1-1200x675.jpg',
-    keys: ['pimenta preta', 'pimenta'],
+    keys: ['pimenta do reino', 'pimenta preta', 'pimenta'],
   },
   {
     id: 62,
@@ -1192,6 +1195,7 @@ const foods: Array<FoodData> = [
     icon: '/images/food/guacamole.png',
     image: 'https://cdn.panelinha.com.br/receita/1513697612821-guacamole.jpg',
     recipe: true,
+    keys: ['guacamole'],
   },
   {
     id: 63,
@@ -1202,6 +1206,7 @@ const foods: Array<FoodData> = [
       'https://cdn.panelinha.com.br/receita/1619447331360-molho%2011.07.16.jpg',
     recipe: true,
     keys: [
+      'molho de limão e mel para salada',
       'molho de salada',
       'molho para salada',
       'molho pra   salada',
@@ -1234,6 +1239,32 @@ const foods: Array<FoodData> = [
       sodium: 4,
     },
     keys: ['mel', 'mel de abelha'],
+  },
+  {
+    id: 65,
+    name: 'Pão de Batata Doce',
+    enName: 'sweet-potato-bread',
+    icon: '/images/food/bread.png',
+    image:
+      'https://cdn.panelinha.com.br/receita/1544639354405-pa%CC%83o%20de%20batata-doce%20para%20trocar.jpg',
+    keys: [
+      'pão de batata doce',
+      'bolinho de batata',
+      'bolinho de batata doce',
+      'bolinho de batata-doce',
+      'pão de batata-doce',
+    ],
+    recipe: true,
+  },
+  {
+    ...format(sweetPotato as unknown as FoodMyFoodData),
+    id: 66,
+    name: 'Batata Doce',
+    enName: 'sweet-potato',
+    icon: '/images/food/sweet-potato.png',
+    image:
+      'https://images.unsplash.com/photo-1584699006710-3ad3b82fce7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+    keys: ['batata doce', 'batata-doce', 'batata doce cozida'],
   },
 ];
 
