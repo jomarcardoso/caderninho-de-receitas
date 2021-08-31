@@ -51,6 +51,7 @@ import {
   lemon,
   blackPepper,
   sweetPotato,
+  cauliflower,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1103,10 +1104,20 @@ const foods: Array<FoodData> = [
     id: 53,
     name: 'Salsa',
     enName: 'parsley',
-    icon: '/images/food/parsley.svg',
+    icon: '/images/food/parsley.png',
     image:
       'https://images.unsplash.com/photo-1535189487909-a262ad10c165?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=689&q=80',
-    keys: ['salsinha', 'temperinho', 'temperinho verde', 'tempero verde'],
+    keys: [
+      'salsa',
+      'folha de salsa',
+      'folhas de salsa',
+      'folha de salsinha',
+      'folhas de salsinha',
+      'salsinha',
+      'temperinho',
+      'temperinho verde',
+      'tempero verde',
+    ],
   },
   {
     ...format(beef as unknown as FoodMyFoodData),
@@ -1265,6 +1276,50 @@ const foods: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1584699006710-3ad3b82fce7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     keys: ['batata doce', 'batata-doce', 'batata doce cozida'],
+  },
+  {
+    id: 67,
+    name: 'Sopa de Couve-flor',
+    enName: 'cauliflower-soup',
+    recipe: true,
+    icon: '/images/food/soup.svg',
+    image:
+      'https://cdn.panelinha.com.br/receita/1468292400000-Sopa-de-couve-flor-com-farofinha-de-pao.jpg',
+    keys: ['sopa de couve-flor', 'sopa de couve flor'],
+  },
+  {
+    ...format(cauliflower as unknown as FoodMyFoodData),
+    id: 68,
+    name: 'Couve-flor',
+    enName: 'cauliflower',
+    icon: '/images/food/cauliflower.png',
+    image:
+      'https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=752&q=80',
+    keys: [
+      'couve-flor',
+      'couve flor',
+      'couves-flor',
+      'couves-flores',
+      'couve-flores',
+    ],
+  },
+  {
+    id: 69,
+    name: 'Folha de Louro',
+    enName: 'bay-leaf',
+    icon: '/images/food/leaf.png',
+    image:
+      'https://images.unsplash.com/photo-1612549225312-900aa64d56bb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+    keys: ['folha de louro', 'folhas de louro', 'louro'],
+  },
+  {
+    id: 70,
+    name: 'Caldo de Legumes',
+    enName: 'vegetable-broth',
+    image:
+      'https://cdn.panelinha.com.br/receita/1339470000000-Caldo-caseiro-de-legumes.jpg',
+    keys: ['caldo de legume', 'caldo de legumes'],
+    recipe: true,
   },
 ];
 

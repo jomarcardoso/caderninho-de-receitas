@@ -93,3 +93,5 @@ export { default as lemon } from './lemon.json';
 export { default as blackPepper } from './black-pepper.json';
 
 export { default as sweetPotato } from './sweet-potato.json';
+
+export { default as cauliflower } from './cauliflower.json';
