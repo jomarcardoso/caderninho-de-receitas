@@ -80,14 +80,24 @@ const MealPanel: FC<{
   let mealData = MEAL_DATA;
   const classes = useStyles();
 
-  if (sharedString) {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    mealData = MealService.unFormatToShare(sharedString);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    meal = MealService.format({ mealData, foods });
-  } else {
+  function setMealById() {
     meal = account.meals.find(({ id: mealId }) => mealId === id) ?? MEAL;
     mealData = MealService.unFormat(meal);
+  }
+
+  if (sharedString) {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const mealShared = MealService.unFormatToShare(sharedString);
+
+    if (mealShared.portions.length) {
+      mealData = mealShared;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      meal = MealService.format({ mealData, foods });
+    } else {
+      setMealById();
+    }
+  } else {
+    setMealById();
   }
 
   async function handleShare() {

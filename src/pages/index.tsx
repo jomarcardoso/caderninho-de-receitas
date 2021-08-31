@@ -56,8 +56,12 @@ const DialogTransition: FC<SlideProps> = (props) => {
 const Index: FC<{ location: Location }> = ({ location }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
-  const [currentMealId, setCurrentMealId] = useState(0);
-  const [editingMeal, setEditingMeal] = useState(true);
+  const [currentMealId, setCurrentMealId] = useState(
+    Number(localStorage.getItem('currentMealId')) || 0,
+  );
+  const [editingMeal, setEditingMeal] = useState(
+    !Boolean(Number(localStorage.getItem('currentMealId'))),
+  );
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [openedFood, setOpenedFood] = useState(false);
@@ -144,6 +148,10 @@ const Index: FC<{ location: Location }> = ({ location }) => {
       clearInterval(interval);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('currentMealId', String(currentMealId));
+  }, [currentMealId]);
 
   return (
     <Page>

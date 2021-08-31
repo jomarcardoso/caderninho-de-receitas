@@ -181,6 +181,10 @@ export function unFormatToShare(paramString: string): MealData {
 
   const mealData: MealData = JSON.parse(json);
 
+  if (!mealData?.id) {
+    return MEAL_DATA;
+  }
+
   delete mealData.id;
 
   return mealData;
