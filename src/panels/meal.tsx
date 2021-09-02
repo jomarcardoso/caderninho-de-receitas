@@ -1,12 +1,21 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, {
+  FC,
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import ShareIcon from '@material-ui/icons/Share';
+import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Menu from '@material-ui/core/Menu';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import ButtonIcon from '@material-ui/core/Button';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Container from '../components/container/container';
 import StyleContext from '../contexts/style';
 import { MealService, MEAL_DATA, MealData } from '../services/meal';
@@ -22,6 +31,7 @@ import { CurrentPage } from '../services/page.service';
 import Section from '../components/section/section';
 import Image from '../components/image';
 import { Food } from '../services/food';
+import AccountContext from '../contexts/account-context';
 
 const useStyles = makeStyles({
   buttonTool: {
@@ -34,6 +44,10 @@ const useStyles = makeStyles({
     display: 'flex',
     marginLeft: 'auto',
     marginTop: 15,
+  },
+  toolsButton: {
+    transform: 'translateX(12px)',
+    padding: 0,
   },
 });
 
@@ -65,16 +79,28 @@ const MealPanel: FC<{
   setCurrentRecipeData,
   setCurrentFood,
 }) => {
+  const { setAccount } = useContext(AccountContext);
   const foods = useContext(FoodsContext);
   const meal = MealService.format({ foods, mealData: currentRecipeData });
   const classes = useStyles();
   const [editing, setEditing] = useState(true);
+  const [anchorElTools, setAnchorElTools] = useState<Element | null>();
+
+  function handleClickToolsMenu(event: SyntheticEvent) {
+    setAnchorElTools(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorElTools(null);
+  }
 
   async function handleShare() {
     const toShare = MealService.formatToShare(currentRecipeData);
     const url = `${window.location.origin}?${toShare}#meal-panel` ?? '';
     const title = currentRecipeData.name || 'Receita';
     const urlShort = await UrlService.shortener(url);
+
+    handleClose();
 
     if (!navigator.share) return;
 
@@ -87,6 +113,18 @@ const MealPanel: FC<{
 
   function handleNewMeal() {
     setCurrentRecipeData(MEAL_DATA);
+    handleClose();
+  }
+
+  function handleClickRemove() {
+    setAccount?.removeMeal(meal.id);
+    handleClose();
+    setCurrentRecipeData(MEAL_DATA);
+  }
+
+  function handleEdit() {
+    setEditing(true);
+    handleClose();
   }
 
   const pageName = meal.name ? (
@@ -103,54 +141,60 @@ const MealPanel: FC<{
     } else {
       setEditing(false);
     }
+
+    const elMealPanel = document.querySelector('#meal-panel');
+
+    elMealPanel?.scrollTo({
+      top: 0,
+    });
   }, [currentRecipeData]);
 
   return (
     <Layout
       currentPage={CurrentPage.MEAL}
       showFooter={false}
-      headerProps={{ pageName }}
+      headerProps={{
+        pageName,
+        tools: (
+          <>
+            <Button
+              aria-owns={anchorElTools ? 'simple-menu' : undefined}
+              aria-haspopup="true"
+              onClick={handleClickToolsMenu}
+              className={classes.toolsButton}
+            >
+              <IconButton color="secondary">
+                <MoreVertIcon />
+              </IconButton>
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorElTools}
+              open={Boolean(anchorElTools)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleEdit}>editar receita</MenuItem>
+              <MenuItem onClick={handleShare}>compartilhar</MenuItem>
+              <MenuItem onClick={handleClickRemove}>apagar</MenuItem>
+            </Menu>
+          </>
+        ),
+      }}
       mainProps={{
         mt: !editing ? 0 : 5,
         containerProps: { disableGutters: true },
       }}
     >
       <MealPageStyle editing={editing}>
-        {!editing && <Image src={meal.image} alt="" aspectRatio={1.25} />}
+        {!editing && (
+          <Box marginBottom={3}>
+            <Image src={meal.image} alt="" aspectRatio={1.25} />
+          </Box>
+        )}
         <Container>
           <Grid container spacing={4}>
             {!editing ? (
               <>
-                <Grid item xs={12}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <Grid container spacing={1}>
-                        <Grid item>
-                          <ButtonIcon
-                            className={classes.buttonTool}
-                            onClick={() => setEditing(true)}
-                            size="small"
-                            color="secondary"
-                            title="editar"
-                          >
-                            <EditRoundedIcon fontSize="medium" />
-                          </ButtonIcon>
-                        </Grid>
-                        <Grid item>
-                          <ButtonIcon
-                            className={classes.buttonTool}
-                            onClick={handleShare}
-                            size="small"
-                            color="secondary"
-                            title="compartilhar"
-                          >
-                            <ShareIcon fontSize="medium" />
-                          </ButtonIcon>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
                 {meal.description && (
                   <Grid item xs={12}>
                     <Typography>{meal.description}</Typography>

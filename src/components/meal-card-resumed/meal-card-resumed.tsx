@@ -31,26 +31,31 @@ const MealCardResumed: FC<Props> = ({ meal, setCurrentRecipe }) => {
 
   function handleClickLink() {
     setCurrentRecipe(meal);
+
+    const elPage = document.querySelector('#root-content');
+
+    elPage?.scrollTo({
+      left: 9999,
+      behavior: 'smooth',
+    });
   }
 
   return (
-    <a href="#meal-panel" onClick={handleClickLink}>
-      <Card className={classes.card}>
-        <CardActionArea>
-          <CardMedia>
-            <Image src={meal.image} alt="" aspectRatio={1.25} />
-          </CardMedia>
-        </CardActionArea>
-        <CardContent>
-          <Typography gutterBottom variant="h3">
-            {meal.name}
-          </Typography>
-          <Typography className={classes.description}>
-            {meal.description}
-          </Typography>
-        </CardContent>
-      </Card>
-    </a>
+    <Card className={classes.card} onClick={handleClickLink}>
+      <CardActionArea>
+        <CardMedia>
+          <Image src={meal.image} alt="" aspectRatio={1.25} />
+        </CardMedia>
+      </CardActionArea>
+      <CardContent>
+        <Typography gutterBottom variant="h3">
+          {meal.name}
+        </Typography>
+        <Typography className={classes.description}>
+          {meal.description}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
