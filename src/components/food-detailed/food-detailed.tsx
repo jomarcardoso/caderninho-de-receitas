@@ -10,7 +10,6 @@ import { Food } from '../../services/food';
 import { VITAMINS } from '../../services/vitamin';
 import { MINERALS } from '../../services/mineral';
 import { Nutrient } from '../../services/nutrient.constants';
-import { light } from '../page/page';
 
 interface Props {
   food: Food;
