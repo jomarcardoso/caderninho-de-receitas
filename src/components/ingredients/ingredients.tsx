@@ -27,9 +27,13 @@ const Ingredients: FC<Props> = ({ portions = [], setCurrentFood }) => {
           >
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={2} sm={1}>
-                <Box bgcolor="white" padding={1}>
+                <Box
+                  bgcolor="white"
+                  padding={portion.food.icon ? 1 : 0}
+                  borderRadius="borderRadius"
+                >
                   <Image
-                    src={portion.food.icon}
+                    src={portion.food.icon || portion.food.image}
                     alt={portion.food.name}
                     disableSpinner
                   />

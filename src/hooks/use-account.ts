@@ -11,7 +11,7 @@ export default function useAccount(foods: Array<Food>): AccountAndSet {
   const [account, _setAccount] = useState(AccountService.get(foods));
 
   function setMeal(mealData: MealData): number {
-    const id = mealData.id || account.meals.length + 1;
+    const id = mealData.id || new Date().getTime();
 
     const meal: Meal = MealService.format({
       mealData: {

@@ -83,3 +83,15 @@ export { default as cornFlour } from './corn-flour.json';
 export { default as edamCheese } from './edam-cheese.json';
 
 export { default as parsley } from './parsley.json';
+
+export { default as cassava } from './cassava.json';
+
+export { default as coriander } from './coriander.json';
+
+export { default as lemon } from './lemon.json';
+
+export { default as blackPepper } from './black-pepper.json';
+
+export { default as sweetPotato } from './sweet-potato.json';
+
+export { default as cauliflower } from './cauliflower.json';

@@ -23,9 +23,8 @@ const useStyles = makeStyles({
 interface Props {
   mealData: MealData;
   meal: Meal;
-  setId: (id: number) => void;
+  setCurrentRecipeData(data: MealData): void;
   editing: boolean;
-  setEditing(editing: boolean): void;
 }
 
 interface MealForm {
@@ -38,9 +37,8 @@ interface MealForm {
 const MealRegister: FC<Props> = ({
   mealData = MEAL_DATA,
   meal = MEAL,
-  setId,
+  setCurrentRecipeData,
   editing = true,
-  setEditing,
 }) => {
   const classes = useStyles();
   const { setAccount } = useContext(AccountContext);
@@ -82,16 +80,20 @@ const MealRegister: FC<Props> = ({
   }: MealForm): void {
     if (!setAccount) return;
 
-    const id = setAccount.meal({
+    const newMealData: MealData = {
       portions: portionsData,
       name,
       description,
       id: mealData?.id ?? 0,
       preparation,
-    });
+    };
 
-    setId(id);
-    setEditing(false);
+    const id = setAccount.meal(newMealData);
+
+    setCurrentRecipeData({
+      ...newMealData,
+      id,
+    });
   }
 
   return (

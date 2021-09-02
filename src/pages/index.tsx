@@ -31,6 +31,7 @@ import { FOOD } from '../services/food';
 import Footer from '../components/footer';
 import { Meal } from '../services/meal';
 import MealCardResumed from '../components/meal-card-resumed/meal-card-resumed';
+import useRecipe from '../hooks/use-current-recipe';
 
 const useStyles = makeStyles({
   card: {
@@ -46,6 +47,7 @@ const useStyles = makeStyles({
   },
   toolsButton: {
     transform: 'translateX(12px)',
+    padding: 0,
   },
 });
 
@@ -56,14 +58,14 @@ const DialogTransition: FC<SlideProps> = (props) => {
 const Index: FC<{ location: Location }> = ({ location }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
-  const [currentMealId, setCurrentMealId] = useState(0);
-  const [editingMeal, setEditingMeal] = useState(true);
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [openedFood, setOpenedFood] = useState(false);
   const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
   const [anchorElTools, setAnchorElTools] = useState<Element | null>();
-  const [wayToShow, setWayToShow] = useState<'list' | 'box'>('box');
+  const [wayToShow] = useState<'list' | 'box'>('box');
+  const { currentRecipeData, setCurrentRecipeData, setCurrentRecipe } =
+    useRecipe();
 
   function handleClickToolsMenu(event: SyntheticEvent) {
     setAnchorElTools(event.currentTarget);
@@ -77,22 +79,14 @@ const Index: FC<{ location: Location }> = ({ location }) => {
     if (wayToShow === 'box') {
       return (
         <Grid item xs={6} sm={4} className={classes.card}>
-          <MealCardResumed
-            meal={meal}
-            setMealId={setCurrentMealId}
-            setEditingMeal={setEditingMeal}
-          />
+          <MealCardResumed meal={meal} setCurrentRecipe={setCurrentRecipe} />
         </Grid>
       );
     }
 
     return (
       <Grid item xs={12} sm={6} className={classes.card}>
-        <MealCard
-          meal={meal}
-          setMealId={setCurrentMealId}
-          setEditingMeal={setEditingMeal}
-        />
+        <MealCard meal={meal} setCurrentRecipe={setCurrentRecipe} />
       </Grid>
     );
   }
@@ -193,18 +187,15 @@ const Index: FC<{ location: Location }> = ({ location }) => {
               ),
             }}
           >
-            <Grid container spacing={wayToShow === 'box' ? 2 : 4}>
+            <Grid container spacing={wayToShow === 'box' ? 1 : 4}>
               {account.meals.map(renderItem)}
             </Grid>
           </Layout>
         </Panel>
         <Panel id="meal-panel">
           <MealPanel
-            location={location}
-            mealId={currentMealId}
-            setMealId={setCurrentMealId}
-            editing={editingMeal}
-            setEditing={setEditingMeal}
+            currentRecipeData={currentRecipeData}
+            setCurrentRecipeData={setCurrentRecipeData}
             setCurrentFood={setCurrentFood}
           />
         </Panel>

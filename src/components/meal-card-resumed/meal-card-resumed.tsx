@@ -10,40 +10,52 @@ import Image from '../image';
 
 interface Props {
   meal: Meal;
-  setMealId(id: number): void;
-  setEditingMeal: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentRecipe: React.Dispatch<React.SetStateAction<Meal>>;
 }
 
 const useStyles = makeStyles({
   card: {
     height: '100%',
   },
+  description: {
+    lineClamp: 5,
+    overflow: 'hidden',
+    textOverflow: 'clip',
+    boxOrient: 'vertical',
+    maxHeight: 100,
+  },
 });
 
-const MealCardResumed: FC<Props> = ({ meal, setMealId, setEditingMeal }) => {
+const MealCardResumed: FC<Props> = ({ meal, setCurrentRecipe }) => {
   const classes = useStyles();
 
   function handleClickLink() {
-    setMealId(meal.id);
-    setEditingMeal(false);
+    setCurrentRecipe(meal);
+
+    const elPage = document.querySelector('#root-content');
+
+    elPage?.scrollTo({
+      left: 9999,
+      behavior: 'smooth',
+    });
   }
 
   return (
-    <a href="#meal-panel" onClick={handleClickLink}>
-      <Card className={classes.card}>
-        <CardActionArea>
-          <CardMedia>
-            <Image src={meal.image} alt="" aspectRatio={1.25} />
-          </CardMedia>
-        </CardActionArea>
-        <CardContent>
-          <Typography gutterBottom variant="h2">
-            {meal.name}
-          </Typography>
-          <Typography>{meal.description}</Typography>
-        </CardContent>
-      </Card>
-    </a>
+    <Card className={classes.card} onClick={handleClickLink}>
+      <CardActionArea>
+        <CardMedia>
+          <Image src={meal.image} alt="" aspectRatio={1.25} />
+        </CardMedia>
+      </CardActionArea>
+      <CardContent>
+        <Typography gutterBottom variant="h3">
+          {meal.name}
+        </Typography>
+        <Typography className={classes.description}>
+          {meal.description}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 

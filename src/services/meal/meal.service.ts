@@ -171,6 +171,9 @@ export function unFormat(meal: Meal): MealData {
 }
 
 export function formatToShare(mealData: MealData): string {
+  const copy = { ...mealData };
+
+  delete copy.id;
   const json = JSON.stringify(mealData);
 
   return new URLSearchParams({ mealData: json }).toString();
@@ -180,6 +183,10 @@ export function unFormatToShare(paramString: string): MealData {
   const json = new URLSearchParams(paramString).get('mealData') ?? 'null';
 
   const mealData: MealData = JSON.parse(json);
+
+  if (!mealData?.id) {
+    return MEAL_DATA;
+  }
 
   delete mealData.id;
 
