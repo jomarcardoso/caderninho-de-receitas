@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ShareIcon from '@material-ui/icons/Share';
@@ -9,9 +9,7 @@ import ButtonIcon from '@material-ui/core/Button';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import Container from '../components/container/container';
 import StyleContext from '../contexts/style';
-import { ACCOUNT } from '../services/account.service';
-import AccountContext from '../contexts/account-context';
-import { MealService, MEAL_DATA, MEAL } from '../services/meal';
+import { MealService, MEAL_DATA, MealData } from '../services/meal';
 import { UrlService } from '../services/url';
 import ScoreComponent from '../components/score';
 import MealRegister from '../components/meal-register';
@@ -59,51 +57,23 @@ const MealPageStyle: FC<{ editing: boolean }> = ({
 };
 
 const MealPanel: FC<{
-  location: Location;
-  mealId: number;
-  setMealId(id: number): void;
-  editing: boolean;
-  setEditing(editing: boolean): void;
-  setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
+  currentRecipeData: MealData;
+  setCurrentRecipeData(data: MealData): void;
+  setCurrentFood(food: Food): void;
 }> = ({
-  location,
-  mealId: id = 0,
-  setMealId,
-  editing = false,
-  setEditing,
+  currentRecipeData = MEAL_DATA,
+  setCurrentRecipeData,
   setCurrentFood,
 }) => {
-  const sharedString = location.search;
   const foods = useContext(FoodsContext);
-  const { account = ACCOUNT } = useContext(AccountContext);
-  let meal = MEAL;
-  let mealData = MEAL_DATA;
+  const meal = MealService.format({ foods, mealData: currentRecipeData });
   const classes = useStyles();
-
-  function setMealById() {
-    meal = account.meals.find(({ id: mealId }) => mealId === id) ?? MEAL;
-    mealData = MealService.unFormat(meal);
-  }
-
-  if (sharedString) {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const mealShared = MealService.unFormatToShare(sharedString);
-
-    if (mealShared.portions.length) {
-      mealData = mealShared;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      meal = MealService.format({ mealData, foods });
-    } else {
-      setMealById();
-    }
-  } else {
-    setMealById();
-  }
+  const [editing, setEditing] = useState(true);
 
   async function handleShare() {
-    const toShare = MealService.formatToShare(mealData);
-    const url = `${location.origin}?${toShare}#meal-panel` ?? '';
-    const title = mealData.name || 'Receita';
+    const toShare = MealService.formatToShare(currentRecipeData);
+    const url = `${window.location.origin}?${toShare}#meal-panel` ?? '';
+    const title = currentRecipeData.name || 'Receita';
     const urlShort = await UrlService.shortener(url);
 
     if (!navigator.share) return;
@@ -116,15 +86,30 @@ const MealPanel: FC<{
   }
 
   function handleNewMeal() {
-    setEditing(true);
-    setMealId(0);
+    setCurrentRecipeData(MEAL_DATA);
   }
+
+  const pageName = meal.name ? (
+    <span style={{ fontSize: meal.name.length > 22 ? '18px' : '20px' }}>
+      {meal.name}
+    </span>
+  ) : (
+    'Nova receita'
+  );
+
+  useEffect(() => {
+    if (!currentRecipeData.id) {
+      setEditing(true);
+    } else {
+      setEditing(false);
+    }
+  }, [currentRecipeData]);
 
   return (
     <Layout
       currentPage={CurrentPage.MEAL}
       showFooter={false}
-      headerProps={{ pageName: meal.name || 'Nova receita' }}
+      headerProps={{ pageName }}
       mainProps={{
         mt: !editing ? 0 : 5,
         containerProps: { disableGutters: true },
@@ -184,11 +169,10 @@ const MealPanel: FC<{
             ) : (
               <Grid item xs={12}>
                 <MealRegister
-                  mealData={mealData}
+                  mealData={currentRecipeData}
                   meal={meal}
-                  setId={setMealId}
+                  setCurrentRecipeData={setCurrentRecipeData}
                   editing={editing}
-                  setEditing={setEditing}
                 />
               </Grid>
             )}

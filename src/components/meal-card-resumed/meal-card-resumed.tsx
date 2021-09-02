@@ -5,14 +5,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import React, { FC } from 'react';
-import { Hidden } from '@material-ui/core';
 import { Meal } from '../../services/meal';
 import Image from '../image';
 
 interface Props {
   meal: Meal;
-  setMealId(id: number): void;
-  setEditingMeal: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentRecipe: React.Dispatch<React.SetStateAction<Meal>>;
 }
 
 const useStyles = makeStyles({
@@ -28,12 +26,11 @@ const useStyles = makeStyles({
   },
 });
 
-const MealCardResumed: FC<Props> = ({ meal, setMealId, setEditingMeal }) => {
+const MealCardResumed: FC<Props> = ({ meal, setCurrentRecipe }) => {
   const classes = useStyles();
 
   function handleClickLink() {
-    setMealId(meal.id);
-    setEditingMeal(false);
+    setCurrentRecipe(meal);
   }
 
   return (

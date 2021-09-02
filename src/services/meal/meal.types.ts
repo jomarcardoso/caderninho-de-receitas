@@ -25,7 +25,7 @@ export interface MealData {
 }
 
 export const MEAL_DATA: MealData = {
-  id: 1,
+  id: 0,
   name: '',
   description: '',
   portions: [],
