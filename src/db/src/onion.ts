@@ -21,7 +21,7 @@ export default {
   brand_owner: 'Blazing Bagels And Bakery Inc.',
   gtin_upc: '652003101262',
   ingredients:
-    "Shepherd's Grain Unbleached Enriched Flour (Wheat Flour, Malted Barley Flour, Niacin, Reduced Iron, Thiamin Mononitrate, Riboflavin, Folic Acid), Water, Brown Cane Sugar (Sugar, Invert Sugar, Cane Molasses), Malted Barley Flour, Dehydrated Onion, Contains 2% Of Each Of The Following: Sea Salt, Corn Meal, Yeast, Calcium Sulfate, Enzymes (Plant Based).",
+    "Shepherd's Grain Unbleached Enriched Flour (Wheat Flour, Malted Barley Flour, Niacin, Reduced Iron, Thiamin Mononitrate, Riboflavin, Folic Acid), Water, Brown Cane Sugar (Sugar, Invert Sugar, Cane Molasses), Malted Barley Flour, Dehydrated Onion, Contains 2% Of Each Of The Following: Sea Salt, Corn Recipe, Yeast, Calcium Sulfate, Enzymes (Plant Based).",
   serving_size: '128',
   serving_size_unit: 'g',
   household_serving_fulltext: '1 BAGEL',

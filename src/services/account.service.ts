@@ -1,20 +1,20 @@
-import { MealService, Meal, SetMeal, MealData } from './meal';
+import { RecipeService, Recipe, SetRecipe, RecipeData } from './recipe';
 import { Food } from './food';
 
 const CURRENT_VERSION = 2;
 
 export interface SetAccount {
-  meal: SetMeal;
-  removeMeal(id: number): void;
+  recipe: SetRecipe;
+  removeRecipe(id: number): void;
 }
 
 export interface Account {
-  meals: Array<Meal>;
+  recipes: Array<Recipe>;
   version: number;
 }
 
 export interface AccountData {
-  meals: Array<MealData>;
+  recipes: Array<RecipeData>;
   version: number;
 }
 
@@ -33,7 +33,7 @@ export interface AccountAndSet {
 const ACCOUNT_LOCAL_STORAGE = 'saude-em-pontos';
 
 export const ACCOUNT: Account = {
-  meals: [],
+  recipes: [],
   version: 0,
 };
 
@@ -45,10 +45,10 @@ function format({
   foods: Array<Food>;
 }): Account {
   return {
-    meals:
-      accountData?.meals?.map((mealData) =>
-        MealService.format({ mealData, foods }),
-      ) ?? ACCOUNT.meals,
+    recipes:
+      accountData?.recipes?.map((recipeData) =>
+        RecipeService.format({ recipeData, foods }),
+      ) ?? ACCOUNT.recipes,
     version: CURRENT_VERSION,
   };
 }
@@ -63,7 +63,7 @@ function get(foods: Array<Food>): Account {
   const localVersion = accountData.version || 0;
 
   if (localVersion < 0) {
-    accountData.meals = [];
+    accountData.recipes = [];
   }
 
   const accountDataV1 = accountData as AccountDataV1;
@@ -80,7 +80,7 @@ function get(foods: Array<Food>): Account {
 
 function unFormat(account: Account): AccountData {
   return {
-    meals: account.meals.map((meal) => MealService.unFormat(meal)),
+    recipes: account.recipes.map((recipe) => RecipeService.unFormat(recipe)),
     version: CURRENT_VERSION,
   };
 }

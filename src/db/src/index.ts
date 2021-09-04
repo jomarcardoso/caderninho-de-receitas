@@ -54,7 +54,7 @@ export { default as whiteRice } from './white-rice.json';
 
 export { default as blackBean } from './black-bean.json';
 
-export { default as cornMeal } from './corn-meal.json';
+export { default as cornRecipe } from './corn-meal.json';
 
 export { default as whiteBread } from './white-bread.json';
 

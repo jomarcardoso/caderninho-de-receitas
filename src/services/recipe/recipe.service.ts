@@ -1,7 +1,7 @@
 import { Food, AminoAcids, FoodService } from '../food';
 import PortionService from '../portion/portion.service';
 import { Portion } from '../portion/portion.types';
-import { Meal, MealData, MEAL_DATA } from './meal.types';
+import { Recipe, RecipeData, RECIPE_DATA } from './recipe.types';
 
 export function calculateCalories(portions: Array<Portion> = []): number {
   return Number(
@@ -48,13 +48,13 @@ export function calculateAcidification(portions: Array<Portion> = []): number {
 }
 
 export function format({
-  mealData = MEAL_DATA,
+  recipeData = RECIPE_DATA,
   foods = [],
 }: {
-  mealData: MealData;
+  recipeData: RecipeData;
   foods: Array<Food>;
-}): Meal {
-  const portions = mealData?.portions?.map((text) =>
+}): Recipe {
+  const portions = recipeData?.portions?.map((text) =>
     PortionService.portionFromString({ text, foods }),
   );
 
@@ -141,16 +141,16 @@ export function format({
     food: { image = '' },
   } = FoodService.getFoodByString({
     foods,
-    text: mealData.name,
+    text: recipeData.name,
   });
 
   return {
-    ...mealData,
-    id: mealData?.id ?? Math.round(Math.random() * 1000),
+    ...recipeData,
+    id: recipeData?.id ?? Math.round(Math.random() * 1000),
     portions,
     calories: calculateCalories(portions),
-    name: mealData.name,
-    description: mealData?.description ?? '',
+    name: recipeData.name,
+    description: recipeData?.description ?? '',
     image,
     gi: calculateGI(portions),
     acidification: calculateAcidification(portions),
@@ -160,35 +160,36 @@ export function format({
   };
 }
 
-export function unFormat(meal: Meal): MealData {
+export function unFormat(recipe: Recipe): RecipeData {
   return {
-    id: meal.id ?? MEAL_DATA.id,
-    name: meal.name ?? MEAL_DATA.name,
-    description: meal.description ?? MEAL_DATA.description,
-    portions: meal.portions.map(PortionService.unFormat) ?? MEAL_DATA.portions,
-    preparation: meal.preparation ?? MEAL_DATA.preparation,
+    id: recipe.id ?? RECIPE_DATA.id,
+    name: recipe.name ?? RECIPE_DATA.name,
+    description: recipe.description ?? RECIPE_DATA.description,
+    portions:
+      recipe.portions.map(PortionService.unFormat) ?? RECIPE_DATA.portions,
+    preparation: recipe.preparation ?? RECIPE_DATA.preparation,
   };
 }
 
-export function formatToShare(mealData: MealData): string {
-  const copy = { ...mealData };
+export function formatToShare(recipeData: RecipeData): string {
+  const copy = { ...recipeData };
 
   delete copy.id;
-  const json = JSON.stringify(mealData);
+  const json = JSON.stringify(recipeData);
 
-  return new URLSearchParams({ mealData: json }).toString();
+  return new URLSearchParams({ recipeData: json }).toString();
 }
 
-export function unFormatToShare(paramString: string): MealData {
-  const json = new URLSearchParams(paramString).get('mealData') ?? 'null';
+export function unFormatToShare(paramString: string): RecipeData {
+  const json = new URLSearchParams(paramString).get('recipeData') ?? 'null';
 
-  const mealData: MealData = JSON.parse(json);
+  const recipeData: RecipeData = JSON.parse(json);
 
-  if (!mealData?.id) {
-    return MEAL_DATA;
+  if (!recipeData?.id) {
+    return RECIPE_DATA;
   }
 
-  delete mealData.id;
+  delete recipeData.id;
 
-  return mealData;
+  return recipeData;
 }

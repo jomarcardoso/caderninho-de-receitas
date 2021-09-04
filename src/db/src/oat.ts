@@ -14,8 +14,8 @@ export default {
   commontype: 'Grains and Pasta',
   name: 'Cereals Oats Regular And Quick Unenriched Cooked With Water (Includes Boiling And Microwaving) Without Salt',
   name1: 'Oats',
-  name2: 'Oatmeal',
-  name3: 'Cooked Oatmeal',
+  name2: 'Oatrecipe',
+  name3: 'Cooked Oatrecipe',
   servingsizes:
     '{"wt1":[234,"1 cup"],"wt2":[14.6,"1 tbsp"],"wt3":[175,"3/4 cup"],"oz":[28.35,"1 oz"],"200cals":[281.69,"200 calorie serving"],"100g":[100,"100 grams"]}',
   brand_owner: null,

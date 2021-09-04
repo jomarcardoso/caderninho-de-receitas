@@ -5,12 +5,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import React, { FC } from 'react';
-import { Meal } from '../../services/meal';
+import { Recipe } from '../../services/recipe';
 import Image from '../image';
 
 interface Props {
-  meal: Meal;
-  setCurrentRecipe: React.Dispatch<React.SetStateAction<Meal>>;
+  recipe: Recipe;
+  setCurrentRecipe: React.Dispatch<React.SetStateAction<Recipe>>;
 }
 
 const useStyles = makeStyles({
@@ -26,11 +26,11 @@ const useStyles = makeStyles({
   },
 });
 
-const MealCardResumed: FC<Props> = ({ meal, setCurrentRecipe }) => {
+const RecipeCardResumed: FC<Props> = ({ recipe, setCurrentRecipe }) => {
   const classes = useStyles();
 
   function handleClickLink() {
-    setCurrentRecipe(meal);
+    setCurrentRecipe(recipe);
 
     const elPage = document.querySelector('#root-content');
 
@@ -44,19 +44,19 @@ const MealCardResumed: FC<Props> = ({ meal, setCurrentRecipe }) => {
     <Card className={classes.card} onClick={handleClickLink}>
       <CardActionArea>
         <CardMedia>
-          <Image src={meal.image} alt="" aspectRatio={1.25} />
+          <Image src={recipe.image} alt="" aspectRatio={1.25} />
         </CardMedia>
       </CardActionArea>
       <CardContent>
         <Typography gutterBottom variant="h3">
-          {meal.name}
+          {recipe.name}
         </Typography>
         <Typography className={classes.description}>
-          {meal.description}
+          {recipe.description}
         </Typography>
       </CardContent>
     </Card>
   );
 };
 
-export default MealCardResumed;
+export default RecipeCardResumed;

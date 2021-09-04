@@ -89,12 +89,12 @@ const Footer: FC<Props> = ({ currentPage = CurrentPage.HOME }) => {
             }
           />
           <BottomNavigationAction
-            href="#meal-panel"
+            href="#recipe-panel"
             className={classes.button}
             label="Cadastrar refeição"
             icon={
               <SvgIcon>
-                {currentPage === CurrentPage.MEAL ? (
+                {currentPage === CurrentPage.RECIPE ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                     <g className="fa-group">
                       <path

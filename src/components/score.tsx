@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Card from './card/card';
-import { Meal } from '../services/meal';
+import { Recipe } from '../services/recipe';
 
 const useStyles = makeStyles({
   result: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  meal: Meal;
+  recipe: Recipe;
 }
 
 interface RenderResultArgs {
@@ -27,7 +27,7 @@ interface RenderResultArgs {
 
 type RenderResult = (ags: RenderResultArgs) => ReactElement;
 
-const ScoreComponent: FC<Props> = ({ meal }) => {
+const ScoreComponent: FC<Props> = ({ recipe }) => {
   const classes = useStyles();
 
   const renderResult: RenderResult = ({ name = '', value = '' }) => {
@@ -51,15 +51,15 @@ const ScoreComponent: FC<Props> = ({ meal }) => {
     <Grid container spacing={2}>
       {renderResult({
         name: 'Calorias Totais',
-        value: meal.calories,
+        value: recipe.calories,
       })}
       {renderResult({
         name: 'Índice Glicêmico',
-        value: meal.gi,
+        value: recipe.gi,
       })}
       {renderResult({
         name: 'Acidificação',
-        value: meal.gi,
+        value: recipe.gi,
       })}
     </Grid>
   );

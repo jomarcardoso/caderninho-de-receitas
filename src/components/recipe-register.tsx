@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { Formik, Form, FieldArray, ArrayHelpers } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import Button from './button/button';
-import { Meal, MealData, MEAL, MEAL_DATA } from '../services/meal';
+import { Recipe, RecipeData, RECIPE, RECIPE_DATA } from '../services/recipe';
 import SubmitComponent from './submit';
 import AccountContext from '../contexts/account-context';
 import PortionService from '../services/portion/portion.service';
@@ -21,29 +21,29 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  mealData: MealData;
-  meal: Meal;
-  setCurrentRecipeData(data: MealData): void;
+  recipeData: RecipeData;
+  recipe: Recipe;
+  setCurrentRecipeData(data: RecipeData): void;
   editing: boolean;
 }
 
-interface MealForm {
+interface RecipeForm {
   portions: Array<string>;
   name: string;
   description: string;
   preparation: string;
 }
 
-const MealRegister: FC<Props> = ({
-  mealData = MEAL_DATA,
-  meal = MEAL,
+const RecipeRegister: FC<Props> = ({
+  recipeData = RECIPE_DATA,
+  recipe = RECIPE,
   setCurrentRecipeData,
   editing = true,
 }) => {
   const classes = useStyles();
   const { setAccount } = useContext(AccountContext);
   const foods = useContext(FoodsContext);
-  let { portions = [''] } = mealData;
+  let { portions = [''] } = recipeData;
 
   const initialFullPortions =
     portions.map((portionToProcess) => {
@@ -77,21 +77,21 @@ const MealRegister: FC<Props> = ({
     description = '',
     preparation = '',
     portions: portionsData = [],
-  }: MealForm): void {
+  }: RecipeForm): void {
     if (!setAccount) return;
 
-    const newMealData: MealData = {
+    const newRecipeData: RecipeData = {
       portions: portionsData,
       name,
       description,
-      id: mealData?.id ?? 0,
+      id: recipeData?.id ?? 0,
       preparation,
     };
 
-    const id = setAccount.meal(newMealData);
+    const id = setAccount.recipe(newRecipeData);
 
     setCurrentRecipeData({
-      ...newMealData,
+      ...newRecipeData,
       id,
     });
   }
@@ -100,9 +100,9 @@ const MealRegister: FC<Props> = ({
     <Formik
       initialValues={{
         portions,
-        name: mealData.name,
-        description: mealData.description,
-        preparation: mealData.preparation,
+        name: recipeData.name,
+        description: recipeData.description,
+        preparation: recipeData.preparation,
       }}
       onSubmit={handleSubmit}
       render={({ values, handleBlur: formikHandleBlur, handleChange }) => (
@@ -124,7 +124,7 @@ const MealRegister: FC<Props> = ({
                     />
                   </FormControl>
                 </Grid>
-                {(editing || meal.description) && (
+                {(editing || recipe.description) && (
                   <Grid item xs={12}>
                     {editing ? (
                       <FormControl
@@ -141,7 +141,7 @@ const MealRegister: FC<Props> = ({
                         />
                       </FormControl>
                     ) : (
-                      <Typography>{meal.description}</Typography>
+                      <Typography>{recipe.description}</Typography>
                     )}
                   </Grid>
                 )}
@@ -211,4 +211,4 @@ const MealRegister: FC<Props> = ({
   );
 };
 
-export default MealRegister;
+export default RecipeRegister;

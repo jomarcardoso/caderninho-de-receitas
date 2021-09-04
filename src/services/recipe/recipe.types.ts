@@ -1,7 +1,7 @@
 import { AminoAcids, AMINO_ACIDS } from '../food';
 import { Portion } from '../portion/portion.types';
 
-export interface Meal {
+export interface Recipe {
   id: number;
   name: string;
   description: string;
@@ -16,7 +16,7 @@ export interface Meal {
   preparation: string;
 }
 
-export interface MealData {
+export interface RecipeData {
   id?: number;
   name: string;
   description?: string;
@@ -24,7 +24,7 @@ export interface MealData {
   preparation: string;
 }
 
-export const MEAL_DATA: MealData = {
+export const RECIPE_DATA: RecipeData = {
   id: 0,
   name: '',
   description: '',
@@ -32,7 +32,7 @@ export const MEAL_DATA: MealData = {
   preparation: '',
 };
 
-export const MEAL: Meal = {
+export const RECIPE: Recipe = {
   calories: 0,
   description: '',
   image: '',
@@ -47,4 +47,4 @@ export const MEAL: Meal = {
   preparation: '',
 };
 
-export type SetMeal = (mealData: MealData) => number;
+export type SetRecipe = (recipeData: RecipeData) => number;

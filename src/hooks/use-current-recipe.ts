@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Meal, MealData, MealService, MEAL_DATA } from '../services/meal';
+import {
+  Recipe,
+  RecipeData,
+  RecipeService,
+  RECIPE_DATA,
+} from '../services/recipe';
 
 const CURRENT_SAVED_RECIPE = 'currentRecipe';
 
-let initialRecipeData = MEAL_DATA;
+let initialRecipeData = RECIPE_DATA;
 
 if (typeof window !== 'undefined') {
-  const savedCurrentMealJson = localStorage.getItem(CURRENT_SAVED_RECIPE);
+  const savedCurrentRecipeJson = localStorage.getItem(CURRENT_SAVED_RECIPE);
 
-  if (savedCurrentMealJson) {
-    initialRecipeData = JSON.parse(savedCurrentMealJson) as MealData;
+  if (savedCurrentRecipeJson) {
+    initialRecipeData = JSON.parse(savedCurrentRecipeJson) as RecipeData;
   }
 }
 
@@ -17,30 +22,30 @@ if (typeof window !== 'undefined') {
   const sharedString = window.location.search;
 
   if (sharedString) {
-    const mealShared = MealService.unFormatToShare(sharedString);
+    const recipeShared = RecipeService.unFormatToShare(sharedString);
 
-    if (mealShared.portions.length) {
-      initialRecipeData = mealShared;
+    if (recipeShared.portions.length) {
+      initialRecipeData = recipeShared;
 
       window.history.replaceState(
         {},
         '',
-        `${window.location.origin}#meal-panel`,
+        `${window.location.origin}#recipe-panel`,
       );
     }
   }
 }
 
 const useRecipe = (): {
-  currentRecipeData: MealData;
-  setCurrentRecipeData: React.Dispatch<React.SetStateAction<MealData>>;
-  setCurrentRecipe(meal: Meal): void;
+  currentRecipeData: RecipeData;
+  setCurrentRecipeData: React.Dispatch<React.SetStateAction<RecipeData>>;
+  setCurrentRecipe(recipe: Recipe): void;
 } => {
   const [recipeData, setCurrentRecipeData] =
-    useState<MealData>(initialRecipeData);
+    useState<RecipeData>(initialRecipeData);
 
-  function setCurrentRecipe(meal: Meal) {
-    setCurrentRecipeData(MealService.unFormat(meal));
+  function setCurrentRecipe(recipe: Recipe) {
+    setCurrentRecipeData(RecipeService.unFormat(recipe));
   }
 
   useEffect(() => {

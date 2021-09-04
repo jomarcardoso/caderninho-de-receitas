@@ -18,7 +18,6 @@ import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { CurrentPage } from '../services/page.service';
 import Layout from '../components/layout/layout';
-import MealCard from '../components/meal-card';
 import Panel from '../components/panel/panel';
 import RecipePanel from '../panels/recipe';
 import SEO from '../components/seo';
@@ -26,8 +25,8 @@ import Page from '../components/page/page';
 import FoodsPanel from '../panels/foods';
 import { FOOD } from '../services/food';
 import Footer from '../components/footer';
-import { Meal } from '../services/meal';
-import MealCardResumed from '../components/meal-card-resumed/meal-card-resumed';
+import { Recipe } from '../services/recipe';
+import RecipeCardResumed from '../components/recipe-card-resumed/recipe-card-resumed';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
 
@@ -57,7 +56,6 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   const [openedFood, setOpenedFood] = useState(false);
   const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
   const [anchorElTools, setAnchorElTools] = useState<Element | null>();
-  const [wayToShow] = useState<'list' | 'box'>('box');
   const { currentRecipeData, setCurrentRecipeData, setCurrentRecipe } =
     useRecipe();
 
@@ -69,18 +67,13 @@ const Index: FC<{ location: Location }> = ({ location }) => {
     setAnchorElTools(null);
   }
 
-  function renderItem(meal: Meal) {
-    if (wayToShow === 'box') {
-      return (
-        <Grid item xs={6} sm={4} className={classes.card}>
-          <MealCardResumed meal={meal} setCurrentRecipe={setCurrentRecipe} />
-        </Grid>
-      );
-    }
-
+  function renderItem(recipe: Recipe) {
     return (
-      <Grid item xs={12} sm={6} className={classes.card}>
-        <MealCard meal={meal} setCurrentRecipe={setCurrentRecipe} />
+      <Grid item xs={6} sm={4} className={classes.card}>
+        <RecipeCardResumed
+          recipe={recipe}
+          setCurrentRecipe={setCurrentRecipe}
+        />
       </Grid>
     );
   }
@@ -122,9 +115,9 @@ const Index: FC<{ location: Location }> = ({ location }) => {
           }),
           createScrollSpyItem({
             callback: ({ active }) =>
-              active && setCurrentPage(CurrentPage.MEAL),
-            elContent: document.querySelector('#meal-panel') as HTMLElement,
-            elMenu: document.querySelector('#meal-panel') as HTMLElement,
+              active && setCurrentPage(CurrentPage.RECIPE),
+            elContent: document.querySelector('#recipe-panel') as HTMLElement,
+            elMenu: document.querySelector('#recipe-panel') as HTMLElement,
           }),
         ],
       });
@@ -176,12 +169,12 @@ const Index: FC<{ location: Location }> = ({ location }) => {
               ),
             }}
           >
-            <Grid container spacing={wayToShow === 'box' ? 1 : 4}>
-              {account.meals.map(renderItem)}
+            <Grid container spacing={1}>
+              {account.recipes.map(renderItem)}
             </Grid>
           </Layout>
         </Panel>
-        <Panel id="meal-panel">
+        <Panel id="recipe-panel">
           <RecipePanel
             currentRecipeData={currentRecipeData}
             setCurrentRecipeData={setCurrentRecipeData}

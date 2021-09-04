@@ -18,10 +18,10 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '../components/container/container';
 import StyleContext from '../contexts/style';
-import { MealService, MEAL_DATA, MealData } from '../services/meal';
+import { RecipeService, RECIPE_DATA, RecipeData } from '../services/recipe';
 import { UrlService } from '../services/url';
 import ScoreComponent from '../components/score';
-import MealRegister from '../components/meal-register';
+import RecipeRegister from '../components/recipe-register';
 import AminoAcidsTable from '../components/aminoacids-table';
 import FoodsContext from '../contexts/foods-context';
 import Ingredients from '../components/ingredients/ingredients';
@@ -71,17 +71,17 @@ const RecipePanelStyle: FC<{ editing: boolean }> = ({
 };
 
 const RecipePanel: FC<{
-  currentRecipeData: MealData;
-  setCurrentRecipeData(data: MealData): void;
+  currentRecipeData: RecipeData;
+  setCurrentRecipeData(data: RecipeData): void;
   setCurrentFood(food: Food): void;
 }> = ({
-  currentRecipeData = MEAL_DATA,
+  currentRecipeData = RECIPE_DATA,
   setCurrentRecipeData,
   setCurrentFood,
 }) => {
   const { setAccount } = useContext(AccountContext);
   const foods = useContext(FoodsContext);
-  const meal = MealService.format({ foods, mealData: currentRecipeData });
+  const recipe = RecipeService.format({ foods, recipeData: currentRecipeData });
   const classes = useStyles();
   const [editing, setEditing] = useState(true);
   const [anchorElTools, setAnchorElTools] = useState<Element | null>();
@@ -95,8 +95,8 @@ const RecipePanel: FC<{
   }
 
   async function handleShare() {
-    const toShare = MealService.formatToShare(currentRecipeData);
-    const url = `${window.location.origin}?${toShare}#meal-panel` ?? '';
+    const toShare = RecipeService.formatToShare(currentRecipeData);
+    const url = `${window.location.origin}?${toShare}#recipe-panel` ?? '';
     const title = currentRecipeData.name || 'Receita';
     const urlShort = await UrlService.shortener(url);
 
@@ -111,15 +111,15 @@ const RecipePanel: FC<{
     });
   }
 
-  function handleNewMeal() {
-    setCurrentRecipeData(MEAL_DATA);
+  function handleNewRecipe() {
+    setCurrentRecipeData(RECIPE_DATA);
     handleClose();
   }
 
   function handleClickRemove() {
-    setAccount?.removeMeal(meal.id);
+    setAccount?.removeRecipe(recipe.id);
     handleClose();
-    setCurrentRecipeData(MEAL_DATA);
+    setCurrentRecipeData(RECIPE_DATA);
   }
 
   function handleEdit() {
@@ -127,9 +127,9 @@ const RecipePanel: FC<{
     handleClose();
   }
 
-  const pageName = meal.name ? (
-    <span style={{ fontSize: meal.name.length > 22 ? '18px' : '20px' }}>
-      {meal.name}
+  const pageName = recipe.name ? (
+    <span style={{ fontSize: recipe.name.length > 22 ? '18px' : '20px' }}>
+      {recipe.name}
     </span>
   ) : (
     'Nova receita'
@@ -142,7 +142,7 @@ const RecipePanel: FC<{
       setEditing(false);
     }
 
-    const elRecipePanel = document.querySelector('#meal-panel');
+    const elRecipePanel = document.querySelector('#recipe-panel');
 
     elRecipePanel?.scrollTo({
       top: 0,
@@ -151,7 +151,7 @@ const RecipePanel: FC<{
 
   return (
     <Layout
-      currentPage={CurrentPage.MEAL}
+      currentPage={CurrentPage.RECIPE}
       showFooter={false}
       headerProps={{
         pageName,
@@ -188,33 +188,33 @@ const RecipePanel: FC<{
       <RecipePanelStyle editing={editing}>
         {!editing && (
           <Box marginBottom={3}>
-            <Image src={meal.image} alt="" aspectRatio={1.25} />
+            <Image src={recipe.image} alt="" aspectRatio={1.25} />
           </Box>
         )}
         <Container>
           <Grid container spacing={4}>
             {!editing ? (
               <>
-                {meal.description && (
+                {recipe.description && (
                   <Grid item xs={12}>
-                    <Typography>{meal.description}</Typography>
+                    <Typography>{recipe.description}</Typography>
                   </Grid>
                 )}
                 <Grid item xs={12}>
                   <Ingredients
-                    portions={meal.portions}
+                    portions={recipe.portions}
                     setCurrentFood={setCurrentFood}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Preparation preparation={meal.preparation} />
+                  <Preparation preparation={recipe.preparation} />
                 </Grid>
               </>
             ) : (
               <Grid item xs={12}>
-                <MealRegister
-                  mealData={currentRecipeData}
-                  meal={meal}
+                <RecipeRegister
+                  recipeData={currentRecipeData}
+                  recipe={recipe}
                   setCurrentRecipeData={setCurrentRecipeData}
                   editing={editing}
                 />
@@ -228,11 +228,11 @@ const RecipePanel: FC<{
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <ScoreComponent meal={meal} />
+                  <ScoreComponent recipe={recipe} />
                 </Grid>
                 <Grid item xs={12}>
                   <Section title="Tabela de aminoácidos">
-                    <AminoAcidsTable aminoAcids={meal.aminoAcids} />
+                    <AminoAcidsTable aminoAcids={recipe.aminoAcids} />
                   </Section>
                 </Grid>
               </>
@@ -244,7 +244,7 @@ const RecipePanel: FC<{
               color="primary"
               aria-label="nova receita"
               className={classes.buttonNew}
-              onClick={handleNewMeal}
+              onClick={handleNewRecipe}
             >
               <AddIcon />
             </Fab>

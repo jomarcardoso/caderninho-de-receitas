@@ -5,34 +5,34 @@ import AccountService, {
   SetAccount,
 } from '../services/account.service';
 import { Food } from '../services/food';
-import { MealService, Meal, MealData } from '../services/meal';
+import { RecipeService, Recipe, RecipeData } from '../services/recipe';
 
 export default function useAccount(foods: Array<Food>): AccountAndSet {
   const [account, _setAccount] = useState(AccountService.get(foods));
 
-  function setMeal(mealData: MealData): number {
-    const id = mealData.id || new Date().getTime();
+  function setRecipe(recipeData: RecipeData): number {
+    const id = recipeData.id || new Date().getTime();
 
-    const meal: Meal = MealService.format({
-      mealData: {
-        ...mealData,
+    const recipe: Recipe = RecipeService.format({
+      recipeData: {
+        ...recipeData,
         id,
       },
       foods,
     });
 
-    const editing = mealData.id;
+    const editing = recipeData.id;
 
     if (editing) {
-      const indexToChange = account.meals.findIndex(
-        ({ id: mealIndex }) => mealIndex === id,
+      const indexToChange = account.recipes.findIndex(
+        ({ id: recipeIndex }) => recipeIndex === id,
       );
 
-      account.meals[indexToChange] = meal;
+      account.recipes[indexToChange] = recipe;
 
       _setAccount({
         ...account,
-        meals: account.meals,
+        recipes: account.recipes,
       });
 
       return id;
@@ -40,18 +40,18 @@ export default function useAccount(foods: Array<Food>): AccountAndSet {
 
     _setAccount({
       ...account,
-      meals: [...account.meals, meal],
+      recipes: [...account.recipes, recipe],
     });
 
     return id;
   }
 
-  function removeMeal(id = 0) {
-    const newMeals = remove(account.meals, (meal) => meal.id !== id);
+  function removeRecipe(id = 0) {
+    const newRecipes = remove(account.recipes, (recipe) => recipe.id !== id);
 
     _setAccount({
       ...account,
-      meals: newMeals,
+      recipes: newRecipes,
     });
   }
 
@@ -61,8 +61,8 @@ export default function useAccount(foods: Array<Food>): AccountAndSet {
 
   const setAccount: SetAccount = {
     // account: _setAccount,
-    meal: setMeal,
-    removeMeal,
+    recipe: setRecipe,
+    removeRecipe,
   };
 
   return {

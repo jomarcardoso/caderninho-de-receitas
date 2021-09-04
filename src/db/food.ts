@@ -31,7 +31,7 @@ import {
   banana,
   whiteRice,
   blackBean,
-  cornMeal,
+  cornRecipe,
   whiteBread,
   chickenPasty,
   greenLeafLettuce,
@@ -388,7 +388,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.liter,
   },
   {
-    ...format(cornMeal as unknown as FoodMyFoodData),
+    ...format(cornRecipe as unknown as FoodMyFoodData),
     name: 'Polenta',
     enName: 'corn-meal',
     id: 9,

@@ -52,7 +52,7 @@ const MenuDrawer: FC<Props> = ({ opened, toggleDrawer }) => {
           </Link>
         </ListItem>
         <ListItem component="li" button>
-          <Link to="/meal" className={classes.anchor} color="inherit">
+          <Link to="/recipe" className={classes.anchor} color="inherit">
             <ListItemIcon>
               <CakeIcon />
             </ListItemIcon>
