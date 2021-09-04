@@ -3,7 +3,6 @@ import FormControl from '@material-ui/core/FormControl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form, FieldArray, ArrayHelpers } from 'formik';
-import Typography from '@material-ui/core/Typography';
 import Button from './button/button';
 import { Recipe, RecipeData, RECIPE, RECIPE_DATA } from '../services/recipe';
 import SubmitComponent from './submit';
@@ -24,7 +23,6 @@ interface Props {
   recipeData: RecipeData;
   recipe: Recipe;
   setCurrentRecipeData(data: RecipeData): void;
-  editing: boolean;
 }
 
 interface RecipeForm {
@@ -38,7 +36,6 @@ const RecipeRegister: FC<Props> = ({
   recipeData = RECIPE_DATA,
   recipe = RECIPE,
   setCurrentRecipeData,
-  editing = true,
 }) => {
   const classes = useStyles();
   const { setAccount } = useContext(AccountContext);
@@ -124,29 +121,23 @@ const RecipeRegister: FC<Props> = ({
                     />
                   </FormControl>
                 </Grid>
-                {(editing || recipe.description) && (
-                  <Grid item xs={12}>
-                    {editing ? (
-                      <FormControl
-                        variant="standard"
-                        className={classes.formControl}
-                      >
-                        <InputFilled
-                          multiline
-                          name="description"
-                          label="Descrição"
-                          value={values.description}
-                          onChange={handleChange}
-                          onBlur={formikHandleBlur}
-                        />
-                      </FormControl>
-                    ) : (
-                      <Typography>{recipe.description}</Typography>
-                    )}
-                  </Grid>
-                )}
                 <Grid item xs={12}>
-                  <Grid container spacing={editing ? 3 : 1}>
+                  <FormControl
+                    variant="standard"
+                    className={classes.formControl}
+                  >
+                    <InputFilled
+                      multiline
+                      name="description"
+                      label="Descrição"
+                      value={values.description}
+                      onChange={handleChange}
+                      onBlur={formikHandleBlur}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container spacing={3}>
                     {values.portions.map((value, index) => (
                       <Grid item xs={12}>
                         <Grid container spacing={1} alignItems="stretch">

@@ -5,46 +5,24 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Container from '../components/container/container';
 import StyleContext from '../contexts/style';
 import { RecipeService, RECIPE_DATA, RecipeData } from '../services/recipe';
 import { UrlService } from '../services/url';
-import ScoreComponent from '../components/score';
-import RecipeRegister from '../components/recipe-register';
-import AminoAcidsTable from '../components/aminoacids-table';
 import FoodsContext from '../contexts/foods-context';
-import Ingredients from '../components/ingredients/ingredients';
-import Preparation from '../components/preparation/preparation';
 import Layout from '../components/layout/layout';
 import { CurrentPage } from '../services/page.service';
-import Section from '../components/section/section';
-import Image from '../components/image';
 import { Food } from '../services/food';
 import AccountContext from '../contexts/account-context';
+import RecipeRegisterContainer from '../components/recipe-register-container/recipe-register-container';
+import RecipeContainer from '../components/recipe-container/recipe-container';
 
 const useStyles = makeStyles({
-  buttonTool: {
-    minWidth: 'initial',
-  },
-  buttonNew: {
-    position: 'sticky',
-    bottom: 15,
-    right: 0,
-    display: 'flex',
-    marginLeft: 'auto',
-    marginTop: 15,
-  },
   toolsButton: {
     transform: 'translateX(12px)',
     padding: 0,
@@ -127,6 +105,27 @@ const RecipePanel: FC<{
     handleClose();
   }
 
+  function renderBody() {
+    if (editing) {
+      return (
+        <RecipeRegisterContainer
+          currentRecipeData={currentRecipeData}
+          onNewRecipe={handleNewRecipe}
+          recipe={recipe}
+          setCurrentRecipeData={setCurrentRecipeData}
+        />
+      );
+    }
+
+    return (
+      <RecipeContainer
+        onNewRecipe={handleNewRecipe}
+        recipe={recipe}
+        setCurrentFood={setCurrentFood}
+      />
+    );
+  }
+
   const pageName = recipe.name ? (
     <span style={{ fontSize: recipe.name.length > 22 ? '18px' : '20px' }}>
       {recipe.name}
@@ -185,72 +184,7 @@ const RecipePanel: FC<{
         containerProps: { disableGutters: true },
       }}
     >
-      <RecipePanelStyle editing={editing}>
-        {!editing && (
-          <Box marginBottom={3}>
-            <Image src={recipe.image} alt="" aspectRatio={1.25} />
-          </Box>
-        )}
-        <Container>
-          <Grid container spacing={4}>
-            {!editing ? (
-              <>
-                {recipe.description && (
-                  <Grid item xs={12}>
-                    <Typography>{recipe.description}</Typography>
-                  </Grid>
-                )}
-                <Grid item xs={12}>
-                  <Ingredients
-                    portions={recipe.portions}
-                    setCurrentFood={setCurrentFood}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Preparation preparation={recipe.preparation} />
-                </Grid>
-              </>
-            ) : (
-              <Grid item xs={12}>
-                <RecipeRegister
-                  recipeData={currentRecipeData}
-                  recipe={recipe}
-                  setCurrentRecipeData={setCurrentRecipeData}
-                  editing={editing}
-                />
-              </Grid>
-            )}
-            {!editing && (
-              <>
-                <Grid item xs={12}>
-                  <Typography variant="h2" component="h2" color="secondary">
-                    Informações nutricionais
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <ScoreComponent recipe={recipe} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Section title="Tabela de aminoácidos">
-                    <AminoAcidsTable aminoAcids={recipe.aminoAcids} />
-                  </Section>
-                </Grid>
-              </>
-            )}
-          </Grid>
-          {!editing && (
-            <Fab
-              size="small"
-              color="primary"
-              aria-label="nova receita"
-              className={classes.buttonNew}
-              onClick={handleNewRecipe}
-            >
-              <AddIcon />
-            </Fab>
-          )}
-        </Container>
-      </RecipePanelStyle>
+      <RecipePanelStyle editing={editing}>{renderBody()}</RecipePanelStyle>
     </Layout>
   );
 };
