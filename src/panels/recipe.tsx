@@ -51,7 +51,7 @@ const useStyles = makeStyles({
   },
 });
 
-const MealPageStyle: FC<{ editing: boolean }> = ({
+const RecipePanelStyle: FC<{ editing: boolean }> = ({
   children,
   editing = false,
 }) => {
@@ -70,7 +70,7 @@ const MealPageStyle: FC<{ editing: boolean }> = ({
   return <>{children}</>;
 };
 
-const MealPanel: FC<{
+const RecipePanel: FC<{
   currentRecipeData: MealData;
   setCurrentRecipeData(data: MealData): void;
   setCurrentFood(food: Food): void;
@@ -142,9 +142,9 @@ const MealPanel: FC<{
       setEditing(false);
     }
 
-    const elMealPanel = document.querySelector('#meal-panel');
+    const elRecipePanel = document.querySelector('#meal-panel');
 
-    elMealPanel?.scrollTo({
+    elRecipePanel?.scrollTo({
       top: 0,
     });
   }, [currentRecipeData]);
@@ -185,7 +185,7 @@ const MealPanel: FC<{
         containerProps: { disableGutters: true },
       }}
     >
-      <MealPageStyle editing={editing}>
+      <RecipePanelStyle editing={editing}>
         {!editing && (
           <Box marginBottom={3}>
             <Image src={meal.image} alt="" aspectRatio={1.25} />
@@ -250,9 +250,9 @@ const MealPanel: FC<{
             </Fab>
           )}
         </Container>
-      </MealPageStyle>
+      </RecipePanelStyle>
     </Layout>
   );
 };
 
-export default MealPanel;
+export default RecipePanel;
