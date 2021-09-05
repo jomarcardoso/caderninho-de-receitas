@@ -1,6 +1,4 @@
 import React, { FC, useMemo } from 'react';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import HomeIcon from '@material-ui/icons/Home';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Box from '@material-ui/core/Box';
@@ -8,6 +6,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { CurrentPage } from '../services/page.service';
 import { borderLight, primary } from './page/page';
+import Logo from './logo/logo';
 
 const useStyles = makeStyles({
   root: {
@@ -77,13 +76,7 @@ const Footer: FC<Props> = ({ currentPage = CurrentPage.HOME }) => {
             href="#main-panel"
             label="Início"
             className={classes.button}
-            icon={
-              currentPage === CurrentPage.HOME ? (
-                <HomeIcon color="primary" />
-              ) : (
-                <HomeOutlinedIcon />
-              )
-            }
+            icon={<Logo active={currentPage === CurrentPage.HOME} />}
           />
           <BottomNavigationAction
             href="#recipe-panel"
