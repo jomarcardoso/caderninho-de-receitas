@@ -3,15 +3,15 @@ import FormControl from '@material-ui/core/FormControl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form, FieldArray, ArrayHelpers } from 'formik';
-import Button from './button/button';
-import { Recipe, RecipeData, RECIPE_DATA } from '../services/recipe';
-import SubmitComponent from './submit';
-import AccountContext from '../contexts/account-context';
-import PortionService from '../services/portion/portion.service';
-import FoodsContext from '../contexts/foods-context';
-import ResumedPortion from './resumed-portion';
-import InputIngredient from './input-ingredient/input-ingredient';
-import InputFilled from './input-filled/input-filled';
+import Button from '../button/button';
+import { Recipe, RecipeData, RECIPE_DATA } from '../../services/recipe';
+import SubmitComponent from '../submit';
+import AccountContext from '../../contexts/account-context';
+import PortionService from '../../services/portion/portion.service';
+import FoodsContext from '../../contexts/foods-context';
+import ResumedPortion from '../resumed-portion';
+import InputIngredient from '../input-ingredient/input-ingredient';
+import InputFilled from '../input-filled/input-filled';
 
 const useStyles = makeStyles({
   formControl: {

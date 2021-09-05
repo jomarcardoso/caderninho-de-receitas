@@ -3,7 +3,7 @@ import Badge from '@material-ui/core/Badge';
 import CardContent from '@material-ui/core/CardContent';
 import { CardProps } from '@material-ui/core/Card';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Image from './image';
+import Image from './image/image';
 import Card from './card/card';
 import { Portion, PORTION } from '../services/portion/portion.types';
 

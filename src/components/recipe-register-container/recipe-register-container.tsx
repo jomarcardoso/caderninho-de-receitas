@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Container from '../container/container';
-import RecipeRegister from '../recipe-register';
+import RecipeRegister from '../recipe-register/recipe-register';
 import { RECIPE, Recipe, RecipeData, RECIPE_DATA } from '../../services/recipe';
 
 export interface RecipeRegisterContainerProps {

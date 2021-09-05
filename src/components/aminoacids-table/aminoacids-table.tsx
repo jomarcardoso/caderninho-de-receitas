@@ -12,7 +12,7 @@ import {
   AminoAcids,
   AMINO_ACIDS,
   TRANSLATED_AMINO_ACIDS,
-} from '../services/food';
+} from '../../services/food';
 
 const useStyles = makeStyles({
   cell: {

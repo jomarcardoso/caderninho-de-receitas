@@ -9,7 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Image from '../components/image';
+import Image from '../components/image/image';
 import Layout from '../components/layout/layout';
 import FoodsContext from '../contexts/foods-context';
 import { CurrentPage } from '../services/page.service';

@@ -1,10 +1,10 @@
 import React from 'react';
-import Page from './src/components/page';
+import Contexts from './src/components/contexts/contexts';
 import '@fontsource/dosis';
 import '@fontsource/cinzel';
 
 export const wrapRootElement = ({ element }) => {
-  return <Page>{element}</Page>;
+  return <Contexts>{element}</Contexts>;
 };
 
 export const registerServiceWorker = () => true;

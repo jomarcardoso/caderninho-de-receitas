@@ -6,7 +6,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import React, { FC } from 'react';
 import { Recipe } from '../../services/recipe';
-import Image from '../image';
+import Image from '../image/image';
 
 interface Props {
   recipe: Recipe;
