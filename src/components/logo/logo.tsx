@@ -6,16 +6,18 @@ import { primary } from '../page/page';
 const useStyles = ({ active = false }) =>
   makeStyles({
     root: {
-      lineHeight: 0.8,
+      lineHeight: 0.82,
       fontSize: 16,
       textShadow: active ? '0 0 1px currentColor' : '',
       whiteSpace: 'nowrap',
+      letterSpacing: 0,
     },
     textSmall: {
       color: active ? primary.main : 'inherit',
     },
     textLarge: {
       fontSize: 17,
+      letterSpacing: 0.1,
     },
   });
 
