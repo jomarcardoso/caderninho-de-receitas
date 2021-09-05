@@ -1,14 +1,11 @@
 import React, { FC, useMemo } from 'react';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import LocalPizzaIcon from '@material-ui/icons/LocalPizza';
 import HomeIcon from '@material-ui/icons/Home';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-// import RestaurantOutlinedIcon from '@material-ui/icons/RestaurantOutlined';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import SvgIcon from '@material-ui/core/SvgIcon';
-// import { ReactComponent as CheffIcon } from '/images/icons/cheff-light.inline.svg';
 import { CurrentPage } from '../services/page.service';
 import { borderLight, primary } from './page/page';
 

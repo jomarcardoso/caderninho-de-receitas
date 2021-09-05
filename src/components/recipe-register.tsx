@@ -4,7 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form, FieldArray, ArrayHelpers } from 'formik';
 import Button from './button/button';
-import { Recipe, RecipeData, RECIPE, RECIPE_DATA } from '../services/recipe';
+import { Recipe, RecipeData, RECIPE_DATA } from '../services/recipe';
 import SubmitComponent from './submit';
 import AccountContext from '../contexts/account-context';
 import PortionService from '../services/portion/portion.service';
@@ -34,7 +34,6 @@ interface RecipeForm {
 
 const RecipeRegister: FC<Props> = ({
   recipeData = RECIPE_DATA,
-  recipe = RECIPE,
   setCurrentRecipeData,
 }) => {
   const classes = useStyles();

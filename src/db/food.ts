@@ -1090,7 +1090,7 @@ const foods: Array<FoodData> = [
     enName: 'water',
     icon: '/images/food/water.svg',
     image:
-      'https://i2.wp.com/files.agro20.com.br/uploads/2019/11/Peito-de-peru-1.jpg?resize=600%2C338&ssl=1',
+      'https://images.unsplash.com/photo-1612392549274-9afb280ce7a9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: UnitOfMeasurement.liter,
     oneMeasures: [
       {
