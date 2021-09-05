@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Saúde em pontos`,
-    description: `Sua saúde em níveis altos`,
+    title: 'Caderninho de Receitas',
+    description: '',
     author: `@jomarcardoso`,
   },
   plugins: [
@@ -55,8 +55,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `SAÚDE EM PONTOS`,
-        short_name: `Saúde em Pontos`,
+        name: `Caderninho de Receitas`,
+        short_name: `Caderninho`,
         start_url: `/`,
         background_color: `#f8f8f8`,
         theme_color: `#87695e`,

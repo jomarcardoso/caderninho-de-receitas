@@ -53,7 +53,6 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   const classes = useStyles();
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
-  const [openedFood, setOpenedFood] = useState(false);
   const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
   const [anchorElTools, setAnchorElTools] = useState<Element | null>();
   const { currentRecipeData, setCurrentRecipeData, setCurrentRecipe } =
@@ -81,12 +80,6 @@ const Index: FC<{ location: Location }> = ({ location }) => {
   useEffect(() => {
     setHideLeftPanel(false);
   }, []);
-
-  useEffect(() => {
-    if (!currentFood.name) return;
-
-    setOpenedFood(true);
-  }, [currentFood]);
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -130,8 +123,8 @@ const Index: FC<{ location: Location }> = ({ location }) => {
     <Page>
       <DialogFood
         food={currentFood}
-        onClose={() => setOpenedFood(false)}
-        open={openedFood}
+        onClose={() => setCurrentFood(FOOD)}
+        open={Boolean(currentFood.name)}
       />
       <Box className={classes.display} id="root-content">
         <Panel
@@ -144,7 +137,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
           <Layout
             currentPage={CurrentPage.HOME}
             headerProps={{
-              pageName: 'Saúde em Pontos',
+              pageName: 'Caderninho de Receitas',
               tools: (
                 <>
                   <Button
@@ -181,7 +174,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
             setCurrentFood={setCurrentFood}
           />
         </Panel>
-        <SEO title="Saúde em pontos" />
+        <SEO title="Caderninho de Receitas" />
       </Box>
       <Footer currentPage={currentPage} />
     </Page>
