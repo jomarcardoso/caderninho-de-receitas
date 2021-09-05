@@ -1,23 +1,8 @@
 /* eslint-disable */
-import React, {
-  FC,
-  useContext,
-  useState,
-  useEffect,
-  SyntheticEvent,
-} from 'react';
-import Grid from '@material-ui/core/Grid';
+import React, { FC, useState, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import AccountContext from '../contexts/account-context';
-import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { CurrentPage } from '../services/page.service';
-import Layout from '../components/layout/layout';
 import Panel from '../components/panel/panel';
 import RecipePanel from '../panels/recipe';
 import SEO from '../components/seo';
@@ -25,15 +10,11 @@ import Page from '../components/page/page';
 import FoodsPanel from '../panels/foods';
 import { FOOD } from '../services/food';
 import Footer from '../components/footer';
-import { Recipe } from '../services/recipe';
-import RecipeCardResumed from '../components/recipe-card-resumed/recipe-card-resumed';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
+import MainPanel from '../panels/main/main-panel';
 
 const useStyles = makeStyles({
-  card: {
-    display: 'flex',
-  },
   display: {
     display: 'flex',
     width: '100vw',
@@ -42,40 +23,15 @@ const useStyles = makeStyles({
     height: 'calc(100vh - 57px)',
     overflow: 'scroll',
   },
-  toolsButton: {
-    transform: 'translateX(12px)',
-    padding: 0,
-  },
 });
 
 const Index: FC<{ location: Location }> = ({ location }) => {
-  const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
-  const [anchorElTools, setAnchorElTools] = useState<Element | null>();
   const { currentRecipeData, setCurrentRecipeData, setCurrentRecipe } =
     useRecipe();
-
-  function handleClickToolsMenu(event: SyntheticEvent) {
-    setAnchorElTools(event.currentTarget);
-  }
-
-  function handleClose() {
-    setAnchorElTools(null);
-  }
-
-  function renderItem(recipe: Recipe) {
-    return (
-      <Grid item xs={6} sm={4} className={classes.card}>
-        <RecipeCardResumed
-          recipe={recipe}
-          setCurrentRecipe={setCurrentRecipe}
-        />
-      </Grid>
-    );
-  }
 
   useEffect(() => {
     setHideLeftPanel(false);
@@ -134,38 +90,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
           <FoodsPanel setCurrentFood={setCurrentFood} />
         </Panel>
         <Panel id="main-panel">
-          <Layout
-            currentPage={CurrentPage.HOME}
-            headerProps={{
-              pageName: 'Caderninho de Receitas',
-              tools: (
-                <>
-                  <Button
-                    aria-owns={anchorElTools ? 'simple-menu' : undefined}
-                    aria-haspopup="true"
-                    onClick={handleClickToolsMenu}
-                    className={classes.toolsButton}
-                  >
-                    <IconButton color="secondary">
-                      <MoreVertIcon />
-                    </IconButton>
-                  </Button>
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={anchorElTools}
-                    open={Boolean(anchorElTools)}
-                    onClose={handleClose}
-                  >
-                    <MenuItem>teste</MenuItem>
-                  </Menu>
-                </>
-              ),
-            }}
-          >
-            <Grid container spacing={1}>
-              {account.recipes.map(renderItem)}
-            </Grid>
-          </Layout>
+          <MainPanel setCurrentRecipe={setCurrentRecipe} />
         </Panel>
         <Panel id="recipe-panel">
           <RecipePanel
