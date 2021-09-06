@@ -15,7 +15,7 @@ import { RECIPE, Recipe } from '../../services/recipe';
 import Container from '../container/container';
 import { Food } from '../../services/food';
 
-export interface RecipeContainerProps {
+export interface RecipeComponentProps {
   recipe: Recipe;
   setCurrentFood(food: Food): void;
   onNewRecipe(): void;
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RecipeContainer: FC<RecipeContainerProps> = ({
+const RecipeComponent: FC<RecipeComponentProps> = ({
   recipe = RECIPE,
   setCurrentFood,
   onNewRecipe,
@@ -89,4 +89,4 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   );
 };
 
-export default RecipeContainer;
+export default RecipeComponent;

@@ -6,11 +6,13 @@ import Main, { MainProps } from '../main';
 import './layout.scss';
 
 import { CurrentPage } from '../../services/page.service';
+import Footer2, { Footer2Props } from '../footer2/footer2';
 
 const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    height: '100%',
   },
   main: {
     flex: 1,
@@ -22,13 +24,16 @@ interface Props {
   showFooter?: boolean;
   currentPage?: CurrentPage;
   headerProps?: HeaderProps;
+  footerProps?: Footer2Props;
   mainProps?: MainProps;
 }
 
 const Layout: FC<Props> = ({
   children,
   showHeader = true,
+  showFooter = true,
   headerProps,
+  footerProps,
   mainProps,
 }) => {
   const classes = useStyles();
@@ -39,6 +44,7 @@ const Layout: FC<Props> = ({
       <Main className={classes.main} {...mainProps}>
         {children}
       </Main>
+      {showFooter && <Footer2 {...footerProps} />}
     </Box>
   );
 };

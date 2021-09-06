@@ -71,7 +71,8 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
 
   return (
     <Layout
-      headerProps={{ pageName: 'Alimentos' }}
+      showHeader={false}
+      showFooter={false}
       currentPage={CurrentPage.FOODS}
     >
       <TableContainer>

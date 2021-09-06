@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CurrentPage } from '../services/page.service';
 import Panel from '../components/panel/panel';
-import RecipePanel from '../panels/recipe';
+import RecipeContainer from '../containers/recipe/recipe';
 import SEO from '../components/seo';
 import Page from '../components/page/page';
 import FoodsPanel from '../panels/foods';
@@ -12,7 +12,8 @@ import { FOOD } from '../services/food';
 import Footer from '../components/footer';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
-import MainPanel from '../panels/main/main-panel';
+import MainContainer from '../containers/main/main-container';
+import Header2 from '../components/header2/header2';
 
 const useStyles = makeStyles({
   display: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles({
     width: '100vw',
     scrollSnapType: 'x mandatory',
     scrollBehavior: 'smooth',
-    height: 'calc(100vh - 57px)',
+    height: 'calc(100vh - 48px)',
     overflow: 'scroll',
   },
 });
@@ -82,6 +83,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
         onClose={() => setCurrentFood(FOOD)}
         open={Boolean(currentFood.name)}
       />
+      <Header2 currentPage={currentPage} />
       <Box className={classes.display} id="root-content">
         <Panel
           id="foods-panel"
@@ -90,10 +92,10 @@ const Index: FC<{ location: Location }> = ({ location }) => {
           <FoodsPanel setCurrentFood={setCurrentFood} />
         </Panel>
         <Panel id="main-panel">
-          <MainPanel setCurrentRecipe={setCurrentRecipe} />
+          <MainContainer setCurrentRecipe={setCurrentRecipe} />
         </Panel>
         <Panel id="recipe-panel">
-          <RecipePanel
+          <RecipeContainer
             currentRecipeData={currentRecipeData}
             setCurrentRecipeData={setCurrentRecipeData}
             setCurrentFood={setCurrentFood}
@@ -101,7 +103,6 @@ const Index: FC<{ location: Location }> = ({ location }) => {
         </Panel>
         <SEO title="Caderninho de Receitas" />
       </Box>
-      <Footer currentPage={currentPage} />
     </Page>
   );
 };
