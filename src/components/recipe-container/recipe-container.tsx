@@ -1,13 +1,10 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import React, { FC } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
-import Image from '../image';
-import ScoreComponent from '../score';
-import AminoAcidsTable from '../aminoacids-table';
+import Image from '../image/image';
+import ScoreComponent from '../score/score';
+import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import Ingredients from '../ingredients/ingredients';
 import Preparation from '../preparation/preparation';
 import Section from '../section/section';
@@ -18,27 +15,12 @@ import { Food } from '../../services/food';
 export interface RecipeContainerProps {
   recipe: Recipe;
   setCurrentFood(food: Food): void;
-  onNewRecipe(): void;
 }
-
-const useStyles = makeStyles({
-  buttonNew: {
-    position: 'sticky',
-    bottom: 15,
-    right: 0,
-    display: 'flex',
-    marginLeft: 'auto',
-    marginTop: 15,
-  },
-});
 
 const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
-  onNewRecipe,
 }) => {
-  const classes = useStyles();
-
   return (
     <>
       <Box marginBottom={3}>
@@ -46,6 +28,13 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
       </Box>
       <Container>
         <Grid container spacing={4}>
+          {recipe.name && (
+            <Grid item xs={12}>
+              <Typography component="h2" variant="h1">
+                {recipe.name}
+              </Typography>
+            </Grid>
+          )}
           {recipe.description && (
             <Grid item xs={12}>
               <Typography>{recipe.description}</Typography>
@@ -75,15 +64,6 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             </Section>
           </Grid>
         </Grid>
-        <Fab
-          size="small"
-          color="primary"
-          aria-label="nova receita"
-          className={classes.buttonNew}
-          onClick={onNewRecipe}
-        >
-          <AddIcon />
-        </Fab>
       </Container>
     </>
   );

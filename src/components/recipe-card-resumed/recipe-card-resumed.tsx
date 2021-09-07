@@ -4,9 +4,9 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Recipe } from '../../services/recipe';
-import Image from '../image';
+import Image from '../image/image';
 
 interface Props {
   recipe: Recipe;
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 const RecipeCardResumed: FC<Props> = ({ recipe, setCurrentRecipe }) => {
   const classes = useStyles();
 
-  function handleClickLink() {
+  const memoizedHandleClickLink = useCallback(() => {
     setCurrentRecipe(recipe);
 
     const elPage = document.querySelector('#root-content');
@@ -38,10 +38,10 @@ const RecipeCardResumed: FC<Props> = ({ recipe, setCurrentRecipe }) => {
       left: 9999,
       behavior: 'smooth',
     });
-  }
+  }, [recipe, setCurrentRecipe]);
 
   return (
-    <Card className={classes.card} onClick={handleClickLink}>
+    <Card className={classes.card} onClick={memoizedHandleClickLink}>
       <CardActionArea>
         <CardMedia>
           <Image src={recipe.image} alt="" aspectRatio={1.25} />

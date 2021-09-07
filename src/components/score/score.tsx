@@ -3,8 +3,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Card from './card/card';
-import { Recipe } from '../services/recipe';
+import Card from '../card/card';
+import { Recipe } from '../../services/recipe';
 
 const useStyles = makeStyles({
   result: {
@@ -54,12 +54,16 @@ const ScoreComponent: FC<Props> = ({ recipe }) => {
         value: recipe.calories,
       })}
       {renderResult({
+        name: 'Acidificação',
+        value: recipe.gi,
+      })}
+      {renderResult({
         name: 'Índice Glicêmico',
         value: recipe.gi,
       })}
       {renderResult({
-        name: 'Acidificação',
-        value: recipe.gi,
+        name: 'Carga Glicêmica',
+        value: recipe.gl,
       })}
     </Grid>
   );

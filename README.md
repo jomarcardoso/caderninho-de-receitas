@@ -1,4 +1,4 @@
-# Saúde em Pontos
+# Caderninho de Receitas
 
 [![Build Status](https://travis-ci.org/jomarcardoso/saude-em-pontos-2.svg?branch=master)](https://travis-ci.org/jomarcardoso/saude-em-pontos-2)
 
