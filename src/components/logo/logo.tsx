@@ -6,6 +6,7 @@ import { primary } from '../page/page';
 const useStyles = ({ active = false }) =>
   makeStyles({
     root: {
+      textAlign: 'justify',
       lineHeight: 0.82,
       fontSize: 16,
       textShadow: active ? '0 0 1px currentColor' : '',

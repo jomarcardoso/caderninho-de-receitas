@@ -57,7 +57,7 @@ const Header: FC<HeaderProps & AppBarProps> = ({
       color={theme === 'dark' ? 'primary' : 'inherit'}
     >
       <Container maxWidth="md" disableGutters>
-        <Toolbar className={classes.toolbar}>
+        <Toolbar className={classes.toolbar} variant="dense">
           {title}
           {tools}
           {onClose && (

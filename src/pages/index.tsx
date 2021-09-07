@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { CurrentPage } from '../services/page.service';
 import Panel from '../components/panel/panel';
-import RecipeContainer from '../containers/recipe/recipe';
+import RecipePanel from '../panels/recipe-panel';
 import SEO from '../components/seo';
 import Page from '../components/page/page';
 import FoodsPanel from '../panels/foods';
@@ -94,13 +94,11 @@ const Index: FC<{ location: Location }> = ({ location }) => {
         <Panel id="main-panel">
           <MainContainer setCurrentRecipe={setCurrentRecipe} />
         </Panel>
-        <Panel id="recipe-panel">
-          <RecipeContainer
-            currentRecipeData={currentRecipeData}
-            setCurrentRecipeData={setCurrentRecipeData}
-            setCurrentFood={setCurrentFood}
-          />
-        </Panel>
+        <RecipePanel
+          currentRecipeData={currentRecipeData}
+          setCurrentRecipeData={setCurrentRecipeData}
+          setCurrentFood={setCurrentFood}
+        />
         <SEO title="Caderninho de Receitas" />
       </Box>
     </Page>

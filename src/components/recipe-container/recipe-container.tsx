@@ -15,7 +15,7 @@ import { RECIPE, Recipe } from '../../services/recipe';
 import Container from '../container/container';
 import { Food } from '../../services/food';
 
-export interface RecipeComponentProps {
+export interface RecipeContainerProps {
   recipe: Recipe;
   setCurrentFood(food: Food): void;
   onNewRecipe(): void;
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RecipeComponent: FC<RecipeComponentProps> = ({
+const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
   onNewRecipe,
@@ -46,6 +46,13 @@ const RecipeComponent: FC<RecipeComponentProps> = ({
       </Box>
       <Container>
         <Grid container spacing={4}>
+          {recipe.name && (
+            <Grid item xs={12}>
+              <Typography component="h2" variant="h1">
+                {recipe.name}
+              </Typography>
+            </Grid>
+          )}
           {recipe.description && (
             <Grid item xs={12}>
               <Typography>{recipe.description}</Typography>
@@ -89,4 +96,4 @@ const RecipeComponent: FC<RecipeComponentProps> = ({
   );
 };
 
-export default RecipeComponent;
+export default RecipeContainer;

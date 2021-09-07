@@ -11,12 +11,18 @@ import { borderLight } from '../page/page';
 const useStyles = makeStyles({
   root: {
     bottom: 0,
+    height: 48,
+    minHeight: 48,
     overflow: 'hidden',
     position: 'sticky',
     ...borderLight,
   },
+  navigation: {
+    height: '100%',
+  },
   button: {
     display: 'block',
+    paddingTop: 12,
   },
 });
 
@@ -40,7 +46,9 @@ const Footer2: FC<Footer2Props> = ({ items = [] }) => {
 
     return (
       <Box borderTop={1} component="footer" className={classes.root} zIndex={1}>
-        <BottomNavigation>{items.map(renderItem)}</BottomNavigation>
+        <BottomNavigation className={classes.navigation}>
+          {items.map(renderItem)}
+        </BottomNavigation>
       </Box>
     );
   }
