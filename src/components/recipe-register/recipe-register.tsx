@@ -1,10 +1,10 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useState, useCallback } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
-import { Formik, Form, FieldArray, ArrayHelpers } from 'formik';
+import { Formik, Form, FieldArray, ArrayHelpers, FormikProps } from 'formik';
 import Button from '../button/button';
-import { Recipe, RecipeData, RECIPE_DATA } from '../../services/recipe';
+import { RecipeData, RECIPE_DATA } from '../../services/recipe';
 import SubmitComponent from '../submit';
 import AccountContext from '../../contexts/account-context';
 import PortionService from '../../services/portion/portion.service';
@@ -21,7 +21,6 @@ const useStyles = makeStyles({
 
 interface Props {
   recipeData: RecipeData;
-  recipe: Recipe;
   setCurrentRecipeData(data: RecipeData): void;
 }
 
@@ -55,53 +54,53 @@ const RecipeRegister: FC<Props> = ({
     portions = [''];
   }
 
-  function handleBlur({ target: { value = '' } }, index = 0) {
-    const portion = PortionService.portionFromString({
-      text: value,
-      foods,
-    });
+  const memoizedHandleSubmit = useCallback(
+    ({
+      name = '',
+      description = '',
+      preparation = '',
+      portions: portionsData = [],
+    }: RecipeForm): void => {
+      if (!setAccount) return;
 
-    const copyFullPortions = [...fullPortions];
+      const newRecipeData: RecipeData = {
+        portions: portionsData,
+        name,
+        description,
+        id: recipeData?.id ?? 0,
+        preparation,
+      };
 
-    copyFullPortions[index] = portion;
+      const id = setAccount.recipe(newRecipeData);
 
-    setFullPortions(copyFullPortions);
-  }
+      setCurrentRecipeData({
+        ...newRecipeData,
+        id,
+      });
+    },
+    [recipeData?.id, setAccount, setCurrentRecipeData],
+  );
 
-  function handleSubmit({
-    name = '',
-    description = '',
-    preparation = '',
-    portions: portionsData = [],
-  }: RecipeForm): void {
-    if (!setAccount) return;
+  const memoizedRender = useCallback(
+    ({
+      values,
+      handleBlur: formikHandleBlur,
+      handleChange,
+    }: FormikProps<RecipeForm>) => {
+      function handleBlur({ target: { value = '' } }, index = 0) {
+        const portion = PortionService.portionFromString({
+          text: value,
+          foods,
+        });
 
-    const newRecipeData: RecipeData = {
-      portions: portionsData,
-      name,
-      description,
-      id: recipeData?.id ?? 0,
-      preparation,
-    };
+        const copyFullPortions = [...fullPortions];
 
-    const id = setAccount.recipe(newRecipeData);
+        copyFullPortions[index] = portion;
 
-    setCurrentRecipeData({
-      ...newRecipeData,
-      id,
-    });
-  }
+        setFullPortions(copyFullPortions);
+      }
 
-  return (
-    <Formik
-      initialValues={{
-        portions,
-        name: recipeData.name,
-        description: recipeData.description,
-        preparation: recipeData.preparation,
-      }}
-      onSubmit={handleSubmit}
-      render={({ values, handleBlur: formikHandleBlur, handleChange }) => (
+      return (
         <Form action="/" method="post">
           <FieldArray name="portions">
             {({ push, remove }: ArrayHelpers) => (
@@ -196,7 +195,21 @@ const RecipeRegister: FC<Props> = ({
             )}
           </FieldArray>
         </Form>
-      )}
+      );
+    },
+    [classes.formControl, foods, fullPortions],
+  );
+
+  return (
+    <Formik
+      initialValues={{
+        portions,
+        name: recipeData.name,
+        description: recipeData.description,
+        preparation: recipeData.preparation,
+      }}
+      onSubmit={memoizedHandleSubmit}
+      render={memoizedRender}
     />
   );
 };

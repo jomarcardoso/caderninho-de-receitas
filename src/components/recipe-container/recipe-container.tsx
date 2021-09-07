@@ -1,9 +1,6 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import React, { FC } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import Image from '../image/image';
 import ScoreComponent from '../score/score';
@@ -18,27 +15,12 @@ import { Food } from '../../services/food';
 export interface RecipeContainerProps {
   recipe: Recipe;
   setCurrentFood(food: Food): void;
-  onNewRecipe(): void;
 }
-
-const useStyles = makeStyles({
-  buttonNew: {
-    position: 'sticky',
-    bottom: 15,
-    right: 0,
-    display: 'flex',
-    marginLeft: 'auto',
-    marginTop: 15,
-  },
-});
 
 const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
-  onNewRecipe,
 }) => {
-  const classes = useStyles();
-
   return (
     <>
       <Box marginBottom={3}>
@@ -82,15 +64,6 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             </Section>
           </Grid>
         </Grid>
-        <Fab
-          size="small"
-          color="primary"
-          aria-label="nova receita"
-          className={classes.buttonNew}
-          onClick={onNewRecipe}
-        >
-          <AddIcon />
-        </Fab>
       </Container>
     </>
   );

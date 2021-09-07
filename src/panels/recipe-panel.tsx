@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import StyleContext from '../contexts/style';
 import { RecipeService, RECIPE_DATA, RecipeData } from '../services/recipe';
 import { UrlService } from '../services/url';
@@ -58,9 +58,9 @@ const RecipePanel: FC<{
     });
   }
 
-  function handleNewRecipe() {
+  const memoizedhandleNewRecipe = useCallback(() => {
     setCurrentRecipeData(RECIPE_DATA);
-  }
+  }, [setCurrentRecipeData]);
 
   function handleClickRemove() {
     setAccount?.removeRecipe(recipe.id);
@@ -76,20 +76,13 @@ const RecipePanel: FC<{
       return (
         <RecipeRegisterContainer
           currentRecipeData={currentRecipeData}
-          onNewRecipe={handleNewRecipe}
-          recipe={recipe}
+          onNewRecipe={memoizedhandleNewRecipe}
           setCurrentRecipeData={setCurrentRecipeData}
         />
       );
     }
 
-    return (
-      <RecipeContainer
-        onNewRecipe={handleNewRecipe}
-        recipe={recipe}
-        setCurrentFood={setCurrentFood}
-      />
-    );
+    return <RecipeContainer recipe={recipe} setCurrentFood={setCurrentFood} />;
   }
 
   useEffect(() => {
@@ -116,6 +109,17 @@ const RecipePanel: FC<{
         }}
         footerProps={{
           items: [
+            {
+              onClick: memoizedhandleNewRecipe,
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                  <path
+                    fill="currentColor"
+                    d="M400 64c9 0 16 7 16 16v352c0 9-7 16-16 16H48c-9 0-16-7-16-16V80c0-9 7-16 16-16h352m0-32H48C22 32 0 54 0 80v352c0 27 22 48 48 48h352c27 0 48-21 48-48V80c0-26-21-48-48-48zm-60 206h-98v-98c0-7-5-12-12-12h-12c-7 0-12 5-12 12v98h-98c-7 0-12 5-12 12v12c0 7 5 12 12 12h98v98c0 7 5 12 12 12h12c7 0 12-5 12-12v-98h98c7 0 12-5 12-12v-12c0-7-5-12-12-12z"
+                  />
+                </svg>
+              ),
+            },
             {
               onClick: handleEdit,
               icon: (

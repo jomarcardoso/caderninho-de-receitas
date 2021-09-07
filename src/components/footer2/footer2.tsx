@@ -53,7 +53,12 @@ const Footer2: FC<Footer2Props> = ({ items = [] }) => {
     );
   }
 
-  const renderMemo = useMemo(render, [classes.button, classes.root, items]);
+  const renderMemo = useMemo(render, [
+    classes.button,
+    classes.navigation,
+    classes.root,
+    items,
+  ]);
 
   return renderMemo;
 };

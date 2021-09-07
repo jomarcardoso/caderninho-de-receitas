@@ -5,6 +5,7 @@ module.exports = {
   },
   extends: 'airbnb-typescript-prettier',
   rules: {
+    'react/require-default-props': 'off',
     'import/prefer-default-export': 'off',
     'linebreak-style': 0,
     'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],

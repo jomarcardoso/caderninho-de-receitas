@@ -12,7 +12,7 @@ import { FOOD } from '../services/food';
 import Footer from '../components/footer';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
-import MainContainer from '../containers/main/main-container';
+import MainPanel from '../panels/main-panel';
 import Header2 from '../components/header2/header2';
 
 const useStyles = makeStyles({
@@ -92,7 +92,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
           <FoodsPanel setCurrentFood={setCurrentFood} />
         </Panel>
         <Panel id="main-panel">
-          <MainContainer setCurrentRecipe={setCurrentRecipe} />
+          <MainPanel setCurrentRecipe={setCurrentRecipe} />
         </Panel>
         <RecipePanel
           currentRecipeData={currentRecipeData}

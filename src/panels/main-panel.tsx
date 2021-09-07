@@ -1,12 +1,12 @@
 import React, { FC, useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
-import Layout from '../../components/layout/layout';
-import AccountContext from '../../contexts/account-context';
-import { AccountAndSet, ACCOUNT } from '../../services/account.service';
-import { RECIPE, Recipe } from '../../services/recipe';
-import RecipeCardResumed from '../../components/recipe-card-resumed/recipe-card-resumed';
-import { CurrentPage } from '../../services/page.service';
+import Layout from '../components/layout/layout';
+import AccountContext from '../contexts/account-context';
+import { AccountAndSet, ACCOUNT } from '../services/account.service';
+import { RECIPE, Recipe } from '../services/recipe';
+import RecipeCardResumed from '../components/recipe-card-resumed/recipe-card-resumed';
+import { CurrentPage } from '../services/page.service';
 
 const useStyles = makeStyles({
   card: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-const MainContainer: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
+const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
   setCurrentRecipe,
 }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
@@ -62,4 +62,4 @@ const MainContainer: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
   );
 };
 
-export default MainContainer;
+export default MainPanel;
