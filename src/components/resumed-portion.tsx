@@ -51,11 +51,7 @@ const ResumedPortion: FC<Props> = ({
           color="secondary"
           component="div"
         >
-          <Image
-            disableSpinner={!portion.food.icon}
-            src={portion.food.icon}
-            alt={portion.food.name}
-          />
+          <Image src={portion.food.icon} alt={portion.food.name} />
         </Badge>
       </CardContent>
     </Card>

@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import SvgIcon from '@material-ui/core/SvgIcon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +65,14 @@ const Header: FC<HeaderProps & AppBarProps> = ({
               onClick={onClose}
               color={theme === 'dark' ? 'inherit' : 'secondary'}
             >
-              <CloseIcon />
+              <SvgIcon>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                  <path
+                    fill="currentColor"
+                    d="M194 256l103-103 21-21c3-3 3-8 0-11l-23-23c-3-3-8-3-11 0L160 222 36 98c-3-3-8-3-11 0L2 121c-3 3-3 8 0 11l124 124L2 380c-3 3-3 8 0 11l23 23c3 3 8 3 11 0l124-124 103 103 21 21c3 3 8 3 11 0l23-23c3-3 3-8 0-11L194 256z"
+                  />
+                </svg>
+              </SvgIcon>
             </IconButton>
           )}
         </Toolbar>

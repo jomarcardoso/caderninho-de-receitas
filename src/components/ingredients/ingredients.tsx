@@ -35,7 +35,6 @@ const Ingredients: FC<Props> = ({ portions = [], setCurrentFood }) => {
                   <Image
                     src={portion.food.icon || portion.food.image}
                     alt={portion.food.name}
-                    disableSpinner
                   />
                 </Box>
               </Grid>

@@ -3,13 +3,13 @@ import List from '@material-ui/core/List';
 import Grid, { GridProps } from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
-import Round from 'lodash/round';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import { Food } from '../../services/food';
 import { VITAMINS } from '../../services/vitamin';
 import { MINERALS } from '../../services/mineral';
 import { Nutrient } from '../../services/nutrient.constants';
+import NutrientDisplay from '../nutrient/nutrient';
 
 interface Props {
   food: Food;
@@ -58,17 +58,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
     return (
       <ListItem disableGutters>
-        <Grid container spacing={1} justifyContent="space-between">
-          <Grid item>
-            <Typography component="h2">{nutrient.nick}</Typography>
-          </Grid>
-          <Grid item>
-            <Typography style={{ whiteSpace: 'nowrap' }}>
-              {Round(nutrient.quantity, 2)}
-              {nutrient.unity}
-            </Typography>
-          </Grid>
-        </Grid>
+        <NutrientDisplay nutrient={nutrient} />
       </ListItem>
     );
   }
