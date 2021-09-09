@@ -4,6 +4,7 @@ import React, { FC, useEffect, useState } from 'react';
 import ThemeTopLayout from 'gatsby-theme-material-ui-top-layout/src/components/top-layout';
 import createTheme from '@material-ui/core/styles/createTheme';
 import { PaletteColor } from '@material-ui/core/styles/createPalette';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import StyleContext, { Style } from '../../contexts/style';
 
 const fontFamilyDisplay = 'Cinzel, Roboto, Helvetica, Arial, sans-serif';
@@ -111,9 +112,21 @@ function theme({ bgBody = '' }: Style) {
   });
 }
 
+const useStyles = makeStyles({
+  '@global': {
+    ':root': {
+      '--color-primary': primary.main,
+      '--color-secondary': secondary.main,
+
+      '--icon-color-secondary': 'var(--color-primary)',
+    },
+  },
+});
+
 const Page: FC = ({ children }) => {
   const [style, setStyle] = useState<Style>({});
   const [, setReRender] = useState(false);
+  const classes = useStyles();
 
   // fix wrong render with JS
   useEffect(() => {
@@ -121,9 +134,11 @@ const Page: FC = ({ children }) => {
   }, []);
 
   return (
-    <StyleContext.Provider value={{ style, setStyle }}>
-      <ThemeTopLayout theme={theme(style)}>{children}</ThemeTopLayout>
-    </StyleContext.Provider>
+    <div className={classes['@global']}>
+      <StyleContext.Provider value={{ style, setStyle }}>
+        <ThemeTopLayout theme={theme(style)}>{children}</ThemeTopLayout>
+      </StyleContext.Provider>
+    </div>
   );
 };
 

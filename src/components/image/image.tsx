@@ -3,6 +3,9 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = ({ paddingBottom = '100%' }) =>
   makeStyles({
+    root: {
+      width: '100%',
+    },
     container: {
       position: 'relative',
 
@@ -38,9 +41,11 @@ const Image: FC<ImageProps> = ({
   const classes = useStyles({ paddingBottom })();
 
   return (
-    <div className={className}>
-      <div className={classes.container}>
-        <img alt={alt} className={classes.img} {...props} />
+    <div className={classes.root}>
+      <div className={className}>
+        <div className={classes.container}>
+          <img alt={alt} className={classes.img} {...props} />
+        </div>
       </div>
     </div>
   );
