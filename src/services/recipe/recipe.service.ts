@@ -157,12 +157,14 @@ export function format({
     gl: calculateGC(portions),
     carbohydrates: calculateCarbohidrates(portions),
     aminoAcids: allAminoAcids,
+    category: recipeData?.category ?? RECIPE_DATA.category,
   };
 }
 
 export function unFormat(recipe: Recipe): RecipeData {
   return {
     id: recipe.id ?? RECIPE_DATA.id,
+    category: recipe?.category ?? RECIPE_DATA.category,
     name: recipe.name ?? RECIPE_DATA.name,
     description: recipe.description ?? RECIPE_DATA.description,
     portions:

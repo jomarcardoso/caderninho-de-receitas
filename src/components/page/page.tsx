@@ -33,7 +33,7 @@ export const gray = {
   dark: '#555',
   medium: '#999',
   light: '#d8d8d8',
-  lighter: '#e8e8e8',
+  lighter: '#f2f2f2',
 };
 
 export const borderPrimary = {
@@ -67,7 +67,7 @@ function theme({ bgBody = '' }: Style) {
       },
     },
     shape: {
-      borderRadius: 4,
+      borderRadius: 2,
     },
     typography: {
       fontFamily: fontFamilyText,
@@ -115,10 +115,15 @@ function theme({ bgBody = '' }: Style) {
 const useStyles = makeStyles({
   '@global': {
     ':root': {
-      '--color-primary': primary.main,
-      '--color-secondary': secondary.main,
+      '--color-primary-light': primary.light,
+      '--color-primary-main': primary.main,
+      '--color-primary-dark': primary.dark,
+      '--color-secondary-light': secondary.light,
+      '--color-secondary-main': secondary.main,
+      '--color-secondary-dark': secondary.dark,
 
-      '--icon-color-secondary': 'var(--color-primary)',
+      '--icon-color-primary': 'var(--color-secondary-main)',
+      '--icon-color-secondary': 'var(--color-primary-main)',
     },
   },
 });

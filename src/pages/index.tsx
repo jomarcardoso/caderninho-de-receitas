@@ -45,7 +45,7 @@ const Index: FC = () => {
       const { ScrollSpy, createScrollSpyItem } = await import('ovos');
 
       ScrollSpy({
-        method: 'CURRENT',
+        method: 'CLOSEST',
         axis: 'x',
         elRelative: document.querySelector('#root-content') as HTMLElement,
         list: [

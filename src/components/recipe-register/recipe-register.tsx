@@ -2,6 +2,7 @@ import React, { FC, useContext, useState, useCallback } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Formik, Form, FieldArray, ArrayHelpers, FormikProps } from 'formik';
 import Button from '../button/button';
 import { RecipeData, RECIPE_DATA } from '../../services/recipe';
@@ -12,6 +13,11 @@ import FoodsContext from '../../contexts/foods-context';
 import ResumedPortion from '../resumed-portion';
 import InputIngredient from '../input-ingredient/input-ingredient';
 import InputFilled from '../input-filled/input-filled';
+import {
+  RecipeCategory,
+  recipeCategoryList,
+} from '../../services/recipe/recipe.types';
+import SelectFilled from '../select-filled/select-filled';
 
 const useStyles = makeStyles({
   formControl: {
@@ -29,6 +35,7 @@ interface RecipeForm {
   name: string;
   description: string;
   preparation: string;
+  category: RecipeCategory | '';
 }
 
 const RecipeRegister: FC<Props> = ({
@@ -60,6 +67,7 @@ const RecipeRegister: FC<Props> = ({
       description = '',
       preparation = '',
       portions: portionsData = [],
+      category = '',
     }: RecipeForm): void => {
       if (!setAccount) return;
 
@@ -69,6 +77,7 @@ const RecipeRegister: FC<Props> = ({
         description,
         id: recipeData?.id ?? 0,
         preparation,
+        category,
       };
 
       const id = setAccount.recipe(newRecipeData);
@@ -79,6 +88,13 @@ const RecipeRegister: FC<Props> = ({
       });
     },
     [recipeData?.id, setAccount, setCurrentRecipeData],
+  );
+
+  const memoizedRenderCategoryItem = useCallback(
+    (category: RecipeCategory) => (
+      <MenuItem value={category}>{category}</MenuItem>
+    ),
+    [],
   );
 
   const memoizedRender = useCallback(
@@ -133,6 +149,18 @@ const RecipeRegister: FC<Props> = ({
                       onBlur={formikHandleBlur}
                     />
                   </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <SelectFilled
+                    multiline
+                    name="category"
+                    label="Categoria"
+                    value={values.category || ''}
+                    onChange={handleChange}
+                    onBlur={formikHandleBlur}
+                  >
+                    {recipeCategoryList.map(memoizedRenderCategoryItem)}
+                  </SelectFilled>
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container spacing={3}>
@@ -197,7 +225,7 @@ const RecipeRegister: FC<Props> = ({
         </Form>
       );
     },
-    [classes.formControl, foods, fullPortions],
+    [classes.formControl, foods, fullPortions, memoizedRenderCategoryItem],
   );
 
   return (
@@ -207,6 +235,7 @@ const RecipeRegister: FC<Props> = ({
         name: recipeData.name,
         description: recipeData.description,
         preparation: recipeData.preparation,
+        category: recipeData.category,
       }}
       onSubmit={memoizedHandleSubmit}
       render={memoizedRender}
