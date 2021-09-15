@@ -47,7 +47,7 @@ export interface Recipe {
 
 export interface RecipePartData {
   name: string;
-  portions: Array<string>;
+  portions: string;
   preparation: string;
 }
 
@@ -61,7 +61,7 @@ export interface RecipeData {
 
 export const RECIPE_PART_DATA: RecipePartData = {
   name: '',
-  portions: [],
+  portions: '',
   preparation: '',
 };
 

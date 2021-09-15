@@ -60,7 +60,7 @@ export function formatPart(
   data: RecipePartData,
   foods: Array<Food>,
 ): RecipePart {
-  const portions: Array<Portion> = data?.portions?.map((text) => {
+  const portions: Array<Portion> = data?.portions?.split('\n').map((text) => {
     return PortionService.portionFromString({ text, foods });
   });
 
@@ -198,7 +198,8 @@ export function unFormat(recipe: Recipe): RecipeData {
     parts: recipe.parts.map((part) => ({
       name: part.name,
       portions:
-        part.portions.map(PortionService.unFormat) ?? RECIPE_PART_DATA.portions,
+        part.portions.map(PortionService.unFormat).join('\n') ??
+        RECIPE_PART_DATA.portions,
       preparation: part.preparation ?? RECIPE_PART_DATA.preparation,
     })),
   };
