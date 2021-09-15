@@ -79,7 +79,7 @@ function theme({ bgBody = '' }: Style) {
         fontWeight: 200,
       },
       button: {
-        fontFamily: fontFamilyDisplay,
+        fontFamily: fontFamilyText,
         letterSpacing: 1,
       },
       h1: {

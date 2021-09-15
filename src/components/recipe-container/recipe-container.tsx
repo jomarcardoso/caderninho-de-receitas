@@ -40,15 +40,22 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               <Typography>{recipe.description}</Typography>
             </Grid>
           )}
-          <Grid item xs={12}>
-            <Ingredients
-              portions={recipe.portions}
-              setCurrentFood={setCurrentFood}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Preparation preparation={recipe.preparation} />
-          </Grid>
+          {recipe.parts.map((part) => (
+            <>
+              <Typography variant="h2" component="h2" color="secondary">
+                {part.name}
+              </Typography>
+              <Grid item xs={12}>
+                <Ingredients
+                  portions={part.portions}
+                  setCurrentFood={setCurrentFood}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Preparation preparation={part.preparation} />
+              </Grid>
+            </>
+          ))}
 
           <Grid item xs={12}>
             <Typography variant="h2" component="h2" color="secondary">

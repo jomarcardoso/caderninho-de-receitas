@@ -16,6 +16,9 @@ import InputFilled from '../input-filled/input-filled';
 import {
   RecipeCategory,
   recipeCategoryList,
+  RecipePart,
+  RecipePartData,
+  RECIPE_PART_DATA,
 } from '../../services/recipe/recipe.types';
 import SelectFilled from '../select-filled/select-filled';
 
@@ -31,12 +34,16 @@ interface Props {
 }
 
 interface RecipeForm {
-  portions: Array<string>;
+  parts: RecipeData['parts'];
   name: string;
   description: string;
-  preparation: string;
   category: RecipeCategory | '';
 }
+
+const RECIPE_PART_DATA_MINIMUM: RecipePartData = {
+  ...RECIPE_PART_DATA,
+  portions: [''],
+};
 
 const RecipeRegister: FC<Props> = ({
   recipeData = RECIPE_DATA,
@@ -45,38 +52,45 @@ const RecipeRegister: FC<Props> = ({
   const classes = useStyles();
   const { setAccount } = useContext(AccountContext);
   const foods = useContext(FoodsContext);
-  let { portions = [''] } = recipeData;
+  const { parts = [RECIPE_PART_DATA_MINIMUM] } = recipeData;
 
-  const initialFullPortions =
-    portions.map((portionToProcess) => {
-      return PortionService.portionFromString({
-        text: portionToProcess,
-        foods,
-      });
-    }) ?? [];
+  const initialFullParts: Array<RecipePart> = parts.map(
+    ({ portions = [''], name = '', preparation = '' }) => {
+      const initialFullPortions = portions.map((portionToProcess) => {
+        return PortionService.portionFromString({
+          text: portionToProcess,
+          foods,
+        });
+      }) ?? [''];
 
-  const [fullPortions, setFullPortions] = useState(initialFullPortions);
+      return {
+        name,
+        portions: initialFullPortions,
+        preparation,
+      };
+    },
+  );
 
-  if (!portions.length) {
-    portions = [''];
-  }
+  const [fullParts, setFullParts] = useState(initialFullParts);
+
+  // if (!parts.length) {
+  //   parts = [RECIPE_PART_DATA_MINIMUM];
+  // }
 
   const memoizedHandleSubmit = useCallback(
     ({
       name = '',
       description = '',
-      preparation = '',
-      portions: portionsData = [],
+      parts: partsData = [],
       category = '',
     }: RecipeForm): void => {
       if (!setAccount) return;
 
       const newRecipeData: RecipeData = {
-        portions: portionsData,
+        parts: partsData,
         name,
         description,
         id: recipeData?.id ?? 0,
-        preparation,
         category,
       };
 
@@ -103,22 +117,28 @@ const RecipeRegister: FC<Props> = ({
       handleBlur: formikHandleBlur,
       handleChange,
     }: FormikProps<RecipeForm>) => {
-      function handleBlur({ target: { value = '' } }, index = 0) {
+      function handleBlur(
+        { target: { value = '' } },
+        partIndex = 0,
+        index = 0,
+      ) {
         const portion = PortionService.portionFromString({
           text: value,
           foods,
         });
 
-        const copyFullPortions = [...fullPortions];
+        const copyFullParts = [...fullParts.map((a) => ({ ...a }))];
 
-        copyFullPortions[index] = portion;
+        copyFullParts[partIndex].portions[index] = portion;
 
-        setFullPortions(copyFullPortions);
+        setFullParts(copyFullParts);
       }
+
+      console.log(values.parts);
 
       return (
         <Form action="/" method="post">
-          <FieldArray name="portions">
+          <FieldArray name="parts">
             {({ push, remove }: ArrayHelpers) => (
               <Grid container spacing={3}>
                 <Grid item xs={12}>
@@ -162,60 +182,67 @@ const RecipeRegister: FC<Props> = ({
                     {recipeCategoryList.map(memoizedRenderCategoryItem)}
                   </SelectFilled>
                 </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={3}>
-                    {values.portions.map((value, index) => (
-                      <Grid item xs={12}>
-                        <Grid container spacing={1} alignItems="stretch">
-                          <Grid item xs={2}>
-                            <ResumedPortion
-                              portion={fullPortions[index]}
-                              hideBadge
-                              padding={6}
-                            />
-                          </Grid>
-                          <Grid item xs={10}>
-                            <FormControl
-                              variant="standard"
-                              className={classes.formControl}
-                            >
-                              <InputIngredient
-                                index={index}
-                                onChange={handleChange}
-                                remove={remove}
-                                value={value}
-                                onBlur={(event) => {
-                                  formikHandleBlur(event);
-                                  handleBlur(event, index);
-                                }}
-                              />
-                            </FormControl>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    ))}
+                {values.parts.map((part, partIndex) => (
+                  <>
                     <Grid item xs={12}>
-                      <Button variant="outlined" onClick={() => push('')}>
+                      <Grid container spacing={3}>
+                        {part.portions.map((value, index) => (
+                          <Grid item xs={12}>
+                            <Grid container spacing={1} alignItems="stretch">
+                              <Grid item xs={2}>
+                                <ResumedPortion
+                                  portion={fullParts[partIndex].portions[index]}
+                                  hideBadge
+                                  padding={6}
+                                />
+                              </Grid>
+                              <Grid item xs={10}>
+                                <FormControl
+                                  variant="standard"
+                                  className={classes.formControl}
+                                >
+                                  <InputIngredient
+                                    index={index}
+                                    onChange={handleChange}
+                                    remove={remove}
+                                    value={value}
+                                    onBlur={(event) => {
+                                      formikHandleBlur(event);
+                                      handleBlur(event, partIndex, index);
+                                    }}
+                                  />
+                                </FormControl>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <FormControl
+                        variant="standard"
+                        className={classes.formControl}
+                      >
+                        <InputFilled
+                          multiline
+                          name="preparation"
+                          label="Modo de preparo"
+                          value={part.preparation}
+                          onChange={handleChange}
+                          onBlur={formikHandleBlur}
+                        />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        variant="outlined"
+                        onClick={() => push(RECIPE_PART_DATA_MINIMUM)}
+                      >
                         Adicionar
                       </Button>
                     </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl
-                    variant="standard"
-                    className={classes.formControl}
-                  >
-                    <InputFilled
-                      multiline
-                      name="preparation"
-                      label="Modo de preparo"
-                      value={values.preparation}
-                      onChange={handleChange}
-                      onBlur={formikHandleBlur}
-                    />
-                  </FormControl>
-                </Grid>
+                  </>
+                ))}
                 <Grid item xs={12}>
                   <SubmitComponent>Cadastrar refeição</SubmitComponent>
                 </Grid>
@@ -225,17 +252,16 @@ const RecipeRegister: FC<Props> = ({
         </Form>
       );
     },
-    [classes.formControl, foods, fullPortions, memoizedRenderCategoryItem],
+    [classes.formControl, foods, fullParts, memoizedRenderCategoryItem],
   );
 
   return (
     <Formik
       initialValues={{
-        portions,
         name: recipeData.name,
         description: recipeData.description,
-        preparation: recipeData.preparation,
         category: recipeData.category,
+        parts,
       }}
       onSubmit={memoizedHandleSubmit}
       render={memoizedRender}

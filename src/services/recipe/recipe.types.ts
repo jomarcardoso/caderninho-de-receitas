@@ -24,38 +24,59 @@ export const recipeCategoryList: Array<RecipeCategory> = [
   'sobremesa',
 ];
 
+export interface RecipePart {
+  name: string;
+  portions: Array<Portion>;
+  preparation: string;
+}
+
 export interface Recipe {
   id: number;
   name: string;
   description: string;
   image: string;
-  portions: Array<Portion>;
   calories: number;
   gi: number;
   gl: number;
   carbohydrates: number;
   acidification: number;
   aminoAcids: AminoAcids;
-  preparation: string;
   category: RecipeCategory | '';
+  parts: Array<RecipePart>;
+}
+
+export interface RecipePartData {
+  name: string;
+  portions: Array<string>;
+  preparation: string;
 }
 
 export interface RecipeData {
   id?: number;
   name: string;
   description?: string;
-  portions: Array<string>;
-  preparation: string;
+  parts: Array<RecipePartData>;
   category: RecipeCategory | '';
 }
+
+export const RECIPE_PART_DATA: RecipePartData = {
+  name: '',
+  portions: [],
+  preparation: '',
+};
 
 export const RECIPE_DATA: RecipeData = {
   id: 0,
   name: '',
   description: '',
+  category: '',
+  parts: [],
+};
+
+export const RECIPE_PART: RecipePart = {
+  name: '',
   portions: [],
   preparation: '',
-  category: '',
 };
 
 export const RECIPE: Recipe = {
@@ -64,13 +85,12 @@ export const RECIPE: Recipe = {
   image: '',
   name: '',
   id: 0,
-  portions: [],
+  parts: [],
   gi: 0,
   acidification: 0,
   gl: 0,
   carbohydrates: 0,
   aminoAcids: AMINO_ACIDS,
-  preparation: '',
   category: '',
 };
 

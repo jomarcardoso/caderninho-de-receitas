@@ -24,7 +24,7 @@ if (typeof window !== 'undefined') {
   if (sharedString) {
     const recipeShared = RecipeService.unFormatToShare(sharedString);
 
-    if (recipeShared.portions.length) {
+    if (recipeShared.parts[0]?.portions?.length) {
       initialRecipeData = recipeShared;
 
       window.history.replaceState(
