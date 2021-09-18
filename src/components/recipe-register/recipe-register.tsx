@@ -1,4 +1,10 @@
-import React, { FC, useContext, useCallback } from 'react';
+import React, {
+  FC,
+  useContext,
+  useCallback,
+  ChangeEventHandler,
+  FocusEventHandler,
+} from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +21,7 @@ import {
   RECIPE_PART_DATA,
 } from '../../services/recipe/recipe.types';
 import SelectFilled from '../select-filled/select-filled';
+import TextArea from '../text-area/text-area';
 
 const useStyles = makeStyles({
   formControl: {
@@ -76,11 +83,44 @@ const RecipeRegister: FC<Props> = ({
     [],
   );
 
+  const memoizedRenderInputPortion = useCallback(
+    (
+      index = 0,
+      setFieldValue: FormikProps<RecipeForm>['setFieldValue'],
+      portions = '',
+      onBlur: FocusEventHandler<HTMLTextAreaElement>,
+    ) => {
+      const portionList = portions.split('\n');
+      const value = `• ${portionList.join('\n• ')}`;
+
+      const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+        const valueBackSpace = event.target.value.replace(/\n•(?! )/g, '');
+        const valueClean = valueBackSpace.replace(/• /g, '');
+        const valueCompletelyClean = valueClean.replace(/•/g, '');
+
+        setFieldValue(`parts.${index}.portions`, valueCompletelyClean);
+      };
+
+      return (
+        <InputFilled
+          multiline
+          name={`parts.${index}.portions`}
+          label="Ingredientes"
+          onChange={handleChange}
+          value={value}
+          onBlur={onBlur}
+        />
+      );
+    },
+    [],
+  );
+
   const memoizedRender = useCallback(
     ({
       values,
       handleBlur: formikHandleBlur,
       handleChange,
+      setFieldValue,
     }: FormikProps<RecipeForm>) => {
       return (
         <Form action="/" method="post">
@@ -134,14 +174,12 @@ const RecipeRegister: FC<Props> = ({
                         variant="standard"
                         className={classes.formControl}
                       >
-                        <InputFilled
-                          multiline
-                          name={`parts.${index}.portions`}
-                          label="Ingredientes"
-                          onChange={handleChange}
-                          value={part.portions}
-                          onBlur={formikHandleBlur}
-                        />
+                        {memoizedRenderInputPortion(
+                          index,
+                          setFieldValue,
+                          part.portions,
+                          formikHandleBlur,
+                        )}
                       </FormControl>
                     </Grid>
                     <Grid item xs={12}>
@@ -149,10 +187,8 @@ const RecipeRegister: FC<Props> = ({
                         variant="standard"
                         className={classes.formControl}
                       >
-                        <InputFilled
-                          multiline
+                        <TextArea
                           name={`parts.${index}.preparation`}
-                          label="Modo de preparo"
                           value={part.preparation}
                           onChange={handleChange}
                           onBlur={formikHandleBlur}
@@ -183,7 +219,11 @@ const RecipeRegister: FC<Props> = ({
         </Form>
       );
     },
-    [classes.formControl, memoizedRenderCategoryItem],
+    [
+      classes.formControl,
+      memoizedRenderCategoryItem,
+      memoizedRenderInputPortion,
+    ],
   );
 
   return (

@@ -11,9 +11,9 @@ const fontFamilyDisplay = 'Cinzel, Roboto, Helvetica, Arial, sans-serif';
 const fontFamilyText = 'Dosis, Roboto, Helvetica, Arial, sans-serif';
 
 export const primary: PaletteColor = {
-  light: '#947368',
+  light: '#D4B5A9',
   main: '#87695e',
-  dark: '#6E564D',
+  dark: '#947368',
   contrastText: '#ffffff',
 };
 
@@ -39,6 +39,7 @@ export const gray = {
 export const borderPrimary = {
   borderColor: primary.light,
   borderWidth: 2,
+  borderStyle: 'dashed',
 };
 
 export const borderSecondary = {
