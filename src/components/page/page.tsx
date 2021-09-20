@@ -10,6 +10,8 @@ import StyleContext, { Style } from '../../contexts/style';
 const fontFamilyDisplay = 'Cinzel, Roboto, Helvetica, Arial, sans-serif';
 const fontFamilyText = 'Dosis, Roboto, Helvetica, Arial, sans-serif';
 
+export const fontFamilyInput = 'Sacramento, cursive';
+
 export const primary: PaletteColor = {
   light: '#D4B5A9',
   main: '#87695e',

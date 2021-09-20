@@ -1149,6 +1149,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/dosis/-/dosis-4.5.0.tgz#6a40a21e2e6abcde9e179f710b5fd70fa02a380e"
   integrity sha512-FGie1vHZXYVL1vMe/ohnUpu08yDCzEIlBmJECkMmjfxsOOXTJ6a319LUHIUfOtZUlr3ByE0XApBx9u1JODvfwQ==
 
+"@fontsource/sacramento@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/sacramento/-/sacramento-4.5.0.tgz#ed965ab297a90ee2fca2073fbedfefcd87916079"
+  integrity sha512-pVdTp3bqWxT02SV+CXA++XhJ51Dpcf0WK4ze66gOsTZCGMZDKyrvpo98pvCwhnw2Xh44t30TUrs4ueBTnKCEzw==
+
 "@gatsbyjs/reach-router@^1.3.6":
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/@gatsbyjs/reach-router/-/reach-router-1.3.6.tgz#4e8225836959be247890b66f21a3198a0589e34d"

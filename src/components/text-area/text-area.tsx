@@ -1,20 +1,16 @@
 import React, { FC } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import TextField, { StandardTextFieldProps } from '@material-ui/core/TextField';
-import { borderPrimary, primary } from '../page/page';
+import { borderPrimary, fontFamilyInput, primary } from '../page/page';
 
 const useStyles = makeStyles({
   root: {
-    ...borderPrimary,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     transition: 'border-color 200ms linear',
+    padding: 0,
 
     '&:hover, &.Mui-focused': {
-      backgroundColor: 'white',
-    },
-
-    '&.Mui-focused': {
-      borderColor: primary.dark,
+      backgroundColor: 'transparent',
     },
   },
   underline: {
@@ -30,28 +26,12 @@ const useStyles = makeStyles({
     },
   },
   input: {
-    backgroundImage: `
-      linear-gradient(
-        to right,
-        transparent,
-        transparent 60%,
-        white 61%,
-        white 100%
-      ),
-      linear-gradient(
-        to bottom,
-        transparent,
-        transparent 90%,
-        ${primary.light} 91%,
-        ${primary.light} 94%,
-        transparent 95%,
-        transparent 100%
-      )
-    `,
-    backgroundSize: '10px 32px',
-    // minHeight: 288,
-    backgroundRepeat: 'space',
-    lineHeight: '32px',
+    backgroundImage: 'url(/images/textures/linned-sheet-texture.svg)',
+    // backgroundSize: 'auto',
+    // backgroundRepeat: 'space',
+    lineHeight: '31.2px',
+    fontFamily: fontFamilyInput,
+    fontSize: 30,
   },
 });
 

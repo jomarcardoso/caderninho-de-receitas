@@ -8,6 +8,7 @@ import React, {
 import FormControl from '@material-ui/core/FormControl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Formik, Form, FieldArray, ArrayHelpers, FormikProps } from 'formik';
 import Button from '../button/button';
@@ -22,6 +23,7 @@ import {
 } from '../../services/recipe/recipe.types';
 import SelectFilled from '../select-filled/select-filled';
 import TextArea from '../text-area/text-area';
+import SectionTitle from '../section-title/section-title';
 
 const useStyles = makeStyles({
   formControl: {
@@ -102,12 +104,10 @@ const RecipeRegister: FC<Props> = ({
       };
 
       return (
-        <InputFilled
-          multiline
-          name={`parts.${index}.portions`}
-          label="Ingredientes"
-          onChange={handleChange}
+        <TextArea
+          name={`parts.${index}.portion`}
           value={value}
+          onChange={handleChange}
           onBlur={onBlur}
         />
       );
@@ -142,14 +142,15 @@ const RecipeRegister: FC<Props> = ({
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
+                  <SectionTitle>Descrição</SectionTitle>
+                </Grid>
+                <Grid item xs={12}>
                   <FormControl
                     variant="standard"
                     className={classes.formControl}
                   >
-                    <InputFilled
-                      multiline
+                    <TextArea
                       name="description"
-                      label="Descrição"
                       value={values.description}
                       onChange={handleChange}
                       onBlur={formikHandleBlur}
@@ -170,6 +171,9 @@ const RecipeRegister: FC<Props> = ({
                 {values.parts.map((part, index) => (
                   <>
                     <Grid item xs={12}>
+                      <SectionTitle>Ingredientes</SectionTitle>
+                    </Grid>
+                    <Grid item xs={12}>
                       <FormControl
                         variant="standard"
                         className={classes.formControl}
@@ -181,6 +185,9 @@ const RecipeRegister: FC<Props> = ({
                           formikHandleBlur,
                         )}
                       </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <SectionTitle>Modo de preparo</SectionTitle>
                     </Grid>
                     <Grid item xs={12}>
                       <FormControl
