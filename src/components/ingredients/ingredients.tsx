@@ -3,7 +3,6 @@ import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import Image from '../image/image';
 import { Portion } from '../../services/portion/portion.types';
 import Section from '../section/section';

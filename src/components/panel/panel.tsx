@@ -1,7 +1,6 @@
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import React, { FC, HTMLProps } from 'react';
-import { light } from '../page/page';
 
 const useStyles = makeStyles({
   root: {

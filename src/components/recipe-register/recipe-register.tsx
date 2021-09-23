@@ -8,7 +8,6 @@ import React, {
 import FormControl from '@material-ui/core/FormControl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Formik, Form, FieldArray, ArrayHelpers, FormikProps } from 'formik';
 import Button from '../button/button';
