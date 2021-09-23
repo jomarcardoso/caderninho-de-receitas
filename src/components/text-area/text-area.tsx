@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import TextField, { StandardTextFieldProps } from '@material-ui/core/TextField';
-import { borderPrimary, fontFamilyInput, primary } from '../page/page';
+import { fontFamilyInput } from '../page/page';
 
 const useStyles = makeStyles({
   root: {

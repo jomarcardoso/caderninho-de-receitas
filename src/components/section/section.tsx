@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import SectionTitle from '../section-title/section-title';
 
 interface Props {
   title?: string;
@@ -11,14 +11,7 @@ const Section: FC<Props> = ({ title = '', children }) => {
     <Grid container spacing={3}>
       {title && (
         <Grid item xs={12}>
-          <Typography
-            component="h2"
-            variant="h1"
-            color="primary"
-            align="center"
-          >
-            {title}
-          </Typography>
+          <SectionTitle>{title}</SectionTitle>
         </Grid>
       )}
       <Grid item xs={12}>

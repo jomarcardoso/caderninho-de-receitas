@@ -134,15 +134,13 @@ const RecipeRegister: FC<Props> = ({
                   >
                     <InputFilled
                       name="name"
-                      label="Nome da receita"
+                      // label="Nome da receita"
+                      placeholder="Receita"
                       value={values.name}
                       onChange={handleChange}
                       onBlur={formikHandleBlur}
                     />
                   </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <SectionTitle>Descrição</SectionTitle>
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl
@@ -154,6 +152,7 @@ const RecipeRegister: FC<Props> = ({
                       value={values.description}
                       onChange={handleChange}
                       onBlur={formikHandleBlur}
+                      minRows={2}
                     />
                   </FormControl>
                 </Grid>

@@ -1,60 +1,72 @@
 import React, { FC } from 'react';
 import TextField, { StandardTextFieldProps } from '@material-ui/core/TextField';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { primary, secondary } from '../page/page';
+import { fontFamilyInput, primary } from '../page/page';
 
-const useStyles = (linedSheet = false) =>
-  makeStyles({
-    input: {
-      backgroundColor: 'white',
+const useStyles = makeStyles({
+  root: {
+    fontFamily: fontFamilyInput,
+    borderStyle: 'dashed',
 
-      '&:hover, &.Mui-focused': {
-        backgroundColor: 'white',
-      },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderStyle: 'dashed',
     },
-    inputInput: {
-      backgroundImage: linedSheet
-        ? `
-          linear-gradient(
-            to bottom,
-            transparent,
-            transparent 90%,
-            ${secondary.light} 91%,
-            ${secondary.light} 92%,
-            transparent 93%,
-            transparent 100%
-          )
-        `
-        : '',
-      backgroundSize: linedSheet ? 'auto 32px' : '',
-      minHeight: linedSheet ? 288 : '',
-      backgroundRepeat: 'space',
-      lineHeight: '32px',
-    },
-    label: {
-      zIndex: 1,
-      color: primary.main,
+  },
+  input: {
+    backgroundColor: 'transparent',
+    border: '2px dashed #00000033',
+    padding: '14px 10px 0',
 
-      '&:hover, &.Mui-focused': {
-        color: primary.dark,
-      },
+    '&:hover, &.Mui-focused': {
+      backgroundColor: 'transparent',
     },
-  });
+  },
+  underline: {
+    '&:after': {
+      display: 'none',
+    },
+    '&:before': {
+      borderBottomColor: 'transparent',
+    },
+
+    '&:hover:before': {
+      borderBottomColor: 'transparent',
+    },
+  },
+  inputInput: {
+    lineHeight: '31.2px',
+    fontFamily: fontFamilyInput,
+    fontSize: 30,
+    backgroundRepeat: 'space',
+  },
+  label: {
+    zIndex: 1,
+    color: primary.main,
+
+    '&:hover, &.Mui-focused': {
+      color: primary.dark,
+    },
+  },
+});
 
 const InputFilled: FC<StandardTextFieldProps> = (props) => {
-  const { multiline = false } = props;
-
-  const classes = useStyles(multiline)();
+  const classes = useStyles();
 
   return (
     <TextField
-      variant="filled"
-      InputProps={{
-        classes: {
-          root: classes.input,
-          input: classes.inputInput,
-        },
+      multiline
+      variant="outlined"
+      className={classes.root}
+      inputProps={{
+        className: classes.inputInput,
       }}
+      // InputProps={{
+      //   classes: {
+      //     root: classes.input,
+      //     input: classes.inputInput,
+      //     underline: classes.underline,
+      //   },
+      // }}
       InputLabelProps={{
         classes: {
           root: classes.label,

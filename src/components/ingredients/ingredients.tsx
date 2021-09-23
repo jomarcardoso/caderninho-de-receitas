@@ -25,20 +25,14 @@ const Ingredients: FC<Props> = ({ portions = [], setCurrentFood }) => {
             key={portion.food.id}
             onClick={() => setCurrentFood(portion.food)}
           >
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={2} sm={1}>
-                <Box
-                  bgcolor="white"
-                  padding={portion.food.icon ? 1 : 0}
-                  borderRadius="borderRadius"
-                >
-                  <Image
-                    src={portion.food.icon || portion.food.image}
-                    alt={portion.food.name}
-                  />
-                </Box>
+            <Grid container spacing={1} alignItems="center">
+              <Grid item xs={1}>
+                <Image
+                  src={portion.food.icon || portion.food.image}
+                  alt={portion.food.name}
+                />
               </Grid>
-              <Grid item xs={10} sm={11}>
+              <Grid item xs={11}>
                 <Typography>{portion.description}</Typography>
               </Grid>
             </Grid>
