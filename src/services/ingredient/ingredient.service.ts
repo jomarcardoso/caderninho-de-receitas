@@ -8,7 +8,7 @@ import {
   MEASURE,
   FOOD,
 } from '../food';
-import { Portion, PORTION, UnFormat } from './portion.types';
+import { Ingredient, PORTION, UnFormat } from './ingredient.types';
 
 export function getQuantityByMeasure(
   measure: Measure = MEASURE,
@@ -136,12 +136,15 @@ function measureFromString(text = ''): Measure {
 
 const unFormat: UnFormat = ({ description }) => description;
 
-interface PortionFromStringArgs {
+interface IngredientFromStringArgs {
   foods: Array<Food>;
   text: string;
 }
 
-function portionFromString({ text, foods }: PortionFromStringArgs): Portion {
+function ingredientFromString({
+  text,
+  foods,
+}: IngredientFromStringArgs): Ingredient {
   const { food } = FoodService.getFoodByString({
     foods,
     text,
@@ -151,7 +154,7 @@ function portionFromString({ text, foods }: PortionFromStringArgs): Portion {
 
   if (!food) return PORTION;
 
-  // const food = foods[portionData.foodId - 1];
+  // const food = foods[ingredientData.foodId - 1];
   const quantity = getQuantityByMeasure(measure, food);
   const calories = (food.calories * quantity) / 100;
   const carbohydrates = (food.carbohydrates * quantity) / 100;
@@ -188,10 +191,10 @@ function portionFromString({ text, foods }: PortionFromStringArgs): Portion {
   };
 }
 
-const PortionService = {
+const IngredientService = {
   unFormat,
-  portionFromString,
+  ingredientFromString,
   measureFromString,
 };
 
-export default PortionService;
+export default IngredientService;

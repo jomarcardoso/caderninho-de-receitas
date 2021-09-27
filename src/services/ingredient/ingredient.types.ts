@@ -1,7 +1,7 @@
 import { Food, AminoAcids, Measure, AMINO_ACIDS } from '../food';
 import { FOOD } from '../food/food.types';
 
-export interface Portion {
+export interface Ingredient {
   food: Food;
   quantity: number;
   calories: number;
@@ -11,9 +11,9 @@ export interface Portion {
   description: string;
 }
 
-export type UnFormat = (portion: Portion) => string;
+export type UnFormat = (ingredient: Ingredient) => string;
 
-export const PORTION: Portion = {
+export const PORTION: Ingredient = {
   aminoAcids: AMINO_ACIDS,
   calories: 0,
   carbohydrates: 0,

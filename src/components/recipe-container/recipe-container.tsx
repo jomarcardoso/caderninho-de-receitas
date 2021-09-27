@@ -47,7 +47,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               </Typography>
               <Grid item xs={12}>
                 <Ingredients
-                  portions={part.portions}
+                  ingredients={part.ingredients}
                   setCurrentFood={setCurrentFood}
                 />
               </Grid>

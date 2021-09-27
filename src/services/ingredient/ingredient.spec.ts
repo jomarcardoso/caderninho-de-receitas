@@ -1,12 +1,12 @@
 import { Measure } from '../food';
-import PortionService, {
+import IngredientService, {
   verifyIsLiteral,
   // getQuantityByMeasure,
-} from './portion.service';
+} from './ingredient.service';
 
-describe('PortionService', () => {
+describe('IngredientService', () => {
   describe('measureFromString', () => {
-    const { measureFromString } = PortionService;
+    const { measureFromString } = IngredientService;
 
     it('empty', () => {
       const measure: Measure = {

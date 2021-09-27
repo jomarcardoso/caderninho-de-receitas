@@ -31,7 +31,7 @@ const InputIngredient: FC<{
       <InputFilled
         type="text"
         label={`Ingrediente ${index + 1}`}
-        name={`portions.${index}`}
+        name={`ingredients.${index}`}
         onChange={onChange}
         onBlur={onBlur}
         value={value}

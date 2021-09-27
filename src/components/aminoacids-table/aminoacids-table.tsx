@@ -71,16 +71,17 @@ const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
       quantity: aminoAcids.histidine / 700,
     },
   ];
-  const abundantAminoAcidFromPortion = essentialAminoAcids.reduce(
+  const abundantAminoAcidFromIngredient = essentialAminoAcids.reduce(
     (previous, current) => Math.max(previous, current.quantity),
     0,
   );
 
   function renderRow({ name = '', quantity = 0 }) {
-    const veryLowQuantity = quantity >= abundantAminoAcidFromPortion / 5;
-    const lowQuantity = quantity >= (abundantAminoAcidFromPortion / 5) * 2;
-    const regularQuantity = quantity >= (abundantAminoAcidFromPortion / 5) * 3;
-    const highQuantity = quantity >= (abundantAminoAcidFromPortion / 5) * 4;
+    const veryLowQuantity = quantity >= abundantAminoAcidFromIngredient / 5;
+    const lowQuantity = quantity >= (abundantAminoAcidFromIngredient / 5) * 2;
+    const regularQuantity =
+      quantity >= (abundantAminoAcidFromIngredient / 5) * 3;
+    const highQuantity = quantity >= (abundantAminoAcidFromIngredient / 5) * 4;
 
     return (
       <TableRow key={name}>

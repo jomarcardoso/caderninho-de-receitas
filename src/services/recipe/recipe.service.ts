@@ -1,6 +1,6 @@
 import { Food, AminoAcids, FoodService } from '../food';
-import PortionService from '../portion/portion.service';
-import { Portion } from '../portion/portion.types';
+import IngredientService from '../ingredient/ingredient.service';
+import { Ingredient } from '../ingredient/ingredient.types';
 import {
   Recipe,
   RecipeData,
@@ -12,61 +12,67 @@ import {
   RECIPE_PART_DATA,
 } from './recipe.types';
 
-export function calculateCalories(portions: Array<Portion> = []): number {
+export function calculateCalories(ingredients: Array<Ingredient> = []): number {
   return Number(
-    portions
-      .reduce((sum, portion) => {
-        return sum + portion.calories;
+    ingredients
+      .reduce((sum, ingredient) => {
+        return sum + ingredient.calories;
       }, 0)
       .toFixed(0),
   );
 }
 
-export function calculateCarbohidrates(portions: Array<Portion> = []): number {
+export function calculateCarbohidrates(
+  ingredients: Array<Ingredient> = [],
+): number {
   return Number(
-    portions
-      .reduce((sum, portion) => {
-        return sum + portion.calories;
+    ingredients
+      .reduce((sum, ingredient) => {
+        return sum + ingredient.calories;
       }, 0)
       .toFixed(0),
   );
 }
 
-export function calculateGI(portions: Array<Portion> = []): number {
-  const total = portions.reduce((sum, portion) => {
-    return sum + portion.food.gi;
+export function calculateGI(ingredients: Array<Ingredient> = []): number {
+  const total = ingredients.reduce((sum, ingredient) => {
+    return sum + ingredient.food.gi;
   }, 0);
 
-  return total / portions.length;
+  return total / ingredients.length;
 }
 
-export function calculateGC(portions: Array<Portion> = []): number {
-  const total = portions.reduce((sum, portion) => {
-    return sum + portion.food.gl;
+export function calculateGC(ingredients: Array<Ingredient> = []): number {
+  const total = ingredients.reduce((sum, ingredient) => {
+    return sum + ingredient.food.gl;
   }, 0);
 
-  return total / portions.length;
+  return total / ingredients.length;
 }
 
-export function calculateAcidification(portions: Array<Portion> = []): number {
-  const total = portions.reduce((sum, portion) => {
-    return sum + portion.food.acidification;
+export function calculateAcidification(
+  ingredients: Array<Ingredient> = [],
+): number {
+  const total = ingredients.reduce((sum, ingredient) => {
+    return sum + ingredient.food.acidification;
   }, 0);
 
-  return total / portions.length;
+  return total / ingredients.length;
 }
 
 export function formatPart(
   data: RecipePartData,
   foods: Array<Food>,
 ): RecipePart {
-  const portions: Array<Portion> = data?.portions?.split('\n').map((text) => {
-    return PortionService.portionFromString({ text, foods });
-  });
+  const ingredients: Array<Ingredient> = data?.ingredients
+    ?.split('\n')
+    .map((text) => {
+      return IngredientService.ingredientFromString({ text, foods });
+    });
 
   return {
     name: data?.name ?? RECIPE_PART.name,
-    portions: portions ?? RECIPE_PART.portions,
+    ingredients: ingredients ?? RECIPE_PART.ingredients,
     preparation: data?.preparation ?? RECIPE_PART.preparation,
   };
 }
@@ -82,84 +88,84 @@ export function format({
     recipeData?.parts?.map((partData) => formatPart(partData, foods)) ??
     RECIPE.parts;
 
-  const allPortions = parts.flatMap(({ portions }) => {
-    return portions;
+  const allIngredients = parts.flatMap(({ ingredients }) => {
+    return ingredients;
   });
 
   const allAminoAcids: AminoAcids = {
-    alanine: allPortions.reduce(
+    alanine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.alanine + sum,
       0,
     ),
-    arginine: allPortions.reduce(
+    arginine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.arginine + sum,
       0,
     ),
-    asparticAcid: allPortions.reduce(
+    asparticAcid: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.asparticAcid + sum,
       0,
     ),
-    cystine: allPortions.reduce(
+    cystine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.cystine + sum,
       0,
     ),
-    glutamicAcid: allPortions.reduce(
+    glutamicAcid: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.glutamicAcid + sum,
       0,
     ),
-    glutamine: allPortions.reduce(
+    glutamine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.glutamine + sum,
       0,
     ),
-    glycine: allPortions.reduce(
+    glycine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.glycine + sum,
       0,
     ),
-    histidine: allPortions.reduce(
+    histidine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.histidine + sum,
       0,
     ),
-    isoleucine: allPortions.reduce(
+    isoleucine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.isoleucine + sum,
       0,
     ),
-    leucine: allPortions.reduce(
+    leucine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.leucine + sum,
       0,
     ),
-    lysine: allPortions.reduce(
+    lysine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.lysine + sum,
       0,
     ),
-    methionine: allPortions.reduce(
+    methionine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.methionine + sum,
       0,
     ),
-    phenylalanine: allPortions.reduce(
+    phenylalanine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.phenylalanine + sum,
       0,
     ),
-    proline: allPortions.reduce(
+    proline: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.proline + sum,
       0,
     ),
-    serine: allPortions.reduce(
+    serine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.serine + sum,
       0,
     ),
-    threonine: allPortions.reduce(
+    threonine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.threonine + sum,
       0,
     ),
-    tryptophan: allPortions.reduce(
+    tryptophan: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.tryptophan + sum,
       0,
     ),
-    tyrosine: allPortions.reduce(
+    tyrosine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.tyrosine + sum,
       0,
     ),
-    valine: allPortions.reduce(
+    valine: allIngredients.reduce(
       (sum, { aminoAcids }) => aminoAcids.valine + sum,
       0,
     ),
@@ -176,14 +182,14 @@ export function format({
     ...recipeData,
     id: recipeData?.id ?? Math.round(Math.random() * 1000),
     parts,
-    calories: calculateCalories(allPortions),
+    calories: calculateCalories(allIngredients),
     name: recipeData.name,
     description: recipeData?.description ?? '',
     image,
-    gi: calculateGI(allPortions),
-    acidification: calculateAcidification(allPortions),
-    gl: calculateGC(allPortions),
-    carbohydrates: calculateCarbohidrates(allPortions),
+    gi: calculateGI(allIngredients),
+    acidification: calculateAcidification(allIngredients),
+    gl: calculateGC(allIngredients),
+    carbohydrates: calculateCarbohidrates(allIngredients),
     aminoAcids: allAminoAcids,
     category: recipeData?.category ?? RECIPE_DATA.category,
   };
@@ -197,9 +203,9 @@ export function unFormat(recipe: Recipe): RecipeData {
     description: recipe.description ?? RECIPE_DATA.description,
     parts: recipe.parts.map((part) => ({
       name: part.name,
-      portions:
-        part.portions.map(PortionService.unFormat).join('\n') ??
-        RECIPE_PART_DATA.portions,
+      ingredients:
+        part.ingredients.map(IngredientService.unFormat).join('\n') ??
+        RECIPE_PART_DATA.ingredients,
       preparation: part.preparation ?? RECIPE_PART_DATA.preparation,
     })),
   };

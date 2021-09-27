@@ -1,5 +1,5 @@
 import { AminoAcids, AMINO_ACIDS } from '../food';
-import { Portion } from '../portion/portion.types';
+import { Ingredient } from '../ingredient/ingredient.types';
 
 export type RecipeCategory =
   | 'pão'
@@ -26,7 +26,7 @@ export const recipeCategoryList: Array<RecipeCategory> = [
 
 export interface RecipePart {
   name: string;
-  portions: Array<Portion>;
+  ingredients: Array<Ingredient>;
   preparation: string;
 }
 
@@ -47,7 +47,7 @@ export interface Recipe {
 
 export interface RecipePartData {
   name: string;
-  portions: string;
+  ingredients: string;
   preparation: string;
 }
 
@@ -61,7 +61,7 @@ export interface RecipeData {
 
 export const RECIPE_PART_DATA: RecipePartData = {
   name: '',
-  portions: '',
+  ingredients: '',
   preparation: '',
 };
 
@@ -75,7 +75,7 @@ export const RECIPE_DATA: RecipeData = {
 
 export const RECIPE_PART: RecipePart = {
   name: '',
-  portions: [],
+  ingredients: [],
   preparation: '',
 };
 

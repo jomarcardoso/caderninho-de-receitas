@@ -4,35 +4,35 @@ import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from '../image/image';
-import { Portion } from '../../services/portion/portion.types';
+import { Ingredient } from '../../services/ingredient/ingredient.types';
 import Section from '../section/section';
 import { Food } from '../../services/food';
 
 interface Props {
-  portions: Array<Portion>;
+  ingredients: Array<Ingredient>;
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
 }
 
-const Ingredients: FC<Props> = ({ portions = [], setCurrentFood }) => {
+const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
   return (
     <Section title="Ingredientes">
       <List>
-        {portions.map((portion) => (
+        {ingredients.map((ingredient) => (
           <ListItem
             button
             disableGutters
-            key={portion.food.id}
-            onClick={() => setCurrentFood(portion.food)}
+            key={ingredient.food.id}
+            onClick={() => setCurrentFood(ingredient.food)}
           >
             <Grid container spacing={1} alignItems="center">
               <Grid item xs={1}>
                 <Image
-                  src={portion.food.icon || portion.food.image}
-                  alt={portion.food.name}
+                  src={ingredient.food.icon || ingredient.food.image}
+                  alt={ingredient.food.name}
                 />
               </Grid>
               <Grid item xs={11}>
-                <Typography>{portion.description}</Typography>
+                <Typography>{ingredient.description}</Typography>
               </Grid>
             </Grid>
           </ListItem>

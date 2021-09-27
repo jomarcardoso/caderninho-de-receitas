@@ -5,7 +5,7 @@ import { CardProps } from '@material-ui/core/Card';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Image from './image/image';
 import Card from './card/card';
-import { Portion, PORTION } from '../services/portion/portion.types';
+import { Ingredient, PORTION } from '../services/ingredient/ingredient.types';
 
 const useStyles = (padding = 0) =>
   makeStyles({
@@ -28,13 +28,13 @@ const useStyles = (padding = 0) =>
   });
 
 interface Props extends CardProps {
-  portion: Portion;
+  ingredient: Ingredient;
   hideBadge?: boolean;
   padding?: number;
 }
 
-const ResumedPortion: FC<Props> = ({
-  portion = PORTION,
+const ResumedIngredient: FC<Props> = ({
+  ingredient = PORTION,
   hideBadge = true,
   padding = 0,
   ...props
@@ -47,15 +47,15 @@ const ResumedPortion: FC<Props> = ({
         <Badge
           max={9999}
           className={classes.badge}
-          badgeContent={!hideBadge ? `${portion.quantity}g` : null}
+          badgeContent={!hideBadge ? `${ingredient.quantity}g` : null}
           color="secondary"
           component="div"
         >
-          <Image src={portion.food.icon} alt={portion.food.name} />
+          <Image src={ingredient.food.icon} alt={ingredient.food.name} />
         </Badge>
       </CardContent>
     </Card>
   );
 };
 
-export default ResumedPortion;
+export default ResumedIngredient;
