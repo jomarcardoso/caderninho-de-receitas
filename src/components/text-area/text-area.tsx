@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     // backgroundRepeat: 'space',
     lineHeight: '31.2px',
     fontFamily: fontFamilyInput,
-    fontSize: 30,
+    fontSize: 28,
   },
 });
 

@@ -8,7 +8,7 @@ export { default as oliveOil } from './olive-oil';
 
 export { default as sugar } from './sugar';
 
-export { default as wheatFlour } from './wheat-flour';
+export { default as wheatFlour } from './wheat-flour.json';
 
 export { default as avocado } from './avocado.json';
 
@@ -97,3 +97,7 @@ export { default as sweetPotato } from './sweet-potato.json';
 export { default as cauliflower } from './cauliflower.json';
 
 export { default as grape } from './grape.json';
+
+export { default as cocoa } from './cocoa.json';
+
+export { default as chocolateDark45at59 } from './chocolate-dark-45-59.json';

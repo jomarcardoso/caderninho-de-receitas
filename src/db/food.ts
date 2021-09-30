@@ -52,6 +52,9 @@ import {
   blackPepper,
   sweetPotato,
   cauliflower,
+  chocolateDark45at59,
+  cocoa,
+  grape,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -706,7 +709,7 @@ const foods: Array<FoodData> = [
     ],
   },
   {
-    ...format(wheatFlourData),
+    ...format(wheatFlourData as unknown as FoodMyFoodData),
     id: 25,
     name: 'Farinha de trigo',
     enName: 'wheat-flour',
@@ -763,7 +766,7 @@ const foods: Array<FoodData> = [
     gi: 67,
     icon: '/images/food/carrot-cake.svg',
     image:
-      'https://images.unsplash.com/photo-1595955809761-dcd4c857e147?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'https://d1uz88p17r663j.cloudfront.net/original/2b76e99abc4136ccf26008c1c387023f_Bolo-de-cenoura-com-cobertura-de-brigadeiro-receitas-nestle.jpg',
     unitOfMeasurement: UnitOfMeasurement.gram,
     recipe: true,
   },
@@ -1322,6 +1325,7 @@ const foods: Array<FoodData> = [
     recipe: true,
   },
   {
+    ...format(grape as unknown as FoodMyFoodData),
     id: 71,
     name: 'Uva',
     enName: 'grape',
@@ -1329,6 +1333,26 @@ const foods: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1525286102393-8bf945cd0649?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2074&q=80',
     keys: ['uva'],
+  },
+  {
+    ...format(cocoa as unknown as FoodMyFoodData),
+    id: 72,
+    name: 'Cacau',
+    enName: 'cocoa',
+    icon: '/images/food/cocoa.png',
+    image:
+      'https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1974&q=80',
+    keys: ['cacau'],
+  },
+  {
+    ...format(chocolateDark45at59 as unknown as FoodMyFoodData),
+    id: 73,
+    name: 'Chocolate preto 45 - 59%',
+    enName: 'chocolate-dark-45-59',
+    icon: '/images/food/chocolate.png',
+    image:
+      'https://media.istockphoto.com/photos/dark-chocolate-bar-on-rustic-wood-table-picture-id463813283?b=1&k=20&m=463813283&s=170667a&w=0&h=x-SXgRiiAkH-ilp7dZPZUQWdq0V7-4jwDf4BK8PRd0M=',
+    keys: ['chocolate', 'achocolatado', 'chocolate em pó'],
   },
 ];
 

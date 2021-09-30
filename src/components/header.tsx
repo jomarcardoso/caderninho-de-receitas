@@ -44,6 +44,7 @@ const Header: FC<HeaderProps & AppBarProps> = ({
       component="h1"
       className={classes.title}
       color={theme === 'dark' ? 'inherit' : 'textPrimary'}
+      style={{ fontSize: String(pageName).length > 20 ? 18 : 21 }}
     >
       {pageName}
     </Typography>
