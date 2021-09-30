@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import SectionCard from '../section-card/section-card';
+import Section from '../section/section';
 
 interface Props {
   preparation: string;
@@ -11,7 +11,7 @@ const Preparation: FC<Props> = ({ preparation = '' }) => {
   if (!preparation) return <></>;
 
   return (
-    <SectionCard title="Modo de preparo">
+    <Section title="Modo de preparo" onBgWhite>
       <Grid container spacing={1}>
         {preparation.split(/\n\s/).map((preparationLine) => (
           <Grid item xs={12} key={preparationLine}>
@@ -19,7 +19,7 @@ const Preparation: FC<Props> = ({ preparation = '' }) => {
           </Grid>
         ))}
       </Grid>
-    </SectionCard>
+    </Section>
   );
 };
 

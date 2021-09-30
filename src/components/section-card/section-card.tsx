@@ -16,8 +16,9 @@ const useStyles = makeStyles({
   },
   title: {
     color: 'white',
-    padding: 3,
+    padding: 4,
     margin: 0,
+    fontSize: 17,
   },
   body: {
     padding: 12,

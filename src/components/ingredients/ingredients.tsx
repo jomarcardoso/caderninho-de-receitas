@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Image from '../image/image';
 import { Ingredient } from '../../services/ingredient/ingredient.types';
 import { Food } from '../../services/food';
-import SectionCard from '../section-card/section-card';
+import Section from '../section/section';
 
 interface Props {
   ingredients: Array<Ingredient>;
@@ -15,7 +15,7 @@ interface Props {
 
 const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
   return (
-    <SectionCard title="Ingredientes">
+    <Section title="Intredientes" onBgWhite>
       <List>
         {ingredients.map((ingredient) => (
           <ListItem
@@ -38,7 +38,7 @@ const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
           </ListItem>
         ))}
       </List>
-    </SectionCard>
+    </Section>
   );
 };
 

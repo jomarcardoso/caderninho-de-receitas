@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import Image from '../image/image';
 import ScoreComponent from '../score/score';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
@@ -11,50 +12,65 @@ import Section from '../section/section';
 import { RECIPE, Recipe } from '../../services/recipe';
 import Container from '../container/container';
 import { Food } from '../../services/food';
+import { primary } from '../page/page';
+import SectionCard from '../section-card/section-card';
 
 export interface RecipeContainerProps {
   recipe: Recipe;
   setCurrentFood(food: Food): void;
 }
 
+const useStyles = makeStyles({
+  name: {
+    backgroundColor: `${primary.main}`,
+    padding: '15px 0',
+    color: 'white',
+  },
+});
+
 const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
 }) => {
+  const classes = useStyles();
+
   return (
     <>
-      <Box marginBottom={3}>
+      <Box>
         <Image src={recipe.image} alt="" aspectRatio={1.25} />
       </Box>
+      {recipe.name && (
+        <Box marginBottom={3} className={classes.name}>
+          <Container>
+            <Typography component="h2" variant="h1" color="inherit">
+              {recipe.name}
+            </Typography>
+          </Container>
+        </Box>
+      )}
       <Container>
         <Grid container spacing={4}>
-          {recipe.name && (
-            <Grid item xs={12}>
-              <Typography component="h2" variant="h1">
-                {recipe.name}
-              </Typography>
-            </Grid>
-          )}
           {recipe.description && (
             <Grid item xs={12}>
               <Typography>{recipe.description}</Typography>
             </Grid>
           )}
-          {recipe.steps.map((part) => (
-            <>
-              <Typography variant="h2" component="h2" color="secondary">
-                {part.name}
-              </Typography>
-              <Grid item xs={12}>
-                <Ingredients
-                  ingredients={part.ingredients}
-                  setCurrentFood={setCurrentFood}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Preparation preparation={part.preparation} />
-              </Grid>
-            </>
+          {recipe.steps.map((step) => (
+            <Grid item xs={12}>
+              <SectionCard title={step.name}>
+                <Grid container spacing={4}>
+                  <Grid item xs={12}>
+                    <Ingredients
+                      ingredients={step.ingredients}
+                      setCurrentFood={setCurrentFood}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Preparation preparation={step.preparation} />
+                  </Grid>
+                </Grid>
+              </SectionCard>
+            </Grid>
           ))}
 
           <Grid item xs={12}>
