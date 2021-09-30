@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
+import Container from '../container/container';
 import { primary } from '../page/page';
 
 interface Props {
@@ -16,7 +17,7 @@ const useStyles = makeStyles({
   },
   title: {
     color: 'white',
-    padding: 4,
+    padding: '4px 0',
     margin: 0,
     fontSize: 17,
   },
@@ -35,10 +36,10 @@ const SectionCard: FC<Props> = ({ title = '', children }) => {
         <Typography
           variant="h2"
           component="h3"
-          align="center"
+          align="left"
           className={classes.title}
         >
-          {title}
+          <Container>{title}</Container>
         </Typography>
       )}
       <div className={classes.body}>{children}</div>

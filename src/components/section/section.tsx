@@ -10,11 +10,16 @@ interface Props {
 
 const Section: FC<Props> = ({ onBgWhite = false, title = '', children }) => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       {title && (
         <Grid item xs={12}>
           {onBgWhite ? (
-            <Typography variant="h2" component="h3" align="center">
+            <Typography
+              variant="h2"
+              component="h3"
+              align="center"
+              color="secondary"
+            >
               {title}
             </Typography>
           ) : (
