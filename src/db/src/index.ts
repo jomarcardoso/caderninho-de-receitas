@@ -10,25 +10,25 @@ export { default as sugar } from './sugar';
 
 export { default as wheatFlour } from './wheat-flour';
 
-export { default as avocado } from './avocado';
+export { default as avocado } from './avocado.json';
 
 export { default as onion } from './onion';
 
-export { default as pepper } from './pepper';
+export { default as pepper } from './pepper.json';
 
 export { default as corn } from './corn';
 
-export { default as tomato } from './tomato';
+export { default as tomato } from './tomato.json';
 
 export { default as ham } from './ham';
 
 export { default as pineapple } from './pineapple';
 
-export { default as carrot } from './carrot';
+export { default as carrot } from './carrot.json';
 
 export { default as oat } from './oat';
 
-export { default as butter } from './butter';
+export { default as butter } from './butter.json';
 
 export { default as milk } from './milk.json';
 
@@ -95,3 +95,5 @@ export { default as blackPepper } from './black-pepper.json';
 export { default as sweetPotato } from './sweet-potato.json';
 
 export { default as cauliflower } from './cauliflower.json';
+
+export { default as grape } from './grape.json';

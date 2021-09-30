@@ -539,7 +539,7 @@ const foods: Array<FoodData> = [
     keys: [],
   },
   {
-    ...format(carrot),
+    ...format(carrot as unknown as FoodMyFoodData),
     id: 17,
     enName: 'carrot',
     name: 'Cenoura',
@@ -557,7 +557,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...format(avocado),
+    ...format(avocado as unknown as FoodMyFoodData),
     id: 18,
     name: 'Abacate',
     enName: 'avocado',
@@ -816,7 +816,7 @@ const foods: Array<FoodData> = [
     ],
   },
   {
-    ...format(pepper),
+    ...format(pepper as unknown as FoodMyFoodData),
     id: 31,
     name: 'Pimenta',
     enName: 'pepper',
@@ -848,7 +848,7 @@ const foods: Array<FoodData> = [
     keys: ['milho verde'],
   },
   {
-    ...format(tomato),
+    ...format(tomato as unknown as FoodMyFoodData),
     id: 33,
     name: 'Molho de tomate',
     enName: 'tomato-sauce',
@@ -924,7 +924,7 @@ const foods: Array<FoodData> = [
     keys: ['óleo'],
   },
   {
-    ...format(butter),
+    ...format(butter as unknown as FoodMyFoodData),
     id: 40,
     name: 'Manteiga',
     enName: 'butter',
@@ -1015,7 +1015,7 @@ const foods: Array<FoodData> = [
     rawId: 32,
   },
   {
-    ...format(tomato),
+    ...format(tomato as unknown as FoodMyFoodData),
     id: 48,
     name: 'Tomate',
     enName: 'tomato',
@@ -1320,6 +1320,15 @@ const foods: Array<FoodData> = [
       'https://cdn.panelinha.com.br/receita/1339470000000-Caldo-caseiro-de-legumes.jpg',
     keys: ['caldo de legume', 'caldo de legumes'],
     recipe: true,
+  },
+  {
+    id: 71,
+    name: 'Uva',
+    enName: 'grape',
+    icon: '/images/food/grape.png',
+    image:
+      'https://images.unsplash.com/photo-1525286102393-8bf945cd0649?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2074&q=80',
+    keys: ['uva'],
   },
 ];
 

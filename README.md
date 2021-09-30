@@ -22,11 +22,14 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - [site com busca de alimentos dos aminoácidos](https://tools.myfooddata.com/nutrition-comparison.php?foods=173735&serv=100g&qty=1)
 - [json de alimento](https://tools.myfooddata.com/api/food/Eggs)
 
-## Ícones
+## Imagens
 
 - https://www.svgrepo.com/
 - https://www.flaticon.com/
 - https://freeicons.io/
+
+- https://pixabay.com/images/
+- https://unsplash.com/s/photos/
 
 ## Ícones futuros
 
