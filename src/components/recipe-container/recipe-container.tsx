@@ -40,7 +40,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               <Typography>{recipe.description}</Typography>
             </Grid>
           )}
-          {recipe.parts.map((part) => (
+          {recipe.steps.map((part) => (
             <>
               <Typography variant="h2" component="h2" color="secondary">
                 {part.name}

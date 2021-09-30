@@ -17,8 +17,8 @@ import InputFilled from '../input-filled/input-filled';
 import {
   RecipeCategory,
   recipeCategoryList,
-  RecipePartData,
-  RECIPE_PART_DATA,
+  RecipeStepData,
+  RECIPE_STEP_DATA,
 } from '../../services/recipe/recipe.types';
 import SelectFilled from '../select-filled/select-filled';
 import TextArea from '../text-area/text-area';
@@ -37,7 +37,7 @@ interface Props {
 }
 
 interface RecipeForm {
-  parts: RecipeData['parts'];
+  steps: RecipeData['steps'];
   name: string;
   description: string;
   category: RecipeCategory | '';
@@ -55,13 +55,13 @@ const RecipeRegister: FC<Props> = ({
     ({
       name = '',
       description = '',
-      parts: partsData = [],
+      steps: stepsData = [],
       category = '',
     }: RecipeForm): void => {
       if (!setAccount) return;
 
       const newRecipeData: RecipeData = {
-        parts: partsData,
+        steps: stepsData,
         name,
         description,
         id: recipeData?.id ?? 0,
@@ -100,12 +100,12 @@ const RecipeRegister: FC<Props> = ({
         const valueClean = valueBackSpace.replace(/• /g, '');
         const valueCompletelyClean = valueClean.replace(/•/g, '');
 
-        setFieldValue(`parts.${index}.ingredients`, valueCompletelyClean);
+        setFieldValue(`steps.${index}.ingredients`, valueCompletelyClean);
       };
 
       return (
         <TextArea
-          name={`parts.${index}.ingredient`}
+          name={`steps.${index}.ingredient`}
           value={value}
           onChange={handleChange}
           onBlur={onBlur}
@@ -118,24 +118,34 @@ const RecipeRegister: FC<Props> = ({
   const memoizedRenderSteps = useCallback(
     (
       quantitySteps = 1,
-      valueParts: RecipePartData[],
+      valueSteps: RecipeStepData[],
       setFieldValue,
       formikHandleBlur,
       handleChange,
     ) => {
-      const parts: RecipePartData[] = [];
+      const steps: RecipeStepData[] = [];
 
       for (let i = 0; i < Number(quantitySteps); i += 1) {
-        parts.push({
-          ...RECIPE_PART_DATA,
-          ...valueParts,
+        steps.push({
+          ...RECIPE_STEP_DATA,
+          ...valueSteps,
         });
       }
 
       return (
         <>
-          {parts.map((part, index) => (
+          {steps.map((step, index) => (
             <>
+              <Grid item xs={12}>
+                <FormControl variant="standard" className={classes.formControl}>
+                  <InputFilled
+                    name={`steps.${index}.name`}
+                    value={step.name}
+                    onChange={handleChange}
+                    onBlur={formikHandleBlur}
+                  />
+                </FormControl>
+              </Grid>
               <Grid item xs={12}>
                 <SectionTitle>Ingredientes</SectionTitle>
               </Grid>
@@ -144,7 +154,7 @@ const RecipeRegister: FC<Props> = ({
                   {memoizedRenderInputIngredient(
                     index,
                     setFieldValue,
-                    part.ingredients,
+                    step.ingredients,
                     formikHandleBlur,
                   )}
                 </FormControl>
@@ -155,8 +165,8 @@ const RecipeRegister: FC<Props> = ({
               <Grid item xs={12}>
                 <FormControl variant="standard" className={classes.formControl}>
                   <TextArea
-                    name={`parts.${index}.preparation`}
-                    value={part.preparation}
+                    name={`steps.${index}.preparation`}
+                    value={step.preparation}
                     onChange={handleChange}
                     onBlur={formikHandleBlur}
                   />
@@ -179,7 +189,7 @@ const RecipeRegister: FC<Props> = ({
     }: FormikProps<RecipeForm>) => {
       return (
         <Form action="/" method="post">
-          <FieldArray name="parts">
+          <FieldArray name="steps">
             {() => (
               <Grid container spacing={3}>
                 <Grid item xs={12}>
@@ -233,7 +243,7 @@ const RecipeRegister: FC<Props> = ({
                 </Grid>
                 {memoizedRenderSteps(
                   values.quantitySteps,
-                  values.parts,
+                  values.steps,
                   setFieldValue,
                   formikHandleBlur,
                   handleChange,
@@ -256,8 +266,8 @@ const RecipeRegister: FC<Props> = ({
         name: recipeData.name,
         description: recipeData.description,
         category: recipeData.category,
-        parts: recipeData.parts.length ? recipeData.parts : [RECIPE_PART_DATA],
-        quantitySteps: recipeData.parts.length || 1,
+        steps: recipeData.steps.length ? recipeData.steps : [RECIPE_STEP_DATA],
+        quantitySteps: recipeData.steps.length || 1,
       }}
       onSubmit={memoizedHandleSubmit}
       render={memoizedRender}

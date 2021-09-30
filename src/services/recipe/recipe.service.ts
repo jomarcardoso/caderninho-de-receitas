@@ -4,12 +4,12 @@ import { Ingredient } from '../ingredient/ingredient.types';
 import {
   Recipe,
   RecipeData,
-  RecipePart,
-  RecipePartData,
+  RecipeStep,
+  RecipeStepData,
   RECIPE,
   RECIPE_DATA,
-  RECIPE_PART,
-  RECIPE_PART_DATA,
+  RECIPE_STEP,
+  RECIPE_STEP_DATA,
 } from './recipe.types';
 
 export function calculateCalories(ingredients: Array<Ingredient> = []): number {
@@ -61,9 +61,9 @@ export function calculateAcidification(
 }
 
 export function formatPart(
-  data: RecipePartData,
+  data: RecipeStepData,
   foods: Array<Food>,
-): RecipePart {
+): RecipeStep {
   const ingredients: Array<Ingredient> = data?.ingredients
     ?.split('\n')
     .map((text) => {
@@ -71,9 +71,9 @@ export function formatPart(
     });
 
   return {
-    name: data?.name ?? RECIPE_PART.name,
-    ingredients: ingredients ?? RECIPE_PART.ingredients,
-    preparation: data?.preparation ?? RECIPE_PART.preparation,
+    name: data?.name ?? RECIPE_STEP.name,
+    ingredients: ingredients ?? RECIPE_STEP.ingredients,
+    preparation: data?.preparation ?? RECIPE_STEP.preparation,
   };
 }
 
@@ -84,11 +84,11 @@ export function format({
   recipeData: RecipeData;
   foods: Array<Food>;
 }): Recipe {
-  const parts =
-    recipeData?.parts?.map((partData) => formatPart(partData, foods)) ??
-    RECIPE.parts;
+  const steps =
+    recipeData?.steps?.map((partData) => formatPart(partData, foods)) ??
+    RECIPE.steps;
 
-  const allIngredients = parts.flatMap(({ ingredients }) => {
+  const allIngredients = steps.flatMap(({ ingredients }) => {
     return ingredients;
   });
 
@@ -181,7 +181,7 @@ export function format({
   return {
     ...recipeData,
     id: recipeData?.id ?? Math.round(Math.random() * 1000),
-    parts,
+    steps,
     calories: calculateCalories(allIngredients),
     name: recipeData.name,
     description: recipeData?.description ?? '',
@@ -201,12 +201,12 @@ export function unFormat(recipe: Recipe): RecipeData {
     category: recipe?.category ?? RECIPE_DATA.category,
     name: recipe.name ?? RECIPE_DATA.name,
     description: recipe.description ?? RECIPE_DATA.description,
-    parts: recipe.parts.map((part) => ({
+    steps: recipe.steps.map((part) => ({
       name: part.name,
       ingredients:
         part.ingredients.map(IngredientService.unFormat).join('\n') ??
-        RECIPE_PART_DATA.ingredients,
-      preparation: part.preparation ?? RECIPE_PART_DATA.preparation,
+        RECIPE_STEP_DATA.ingredients,
+      preparation: part.preparation ?? RECIPE_STEP_DATA.preparation,
     })),
   };
 }
