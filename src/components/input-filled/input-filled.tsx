@@ -36,7 +36,7 @@ const useStyles = makeStyles({
   inputInput: {
     lineHeight: '31.2px',
     fontFamily: fontFamilyInput,
-    fontSize: 30,
+    fontSize: 22,
     backgroundRepeat: 'space',
   },
   label: {

@@ -31,6 +31,10 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - https://pixabay.com/images/
 - https://unsplash.com/s/photos/
 
+## Fontes
+
+- Sacramento (cursiva)
+
 ## Ícones futuros
 
 - [Farinha de milho 2](https://www.flaticon.com/premium-icon/corn_4127166?term=corn&page=3&position=25&page=3&position=25&related_id=4127166&origin=search)

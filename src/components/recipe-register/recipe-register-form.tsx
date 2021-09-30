@@ -40,8 +40,6 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
 }) => {
   const classes = useStyles();
 
-  // console.log(values);
-
   const memoizedRenderCategoryItem = useCallback(
     (category: RecipeCategory) => (
       <MenuItem value={category}>{category}</MenuItem>

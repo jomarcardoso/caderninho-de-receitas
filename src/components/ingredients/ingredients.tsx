@@ -5,8 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from '../image/image';
 import { Ingredient } from '../../services/ingredient/ingredient.types';
-import Section from '../section/section';
 import { Food } from '../../services/food';
+import SectionCard from '../section-card/section-card';
 
 interface Props {
   ingredients: Array<Ingredient>;
@@ -15,7 +15,7 @@ interface Props {
 
 const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
   return (
-    <Section title="Ingredientes">
+    <SectionCard title="Ingredientes">
       <List>
         {ingredients.map((ingredient) => (
           <ListItem
@@ -38,7 +38,7 @@ const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
           </ListItem>
         ))}
       </List>
-    </Section>
+    </SectionCard>
   );
 };
 
