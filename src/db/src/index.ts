@@ -109,3 +109,9 @@ export { default as rosemary } from './rosemary.json';
 export { default as beetroot } from './beetroot.json';
 
 export { default as nut } from './nut.json';
+
+export { default as eggplant } from './eggplant.json';
+
+export { default as yogurt } from './yogurt.json';
+
+export { default as pasta } from './pasta.json';

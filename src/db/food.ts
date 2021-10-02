@@ -59,6 +59,9 @@ import {
   beetroot,
   rosemary,
   nut,
+  eggplant,
+  yogurt,
+  pasta,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1397,6 +1400,71 @@ const foods: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1524593656068-fbac72624bb0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80',
     keys: ['noz', 'nozes'],
+  },
+  {
+    ...format(eggplant as unknown as FoodMyFoodData),
+    id: 78,
+    name: 'Beringela',
+    enName: 'eggplant',
+    icon: '/images/food/eggplant.png',
+    image:
+      'https://images.unsplash.com/photo-1613881553903-4543f5f2cac9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['berinjela', 'beringela', 'beringela crua'],
+  },
+  {
+    id: 79,
+    name: "Za'atar",
+    enName: 'zaatar',
+    icon: '/images/food/zaatar.png',
+    image:
+      'https://acozinhaquefala.com.br/wp-content/uploads/2021/09/zaatar-zatar.jpg',
+    keys: ["za'atar", 'zátar', 'zatar', 'zaatar', 'zattar'],
+  },
+  {
+    ...format(yogurt as unknown as FoodMyFoodData),
+    id: 80,
+    name: 'Iogurte natural',
+    enName: 'yogurte',
+    icon: '/images/food/yoghurt.png',
+    image:
+      'https://images.unsplash.com/photo-1562114808-b4b33cf60f4f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=873&q=80',
+    keys: [
+      'iogurte natural',
+      'iogurt',
+      'iogurte',
+      'yogurt',
+      'yogurte',
+      'yogourt',
+      'yogourte',
+      'iogourte',
+      'yoghurt',
+      'yoghurte',
+      'ioghurte',
+    ],
+  },
+  {
+    ...format(pasta as unknown as FoodMyFoodData),
+    id: 81,
+    name: 'Massa gravatinha',
+    enName: 'farfalle',
+    icon: '/images/food/farfalle.png',
+    image:
+      'https://dcom-prod.imgix.net/files/wp-content/uploads/2017/07/1499888237-frango-grelhado-com-brocolis-e-macarrao-gravatinha_616x462.jpg?w=1280&h=720&crop=focalpoint&fp-x=0.5&fp-y=0.1&fit=crop&auto=compress&q=75',
+    keys: ['massa gravatinha', 'gravatinha', 'massa', 'macarrão'],
+  },
+  {
+    id: 81,
+    name: 'Salada de macarrão com beringela e purê de beterraba',
+    enName: 'beetroot-eggplant-pastas-salad',
+    image:
+      'https://cdn.panelinha.com.br/receita/1461898800000-Salada-de-macarrao-com-berinjela-e-pure-de-beterraba.jpg',
+    keys: [
+      'salada de beterraba',
+      'salada de beringela',
+      'salada de beterraba',
+      'purê de beterraba',
+    ],
+    recipe: true,
   },
 ];
 
