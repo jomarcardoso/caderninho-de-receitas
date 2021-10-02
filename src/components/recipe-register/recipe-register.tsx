@@ -46,11 +46,13 @@ const RecipeRegister: FC<Props> = ({
   return (
     <Formik
       initialValues={{
-        name: recipeData.name,
-        description: recipeData.description,
-        category: recipeData.category,
-        steps: recipeData.steps.length ? recipeData.steps : [RECIPE_STEP_DATA],
-        quantitySteps: recipeData.steps.length || 1,
+        name: recipeData?.name ?? '',
+        description: recipeData?.description ?? '',
+        category: recipeData?.category ?? '',
+        steps: recipeData?.steps?.length
+          ? recipeData.steps
+          : [RECIPE_STEP_DATA],
+        quantitySteps: recipeData?.steps?.length || 1,
       }}
       onSubmit={memoizedHandleSubmit}
     >

@@ -40,6 +40,7 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
   function renderItem(recipe: Recipe) {
     return (
       <ListItem
+        key={recipe.id}
         disableGutters
         className={classes.listItem}
         component="a"

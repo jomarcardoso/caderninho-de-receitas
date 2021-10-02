@@ -1451,7 +1451,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['massa gravatinha', 'gravatinha', 'massa', 'macarrão'],
   },
   {
-    id: 81,
+    id: 8,
     name: 'Salada de macarrão com beringela e purê de beterraba',
     enName: 'beetroot-eggplant-pastas-salad',
     image:
