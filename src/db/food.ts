@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import { FoodMyFoodData } from './db.types';
 import { UnitOfMeasurement, AMINO_ACIDS, FoodData } from '../services/food';
 import {
@@ -130,7 +128,7 @@ function format(food: FoodMyFoodData): FoodData {
   };
 }
 
-const foods: Array<FoodData> = [
+export const foodsData: Array<FoodData> = [
   {
     ...format(apple as unknown as FoodMyFoodData),
     id: 1,
@@ -1467,8 +1465,3 @@ const foods: Array<FoodData> = [
     recipe: true,
   },
 ];
-
-fs.writeFileSync(
-  path.resolve(__dirname, 'food.json'),
-  JSON.stringify({ foods }),
-);
