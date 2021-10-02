@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Layout from '../components/layout/layout';
@@ -8,6 +9,7 @@ import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { RECIPE, Recipe } from '../services/recipe';
 import { CurrentPage } from '../services/page.service';
 import { fontFamilyInput } from '../components/page/page';
+import { recipes } from '../db/recipe';
 
 const useStyles = makeStyles({
   listItem: {
@@ -72,6 +74,8 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
       }}
     >
       <List>{account.recipes.map(renderItem)}</List>
+      <Typography component="h2">Receitas de futuros parceiros</Typography>
+      <List>{recipes.map(renderItem)}</List>
     </Layout>
   );
 };

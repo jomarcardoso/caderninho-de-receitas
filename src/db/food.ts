@@ -1,5 +1,10 @@
 import { FoodMyFoodData } from './db.types';
-import { UnitOfMeasurement, AMINO_ACIDS, FoodData } from '../services/food';
+import {
+  UnitOfMeasurement,
+  AMINO_ACIDS,
+  FoodData,
+  FoodService,
+} from '../services/food';
 import {
   coconut as coconutData,
   egg as eggData,
@@ -1451,7 +1456,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['massa gravatinha', 'gravatinha', 'massa', 'macarrão'],
   },
   {
-    id: 8,
+    id: 82,
     name: 'Salada de macarrão com beringela e purê de beterraba',
     enName: 'beetroot-eggplant-pastas-salad',
     image:
@@ -1464,4 +1469,20 @@ export const foodsData: Array<FoodData> = [
     ],
     recipe: true,
   },
+  {
+    id: 83,
+    name: 'Arroz doce, caramelizado com farofa',
+    enName: 'sweet-rice-caramelized-with-crumbs',
+    image:
+      'http://www.cookbookfritzefrida.com.br/assets/uploads/posts/710/g_thumb-whatsapp-image-2021-09-29-at-150825-8647128-6175614.jpeg',
+    keys: [
+      'arroz code',
+      'arroz doce caramelizado',
+      'arroz doce com farofa',
+      'arroz doce caramelizado com fafora',
+    ],
+    recipe: true,
+  },
 ];
+
+export const foods = foodsData.map(FoodService.format);
