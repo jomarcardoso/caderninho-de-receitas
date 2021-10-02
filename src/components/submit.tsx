@@ -5,13 +5,7 @@ import Button from './button/button';
 const SubmitComponent: FC = ({ children }) => (
   <Grid container justifyContent="flex-end">
     <Grid item xs={12} sm={8} md={6}>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        fullWidth
-        size="large"
-      >
+      <Button type="submit" variant="contained" color="primary" fullWidth>
         {children}
       </Button>
     </Grid>

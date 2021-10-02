@@ -4,15 +4,18 @@ import React, { FC, useEffect, useState } from 'react';
 import ThemeTopLayout from 'gatsby-theme-material-ui-top-layout/src/components/top-layout';
 import createTheme from '@material-ui/core/styles/createTheme';
 import { PaletteColor } from '@material-ui/core/styles/createPalette';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import StyleContext, { Style } from '../../contexts/style';
 
 const fontFamilyDisplay = 'Cinzel, Roboto, Helvetica, Arial, sans-serif';
 const fontFamilyText = 'Dosis, Roboto, Helvetica, Arial, sans-serif';
 
+export const fontFamilyInput = 'Cedarville Cursive, cursive';
+
 export const primary: PaletteColor = {
-  light: '#947368',
+  light: '#D4B5A9',
   main: '#87695e',
-  dark: '#6E564D',
+  dark: '#947368',
   contrastText: '#ffffff',
 };
 
@@ -32,12 +35,13 @@ export const gray = {
   dark: '#555',
   medium: '#999',
   light: '#d8d8d8',
-  lighter: '#e8e8e8',
+  lighter: '#f2f2f2',
 };
 
 export const borderPrimary = {
   borderColor: primary.light,
   borderWidth: 2,
+  borderStyle: 'dashed',
 };
 
 export const borderSecondary = {
@@ -66,7 +70,7 @@ function theme({ bgBody = '' }: Style) {
       },
     },
     shape: {
-      borderRadius: 4,
+      borderRadius: 2,
     },
     typography: {
       fontFamily: fontFamilyText,
@@ -78,12 +82,12 @@ function theme({ bgBody = '' }: Style) {
         fontWeight: 200,
       },
       button: {
-        fontFamily: fontFamilyDisplay,
+        fontFamily: fontFamilyText,
         letterSpacing: 1,
       },
       h1: {
         fontFamily: fontFamilyDisplay,
-        fontSize: '21px',
+        fontSize: '19px',
         fontWeight: 400,
         color: secondary.main,
         letterSpacing: 1,
@@ -111,9 +115,26 @@ function theme({ bgBody = '' }: Style) {
   });
 }
 
+const useStyles = makeStyles({
+  '@global': {
+    ':root': {
+      '--color-primary-light': primary.light,
+      '--color-primary-main': primary.main,
+      '--color-primary-dark': primary.dark,
+      '--color-secondary-light': secondary.light,
+      '--color-secondary-main': secondary.main,
+      '--color-secondary-dark': secondary.dark,
+
+      '--icon-color-primary': 'var(--color-secondary-main)',
+      '--icon-color-secondary': 'var(--color-primary-main)',
+    },
+  },
+});
+
 const Page: FC = ({ children }) => {
   const [style, setStyle] = useState<Style>({});
   const [, setReRender] = useState(false);
+  const classes = useStyles();
 
   // fix wrong render with JS
   useEffect(() => {
@@ -121,9 +142,11 @@ const Page: FC = ({ children }) => {
   }, []);
 
   return (
-    <StyleContext.Provider value={{ style, setStyle }}>
-      <ThemeTopLayout theme={theme(style)}>{children}</ThemeTopLayout>
-    </StyleContext.Provider>
+    <div className={classes['@global']}>
+      <StyleContext.Provider value={{ style, setStyle }}>
+        <ThemeTopLayout theme={theme(style)}>{children}</ThemeTopLayout>
+      </StyleContext.Provider>
+    </div>
   );
 };
 

@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import { FoodMyFoodData } from './db.types';
 import { UnitOfMeasurement, AMINO_ACIDS, FoodData } from '../services/food';
 import {
@@ -52,6 +50,16 @@ import {
   blackPepper,
   sweetPotato,
   cauliflower,
+  chocolateDark45at59,
+  cocoa,
+  grape,
+  thyme,
+  beetroot,
+  rosemary,
+  nut,
+  eggplant,
+  yogurt,
+  pasta,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -120,7 +128,7 @@ function format(food: FoodMyFoodData): FoodData {
   };
 }
 
-const foods: Array<FoodData> = [
+export const foodsData: Array<FoodData> = [
   {
     ...format(apple as unknown as FoodMyFoodData),
     id: 1,
@@ -539,7 +547,7 @@ const foods: Array<FoodData> = [
     keys: [],
   },
   {
-    ...format(carrot),
+    ...format(carrot as unknown as FoodMyFoodData),
     id: 17,
     enName: 'carrot',
     name: 'Cenoura',
@@ -557,7 +565,7 @@ const foods: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...format(avocado),
+    ...format(avocado as unknown as FoodMyFoodData),
     id: 18,
     name: 'Abacate',
     enName: 'avocado',
@@ -706,7 +714,7 @@ const foods: Array<FoodData> = [
     ],
   },
   {
-    ...format(wheatFlourData),
+    ...format(wheatFlourData as unknown as FoodMyFoodData),
     id: 25,
     name: 'Farinha de trigo',
     enName: 'wheat-flour',
@@ -763,7 +771,7 @@ const foods: Array<FoodData> = [
     gi: 67,
     icon: '/images/food/carrot-cake.svg',
     image:
-      'https://images.unsplash.com/photo-1595955809761-dcd4c857e147?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'https://d1uz88p17r663j.cloudfront.net/original/2b76e99abc4136ccf26008c1c387023f_Bolo-de-cenoura-com-cobertura-de-brigadeiro-receitas-nestle.jpg',
     unitOfMeasurement: UnitOfMeasurement.gram,
     recipe: true,
   },
@@ -816,7 +824,7 @@ const foods: Array<FoodData> = [
     ],
   },
   {
-    ...format(pepper),
+    ...format(pepper as unknown as FoodMyFoodData),
     id: 31,
     name: 'Pimenta',
     enName: 'pepper',
@@ -848,7 +856,7 @@ const foods: Array<FoodData> = [
     keys: ['milho verde'],
   },
   {
-    ...format(tomato),
+    ...format(tomato as unknown as FoodMyFoodData),
     id: 33,
     name: 'Molho de tomate',
     enName: 'tomato-sauce',
@@ -924,7 +932,7 @@ const foods: Array<FoodData> = [
     keys: ['óleo'],
   },
   {
-    ...format(butter),
+    ...format(butter as unknown as FoodMyFoodData),
     id: 40,
     name: 'Manteiga',
     enName: 'butter',
@@ -1015,7 +1023,7 @@ const foods: Array<FoodData> = [
     rawId: 32,
   },
   {
-    ...format(tomato),
+    ...format(tomato as unknown as FoodMyFoodData),
     id: 48,
     name: 'Tomate',
     enName: 'tomato',
@@ -1321,9 +1329,139 @@ const foods: Array<FoodData> = [
     keys: ['caldo de legume', 'caldo de legumes'],
     recipe: true,
   },
+  {
+    ...format(grape as unknown as FoodMyFoodData),
+    id: 71,
+    name: 'Uva',
+    enName: 'grape',
+    icon: '/images/food/grape.png',
+    image:
+      'https://images.unsplash.com/photo-1525286102393-8bf945cd0649?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2074&q=80',
+    keys: ['uva'],
+  },
+  {
+    ...format(cocoa as unknown as FoodMyFoodData),
+    id: 72,
+    name: 'Cacau',
+    enName: 'cocoa',
+    icon: '/images/food/cocoa.png',
+    image:
+      'https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1974&q=80',
+    keys: ['cacau'],
+  },
+  {
+    ...format(chocolateDark45at59 as unknown as FoodMyFoodData),
+    id: 73,
+    name: 'Chocolate preto 45 - 59%',
+    enName: 'chocolate-dark-45-59',
+    icon: '/images/food/chocolate.png',
+    image:
+      'https://media.istockphoto.com/photos/dark-chocolate-bar-on-rustic-wood-table-picture-id463813283?b=1&k=20&m=463813283&s=170667a&w=0&h=x-SXgRiiAkH-ilp7dZPZUQWdq0V7-4jwDf4BK8PRd0M=',
+    keys: ['chocolate', 'achocolatado', 'chocolate em pó'],
+  },
+  {
+    ...format(thyme as unknown as FoodMyFoodData),
+    id: 74,
+    name: 'Tomilho',
+    enName: 'thyme',
+    icon: '/images/food/thyme.png',
+    image:
+      'https://images.unsplash.com/photo-1606072104299-cdaab62c0a07?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
+    keys: ['tomilho', 'ramo de tomilho', 'ramos de tomilho'],
+  },
+  {
+    ...format(rosemary as unknown as FoodMyFoodData),
+    id: 75,
+    name: 'Alecrim',
+    enName: 'rosemary',
+    icon: '/images/food/rosemary.png',
+    image:
+      'https://images.unsplash.com/photo-1603129624917-3c579e864025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+    keys: ['alecrim', 'ramo de alecrim', 'ramos de alecrim'],
+  },
+  {
+    ...format(beetroot as unknown as FoodMyFoodData),
+    id: 76,
+    name: 'Beterraba',
+    enName: 'beetroot',
+    icon: '/images/food/beetroot.png',
+    image:
+      'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['beterraba', 'beterraba crua'],
+  },
+  {
+    ...format(nut as unknown as FoodMyFoodData),
+    id: 77,
+    name: 'Noz',
+    enName: 'nut',
+    icon: '/images/food/walnut.png',
+    image:
+      'https://images.unsplash.com/photo-1524593656068-fbac72624bb0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80',
+    keys: ['noz', 'nozes'],
+  },
+  {
+    ...format(eggplant as unknown as FoodMyFoodData),
+    id: 78,
+    name: 'Beringela',
+    enName: 'eggplant',
+    icon: '/images/food/eggplant.png',
+    image:
+      'https://images.unsplash.com/photo-1613881553903-4543f5f2cac9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['berinjela', 'beringela', 'beringela crua'],
+  },
+  {
+    id: 79,
+    name: "Za'atar",
+    enName: 'zaatar',
+    icon: '/images/food/zaatar.png',
+    image:
+      'https://acozinhaquefala.com.br/wp-content/uploads/2021/09/zaatar-zatar.jpg',
+    keys: ["za'atar", 'zátar', 'zatar', 'zaatar', 'zattar'],
+  },
+  {
+    ...format(yogurt as unknown as FoodMyFoodData),
+    id: 80,
+    name: 'Iogurte natural',
+    enName: 'yogurte',
+    icon: '/images/food/yoghurt.png',
+    image:
+      'https://images.unsplash.com/photo-1562114808-b4b33cf60f4f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=873&q=80',
+    keys: [
+      'iogurte natural',
+      'iogurt',
+      'iogurte',
+      'yogurt',
+      'yogurte',
+      'yogourt',
+      'yogourte',
+      'iogourte',
+      'yoghurt',
+      'yoghurte',
+      'ioghurte',
+    ],
+  },
+  {
+    ...format(pasta as unknown as FoodMyFoodData),
+    id: 81,
+    name: 'Massa gravatinha',
+    enName: 'farfalle',
+    icon: '/images/food/farfalle.png',
+    image:
+      'https://dcom-prod.imgix.net/files/wp-content/uploads/2017/07/1499888237-frango-grelhado-com-brocolis-e-macarrao-gravatinha_616x462.jpg?w=1280&h=720&crop=focalpoint&fp-x=0.5&fp-y=0.1&fit=crop&auto=compress&q=75',
+    keys: ['massa gravatinha', 'gravatinha', 'massa', 'macarrão'],
+  },
+  {
+    id: 81,
+    name: 'Salada de macarrão com beringela e purê de beterraba',
+    enName: 'beetroot-eggplant-pastas-salad',
+    image:
+      'https://cdn.panelinha.com.br/receita/1461898800000-Salada-de-macarrao-com-berinjela-e-pure-de-beterraba.jpg',
+    keys: [
+      'salada de beterraba',
+      'salada de beringela',
+      'salada de beterraba',
+      'purê de beterraba',
+    ],
+    recipe: true,
+  },
 ];
-
-fs.writeFileSync(
-  path.resolve(__dirname, 'food.json'),
-  JSON.stringify({ foods }),
-);

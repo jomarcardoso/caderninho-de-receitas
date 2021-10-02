@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { FC, useState, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -9,7 +8,6 @@ import SEO from '../components/seo';
 import Page from '../components/page/page';
 import FoodsPanel from '../panels/foods';
 import { FOOD } from '../services/food';
-import Footer from '../components/footer';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
 import MainPanel from '../panels/main-panel';
@@ -26,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Index: FC<{ location: Location }> = ({ location }) => {
+const Index: FC = () => {
   const classes = useStyles();
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
@@ -47,7 +45,7 @@ const Index: FC<{ location: Location }> = ({ location }) => {
       const { ScrollSpy, createScrollSpyItem } = await import('ovos');
 
       ScrollSpy({
-        method: 'CURRENT',
+        method: 'CLOSEST',
         axis: 'x',
         elRelative: document.querySelector('#root-content') as HTMLElement,
         list: [

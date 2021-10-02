@@ -1,18 +1,53 @@
 import { AminoAcids, AMINO_ACIDS } from '../food';
-import { Portion } from '../portion/portion.types';
+import { Ingredient } from '../ingredient/ingredient.types';
+
+export type RecipeCategory =
+  | 'pão'
+  | 'molho'
+  | 'salada'
+  | 'sobremesa'
+  | 'bolo'
+  | 'comida'
+  | 'lanche'
+  | 'aperitivo'
+  | 'bebida';
+
+export const recipeCategoryList: Array<RecipeCategory> = [
+  'aperitivo',
+  'bebida',
+  'bolo',
+  'comida',
+  'lanche',
+  'molho',
+  'pão',
+  'salada',
+  'sobremesa',
+];
+
+export interface RecipeStep {
+  name: string;
+  ingredients: Array<Ingredient>;
+  preparation: string;
+}
 
 export interface Recipe {
   id: number;
   name: string;
   description: string;
   image: string;
-  portions: Array<Portion>;
   calories: number;
   gi: number;
   gl: number;
   carbohydrates: number;
   acidification: number;
   aminoAcids: AminoAcids;
+  category: RecipeCategory | '';
+  steps: Array<RecipeStep>;
+}
+
+export interface RecipeStepData {
+  name: string;
+  ingredients: string;
   preparation: string;
 }
 
@@ -20,15 +55,27 @@ export interface RecipeData {
   id?: number;
   name: string;
   description?: string;
-  portions: Array<string>;
-  preparation: string;
+  steps: Array<RecipeStepData>;
+  category: RecipeCategory | '';
 }
+
+export const RECIPE_STEP_DATA: RecipeStepData = {
+  name: '',
+  ingredients: '',
+  preparation: '',
+};
 
 export const RECIPE_DATA: RecipeData = {
   id: 0,
   name: '',
   description: '',
-  portions: [],
+  category: '',
+  steps: [],
+};
+
+export const RECIPE_STEP: RecipeStep = {
+  name: '',
+  ingredients: [],
   preparation: '',
 };
 
@@ -38,13 +85,13 @@ export const RECIPE: Recipe = {
   image: '',
   name: '',
   id: 0,
-  portions: [],
+  steps: [],
   gi: 0,
   acidification: 0,
   gl: 0,
   carbohydrates: 0,
   aminoAcids: AMINO_ACIDS,
-  preparation: '',
+  category: '',
 };
 
 export type SetRecipe = (recipeData: RecipeData) => number;

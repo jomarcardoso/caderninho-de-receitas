@@ -8,27 +8,27 @@ export { default as oliveOil } from './olive-oil';
 
 export { default as sugar } from './sugar';
 
-export { default as wheatFlour } from './wheat-flour';
+export { default as wheatFlour } from './wheat-flour.json';
 
-export { default as avocado } from './avocado';
+export { default as avocado } from './avocado.json';
 
 export { default as onion } from './onion';
 
-export { default as pepper } from './pepper';
+export { default as pepper } from './pepper.json';
 
 export { default as corn } from './corn';
 
-export { default as tomato } from './tomato';
+export { default as tomato } from './tomato.json';
 
 export { default as ham } from './ham';
 
 export { default as pineapple } from './pineapple';
 
-export { default as carrot } from './carrot';
+export { default as carrot } from './carrot.json';
 
 export { default as oat } from './oat';
 
-export { default as butter } from './butter';
+export { default as butter } from './butter.json';
 
 export { default as milk } from './milk.json';
 
@@ -95,3 +95,23 @@ export { default as blackPepper } from './black-pepper.json';
 export { default as sweetPotato } from './sweet-potato.json';
 
 export { default as cauliflower } from './cauliflower.json';
+
+export { default as grape } from './grape.json';
+
+export { default as cocoa } from './cocoa.json';
+
+export { default as chocolateDark45at59 } from './chocolate-dark-45-59.json';
+
+export { default as thyme } from './thyme.json';
+
+export { default as rosemary } from './rosemary.json';
+
+export { default as beetroot } from './beetroot.json';
+
+export { default as nut } from './nut.json';
+
+export { default as eggplant } from './eggplant.json';
+
+export { default as yogurt } from './yogurt.json';
+
+export { default as pasta } from './pasta.json';

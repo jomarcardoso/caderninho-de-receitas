@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    minHeight: 'calc(100vh - 28px)',
   },
   main: {
     flex: 1,

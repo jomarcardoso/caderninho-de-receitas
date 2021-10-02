@@ -1,20 +1,22 @@
 import React, { FC, useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import Layout from '../components/layout/layout';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { RECIPE, Recipe } from '../services/recipe';
-import RecipeCardResumed from '../components/recipe-card-resumed/recipe-card-resumed';
 import { CurrentPage } from '../services/page.service';
+import { fontFamilyInput } from '../components/page/page';
 
 const useStyles = makeStyles({
-  card: {
-    display: 'flex',
-  },
-  toolsButton: {
-    transform: 'translateX(12px)',
-    padding: 0,
+  listItem: {
+    borderBottom: '1px solid #000000aa',
+    fontFamily: fontFamilyInput,
+    lineHeight: 1,
+    paddingBottom: 0,
+    fontSize: 30,
+    justifyContent: 'space-between',
   },
 });
 
@@ -24,14 +26,27 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
 
+  function handleClickLink(recipe: Recipe) {
+    setCurrentRecipe(recipe);
+
+    const elPage = document.querySelector('#root-content');
+
+    elPage?.scrollTo({
+      left: 9999,
+      behavior: 'smooth',
+    });
+  }
+
   function renderItem(recipe: Recipe) {
     return (
-      <Grid item xs={6} sm={4} className={classes.card}>
-        <RecipeCardResumed
-          recipe={recipe}
-          setCurrentRecipe={setCurrentRecipe}
-        />
-      </Grid>
+      <ListItem
+        disableGutters
+        className={classes.listItem}
+        component="a"
+        onClick={() => handleClickLink(recipe)}
+      >
+        {recipe.name}
+      </ListItem>
     );
   }
 
@@ -55,9 +70,7 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
         ],
       }}
     >
-      <Grid container spacing={1}>
-        {account.recipes.map(renderItem)}
-      </Grid>
+      <List>{account.recipes.map(renderItem)}</List>
     </Layout>
   );
 };

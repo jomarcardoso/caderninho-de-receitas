@@ -1,24 +1,30 @@
 import React, { FC } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import SectionTitle from '../section-title/section-title';
 
 interface Props {
   title?: string;
+  onBgWhite?: boolean;
 }
 
-const Section: FC<Props> = ({ title = '', children }) => {
+const Section: FC<Props> = ({ onBgWhite = false, title = '', children }) => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       {title && (
         <Grid item xs={12}>
-          <Typography
-            component="h2"
-            variant="h1"
-            color="primary"
-            align="center"
-          >
-            {title}
-          </Typography>
+          {onBgWhite ? (
+            <Typography
+              variant="h2"
+              component="h3"
+              align="center"
+              color="secondary"
+            >
+              {title}
+            </Typography>
+          ) : (
+            <SectionTitle>{title}</SectionTitle>
+          )}
         </Grid>
       )}
       <Grid item xs={12}>

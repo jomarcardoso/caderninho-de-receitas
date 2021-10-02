@@ -36,7 +36,14 @@ module.exports = {
     //   },
     // },
     `gatsby-plugin-react-helmet`,
-    'gatsby-plugin-react-svg',
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /svg/,
+        },
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

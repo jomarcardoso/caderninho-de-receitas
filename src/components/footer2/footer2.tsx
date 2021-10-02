@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
   button: {
     display: 'block',
-    paddingTop: 12,
+    paddingTop: '8px !important',
   },
 });
 

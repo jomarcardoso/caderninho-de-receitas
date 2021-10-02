@@ -11,7 +11,7 @@ const Preparation: FC<Props> = ({ preparation = '' }) => {
   if (!preparation) return <></>;
 
   return (
-    <Section title="Modo de preparo">
+    <Section title="Modo de preparo" onBgWhite>
       <Grid container spacing={1}>
         {preparation.split(/\n\s/).map((preparationLine) => (
           <Grid item xs={12} key={preparationLine}>

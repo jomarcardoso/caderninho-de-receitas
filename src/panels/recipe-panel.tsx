@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
-import StyleContext from '../contexts/style';
 import { RecipeService, RECIPE_DATA, RecipeData } from '../services/recipe';
 import { UrlService } from '../services/url';
 import FoodsContext from '../contexts/foods-context';
@@ -9,25 +8,6 @@ import AccountContext from '../contexts/account-context';
 import RecipeRegisterContainer from '../components/recipe-register-container/recipe-register-container';
 import RecipeContainer from '../components/recipe-container/recipe-container';
 import Panel from '../components/panel/panel';
-
-const RecipePanelStyle: FC<{ editing: boolean }> = ({
-  children,
-  editing = false,
-}) => {
-  const { style, setStyle } = useContext(StyleContext);
-
-  useEffect(() => {
-    if (!setStyle) return;
-
-    setStyle({
-      ...style,
-      bgBody: editing ? 'white' : '',
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editing]);
-
-  return <>{children}</>;
-};
 
 const RecipePanel: FC<{
   currentRecipeData: RecipeData;
@@ -156,7 +136,7 @@ const RecipePanel: FC<{
           ],
         }}
       >
-        <RecipePanelStyle editing={editing}>{renderBody()}</RecipePanelStyle>
+        {renderBody()}
       </Layout>
     </Panel>
   );

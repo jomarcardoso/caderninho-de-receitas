@@ -15,6 +15,7 @@ const FoodPanel: FC<Props> = ({ food, headerProps }) => {
 
   return (
     <Layout
+      showFooter={false}
       mainProps={{ mt: 0 }}
       headerProps={{ ...headerProps, pageName: name, theme: 'dark' }}
     >
