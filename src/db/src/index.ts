@@ -101,3 +101,11 @@ export { default as grape } from './grape.json';
 export { default as cocoa } from './cocoa.json';
 
 export { default as chocolateDark45at59 } from './chocolate-dark-45-59.json';
+
+export { default as thyme } from './thyme.json';
+
+export { default as rosemary } from './rosemary.json';
+
+export { default as beetroot } from './beetroot.json';
+
+export { default as nut } from './nut.json';

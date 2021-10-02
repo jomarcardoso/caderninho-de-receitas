@@ -30,6 +30,10 @@ const useStyles = makeStyles({
   formControl: {
     display: 'flex',
   },
+  submit: {
+    position: 'sticky',
+    bottom: 44,
+  },
 });
 
 const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
@@ -181,7 +185,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
               />
             </Grid>
             {memoizedRenderSteps()}
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.submit}>
               <SubmitComponent>Cadastrar refeição</SubmitComponent>
             </Grid>
           </Grid>

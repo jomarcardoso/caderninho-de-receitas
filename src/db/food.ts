@@ -55,6 +55,10 @@ import {
   chocolateDark45at59,
   cocoa,
   grape,
+  thyme,
+  beetroot,
+  rosemary,
+  nut,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1353,6 +1357,46 @@ const foods: Array<FoodData> = [
     image:
       'https://media.istockphoto.com/photos/dark-chocolate-bar-on-rustic-wood-table-picture-id463813283?b=1&k=20&m=463813283&s=170667a&w=0&h=x-SXgRiiAkH-ilp7dZPZUQWdq0V7-4jwDf4BK8PRd0M=',
     keys: ['chocolate', 'achocolatado', 'chocolate em pó'],
+  },
+  {
+    ...format(thyme as unknown as FoodMyFoodData),
+    id: 74,
+    name: 'Tomilho',
+    enName: 'thyme',
+    icon: '/images/food/thyme.png',
+    image:
+      'https://images.unsplash.com/photo-1606072104299-cdaab62c0a07?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
+    keys: ['tomilho', 'ramo de tomilho', 'ramos de tomilho'],
+  },
+  {
+    ...format(rosemary as unknown as FoodMyFoodData),
+    id: 75,
+    name: 'Alecrim',
+    enName: 'rosemary',
+    icon: '/images/food/rosemary.png',
+    image:
+      'https://images.unsplash.com/photo-1603129624917-3c579e864025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+    keys: ['alecrim', 'ramo de alecrim', 'ramos de alecrim'],
+  },
+  {
+    ...format(beetroot as unknown as FoodMyFoodData),
+    id: 76,
+    name: 'Beterraba',
+    enName: 'beetroot',
+    icon: '/images/food/beetroot.png',
+    image:
+      'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['beterraba', 'beterraba crua'],
+  },
+  {
+    ...format(nut as unknown as FoodMyFoodData),
+    id: 77,
+    name: 'Noz',
+    enName: 'nut',
+    icon: '/images/food/walnut.png',
+    image:
+      'https://images.unsplash.com/photo-1524593656068-fbac72624bb0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80',
+    keys: ['noz', 'nozes'],
   },
 ];
 

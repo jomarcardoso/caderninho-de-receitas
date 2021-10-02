@@ -12,17 +12,17 @@ const useStyles = makeStyles({
   root: {
     borderRadius: 2,
     overflow: 'hidden',
-    border: `2px solid ${primary.main}`,
+    border: `1px solid ${primary.main}`,
     backgroundColor: `${primary.main}`,
   },
   title: {
     color: 'white',
-    padding: '4px 0',
+    padding: '8px 0',
     margin: 0,
     fontSize: 17,
   },
   body: {
-    padding: 12,
+    padding: '24px 12px',
     backgroundColor: 'white',
   },
 });

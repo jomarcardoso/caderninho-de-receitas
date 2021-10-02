@@ -87,7 +87,7 @@ function theme({ bgBody = '' }: Style) {
       },
       h1: {
         fontFamily: fontFamilyDisplay,
-        fontSize: '21px',
+        fontSize: '19px',
         fontWeight: 400,
         color: secondary.main,
         letterSpacing: 1,

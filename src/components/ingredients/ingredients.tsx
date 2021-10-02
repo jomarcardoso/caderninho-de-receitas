@@ -15,7 +15,7 @@ interface Props {
 
 const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
   return (
-    <Section title="Intredientes" onBgWhite>
+    <Section title="Ingredientes" onBgWhite>
       <List>
         {ingredients.map((ingredient) => (
           <ListItem
