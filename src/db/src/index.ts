@@ -1,32 +1,34 @@
-export { default as coconut } from './coconut';
+export { default as coconut } from './coconut.json';
 
-export { default as egg } from './egg';
+export { default as egg } from './egg.json';
 
-export { default as chicken } from './egg';
+export { default as chicken } from './chicken.json';
 
-export { default as oliveOil } from './olive-oil';
+export { default as oliveOil } from './olive-oil.json';
 
-export { default as sugar } from './sugar';
+export { default as sugar } from './sugar.json';
+
+export { default as brownSugar } from './brown-sugar.json';
 
 export { default as wheatFlour } from './wheat-flour.json';
 
 export { default as avocado } from './avocado.json';
 
-export { default as onion } from './onion';
+export { default as onion } from './onion.json';
 
 export { default as pepper } from './pepper.json';
 
-export { default as corn } from './corn';
+export { default as corn } from './corn.json';
 
 export { default as tomato } from './tomato.json';
 
-export { default as ham } from './ham';
+export { default as ham } from './ham.json';
 
-export { default as pineapple } from './pineapple';
+export { default as pineapple } from './pineapple.json';
 
 export { default as carrot } from './carrot.json';
 
-export { default as oat } from './oat';
+export { default as oat } from './oat.json';
 
 export { default as butter } from './butter.json';
 
@@ -115,3 +117,13 @@ export { default as eggplant } from './eggplant.json';
 export { default as yogurt } from './yogurt.json';
 
 export { default as pasta } from './pasta.json';
+
+export { default as peanut } from './peanut.json';
+
+export { default as bakingSoda } from './baking-soda.json';
+
+export { default as cinnamon } from './cinnamon.json';
+
+export { default as clove } from './clove.json';
+
+export { default as zucchini } from './zucchini.json';

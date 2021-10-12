@@ -65,6 +65,12 @@ import {
   eggplant,
   yogurt,
   pasta,
+  peanut,
+  bakingSoda,
+  cinnamon,
+  clove,
+  brownSugar,
+  zucchini,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -515,7 +521,7 @@ export const foodsData: Array<FoodData> = [
     },
   },
   {
-    ...format(ham),
+    ...format(ham as unknown as FoodMyFoodData),
     id: 15,
     name: 'Presunto',
     enName: 'ham',
@@ -534,7 +540,7 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(pineapple),
+    ...format(pineapple as unknown as FoodMyFoodData),
     id: 16,
     name: 'Abacaxi',
     enName: 'pineapple',
@@ -588,7 +594,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['avocado'],
   },
   {
-    ...format(oat),
+    ...format(oat as unknown as FoodMyFoodData),
     id: 19,
     name: 'Aveia',
     enName: 'oat',
@@ -605,7 +611,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['aveia em flocos', 'flocos de aveia'],
   },
   {
-    ...format(coconutData),
+    ...format(coconutData as unknown as FoodMyFoodData),
     id: 20,
     name: 'Coco ralado',
     gi: 42,
@@ -631,7 +637,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['coco', 'côco', 'cocos', 'côcos'],
   },
   {
-    ...format(eggData),
+    ...format(eggData as unknown as FoodMyFoodData),
     id: 21,
     name: 'Ovo',
     enName: 'egg',
@@ -649,7 +655,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['ovos'],
   },
   {
-    ...format(chickenData),
+    ...format(chickenData as unknown as FoodMyFoodData),
     id: 22,
     gi: 0,
     name: 'Frango',
@@ -667,7 +673,7 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(oliveOilData),
+    ...format(oliveOilData as unknown as FoodMyFoodData),
     id: 23,
     name: 'Azeite de oliva',
     gi: 0,
@@ -693,7 +699,7 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(sugarData),
+    ...format(sugarData as unknown as FoodMyFoodData),
     id: 24,
     name: 'Açúcar branco',
     enName: 'sugar',
@@ -745,7 +751,7 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(sugarData), // TODO: precisa diferenciar do açúcar branco
+    ...format(brownSugar as unknown as FoodMyFoodData), // TODO: precisa diferenciar do açúcar branco
     id: 26,
     name: 'Açúcar mascavo',
     enName: 'brown-sugar',
@@ -801,7 +807,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['batatinha', 'batata inglesa'],
   },
   {
-    ...format(onion),
+    ...format(onion as unknown as FoodMyFoodData),
     id: 30,
     name: 'Cebola',
     enName: 'onion',
@@ -839,7 +845,7 @@ export const foodsData: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...format(corn),
+    ...format(corn as unknown as FoodMyFoodData),
     id: 32,
     name: 'Milho',
     enName: 'corn',
@@ -1080,7 +1086,7 @@ export const foodsData: Array<FoodData> = [
     recipe: true,
   },
   {
-    ...format(ham),
+    ...format(ham as unknown as FoodMyFoodData),
     id: 51,
     name: 'Peito de peru defumado',
     enName: 'ham',
@@ -1482,6 +1488,69 @@ export const foodsData: Array<FoodData> = [
       'arroz doce caramelizado com fafora',
     ],
     recipe: true,
+  },
+  {
+    ...format(peanut as unknown as FoodMyFoodData),
+    id: 84,
+    name: 'Amendoim',
+    enName: 'peanut',
+    icon: '/images/food/peanut.png',
+    image:
+      'https://images.unsplash.com/photo-1604267437800-d89485144366?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1888&q=80',
+    keys: ['amendoim', 'amendoins'],
+  },
+  {
+    ...format(bakingSoda as unknown as FoodMyFoodData),
+    id: 85,
+    name: 'Bicarbonato de sódio',
+    enName: 'baking-soda',
+    icon: '/images/food/baking-soda.png',
+    image:
+      'https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/06/baking-soda-water-and-wooden-spoon-1296x728-1.jpg?h=1528',
+    keys: ['bicarbonato', 'bicarbonato de sódio'],
+  },
+  {
+    ...format(cinnamon as unknown as FoodMyFoodData),
+    id: 86,
+    name: 'Canela',
+    enName: 'cinnamon',
+    icon: '/images/food/cinnamon.png',
+    image:
+      'https://images.unsplash.com/photo-1611256243212-48a03787ea01?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1177&q=80',
+    keys: ['canela', 'casca de canela', 'canela em pó', 'canela em casca'],
+  },
+  {
+    ...format(clove as unknown as FoodMyFoodData),
+    id: 87,
+    name: 'Cravo da índia',
+    enName: 'clove',
+    icon: '/images/food/clove.png',
+    image:
+      'https://images.unsplash.com/photo-1626609940603-1fc7556a94ef?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
+    keys: ['cravo', 'cravos', 'cravos da índia', 'cravo-da-índia'],
+  },
+  {
+    id: 88,
+    name: 'Rodelas de abobrinha crocantes com parmesão',
+    enName: 'Crispy zucchini slices with parmesan',
+    image:
+      'https://panelinha-sitenovo.s3.sa-east-1.amazonaws.com/receita/1632429758157-CP2021-12-05_0474.jpg',
+    keys: [
+      'rodelas de abobrinha',
+      'abobrinha assada',
+      'abobrinha com parmesão',
+    ],
+    recipe: true,
+  },
+  {
+    ...format(zucchini as unknown as FoodMyFoodData),
+    id: 89,
+    name: 'Abobrinha',
+    enName: 'zucchini',
+    icon: '/images/food/zucchini.png',
+    image:
+      'https://images.unsplash.com/photo-1580294672673-4fbda48428be?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['abobrinha', 'abobrinha italiana'],
   },
 ];
 

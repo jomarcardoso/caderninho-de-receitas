@@ -47,7 +47,7 @@ sal a gosto`,
     steps: [
       {
         name: 'arroz doce',
-        ingredients: `/
+        ingredients: `\
 1 xícara de Arroz Branco Premium Fritz & Frida lavado e escorrido
 1 xícara de açúcar (para o caramelo)
 3 xícaras de leite semidesnatado
@@ -77,6 +77,52 @@ Canela Moída Fritz & Frida a gosto
 3. Sirva a farofa sobre o arroz doce.`,
       },
     ],
+  },
+  {
+    category: 'aperitivo',
+    name: 'Rodelas de abobrinha crocantes com parmesão',
+    steps: [
+      {
+        ingredients: `\
+2 abobrinhas
+⅔ de xícara (chá) de farinha panko
+⅓ de xícara (chá) de queijo parmesão ralado fino
+azeite a gosto
+¼ de colher (chá) de páprica doce
+sal e pimenta-do-reino moída na hora a gosto`,
+        name: 'abobrinha',
+        preparation: `\
+Preaqueça o forno a 220 ºC (temperatura alta). Unte uma assadeira grande com 1 colher (sopa) de azeite (caso as rodelas de abobrinha não caibam numa só assadeira, utilize 2 ou prepare a receita em duas levas).
+
+Numa travessa média, misture a farinha panko com o queijo parmesão e a páprica. Tempere com sal e pimenta a gosto. Reserve.
+
+Lave a casca das abobrinhas sob água corrente e seque bem – quanto mais sequinhas estiverem, melhor para empanar. Corte e descarte as pontas das abobrinhas e fatie cada uma em rodelas de 1 cm de espessura.
+
+Transfira as abobrinhas cortadas para uma tigela grande, adicione 1 ½ colher (sopa) de azeite e misture bem com as mãos para envolver todas as rodelas com o azeite.
+
+Para empanar as abobrinhas: coloque algumas rodelas de abobrinha na travessa com a farinha, uma ao lado da outra. Pressione com as mãos para grudar a farinha, vire e pressione novamente para cobrir toda a superfície.
+
+Transfira as abobrinhas empanadas para a assadeira, deixando espaço entre cada uma — quanto mais espaço, mais douradas e crocantes ficam. Repita com o restante.
+
+Leve ao forno para assar por cerca de 20 minutos, ou até ficarem bem douradas — na metade do tempo, vire os pedaços com uma espátula, delicadamente para não soltar a casquinha. Enquanto isso, prepare a tapenade.
+
+Retire as abobrinhas do forno e sirva a seguir com a tapenade.`,
+      },
+      {
+        ingredients: `\
+½ xícara (chá) de azeitonas verdes sem caroço
+2 colheres (sopa) de azeite
+raspas de 1 limão
+2 ramos de manjericão
+1 pitada de sal`,
+        name: 'tapenade',
+        preparation: `\
+No copo do mini-processador, coloque as azeitonas, o azeite, as raspas de limão e uma pitada de sal. Bata até triturar bem as azeitonas. Junte as folhas de manjericão e bata apenas para incorporar.`,
+      },
+    ],
+    description:
+      'Uma casquinha crocante e dourada envolve as rodelas de abobrinha, bem macias. A melhor parte: é sem fritura. Antes de sair correndo para já preaquecer o forno, um conselho: não deixe de preparar a tapenade para acompanhar!',
+    id: 3,
   },
 ];
 
