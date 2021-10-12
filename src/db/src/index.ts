@@ -127,3 +127,9 @@ export { default as cinnamon } from './cinnamon.json';
 export { default as clove } from './clove.json';
 
 export { default as zucchini } from './zucchini.json';
+
+export { default as paprika } from './paprika.json';
+
+export { default as olive } from './olive.json';
+
+export { default as basil } from './basil.json';

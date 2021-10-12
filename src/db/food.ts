@@ -71,6 +71,9 @@ import {
   clove,
   brownSugar,
   zucchini,
+  paprika,
+  olive,
+  basil,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1551,6 +1554,36 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1580294672673-4fbda48428be?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['abobrinha', 'abobrinha italiana'],
+  },
+  {
+    ...format(paprika as unknown as FoodMyFoodData),
+    id: 90,
+    name: 'Páprica',
+    enName: 'paprika',
+    icon: '/images/food/paprika.png',
+    image:
+      'https://images.unsplash.com/photo-1575319026763-726d092c26c0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['paprica', 'páprica doce', 'páprica picante'],
+  },
+  {
+    ...format(olive as unknown as FoodMyFoodData),
+    id: 91,
+    name: 'Azeitona',
+    enName: 'olive',
+    icon: '/images/food/olive.png',
+    image:
+      'https://images.unsplash.com/photo-1582042043408-de36ded9059b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['azeitona', 'oliva', 'azeitonas'],
+  },
+  {
+    ...format(basil as unknown as FoodMyFoodData),
+    id: 92,
+    name: 'Manjericão',
+    enName: 'basil',
+    icon: '/images/food/basil.png',
+    image:
+      'https://images.unsplash.com/photo-1538596313828-41d729090199?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['manjericão'],
   },
 ];
 
