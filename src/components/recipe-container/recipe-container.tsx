@@ -22,8 +22,6 @@ export interface RecipeContainerProps {
 
 const useStyles = makeStyles({
   name: {
-    position: 'sticky',
-    top: 0,
     zIndex: 1,
     backgroundColor: `${primary.main}`,
     padding: '8px 0',
