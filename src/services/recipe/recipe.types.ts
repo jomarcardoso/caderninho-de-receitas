@@ -28,6 +28,7 @@ export interface RecipeStep {
   name: string;
   ingredients: Array<Ingredient>;
   preparation: string;
+  additional: string;
 }
 
 export interface Recipe {
@@ -49,6 +50,7 @@ export interface RecipeStepData {
   name: string;
   ingredients: string;
   preparation: string;
+  additional: string;
 }
 
 export interface RecipeData {
@@ -63,6 +65,7 @@ export const RECIPE_STEP_DATA: RecipeStepData = {
   name: '',
   ingredients: '',
   preparation: '',
+  additional: '',
 };
 
 export const RECIPE_DATA: RecipeData = {
@@ -77,6 +80,7 @@ export const RECIPE_STEP: RecipeStep = {
   name: '',
   ingredients: [],
   preparation: '',
+  additional: '',
 };
 
 export const RECIPE: Recipe = {

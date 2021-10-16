@@ -74,6 +74,16 @@ import {
   paprika,
   olive,
   basil,
+  cassavaFlour,
+  chive,
+  curry,
+  coconutWater,
+  coconutMilk,
+  ginger,
+  pea,
+  mango,
+  passionFruit,
+  porkLoin,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1584,6 +1594,159 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1538596313828-41d729090199?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['manjericão'],
+  },
+  {
+    id: 93,
+    name: 'Arroz carreteiro',
+    enName: 'beef-risoto',
+    image:
+      'https://panelinha-sitenovo.s3.sa-east-1.amazonaws.com/receita/1633350306253-Panelinha_03_09_21_319.jpg',
+    keys: ['risoto', 'carreteiro', 'arroz com carne'],
+    recipe: true,
+  },
+  {
+    ...format(chive as unknown as FoodMyFoodData),
+    id: 94,
+    name: 'Cebolinha',
+    enName: 'chive',
+    icon: '/images/food/chive.png',
+    image:
+      'https://media.istockphoto.com/photos/fresh-chives-siniklav-or-frenk-sogani-on-wooden-surface-picture-id845638780?b=1&k=20&m=845638780&s=170667a&w=0&h=5akMDvDeooH-uLd8av-DOBB0d3j8wJEI_hzjfHuX5Ik=',
+    keys: [
+      'cebolinha',
+      'cebolinho',
+      'cebolinha-francesa',
+      'cebolinha francesa',
+    ],
+  },
+  {
+    ...format(cassavaFlour as unknown as FoodMyFoodData),
+    id: 95,
+    name: 'Farinha de mandioca',
+    enName: 'cassava-flour',
+    icon: '/images/food/cassava-flour.png',
+    image:
+      'https://media.istockphoto.com/photos/cassava-flour-in-handmade-pot-natural-organic-flour-from-brazil-picture-id1300392101?b=1&k=20&m=1300392101&s=170667a&w=0&h=MubnvNFt5Cv_6aKakGNc3UCaGzGTGXHkO6DuPP50c8E=',
+    keys: ['farinha de mandioca', 'farofa'],
+  },
+  {
+    ...format(curry as unknown as FoodMyFoodData),
+    id: 96,
+    name: 'Caril',
+    enName: 'curry',
+    icon: '/images/food/curry.png',
+    image:
+      'https://media.istockphoto.com/photos/curry-powder-on-a-wooden-spoon-and-in-a-wooden-bowl-picture-id1271918149?b=1&k=20&m=1271918149&s=170667a&w=0&h=ICQNG-IxiJ-ExTpYkn87rW5qhN8Cu5tVHEwVnAsGZSs=',
+    keys: ['caril', 'curry'],
+  },
+  {
+    ...format(coconutWater as unknown as FoodMyFoodData),
+    id: 97,
+    name: 'Água de coco',
+    enName: 'coconut-water',
+    icon: '/images/food/coconut-water.png',
+    image:
+      'https://media.istockphoto.com/photos/coconut-drink-with-pulp-in-glass-on-wooden-table-picture-id526133774?b=1&k=20&m=526133774&s=170667a&w=0&h=0OifDfpyMrzYuy2fy-D-FRlucUJx2IjXJGK47vk4X7s=',
+    keys: ['coco', 'agua de coco', 'água de coco'],
+  },
+  {
+    ...format(coconutMilk as unknown as FoodMyFoodData),
+    id: 98,
+    name: 'Leite de coco',
+    enName: 'coconut-milk',
+    icon: '/images/food/coconut-milk.png',
+    image:
+      'https://media.istockphoto.com/photos/coconut-vegan-milk-with-halves-of-nuts-over-brown-background-picture-id1304494306?b=1&k=20&m=1304494306&s=170667a&w=0&h=bLfsZbv8t6Oej_GXr3KPy7uLuETt_Yb_w6tNaLtlm3s=',
+    keys: ['leite de coco', 'coco'],
+  },
+  {
+    id: 99,
+    name: 'Sopa de cenoura com curry',
+    enName: 'carrot-soup-with-curry',
+    image: 'https://cdn.panelinha.com.br/receita/1491332195377-300541.jpg',
+    keys: ['sopa de copo', 'sopa de cenoura', 'sopa de curry'],
+    recipe: true,
+  },
+  {
+    id: 100,
+    name: 'Cuscuz marroquino com filé mignon suíno',
+    enName: 'couscous',
+    image:
+      'https://cdn.panelinha.com.br/receita/1480557600000-Cuscuz-marroquino-com-file-mignon-suino.jpg',
+    keys: [
+      'cuscuz',
+      'cuscuz marroquino',
+      'cuscuz com carne',
+      'cuscuz marroquino com porco',
+      'cuscuz com porco',
+    ],
+    recipe: true,
+  },
+  {
+    ...format(ginger as unknown as FoodMyFoodData),
+    id: 101,
+    name: 'Gengibre',
+    enName: 'ginger',
+    icon: '/images/food/ginger.png',
+    image:
+      'https://media.istockphoto.com/photos/ginger-root-and-ginger-powder-in-the-bowl-picture-id647402644?b=1&k=20&m=647402644&s=170667a&w=0&h=5lyuLq8qT16BelSweo6vprZzM62uDGZXdpPXdEDzqBc=',
+    keys: ['gengibre', 'gengibre em pó'],
+  },
+  {
+    ...format(pea as unknown as FoodMyFoodData),
+    id: 102,
+    name: 'Ervilha',
+    enName: 'pea',
+    icon: '/images/food/pea.png',
+    image:
+      'https://media.istockphoto.com/photos/pea-protein-powder-and-snap-pea-portrait-picture-id1175572671?b=1&k=20&m=1175572671&s=170667a&w=0&h=EWO5nG741j6gFokkAljmYE6tkCyEvGZxMMjjJq3dJZc=',
+    keys: ['ervilha', 'ervilhas'],
+  },
+  {
+    id: 103,
+    name: 'Geleia de manga e maracujá',
+    enName: 'mango-and-passion-fruit-jelly',
+    image:
+      'https://cdn.panelinha.com.br/receita/1540583468204-receita-geleiaaaaa.jpg',
+    keys: ['geleia de manga', 'geleia de maracujá', 'geleia', 'geléia'],
+  },
+  {
+    ...format(mango as unknown as FoodMyFoodData),
+    id: 104,
+    name: 'Manga',
+    enName: 'mango',
+    icon: '/images/food/mango.png',
+    image:
+      'https://media.istockphoto.com/photos/mangoes-composition-picture-id1272010307?b=1&k=20&m=1272010307&s=170667a&w=0&h=ZjJ85mpjAr__adYT7zqSdYEDi1XvWiqgtVLqNYIDtkw=',
+    keys: ['manga', 'mangas'],
+  },
+  {
+    ...format(passionFruit as unknown as FoodMyFoodData),
+    id: 105,
+    name: 'Maracujá',
+    enName: 'passion-fruit-ganadilla',
+    icon: '/images/food/passion-fruit.png',
+    image:
+      'https://media.istockphoto.com/photos/fresh-passion-fruit-on-wood-table-in-top-view-flat-lay-for-background-picture-id860079962?b=1&k=20&m=860079962&s=170667a&w=0&h=WjvMtFrnUVnXWtwMt8uDO3MwEyveM-WEOQT-pG_6Npg=',
+    keys: ['maracujá'],
+  },
+  {
+    ...format(porkLoin as unknown as FoodMyFoodData),
+    id: 106,
+    name: 'Lombo de porco',
+    enName: 'pork-loin',
+    icon: '/images/food/chop.png',
+    image:
+      'https://media.istockphoto.com/photos/baked-pork-loin-with-whole-grain-mustard-picture-id693429828?b=1&k=20&m=693429828&s=170667a&w=0&h=LogyIFTqLo69l8rDzTlDGApXotSFYZDUDffvNl7-ZRc=',
+    keys: [
+      'lombo',
+      'lombinho',
+      'lombo de porco',
+      'filé de porco',
+      'lombo suíno',
+      'filé suíno',
+      'filé mignon suíno',
+    ],
   },
 ];
 

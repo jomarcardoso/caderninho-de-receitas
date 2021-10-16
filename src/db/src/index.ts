@@ -133,3 +133,23 @@ export { default as paprika } from './paprika.json';
 export { default as olive } from './olive.json';
 
 export { default as basil } from './basil.json';
+
+export { default as chive } from './chive.json';
+
+export { default as cassavaFlour } from './cassava-flour.json';
+
+export { default as curry } from './curry.json';
+
+export { default as coconutWater } from './coconut-water.json';
+
+export { default as coconutMilk } from './coconut-milk.json';
+
+export { default as ginger } from './ginger.json';
+
+export { default as pea } from './pea.json';
+
+export { default as mango } from './mango.json';
+
+export { default as passionFruit } from './passion-fruit.json';
+
+export { default as porkLoin } from './pork-loin.json';
