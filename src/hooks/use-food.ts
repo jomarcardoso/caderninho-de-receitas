@@ -1,8 +1,8 @@
-import { Food, FoodService } from '../services/food';
-import { foodsData } from '../db/food';
+import { Food } from '../services/food';
+import { foods } from '../db/food';
 
 const useFoods = (): Array<Food> => {
-  return foodsData.map(FoodService.format);
+  return foods;
 };
 
 export default useFoods;

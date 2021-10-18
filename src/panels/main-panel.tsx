@@ -1,22 +1,31 @@
 import React, { FC, useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import List from '@material-ui/core/List';
+// import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+// import TableHead from '@material-ui/core/TableHead';
+import ListItemText from '@material-ui/core/ListItemText';
+import TableRow from '@material-ui/core/TableRow';
+import capitalize from 'lodash/capitalize';
 import Layout from '../components/layout/layout';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { RECIPE, Recipe } from '../services/recipe';
 import { CurrentPage } from '../services/page.service';
-import { fontFamilyInput } from '../components/page/page';
+// import { fontFamilyInput } from '../components/page/page';
+import { recipes } from '../db/recipe';
+import SectionTitle from '../components/section-title/section-title';
 
 const useStyles = makeStyles({
   listItem: {
-    borderBottom: '1px solid #000000aa',
-    fontFamily: fontFamilyInput,
-    lineHeight: 1,
-    paddingBottom: 0,
-    fontSize: 30,
-    justifyContent: 'space-between',
+    padding: 0,
+  },
+  table: {
+    marginBottom: 32,
+    marginTop: 16,
   },
 });
 
@@ -39,15 +48,17 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
 
   function renderItem(recipe: Recipe) {
     return (
-      <ListItem
-        key={recipe.id}
-        disableGutters
-        className={classes.listItem}
-        component="a"
-        onClick={() => handleClickLink(recipe)}
-      >
-        {recipe.name}
-      </ListItem>
+      <TableRow key={recipe.id}>
+        <TableCell component="th" scope="row">
+          <ListItem
+            className={classes.listItem}
+            button
+            onClick={() => handleClickLink(recipe)}
+          >
+            <ListItemText primary={capitalize(recipe.name)} />
+          </ListItem>
+        </TableCell>
+      </TableRow>
     );
   }
 
@@ -71,7 +82,16 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
         ],
       }}
     >
-      <List>{account.recipes.map(renderItem)}</List>
+      <SectionTitle>Minhas receitas</SectionTitle>
+      <TableContainer>
+        <Table className={classes.table} size="small">
+          <TableBody>{account.recipes.map(renderItem)}</TableBody>
+        </Table>
+      </TableContainer>
+      <SectionTitle>Receitas de futuros parceiros</SectionTitle>
+      <Table className={classes.table} size="small">
+        <TableBody>{recipes.map(renderItem)}</TableBody>
+      </Table>
     </Layout>
   );
 };

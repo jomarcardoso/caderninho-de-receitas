@@ -1,5 +1,10 @@
 import { FoodMyFoodData } from './db.types';
-import { UnitOfMeasurement, AMINO_ACIDS, FoodData } from '../services/food';
+import {
+  UnitOfMeasurement,
+  AMINO_ACIDS,
+  FoodData,
+  FoodService,
+} from '../services/food';
 import {
   coconut as coconutData,
   egg as eggData,
@@ -60,6 +65,25 @@ import {
   eggplant,
   yogurt,
   pasta,
+  peanut,
+  bakingSoda,
+  cinnamon,
+  clove,
+  brownSugar,
+  zucchini,
+  paprika,
+  olive,
+  basil,
+  cassavaFlour,
+  chive,
+  curry,
+  coconutWater,
+  coconutMilk,
+  ginger,
+  pea,
+  mango,
+  passionFruit,
+  porkLoin,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -510,7 +534,7 @@ export const foodsData: Array<FoodData> = [
     },
   },
   {
-    ...format(ham),
+    ...format(ham as unknown as FoodMyFoodData),
     id: 15,
     name: 'Presunto',
     enName: 'ham',
@@ -529,7 +553,7 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(pineapple),
+    ...format(pineapple as unknown as FoodMyFoodData),
     id: 16,
     name: 'Abacaxi',
     enName: 'pineapple',
@@ -583,7 +607,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['avocado'],
   },
   {
-    ...format(oat),
+    ...format(oat as unknown as FoodMyFoodData),
     id: 19,
     name: 'Aveia',
     enName: 'oat',
@@ -600,7 +624,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['aveia em flocos', 'flocos de aveia'],
   },
   {
-    ...format(coconutData),
+    ...format(coconutData as unknown as FoodMyFoodData),
     id: 20,
     name: 'Coco ralado',
     gi: 42,
@@ -626,7 +650,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['coco', 'côco', 'cocos', 'côcos'],
   },
   {
-    ...format(eggData),
+    ...format(eggData as unknown as FoodMyFoodData),
     id: 21,
     name: 'Ovo',
     enName: 'egg',
@@ -644,7 +668,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['ovos'],
   },
   {
-    ...format(chickenData),
+    ...format(chickenData as unknown as FoodMyFoodData),
     id: 22,
     gi: 0,
     name: 'Frango',
@@ -662,7 +686,7 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(oliveOilData),
+    ...format(oliveOilData as unknown as FoodMyFoodData),
     id: 23,
     name: 'Azeite de oliva',
     gi: 0,
@@ -688,7 +712,7 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(sugarData),
+    ...format(sugarData as unknown as FoodMyFoodData),
     id: 24,
     name: 'Açúcar branco',
     enName: 'sugar',
@@ -740,7 +764,7 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(sugarData), // TODO: precisa diferenciar do açúcar branco
+    ...format(brownSugar as unknown as FoodMyFoodData), // TODO: precisa diferenciar do açúcar branco
     id: 26,
     name: 'Açúcar mascavo',
     enName: 'brown-sugar',
@@ -796,7 +820,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['batatinha', 'batata inglesa'],
   },
   {
-    ...format(onion),
+    ...format(onion as unknown as FoodMyFoodData),
     id: 30,
     name: 'Cebola',
     enName: 'onion',
@@ -834,7 +858,7 @@ export const foodsData: Array<FoodData> = [
     unitOfMeasurement: UnitOfMeasurement.gram,
   },
   {
-    ...format(corn),
+    ...format(corn as unknown as FoodMyFoodData),
     id: 32,
     name: 'Milho',
     enName: 'corn',
@@ -1075,7 +1099,7 @@ export const foodsData: Array<FoodData> = [
     recipe: true,
   },
   {
-    ...format(ham),
+    ...format(ham as unknown as FoodMyFoodData),
     id: 51,
     name: 'Peito de peru defumado',
     enName: 'ham',
@@ -1451,7 +1475,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['massa gravatinha', 'gravatinha', 'massa', 'macarrão'],
   },
   {
-    id: 8,
+    id: 82,
     name: 'Salada de macarrão com beringela e purê de beterraba',
     enName: 'beetroot-eggplant-pastas-salad',
     image:
@@ -1464,4 +1488,266 @@ export const foodsData: Array<FoodData> = [
     ],
     recipe: true,
   },
+  {
+    id: 83,
+    name: 'Arroz doce, caramelizado com farofa',
+    enName: 'sweet-rice-caramelized-with-crumbs',
+    image:
+      'http://www.cookbookfritzefrida.com.br/assets/uploads/posts/710/g_thumb-whatsapp-image-2021-09-29-at-150825-8647128-6175614.jpeg',
+    keys: [
+      'arroz code',
+      'arroz doce caramelizado',
+      'arroz doce com farofa',
+      'arroz doce caramelizado com fafora',
+    ],
+    recipe: true,
+  },
+  {
+    ...format(peanut as unknown as FoodMyFoodData),
+    id: 84,
+    name: 'Amendoim',
+    enName: 'peanut',
+    icon: '/images/food/peanut.png',
+    image:
+      'https://images.unsplash.com/photo-1604267437800-d89485144366?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1888&q=80',
+    keys: ['amendoim', 'amendoins'],
+  },
+  {
+    ...format(bakingSoda as unknown as FoodMyFoodData),
+    id: 85,
+    name: 'Bicarbonato de sódio',
+    enName: 'baking-soda',
+    icon: '/images/food/baking-soda.png',
+    image:
+      'https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/06/baking-soda-water-and-wooden-spoon-1296x728-1.jpg?h=1528',
+    keys: ['bicarbonato', 'bicarbonato de sódio'],
+  },
+  {
+    ...format(cinnamon as unknown as FoodMyFoodData),
+    id: 86,
+    name: 'Canela',
+    enName: 'cinnamon',
+    icon: '/images/food/cinnamon.png',
+    image:
+      'https://images.unsplash.com/photo-1611256243212-48a03787ea01?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1177&q=80',
+    keys: ['canela', 'casca de canela', 'canela em pó', 'canela em casca'],
+  },
+  {
+    ...format(clove as unknown as FoodMyFoodData),
+    id: 87,
+    name: 'Cravo da índia',
+    enName: 'clove',
+    icon: '/images/food/clove.png',
+    image:
+      'https://images.unsplash.com/photo-1626609940603-1fc7556a94ef?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
+    keys: ['cravo', 'cravos', 'cravos da índia', 'cravo-da-índia'],
+  },
+  {
+    id: 88,
+    name: 'Rodelas de abobrinha crocantes com parmesão',
+    enName: 'Crispy zucchini slices with parmesan',
+    image:
+      'https://panelinha-sitenovo.s3.sa-east-1.amazonaws.com/receita/1632429758157-CP2021-12-05_0474.jpg',
+    keys: [
+      'rodelas de abobrinha',
+      'abobrinha assada',
+      'abobrinha com parmesão',
+    ],
+    recipe: true,
+  },
+  {
+    ...format(zucchini as unknown as FoodMyFoodData),
+    id: 89,
+    name: 'Abobrinha',
+    enName: 'zucchini',
+    icon: '/images/food/zucchini.png',
+    image:
+      'https://images.unsplash.com/photo-1580294672673-4fbda48428be?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['abobrinha', 'abobrinha italiana'],
+  },
+  {
+    ...format(paprika as unknown as FoodMyFoodData),
+    id: 90,
+    name: 'Páprica',
+    enName: 'paprika',
+    icon: '/images/food/paprika.png',
+    image:
+      'https://images.unsplash.com/photo-1575319026763-726d092c26c0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['paprica', 'páprica doce', 'páprica picante'],
+  },
+  {
+    ...format(olive as unknown as FoodMyFoodData),
+    id: 91,
+    name: 'Azeitona',
+    enName: 'olive',
+    icon: '/images/food/olive.png',
+    image:
+      'https://images.unsplash.com/photo-1582042043408-de36ded9059b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['azeitona', 'oliva', 'azeitonas'],
+  },
+  {
+    ...format(basil as unknown as FoodMyFoodData),
+    id: 92,
+    name: 'Manjericão',
+    enName: 'basil',
+    icon: '/images/food/basil.png',
+    image:
+      'https://images.unsplash.com/photo-1538596313828-41d729090199?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
+    keys: ['manjericão'],
+  },
+  {
+    id: 93,
+    name: 'Arroz carreteiro',
+    enName: 'beef-risoto',
+    image:
+      'https://panelinha-sitenovo.s3.sa-east-1.amazonaws.com/receita/1633350306253-Panelinha_03_09_21_319.jpg',
+    keys: ['risoto', 'carreteiro', 'arroz com carne'],
+    recipe: true,
+  },
+  {
+    ...format(chive as unknown as FoodMyFoodData),
+    id: 94,
+    name: 'Cebolinha',
+    enName: 'chive',
+    icon: '/images/food/chive.png',
+    image:
+      'https://media.istockphoto.com/photos/fresh-chives-siniklav-or-frenk-sogani-on-wooden-surface-picture-id845638780?b=1&k=20&m=845638780&s=170667a&w=0&h=5akMDvDeooH-uLd8av-DOBB0d3j8wJEI_hzjfHuX5Ik=',
+    keys: [
+      'cebolinha',
+      'cebolinho',
+      'cebolinha-francesa',
+      'cebolinha francesa',
+    ],
+  },
+  {
+    ...format(cassavaFlour as unknown as FoodMyFoodData),
+    id: 95,
+    name: 'Farinha de mandioca',
+    enName: 'cassava-flour',
+    icon: '/images/food/cassava-flour.png',
+    image:
+      'https://media.istockphoto.com/photos/cassava-flour-in-handmade-pot-natural-organic-flour-from-brazil-picture-id1300392101?b=1&k=20&m=1300392101&s=170667a&w=0&h=MubnvNFt5Cv_6aKakGNc3UCaGzGTGXHkO6DuPP50c8E=',
+    keys: ['farinha de mandioca', 'farofa'],
+  },
+  {
+    ...format(curry as unknown as FoodMyFoodData),
+    id: 96,
+    name: 'Caril',
+    enName: 'curry',
+    icon: '/images/food/curry.png',
+    image:
+      'https://media.istockphoto.com/photos/curry-powder-on-a-wooden-spoon-and-in-a-wooden-bowl-picture-id1271918149?b=1&k=20&m=1271918149&s=170667a&w=0&h=ICQNG-IxiJ-ExTpYkn87rW5qhN8Cu5tVHEwVnAsGZSs=',
+    keys: ['caril', 'curry'],
+  },
+  {
+    ...format(coconutWater as unknown as FoodMyFoodData),
+    id: 97,
+    name: 'Água de coco',
+    enName: 'coconut-water',
+    icon: '/images/food/coconut-water.png',
+    image:
+      'https://media.istockphoto.com/photos/coconut-drink-with-pulp-in-glass-on-wooden-table-picture-id526133774?b=1&k=20&m=526133774&s=170667a&w=0&h=0OifDfpyMrzYuy2fy-D-FRlucUJx2IjXJGK47vk4X7s=',
+    keys: ['coco', 'agua de coco', 'água de coco'],
+  },
+  {
+    ...format(coconutMilk as unknown as FoodMyFoodData),
+    id: 98,
+    name: 'Leite de coco',
+    enName: 'coconut-milk',
+    icon: '/images/food/coconut-milk.png',
+    image:
+      'https://media.istockphoto.com/photos/coconut-vegan-milk-with-halves-of-nuts-over-brown-background-picture-id1304494306?b=1&k=20&m=1304494306&s=170667a&w=0&h=bLfsZbv8t6Oej_GXr3KPy7uLuETt_Yb_w6tNaLtlm3s=',
+    keys: ['leite de coco', 'coco'],
+  },
+  {
+    id: 99,
+    name: 'Sopa de cenoura com curry',
+    enName: 'carrot-soup-with-curry',
+    image: 'https://cdn.panelinha.com.br/receita/1491332195377-300541.jpg',
+    keys: ['sopa de copo', 'sopa de cenoura', 'sopa de curry'],
+    recipe: true,
+  },
+  {
+    id: 100,
+    name: 'Cuscuz marroquino com filé mignon suíno',
+    enName: 'couscous',
+    image:
+      'https://cdn.panelinha.com.br/receita/1480557600000-Cuscuz-marroquino-com-file-mignon-suino.jpg',
+    keys: [
+      'cuscuz',
+      'cuscuz marroquino',
+      'cuscuz com carne',
+      'cuscuz marroquino com porco',
+      'cuscuz com porco',
+    ],
+    recipe: true,
+  },
+  {
+    ...format(ginger as unknown as FoodMyFoodData),
+    id: 101,
+    name: 'Gengibre',
+    enName: 'ginger',
+    icon: '/images/food/ginger.png',
+    image:
+      'https://media.istockphoto.com/photos/ginger-root-and-ginger-powder-in-the-bowl-picture-id647402644?b=1&k=20&m=647402644&s=170667a&w=0&h=5lyuLq8qT16BelSweo6vprZzM62uDGZXdpPXdEDzqBc=',
+    keys: ['gengibre', 'gengibre em pó'],
+  },
+  {
+    ...format(pea as unknown as FoodMyFoodData),
+    id: 102,
+    name: 'Ervilha',
+    enName: 'pea',
+    icon: '/images/food/pea.png',
+    image:
+      'https://media.istockphoto.com/photos/pea-protein-powder-and-snap-pea-portrait-picture-id1175572671?b=1&k=20&m=1175572671&s=170667a&w=0&h=EWO5nG741j6gFokkAljmYE6tkCyEvGZxMMjjJq3dJZc=',
+    keys: ['ervilha', 'ervilhas'],
+  },
+  {
+    id: 103,
+    name: 'Geleia de manga e maracujá',
+    enName: 'mango-and-passion-fruit-jelly',
+    image:
+      'https://cdn.panelinha.com.br/receita/1540583468204-receita-geleiaaaaa.jpg',
+    keys: ['geleia de manga', 'geleia de maracujá', 'geleia', 'geléia'],
+  },
+  {
+    ...format(mango as unknown as FoodMyFoodData),
+    id: 104,
+    name: 'Manga',
+    enName: 'mango',
+    icon: '/images/food/mango.png',
+    image:
+      'https://media.istockphoto.com/photos/mangoes-composition-picture-id1272010307?b=1&k=20&m=1272010307&s=170667a&w=0&h=ZjJ85mpjAr__adYT7zqSdYEDi1XvWiqgtVLqNYIDtkw=',
+    keys: ['manga', 'mangas'],
+  },
+  {
+    ...format(passionFruit as unknown as FoodMyFoodData),
+    id: 105,
+    name: 'Maracujá',
+    enName: 'passion-fruit-ganadilla',
+    icon: '/images/food/passion-fruit.png',
+    image:
+      'https://media.istockphoto.com/photos/fresh-passion-fruit-on-wood-table-in-top-view-flat-lay-for-background-picture-id860079962?b=1&k=20&m=860079962&s=170667a&w=0&h=WjvMtFrnUVnXWtwMt8uDO3MwEyveM-WEOQT-pG_6Npg=',
+    keys: ['maracujá'],
+  },
+  {
+    ...format(porkLoin as unknown as FoodMyFoodData),
+    id: 106,
+    name: 'Lombo de porco',
+    enName: 'pork-loin',
+    icon: '/images/food/chop.png',
+    image:
+      'https://media.istockphoto.com/photos/baked-pork-loin-with-whole-grain-mustard-picture-id693429828?b=1&k=20&m=693429828&s=170667a&w=0&h=LogyIFTqLo69l8rDzTlDGApXotSFYZDUDffvNl7-ZRc=',
+    keys: [
+      'lombo',
+      'lombinho',
+      'lombo de porco',
+      'filé de porco',
+      'lombo suíno',
+      'filé suíno',
+      'filé mignon suíno',
+    ],
+  },
 ];
+
+export const foods = foodsData.map(FoodService.format);

@@ -21,7 +21,7 @@ const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
           <ListItem
             button
             disableGutters
-            key={ingredient.food.id}
+            key={`${ingredient.food.id}${ingredient.quantity}`}
             onClick={() => setCurrentFood(ingredient.food)}
           >
             <Grid container spacing={1} alignItems="center">

@@ -22,12 +22,14 @@ export interface RecipeContainerProps {
 
 const useStyles = makeStyles({
   name: {
-    position: 'sticky',
-    top: 0,
     zIndex: 1,
     backgroundColor: `${primary.main}`,
     padding: '8px 0',
     color: 'white',
+  },
+  containerBody: {
+    paddingLeft: 8,
+    paddingRight: 8,
   },
 });
 
@@ -51,7 +53,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
       <Box marginBottom={3}>
         <Image src={recipe.image} alt="" aspectRatio={1.25} />
       </Box>
-      <Container>
+      <Container className={classes.containerBody}>
         <Grid container spacing={4}>
           {recipe.description && (
             <Grid item xs={12}>
@@ -71,6 +73,11 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
                   <Grid item xs={12}>
                     <Preparation preparation={step.preparation} />
                   </Grid>
+                  {step.additional && (
+                    <Grid item xs={12}>
+                      <Typography>{step.additional}</Typography>
+                    </Grid>
+                  )}
                 </Grid>
               </SectionCard>
             </Grid>

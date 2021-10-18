@@ -74,6 +74,7 @@ export function formatPart(
     name: data?.name ?? RECIPE_STEP.name,
     ingredients: ingredients ?? RECIPE_STEP.ingredients,
     preparation: data?.preparation ?? RECIPE_STEP.preparation,
+    additional: data?.additional ?? RECIPE_STEP.additional,
   };
 }
 
@@ -201,12 +202,13 @@ export function unFormat(recipe: Recipe): RecipeData {
     category: recipe?.category ?? RECIPE_DATA.category,
     name: recipe.name ?? RECIPE_DATA.name,
     description: recipe.description ?? RECIPE_DATA.description,
-    steps: recipe.steps.map((part) => ({
-      name: part.name,
+    steps: recipe.steps.map((step) => ({
+      name: step.name,
       ingredients:
-        part.ingredients.map(IngredientService.unFormat).join('\n') ??
+        step.ingredients.map(IngredientService.unFormat).join('\n') ??
         RECIPE_STEP_DATA.ingredients,
-      preparation: part.preparation ?? RECIPE_STEP_DATA.preparation,
+      preparation: step.preparation ?? RECIPE_STEP_DATA.preparation,
+      additional: step.additional ?? RECIPE_STEP_DATA.additional,
     })),
   };
 }
