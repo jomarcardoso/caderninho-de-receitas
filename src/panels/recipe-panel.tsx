@@ -5,7 +5,7 @@ import FoodsContext from '../contexts/foods-context';
 import Layout from '../components/layout/layout';
 import { Food } from '../services/food';
 import AccountContext from '../contexts/account-context';
-import RecipeRegisterContainer from '../components/recipe-register-container/recipe-register-container';
+import RecipeRegister from '../components/recipe-register/recipe-register';
 import RecipeContainer from '../components/recipe-container/recipe-container';
 import Panel from '../components/panel/panel';
 
@@ -54,9 +54,8 @@ const RecipePanel: FC<{
   function renderBody() {
     if (editing) {
       return (
-        <RecipeRegisterContainer
-          currentRecipeData={currentRecipeData}
-          onNewRecipe={memoizedhandleNewRecipe}
+        <RecipeRegister
+          recipeData={currentRecipeData}
           setCurrentRecipeData={setCurrentRecipeData}
         />
       );

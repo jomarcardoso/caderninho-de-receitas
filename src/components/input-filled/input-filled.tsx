@@ -1,21 +1,31 @@
 import React, { FC } from 'react';
 import TextField, { StandardTextFieldProps } from '@material-ui/core/TextField';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { fontFamilyInput, primary } from '../page/page';
+import { fontFamilyInput } from '../page/page';
+import Container from '../container/container';
 
 const useStyles = makeStyles({
-  root: {
-    fontFamily: fontFamilyInput,
-    borderStyle: 'dashed',
-
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderStyle: 'dashed',
-    },
+  wrapper: {
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: '#87695ecf',
   },
-  input: {
-    backgroundColor: 'transparent',
-    border: '2px dashed #00000033',
-    padding: '14px 10px 0',
+  base: {
+    border: '2px solid #87695ecf',
+    flex: 1,
+    backgroundImage: 'url(/images/textures/paper-texture.png)',
+  },
+  header: {
+    color: 'white',
+    padding: '8px 0',
+    margin: 0,
+    fontSize: 17,
+  },
+  root: {
+    transition: 'border-color 200ms linear',
+    background: 'transparent',
+    display: 'block',
+    padding: 8,
 
     '&:hover, &.Mui-focused': {
       backgroundColor: 'transparent',
@@ -33,47 +43,51 @@ const useStyles = makeStyles({
       borderBottomColor: 'transparent',
     },
   },
-  inputInput: {
+  input: {
+    backgroundImage: 'url(/images/textures/linned-sheet-texture.svg)',
+    // backgroundSize: 'auto',
+    // backgroundRepeat: 'space',
     lineHeight: '31.2px',
     fontFamily: fontFamilyInput,
     fontSize: 22,
-    backgroundRepeat: 'space',
-  },
-  label: {
-    zIndex: 1,
-    color: primary.main,
-
-    '&:hover, &.Mui-focused': {
-      color: primary.dark,
-    },
   },
 });
 
-const InputFilled: FC<StandardTextFieldProps> = (props) => {
+const useInputStyles = makeStyles({
+  root: {
+    display: 'block',
+    padding: 0,
+  },
+});
+
+const InputFilled: FC<StandardTextFieldProps> = ({ label = '', ...props }) => {
   const classes = useStyles();
+  const inputClasses = useInputStyles();
 
   return (
-    <TextField
-      multiline
-      variant="outlined"
-      className={classes.root}
-      inputProps={{
-        className: classes.inputInput,
-      }}
-      // InputProps={{
-      //   classes: {
-      //     root: classes.input,
-      //     input: classes.inputInput,
-      //     underline: classes.underline,
-      //   },
-      // }}
-      InputLabelProps={{
-        classes: {
-          root: classes.label,
-        },
-      }}
-      {...props}
-    />
+    <div className={classes.wrapper}>
+      {label && (
+        <div className={classes.header}>
+          <Container>{label}</Container>
+        </div>
+      )}
+      <div className={classes.base}>
+        <TextField
+          multiline
+          minRows={1}
+          variant="filled"
+          classes={inputClasses}
+          InputProps={{
+            classes: {
+              root: classes.root,
+              input: classes.input,
+              underline: classes.underline,
+            },
+          }}
+          {...props}
+        />
+      </div>
+    </div>
   );
 };
 

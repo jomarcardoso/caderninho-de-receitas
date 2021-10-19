@@ -21,6 +21,7 @@ Acesso o aplicativo em https://saude-em-pontos.surge.sh
 - [amino ácidos](https://www.scielo.br/pdf/rbz/v30n3/5247.pdf)
 - [site com busca de alimentos dos aminoácidos](https://tools.myfooddata.com/nutrition-comparison.php?foods=173735&serv=100g&qty=1)
 - [json de alimento](https://tools.myfooddata.com/api/food/Eggs)
+- [TACO 4](https://www.cfn.org.br/wp-content/uploads/2017/03/taco_4_edicao_ampliada_e_revisada.pdf)
 
 ## Imagens
 
