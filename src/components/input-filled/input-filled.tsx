@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import TextField, { StandardTextFieldProps } from '@material-ui/core/TextField';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Typography from '@material-ui/core/Typography';
 import { fontFamilyInput } from '../page/page';
 import Container from '../container/container';
 
@@ -14,12 +15,14 @@ const useStyles = makeStyles({
     border: '2px solid #87695ecf',
     flex: 1,
     backgroundImage: 'url(/images/textures/paper-texture.png)',
+    filter: 'contrast(1.1)',
   },
   header: {
     color: 'white',
     padding: '8px 0',
     margin: 0,
     fontSize: 17,
+    display: 'block',
   },
   root: {
     transition: 'border-color 200ms linear',
@@ -67,9 +70,14 @@ const InputFilled: FC<StandardTextFieldProps> = ({ label = '', ...props }) => {
   return (
     <div className={classes.wrapper}>
       {label && (
-        <div className={classes.header}>
+        <Typography
+          variant="h2"
+          component="label"
+          align="left"
+          className={classes.header}
+        >
           <Container>{label}</Container>
-        </div>
+        </Typography>
       )}
       <div className={classes.base}>
         <TextField

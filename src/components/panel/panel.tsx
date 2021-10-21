@@ -26,7 +26,7 @@ const useStyles = makeStyles({
       width: '100%',
       height: '100%',
       backgroundImage: 'url(/images/textures/paper-texture.png)',
-      filter: 'opacity(.45)',
+      filter: 'contrast(1.1)',
       zIndex: -1,
     },
   },
