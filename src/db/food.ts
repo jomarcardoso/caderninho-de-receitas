@@ -1709,6 +1709,7 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://cdn.panelinha.com.br/receita/1540583468204-receita-geleiaaaaa.jpg',
     keys: ['geleia de manga', 'geleia de maracujá', 'geleia', 'geléia'],
+    recipe: true,
   },
   {
     ...format(mango as unknown as FoodMyFoodData),
