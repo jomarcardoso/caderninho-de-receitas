@@ -1,4 +1,5 @@
-import { Food, AminoAcids, Measure, AMINO_ACIDS } from '../food';
+import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
+import { Food, Measure } from '../food';
 import { FOOD } from '../food/food.types';
 
 export interface Ingredient {

@@ -1,4 +1,5 @@
-import { Food, AminoAcids, FoodService } from '../food';
+import { AminoAcids } from '../amino-acid';
+import { Food, FoodService } from '../food';
 import IngredientService from '../ingredient/ingredient.service';
 import { Ingredient } from '../ingredient/ingredient.types';
 import {

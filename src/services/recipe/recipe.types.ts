@@ -1,4 +1,4 @@
-import { AminoAcids, AMINO_ACIDS } from '../food';
+import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
 import { Ingredient } from '../ingredient/ingredient.types';
 
 export type RecipeCategory =

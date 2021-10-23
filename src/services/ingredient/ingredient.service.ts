@@ -1,13 +1,6 @@
 import isNaN from 'lodash/isNaN';
-import {
-  Food,
-  AminoAcids,
-  Measure,
-  Measurer,
-  FoodService,
-  MEASURE,
-  FOOD,
-} from '../food';
+import { AminoAcids } from '../amino-acid';
+import { Food, Measure, Measurer, FoodService, MEASURE, FOOD } from '../food';
 import { Ingredient, PORTION, UnFormat } from './ingredient.types';
 
 export function getQuantityByMeasure(

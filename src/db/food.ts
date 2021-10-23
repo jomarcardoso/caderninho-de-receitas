@@ -1,10 +1,5 @@
 import { FoodMyFoodData } from './db.types';
-import {
-  UnitOfMeasurement,
-  AMINO_ACIDS,
-  FoodData,
-  FoodService,
-} from '../services/food';
+import { UnitOfMeasurement, FoodData, FoodService } from '../services/food';
 import {
   coconut as coconutData,
   egg as eggData,
@@ -87,6 +82,7 @@ import {
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
+import { AMINO_ACIDS } from '../services/amino-acid';
 
 function format(food: FoodMyFoodData): FoodData {
   return {
