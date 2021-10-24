@@ -1,6 +1,6 @@
-// import * as FoodServices from './food.service';
+import * as AminoAcidServices from './amino-acid.service';
 
-// export const FoodService = FoodServices;
+export const AminoAcidService = AminoAcidServices;
 
 export {
   AMINO_ACIDS,

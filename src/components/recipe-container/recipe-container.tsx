@@ -14,6 +14,7 @@ import Container from '../container/container';
 import { Food } from '../../services/food';
 import { primary } from '../page/page';
 import SectionCard from '../section-card/section-card';
+import { AminoAcidService } from '../../services/amino-acid';
 
 export interface RecipeContainerProps {
   recipe: Recipe;
@@ -91,11 +92,13 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           <Grid item xs={12}>
             <ScoreComponent recipe={recipe} />
           </Grid>
-          <Grid item xs={12}>
-            <Section title="Tabela de aminoácidos">
-              <AminoAcidsTable aminoAcids={recipe.aminoAcids} />
-            </Section>
-          </Grid>
+          {AminoAcidService.hasAminoAcid(recipe.aminoAcids) && (
+            <Grid item xs={12}>
+              <Section title="Tabela de aminoácidos">
+                <AminoAcidsTable aminoAcids={recipe.aminoAcids} />
+              </Section>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </>

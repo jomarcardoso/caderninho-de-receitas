@@ -10,6 +10,7 @@ import { VITAMINS } from '../../services/vitamin';
 import { MINERALS } from '../../services/mineral';
 import { Nutrient } from '../../services/nutrient.constants';
 import NutrientDisplay from '../nutrient/nutrient';
+import { AminoAcidService } from '../../services/amino-acid';
 
 interface Props {
   food: Food;
@@ -78,18 +79,20 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
           {renderQuality({ name: 'Carga Glicêmica', value: gl })}
         </List>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h2" component="h2">
-              Tabela de aminoácidos
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <AminoAcidsTable aminoAcids={aminoAcids} />
+      {AminoAcidService.hasAminoAcid(aminoAcids) && (
+        <Grid item xs={12}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h2" component="h2">
+                Tabela de aminoácidos
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <AminoAcidsTable aminoAcids={aminoAcids} />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
       <Grid item xs={12}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
