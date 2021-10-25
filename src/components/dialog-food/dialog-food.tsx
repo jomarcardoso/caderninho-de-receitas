@@ -7,6 +7,7 @@ import { HeaderProps } from '../header';
 
 export interface DialogFoodProps {
   open: boolean;
+  quantity?: number;
   food: Food;
   onClose: HeaderProps['onClose'];
 }
@@ -18,11 +19,12 @@ const DialogTransition: FC<SlideProps> = (props) => {
 const DialogFood: FC<DialogFoodProps> = ({
   open = false,
   food = FOOD,
+  quantity = 0,
   onClose,
 }) => {
   return (
     <Dialog fullScreen open={open} TransitionComponent={DialogTransition}>
-      <FoodPanel food={food} headerProps={{ onClose }} />
+      <FoodPanel quantity={quantity} food={food} headerProps={{ onClose }} />
     </Dialog>
   );
 };

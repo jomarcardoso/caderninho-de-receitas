@@ -19,6 +19,7 @@ import { AminoAcidService } from '../../services/amino-acid';
 export interface RecipeContainerProps {
   recipe: Recipe;
   setCurrentFood(food: Food): void;
+  setCurrentFoodQuantity(quantity: number): void;
 }
 
 const useStyles = makeStyles({
@@ -37,6 +38,7 @@ const useStyles = makeStyles({
 const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
+  setCurrentFoodQuantity,
 }) => {
   const classes = useStyles();
 
@@ -69,11 +71,14 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
                     <Ingredients
                       ingredients={step.ingredients}
                       setCurrentFood={setCurrentFood}
+                      setCurrentFoodQuantity={setCurrentFoodQuantity}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <Preparation preparation={step.preparation} />
-                  </Grid>
+                  {step.preparation && (
+                    <Grid item xs={12}>
+                      <Preparation preparation={step.preparation} />
+                    </Grid>
+                  )}
                   {step.additional && (
                     <Grid item xs={12}>
                       <Typography>{step.additional}</Typography>

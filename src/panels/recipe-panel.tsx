@@ -14,10 +14,12 @@ const RecipePanel: FC<{
   currentRecipeData: RecipeData;
   setCurrentRecipeData(data: RecipeData): void;
   setCurrentFood(food: Food): void;
+  setCurrentFoodQuantity(quantity: number): void;
 }> = ({
   currentRecipeData = RECIPE_DATA,
   setCurrentRecipeData,
   setCurrentFood,
+  setCurrentFoodQuantity,
 }) => {
   const { setAccount } = useContext(AccountContext);
   const foods = useContext(FoodsContext);
@@ -71,7 +73,13 @@ const RecipePanel: FC<{
       );
     }
 
-    return <RecipeContainer recipe={recipe} setCurrentFood={setCurrentFood} />;
+    return (
+      <RecipeContainer
+        recipe={recipe}
+        setCurrentFoodQuantity={setCurrentFoodQuantity}
+        setCurrentFood={setCurrentFood}
+      />
+    );
   }
 
   useEffect(() => {

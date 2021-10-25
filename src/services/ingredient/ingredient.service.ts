@@ -9,7 +9,7 @@ export function getQuantityByMeasure(
 ): number {
   if (measure.type === 'LITERAL') return measure.quantity;
 
-  let { quantity = 0 }: Measure =
+  let { quantity = 1 }: Measure =
     food.oneMeasures.find((oneMeasure) => oneMeasure.type === measure.type) ||
     MEASURE;
 

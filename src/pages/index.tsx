@@ -31,6 +31,7 @@ const Index: FC = () => {
   // const { loading } = useContext(LoadingContext);
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
+  const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
   const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
   const { currentRecipeData, setCurrentRecipeData, setCurrentRecipe } =
     useRecipe();
@@ -83,6 +84,7 @@ const Index: FC = () => {
         food={currentFood}
         onClose={() => setCurrentFood(FOOD)}
         open={Boolean(currentFood.name)}
+        quantity={currentFoodQuantity}
       />
       <Header2 currentPage={currentPage} />
       <Box className={classes.display} id="root-content">
@@ -99,6 +101,7 @@ const Index: FC = () => {
           currentRecipeData={currentRecipeData}
           setCurrentRecipeData={setCurrentRecipeData}
           setCurrentFood={setCurrentFood}
+          setCurrentFoodQuantity={setCurrentFoodQuantity}
         />
         <SEO title="Caderninho de Receitas" />
       </Box>

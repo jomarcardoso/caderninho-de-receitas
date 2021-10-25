@@ -7,17 +7,22 @@ import { HeaderProps } from '../components/header';
 
 interface Props {
   food: Food;
+  quantity?: number;
   headerProps?: HeaderProps;
 }
 
-const FoodPanel: FC<Props> = ({ food, headerProps }) => {
+const FoodPanel: FC<Props> = ({ food, quantity = 100, headerProps }) => {
   const { name = '' } = food;
 
   return (
     <Layout
       showFooter={false}
       mainProps={{ mt: 0 }}
-      headerProps={{ ...headerProps, pageName: name, theme: 'dark' }}
+      headerProps={{
+        ...headerProps,
+        pageName: `${name} (${quantity}g)`,
+        theme: 'dark',
+      }}
     >
       <Grid container spacing={4} justifyContent="center">
         <Grid item xs={12}>
