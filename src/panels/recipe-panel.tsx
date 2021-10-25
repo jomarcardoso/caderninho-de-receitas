@@ -8,6 +8,7 @@ import AccountContext from '../contexts/account-context';
 import RecipeRegister from '../components/recipe-register/recipe-register';
 import RecipeContainer from '../components/recipe-container/recipe-container';
 import Panel from '../components/panel/panel';
+import LoadingContext from '../contexts/loading';
 
 const RecipePanel: FC<{
   currentRecipeData: RecipeData;
@@ -22,12 +23,21 @@ const RecipePanel: FC<{
   const foods = useContext(FoodsContext);
   const recipe = RecipeService.format({ foods, recipeData: currentRecipeData });
   const [editing, setEditing] = useState(true);
+  const { setLoading } = useContext(LoadingContext);
 
   async function handleShare() {
+    if (setLoading) {
+      setLoading(true);
+    }
+
     const toShare = RecipeService.formatToShare(currentRecipeData);
     const url = `${window.location.origin}?${toShare}#recipe-panel` ?? '';
     const title = currentRecipeData.name || 'Receita';
     const urlShort = await UrlService.shortener(url);
+
+    if (setLoading) {
+      setLoading(false);
+    }
 
     if (!navigator.share) return;
 

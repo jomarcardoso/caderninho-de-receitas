@@ -12,6 +12,8 @@ import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
 import MainPanel from '../panels/main-panel';
 import Header2 from '../components/header2/header2';
+import PageLoader from '../components/page-loader/page-loader';
+import LoadingContext from '../contexts/loading';
 
 const useStyles = makeStyles({
   display: {
@@ -26,6 +28,7 @@ const useStyles = makeStyles({
 
 const Index: FC = () => {
   const classes = useStyles();
+  // const { loading } = useContext(LoadingContext);
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
@@ -99,6 +102,9 @@ const Index: FC = () => {
         />
         <SEO title="Caderninho de Receitas" />
       </Box>
+      <LoadingContext.Consumer>
+        {({ loading = false }) => <PageLoader open={loading} />}
+      </LoadingContext.Consumer>
     </Page>
   );
 };
