@@ -25,6 +25,12 @@ export function getQuantityByMeasure(
     if (measure.type === 'TEA_SPOON') {
       quantity = 5;
     }
+
+    if (measure.type === 'UNITY_LARGE' || measure.type === 'UNITY_SMALL') {
+      quantity =
+        food.oneMeasures.find((oneMeasure) => oneMeasure.type === 'UNITY')
+          ?.quantity ?? quantity;
+    }
   }
 
   return measure.quantity * quantity;

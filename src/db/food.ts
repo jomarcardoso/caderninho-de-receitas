@@ -1408,6 +1408,12 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['beterraba', 'beterraba crua'],
+    oneMeasures: [
+      {
+        quantity: 140,
+        type: 'UNITY',
+      },
+    ],
   },
   {
     ...format(nut as unknown as FoodMyFoodData),
@@ -1428,6 +1434,16 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1613881553903-4543f5f2cac9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['berinjela', 'beringela', 'beringela crua'],
+    oneMeasures: [
+      {
+        quantity: 170,
+        type: 'UNITY',
+      },
+      {
+        quantity: 270,
+        type: 'UNITY_LARGE',
+      },
+    ],
   },
   {
     id: 79,
