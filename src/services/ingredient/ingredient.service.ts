@@ -26,18 +26,40 @@ export function getQuantityByMeasure(
       quantity = 5;
     }
 
-    if (measure.type === 'UNITY_LARGE' || measure.type === 'UNITY_SMALL') {
+    if (measure.type === 'UNITY_LARGE') {
       quantity =
-        food.oneMeasures.find((oneMeasure) => oneMeasure.type === 'UNITY')
-          ?.quantity ?? quantity;
+        (food.oneMeasures.find((oneMeasure) => oneMeasure.type === 'UNITY')
+          ?.quantity ?? quantity) * 1.2;
+    }
+
+    if (measure.type === 'UNITY_SMALL') {
+      quantity =
+        (food.oneMeasures.find((oneMeasure) => oneMeasure.type === 'UNITY')
+          ?.quantity ?? quantity) * 0.8;
     }
   }
 
   return measure.quantity * quantity;
 }
 
+const LITERAL_REGEX =
+  /(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(\d*\s?g\))|(\(\d*\s?grama\))|(\(\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(\d*\s?kg\))|(\(\d*\s?kilograma\))|(\(\d*\s?kilogramas\))|(\(\d*\s?kilos\))|(\(\d*\s?kilo\))/;
+
 export function verifyIsLiteral(string = ''): boolean {
-  return /((\d|\d\s)(g|kg)\s)|\d\s(kilo|grama)/.test(string);
+  return LITERAL_REGEX.test(string);
+}
+
+export function getLiteralQuantity(string = ''): number {
+  return Number(
+    string
+      .match(
+        /(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(\d*\s?g\))|(\(\d*\s?grama\))|(\(\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(\d*\s?kg\))|(\(\d*\s?kilograma\))|(\(\d*\s?kilogramas\))|(\(\d*\s?kilos\))|(\(\d*\s?kilo\))/,
+      )?.[0]
+      ?.replace(/\s/g, '')
+      ?.replace(/[a-z]/g, '')
+      ?.replace(/\(/g, '')
+      ?.replace(/\)/g, ''),
+  );
 }
 
 function measureFromString(text = ''): Measure {
@@ -80,8 +102,6 @@ function measureFromString(text = ''): Measure {
     type = 'UNITY';
   }
 
-  if (verifyIsLiteral(lowText)) type = 'LITERAL';
-
   if (type === 'UNITY') {
     if (lowText.includes('pequeno') || lowText.includes('pequena')) {
       type = 'UNITY_SMALL';
@@ -91,6 +111,8 @@ function measureFromString(text = ''): Measure {
       type = 'UNITY_LARGE';
     }
   }
+
+  if (verifyIsLiteral(lowText)) type = 'LITERAL';
 
   const valueSplit = lowText.split(' ') || [];
   const quantityString =
@@ -118,8 +140,12 @@ function measureFromString(text = ''): Measure {
 
   const isInKiloGram = lowText.includes('kg');
 
-  if (type === 'LITERAL' && isInKiloGram) {
-    quantity *= 1000;
+  if (type === 'LITERAL') {
+    quantity = getLiteralQuantity(lowText);
+
+    if (isInKiloGram) {
+      quantity *= 1000;
+    }
   }
 
   if (lowText.includes('a gosto') || lowText.includes('à gosto')) {

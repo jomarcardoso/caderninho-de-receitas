@@ -1,7 +1,7 @@
-import { Measure } from '../food';
+import { FOOD, Measure } from '../food';
 import IngredientService, {
   verifyIsLiteral,
-  // getQuantityByMeasure,
+  getQuantityByMeasure,
 } from './ingredient.service';
 
 describe('IngredientService', () => {
@@ -26,13 +26,13 @@ describe('IngredientService', () => {
       expect(measureFromString('100g de')).toStrictEqual(measure);
     });
 
-    it('100 gramas', () => {
+    it('100 gramas de alho', () => {
       const measure: Measure = {
         quantity: 100,
         type: 'LITERAL',
       };
 
-      expect(measureFromString('100 gramas')).toStrictEqual(measure);
+      expect(measureFromString('100 gramas de alho')).toStrictEqual(measure);
     });
 
     it('1 xícara', () => {
@@ -181,16 +181,183 @@ describe('IngredientService', () => {
 
       expect(measureFromString('um dente de alho')).toStrictEqual(measure);
     });
+
+    it('1 pote de iogurte natural (170 g)', () => {
+      const measure: Measure = {
+        quantity: 170,
+        type: 'LITERAL',
+      };
+
+      expect(
+        measureFromString('1 pote de iogurte natural (170 g)'),
+      ).toStrictEqual(measure);
+    });
   });
 
-  // describe('getQuantityByMeasure', () => {
-  //   it('1000 g', () => {
-  //     const quantiy = getQuantityByMeasure({
-  //       quantity: 1000,
-  //       type: 'LITERAL',
-  //     });
-  //   });
-  // });
+  describe('getQuantityByMeasure', () => {
+    it('1000g literal', () => {
+      const quantiy = getQuantityByMeasure({
+        quantity: 1000,
+        type: 'LITERAL',
+      });
+
+      expect(quantiy).toBe(1000);
+    });
+
+    it('0 g literal', () => {
+      const quantiy = getQuantityByMeasure({
+        quantity: 0,
+        type: 'LITERAL',
+      });
+
+      expect(quantiy).toBe(0);
+    });
+
+    it('0 g literal', () => {
+      const quantiy = getQuantityByMeasure({
+        quantity: 0,
+        type: 'LITERAL',
+      });
+
+      expect(quantiy).toBe(0);
+    });
+
+    it('cup of food without measure equal 150 by default', () => {
+      const quantiy = getQuantityByMeasure({
+        quantity: 1,
+        type: 'CUP',
+      });
+
+      expect(quantiy).toBe(150);
+    });
+
+    it('table spoon of food without measure equal 15 by default', () => {
+      const quantiy = getQuantityByMeasure({
+        quantity: 1,
+        type: 'TABLE_SPOON',
+      });
+
+      expect(quantiy).toBe(15);
+    });
+
+    it('tea spoon of food without measure equal 5 by default', () => {
+      const quantiy = getQuantityByMeasure({
+        quantity: 1,
+        type: 'TEA_SPOON',
+      });
+
+      expect(quantiy).toBe(5);
+    });
+
+    it('0.5 cups of food without measure equal 75 by default', () => {
+      const quantiy = getQuantityByMeasure({
+        quantity: 0.5,
+        type: 'CUP',
+      });
+
+      expect(quantiy).toBe(75);
+    });
+
+    it('1 cup with measure get the value by measures', () => {
+      const quantiy = getQuantityByMeasure(
+        {
+          quantity: 1,
+          type: 'CUP',
+        },
+        {
+          ...FOOD,
+          oneMeasures: [
+            {
+              quantity: 40,
+              type: 'CUP',
+            },
+          ],
+        },
+      );
+
+      expect(quantiy).toBe(40);
+    });
+
+    it('0.5 cup with measure get the half value by measures', () => {
+      const quantiy = getQuantityByMeasure(
+        {
+          quantity: 0.5,
+          type: 'CUP',
+        },
+        {
+          ...FOOD,
+          oneMeasures: [
+            {
+              quantity: 40,
+              type: 'CUP',
+            },
+          ],
+        },
+      );
+
+      expect(quantiy).toBe(20);
+    });
+
+    it('food with unity get the unity value', () => {
+      const quantiy = getQuantityByMeasure(
+        {
+          quantity: 0.5,
+          type: 'UNITY',
+        },
+        {
+          ...FOOD,
+          oneMeasures: [
+            {
+              quantity: 40,
+              type: 'UNITY',
+            },
+          ],
+        },
+      );
+
+      expect(quantiy).toBe(20);
+    });
+
+    it('if no UNITY SMALL get the value like 80% of unity', () => {
+      const quantiy = getQuantityByMeasure(
+        {
+          quantity: 1,
+          type: 'UNITY_SMALL',
+        },
+        {
+          ...FOOD,
+          oneMeasures: [
+            {
+              quantity: 100,
+              type: 'UNITY',
+            },
+          ],
+        },
+      );
+
+      expect(quantiy).toBe(80);
+    });
+
+    it('if no UNITY LARGE get the value like 120% of unity', () => {
+      const quantiy = getQuantityByMeasure(
+        {
+          quantity: 1,
+          type: 'UNITY_LARGE',
+        },
+        {
+          ...FOOD,
+          oneMeasures: [
+            {
+              quantity: 100,
+              type: 'UNITY',
+            },
+          ],
+        },
+      );
+
+      expect(quantiy).toBe(120);
+    });
+  });
 
   describe('verifyIsLiteral', () => {
     it('100 g de frango: true', () => {
@@ -229,8 +396,8 @@ describe('IngredientService', () => {
       expect(isLiteral).toBe(true);
     });
 
-    it('5 kilos', () => {
-      const isLiteral = verifyIsLiteral('5 kilos');
+    it('5 kilos de carne de segunda', () => {
+      const isLiteral = verifyIsLiteral('5 kilos de carne de segunda');
 
       expect(isLiteral).toBe(true);
     });
@@ -246,5 +413,95 @@ describe('IngredientService', () => {
 
       expect(isLiteral).toBe(false);
     });
+
+    it('1 pote de iogurte natural (170 g)', () => {
+      const isLiteral = verifyIsLiteral('1 pote de iogurte natural (170 g)');
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('170g de iogurte natural', () => {
+      const isLiteral = verifyIsLiteral('1 pote de iogurte natural (170 g)');
+
+      expect(isLiteral).toBe(true);
+    });
   });
 });
+
+// for literal measure regex
+
+/*
+(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(\d*\s?g\))|(\(\d*\s?grama\))|(\(\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(\d*\s?kg\))|(\(\d*\s?kilograma\))|(\(\d*\s?kilogramas\))|(\(\d*\s?kilos\))|(\(\d*\s?kilo\))
+
+500g de queijo
+500 g de queijo
+500gramas de queijo
+500 gramas de queijo
+1grama de queijo
+1 grama de queijo
+
+500kg de queijo
+500 kg de queijo
+500kilogramas de queijo
+500 kilogramas de queijo
+500kilos de queijo
+500 kilos de queijo
+1kilograma de queijo
+1 kilograma de queijo
+1kilo de queijo
+1 kilo de queijo
+
+de queijo (500g)
+de queijo (500 g)
+de queijo (500gramas)
+de queijo (500 gramas)
+de queijo (1grama)
+de queijo (1 grama)
+
+de queijo (500kg)
+de queijo (500 kg)
+de queijo (500kilogramas)
+de queijo (500 kilogramas)
+de queijo (500kilos)
+de queijo (500 kilos)
+de queijo (1kilograma)
+de queijo (1 kilograma)
+de queijo (1kilo)
+de queijo (1 kilo)
+
+500g de queijo
+500 g de queijo
+500gramas de queijo
+500 gramas de queijo
+1grama de queijo
+1 grama de queijo
+
+5kg de queijo
+50 kg de queijo
+5kilogramas de queijo
+5 kilogramas de queijo
+5kilos de queijo
+5 kilos de queijo
+1kilograma de queijo
+1 kilograma de queijo
+1kilo de queijo
+1 kilo de queijo
+
+de queijo (5g)
+de queijo (5 g)
+de queijo (5gramas)
+de queijo (5 gramas)
+de queijo (1grama)
+de queijo (1 grama)
+
+de queijo (5kg)
+de queijo (5 kg)
+de queijo (5kilogramas)
+de queijo (5 kilogramas)
+de queijo (5kilos)
+de queijo (5 kilos)
+de queijo (1kilograma)
+de queijo (1 kilograma)
+de queijo (1kilo)
+de queijo (1 kilo)
+*/
