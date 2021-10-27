@@ -2,11 +2,49 @@ import { FOOD, Measure } from '../food';
 import IngredientService, {
   verifyIsLiteral,
   getQuantityByMeasure,
+  getLiteralQuantity,
 } from './ingredient.service';
 
 describe('IngredientService', () => {
   describe('measureFromString', () => {
     const { measureFromString } = IngredientService;
+
+    it('¼ de xícara (chá) de nozes', () => {
+      const measure: Measure = {
+        quantity: 0.25,
+        type: 'CUP',
+      };
+
+      expect(measureFromString('¼ de xícara (chá) de nozes')).toStrictEqual(
+        measure,
+      );
+    });
+
+    it('1 ⅓ de xícara (chá) de gravatinha (ou outra massa curta de grano duro)', () => {
+      const measure: Measure = {
+        quantity: 1.333,
+        type: 'CUP',
+      };
+
+      expect(
+        measureFromString(
+          '1 ⅓ de xícara (chá) de gravatinha (ou outra massa curta de grano duro)',
+        ),
+      ).toStrictEqual(measure);
+    });
+
+    it('1¼ de xícara (chá) de gravatinha (ou outra massa curta de grano duro)', () => {
+      const measure: Measure = {
+        quantity: 1.25,
+        type: 'CUP',
+      };
+
+      expect(
+        measureFromString(
+          '1¼ de xícara (chá) de gravatinha (ou outra massa curta de grano duro)',
+        ),
+      ).toStrictEqual(measure);
+    });
 
     it('empty', () => {
       const measure: Measure = {
@@ -222,13 +260,13 @@ describe('IngredientService', () => {
       expect(quantiy).toBe(0);
     });
 
-    it('cup of food without measure equal 150 by default', () => {
+    it('cup of food without measure equal 240 by default', () => {
       const quantiy = getQuantityByMeasure({
         quantity: 1,
         type: 'CUP',
       });
 
-      expect(quantiy).toBe(150);
+      expect(quantiy).toBe(240);
     });
 
     it('table spoon of food without measure equal 15 by default', () => {
@@ -249,13 +287,13 @@ describe('IngredientService', () => {
       expect(quantiy).toBe(5);
     });
 
-    it('0.5 cups of food without measure equal 75 by default', () => {
+    it('0.5 cups of food without measure equal 120 by default', () => {
       const quantiy = getQuantityByMeasure({
         quantity: 0.5,
         type: 'CUP',
       });
 
-      expect(quantiy).toBe(75);
+      expect(quantiy).toBe(120);
     });
 
     it('1 cup with measure get the value by measures', () => {
@@ -424,6 +462,24 @@ describe('IngredientService', () => {
       const isLiteral = verifyIsLiteral('1 pote de iogurte natural (170 g)');
 
       expect(isLiteral).toBe(true);
+    });
+
+    it('1 ⅓ de xícara (chá) de gravatinha (ou outra massa curta de grano duro)', () => {
+      const isLiteral = verifyIsLiteral(
+        '1 ⅓ de xícara (chá) de gravatinha (ou outra massa curta de grano duro)',
+      );
+
+      expect(isLiteral).toBe(false);
+    });
+  });
+
+  describe('getLiteralQuantity', () => {
+    it('1 peça de filé mignon suíno (cerca de 650 g)', () => {
+      const quantity = getLiteralQuantity(
+        '1 peça de filé mignon suíno (cerca de 650 g)',
+      );
+
+      expect(quantity).toBe(650);
     });
   });
 });

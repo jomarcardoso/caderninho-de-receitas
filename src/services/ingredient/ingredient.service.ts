@@ -15,7 +15,7 @@ export function getQuantityByMeasure(
 
   if (quantity === 0) {
     if (measure.type === 'CUP') {
-      quantity = 150;
+      quantity = 240;
     }
 
     if (measure.type === 'TABLE_SPOON') {
@@ -43,7 +43,7 @@ export function getQuantityByMeasure(
 }
 
 const LITERAL_REGEX =
-  /(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(\d*\s?g\))|(\(\d*\s?grama\))|(\(\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(\d*\s?kg\))|(\(\d*\s?kilograma\))|(\(\d*\s?kilogramas\))|(\(\d*\s?kilos\))|(\(\d*\s?kilo\))/;
+  /(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(.*\d*\s?g\))|(\(.*\d*\s?grama\))|(\(.*\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(.*\d*\s?kg\))|(\(.*\d*\s?kilograma\))|(\(.*\d*\s?kilogramas\))|(\(.*\d*\s?kilos\))|(\(.*\d*\s?kilo\))/;
 
 export function verifyIsLiteral(string = ''): boolean {
   return LITERAL_REGEX.test(string);
@@ -52,9 +52,7 @@ export function verifyIsLiteral(string = ''): boolean {
 export function getLiteralQuantity(string = ''): number {
   return Number(
     string
-      .match(
-        /(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(\d*\s?g\))|(\(\d*\s?grama\))|(\(\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(\d*\s?kg\))|(\(\d*\s?kilograma\))|(\(\d*\s?kilogramas\))|(\(\d*\s?kilos\))|(\(\d*\s?kilo\))/,
-      )?.[0]
+      .match(LITERAL_REGEX)?.[0]
       ?.replace(/\s/g, '')
       ?.replace(/[a-z]/g, '')
       ?.replace(/\(/g, '')
@@ -62,81 +60,164 @@ export function getLiteralQuantity(string = ''): number {
   );
 }
 
-function measureFromString(text = ''): Measure {
-  const lowText = text.toLowerCase();
+export function measureTypeFromString(string: string): Measure['type'] {
   let type: Measurer = 'UNITY';
 
-  if (lowText.includes('peito')) {
+  if (string.includes('peito')) {
     type = 'BREAST';
   }
 
-  if (lowText.includes('lata')) {
+  if (string.includes('lata')) {
     type = 'CAN';
   }
 
-  if (lowText.includes('dente')) {
+  if (string.includes('dente')) {
     type = 'CLOVE';
   }
 
-  if (
-    lowText.includes('xícara') ||
-    lowText.includes('xicara') ||
-    lowText.includes('copo')
-  ) {
-    type = 'CUP';
-  }
-
-  if (lowText.includes('colher')) {
+  if (string.includes('colher')) {
     type = 'TABLE_SPOON';
   }
 
-  if (lowText.match(/.*colher.*chá.*/)) {
+  if (string.match(/.*colher.*chá.*/)) {
     type = 'TEA_SPOON';
   }
 
-  if (lowText.includes('fatia') || lowText.includes('rodela')) {
+  if (string.includes('fatia') || string.includes('rodela')) {
     type = 'SLICE';
   }
 
-  if (lowText.includes('folha')) {
+  if (string.includes('folha')) {
     type = 'UNITY';
   }
 
   if (type === 'UNITY') {
-    if (lowText.includes('pequeno') || lowText.includes('pequena')) {
+    if (string.includes('pequeno') || string.includes('pequena')) {
       type = 'UNITY_SMALL';
     }
 
-    if (lowText.includes('grande')) {
+    if (string.includes('grande')) {
       type = 'UNITY_LARGE';
     }
   }
 
-  if (verifyIsLiteral(lowText)) type = 'LITERAL';
+  if (
+    string.includes('xícara') ||
+    string.includes('xícara (chá)') ||
+    string.includes('xícaras (chá)') ||
+    string.includes('xicara') ||
+    string.includes('copo')
+  ) {
+    type = 'CUP';
+  }
+
+  if (verifyIsLiteral(string)) type = 'LITERAL';
+
+  if (string.includes('a gosto') || string.includes('à gosto')) {
+    type = 'LITERAL';
+  }
+
+  return type;
+}
+
+function measureFromString(text = ''): Measure {
+  const lowText = text.toLowerCase();
+  const type = measureTypeFromString(lowText);
 
   const valueSplit = lowText.split(' ') || [];
   const quantityString =
     valueSplit.find((statement) => /^\d{1,}/.test(statement)) || '';
 
-  let quantity = Number(quantityString.replace(/\D/, ''));
+  let quantity = Number(
+    quantityString
+      .replace(/½/g, '')
+      .replace(/1\/2/g, '')
+      .replace(/⅓/g, '')
+      .replace(/1\/3/g, '')
+      .replace(/⅔/g, '')
+      .replace(/2\/3/g, '')
+      .replace(/¼/g, '')
+      .replace(/1\/4/g, '')
+      .replace(/\D/, ''),
+  );
 
   if (valueSplit.find((statement) => statement === 'duas')) quantity = 2;
 
   if (isNaN(quantity) || !quantity) quantity = 1;
 
   if (
-    lowText.startsWith('meio') ||
-    lowText.startsWith('meia') ||
-    lowText.startsWith('1/2')
-  )
-    quantity = 0.5;
-
-  if (
     lowText.includes('e meio') ||
     lowText.includes('e meia') ||
-    lowText.includes('e 1/2')
-  )
+    lowText.includes('e ½') ||
+    /\d\s?½/.test(lowText) ||
+    lowText.includes('e 1/2') ||
+    /\d 1\/2/.test(lowText)
+  ) {
     quantity += 0.5;
+  }
+
+  if (
+    lowText.includes('e um terço') ||
+    lowText.includes('e ⅓') ||
+    /\d\s?⅓/.test(lowText) ||
+    lowText.includes('e 1/3') ||
+    /\d 1\/3/.test(lowText)
+  ) {
+    quantity += 0.333;
+  }
+
+  if (
+    lowText.includes('e dois terços') ||
+    lowText.includes('e ⅔') ||
+    /\d\s?⅔/.test(lowText) ||
+    lowText.includes('e ⅔') ||
+    /\d 2\/3/.test(lowText)
+  ) {
+    quantity += 0.666;
+  }
+
+  if (
+    lowText.includes('e um quarto') ||
+    lowText.includes('¼') ||
+    /\d\s?¼/.test(lowText) ||
+    lowText.includes('e 1/4') ||
+    /\d 1\/4/.test(lowText)
+  ) {
+    quantity += 0.25;
+  }
+
+  if (
+    lowText.startsWith('meio') ||
+    lowText.startsWith('meia') ||
+    lowText.startsWith('1/2') ||
+    lowText.startsWith('½')
+  ) {
+    quantity = 0.5;
+  }
+
+  if (
+    lowText.startsWith('um terço') ||
+    lowText.startsWith('1/3') ||
+    lowText.startsWith('⅓')
+  ) {
+    quantity = 0.333;
+  }
+
+  if (
+    lowText.startsWith('um terço') ||
+    lowText.startsWith('2/3') ||
+    lowText.startsWith('⅔')
+  ) {
+    quantity = 0.666;
+  }
+
+  if (
+    lowText.startsWith('um quarto') ||
+    lowText.startsWith('1/4') ||
+    lowText.startsWith('¼')
+  ) {
+    quantity = 0.25;
+  }
 
   const isInKiloGram = lowText.includes('kg');
 
@@ -150,7 +231,6 @@ function measureFromString(text = ''): Measure {
 
   if (lowText.includes('a gosto') || lowText.includes('à gosto')) {
     quantity = 0;
-    type = 'LITERAL';
   }
 
   return {
