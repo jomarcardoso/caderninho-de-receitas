@@ -153,3 +153,9 @@ export { default as mango } from './mango.json';
 export { default as passionFruit } from './passion-fruit.json';
 
 export { default as porkLoin } from './pork-loin.json';
+
+export { default as chayote } from './chayote.json';
+
+export { default as redWineVinegar } from './red-wine-vinegar.json';
+
+export { default as cuminSeed } from './cumin-seed.json';

@@ -50,3 +50,41 @@ export interface FoodMyFoodData {
   NA: number; // sodium
   ZN: number; // zinc
 }
+
+export interface FoodNacionalAttribute {
+  qty: number;
+  unit: string;
+}
+
+export interface FoodNacional {
+  description: string; // name
+  // eslint-disable-next-line camelcase
+  base_unit: 'g' | 'l';
+  vitaminC: FoodNacionalAttribute;
+  attributes: {
+    humidity: FoodNacionalAttribute;
+    protein: FoodNacionalAttribute;
+    lipid: FoodNacionalAttribute;
+    cholesterol: FoodNacionalAttribute;
+    carbohydrate: FoodNacionalAttribute;
+    fiber: FoodNacionalAttribute;
+    ashes: FoodNacionalAttribute;
+    calcium: FoodNacionalAttribute;
+    magnesium: FoodNacionalAttribute;
+    phosphorus: FoodNacionalAttribute;
+    iron: FoodNacionalAttribute;
+    sodium: FoodNacionalAttribute;
+    potassium: FoodNacionalAttribute;
+    copper: FoodNacionalAttribute;
+    zinc: FoodNacionalAttribute;
+    retinol: FoodNacionalAttribute;
+    thiamine: FoodNacionalAttribute;
+    riboflavin: FoodNacionalAttribute;
+    pyridoxine: FoodNacionalAttribute;
+    niacin: FoodNacionalAttribute;
+    energy: {
+      kcal: number;
+    };
+    manganese: FoodNacionalAttribute;
+  };
+}

@@ -301,6 +301,37 @@ Com uma concha, transfira a geleia ainda quente para potes de vidro esterilizado
       },
     ],
   },
+  {
+    id: 8,
+    name: 'Vinagrete de chuchu com cominho',
+    description:
+      'Bem crocante e cortado em cubinhos bem pequenos, o chuchu surpreende nesse vinagrete. Ele absorve o sabor do cominho e rende um molho incrível para usar no sanduíche, colocar no pastel, servir com tortas.',
+    category: 'salada',
+    steps: [
+      {
+        name: '',
+        ingredients: `\
+1 chuchu grande
+½ cebola roxa
+caldo de 1 limão
+2 colheres (sopa) de vinagre de vinho tinto
+½ colher (chá) de semente de cominho
+3 colheres (sopa) de azeite
+sal a gosto
+cubos de gelo`,
+        preparation: `\
+Descasque e corte a cebola em cubos pequenos, de 0,5 cm. Transfira para uma tigela pequena, adicione ½ colher (sopa) do vinagre, os cubos de gelo e cubra com água. Mantenha a cebola imersa por pelo menos 10 minutos para perder o ardido. Enquanto isso, prepare os outros ingredientes.
+
+Descasque, lave sob água corrente e seque bem o chuchu com um pano de prato limpo – assim ele não escorrega na hora de cortar. Corte o chuchu ao meio, no sentido da largura, para separar a parte mais fina da mais grossa. Corte as metades em fatias de 0,5 cm, as fatias em tiras de 0,5 cm e as tiras em cubos. Transfira o chuchu cortado para uma tigela.
+
+No pilão, quebre as sementes de cominho e junte ao chuchu.
+
+Escorra a cebola e adicione ao chuchu. Tempere com o azeite, o caldo de limão, o restante do vinagre e sal a gosto. Misture bem e sirva a seguir ou mantenha na geladeira até a hora de servir – o vinagrete fica ainda mais gostoso depois de curtir na geladeira por 30 minutos.`,
+        additional:
+          'OBS: não precisa tirar o miolo do chuchu. Caso tenha vindo com a semente, retire com uma colher e descarte.',
+      },
+    ],
+  },
 ];
 
 export const recipes = recipesData.map((recipeData) =>
