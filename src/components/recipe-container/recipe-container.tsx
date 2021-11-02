@@ -14,10 +14,12 @@ import Container from '../container/container';
 import { Food } from '../../services/food';
 import { primary } from '../page/page';
 import SectionCard from '../section-card/section-card';
+import { AminoAcidService } from '../../services/amino-acid';
 
 export interface RecipeContainerProps {
   recipe: Recipe;
   setCurrentFood(food: Food): void;
+  setCurrentFoodQuantity(quantity: number): void;
 }
 
 const useStyles = makeStyles({
@@ -36,6 +38,7 @@ const useStyles = makeStyles({
 const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
+  setCurrentFoodQuantity,
 }) => {
   const classes = useStyles();
 
@@ -68,11 +71,14 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
                     <Ingredients
                       ingredients={step.ingredients}
                       setCurrentFood={setCurrentFood}
+                      setCurrentFoodQuantity={setCurrentFoodQuantity}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <Preparation preparation={step.preparation} />
-                  </Grid>
+                  {step.preparation && (
+                    <Grid item xs={12}>
+                      <Preparation preparation={step.preparation} />
+                    </Grid>
+                  )}
                   {step.additional && (
                     <Grid item xs={12}>
                       <Typography>{step.additional}</Typography>
@@ -83,6 +89,12 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             </Grid>
           ))}
 
+          {recipe.additional && (
+            <Grid item xs={12}>
+              <Typography>{recipe.additional}</Typography>
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <Typography variant="h2" component="h2" color="secondary">
               Informações nutricionais
@@ -91,11 +103,13 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           <Grid item xs={12}>
             <ScoreComponent recipe={recipe} />
           </Grid>
-          <Grid item xs={12}>
-            <Section title="Tabela de aminoácidos">
-              <AminoAcidsTable aminoAcids={recipe.aminoAcids} />
-            </Section>
-          </Grid>
+          {AminoAcidService.hasAminoAcid(recipe.aminoAcids) && (
+            <Grid item xs={12}>
+              <Section title="Tabela de aminoácidos">
+                <AminoAcidsTable aminoAcids={recipe.aminoAcids} />
+              </Section>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </>

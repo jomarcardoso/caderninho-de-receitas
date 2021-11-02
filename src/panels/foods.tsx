@@ -64,7 +64,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
             <ListItemText primary={food.name} />
           </ListItem>
         </TableCell>
-        <TableCell align="right">{food.calories}</TableCell>
+        <TableCell align="right">{Math.round(food.calories)}</TableCell>
       </TableRow>
     );
   }

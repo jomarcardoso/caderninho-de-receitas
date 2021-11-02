@@ -6,6 +6,7 @@ import createTheme from '@material-ui/core/styles/createTheme';
 import { PaletteColor } from '@material-ui/core/styles/createPalette';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import StyleContext, { Style } from '../../contexts/style';
+import LoadingContext from '../../contexts/loading';
 
 const fontFamilyDisplay = 'Cinzel, Roboto, Helvetica, Arial, sans-serif';
 const fontFamilyText = 'Dosis, Roboto, Helvetica, Arial, sans-serif';
@@ -117,6 +118,9 @@ function theme({ bgBody = '' }: Style) {
 
 const useStyles = makeStyles({
   '@global': {
+    body: {
+      overflow: 'hidden',
+    },
     ':root': {
       '--color-primary-light': primary.light,
       '--color-primary-main': primary.main,
@@ -134,6 +138,7 @@ const useStyles = makeStyles({
 const Page: FC = ({ children }) => {
   const [style, setStyle] = useState<Style>({});
   const [, setReRender] = useState(false);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
 
   // fix wrong render with JS
@@ -144,7 +149,11 @@ const Page: FC = ({ children }) => {
   return (
     <div className={classes['@global']}>
       <StyleContext.Provider value={{ style, setStyle }}>
-        <ThemeTopLayout theme={theme(style)}>{children}</ThemeTopLayout>
+        <ThemeTopLayout theme={theme(style)}>
+          <LoadingContext.Provider value={{ loading, setLoading }}>
+            {children}
+          </LoadingContext.Provider>
+        </ThemeTopLayout>
       </StyleContext.Provider>
     </div>
   );

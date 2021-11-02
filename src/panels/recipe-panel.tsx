@@ -5,29 +5,41 @@ import FoodsContext from '../contexts/foods-context';
 import Layout from '../components/layout/layout';
 import { Food } from '../services/food';
 import AccountContext from '../contexts/account-context';
-import RecipeRegisterContainer from '../components/recipe-register-container/recipe-register-container';
+import RecipeRegister from '../components/recipe-register/recipe-register';
 import RecipeContainer from '../components/recipe-container/recipe-container';
 import Panel from '../components/panel/panel';
+import LoadingContext from '../contexts/loading';
 
 const RecipePanel: FC<{
   currentRecipeData: RecipeData;
   setCurrentRecipeData(data: RecipeData): void;
   setCurrentFood(food: Food): void;
+  setCurrentFoodQuantity(quantity: number): void;
 }> = ({
   currentRecipeData = RECIPE_DATA,
   setCurrentRecipeData,
   setCurrentFood,
+  setCurrentFoodQuantity,
 }) => {
   const { setAccount } = useContext(AccountContext);
   const foods = useContext(FoodsContext);
   const recipe = RecipeService.format({ foods, recipeData: currentRecipeData });
   const [editing, setEditing] = useState(true);
+  const { setLoading } = useContext(LoadingContext);
 
   async function handleShare() {
+    if (setLoading) {
+      setLoading(true);
+    }
+
     const toShare = RecipeService.formatToShare(currentRecipeData);
     const url = `${window.location.origin}?${toShare}#recipe-panel` ?? '';
     const title = currentRecipeData.name || 'Receita';
     const urlShort = await UrlService.shortener(url);
+
+    if (setLoading) {
+      setLoading(false);
+    }
 
     if (!navigator.share) return;
 
@@ -54,15 +66,20 @@ const RecipePanel: FC<{
   function renderBody() {
     if (editing) {
       return (
-        <RecipeRegisterContainer
-          currentRecipeData={currentRecipeData}
-          onNewRecipe={memoizedhandleNewRecipe}
+        <RecipeRegister
+          recipeData={currentRecipeData}
           setCurrentRecipeData={setCurrentRecipeData}
         />
       );
     }
 
-    return <RecipeContainer recipe={recipe} setCurrentFood={setCurrentFood} />;
+    return (
+      <RecipeContainer
+        recipe={recipe}
+        setCurrentFoodQuantity={setCurrentFoodQuantity}
+        setCurrentFood={setCurrentFood}
+      />
+    );
   }
 
   useEffect(() => {

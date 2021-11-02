@@ -301,6 +301,254 @@ Com uma concha, transfira a geleia ainda quente para potes de vidro esterilizado
       },
     ],
   },
+  {
+    id: 8,
+    name: 'Vinagrete de chuchu com cominho',
+    description:
+      'Bem crocante e cortado em cubinhos bem pequenos, o chuchu surpreende nesse vinagrete. Ele absorve o sabor do cominho e rende um molho incrível para usar no sanduíche, colocar no pastel, servir com tortas.',
+    category: 'salada',
+    steps: [
+      {
+        name: '',
+        ingredients: `\
+1 chuchu grande
+½ cebola roxa
+caldo de 1 limão
+2 colheres (sopa) de vinagre de vinho tinto
+½ colher (chá) de semente de cominho
+3 colheres (sopa) de azeite
+sal a gosto
+cubos de gelo`,
+        preparation: `\
+Descasque e corte a cebola em cubos pequenos, de 0,5 cm. Transfira para uma tigela pequena, adicione ½ colher (sopa) do vinagre, os cubos de gelo e cubra com água. Mantenha a cebola imersa por pelo menos 10 minutos para perder o ardido. Enquanto isso, prepare os outros ingredientes.
+
+Descasque, lave sob água corrente e seque bem o chuchu com um pano de prato limpo – assim ele não escorrega na hora de cortar. Corte o chuchu ao meio, no sentido da largura, para separar a parte mais fina da mais grossa. Corte as metades em fatias de 0,5 cm, as fatias em tiras de 0,5 cm e as tiras em cubos. Transfira o chuchu cortado para uma tigela.
+
+No pilão, quebre as sementes de cominho e junte ao chuchu.
+
+Escorra a cebola e adicione ao chuchu. Tempere com o azeite, o caldo de limão, o restante do vinagre e sal a gosto. Misture bem e sirva a seguir ou mantenha na geladeira até a hora de servir – o vinagrete fica ainda mais gostoso depois de curtir na geladeira por 30 minutos.`,
+        additional:
+          'OBS: não precisa tirar o miolo do chuchu. Caso tenha vindo com a semente, retire com uma colher e descarte.',
+      },
+    ],
+  },
+  {
+    id: 9,
+    name: 'Brownie cremoso de castanha-do-pará',
+    description:
+      'O mundo se divide entre pessoas que gostam de brownie fofo ou brownie denso-cremoso. Esta receita é para quem gosta da segunda opção. As castanhas dão crocância à sobremesa, que é servida com frutas e creme batido – um espetáculo.',
+    category: 'sobremesa',
+    steps: [
+      {
+        name: 'brownie',
+        ingredients: `\
+200 g de chocolate amargo (55% de cacau)
+200 g de manteiga
+3 ovos
+1 xícara (chá) de açúcar
+⅔ de xícara (chá) de farinha de trigo
+1 pitada de sal
+½ xícara (chá) de castanha-do-pará`,
+        preparation: `\
+Preaqueça o forno a 180 °C (temperatura média). Unte com manteiga uma assadeira redonda de 24 cm de diâmetro com fundo removível. Corte um quadrado de papel-manteiga grande o suficiente para cobrir o fundo. Coloque o aro em cima e feche. Dobre a sobra de papel para baixo da fôrma - este método evita que massas mais líquidas escorram pelo encaixe. Corte uma tira para forrar a parede da fôrma (cerca de 80 cm X 8 cm).
+
+Leve uma panela média com água ao fogo médio - ela vai ser usada para fazer o banho-maria.
+
+Pique o chocolate em pedaços pequenos e corte a manteiga em cubos. Transfira para uma tigela grande de vidro refratário e encaixe sobre a panela com água quente. Mexa com uma espátula até derreter. Retire a tigela da panela e deixe amornar enquanto separa os outros ingredientes - se o chocolate estiver muito quente pode cozinhar os ovos.
+
+Quebre um ovo de cada vez numa tigela pequena - para verificar se estão bons - e transfira para outra tigela. Bata com um garfo apenas para misturar as claras com as gemas. Pique grosseiramente as castanhas.
+
+Com a espátula, misture o açúcar e uma pitada de sal com o chocolate derretido. Acrescente os ovos e misture bem para incorporar. Junte a farinha aos poucos, mexendo bem. Por último, misture as castanhas picadas.
+
+Transfira a massa do brownie para a fôrma preparada e nivele a superfície com a espátula. Leve ao forno para assar por cerca de 20 minutos. Atenção para o ponto: o brownie deve criar uma casquinha na superfície e manter o miolo cremoso - espete com um palito para verificar.
+
+Retire do forno e deixe amornar. Leve para a geladeira para firmar por pelo menos 1 hora antes de desenformar e servir.`,
+        additional: '',
+      },
+      {
+        name: 'para servir',
+        ingredients: `\
+1 carambola
+7 morangos
+1 kiwi
+1 manga
+1 mexerica
+açúcar de confeiteiro para polvilhar a gosto
+hortelã a gosto
+creme de leite fresco batido (opcional)`,
+        preparation: `\
+Lave, seque e corte a carambola em fatias para formar estrelas. Lave, deixe escorrer bem a água e corte os morangos ao meio, no sentido do comprimento.
+
+Descasque e corte o kiwi ao meio, no sentido do comprimento. Corte cada metade em gomos. Descasque e corte a manga em cubos médios. Descasque, descarte as fibras e separe os gomos da mexerica.
+
+Desenforme o brownie e descarte o papel da lateral. Cubra com um prato e vire de uma só vez. Retire delicadamente a base da fôrma e o papel manteiga do fundo do brownie. Desvire sobre o prato de servir e polvilhe com açúcar de confeiteiro a gosto. Sirva com as frutas picadas, folhas de hortelã e creme de leite fresco batido.`,
+        additional: '',
+      },
+    ],
+  },
+  {
+    id: 10,
+    name: 'Filé de frango grelhado com páprica e erva-doce',
+    description:
+      'Para não ressecar, o frango toma um banho de banheira num soro mágico, que além da suculência, também garante um sabor diferente, graças à páprica e à erva-doce. Frango grelhado seco e sem graça, nunca mais!',
+    category: 'comida',
+    steps: [
+      {
+        name: '',
+        ingredients: `\
+2 filés de peito de frango (cerca de 200g cada)
+1 colher (chá) de sementes de erva-doce
+2 colheres (chá) de páprica doce
+1 colher (sopa) de sal
+1 colher (chá) de açúcar
+1 dente de alho
+1 colher (chá) de azeite
+sal e pimenta-do-reino moída na hora a gosto`,
+        preparation: `\
+Com a lateral da faca, amasse e descasque o dente de alho – não precisa picar, o alho vai perfumar o soro e depois ser descartado. Num pilão, bata as sementes de erva-doce apenas para quebrá-las.
+
+Numa tigela média, coloque os filés de frango e acrescente o alho, a erva-doce, a páprica, o sal e o açúcar. Esfregue bem as especiarias no filé de frango para cobrir toda a superfície e cubra com água (cerca de 3 xícaras (chá) são suficientes para deixar os filés imersos). Tampe com um prato e deixe hidratar por 20 minutos na geladeira.
+
+Retire os frangos da geladeira e mantenha em temperatura ambiente por pelo menos 10 minutos antes de grelhar. Atenção: a carne não pode estar gelada na hora de ir para a frigideira. Lave em água corrente para tirar o excesso de sal e seque bem os filés com papel-toalha.
+
+Leve uma frigideira média antiaderente ao fogo médio e tempere os filés de frango com pimenta-do-reino a gosto. Quando aquecer, regue a frigideira com o azeite e coloque os filés com o lado mais liso para baixo – assim, o frango não sai da frigideira com um aspecto achatado. Deixe dourar por 2 minutos de cada lado e abaixe o fogo – esse processo vai selar a carne e manter o filé suculento.
+
+Deixe os filés de frango terminarem de cozinhar em fogo baixo por mais 3 minutos de cada lado. O tempo pode variar dependendo do tamanho e espessura do filé. Atenção: o fogo tem que estar baixo, do contrário, a carne queima por fora e fica crua por dentro. Sirva a seguir.`,
+        additional:
+          'Caso esteja utilizando um cooktop por indução, selecione a potência 12 para selar os filés, depois diminua para a potência 6.',
+      },
+    ],
+  },
+  {
+    id: 11,
+    name: 'Clotted cream caseiro',
+    description:
+      'Produto típico inglês, parece uma variação do requeijão e é servido tradicionalmente com scones e geleia. Esta é uma versão prática, feita no micro-ondas. Mas para ficar no ponto precisa descansar na geladeira de um dia para o outro.',
+    category: 'aperitivo',
+    steps: [
+      {
+        name: '',
+        ingredients: '500 ml de creme de leite fresco 35% de gordura',
+        preparation: `\
+Coloque o creme de leite num refratário quadrado de 22 cm, ou outro recipiente que possa ir ao micro-ondas e que seja largo o suficiente para que o creme fique com uma altura de cerca de 2,5 cm de altura  (marinex de vidro quadrado 22 cm, capacidade 3 litros). É importante utilizar um refratário mesmo, de base larga, e não uma tigela, para que o creme tenha uma superfície maior e assim a água possa evaporar mais rápido e o creme coagular de maneira uniforme.
+
+Leve o refratário ao micro-ondas e cubra com uma tampa específica para o eletrodoméstico – é importante cobrir com a tampa furadinha pois o creme espirra e gera bastante vapor durante o cozimento.
+
+Cozinhe o creme em potência alta, em 3 etapas de 5 minutos. A cada etapa retire o refratário com cuidado para não se queimar, utilizando um pano de prato, e verifique a consistência do creme (alguns micro-ondas são mais potentes que outros, o tempo final após essas 3 etapas pode variar):
+
+Após 5 minutos
+Existe um vapor inicial e o creme começa a formar uma espuma e pequenas bolhas na superfície.
+
+Após 10 minutos
+Cuidado para não se queimar, o refratário está bem quente e há bastante vapor quente. A nata de cima fica mais grossa, o creme ferve mais e começa a espirrar na tampa.
+
+Após 15 minutos
+É possível notar um cheiro de queijo no ar, a nata da superfície fica mais espessa mas o fundo ainda está líquido. Incline levemente o refratário, é como se houvesse duas camadas: uma nata mais grossa na superfície e debaixo dela o creme mais líquido.
+
+Após os 15 minutos de cozimento, volte o refratário para rodar no micro-ondas por 2 etapas de 1 minuto cada, até atingir a consistência final desejada: a superfície do creme estará levemente amarelada. Ao inclinar o refratário, o creme está mais encorpado e não há mais uma divisão tão clara (nata grossa e creme líquido).
+
+Após a última etapa de cozimento, retire o refratário do micro-ondas e mantenha em temperatura ambiente até esfriar completamente, por cerca de 2 horas.
+
+Cubra com filme e leve à geladeira para o creme esfriar e terminar de atingir a consistência, por pelo menos 12h (se preferir, prepare no dia anterior ao de servir).
+
+Na hora de servir, retire da geladeira e, com uma colher, transfira o creme para uma tigela. Você vai notar que a superfície fica mais espessa e a base mais molinha. Misture delicadamente para servir. O clotted cream pode ser mantido na geladeira por até 3 dias. `,
+        additional: '',
+      },
+    ],
+  },
+  {
+    id: 12,
+    name: 'Café de prensa',
+    description:
+      'Método favorito da Rita para preparar café, a prensa francesa é uma jarra com um êmbolo e um filtro. O pó precisa ser moído especialmente para ela – você pode comprar assim em cafeterias ou ter um moedor de uso exclusivo do café. O esforço compensa.',
+    category: 'aperitivo',
+    steps: [
+      {
+        name: '',
+        ingredients: `\
+6 colheres (sopa) de café moído para prensa francesa
+300 ml de água filtrada`,
+        preparation: `\
+Escalde a jarra e descarte a água - isso ajuda a preservar a temperatura do café por mais tempo. Num fervedor, leve a água filtrada ao fogo médio para aquecer. Atenção: não deixe a água ferver, assim que começarem a subir as primeiras bolhinhas desligue o fogo – se a água estiver muito quente pode queimar o pó e deixar o café amargo em excesso.
+
+Coloque os grãos moídos na jarra da prensa, despeje um poudo da água filtrada bem quente, apenas para cobrir o pó e deixe hidratar por alguns segundos.
+
+Regue com um pouco mais da água, mexa o café com uma colher e apenas então despeje o restante da água. Misture bem e encaixe o êmbolo. Deixe em infusão por 3 a 4 minutos e só depois pressione para filtrar o café. Sirva a seguir.`,
+        additional:
+          'Se sua prensa tiver uma capacidade maior, use o dobro da quantidade de café e de água.',
+      },
+    ],
+  },
+  {
+    id: 13,
+    name: 'Torta de banana',
+    description:
+      'O açúcar mascavo dá um gostinho especial – mais complexo – a essa torta clássica e com gosto de comida-conforto. Uma pitada de canela faz dupla imbatível com a banana-nanica.',
+    category: 'sobremesa',
+    steps: [
+      {
+        name: 'Para a massa',
+        ingredients: `\
+1 ½ xícara (chá) de farinha de trigo
+100 g de manteiga gelada em cubos
+⅓ de xícara (chá) de açúcar
+1 ovo
+1 gema
+½ colher (chá) de fermento em pó`,
+        preparation: `\
+Numa tigela grande, misture a farinha, o açúcar e o fermento em pó. Acrescente a manteiga em cubos e misture com as pontas dos dedos até formar uma farofa grossa.
+
+Junte o ovo, a gema e amasse até formar uma massa lisa e bem macia. Modele uma bola e achate levemente para formar um disco – assim fica mais fácil na hora de abrir. Embale com filme e leve à geladeira para firmar por no mínimo 30 minutos para firmar (se preferir prepare no dia anterior). Enquanto isso, prepare o recheio de banana.`,
+        additional: '',
+      },
+      {
+        name: 'Para o recheio',
+        ingredients: `\
+6 bananas nanicas maduras
+½ xícara (chá) de açúcar mascavo
+1 colher (sopa) de amido de milho
+½ colher (sopa) de manteiga
+2 colheres (sopa) de água
+1 pitada de canela em pó`,
+        preparation: `\
+Descasque e corte as bananas em rodelas de cerca de 1 cm. Numa tigela pequena, misture o amido com a água até dissolver, reserve.
+
+Leve uma panela média com o açúcar ao fogo médio e deixe cozinhar por cerca de 5 minutos até derreter – mexa de vez em quando com uma espátula d silicone para derreter de maneira uniforme e não queimar. Assim que todo o açúcar derreter, adicione a manteiga e misture bem para incorporar.
+
+Junte à panela as rodelas de banana, a canela e misture bem. Deixe cozinhar por cerca de 2 minutos, mexendo de vez em quando, até a banana começar a soltar o próprio caldo. Acrescente o amido dissolvido na água e mexa com a espátula por cerca de 5 minutos até o recheio engrossar e começar a soltar do fundo da panela – a consistência é de um doce de banana, não mexa demasiadamente para manter alguns pedaçaos de banana inteiros.
+
+Transfira o recheio para uma tigela e mantenha em temperatura ambiente para amornar antes de rechear a torta – se ele estiver muito quente pode umedecer e cozinhar a massa.`,
+        additional: '',
+      },
+      {
+        name: 'Para a assar',
+        ingredients: `\
+1 ovo
+1 colher (chá) de água
+farinha de trigo para polvilhar a bancada`,
+        preparation: `\
+Preaqueça o forno a 200 ºC (temperatura média). Separe uma fôrma redonda canelada, com fundo removível, que tenha 22 cm de diâmetro de base e 24 cm de diâmentro de abertura. Retire a massa da geladeira – caso tenha preparado a massa no dia anterior, retire da geladeira 10 minutos antes de abrir para ficar mais fácil de abrir.
+
+Com uma espátula (ou faca) corte a massa ao meio. Polvilhe a bancada com farinha de trigo e, com o rolo de macarrão, abra uma das metades da massa até formar um círculo 4 cm maior que a base da fôrma. Atenção: esta massa é bem delicada e pode rachar por conta do açucar, durante o processo polvilhe farinha sob e sobre a massa para evitar que grude na bancada ou no rolo.
+
+Enrole a massa sobre o rolo e transfira para a fôrma. Com as pontas dos dedos, pressione delicadamente a massa para cobrir todo o fundo e lateral da fôrma. Passe o rolo sobre a borda da fôrma para cortar o excesso de massa – reserve as aparas para a decoração.
+
+Com uma colher espalhe e nivele o recheio de banana, cobrindo todo o fundo da massa.
+
+Polvilhe a bancada com mais um pouco de farinha e abra a outra metade da massa, seguindo as instruções do passo 2. Enrole a massa sobre o rolo e desenrole sobre a fôrma para cobrir o recheio. Pressione delicadamente a lateral da fôrma para selar a borda com a massa da cobertura. Com uma faca (ou carretilha) corte o excesso de massa.
+
+Para a decoração: junte todas as aparas da massa e amasse para unir numa só porção. Polvilhe mais farinha sobre a bancada e abra a massa formando um retângulo. Com a faca (ou carretilha) corte 9 tiras de cerca de 1 cm de largura –  ideia é montar 3 tranças, quanto mais longas forem as tiras mais fácil de montar. Apoie 3 tiras na bancada, uma ao lado da outra e una as pontas – aperte a massa para firmar. Faça uma trança com as tiras e una as pontas, apertando a massa no final. Repita com as outras tiras para formar 3 tranças.
+
+Numa tigela pequena, quebre o ovo e misture com a água. Com um pincel, espalhe a mistura na superfície da torta. Disponha as três tranças sobre a tampa da torta, formando um círculo rente a borda. Pincele a mistura de ovo e água também sobre as tranças.
+
+Com a ponta de uma faquinha, faça 4 cortes em cruz no centro da torta – eles servem de saída para o vapor na hora de assar. Leve a torta ao forno para assar por cerca de 45 minutos, ou até ficar bem dourada. Retire do forno e deixe esfriar antes de desenformar para servir. `,
+        additional:
+          'OBS: a torta de banana também fica uma delícia servida quente com sorvete, creme batido ou pé de moleque com laranja.',
+      },
+    ],
+    additional:
+      'Para congelar: Depois de assada, deixe a torta esfriar completamente. Embale bem com filme, assim a torta não absorve a umidade do congelador, nem pega gosto de outras comidas, e leve ao freezer. Na hora de descongelar, preaqueça o forno a 180 ºC (temperatura média), desembale e transfira a torta para uma assadeira. Leve direto ao forno (ainda congelada), o tempo varia de forno para forno, o mais importante é verificar se o centro do recheio descongelou e está aquecido. A torta tem validade de 3 meses congelada.',
+  },
 ];
 
 export const recipes = recipesData.map((recipeData) =>

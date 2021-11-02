@@ -1,13 +1,6 @@
 import isNaN from 'lodash/isNaN';
-import {
-  Food,
-  AminoAcids,
-  Measure,
-  Measurer,
-  FoodService,
-  MEASURE,
-  FOOD,
-} from '../food';
+import { AminoAcids } from '../amino-acid';
+import { Food, Measure, Measurer, FoodService, MEASURE, FOOD } from '../food';
 import { Ingredient, PORTION, UnFormat } from './ingredient.types';
 
 export function getQuantityByMeasure(
@@ -16,13 +9,13 @@ export function getQuantityByMeasure(
 ): number {
   if (measure.type === 'LITERAL') return measure.quantity;
 
-  let { quantity = 0 }: Measure =
+  let { quantity = 1 }: Measure =
     food.oneMeasures.find((oneMeasure) => oneMeasure.type === measure.type) ||
     MEASURE;
 
   if (quantity === 0) {
     if (measure.type === 'CUP') {
-      quantity = 150;
+      quantity = 240;
     }
 
     if (measure.type === 'TABLE_SPOON') {
@@ -32,100 +25,235 @@ export function getQuantityByMeasure(
     if (measure.type === 'TEA_SPOON') {
       quantity = 5;
     }
+
+    if (measure.type === 'UNITY_LARGE') {
+      quantity =
+        (food.oneMeasures.find((oneMeasure) => oneMeasure.type === 'UNITY')
+          ?.quantity ?? quantity) * 1.2;
+    }
+
+    if (measure.type === 'UNITY_SMALL') {
+      quantity =
+        (food.oneMeasures.find((oneMeasure) => oneMeasure.type === 'UNITY')
+          ?.quantity ?? quantity) * 0.8;
+    }
   }
 
   return measure.quantity * quantity;
 }
 
+const LITERAL_REGEX =
+  /(^\d*\s?m?li?t?r?o?\s)|(^\d*\s?k?i?l?o?gr?a?m?a?s?\s)|(\(.*\d*\s?k?i?l?o?gr?a?m?a?s?\s?c?a?d?a?\))|(^\d*\s?kg\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(.*\d*\s?kilos?\))|(\(.*\d*\s?m?li?t?r?o?\))/;
+
 export function verifyIsLiteral(string = ''): boolean {
-  return /((\d|\d\s)(g|kg)\s)|\d\s(kilo|grama)/.test(string);
+  return LITERAL_REGEX.test(string);
 }
 
-function measureFromString(text = ''): Measure {
-  const lowText = text.toLowerCase();
+export function getLiteralQuantity(string = ''): number {
+  return Number(
+    string
+      .match(LITERAL_REGEX)?.[0]
+      ?.replace(/\s/g, '')
+      ?.replace(/[a-z]/g, '')
+      ?.replace(/\(/g, '')
+      ?.replace(/\)/g, ''),
+  );
+}
+
+export function verifyIsLiteralByUnit(string = ''): boolean {
+  return /\(.*cada.*\)/.test(string);
+}
+
+export function measureTypeFromString(string: string): Measure['type'] {
   let type: Measurer = 'UNITY';
 
-  if (lowText.includes('peito')) {
+  if (string.includes('peito')) {
     type = 'BREAST';
   }
 
-  if (lowText.includes('lata')) {
+  if (string.includes('lata')) {
     type = 'CAN';
   }
 
-  if (lowText.includes('dente')) {
+  if (string.includes('dente')) {
     type = 'CLOVE';
   }
 
+  if (string.includes('colher')) {
+    type = 'TABLE_SPOON';
+  }
+
+  if (string.match(/.*colher.*chá.*/)) {
+    type = 'TEA_SPOON';
+  }
+
+  if (string.includes('fatia') || string.includes('rodela')) {
+    type = 'SLICE';
+  }
+
+  if (string.includes('folha')) {
+    type = 'UNITY';
+  }
+
+  if (type === 'UNITY') {
+    if (string.includes('pequeno') || string.includes('pequena')) {
+      type = 'UNITY_SMALL';
+    }
+
+    if (string.includes('grande')) {
+      type = 'UNITY_LARGE';
+    }
+  }
+
   if (
-    lowText.includes('xícara') ||
-    lowText.includes('xicara') ||
-    lowText.includes('copo')
+    string.includes('xícara') ||
+    string.includes('xícara (chá)') ||
+    string.includes('xícaras (chá)') ||
+    string.includes('xicara') ||
+    string.includes('copo')
   ) {
     type = 'CUP';
   }
 
-  if (lowText.includes('colher')) {
-    type = 'TABLE_SPOON';
+  if (verifyIsLiteral(string)) type = 'LITERAL';
+
+  if (
+    string.includes('a gosto') ||
+    string.includes('à gosto') ||
+    string.includes('para polvilhar') ||
+    string.includes('pitada') ||
+    /((^|\s)raspas?\s)/.test(string)
+  ) {
+    type = 'LITERAL';
   }
 
-  if (lowText.match(/.*colher.*chá.*/)) {
-    type = 'TEA_SPOON';
-  }
+  return type;
+}
 
-  if (lowText.includes('fatia') || lowText.includes('rodela')) {
-    type = 'SLICE';
-  }
-
-  if (lowText.includes('folha')) {
-    type = 'UNITY';
-  }
-
-  if (verifyIsLiteral(lowText)) type = 'LITERAL';
-
-  if (type === 'UNITY') {
-    if (lowText.includes('pequeno') || lowText.includes('pequena')) {
-      type = 'UNITY_SMALL';
-    }
-
-    if (lowText.includes('grande')) {
-      type = 'UNITY_LARGE';
-    }
-  }
+function measureFromString(text = ''): Measure {
+  const lowText = text.toLowerCase();
+  const type = measureTypeFromString(lowText);
 
   const valueSplit = lowText.split(' ') || [];
   const quantityString =
     valueSplit.find((statement) => /^\d{1,}/.test(statement)) || '';
 
-  let quantity = Number(quantityString.replace(/\D/, ''));
+  let quantity = Number(
+    quantityString
+      .replace(/½/g, '')
+      .replace(/1\/2/g, '')
+      .replace(/⅓/g, '')
+      .replace(/1\/3/g, '')
+      .replace(/⅔/g, '')
+      .replace(/2\/3/g, '')
+      .replace(/¼/g, '')
+      .replace(/1\/4/g, '')
+      .replace(/\D/, ''),
+  );
 
   if (valueSplit.find((statement) => statement === 'duas')) quantity = 2;
 
   if (isNaN(quantity) || !quantity) quantity = 1;
 
   if (
-    lowText.startsWith('meio') ||
-    lowText.startsWith('meia') ||
-    lowText.startsWith('1/2')
-  )
-    quantity = 0.5;
-
-  if (
     lowText.includes('e meio') ||
     lowText.includes('e meia') ||
-    lowText.includes('e 1/2')
-  )
+    lowText.includes('e ½') ||
+    /\d\s?½/.test(lowText) ||
+    lowText.includes('e 1/2') ||
+    /\d 1\/2/.test(lowText)
+  ) {
     quantity += 0.5;
+  }
+
+  if (
+    lowText.includes('e um terço') ||
+    lowText.includes('e ⅓') ||
+    /\d\s?⅓/.test(lowText) ||
+    lowText.includes('e 1/3') ||
+    /\d 1\/3/.test(lowText)
+  ) {
+    quantity += 0.333;
+  }
+
+  if (
+    lowText.includes('e dois terços') ||
+    lowText.includes('e ⅔') ||
+    /\d\s?⅔/.test(lowText) ||
+    lowText.includes('e ⅔') ||
+    /\d 2\/3/.test(lowText)
+  ) {
+    quantity += 0.666;
+  }
+
+  if (
+    lowText.includes('e um quarto') ||
+    lowText.includes('¼') ||
+    /\d\s?¼/.test(lowText) ||
+    lowText.includes('e 1/4') ||
+    /\d 1\/4/.test(lowText)
+  ) {
+    quantity += 0.25;
+  }
+
+  if (
+    lowText.startsWith('meio') ||
+    lowText.startsWith('meia') ||
+    lowText.startsWith('1/2') ||
+    lowText.startsWith('½')
+  ) {
+    quantity = 0.5;
+  }
+
+  if (
+    lowText.startsWith('um terço') ||
+    lowText.startsWith('1/3') ||
+    lowText.startsWith('⅓')
+  ) {
+    quantity = 0.333;
+  }
+
+  if (
+    lowText.startsWith('um terço') ||
+    lowText.startsWith('2/3') ||
+    lowText.startsWith('⅔')
+  ) {
+    quantity = 0.666;
+  }
+
+  if (
+    lowText.startsWith('um quarto') ||
+    lowText.startsWith('1/4') ||
+    lowText.startsWith('¼')
+  ) {
+    quantity = 0.25;
+  }
 
   const isInKiloGram = lowText.includes('kg');
 
-  if (type === 'LITERAL' && isInKiloGram) {
-    quantity *= 1000;
+  if (type === 'LITERAL') {
+    quantity = getLiteralQuantity(lowText);
+
+    if (isInKiloGram) {
+      quantity *= 1000;
+    }
   }
 
-  if (lowText.includes('a gosto') || lowText.includes('à gosto')) {
+  const isLiteralByUnit = verifyIsLiteralByUnit(lowText);
+
+  if (isLiteralByUnit) {
+    const units = Number(lowText.match(/^\d/)?.[0] ?? 2);
+
+    quantity *= units;
+  }
+  if (
+    lowText.includes('a gosto') ||
+    lowText.includes('à gosto') ||
+    lowText.includes('pitada') ||
+    lowText.includes('para polvilhar') ||
+    /((^|\s)raspas?\s)/.test(lowText)
+  ) {
     quantity = 0;
-    type = 'LITERAL';
   }
 
   return {

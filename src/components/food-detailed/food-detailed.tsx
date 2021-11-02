@@ -2,6 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import List from '@material-ui/core/List';
 import Grid, { GridProps } from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import round from 'lodash/round';
 import ListItem from '@material-ui/core/ListItem';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
@@ -10,6 +11,7 @@ import { VITAMINS } from '../../services/vitamin';
 import { MINERALS } from '../../services/mineral';
 import { Nutrient } from '../../services/nutrient.constants';
 import NutrientDisplay from '../nutrient/nutrient';
+import { AminoAcidService } from '../../services/amino-acid';
 
 interface Props {
   food: Food;
@@ -46,7 +48,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             <Typography component="h2">{foodName}</Typography>
           </Grid>
           <Grid item>
-            <Typography>{value}</Typography>
+            <Typography>{round(value, 2)}</Typography>
           </Grid>
         </Grid>
       </ListItem>
@@ -78,18 +80,20 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
           {renderQuality({ name: 'Carga Glicêmica', value: gl })}
         </List>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h2" component="h2">
-              Tabela de aminoácidos
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <AminoAcidsTable aminoAcids={aminoAcids} />
+      {AminoAcidService.hasAminoAcid(aminoAcids) && (
+        <Grid item xs={12}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h2" component="h2">
+                Tabela de aminoácidos
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <AminoAcidsTable aminoAcids={aminoAcids} />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
       <Grid item xs={12}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

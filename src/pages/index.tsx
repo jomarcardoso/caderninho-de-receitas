@@ -12,6 +12,8 @@ import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
 import MainPanel from '../panels/main-panel';
 import Header2 from '../components/header2/header2';
+import PageLoader from '../components/page-loader/page-loader';
+import LoadingContext from '../contexts/loading';
 
 const useStyles = makeStyles({
   display: {
@@ -26,8 +28,10 @@ const useStyles = makeStyles({
 
 const Index: FC = () => {
   const classes = useStyles();
+  // const { loading } = useContext(LoadingContext);
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
+  const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
   const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
   const { currentRecipeData, setCurrentRecipeData, setCurrentRecipe } =
     useRecipe();
@@ -45,7 +49,7 @@ const Index: FC = () => {
       const { ScrollSpy, createScrollSpyItem } = await import('ovos');
 
       ScrollSpy({
-        method: 'CLOSEST',
+        method: 'CURRENT',
         axis: 'x',
         elRelative: document.querySelector('#root-content') as HTMLElement,
         list: [
@@ -80,6 +84,7 @@ const Index: FC = () => {
         food={currentFood}
         onClose={() => setCurrentFood(FOOD)}
         open={Boolean(currentFood.name)}
+        quantity={currentFoodQuantity}
       />
       <Header2 currentPage={currentPage} />
       <Box className={classes.display} id="root-content">
@@ -96,9 +101,13 @@ const Index: FC = () => {
           currentRecipeData={currentRecipeData}
           setCurrentRecipeData={setCurrentRecipeData}
           setCurrentFood={setCurrentFood}
+          setCurrentFoodQuantity={setCurrentFoodQuantity}
         />
         <SEO title="Caderninho de Receitas" />
       </Box>
+      <LoadingContext.Consumer>
+        {({ loading = false }) => <PageLoader open={loading} />}
+      </LoadingContext.Consumer>
     </Page>
   );
 };

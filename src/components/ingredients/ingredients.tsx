@@ -11,9 +11,19 @@ import Section from '../section/section';
 interface Props {
   ingredients: Array<Ingredient>;
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
+  setCurrentFoodQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
+const Ingredients: FC<Props> = ({
+  ingredients = [],
+  setCurrentFood,
+  setCurrentFoodQuantity,
+}) => {
+  function handleClick(ingredient: Ingredient) {
+    setCurrentFood(ingredient.food);
+    setCurrentFoodQuantity(ingredient.quantity);
+  }
+
   return (
     <Section title="Ingredientes" onBgWhite>
       <List>
@@ -22,7 +32,7 @@ const Ingredients: FC<Props> = ({ ingredients = [], setCurrentFood }) => {
             button
             disableGutters
             key={`${ingredient.food.id}${ingredient.quantity}`}
-            onClick={() => setCurrentFood(ingredient.food)}
+            onClick={() => handleClick(ingredient)}
           >
             <Grid container spacing={1} alignItems="center">
               <Grid item xs={1}>

@@ -1,5 +1,6 @@
 import { FoodService } from '.';
-import { AminoAcids, AMINO_ACIDS, FOOD, Food } from './food.types';
+import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
+import { FOOD, Food } from './food.types';
 
 const MOCK_CARROT: Food = {
   ...FOOD,

@@ -1,13 +1,11 @@
-import { MineralService } from '../mineral';
-import { VitaminService } from '../vitamin';
 import {
+  AminoAcidsData,
   AminoAcids,
   AMINO_ACIDS,
-  Food,
-  FOOD,
-  FoodData,
-  AminoAcidsData,
-} from './food.types';
+} from '../amino-acid/amino-acid.constants';
+import { MineralService } from '../mineral';
+import { VitaminService } from '../vitamin';
+import { Food, FOOD, FoodData } from './food.types';
 
 interface GetFoodByStringArgs {
   text: string;

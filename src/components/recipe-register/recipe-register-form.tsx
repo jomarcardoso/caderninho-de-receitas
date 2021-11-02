@@ -3,14 +3,12 @@ import React, { FC, useCallback, ChangeEventHandler } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import SelectFilled from '../select-filled/select-filled';
+import { Container } from '@material-ui/core';
 import TextArea from '../text-area/text-area';
 import SectionTitle from '../section-title/section-title';
 import StepsInput from '../steps-input/steps-input';
 import {
   RecipeCategory,
-  recipeCategoryList,
   RecipeStepData,
   RECIPE_STEP_DATA,
   RecipeData,
@@ -43,13 +41,6 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
   setFieldValue,
 }) => {
   const classes = useStyles();
-
-  const memoizedRenderCategoryItem = useCallback(
-    (category: RecipeCategory) => (
-      <MenuItem value={category}>{category}</MenuItem>
-    ),
-    [],
-  );
 
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredients = '') => {
@@ -95,6 +86,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
             <Grid item xs={12}>
               <FormControl variant="standard" className={classes.formControl}>
                 <InputFilled
+                  label={`Parte ${index + 1} nome`}
                   name={`steps.${index}.name`}
                   value={step.name}
                   onChange={handleChange}
@@ -140,55 +132,46 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
     <Form action="/" method="post">
       <FieldArray name="steps">
         {() => (
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <FormControl variant="standard" className={classes.formControl}>
-                <InputFilled
-                  name="name"
-                  placeholder="Receita"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={formikHandleBlur}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl variant="standard" className={classes.formControl}>
-                <TextArea
-                  name="description"
-                  value={values.description}
-                  onChange={handleChange}
-                  onBlur={formikHandleBlur}
-                  minRows={2}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <SelectFilled
-                name="category"
-                label="Categoria"
-                value={values.category || ''}
+          <Container>
+            <FormControl variant="standard" className={classes.formControl}>
+              <InputFilled
+                label="Receita"
+                name="name"
+                placeholder="Receita"
+                value={values.name}
                 onChange={handleChange}
                 onBlur={formikHandleBlur}
-              >
-                {recipeCategoryList.map(memoizedRenderCategoryItem)}
-              </SelectFilled>
-            </Grid>
-            <Grid item xs={12}>
-              <StepsInput
-                inputProps={{
-                  name: 'quantitySteps',
-                  value: values.quantitySteps,
-                  onChange: handleChange,
-                  onBlur: formikHandleBlur,
-                }}
               />
+            </FormControl>
+            <Grid container spacing={3}>
+              <Grid item xs={12} />
+              <Grid item xs={12}>
+                <FormControl variant="standard" className={classes.formControl}>
+                  <TextArea
+                    name="description"
+                    value={values.description}
+                    onChange={handleChange}
+                    onBlur={formikHandleBlur}
+                    minRows={2}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <StepsInput
+                  inputProps={{
+                    name: 'quantitySteps',
+                    value: values.quantitySteps,
+                    onChange: handleChange,
+                    onBlur: formikHandleBlur,
+                  }}
+                />
+              </Grid>
+              {memoizedRenderSteps()}
+              <Grid item xs={12} className={classes.submit}>
+                <SubmitComponent>Cadastrar refeição</SubmitComponent>
+              </Grid>
             </Grid>
-            {memoizedRenderSteps()}
-            <Grid item xs={12} className={classes.submit}>
-              <SubmitComponent>Cadastrar refeição</SubmitComponent>
-            </Grid>
-          </Grid>
+          </Container>
         )}
       </FieldArray>
     </Form>

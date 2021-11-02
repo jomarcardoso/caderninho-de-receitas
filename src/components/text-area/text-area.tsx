@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     backgroundImage: 'url(/images/textures/linned-sheet-texture.svg)',
     // backgroundSize: 'auto',
     // backgroundRepeat: 'space',
-    lineHeight: '31.1px',
+    lineHeight: '31.2px',
     fontFamily: fontFamilyInput,
     fontSize: 22,
   },

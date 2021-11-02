@@ -1,4 +1,5 @@
-import { Food, AminoAcids, FoodService } from '../food';
+import { AminoAcids } from '../amino-acid';
+import { Food, FoodService } from '../food';
 import IngredientService from '../ingredient/ingredient.service';
 import { Ingredient } from '../ingredient/ingredient.types';
 import {
@@ -186,6 +187,7 @@ export function format({
     calories: calculateCalories(allIngredients),
     name: recipeData.name,
     description: recipeData?.description ?? '',
+    additional: recipeData?.additional ?? '',
     image,
     gi: calculateGI(allIngredients),
     acidification: calculateAcidification(allIngredients),
@@ -202,6 +204,7 @@ export function unFormat(recipe: Recipe): RecipeData {
     category: recipe?.category ?? RECIPE_DATA.category,
     name: recipe.name ?? RECIPE_DATA.name,
     description: recipe.description ?? RECIPE_DATA.description,
+    additional: recipe.additional ?? RECIPE_DATA.additional,
     steps: recipe.steps.map((step) => ({
       name: step.name,
       ingredients:
