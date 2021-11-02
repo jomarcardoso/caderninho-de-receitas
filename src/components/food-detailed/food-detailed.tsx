@@ -2,6 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import List from '@material-ui/core/List';
 import Grid, { GridProps } from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import round from 'lodash/round';
 import ListItem from '@material-ui/core/ListItem';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
@@ -47,7 +48,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             <Typography component="h2">{foodName}</Typography>
           </Grid>
           <Grid item>
-            <Typography>{value}</Typography>
+            <Typography>{round(value, 2)}</Typography>
           </Grid>
         </Grid>
       </ListItem>

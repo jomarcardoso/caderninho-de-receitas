@@ -10,6 +10,15 @@ describe('IngredientService', () => {
   describe('measureFromString', () => {
     const { measureFromString } = IngredientService;
 
+    it('raspas de 1 limão', () => {
+      const measure: Measure = {
+        quantity: 0,
+        type: 'LITERAL',
+      };
+
+      expect(measureFromString('raspas de 1 limão')).toStrictEqual(measure);
+    });
+
     it('1 pitada de canela em pó', () => {
       const measure: Measure = {
         quantity: 0,

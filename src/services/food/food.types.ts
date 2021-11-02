@@ -37,6 +37,15 @@ export const MEASURE: Measure = {
   quantity: 0,
 };
 
+export type FoodType =
+  | 'flour'
+  | 'liquid'
+  | 'seed'
+  | 'leaf'
+  | 'temper'
+  | 'fruit'
+  | 'solid';
+
 export interface Food {
   id: number;
   name: string;

@@ -121,7 +121,8 @@ export function measureTypeFromString(string: string): Measure['type'] {
     string.includes('a gosto') ||
     string.includes('à gosto') ||
     string.includes('para polvilhar') ||
-    string.includes('pitada')
+    string.includes('pitada') ||
+    /((^|\s)raspas?\s)/.test(string)
   ) {
     type = 'LITERAL';
   }
@@ -249,7 +250,8 @@ function measureFromString(text = ''): Measure {
     lowText.includes('a gosto') ||
     lowText.includes('à gosto') ||
     lowText.includes('pitada') ||
-    lowText.includes('para polvilhar')
+    lowText.includes('para polvilhar') ||
+    /((^|\s)raspas?\s)/.test(lowText)
   ) {
     quantity = 0;
   }
