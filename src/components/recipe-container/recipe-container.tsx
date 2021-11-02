@@ -89,6 +89,12 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             </Grid>
           ))}
 
+          {recipe.additional && (
+            <Grid item xs={12}>
+              <Typography>{recipe.additional}</Typography>
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <Typography variant="h2" component="h2" color="secondary">
               Informações nutricionais

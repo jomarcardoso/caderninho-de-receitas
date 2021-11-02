@@ -82,6 +82,8 @@ import {
   chayote,
   redWineVinegar,
   cuminSeed,
+  coffee,
+  eggYolk,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1901,7 +1903,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/anise.png',
     image:
       'https://diariodonordeste.verdesmares.com.br/image/contentid/policy:7.4537296:1625738451/erva-doce%201.jpeg?f=default&$p$f=bacd656',
-    keys: ['chá', 'chá de erva-doce', 'erva-doce', 'erva doce'],
+    keys: ['chá de erva-doce', 'erva-doce', 'erva doce'],
   },
   {
     id: 116,
@@ -1922,6 +1924,7 @@ export const foodsData: Array<FoodData> = [
     recipe: true,
   },
   {
+    ...format(coffee as unknown as FoodMyFoodData),
     id: 118,
     name: 'Café',
     enName: 'coffee',
@@ -1929,6 +1932,36 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=871&q=80',
     keys: ['grão de café', 'grãos de café', 'café moído'],
+  },
+  {
+    id: 119,
+    name: 'Torta de banana',
+    enName: 'banana-cake',
+    image:
+      'https://cdn.panelinha.com.br/receita/1597953473440-tortareceita.jpg',
+    keys: ['torta', 'torta de banana'],
+    recipe: true,
+  },
+  {
+    ...format(eggYolk as unknown as FoodMyFoodData),
+    id: 120,
+    name: 'Gema de ovo',
+    enName: 'egg-yolk',
+    icon: '/images/food/egg-yolk.png',
+    image:
+      'https://static.clubedaanamariabraga.com.br/wp-content/uploads/2017/07/ovo-gema-636.jpg',
+    keys: ['gema', 'gema de ovo', 'gemas', 'gemas de ovo', 'gema de ovos'],
+  },
+  {
+    ...format(banana as unknown as FoodMyFoodData),
+    ...formatNacional(foodListNacional[178] as unknown as FoodNacional),
+    id: 121,
+    name: 'Banana nanica',
+    enName: 'dwarf-banana',
+    icon: '/images/food/banana.svg',
+    image:
+      'https://cdn.awsli.com.br/600x450/1693/1693441/produto/92535301/9f9c9fa2f7.jpg',
+    keys: ['banana', 'banana nanica', 'bananas', 'bananas nanicax'],
   },
 ];
 

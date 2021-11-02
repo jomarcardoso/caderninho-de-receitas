@@ -161,3 +161,5 @@ export { default as redWineVinegar } from './red-wine-vinegar.json';
 export { default as cuminSeed } from './cumin-seed.json';
 
 export { default as coffee } from './coffee.json';
+
+export { default as eggYolk } from './egg-yolk.json';

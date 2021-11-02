@@ -35,6 +35,7 @@ export interface Recipe {
   id: number;
   name: string;
   description: string;
+  additional: string;
   image: string;
   calories: number;
   gi: number;
@@ -57,6 +58,7 @@ export interface RecipeData {
   id?: number;
   name: string;
   description?: string;
+  additional?: string;
   steps: Array<RecipeStepData>;
   category: RecipeCategory | '';
 }
@@ -72,6 +74,7 @@ export const RECIPE_DATA: RecipeData = {
   id: 0,
   name: '',
   description: '',
+  additional: '',
   category: '',
   steps: [],
 };
@@ -86,6 +89,7 @@ export const RECIPE_STEP: RecipeStep = {
 export const RECIPE: Recipe = {
   calories: 0,
   description: '',
+  additional: '',
   image: '',
   name: '',
   id: 0,

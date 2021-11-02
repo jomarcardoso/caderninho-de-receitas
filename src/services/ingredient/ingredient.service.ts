@@ -117,7 +117,12 @@ export function measureTypeFromString(string: string): Measure['type'] {
 
   if (verifyIsLiteral(string)) type = 'LITERAL';
 
-  if (string.includes('a gosto') || string.includes('à gosto')) {
+  if (
+    string.includes('a gosto') ||
+    string.includes('à gosto') ||
+    string.includes('para polvilhar') ||
+    string.includes('pitada')
+  ) {
     type = 'LITERAL';
   }
 
@@ -240,7 +245,12 @@ function measureFromString(text = ''): Measure {
 
     quantity *= units;
   }
-  if (lowText.includes('a gosto') || lowText.includes('à gosto')) {
+  if (
+    lowText.includes('a gosto') ||
+    lowText.includes('à gosto') ||
+    lowText.includes('pitada') ||
+    lowText.includes('para polvilhar')
+  ) {
     quantity = 0;
   }
 

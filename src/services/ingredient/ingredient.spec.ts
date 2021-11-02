@@ -10,6 +10,17 @@ describe('IngredientService', () => {
   describe('measureFromString', () => {
     const { measureFromString } = IngredientService;
 
+    it('1 pitada de canela em pó', () => {
+      const measure: Measure = {
+        quantity: 0,
+        type: 'LITERAL',
+      };
+
+      expect(measureFromString('1 pitada de canela em pó')).toStrictEqual(
+        measure,
+      );
+    });
+
     it('2 filés de peito de frango (cerca de 200g cada)', () => {
       const measure: Measure = {
         quantity: 400,

@@ -479,6 +479,76 @@ Regue com um pouco mais da água, mexa o café com uma colher e apenas então de
       },
     ],
   },
+  {
+    id: 13,
+    name: 'Torta de banana',
+    description:
+      'O açúcar mascavo dá um gostinho especial – mais complexo – a essa torta clássica e com gosto de comida-conforto. Uma pitada de canela faz dupla imbatível com a banana-nanica.',
+    category: 'sobremesa',
+    steps: [
+      {
+        name: 'Para a massa',
+        ingredients: `\
+1 ½ xícara (chá) de farinha de trigo
+100 g de manteiga gelada em cubos
+⅓ de xícara (chá) de açúcar
+1 ovo
+1 gema
+½ colher (chá) de fermento em pó`,
+        preparation: `\
+Numa tigela grande, misture a farinha, o açúcar e o fermento em pó. Acrescente a manteiga em cubos e misture com as pontas dos dedos até formar uma farofa grossa.
+
+Junte o ovo, a gema e amasse até formar uma massa lisa e bem macia. Modele uma bola e achate levemente para formar um disco – assim fica mais fácil na hora de abrir. Embale com filme e leve à geladeira para firmar por no mínimo 30 minutos para firmar (se preferir prepare no dia anterior). Enquanto isso, prepare o recheio de banana.`,
+        additional: '',
+      },
+      {
+        name: 'Para o recheio',
+        ingredients: `\
+6 bananas nanicas maduras
+½ xícara (chá) de açúcar mascavo
+1 colher (sopa) de amido de milho
+½ colher (sopa) de manteiga
+2 colheres (sopa) de água
+1 pitada de canela em pó`,
+        preparation: `\
+Descasque e corte as bananas em rodelas de cerca de 1 cm. Numa tigela pequena, misture o amido com a água até dissolver, reserve.
+
+Leve uma panela média com o açúcar ao fogo médio e deixe cozinhar por cerca de 5 minutos até derreter – mexa de vez em quando com uma espátula d silicone para derreter de maneira uniforme e não queimar. Assim que todo o açúcar derreter, adicione a manteiga e misture bem para incorporar.
+
+Junte à panela as rodelas de banana, a canela e misture bem. Deixe cozinhar por cerca de 2 minutos, mexendo de vez em quando, até a banana começar a soltar o próprio caldo. Acrescente o amido dissolvido na água e mexa com a espátula por cerca de 5 minutos até o recheio engrossar e começar a soltar do fundo da panela – a consistência é de um doce de banana, não mexa demasiadamente para manter alguns pedaçaos de banana inteiros.
+
+Transfira o recheio para uma tigela e mantenha em temperatura ambiente para amornar antes de rechear a torta – se ele estiver muito quente pode umedecer e cozinhar a massa.`,
+        additional: '',
+      },
+      {
+        name: 'Para a assar',
+        ingredients: `\
+1 ovo
+1 colher (chá) de água
+farinha de trigo para polvilhar a bancada`,
+        preparation: `\
+Preaqueça o forno a 200 ºC (temperatura média). Separe uma fôrma redonda canelada, com fundo removível, que tenha 22 cm de diâmetro de base e 24 cm de diâmentro de abertura. Retire a massa da geladeira – caso tenha preparado a massa no dia anterior, retire da geladeira 10 minutos antes de abrir para ficar mais fácil de abrir.
+
+Com uma espátula (ou faca) corte a massa ao meio. Polvilhe a bancada com farinha de trigo e, com o rolo de macarrão, abra uma das metades da massa até formar um círculo 4 cm maior que a base da fôrma. Atenção: esta massa é bem delicada e pode rachar por conta do açucar, durante o processo polvilhe farinha sob e sobre a massa para evitar que grude na bancada ou no rolo.
+
+Enrole a massa sobre o rolo e transfira para a fôrma. Com as pontas dos dedos, pressione delicadamente a massa para cobrir todo o fundo e lateral da fôrma. Passe o rolo sobre a borda da fôrma para cortar o excesso de massa – reserve as aparas para a decoração.
+
+Com uma colher espalhe e nivele o recheio de banana, cobrindo todo o fundo da massa.
+
+Polvilhe a bancada com mais um pouco de farinha e abra a outra metade da massa, seguindo as instruções do passo 2. Enrole a massa sobre o rolo e desenrole sobre a fôrma para cobrir o recheio. Pressione delicadamente a lateral da fôrma para selar a borda com a massa da cobertura. Com uma faca (ou carretilha) corte o excesso de massa.
+
+Para a decoração: junte todas as aparas da massa e amasse para unir numa só porção. Polvilhe mais farinha sobre a bancada e abra a massa formando um retângulo. Com a faca (ou carretilha) corte 9 tiras de cerca de 1 cm de largura –  ideia é montar 3 tranças, quanto mais longas forem as tiras mais fácil de montar. Apoie 3 tiras na bancada, uma ao lado da outra e una as pontas – aperte a massa para firmar. Faça uma trança com as tiras e una as pontas, apertando a massa no final. Repita com as outras tiras para formar 3 tranças.
+
+Numa tigela pequena, quebre o ovo e misture com a água. Com um pincel, espalhe a mistura na superfície da torta. Disponha as três tranças sobre a tampa da torta, formando um círculo rente a borda. Pincele a mistura de ovo e água também sobre as tranças.
+
+Com a ponta de uma faquinha, faça 4 cortes em cruz no centro da torta – eles servem de saída para o vapor na hora de assar. Leve a torta ao forno para assar por cerca de 45 minutos, ou até ficar bem dourada. Retire do forno e deixe esfriar antes de desenformar para servir. `,
+        additional:
+          'OBS: a torta de banana também fica uma delícia servida quente com sorvete, creme batido ou pé de moleque com laranja.',
+      },
+    ],
+    additional:
+      'Para congelar: Depois de assada, deixe a torta esfriar completamente. Embale bem com filme, assim a torta não absorve a umidade do congelador, nem pega gosto de outras comidas, e leve ao freezer. Na hora de descongelar, preaqueça o forno a 180 ºC (temperatura média), desembale e transfira a torta para uma assadeira. Leve direto ao forno (ainda congelada), o tempo varia de forno para forno, o mais importante é verificar se o centro do recheio descongelou e está aquecido. A torta tem validade de 3 meses congelada.',
+  },
 ];
 
 export const recipes = recipesData.map((recipeData) =>
