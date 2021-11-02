@@ -118,6 +118,9 @@ function theme({ bgBody = '' }: Style) {
 
 const useStyles = makeStyles({
   '@global': {
+    body: {
+      overflow: 'hidden',
+    },
     ':root': {
       '--color-primary-light': primary.light,
       '--color-primary-main': primary.main,

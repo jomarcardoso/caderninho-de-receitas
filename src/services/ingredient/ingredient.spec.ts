@@ -3,11 +3,23 @@ import IngredientService, {
   verifyIsLiteral,
   getQuantityByMeasure,
   getLiteralQuantity,
+  verifyIsLiteralByUnit,
 } from './ingredient.service';
 
 describe('IngredientService', () => {
   describe('measureFromString', () => {
     const { measureFromString } = IngredientService;
+
+    it('2 filés de peito de frango (cerca de 200g cada)', () => {
+      const measure: Measure = {
+        quantity: 400,
+        type: 'LITERAL',
+      };
+
+      expect(
+        measureFromString('2 filés de peito de frango (cerca de 200g cada)'),
+      ).toStrictEqual(measure);
+    });
 
     it('¼ de xícara (chá) de nozes', () => {
       const measure: Measure = {
@@ -397,7 +409,33 @@ describe('IngredientService', () => {
     });
   });
 
+  describe('verifyIsLiteralByUnit', () => {
+    it('2 filés de peito de frango (cerca de 200g cada)', () => {
+      const isLiteral = verifyIsLiteralByUnit(
+        '2 filés de peito de frango (cerca de 200g cada)',
+      );
+
+      expect(isLiteral).toBe(true);
+    });
+  });
+
   describe('verifyIsLiteral', () => {
+    it('500 ml de creme de leite fresco 35% de gordura', () => {
+      const isLiteral = verifyIsLiteral(
+        '500 ml de creme de leite fresco 35% de gordura',
+      );
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('2 filés de peito de frango (cerca de 200g cada)', () => {
+      const isLiteral = verifyIsLiteral(
+        '2 filés de peito de frango (cerca de 200g cada)',
+      );
+
+      expect(isLiteral).toBe(true);
+    });
+
     it('100 g de frango: true', () => {
       const isLiteral = verifyIsLiteral('100 g de frango');
 
@@ -487,7 +525,7 @@ describe('IngredientService', () => {
 // for literal measure regex
 
 /*
-(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(\d*\s?g\))|(\(\d*\s?grama\))|(\(\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(\d*\s?kg\))|(\(\d*\s?kilograma\))|(\(\d*\s?kilogramas\))|(\(\d*\s?kilos\))|(\(\d*\s?kilo\))
+(^\d*\s?m?li?t?r?o?\s)|(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(.*\d*\s?g\))|(\(.*\d*\s?grama\))|(\(.*\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(.*\d*\s?kg\))|(\(.*\d*\s?kilograma\))|(\(.*\d*\s?kilogramas\))|(\(.*\d*\s?kilos\))|(\(.*\d*\s?kilo\))|(\(.*\d*\s?m?li?t?r?o?\))
 
 500g de queijo
 500 g de queijo
@@ -560,4 +598,16 @@ de queijo (1kilograma)
 de queijo (1 kilograma)
 de queijo (1kilo)
 de queijo (1 kilo)
+
+500ml de leite fresco
+500 ml de leite fresco
+leite freco (500ml)
+leite freco (500 ml)
+
+1 litro de leite
+1l de leite
+1 l de leite
+leite (1l)
+leite (1 l)
+leite (1 litro)
 */

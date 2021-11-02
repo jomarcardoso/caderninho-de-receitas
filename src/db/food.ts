@@ -86,6 +86,7 @@ import {
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
 import { AMINO_ACIDS } from '../services/amino-acid';
+import foodListNacional from './src/cadastro-nacional/food-list.json';
 
 function format(food: FoodMyFoodData): FoodData {
   return {
@@ -156,9 +157,38 @@ export function formatNacional(food: FoodNacional): FoodData {
     name: food?.description,
     enName: '',
     acidification: 0,
+    proteins: food?.attributes?.protein?.qty ?? 0,
+    totalFat: food?.attributes?.lipid?.qty ?? 0,
+    carbohydrates: food?.attributes?.carbohydrate?.qty ?? 0,
+    dietaryFiber: food?.attributes?.fiber?.qty ?? 0,
     aminoAcids: {
+      ...AMINO_ACIDS,
       alanine: 0,
     },
+    vitamins: {
+      ...VITAMINS_DATA,
+      c: food?.vitaminC?.qty ?? 0,
+      a: food?.attributes?.retinol?.qty ?? 0,
+      b1: food?.attributes?.thiamine?.qty ?? 0,
+      b2: food?.attributes?.riboflavin?.qty ?? 0,
+      b3: food?.attributes?.niacin?.qty ?? 0,
+    },
+    minerals: {
+      ...MINERALS_DATA,
+      calcium: food?.attributes?.calcium?.qty ?? 0,
+      magnesium: food?.attributes?.magnesium?.qty ?? 0,
+      phosphorus: food?.attributes?.phosphorus?.qty ?? 0,
+      iron: food?.attributes?.iron?.qty ?? 0,
+      potassium: food?.attributes?.potassium?.qty ?? 0,
+      sodium: food?.attributes?.sodium?.qty ?? 0,
+      zinc: food?.attributes?.zinc?.qty ?? 0,
+      copper: food?.attributes?.copper?.qty ?? 0,
+      manganese: food?.attributes?.manganese?.qty ?? 0,
+    },
+    unitOfMeasurement:
+      food?.base_unit === 'g'
+        ? UnitOfMeasurement.gram
+        : UnitOfMeasurement.liter,
   };
 }
 
@@ -1823,6 +1853,82 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1561365890-798858b32e0c?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGljZSUyMGN1YmV8ZW58MHwwfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     keys: ['gelo'],
+  },
+  {
+    id: 112,
+    name: 'Brownie cremoso de castanha-do-pará',
+    enName: 'creamy-brazil-nut-brownie',
+    image:
+      'https://cdn.panelinha.com.br/receita/1472612400000-Brownie-cremoso-de-castanha-do-para.jpg',
+    keys: [
+      'brownie',
+      'brownie de castanha',
+      'brownie com castanha',
+      'brownie cremoso',
+    ],
+    recipe: true,
+  },
+  {
+    ...formatNacional(foodListNacional[588] as unknown as FoodNacional),
+    id: 113,
+    name: 'Castanha-do-pará',
+    enName: 'brazil-nut',
+    icon: '/images/food/brazil-nut.png',
+    image:
+      'https://www.sistersintravel.com/wp-content/uploads/2015/12/sisters-in-travel-curiosidade-castanha-do-par%C3%A1-720x485.jpg',
+    keys: ['castanha', 'castanha do pará'],
+  },
+  {
+    id: 114,
+    name: 'Filé de frango grelhado com páprica e erva-doce',
+    enName: 'grilled-chicken-fillet-with-paprika-and-fennel',
+    image:
+      'https://cdn.panelinha.com.br/receita/1612811291559-FRANGO-GRELHADO.jpg',
+    keys: [
+      'frango',
+      'filé de frango frango',
+      'frango grelhado',
+      'frango grelhado com páprica',
+      'frango grelhado com páprica e erva-doce',
+    ],
+    recipe: true,
+  },
+  {
+    ...formatNacional(foodListNacional[474] as unknown as FoodNacional),
+    id: 115,
+    name: 'Chá de erva-doce',
+    enName: 'anise-tea',
+    icon: '/images/food/anise.png',
+    image:
+      'https://diariodonordeste.verdesmares.com.br/image/contentid/policy:7.4537296:1625738451/erva-doce%201.jpeg?f=default&$p$f=bacd656',
+    keys: ['chá', 'chá de erva-doce', 'erva-doce', 'erva doce'],
+  },
+  {
+    id: 116,
+    name: 'Clotted cream',
+    enName: 'clotted-cream',
+    image:
+      'https://cdn.panelinha.com.br/receita/1632170181467-clotted-cream.jpg',
+    keys: ['clotted cream', 'clotted cream caseiro'],
+    recipe: true,
+  },
+  {
+    id: 117,
+    name: 'Café de prensa',
+    enName: 'pressed-coffee',
+    image:
+      'https://cdn.panelinha.com.br/receita/1544023469159-cafe%CC%81%20prensa.jpg',
+    keys: ['café prensado', 'café de prensa', 'café'],
+    recipe: true,
+  },
+  {
+    id: 118,
+    name: 'Café',
+    enName: 'coffee',
+    icon: '/images/food/coffee.png',
+    image:
+      'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=871&q=80',
+    keys: ['grão de café', 'grãos de café', 'café moído'],
   },
 ];
 

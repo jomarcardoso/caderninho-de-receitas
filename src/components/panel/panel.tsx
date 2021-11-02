@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     height: '100%',
     scrollSnapAlign: 'start',
     scrollSnapStop: 'always',
+    overflowX: 'hidden',
     overflowY: 'auto',
   },
   content: {

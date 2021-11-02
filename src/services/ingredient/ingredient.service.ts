@@ -43,7 +43,7 @@ export function getQuantityByMeasure(
 }
 
 const LITERAL_REGEX =
-  /(^\d*\s?g\s)|(^\d*\s?grama\s)|(^\d*\s?gramas\s)|(\(.*\d*\s?g\))|(\(.*\d*\s?grama\))|(\(.*\d*\s?gramas\))|(^\d*\s?kg\s)|(^\d*\s?kilograma\s)|(^\d*\s?kilogramas\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(.*\d*\s?kg\))|(\(.*\d*\s?kilograma\))|(\(.*\d*\s?kilogramas\))|(\(.*\d*\s?kilos\))|(\(.*\d*\s?kilo\))/;
+  /(^\d*\s?m?li?t?r?o?\s)|(^\d*\s?k?i?l?o?gr?a?m?a?s?\s)|(\(.*\d*\s?k?i?l?o?gr?a?m?a?s?\s?c?a?d?a?\))|(^\d*\s?kg\s)|(^\d*\s?kilos\s)|(^\d*\s?kilo\s)|(\(.*\d*\s?kilos?\))|(\(.*\d*\s?m?li?t?r?o?\))/;
 
 export function verifyIsLiteral(string = ''): boolean {
   return LITERAL_REGEX.test(string);
@@ -58,6 +58,10 @@ export function getLiteralQuantity(string = ''): number {
       ?.replace(/\(/g, '')
       ?.replace(/\)/g, ''),
   );
+}
+
+export function verifyIsLiteralByUnit(string = ''): boolean {
+  return /\(.*cada.*\)/.test(string);
 }
 
 export function measureTypeFromString(string: string): Measure['type'] {
@@ -229,6 +233,13 @@ function measureFromString(text = ''): Measure {
     }
   }
 
+  const isLiteralByUnit = verifyIsLiteralByUnit(lowText);
+
+  if (isLiteralByUnit) {
+    const units = Number(lowText.match(/^\d/)?.[0] ?? 2);
+
+    quantity *= units;
+  }
   if (lowText.includes('a gosto') || lowText.includes('à gosto')) {
     quantity = 0;
   }

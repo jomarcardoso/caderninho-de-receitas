@@ -159,3 +159,5 @@ export { default as chayote } from './chayote.json';
 export { default as redWineVinegar } from './red-wine-vinegar.json';
 
 export { default as cuminSeed } from './cumin-seed.json';
+
+export { default as coffee } from './coffee.json';
