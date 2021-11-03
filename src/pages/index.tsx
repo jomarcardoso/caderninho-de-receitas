@@ -28,7 +28,6 @@ const useStyles = makeStyles({
 
 const Index: FC = () => {
   const classes = useStyles();
-  // const { loading } = useContext(LoadingContext);
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);

@@ -23,14 +23,18 @@ const useStyles = makeStyles({
   button: {
     display: 'block',
     paddingTop: '8px !important',
+
+    '&[hidden]': {
+      visibility: 'hidden',
+    },
   },
 });
 
-export interface Footer2Props {
+export interface FooterProps {
   items?: BottomNavigationActionProps[];
 }
 
-const Footer2: FC<Footer2Props> = ({ items = [] }) => {
+const Footer: FC<FooterProps> = ({ items = [] }) => {
   const classes = useStyles();
 
   function render() {
@@ -63,4 +67,4 @@ const Footer2: FC<Footer2Props> = ({ items = [] }) => {
   return renderMemo;
 };
 
-export default Footer2;
+export default Footer;

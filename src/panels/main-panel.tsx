@@ -37,13 +37,6 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
 
   function handleClickLink(recipe: Recipe) {
     setCurrentRecipe(recipe);
-
-    const elPage = document.querySelector('#root-content');
-
-    elPage?.scrollTo({
-      left: 9999,
-      behavior: 'smooth',
-    });
   }
 
   function renderItem(recipe: Recipe) {

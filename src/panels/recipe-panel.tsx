@@ -10,6 +10,8 @@ import RecipeContainer from '../components/recipe-container/recipe-container';
 import Panel from '../components/panel/panel';
 import LoadingContext from '../contexts/loading';
 
+let rendered = 0;
+
 const RecipePanel: FC<{
   currentRecipeData: RecipeData;
   setCurrentRecipeData(data: RecipeData): void;
@@ -88,13 +90,32 @@ const RecipePanel: FC<{
     } else {
       setEditing(false);
     }
+  }, [currentRecipeData]);
+
+  useEffect(() => {
+    rendered += 1;
+
+    setTimeout(() => {
+      rendered += 1;
+    }, 0);
+
+    if (rendered < 3) {
+      return;
+    }
+
+    const elPage = document.querySelector('#root-content');
+
+    elPage?.scrollTo({
+      left: 9999,
+      behavior: 'smooth',
+    });
 
     const elRecipePanel = document.querySelector('#recipe-panel');
 
     elRecipePanel?.scrollTo({
       top: 0,
     });
-  }, [currentRecipeData]);
+  }, [currentRecipeData, editing]);
 
   return (
     <Panel id="recipe-panel">
@@ -118,6 +139,7 @@ const RecipePanel: FC<{
               ),
             },
             {
+              hidden: recipe.id < 10000,
               onClick: handleEdit,
               icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -129,6 +151,7 @@ const RecipePanel: FC<{
               ),
             },
             {
+              hidden: recipe.id < 10000,
               onClick: handleShare,
               icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -140,6 +163,7 @@ const RecipePanel: FC<{
               ),
             },
             {
+              hidden: recipe.id < 10000,
               onClick: handleClickRemove,
               icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">

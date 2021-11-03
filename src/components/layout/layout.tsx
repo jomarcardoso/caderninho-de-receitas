@@ -6,7 +6,7 @@ import Main, { MainProps } from '../main';
 import './layout.scss';
 
 import { CurrentPage } from '../../services/page.service';
-import Footer2, { Footer2Props } from '../footer2/footer2';
+import Footer, { FooterProps } from '../footer/footer';
 
 const useStyles = makeStyles({
   root: {
@@ -25,7 +25,7 @@ interface Props {
   showFooter?: boolean;
   currentPage?: CurrentPage;
   headerProps?: HeaderProps;
-  footerProps?: Footer2Props;
+  footerProps?: FooterProps;
   mainProps?: MainProps;
 }
 
@@ -45,7 +45,7 @@ const Layout: FC<Props> = ({
       <Main className={classes.main} {...mainProps}>
         {children}
       </Main>
-      {showFooter && <Footer2 {...footerProps} />}
+      {showFooter && <Footer {...footerProps} />}
     </Box>
   );
 };

@@ -31,13 +31,6 @@ const RecipeCardResumed: FC<Props> = ({ recipe, setCurrentRecipe }) => {
 
   const memoizedHandleClickLink = useCallback(() => {
     setCurrentRecipe(recipe);
-
-    const elPage = document.querySelector('#root-content');
-
-    elPage?.scrollTo({
-      left: 9999,
-      behavior: 'smooth',
-    });
   }, [recipe, setCurrentRecipe]);
 
   return (
