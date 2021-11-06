@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import Select, { SelectProps } from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Select, { SelectProps } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import { makeStyles } from '@mui/styles';
 import { gray, light, primary } from '../page/page';
 
 const useStyles = makeStyles({

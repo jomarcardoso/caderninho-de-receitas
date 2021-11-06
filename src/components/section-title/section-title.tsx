@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import Typography, { TypographyProps } from '@material-ui/core/Typography';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import { makeStyles } from '@mui/styles';
 import { primary } from '../page/page';
 
 const useStyles = makeStyles({

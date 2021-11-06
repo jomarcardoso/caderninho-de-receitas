@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import { Food } from '../services/food';
 import Layout from '../components/layout/layout';
 import FoodDetailed from '../components/food-detailed/food-detailed';

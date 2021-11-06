@@ -1,6 +1,6 @@
-import Box from '@material-ui/core/Box';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import React, { FC, HTMLProps } from 'react';
+import Box, { BoxProps } from '@mui/material/Box';
+import { makeStyles } from '@mui/styles';
+import React, { FC } from 'react';
 
 const useStyles = makeStyles({
   root: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Panel: FC<HTMLProps<HTMLDivElement>> = ({ children, ...props }) => {
+const Panel: FC<BoxProps> = ({ children, ...props }) => {
   const classes = useStyles();
 
   return (

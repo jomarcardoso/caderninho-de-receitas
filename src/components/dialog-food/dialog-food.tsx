@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import Slide, { SlideProps } from '@material-ui/core/Slide';
+import Dialog from '@mui/material/Dialog';
+import Slide, { SlideProps } from '@mui/material/Slide';
 import FoodPanel from '../../panels/food';
 import { FOOD, Food } from '../../services/food';
 import { HeaderProps } from '../header';

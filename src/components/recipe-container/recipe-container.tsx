@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { makeStyles } from '@mui/styles';
 import Image from '../image/image';
 import ScoreComponent from '../score/score';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Container, {
   ContainerProps as MUIContainerProps,
-} from '@material-ui/core/Container';
+} from '@mui/material/Container';
 
 export type ContainerProps = MUIContainerProps;
 

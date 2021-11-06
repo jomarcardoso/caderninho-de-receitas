@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import Modal, { ModalProps } from '@material-ui/core/Modal';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Modal, { ModalProps } from '@mui/material/Modal';
+import CircularProgress from '@mui/material/CircularProgress';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   modal: {

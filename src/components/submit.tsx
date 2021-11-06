@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import Button from './button/button';
 
 const SubmitComponent: FC = ({ children }) => (

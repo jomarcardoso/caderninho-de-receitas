@@ -1,10 +1,10 @@
 import React, { FC, useMemo } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import AppBar, { AppBarProps } from '@material-ui/core/AppBar';
-import Container from '@material-ui/core/Container';
-import Toolbar from '@material-ui/core/Toolbar';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import IconButton from '@mui/material/IconButton';
+import AppBar, { AppBarProps } from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import SvgIcon from '@mui/material/SvgIcon';
+import { makeStyles } from '@mui/styles';
 import { CurrentPage } from '../../services/page.service';
 import { primary, secondary } from '../page/page';
 import Logo from '../logo/logo';

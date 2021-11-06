@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import Badge from '@material-ui/core/Badge';
-import CardContent from '@material-ui/core/CardContent';
-import { CardProps } from '@material-ui/core/Card';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Badge from '@mui/material/Badge';
+import CardContent from '@mui/material/CardContent';
+import { CardProps } from '@mui/material/Card';
+import { makeStyles } from '@mui/styles';
 import Image from './image/image';
 import Card from './card/card';
 import { Ingredient, PORTION } from '../services/ingredient/ingredient.types';

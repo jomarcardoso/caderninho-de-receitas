@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import Round from 'lodash/round';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import ListItem from '@material-ui/core/ListItem';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import ListItem from '@mui/material/ListItem';
 import { NUTRIENT, Nutrient } from '../../services/nutrient.constants';
 
 const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({

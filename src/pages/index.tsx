@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
-import Box from '@material-ui/core/Box';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Box from '@mui/material/Box';
+import { makeStyles } from '@mui/styles';
 import { CurrentPage } from '../services/page.service';
 import Panel from '../components/panel/panel';
 import RecipePanel from '../panels/recipe-panel';

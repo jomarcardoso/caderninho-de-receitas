@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 import Container from '../container/container';
 import { primary } from '../page/page';
 

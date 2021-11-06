@@ -1,9 +1,9 @@
 import React, { FC, ReactElement } from 'react';
-import List from '@material-ui/core/List';
-import Grid, { GridProps } from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import List from '@mui/material/List';
+import Grid, { GridProps } from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import round from 'lodash/round';
-import ListItem from '@material-ui/core/ListItem';
+import ListItem from '@mui/material/ListItem';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import { Food } from '../../services/food';
