@@ -1,0 +1,13 @@
+.caderninho .aminoacids-table {
+  &__cell {
+    padding: 8px 0;
+
+    &:last-child {
+      padding-right: 4px !important;
+    }
+  }
+
+  &__bar {
+    min-height: 20px;
+  };
+}

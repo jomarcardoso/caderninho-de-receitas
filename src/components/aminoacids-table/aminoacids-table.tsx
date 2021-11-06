@@ -7,32 +7,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { makeStyles } from '@mui/styles';
 import {
   AminoAcids,
   AMINO_ACIDS,
   TRANSLATED_AMINO_ACIDS,
 } from '../../services/amino-acid';
-
-const useStyles = makeStyles({
-  cell: {
-    padding: '8px 0',
-  },
-  lastCell: {
-    padding: '8px 0',
-    paddingRight: '4px !important',
-  },
-  bar: {
-    minHeight: '20px',
-  },
-});
+import './aminoacids-table.scss';
 
 interface Props {
   aminoAcids: AminoAcids;
 }
 
 const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
-  const classes = useStyles();
   const essentialAminoAcids = [
     {
       name: TRANSLATED_AMINO_ACIDS.tryptophan,
@@ -88,32 +74,32 @@ const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
         <TableCell component="th" scope="row">
           {name}
         </TableCell>
-        <TableCell className={classes.cell} align="right">
+        <TableCell className="aminoacids-table__cell" align="right">
           {veryLowQuantity ? (
-            <Box className={classes.bar} bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
           ) : (
-            <Box className={classes.bar} />
+            <Box className="aminoacids-table__bar" />
           )}
         </TableCell>
-        <TableCell className={classes.cell} align="right">
+        <TableCell className="aminoacids-table__cell" align="right">
           {lowQuantity ? (
-            <Box className={classes.bar} bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
           ) : (
-            <Box className={classes.bar} />
+            <Box className="aminoacids-table__bar" />
           )}
         </TableCell>
-        <TableCell className={classes.cell} align="right">
+        <TableCell className="aminoacids-table__cell" align="right">
           {regularQuantity ? (
-            <Box className={classes.bar} bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
           ) : (
-            <Box className={classes.bar} />
+            <Box className="aminoacids-table__bar" />
           )}
         </TableCell>
-        <TableCell className={classes.cell} align="right">
+        <TableCell className="aminoacids-table__cell" align="right">
           {highQuantity ? (
-            <Box className={classes.bar} bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
           ) : (
-            <Box className={classes.bar} />
+            <Box className="aminoacids-table__bar" />
           )}
         </TableCell>
       </TableRow>

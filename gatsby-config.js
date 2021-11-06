@@ -26,16 +26,8 @@ module.exports = {
       },
     },
     'gatsby-plugin-eslint',
-    `gatsby-plugin-sass`,
     `gatsby-theme-material-ui`,
-    // {
-    //   resolve: `gatsby-theme-material-ui`,
-    //   options: {
-    //     disableAutoprefixing: false,
-    //     disableMinification: false,
-    //   },
-    // },
-    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-sass`,
     {
       resolve: 'gatsby-plugin-react-svg',
       options: {

@@ -1,18 +1,20 @@
 // resets
 
-a {
-  color: inherit;
-  text-decoration: inherit;
-}
+.caderninho {
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
 
-img {
-  width: 100%;
-}
+  img {
+    width: 100%;
+  }
 
-ul {
-  padding-left: 0;
-}
+  ul {
+    padding-left: 0;
+  }
 
-.d-none {
-  display: none;
+  .d-none {
+    display: none;
+  }
 }

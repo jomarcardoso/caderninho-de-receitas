@@ -1,0 +1,18 @@
+.caderninho .section-card {
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid #87695e;
+  background-color: #87695e;
+
+  &__title {
+    color: white;
+    padding: 8px 0;
+    margin: 0;
+    font-size: 17px;
+  }
+
+  &__body {
+    padding: 24px 12px;
+    background-color: white;
+  }
+}

@@ -6,7 +6,7 @@ import Panel from '../components/panel/panel';
 import RecipePanel from '../panels/recipe-panel';
 import SEO from '../components/seo';
 import Page from '../components/page/page';
-import FoodsPanel from '../panels/foods';
+import FoodsPanel from '../panels/foods/foods';
 import { FOOD } from '../services/food';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';

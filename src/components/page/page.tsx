@@ -90,24 +90,20 @@ function theme({ bgBody = '' }: Style) {
         fontFamily: fontFamilyDisplay,
         fontSize: '19px',
         fontWeight: 400,
-        color: secondary.main,
         letterSpacing: 1,
       },
       h2: {
         fontFamily: fontFamilyDisplay,
-        color: primary.dark,
         fontSize: '19px',
         fontWeight: 400,
         letterSpacing: 1,
       },
       h3: {
-        color: primary.dark,
         fontSize: '18px',
         fontWeight: 600,
         letterSpacing: 1,
       },
       h4: {
-        color: secondary.main,
         fontSize: '16px',
         fontWeight: 600,
         letterSpacing: 1,
@@ -147,14 +143,16 @@ const Page: FC = ({ children }) => {
   }, []);
 
   return (
-    <div className={classes['@global']}>
-      <StyleContext.Provider value={{ style, setStyle }}>
-        <ThemeTopLayout theme={theme(style)}>
-          <LoadingContext.Provider value={{ loading, setLoading }}>
-            {children}
-          </LoadingContext.Provider>
-        </ThemeTopLayout>
-      </StyleContext.Provider>
+    <div className="caderninho">
+      <div className={classes['@global']}>
+        <StyleContext.Provider value={{ style, setStyle }}>
+          <ThemeTopLayout theme={theme(style)}>
+            <LoadingContext.Provider value={{ loading, setLoading }}>
+              {children}
+            </LoadingContext.Provider>
+          </ThemeTopLayout>
+        </StyleContext.Provider>
+      </div>
     </div>
   );
 };
