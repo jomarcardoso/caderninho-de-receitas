@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { makeStyles } from '@mui/styles';
 import Image from '../image/image';
 import ScoreComponent from '../score/score';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
@@ -12,9 +11,9 @@ import Section from '../section/section';
 import { RECIPE, Recipe } from '../../services/recipe';
 import Container from '../container/container';
 import { Food } from '../../services/food';
-import { primary } from '../page/page';
 import SectionCard from '../section-card/section-card';
 import { AminoAcidService } from '../../services/amino-acid';
+import './recipe-container.scss';
 
 export interface RecipeContainerProps {
   recipe: Recipe;
@@ -22,30 +21,15 @@ export interface RecipeContainerProps {
   setCurrentFoodQuantity(quantity: number): void;
 }
 
-const useStyles = makeStyles({
-  name: {
-    zIndex: 1,
-    backgroundColor: `${primary.main}`,
-    padding: '8px 0',
-    color: 'white',
-  },
-  containerBody: {
-    paddingLeft: 8,
-    paddingRight: 8,
-  },
-});
-
 const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
-  const classes = useStyles();
-
   return (
-    <>
+    <div className="recipe-container">
       {recipe.name && (
-        <Box className={classes.name}>
+        <Box className="recipe-container__name">
           <Container>
             <Typography component="h2" variant="h1" color="inherit">
               {recipe.name}
@@ -56,7 +40,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
       <Box marginBottom={3}>
         <Image src={recipe.image} alt="" aspectRatio={1.25} />
       </Box>
-      <Container className={classes.containerBody}>
+      <Container className="recipe-container__body">
         <Grid container spacing={4}>
           {recipe.description && (
             <Grid item xs={12}>
@@ -112,7 +96,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           )}
         </Grid>
       </Container>
-    </>
+    </div>
   );
 };
 

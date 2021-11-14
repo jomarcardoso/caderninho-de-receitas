@@ -3,23 +3,12 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction, {
   BottomNavigationActionProps,
 } from '@mui/material/BottomNavigationAction';
-import Box from '@mui/material/Box';
+import Box, { BoxProps } from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import SvgIcon from '@mui/material/SvgIcon';
-import { borderLight } from '../page/page';
+import './footer.scss';
 
 const useStyles = makeStyles({
-  root: {
-    bottom: 0,
-    height: 48,
-    minHeight: 48,
-    overflow: 'hidden',
-    position: 'sticky',
-    ...borderLight,
-  },
-  navigation: {
-    height: '100%',
-  },
   button: {
     display: 'block',
     paddingTop: '8px !important',
@@ -30,39 +19,42 @@ const useStyles = makeStyles({
   },
 });
 
-export interface FooterProps {
+interface Props {
   items?: BottomNavigationActionProps[];
 }
 
-const Footer: FC<FooterProps> = ({ items = [] }) => {
+export type FooterProps = Props & BoxProps;
+
+const Footer: FC<FooterProps> = ({ items = [], ...props }) => {
   const classes = useStyles();
 
   function render() {
-    function renderItem({ icon, ...props }: BottomNavigationActionProps) {
+    function renderItem({ icon, ...itemProps }: BottomNavigationActionProps) {
       return (
         <BottomNavigationAction
           className={classes.button}
           icon={<SvgIcon>{icon}</SvgIcon>}
-          {...props}
+          {...itemProps}
         />
       );
     }
 
     return (
-      <Box borderTop={1} component="footer" className={classes.root} zIndex={1}>
-        <BottomNavigation className={classes.navigation}>
+      <Box
+        borderTop={1}
+        component="footer"
+        className="footer"
+        zIndex={1}
+        {...props}
+      >
+        <BottomNavigation className="footer__navigation">
           {items.map(renderItem)}
         </BottomNavigation>
       </Box>
     );
   }
 
-  const renderMemo = useMemo(render, [
-    classes.button,
-    classes.navigation,
-    classes.root,
-    items,
-  ]);
+  const renderMemo = useMemo(render, [classes.button, items, props]);
 
   return renderMemo;
 };

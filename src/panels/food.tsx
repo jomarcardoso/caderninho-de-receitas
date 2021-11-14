@@ -17,7 +17,10 @@ const FoodPanel: FC<Props> = ({ food, quantity = 100, headerProps }) => {
   return (
     <Layout
       showFooter={false}
-      mainProps={{ mt: 0 }}
+      mainProps={{
+        mt: 0,
+        containerProps: { disableGutters: true },
+      }}
       headerProps={{
         ...headerProps,
         pageName: `${name} (${quantity}g)`,

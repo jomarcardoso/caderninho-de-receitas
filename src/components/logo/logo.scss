@@ -1,0 +1,22 @@
+@use '../../styles/utils/variables';
+
+.caderninho .logo {
+  text-align: justify;
+  line-height: 0.82;
+  font-size: 16;
+  white-space: nowrap;
+  letter-spacing: 0;
+
+  &__text-large {
+    font-size: 17;
+    letter-spacing: 0.1;
+  }
+
+  &--active {
+    text-shadow: 0 0 1px currentColor;
+
+    .logo__text-small {
+      color: variables.$color-primary-main;
+    }
+  }
+}

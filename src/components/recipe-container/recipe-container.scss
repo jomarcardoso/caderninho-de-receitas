@@ -1,0 +1,15 @@
+@use '../../styles/utils/variables';
+
+.caderninho .recipe-container {
+  &__name {
+    background-color: variables.$color-primary-main;
+    color: variables.$color-white;
+    padding: 8px 0;
+    z-index: 1;
+  };
+
+  &__container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

@@ -1,24 +1,11 @@
 import React, { FC } from 'react';
-import Box from '@mui/material/Box';
-import { makeStyles } from '@mui/styles';
+import Box, { BoxProps } from '@mui/material/Box';
 import Header, { HeaderProps } from '../header';
 import Main, { MainProps } from '../main';
 import './layout.scss';
 
 import { CurrentPage } from '../../services/page.service';
 import Footer, { FooterProps } from '../footer/footer';
-
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    minHeight: 'calc(100vh - 28px)',
-  },
-  main: {
-    flex: 1,
-  },
-});
 
 interface Props {
   showHeader?: boolean;
@@ -29,20 +16,21 @@ interface Props {
   mainProps?: MainProps;
 }
 
-const Layout: FC<Props> = ({
+export type LayoutProps = Props & BoxProps;
+
+const Layout: FC<LayoutProps> = ({
   children,
   showHeader = true,
   showFooter = true,
   headerProps,
   footerProps,
   mainProps,
+  ...props
 }) => {
-  const classes = useStyles();
-
   return (
-    <Box className={classes.root} bgcolor="gray.700">
+    <Box className="layout" bgcolor="gray.700" {...props}>
       {showHeader && <Header {...headerProps} />}
-      <Main className={classes.main} {...mainProps}>
+      <Main className="layout__main" {...mainProps}>
         {children}
       </Main>
       {showFooter && <Footer {...footerProps} />}

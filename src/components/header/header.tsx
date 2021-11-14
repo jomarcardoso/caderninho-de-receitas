@@ -4,34 +4,31 @@ import AppBar, { AppBarProps } from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import SvgIcon from '@mui/material/SvgIcon';
-import { makeStyles } from '@mui/styles';
 import { CurrentPage } from '../../services/page.service';
 import { primary, secondary } from '../page/page';
 import Logo from '../logo/logo';
 import CheffLightSvg from '../../assets/svg/cheff-light.svg';
 import ListLightSvg from '../../assets/svg/list-light.svg';
 import ListDuoSvg from '../../assets/svg/list-duo.svg';
+import './header.scss';
 
-interface Header2Props {
+interface Props {
   currentPage?: CurrentPage;
 }
 
-const useStyles = makeStyles({
-  toolbar: {
-    justifyContent: 'space-between',
-  },
-});
+export type HeaderProps = Props & AppBarProps;
 
-const Header2: FC<Header2Props & AppBarProps> = ({
-  currentPage = CurrentPage.HOME,
-}) => {
-  const classes = useStyles();
-
+const Header: FC<HeaderProps> = ({ currentPage = CurrentPage.HOME }) => {
   function render() {
     return (
-      <AppBar position="static" role="banner" color="inherit">
+      <AppBar
+        className="header"
+        position="static"
+        role="banner"
+        color="inherit"
+      >
         <Container maxWidth="md" disableGutters>
-          <Toolbar variant="dense" className={classes.toolbar}>
+          <Toolbar variant="dense" className="header__toolbar">
             <IconButton href="#foods-panel" color="inherit">
               <SvgIcon>
                 {currentPage === CurrentPage.FOODS ? (
@@ -70,9 +67,9 @@ const Header2: FC<Header2Props & AppBarProps> = ({
     );
   }
 
-  const renderMemo = useMemo(render, [currentPage, classes]);
+  const renderMemo = useMemo(render, [currentPage]);
 
   return renderMemo;
 };
 
-export default Header2;
+export default Header;

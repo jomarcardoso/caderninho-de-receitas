@@ -1,0 +1,28 @@
+// color
+$color-primary-light: hsl(17, 33%, 75%);
+$color-primary-main: hsl(16, 18%, 45%);
+$color-primary-dark: hsl(15, 14%, 30%);
+$color-primary-weak: #{$color-primary-dark}cf;
+
+$color-secondary-light: #262626;
+$color-secondary-main: #191919;
+$color-secondary-dark: #0a0a0a;
+$color-secondary-weak: #{$color-secondary-dark}cf;
+
+$color-dark-light: $color-secondary-light;
+$color-dark-main: $color-secondary-main;
+$color-dark-dark: $color-secondary-dark;
+$color-dark-weak: #{$color-secondary-dark}cf;
+
+$color-light-light: #f8f8f8;
+$color-light-main: #f2f2f2;
+$color-light-dark: #ededed;
+$color-light-weak: #{$color-light-dark}cf;
+
+$color-white: #fff;
+$color-white-weak: #ffffff88;
+
+// border
+$border-radius: 2px;
+$border-primary: 2px dashed $color-primary-light;
+$border-secondary: 2px

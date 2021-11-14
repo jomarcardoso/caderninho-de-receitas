@@ -11,7 +11,7 @@ import { FOOD } from '../services/food';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
 import MainPanel from '../panels/main-panel';
-import Header2 from '../components/header2/header2';
+import Header from '../components/header/header';
 import PageLoader from '../components/page-loader/page-loader';
 import LoadingContext from '../contexts/loading';
 
@@ -85,7 +85,7 @@ const Index: FC = () => {
         open={Boolean(currentFood.name)}
         quantity={currentFoodQuantity}
       />
-      <Header2 currentPage={currentPage} />
+      <Header currentPage={currentPage} />
       <Box className={classes.display} id="root-content">
         <Panel
           id="foods-panel"

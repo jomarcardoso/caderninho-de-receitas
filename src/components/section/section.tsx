@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Grid from '@mui/material/Grid';
+import Grid, { GridProps } from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import SectionTitle from '../section-title/section-title';
 
@@ -8,7 +8,13 @@ interface Props {
   onBgWhite?: boolean;
 }
 
-const Section: FC<Props> = ({ onBgWhite = false, title = '', children }) => {
+export type SectionProps = Props & GridProps;
+
+const Section: FC<SectionProps> = ({
+  onBgWhite = false,
+  title = '',
+  children,
+}) => {
   return (
     <Grid container spacing={2}>
       {title && (
