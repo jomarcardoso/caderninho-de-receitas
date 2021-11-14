@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
-import Header, { HeaderProps } from '../header';
+import Header, { HeaderProps } from '../header/header';
 import Main, { MainProps } from '../main';
 import './layout.scss';
 

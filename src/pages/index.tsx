@@ -11,7 +11,7 @@ import { FOOD } from '../services/food';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
 import MainPanel from '../panels/main-panel';
-import Header from '../components/header/header';
+import Header from '../components/root-header/root-header';
 import PageLoader from '../components/page-loader/page-loader';
 import LoadingContext from '../contexts/loading';
 

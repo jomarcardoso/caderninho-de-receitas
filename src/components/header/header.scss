@@ -1,5 +1,12 @@
 .caderninho .header {
+  position: sticky;
+  top: 0;
+
   &__toolbar {
-    justify-content: space-between;
+    gap: 16;
+  }
+
+  &__title {
+    flex-grow: 1;
   }
 }

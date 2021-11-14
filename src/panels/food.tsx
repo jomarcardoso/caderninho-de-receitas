@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import { Food } from '../services/food';
 import Layout from '../components/layout/layout';
 import FoodDetailed from '../components/food-detailed/food-detailed';
-import { HeaderProps } from '../components/header';
+import { HeaderProps } from '../components/header/header';
 
 interface Props {
   food: Food;

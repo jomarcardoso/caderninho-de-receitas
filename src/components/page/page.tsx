@@ -143,16 +143,14 @@ const Page: FC = ({ children }) => {
   }, []);
 
   return (
-    <div className="caderninho">
-      <div className={classes['@global']}>
-        <StyleContext.Provider value={{ style, setStyle }}>
-          <ThemeTopLayout theme={theme(style)}>
-            <LoadingContext.Provider value={{ loading, setLoading }}>
-              {children}
-            </LoadingContext.Provider>
-          </ThemeTopLayout>
-        </StyleContext.Provider>
-      </div>
+    <div className={classes['@global']}>
+      <StyleContext.Provider value={{ style, setStyle }}>
+        <ThemeTopLayout theme={theme(style)}>
+          <LoadingContext.Provider value={{ loading, setLoading }}>
+            {children}
+          </LoadingContext.Provider>
+        </ThemeTopLayout>
+      </StyleContext.Provider>
     </div>
   );
 };
