@@ -1,6 +1,8 @@
+@use '../../styles/utils/utils';
+
 .caderninho .section-title {
-  color: white;
+  background-color: utils.$color-primary-weak;
   border-radius: 2px;
+  color: white;
   padding: 3px;
-  background-color: #87695ecf;
 }
