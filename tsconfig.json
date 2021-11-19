@@ -9,7 +9,8 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "target" : "esnext",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "module": "ESNext"
   },
   "include": [
     "src",
