@@ -1,19 +1,10 @@
 import React, { FC } from 'react';
-import ButtonMUI, { ButtonProps } from '@material-ui/core/Button';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import { borderSecondary } from '../page/page';
-
-const useStyles = makeStyles({
-  root: {
-    ...borderSecondary,
-  },
-});
+import ButtonMUI, { ButtonProps } from '@mui/material/Button';
+import './button.scss';
 
 const Button: FC<ButtonProps> = ({ children = '', ...props }) => {
-  const classes = useStyles();
-
   return (
-    <ButtonMUI {...props} className={classes.root}>
+    <ButtonMUI {...props} className="button">
       {children}
     </ButtonMUI>
   );

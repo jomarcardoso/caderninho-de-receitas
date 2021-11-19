@@ -1,0 +1,13 @@
+.caderninho .header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  &__toolbar {
+    gap: 16;
+  }
+
+  &__title {
+    flex-grow: 1;
+  }
+}

@@ -1,19 +1,23 @@
 import React, { FC } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Section from '../section/section';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Section, { SectionProps } from '../section/section';
 
 interface Props {
   preparation: string;
 }
 
-const Preparation: FC<Props> = ({ preparation = '' }) => {
+export type PreparationProps = Props & SectionProps;
+
+const Preparation: FC<PreparationProps> = ({ preparation = '', ...props }) => {
   if (!preparation) return <></>;
 
+  const preparationList = preparation.split(/\n\s/);
+
   return (
-    <Section title="Modo de preparo" onBgWhite>
+    <Section title="Modo de preparo" onBgWhite {...props}>
       <Grid container spacing={1}>
-        {preparation.split(/\n\s/).map((preparationLine) => (
+        {preparationList.map((preparationLine) => (
           <Grid item xs={12} key={preparationLine}>
             <Typography>{preparationLine}</Typography>
           </Grid>

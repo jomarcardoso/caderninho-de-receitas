@@ -1,38 +1,24 @@
 import React, { FC } from 'react';
-import Table from '@material-ui/core/Table';
-import Box from '@material-ui/core/Box';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Table from '@mui/material/Table';
+import Box from '@mui/material/Box';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import {
   AminoAcids,
   AMINO_ACIDS,
   TRANSLATED_AMINO_ACIDS,
 } from '../../services/amino-acid';
-
-const useStyles = makeStyles({
-  cell: {
-    padding: '8px 0',
-  },
-  lastCell: {
-    padding: '8px 0',
-    paddingRight: '4px !important',
-  },
-  bar: {
-    minHeight: '20px',
-  },
-});
+import './aminoacids-table.scss';
 
 interface Props {
   aminoAcids: AminoAcids;
 }
 
 const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
-  const classes = useStyles();
   const essentialAminoAcids = [
     {
       name: TRANSLATED_AMINO_ACIDS.tryptophan,
@@ -88,32 +74,32 @@ const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
         <TableCell component="th" scope="row">
           {name}
         </TableCell>
-        <TableCell className={classes.cell} align="right">
+        <TableCell className="aminoacids-table__cell" align="right">
           {veryLowQuantity ? (
-            <Box className={classes.bar} bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
           ) : (
-            <Box className={classes.bar} />
+            <Box className="aminoacids-table__bar" />
           )}
         </TableCell>
-        <TableCell className={classes.cell} align="right">
+        <TableCell className="aminoacids-table__cell" align="right">
           {lowQuantity ? (
-            <Box className={classes.bar} bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
           ) : (
-            <Box className={classes.bar} />
+            <Box className="aminoacids-table__bar" />
           )}
         </TableCell>
-        <TableCell className={classes.cell} align="right">
+        <TableCell className="aminoacids-table__cell" align="right">
           {regularQuantity ? (
-            <Box className={classes.bar} bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
           ) : (
-            <Box className={classes.bar} />
+            <Box className="aminoacids-table__bar" />
           )}
         </TableCell>
-        <TableCell className={classes.cell} align="right">
+        <TableCell className="aminoacids-table__cell" align="right">
           {highQuantity ? (
-            <Box className={classes.bar} bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
           ) : (
-            <Box className={classes.bar} />
+            <Box className="aminoacids-table__bar" />
           )}
         </TableCell>
       </TableRow>

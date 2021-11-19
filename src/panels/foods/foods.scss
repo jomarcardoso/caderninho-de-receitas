@@ -1,0 +1,15 @@
+.caderninho .foods-panel {
+  &__icon {
+    min-width: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  &__img {
+    width: 100%;
+  }
+
+  &__list-item {
+    padding: 0;
+  }
+}

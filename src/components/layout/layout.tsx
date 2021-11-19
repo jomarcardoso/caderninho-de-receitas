@@ -1,51 +1,39 @@
 import React, { FC } from 'react';
-import Box from '@material-ui/core/Box';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import Header, { HeaderProps } from '../header';
+import Box, { BoxProps } from '@mui/material/Box';
+import Header, { HeaderProps } from '../header/header';
 import Main, { MainProps } from '../main';
 import './layout.scss';
 
 import { CurrentPage } from '../../services/page.service';
-import Footer2, { Footer2Props } from '../footer2/footer2';
-
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    minHeight: 'calc(100vh - 28px)',
-  },
-  main: {
-    flex: 1,
-  },
-});
+import Footer, { FooterProps } from '../footer/footer';
 
 interface Props {
   showHeader?: boolean;
   showFooter?: boolean;
   currentPage?: CurrentPage;
   headerProps?: HeaderProps;
-  footerProps?: Footer2Props;
+  footerProps?: FooterProps;
   mainProps?: MainProps;
 }
 
-const Layout: FC<Props> = ({
+export type LayoutProps = Props & BoxProps;
+
+const Layout: FC<LayoutProps> = ({
   children,
   showHeader = true,
   showFooter = true,
   headerProps,
   footerProps,
   mainProps,
+  ...props
 }) => {
-  const classes = useStyles();
-
   return (
-    <Box className={classes.root} bgcolor="gray.700">
+    <Box className="layout" bgcolor="gray.700" {...props}>
       {showHeader && <Header {...headerProps} />}
-      <Main className={classes.main} {...mainProps}>
+      <Main className="layout__main" {...mainProps}>
         {children}
       </Main>
-      {showFooter && <Footer2 {...footerProps} />}
+      {showFooter && <Footer {...footerProps} />}
     </Box>
   );
 };

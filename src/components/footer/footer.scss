@@ -1,0 +1,17 @@
+.caderninho .footer {
+  bottom: 0;
+  height: 48;
+  min-height: 48;
+  overflow: hidden;
+  position: sticky;
+  border: 0.5 solid #f2f2f2;
+
+  button {
+    display: block;
+    padding-top: 8px !important;
+  }
+
+  &__navigation {
+    height: 100%;
+  }
+}

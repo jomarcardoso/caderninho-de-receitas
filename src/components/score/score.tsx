@@ -1,20 +1,9 @@
 import React, { FC, ReactElement } from 'react';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Grid, { GridProps } from '@mui/material/Grid';
 import Card from '../card/card';
 import { Recipe } from '../../services/recipe';
-
-const useStyles = makeStyles({
-  result: {
-    display: 'flex',
-    flex: 1,
-  },
-  card: {
-    flex: 1,
-  },
-});
 
 interface Props {
   recipe: Recipe;
@@ -27,13 +16,13 @@ interface RenderResultArgs {
 
 type RenderResult = (ags: RenderResultArgs) => ReactElement;
 
-const ScoreComponent: FC<Props> = ({ recipe }) => {
-  const classes = useStyles();
+export type ScoreProps = Props & GridProps;
 
+const ScoreComponent: FC<ScoreProps> = ({ recipe, ...props }) => {
   const renderResult: RenderResult = ({ name = '', value = '' }) => {
     return (
-      <Grid item xs={6} sm={4} className={classes.result}>
-        <Card className={classes.card}>
+      <Grid item xs={6} sm={4} className="score" {...props}>
+        <Card className="score__card">
           <CardContent>
             <Typography component="p" variant="h3" align="center">
               {Math.round(Number(value))}

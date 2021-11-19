@@ -1,5 +1,5 @@
 import React, { HTMLProps, FC } from 'react';
-import Box, { BoxProps } from '@material-ui/core/Box';
+import Box, { BoxProps } from '@mui/material/Box';
 import Container, { ContainerProps } from './container/container';
 
 interface Props {

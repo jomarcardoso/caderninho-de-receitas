@@ -1,25 +1,12 @@
 import React, { FC } from 'react';
-import Modal, { ModalProps } from '@material-ui/core/Modal';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-
-const useStyles = makeStyles({
-  modal: {
-    backgroundColor: '#ffffff88',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    width: '100vw',
-  },
-});
+import Modal, { ModalProps } from '@mui/material/Modal';
+import CircularProgress from '@mui/material/CircularProgress';
+import './page-loader.scss';
 
 const PageLoader: FC<Omit<ModalProps, 'children'>> = (props) => {
-  const classes = useStyles();
-
   return (
-    <Modal {...props} hideBackdrop>
-      <div className={classes.modal}>
+    <Modal {...props} className="page-loader" hideBackdrop>
+      <div className="page-loader__bg">
         <CircularProgress />
       </div>
     </Modal>

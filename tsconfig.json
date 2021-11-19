@@ -7,7 +7,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "jsx": "react"
+    "jsx": "react",
+    "target" : "esnext",
+    "moduleResolution": "node",
+    "module": "ESNext"
   },
   "include": [
     "src",

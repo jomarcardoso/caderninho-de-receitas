@@ -1,6 +1,6 @@
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import React, { FC, HTMLProps } from 'react';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { makeStyles } from '@mui/styles';
 import DiceOneSolidSvg from '../../assets/svg/dice-one-solid.svg';
 import DiceTwoSolidSvg from '../../assets/svg/dice-two-solid.svg';
 import DiceThreeSolidSvg from '../../assets/svg/dice-three-solid.svg';

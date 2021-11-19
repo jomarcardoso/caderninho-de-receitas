@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import CardMUI, { CardProps } from '@material-ui/core/Card';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import CardMUI, { CardProps } from '@mui/material/Card';
+import { makeStyles } from '@mui/styles';
 import { borderPrimary } from '../page/page';
 
 const useStyles = makeStyles({

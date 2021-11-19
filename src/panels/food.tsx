@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import { Food } from '../services/food';
 import Layout from '../components/layout/layout';
 import FoodDetailed from '../components/food-detailed/food-detailed';
-import { HeaderProps } from '../components/header';
+import { HeaderProps } from '../components/header/header';
 
 interface Props {
   food: Food;
@@ -17,7 +17,10 @@ const FoodPanel: FC<Props> = ({ food, quantity = 100, headerProps }) => {
   return (
     <Layout
       showFooter={false}
-      mainProps={{ mt: 0 }}
+      mainProps={{
+        mt: 0,
+        containerProps: { disableGutters: true },
+      }}
       headerProps={{
         ...headerProps,
         pageName: `${name} (${quantity}g)`,

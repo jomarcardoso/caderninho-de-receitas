@@ -1,17 +1,17 @@
 import React, { FC, useState, useEffect } from 'react';
-import Box from '@material-ui/core/Box';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import Box from '@mui/material/Box';
+import { makeStyles } from '@mui/styles';
 import { CurrentPage } from '../services/page.service';
 import Panel from '../components/panel/panel';
 import RecipePanel from '../panels/recipe-panel';
 import SEO from '../components/seo';
 import Page from '../components/page/page';
-import FoodsPanel from '../panels/foods';
+import FoodsPanel from '../panels/foods/foods';
 import { FOOD } from '../services/food';
 import useRecipe from '../hooks/use-current-recipe';
 import DialogFood from '../components/dialog-food/dialog-food';
 import MainPanel from '../panels/main-panel';
-import Header2 from '../components/header2/header2';
+import Header from '../components/root-header/root-header';
 import PageLoader from '../components/page-loader/page-loader';
 import LoadingContext from '../contexts/loading';
 
@@ -28,7 +28,6 @@ const useStyles = makeStyles({
 
 const Index: FC = () => {
   const classes = useStyles();
-  // const { loading } = useContext(LoadingContext);
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
@@ -86,7 +85,7 @@ const Index: FC = () => {
         open={Boolean(currentFood.name)}
         quantity={currentFoodQuantity}
       />
-      <Header2 currentPage={currentPage} />
+      <Header currentPage={currentPage} />
       <Box className={classes.display} id="root-content">
         <Panel
           id="foods-panel"

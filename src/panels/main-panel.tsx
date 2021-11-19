@@ -1,14 +1,14 @@
 import React, { FC, useContext } from 'react';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-// import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-// import TableHead from '@material-ui/core/TableHead';
-import ListItemText from '@material-ui/core/ListItemText';
-import TableRow from '@material-ui/core/TableRow';
+import { makeStyles } from '@mui/styles';
+// import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+import ListItemText from '@mui/material/ListItemText';
+import TableRow from '@mui/material/TableRow';
 import capitalize from 'lodash/capitalize';
 import Layout from '../components/layout/layout';
 import AccountContext from '../contexts/account-context';
@@ -37,13 +37,6 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
 
   function handleClickLink(recipe: Recipe) {
     setCurrentRecipe(recipe);
-
-    const elPage = document.querySelector('#root-content');
-
-    elPage?.scrollTo({
-      left: 9999,
-      behavior: 'smooth',
-    });
   }
 
   function renderItem(recipe: Recipe) {

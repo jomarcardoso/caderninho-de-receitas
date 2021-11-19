@@ -83,6 +83,7 @@ const SEO: FC<Props> = ({
     <Helmet
       htmlAttributes={{
         lang,
+        class: 'caderninho',
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}

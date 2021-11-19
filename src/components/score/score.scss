@@ -1,0 +1,8 @@
+.caderninho .score {
+  display: flex;
+  flex: 1;
+
+  &__card {
+    flex: 1;
+  }
+}

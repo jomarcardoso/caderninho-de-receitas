@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 // @ts-expect-error instalação esquisita
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ThemeTopLayout from 'gatsby-theme-material-ui-top-layout/src/components/top-layout';
-import createTheme from '@material-ui/core/styles/createTheme';
-import { PaletteColor } from '@material-ui/core/styles/createPalette';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { createTheme } from '@mui/material';
+import { PaletteColor } from '@mui/material/styles/createPalette';
+import { makeStyles } from '@mui/styles';
 import StyleContext, { Style } from '../../contexts/style';
 import LoadingContext from '../../contexts/loading';
 
@@ -90,24 +90,20 @@ function theme({ bgBody = '' }: Style) {
         fontFamily: fontFamilyDisplay,
         fontSize: '19px',
         fontWeight: 400,
-        color: secondary.main,
         letterSpacing: 1,
       },
       h2: {
         fontFamily: fontFamilyDisplay,
-        color: primary.dark,
         fontSize: '19px',
         fontWeight: 400,
         letterSpacing: 1,
       },
       h3: {
-        color: primary.dark,
         fontSize: '18px',
         fontWeight: 600,
         letterSpacing: 1,
       },
       h4: {
-        color: secondary.main,
         fontSize: '16px',
         fontWeight: 600,
         letterSpacing: 1,

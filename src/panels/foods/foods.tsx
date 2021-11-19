@@ -1,33 +1,19 @@
 import React, { FC, ReactElement, useContext } from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Image from '../components/image/image';
-import Layout from '../components/layout/layout';
-import FoodsContext from '../contexts/foods-context';
-import { CurrentPage } from '../services/page.service';
-import { Food } from '../services/food';
-
-const useStyles = makeStyles({
-  selectIcon: {
-    minWidth: '20px',
-    width: '20px',
-    marginRight: '10px',
-  },
-  img: {
-    width: '100%',
-  },
-  listItem: {
-    padding: 0,
-  },
-});
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Image from '../../components/image/image';
+import Layout from '../../components/layout/layout';
+import FoodsContext from '../../contexts/foods-context';
+import { CurrentPage } from '../../services/page.service';
+import { Food } from '../../services/food';
+import './foods.scss';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -35,7 +21,6 @@ interface Props {
 
 const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
   const foods = useContext(FoodsContext);
-  const classes = useStyles();
   const orderedFood = foods.sort((a, b) => {
     if (a.name > b.name) {
       return 1;
@@ -54,12 +39,12 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
       <TableRow key={food.name}>
         <TableCell component="th" scope="row">
           <ListItem
-            className={classes.listItem}
+            className="foods-panel__list-item"
             button
             onClick={() => setCurrentFood(food)}
           >
-            <ListItemIcon className={classes.selectIcon}>
-              <Image className={classes.img} src={food.icon} alt="" />
+            <ListItemIcon className="foods-panel__icon">
+              <Image className="foods-panel__img" src={food.icon} alt="" />
             </ListItemIcon>
             <ListItemText primary={food.name} />
           </ListItem>

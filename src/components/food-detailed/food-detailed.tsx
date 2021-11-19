@@ -1,10 +1,11 @@
 import React, { FC, ReactElement } from 'react';
-import List from '@material-ui/core/List';
-import Grid, { GridProps } from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import List from '@mui/material/List';
+import Grid, { GridProps } from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import round from 'lodash/round';
-import ListItem from '@material-ui/core/ListItem';
+import ListItem from '@mui/material/ListItem';
 import Image from '../image/image';
+import Container from '../container/container';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import { Food } from '../../services/food';
 import { VITAMINS } from '../../services/vitamin';
@@ -67,56 +68,67 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
   return (
     <Grid container spacing={4} justifyContent="center" {...props}>
-      <Image src={image} alt="" aspectRatio={1.25} />
       <Grid item xs={12}>
-        <List>
-          {renderQuality({ name: 'Índice Glicêmico', value: gi })}
-          {renderQuality({ name: 'Calorias', value: calories * multiplier })}
-          {renderQuality({
-            name: 'Carboidratos',
-            value: carbohydrates * multiplier,
-          })}
-          {renderQuality({ name: 'Proteínas', value: proteins })}
-          {renderQuality({ name: 'Carga Glicêmica', value: gl })}
-        </List>
-      </Grid>
-      {AminoAcidService.hasAminoAcid(aminoAcids) && (
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="h2" component="h2">
-                Tabela de aminoácidos
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <AminoAcidsTable aminoAcids={aminoAcids} />
-            </Grid>
-          </Grid>
-        </Grid>
-      )}
-      <Grid item xs={12}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h2" component="h2">
-              Vitaminas
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <List>{Object.values(vitamins).map(renderNutrient)}</List>
-          </Grid>
-        </Grid>
+        <Image src={image} alt="" aspectRatio={1.25} />
       </Grid>
       <Grid item xs={12}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h2" component="h2">
-              Minerais
-            </Typography>
+        <Container>
+          <Grid container spacing={4} justifyContent="center">
+            <Grid item xs={12}>
+              <List>
+                {renderQuality({ name: 'Índice Glicêmico', value: gi })}
+                {renderQuality({
+                  name: 'Calorias',
+                  value: calories * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Carboidratos',
+                  value: carbohydrates * multiplier,
+                })}
+                {renderQuality({ name: 'Proteínas', value: proteins })}
+                {renderQuality({ name: 'Carga Glicêmica', value: gl })}
+              </List>
+            </Grid>
+            {AminoAcidService.hasAminoAcid(aminoAcids) && (
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h2" component="h2">
+                      Tabela de aminoácidos
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <AminoAcidsTable aminoAcids={aminoAcids} />
+                  </Grid>
+                </Grid>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h2" component="h2">
+                    Vitaminas
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <List>{Object.values(vitamins).map(renderNutrient)}</List>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h2" component="h2">
+                    Minerais
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <List>{Object.values(minerals).map(renderNutrient)}</List>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <List>{Object.values(minerals).map(renderNutrient)}</List>
-          </Grid>
-        </Grid>
+        </Container>
       </Grid>
     </Grid>
   );

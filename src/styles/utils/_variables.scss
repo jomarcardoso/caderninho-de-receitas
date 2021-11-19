@@ -1,0 +1,38 @@
+// color
+$color-primary-light: #d4b6aa;
+$color-primary-main: hsl(16, 18%, 45%);
+$color-primary-dark: hsl(16, 18%, 35%);
+$color-primary-strong: #{$color-primary-dark}b8;
+$color-primary-weak: #{$color-primary-dark}88;
+
+$color-secondary-light: #262626;
+$color-secondary-main: #191919;
+$color-secondary-dark: #000000;
+$color-secondary-strong: #{$color-secondary-dark}b8;
+$color-secondary-weak: #{$color-secondary-dark}88;
+
+$color-dark-light: $color-secondary-light;
+$color-dark-main: $color-secondary-main;
+$color-dark-dark: $color-secondary-dark;
+$color-dark-strong: $color-secondary-strong;
+$color-dark-weak: $color-secondary-weak;
+
+$color-light-light: #f8f8f8;
+$color-light-main: #f2f2f2;
+$color-light-dark: #ededed;
+$color-light-strong: #{$color-light-dark}cf;
+$color-light-weak: #{$color-light-dark}88;
+
+$color-white: #fff;
+$color-white-weak: #ffffff88;
+
+// border
+$border-radius: 3px;
+$border-primary: 2px dashed $color-primary-light;
+$border-secondary: 2px;
+
+// font
+
+$font-family-title: Cinzel, Roboto, Helvetica, Arial, sans-serif;
+$font-family-text: Dosis, Roboto, Helvetica, Arial, sans-serif;
+$font-family-input: Cedarville Cursive, cursive;

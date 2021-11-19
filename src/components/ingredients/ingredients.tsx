@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import Image from '../image/image';
 import { Ingredient } from '../../services/ingredient/ingredient.types';
 import { Food } from '../../services/food';
-import Section from '../section/section';
+import Section, { SectionProps } from '../section/section';
 
 interface Props {
   ingredients: Array<Ingredient>;
@@ -14,10 +14,13 @@ interface Props {
   setCurrentFoodQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Ingredients: FC<Props> = ({
+export type IngredientsProps = Props & SectionProps;
+
+const Ingredients: FC<IngredientsProps> = ({
   ingredients = [],
   setCurrentFood,
   setCurrentFoodQuantity,
+  ...props
 }) => {
   function handleClick(ingredient: Ingredient) {
     setCurrentFood(ingredient.food);
@@ -25,7 +28,7 @@ const Ingredients: FC<Props> = ({
   }
 
   return (
-    <Section title="Ingredientes" onBgWhite>
+    <Section title="Ingredientes" onBgWhite {...props}>
       <List>
         {ingredients.map((ingredient) => (
           <ListItem
