@@ -1,6 +1,5 @@
 import { Form, FieldArray, FormikProps } from 'formik';
 import React, { FC, useCallback, ChangeEventHandler } from 'react';
-import { makeStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import StepsInput from '../steps-input/steps-input';
@@ -12,6 +11,7 @@ import {
   RecipeData,
 } from '../../services/recipe/recipe.types';
 import SubmitComponent from '../submit';
+import './recipe-register.scss';
 
 export interface RecipeForm {
   steps: RecipeData['steps'];
@@ -21,24 +21,12 @@ export interface RecipeForm {
   quantitySteps: number;
 }
 
-const useStyles = makeStyles({
-  formControl: {
-    display: 'flex',
-  },
-  submit: {
-    position: 'sticky',
-    bottom: 44,
-  },
-});
-
 const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
   values,
   handleBlur: formikHandleBlur,
   handleChange,
   setFieldValue,
 }) => {
-  const classes = useStyles();
-
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredients = '') => {
       const ingredientList = ingredients.split('\n');
@@ -154,7 +142,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
                 />
               </Grid>
               {memoizedRenderSteps()}
-              <Grid item xs={12} className={classes.submit}>
+              <Grid item xs={12} className="recipe-register__submit">
                 <SubmitComponent>Cadastrar refeição</SubmitComponent>
               </Grid>
             </Grid>

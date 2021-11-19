@@ -2,13 +2,13 @@
 $color-primary-light: #d4b6aa;
 $color-primary-main: hsl(16, 18%, 45%);
 $color-primary-dark: hsl(16, 18%, 35%);
-$color-primary-strong: #{$color-primary-dark}aa;
+$color-primary-strong: #{$color-primary-dark}b8;
 $color-primary-weak: #{$color-primary-dark}88;
 
 $color-secondary-light: #262626;
 $color-secondary-main: #191919;
 $color-secondary-dark: #000000;
-$color-secondary-strong: #{$color-secondary-dark}aa;
+$color-secondary-strong: #{$color-secondary-dark}b8;
 $color-secondary-weak: #{$color-secondary-dark}88;
 
 $color-dark-light: $color-secondary-light;
@@ -27,7 +27,7 @@ $color-white: #fff;
 $color-white-weak: #ffffff88;
 
 // border
-$border-radius: 2px;
+$border-radius: 3px;
 $border-primary: 2px dashed $color-primary-light;
 $border-secondary: 2px;
 
