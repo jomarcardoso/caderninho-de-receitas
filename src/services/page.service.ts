@@ -1,7 +1,2 @@
 // eslint-disable-next-line import/prefer-default-export
-export enum CurrentPage {
-  NONE,
-  HOME,
-  FOODS,
-  RECIPE,
-}
+export type CurrentPage = 'NONE' | 'HOME' | 'FOODS' | 'RECIPE';

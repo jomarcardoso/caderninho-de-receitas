@@ -6,10 +6,7 @@ import {
 import { MINERALS, Minerals, MineralsData } from '../mineral';
 import { VITAMINS, Vitamins, VitaminsData } from '../vitamin';
 
-export enum UnitOfMeasurement {
-  gram,
-  liter,
-}
+export type UnitOfMeasurement = 'gram' | 'liter';
 
 export const MeasurerValues = {
   CUP: 'xícara',
@@ -115,7 +112,7 @@ export const FOOD: Food = {
   saturedFats: 0,
   totalFat: 0,
   cholesterol: 0,
-  unitOfMeasurement: UnitOfMeasurement.gram,
+  unitOfMeasurement: 'gram',
   vitamins: VITAMINS,
   version: 'RAW',
   rawId: 0,

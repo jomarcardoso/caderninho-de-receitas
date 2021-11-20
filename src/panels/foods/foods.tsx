@@ -11,7 +11,6 @@ import TableRow from '@mui/material/TableRow';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
 import FoodsContext from '../../contexts/foods-context';
-import { CurrentPage } from '../../services/page.service';
 import { Food } from '../../services/food';
 import './foods.scss';
 
@@ -55,11 +54,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
   }
 
   return (
-    <Layout
-      showHeader={false}
-      showFooter={false}
-      currentPage={CurrentPage.FOODS}
-    >
+    <Layout showHeader={false} showFooter={false} currentPage="FOODS">
       <TableContainer>
         <Table size="small" aria-label="a dense table">
           <TableHead>

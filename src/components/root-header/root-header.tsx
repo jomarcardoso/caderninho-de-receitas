@@ -18,7 +18,7 @@ interface Props {
 
 export type RootHeaderProps = Props & AppBarProps;
 
-const Header: FC<RootHeaderProps> = ({ currentPage = CurrentPage.HOME }) => {
+const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
   function render() {
     return (
       <AppBar
@@ -31,17 +31,17 @@ const Header: FC<RootHeaderProps> = ({ currentPage = CurrentPage.HOME }) => {
           <Toolbar variant="dense" className="root-header__toolbar">
             <IconButton href="#foods-panel" color="inherit">
               <SvgIcon>
-                {currentPage === CurrentPage.FOODS ? (
+                {currentPage === 'FOODS' ? (
                   <ListDuoSvg secondary={primary.main} />
                 ) : (
                   <ListLightSvg />
                 )}
               </SvgIcon>
             </IconButton>
-            <Logo active={currentPage === CurrentPage.HOME} />
+            <Logo active={currentPage === 'HOME'} />
             <IconButton href="#recipe-panel" color="inherit">
               <SvgIcon>
-                {currentPage === CurrentPage.RECIPE ? (
+                {currentPage === 'RECIPE' ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                     <g className="fa-group">
                       <path

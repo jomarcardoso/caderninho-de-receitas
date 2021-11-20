@@ -1,5 +1,5 @@
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { UnitOfMeasurement, FoodData, FoodService } from '../services/food';
+import { FoodData, FoodService } from '../services/food';
 import {
   coconut as coconutData,
   egg as eggData,
@@ -187,10 +187,7 @@ export function formatNacional(food: FoodNacional): FoodData {
       copper: food?.attributes?.copper?.qty ?? 0,
       manganese: food?.attributes?.manganese?.qty ?? 0,
     },
-    unitOfMeasurement:
-      food?.base_unit === 'g'
-        ? UnitOfMeasurement.gram
-        : UnitOfMeasurement.liter,
+    unitOfMeasurement: food?.base_unit === 'g' ? 'gram' : 'liter',
   };
 }
 
@@ -207,7 +204,7 @@ export const foodsData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     calories: 52,
     carbohydrates: 14,
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 192,
@@ -267,7 +264,7 @@ export const foodsData: Array<FoodData> = [
       serine: 15,
       glutamine: 0,
     },
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 178,
@@ -308,7 +305,7 @@ export const foodsData: Array<FoodData> = [
       serine: 40,
       glutamine: 0,
     },
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 101,
@@ -328,7 +325,7 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1568347355280-d33fdf77d42a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80',
     calories: 130,
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 158,
@@ -367,7 +364,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/bean.svg',
     image:
       'https://minhasaude.proteste.org.br//wp-content/uploads/2020/07/escolher-o-feijao-preto-970x472.jpg',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 172,
@@ -459,7 +456,7 @@ export const foodsData: Array<FoodData> = [
         type: 'CUP',
       },
     ],
-    unitOfMeasurement: UnitOfMeasurement.liter,
+    unitOfMeasurement: 'liter',
   },
   {
     ...format(cornRecipe as unknown as FoodMyFoodData),
@@ -478,7 +475,7 @@ export const foodsData: Array<FoodData> = [
         type: 'CUP',
       },
     ],
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     recipe: true,
   },
   {
@@ -499,7 +496,7 @@ export const foodsData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(strawberry as unknown as FoodMyFoodData),
@@ -586,7 +583,7 @@ export const foodsData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1524438418049-ab2acb7aa48f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     description: 'Presunto, sem capa de gordura',
     keys: [],
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 30,
@@ -600,7 +597,7 @@ export const foodsData: Array<FoodData> = [
     name: 'Abacaxi',
     enName: 'pineapple',
     gi: 59,
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 905,
@@ -628,7 +625,7 @@ export const foodsData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(avocado as unknown as FoodMyFoodData),
@@ -639,7 +636,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/avocado.svg',
     image:
       'https://images.unsplash.com/photo-1612215047504-a6c07dbe4f7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 201,
@@ -662,7 +659,7 @@ export const foodsData: Array<FoodData> = [
         type: 'CUP',
       },
     ],
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['aveia em flocos', 'flocos de aveia'],
   },
   {
@@ -688,7 +685,7 @@ export const foodsData: Array<FoodData> = [
         type: 'TEA_SPOON',
       },
     ],
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['coco', 'côco', 'cocos', 'côcos'],
   },
   {
@@ -706,7 +703,7 @@ export const foodsData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['ovos'],
   },
   {
@@ -718,7 +715,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/chicken.svg',
     image:
       'https://images.unsplash.com/photo-1606728035253-49e8a23146de?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['galinha', 'peito de frango', 'coxa de frango'],
     oneMeasures: [
       {
@@ -736,7 +733,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/olive-oil.svg',
     image:
       'https://veja.abril.com.br/wp-content/uploads/2017/06/azeite-023.jpg?quality=70&strip=info&resize=680,453',
-    unitOfMeasurement: UnitOfMeasurement.liter,
+    unitOfMeasurement: 'liter',
     keys: ['azeite', 'óleo de oliva', 'azeite de oliva extra virgem'],
     oneMeasures: [
       {
@@ -762,7 +759,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/sugar.svg',
     image:
       'https://images.unsplash.com/photo-1558467516-f427f3ea3c33?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['açúcar', 'açucar'],
     oneMeasures: [
       {
@@ -788,7 +785,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/wheat-flour.svg',
     image:
       'https://images.unsplash.com/photo-1627485937980-221c88ac04f9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1062&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['farinha branca', 'farinha'],
     oneMeasures: [
       {
@@ -813,7 +810,7 @@ export const foodsData: Array<FoodData> = [
     gi: 80,
     icon: '/images/food/sugar.svg', // TODO: precisa diferenciar do açúcar branco
     image: 'https://superbeal.com.br/img/news/site_5d653235ca208.png',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['açúcar escuro', 'açúcar integral'],
     oneMeasures: [
       {
@@ -838,7 +835,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/carrot-cake.svg',
     image:
       'https://d1uz88p17r663j.cloudfront.net/original/2b76e99abc4136ccf26008c1c387023f_Bolo-de-cenoura-com-cobertura-de-brigadeiro-receitas-nestle.jpg',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     recipe: true,
   },
   {
@@ -847,7 +844,7 @@ export const foodsData: Array<FoodData> = [
     name: 'Sal',
     enName: 'salt',
     icon: '/images/food/salt.svg',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(boiledPotato as unknown as FoodMyFoodData),
@@ -858,7 +855,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/potato.svg',
     image:
       'https://images.unsplash.com/photo-1563012678-bdfec255931b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['batatinha', 'batata inglesa'],
   },
   {
@@ -869,7 +866,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/onion.svg',
     image:
       'https://images.unsplash.com/photo-1560087706-04151ac8da26?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     calories: 40,
     carbohydrates: 9,
     dietaryFiber: 1.7,
@@ -897,7 +894,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/pepper.svg',
     image:
       'https://images.unsplash.com/photo-1526179969422-e92255a5f223?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(corn as unknown as FoodMyFoodData),
@@ -907,7 +904,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/corn.svg',
     image:
       'https://images.unsplash.com/photo-1601171908052-92d5a595199b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1146&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     calories: 98,
     proteins: 3.2,
     totalFat: 2.4,
@@ -929,7 +926,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/tomato-sauce.svg',
     image:
       'https://images.unsplash.com/photo-1472476443507-c7a5948772fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: UnitOfMeasurement.liter,
+    unitOfMeasurement: 'liter',
     oneMeasures: [
       {
         quantity: 350,
@@ -945,7 +942,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/peanut-butter.svg',
     image:
       'https://images.unsplash.com/flagged/photo-1625402535207-953e03369f59?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: UnitOfMeasurement.liter,
+    unitOfMeasurement: 'liter',
   },
   {
     ...format(margarine as unknown as FoodMyFoodData),
@@ -955,7 +952,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/margarine.svg',
     image:
       'https://www.saudevitalidade.com/wp-content/uploads/2021/02/pao-com-margarina-cafe-da-manha-1571859727604_v2_1920x1146-800x445.jpg',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(creamCheese as unknown as FoodMyFoodData),
@@ -965,7 +962,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/cream-cheese.svg',
     image:
       'https://images.unsplash.com/photo-1547920303-9befbe3decc7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(milk as unknown as FoodMyFoodData),
@@ -975,7 +972,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/milk.svg',
     image:
       'https://images.unsplash.com/photo-1608634960479-c70cf0c3dece?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
-    unitOfMeasurement: UnitOfMeasurement.liter,
+    unitOfMeasurement: 'liter',
   },
   {
     id: 38,
@@ -984,7 +981,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/yeast.svg',
     image:
       'https://static1.casapraticaqualita.com.br/articles/0/21/30/@/2427-fermento-biologico-fresco-conhecido-com-article_content_img-3.jpg',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(soybeanOil as unknown as FoodMyFoodData),
@@ -994,7 +991,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/oil.svg',
     image:
       'https://img.ibxk.com.br/2020/01/22/22215352968302.jpg?w=1120&h=420&mode=crop&scale=both',
-    unitOfMeasurement: UnitOfMeasurement.liter,
+    unitOfMeasurement: 'liter',
     keys: ['óleo'],
   },
   {
@@ -1005,7 +1002,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/butter.svg',
     image:
       'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(wheatBread as unknown as FoodMyFoodData),
@@ -1015,7 +1012,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/bread.svg',
     image:
       'https://images.unsplash.com/photo-1537200275355-4f0c0714f777?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     keys: ['pão', 'pãozinho', 'pão integral'],
   },
   {
@@ -1024,7 +1021,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/bread.svg',
     image: 'https://cdn.panelinha.com.br/receita/1550859492306-cuca-banana.jpg',
     enName: 'crumb-cake',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     recipe: true,
   },
   {
@@ -1096,7 +1093,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/tomato.svg',
     image:
       'https://images.unsplash.com/photo-1561155713-50f2a38fde2c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     calories: 18,
     totalFat: 0.2,
     proteins: 0.9,
@@ -1122,7 +1119,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/cheese.svg',
     image:
       'https://heavenly-holland.com/wp-content/uploads/2017/05/cheese10-768x512.jpg',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 30,
@@ -1148,7 +1145,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/ham.svg',
     image:
       'https://i2.wp.com/files.agro20.com.br/uploads/2019/11/Peito-de-peru-1.jpg?resize=600%2C338&ssl=1',
-    unitOfMeasurement: UnitOfMeasurement.gram,
+    unitOfMeasurement: 'gram',
     oneMeasures: [
       {
         quantity: 30,
@@ -1165,7 +1162,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/water.svg',
     image:
       'https://images.unsplash.com/photo-1612392549274-9afb280ce7a9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: UnitOfMeasurement.liter,
+    unitOfMeasurement: 'liter',
     oneMeasures: [
       {
         quantity: 240,
