@@ -71,12 +71,16 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
         ],
       }}
     >
-      <SectionTitle>Minhas receitas</SectionTitle>
-      <TableContainer>
-        <Table className={classes.table} size="small">
-          <TableBody>{account.recipes.map(renderItem)}</TableBody>
-        </Table>
-      </TableContainer>
+      {account.recipes.length && (
+        <>
+          <SectionTitle>Minhas receitas</SectionTitle>
+          <TableContainer>
+            <Table className={classes.table} size="small">
+              <TableBody>{account.recipes.map(renderItem)}</TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
       <SectionTitle>Receitas de futuros parceiros</SectionTitle>
       <Table className={classes.table} size="small">
         <TableBody>{recipes.map(renderItem)}</TableBody>

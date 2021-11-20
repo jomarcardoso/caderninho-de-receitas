@@ -38,7 +38,9 @@ const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
                 )}
               </SvgIcon>
             </IconButton>
-            <Logo active={currentPage === 'HOME'} />
+            <a href="#main-panel">
+              <Logo active={currentPage === 'HOME'} />
+            </a>
             <IconButton href="#recipe-panel" color="inherit">
               <SvgIcon>
                 {currentPage === 'RECIPE' ? (

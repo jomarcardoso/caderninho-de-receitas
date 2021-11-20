@@ -6,6 +6,8 @@
   font-size: 16;
   white-space: nowrap;
   letter-spacing: 0;
+  color: variables.$color-dark-main;
+  text-decoration: none;
 
   &__text-large {
     font-size: 17;
