@@ -1960,6 +1960,153 @@ export const foodsData: Array<FoodData> = [
       'https://cdn.awsli.com.br/600x450/1693/1693441/produto/92535301/9f9c9fa2f7.jpg',
     keys: ['banana', 'banana nanica', 'bananas', 'bananas nanicax'],
   },
+  {
+    id: 122,
+    name: 'Suco refrescante de melão',
+    enName: 'refreshing-watermelon-juice',
+    image:
+      'https://cdn.panelinha.com.br/receita/1445306400000-Suco-refrescante-de-melao.jpg',
+    keys: ['suco', 'suco de melão', 'suco refrescante'],
+    recipe: true,
+  },
+  {
+    id: 123,
+    name: 'Sanduíche de atum',
+    enName: 'tuna-sandwich',
+    image:
+      'https://cdn.panelinha.com.br/receita/1570025865685-1544637932547-sandui%CC%81che%20pasta.jpg',
+    keys: ['sanduíche', 'sanduíche de atum'],
+    recipe: true,
+  },
+  {
+    id: 124,
+    name: 'Mate com limão',
+    enName: 'lime-juice-mate',
+    image:
+      'https://cdn.panelinha.com.br/receita/1511900022715-mate%20receita.jpg',
+    keys: ['mate', 'mate com limão', 'chá mate', 'chá mate com limão'],
+    recipe: true,
+  },
+  {
+    id: 125,
+    name: 'Bolinho de bacalhau com inhame',
+    enName: 'cod-dumpling-with-yam',
+    image:
+      'https://cdn.panelinha.com.br/receita/1478224800000-Bolinho-de-bacalhau-com-inhame.jpg',
+    keys: ['bolinho', 'bolinho de bacalhau', 'bolo de inhame'],
+    recipe: true,
+  },
+  {
+    id: 126,
+    name: 'Caipirinha de maracujá com gengibre e folhas de mexerica',
+    enName: 'passion-fruit-caipirinha-with-ginger-and-mexerica-leaves',
+    image:
+      'https://cdn.panelinha.com.br/receita/1457665200000-Caipirinha-de-maracuja-com-gengibre-e-folhas-de-mexerica.jpg',
+    keys: [
+      'caipirinha',
+      'caipirinha de maracujá',
+      'suco de maracujá',
+      'caipirinha de maracujá com gengibre',
+      'suco de maracujá com gengibre',
+    ],
+    recipe: true,
+  },
+  {
+    id: 127,
+    name: 'Gim tônica cítrica',
+    enName: 'citric-gim-tonica',
+    image:
+      'https://cdn.panelinha.com.br/receita/1349060400000-Gim-tonica-citrica.jpg',
+    keys: ['gim', 'gim tonica', 'gim tonica cítrica'],
+    recipe: true,
+  },
+  {
+    id: 128,
+    name: 'Crudités de legumes',
+    enName: 'legumes-crudites',
+    image:
+      'https://cdn.panelinha.com.br/receita/1450058400000-Crudites-de-legumes.jpg',
+    keys: ['crudités', 'crudités de legumes', 'crudite', 'crudité de legume'],
+    recipe: true,
+  },
+  {
+    id: 129,
+    name: 'Dip de feijão branco',
+    enName: 'white-bean-dip',
+    image:
+      'https://cdn.panelinha.com.br/receita/1391652000000-Dip-de-feijao-branco.jpg',
+    keys: ['dip', 'dip de feijão', 'dip de feijão branco'],
+    recipe: true,
+  },
+  {
+    id: 130,
+    name: 'Pão integral com nozes',
+    enName: 'integral-bread-with-nutmeg',
+    image:
+      'https://cdn.panelinha.com.br/receita/1515091594755-pa%CC%83o%20nozes%20receita.jpg',
+    keys: ['pão', 'pão integral', 'pão integral com nozes', 'pão com nozes'],
+    recipe: true,
+  },
+  {
+    id: 131,
+    name: 'Geleia de figo e vinho tinto',
+    enName: 'fig-and-wine-gelee',
+    image:
+      'https://cdn.panelinha.com.br/receita/1432609200000-Geleia-de-figo-e-vinho-tinto.jpg',
+    keys: [
+      'geleia',
+      'geleia de figo',
+      'geleia de figo e vinho',
+      'geleia com vinho',
+    ],
+    recipe: true,
+  },
+  {
+    id: 132,
+    name: 'Rabanada salgada com queijo',
+    enName: 'grilled-salted-chicken-with-cheese',
+    image:
+      'https://cdn.panelinha.com.br/receita/1432609200000-Rabanada-salgada.jpg',
+    keys: [
+      'rabanada',
+      'rabanada salgada',
+      'rabanada salgada com queijo',
+      'rabanada com queijo',
+    ],
+    recipe: true,
+  },
+  {
+    id: 133,
+    name: 'Salada de frutas com nibs de cacau',
+    enName: 'fruit-salad-with-cacao-nibs',
+    image:
+      'https://cdn.panelinha.com.br/receita/1459998000000-Salada-de-frutas-com-nibs-de-cacau.jpg',
+    keys: [
+      'salada de frutas',
+      'salada de fruta',
+      'salada de fruta com chocolate',
+      'salada de frutas com chocolate',
+      'salada de frutas com cacau',
+      'salada de frutas com nibs de cacau',
+    ],
+    recipe: true,
+  },
+  {
+    id: 134,
+    name: 'Cocada de forno',
+    enName: 'baked-coconut-candy',
+    image: 'https://cdn.panelinha.com.br/receita/1554380728519-IMG_9235-2.jpg',
+    keys: ['cocada', 'cocada de forno'],
+    recipe: true,
+  },
+  {
+    id: 135,
+    name: 'Feijão-carioca com cominho',
+    enName: 'bean-with-cumin',
+    image: 'https://cdn.panelinha.com.br/receita/1489425336617-301213.jpg',
+    keys: ['feijão', 'feijão carioca', 'feijão carioca com cominho'],
+    recipe: true,
+  },
 ];
 
 export const foods = foodsData.map(FoodService.format);
