@@ -1,7 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
-import { CurrentPage } from '../services/page.service';
 import Panel from '../components/panel/panel';
 import RecipePanel from '../panels/recipe-panel';
 import SEO from '../components/seo';
@@ -14,6 +13,8 @@ import MainPanel from '../panels/main-panel';
 import Header from '../components/root-header/root-header';
 import PageLoader from '../components/page-loader/page-loader';
 import LoadingContext from '../contexts/loading';
+import { CurrentPage } from '../services/page.service';
+import '../styles/main.scss';
 
 const useStyles = makeStyles({
   display: {
@@ -31,7 +32,7 @@ const Index: FC = () => {
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
-  const [currentPage, setCurrentPage] = useState(CurrentPage.HOME);
+  const [currentPage, setCurrentPage] = useState<CurrentPage>('HOME');
   const { currentRecipeData, setCurrentRecipeData, setCurrentRecipe } =
     useRecipe();
 
@@ -53,20 +54,17 @@ const Index: FC = () => {
         elRelative: document.querySelector('#root-content') as HTMLElement,
         list: [
           createScrollSpyItem({
-            callback: ({ active }) =>
-              active && setCurrentPage(CurrentPage.FOODS),
+            callback: ({ active }) => active && setCurrentPage('FOODS'),
             elContent: document.querySelector('#foods-panel') as HTMLElement,
             elMenu: document.querySelector('#foods-panel') as HTMLElement,
           }),
           createScrollSpyItem({
-            callback: ({ active }) =>
-              active && setCurrentPage(CurrentPage.HOME),
+            callback: ({ active }) => active && setCurrentPage('HOME'),
             elContent: document.querySelector('#main-panel') as HTMLElement,
             elMenu: document.querySelector('#main-panel') as HTMLElement,
           }),
           createScrollSpyItem({
-            callback: ({ active }) =>
-              active && setCurrentPage(CurrentPage.RECIPE),
+            callback: ({ active }) => active && setCurrentPage('RECIPE'),
             elContent: document.querySelector('#recipe-panel') as HTMLElement,
             elMenu: document.querySelector('#recipe-panel') as HTMLElement,
           }),

@@ -1,12 +1,10 @@
 import React, { FC, useContext } from 'react';
 import { makeStyles } from '@mui/styles';
-// import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
 import ListItemText from '@mui/material/ListItemText';
 import TableRow from '@mui/material/TableRow';
 import capitalize from 'lodash/capitalize';
@@ -14,8 +12,6 @@ import Layout from '../components/layout/layout';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { RECIPE, Recipe } from '../services/recipe';
-import { CurrentPage } from '../services/page.service';
-// import { fontFamilyInput } from '../components/page/page';
 import { recipes } from '../db/recipe';
 import SectionTitle from '../components/section-title/section-title';
 
@@ -57,7 +53,7 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
 
   return (
     <Layout
-      currentPage={CurrentPage.HOME}
+      currentPage="HOME"
       showHeader={false}
       footerProps={{
         items: [
@@ -75,12 +71,16 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
         ],
       }}
     >
-      <SectionTitle>Minhas receitas</SectionTitle>
-      <TableContainer>
-        <Table className={classes.table} size="small">
-          <TableBody>{account.recipes.map(renderItem)}</TableBody>
-        </Table>
-      </TableContainer>
+      {account.recipes.length && (
+        <>
+          <SectionTitle>Minhas receitas</SectionTitle>
+          <TableContainer>
+            <Table className={classes.table} size="small">
+              <TableBody>{account.recipes.map(renderItem)}</TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
       <SectionTitle>Receitas de futuros parceiros</SectionTitle>
       <Table className={classes.table} size="small">
         <TableBody>{recipes.map(renderItem)}</TableBody>

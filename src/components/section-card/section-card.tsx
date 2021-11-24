@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Container from '../container/container';
 import './section-card.scss';
 
@@ -9,7 +10,7 @@ interface Props {
 
 const SectionCard: FC<Props> = ({ title = '', children }) => {
   return (
-    <div className="section-card">
+    <Box className="section-card" boxShadow={2}>
       {title && (
         <Typography
           variant="h2"
@@ -22,7 +23,7 @@ const SectionCard: FC<Props> = ({ title = '', children }) => {
         </Typography>
       )}
       <div className="section-card__body">{children}</div>
-    </div>
+    </Box>
   );
 };
 

@@ -1,4 +1,7 @@
 .caderninho .root-header {
+  position: relative;
+  z-index: 2;
+
   &__toolbar {
     justify-content: space-between;
   }

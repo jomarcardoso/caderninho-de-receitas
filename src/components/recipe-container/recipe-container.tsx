@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Slide from '@mui/material/Slide';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Image from '../image/image';
 import ScoreComponent from '../score/score';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
@@ -26,16 +28,22 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
+  const scrollTrigger = useScrollTrigger({
+    target: document.querySelector('#recipe-panel') as HTMLElement,
+  });
+
   return (
     <div className="recipe-container">
       {recipe.name && (
-        <Box className="recipe-container__name">
-          <Container>
-            <Typography component="h2" variant="h1" color="inherit">
-              {recipe.name}
-            </Typography>
-          </Container>
-        </Box>
+        <Slide appear={false} direction="down" in={!scrollTrigger}>
+          <Box className="recipe-container__name">
+            <Container>
+              <Typography component="h2" variant="h1" color="inherit">
+                {recipe.name}
+              </Typography>
+            </Container>
+          </Box>
+        </Slide>
       )}
       <Box marginBottom={3}>
         <Image src={recipe.image} alt="" aspectRatio={1.25} />
@@ -87,7 +95,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           <Grid item xs={12}>
             <ScoreComponent recipe={recipe} />
           </Grid>
-          {AminoAcidService.hasAminoAcid(recipe.aminoAcids) && (
+          {AminoAcidService.verifyHasAminoAcid(recipe.aminoAcids) && (
             <Grid item xs={12}>
               <Section title="Tabela de aminoácidos">
                 <AminoAcidsTable aminoAcids={recipe.aminoAcids} />

@@ -52,7 +52,7 @@ export interface FoodMyFoodData {
 }
 
 export interface FoodNacionalAttribute {
-  qty: number;
+  qty: number | string;
   unit: string;
 }
 

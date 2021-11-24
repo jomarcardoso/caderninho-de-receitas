@@ -549,6 +549,57 @@ Com a ponta de uma faquinha, faça 4 cortes em cruz no centro da torta – eles 
     additional:
       'Para congelar: Depois de assada, deixe a torta esfriar completamente. Embale bem com filme, assim a torta não absorve a umidade do congelador, nem pega gosto de outras comidas, e leve ao freezer. Na hora de descongelar, preaqueça o forno a 180 ºC (temperatura média), desembale e transfira a torta para uma assadeira. Leve direto ao forno (ainda congelada), o tempo varia de forno para forno, o mais importante é verificar se o centro do recheio descongelou e está aquecido. A torta tem validade de 3 meses congelada.',
   },
+  {
+    name: 'Carne com batata e cenoura na panela de pressão',
+    description:
+      'Um ensopado bem caseiro, cheio de sabor e muito prático! É só preparar o refogado na própria panela elétrica de pressão, adicionar a carne (não precisa nem dourar) e programar a panela para cozinhar. Ao fim do cozimento, adicione os legumes e, depois de 5 minutos, tudo pronto: carne bem macia com batatas e cenouras cozidas, sem bagunça na cozinha nem medo da panela de pressão. É difícil de acreditar, mas você pode ver com seus próprios olhos na versão em vídeo da receita.',
+    category: 'comida',
+    steps: [
+      {
+        name: '',
+        ingredients: `\
+1 kg de acém
+400 g de batata bolinha
+2 cenouras
+½ cebola
+2 dentes de alho
+1 colher (sopa) de extrato de tomate
+2 colheres (sopa) de farinha de trigo
+3 colheres (sopa) de vinagre de vinho tinto
+1 xícara (chá) de água quente
+azeite a gosto
+2 folhas de louro
+1 colher (chá) de cominho em pó
+½ colher (chá) de colorau
+¼ de colher (chá) de canela em pó
+sal e pimenta-do-reino moída na hora a gosto
+folhas de salsinha e cerefólio a gosto para servir
+brotos de beterraba a gosto para servir`,
+        preparation: `\
+Corte o acém em cubos de cerca de 3 cm e transfira para uma tigela. Tempere com o cominho, o colorau, a canela, 1 colher (chá) de sal e pimenta-do-reino a gosto.
+
+Descasque e pique fino a cebola e o alho.
+
+Ligue a panela elétrica da linha Electrolux por Rita Lobo e programe para 30 minutos na função refogar.
+
+Quando a panela aquecer, regue com 1 colher (sopa) de azeite, coloque a cebola, tempere com uma pitada de sal e refogue por 2 minutos, mexendo de vez em quando. Adicione o alho, o extrato de tomate, as folhas de louro e mexa por 1 minuto, até perfumar. Regue com 1 colher (sopa) de azeite, junte a farinha e mexa bem por mais 2 minutos.
+
+Regue com o vinagre e a água. Tempere com mais 1 colher (chá) de sal, adicione a carne e misture delicadamente.
+
+Feche a panela, ajuste a válvula para cozinhar na pressão e, na seleção manual, programe 30 minutos de cozimento em pressão alta. Enquanto isso, prepare os demais ingredientes.
+
+Lave, seque e corte cada batatinha ao meio, no sentido do comprimento. Descasque e corte cada cenoura ao meio no sentido do comprimento. Corte cada metade em fatias de 1 cm na diagonal.
+
+Passados os 30 minutos, desligue a panela e ajuste a válvula para liberar a pressão.
+
+Abra a tampa, adicione as batatas e as cenouras. Feche a panela, ajuste a válvula para cozinhar na pressão, e, na seleção manual, programe 5 minutos de cozimento em pressão alta.
+
+Após os 5 minutos, a panela vai desligar sozinha e manter o ensopado aquecido. Deixe o vapor sair completamente antes de abrir a tampa. Desligue a panela, sirva com salada de agrião, folhas de salsinha, cerefólio e brotos variados.`,
+        additional: '',
+      },
+    ],
+    additional: '',
+  },
 ];
 
 export const recipes = recipesData.map((recipeData) =>
