@@ -1,3 +1,6 @@
+import mergeWith from 'lodash/mergeWith';
+import isNumber from 'lodash/isNumber';
+import isString from 'lodash/isString';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData, FoodService } from '../services/food';
 import {
@@ -90,6 +93,20 @@ import { MINERALS_DATA } from '../services/mineral';
 import { AMINO_ACIDS } from '../services/amino-acid';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 
+export function verifyQuantity<T>(objValue: T, srcValue: T): T {
+  if (isNumber(objValue)) {
+    const objValueNumber = Number(objValue);
+
+    if (objValueNumber) {
+      return objValue;
+    }
+
+    return srcValue;
+  }
+
+  return objValue;
+}
+
 function format(food: FoodMyFoodData): FoodData {
   return {
     saturedFats: food.FASAT,
@@ -159,33 +176,67 @@ export function formatNacional(food: FoodNacional): FoodData {
     name: food?.description,
     enName: '',
     acidification: 0,
-    proteins: food?.attributes?.protein?.qty ?? 0,
-    totalFat: food?.attributes?.lipid?.qty ?? 0,
-    carbohydrates: food?.attributes?.carbohydrate?.qty ?? 0,
-    dietaryFiber: food?.attributes?.fiber?.qty ?? 0,
+    proteins: !isString(food?.attributes?.protein?.qty)
+      ? food?.attributes?.protein?.qty ?? 0
+      : 0,
+    totalFat: !isString(food?.attributes?.lipid?.qty)
+      ? food?.attributes?.lipid?.qty ?? 0
+      : 0,
+    carbohydrates: !isString(food?.attributes?.carbohydrate?.qty)
+      ? food?.attributes?.carbohydrate?.qty ?? 0
+      : 0,
+    dietaryFiber: !isString(food?.attributes?.fiber?.qty)
+      ? food?.attributes?.fiber?.qty ?? 0
+      : 0,
     aminoAcids: {
       ...AMINO_ACIDS,
       alanine: 0,
     },
     vitamins: {
       ...VITAMINS_DATA,
-      c: food?.vitaminC?.qty ?? 0,
-      a: food?.attributes?.retinol?.qty ?? 0,
-      b1: food?.attributes?.thiamine?.qty ?? 0,
-      b2: food?.attributes?.riboflavin?.qty ?? 0,
-      b3: food?.attributes?.niacin?.qty ?? 0,
+      c: !isString(food?.vitaminC?.qty) ? food?.vitaminC?.qty ?? 0 : 0,
+      a: !isString(food?.attributes?.retinol?.qty)
+        ? Number(food?.attributes?.retinol?.qty) ?? 0
+        : 0,
+      b1: !isString(food?.attributes?.thiamine?.qty)
+        ? food?.attributes?.thiamine?.qty ?? 0
+        : 0,
+      b2: !isString(food?.attributes?.riboflavin?.qty)
+        ? food?.attributes?.riboflavin?.qty ?? 0
+        : 0,
+      b3: !isString(food?.attributes?.niacin?.qty)
+        ? food?.attributes?.niacin?.qty ?? 0
+        : 0,
     },
     minerals: {
       ...MINERALS_DATA,
-      calcium: food?.attributes?.calcium?.qty ?? 0,
-      magnesium: food?.attributes?.magnesium?.qty ?? 0,
-      phosphorus: food?.attributes?.phosphorus?.qty ?? 0,
-      iron: food?.attributes?.iron?.qty ?? 0,
-      potassium: food?.attributes?.potassium?.qty ?? 0,
-      sodium: food?.attributes?.sodium?.qty ?? 0,
-      zinc: food?.attributes?.zinc?.qty ?? 0,
-      copper: food?.attributes?.copper?.qty ?? 0,
-      manganese: food?.attributes?.manganese?.qty ?? 0,
+      calcium: !isString(food?.attributes?.calcium?.qty)
+        ? Number(food?.attributes?.calcium?.qty) ?? 0
+        : 0,
+      magnesium: !isString(food?.attributes?.magnesium?.qty)
+        ? food?.attributes?.magnesium?.qty ?? 0
+        : 0,
+      phosphorus: !isString(food?.attributes?.phosphorus?.qty)
+        ? food?.attributes?.phosphorus?.qty ?? 0
+        : 0,
+      iron: !isString(food?.attributes?.iron?.qty)
+        ? food?.attributes?.iron?.qty ?? 0
+        : 0,
+      potassium: !isString(food?.attributes?.potassium?.qty)
+        ? food?.attributes?.potassium?.qty ?? 0
+        : 0,
+      sodium: !isString(food?.attributes?.sodium?.qty)
+        ? food?.attributes?.sodium?.qty ?? 0
+        : 0,
+      zinc: !isString(food?.attributes?.zinc?.qty)
+        ? food?.attributes?.zinc?.qty ?? 0
+        : 0,
+      copper: !isString(food?.attributes?.copper?.qty)
+        ? food?.attributes?.copper?.qty ?? 0
+        : 0,
+      manganese: !isString(food?.attributes?.manganese?.qty)
+        ? food?.attributes?.manganese?.qty ?? 0
+        : 0,
     },
     unitOfMeasurement: food?.base_unit === 'g' ? 'gram' : 'liter',
   };
@@ -1192,7 +1243,12 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    ...format(beef as unknown as FoodMyFoodData),
+    ...mergeWith(
+      formatNacional(foodListNacional[178] as unknown as FoodNacional),
+      format(beef as unknown as FoodMyFoodData),
+      verifyQuantity,
+    ),
+    // ...formatNacional(foodListNacional[178] as unknown as FoodNacional),
     id: 54,
     name: 'Carne bovina',
     enName: 'beef',

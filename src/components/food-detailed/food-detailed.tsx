@@ -155,7 +155,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             </Grid>
           ) : (
             <Typography>
-              Não há informações sobre os nutrientes deste alimento.
+              Não há informações nutricionais deste alimento.
             </Typography>
           )}
         </Container>
