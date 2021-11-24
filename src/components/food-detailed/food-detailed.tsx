@@ -39,6 +39,26 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
   const { aminoAcids } = food;
   const multiplier = quantity / 100;
 
+  const hasMinerals = Object.values(minerals).some(
+    (mineral) => mineral.quantity,
+  );
+
+  const hasVitamins = Object.values(vitamins).some(
+    (vitamin) => vitamin.quantity,
+  );
+
+  const hasAminoAcids = AminoAcidService.verifyHasAminoAcid(aminoAcids);
+
+  const hasNutrients =
+    hasMinerals ||
+    hasVitamins ||
+    hasAminoAcids ||
+    calories ||
+    gi ||
+    gl ||
+    carbohydrates ||
+    proteins;
+
   function renderQuality({ name: foodName = '', value = 0 }) {
     if (!value) return null;
 
@@ -73,61 +93,71 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
       </Grid>
       <Grid item xs={12}>
         <Container>
-          <Grid container spacing={4} justifyContent="center">
-            <Grid item xs={12}>
-              <List>
-                {renderQuality({ name: 'Índice Glicêmico', value: gi })}
-                {renderQuality({
-                  name: 'Calorias',
-                  value: calories * multiplier,
-                })}
-                {renderQuality({
-                  name: 'Carboidratos',
-                  value: carbohydrates * multiplier,
-                })}
-                {renderQuality({ name: 'Proteínas', value: proteins })}
-                {renderQuality({ name: 'Carga Glicêmica', value: gl })}
-              </List>
-            </Grid>
-            {AminoAcidService.hasAminoAcid(aminoAcids) && (
+          {hasNutrients ? (
+            <Grid container spacing={4} justifyContent="center">
               <Grid item xs={12}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography variant="h2" component="h2">
-                      Tabela de aminoácidos
-                    </Typography>
+                <List>
+                  {renderQuality({ name: 'Índice Glicêmico', value: gi })}
+                  {renderQuality({
+                    name: 'Calorias',
+                    value: calories * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Carboidratos',
+                    value: carbohydrates * multiplier,
+                  })}
+                  {renderQuality({ name: 'Proteínas', value: proteins })}
+                  {renderQuality({ name: 'Carga Glicêmica', value: gl })}
+                </List>
+              </Grid>
+              {hasAminoAcids && (
+                <Grid item xs={12}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Typography variant="h2" component="h2">
+                        Tabela de aminoácidos
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <AminoAcidsTable aminoAcids={aminoAcids} />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12}>
-                    <AminoAcidsTable aminoAcids={aminoAcids} />
+                </Grid>
+              )}
+              {hasVitamins && (
+                <Grid item xs={12}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Typography variant="h2" component="h2">
+                        Vitaminas
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <List>{Object.values(vitamins).map(renderNutrient)}</List>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            )}
-            <Grid item xs={12}>
-              <Grid container spacing={2}>
+              )}
+              {hasMinerals && (
                 <Grid item xs={12}>
-                  <Typography variant="h2" component="h2">
-                    Vitaminas
-                  </Typography>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Typography variant="h2" component="h2">
+                        Minerais
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <List>{Object.values(minerals).map(renderNutrient)}</List>
+                    </Grid>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <List>{Object.values(vitamins).map(renderNutrient)}</List>
-                </Grid>
-              </Grid>
+              )}
             </Grid>
-            <Grid item xs={12}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography variant="h2" component="h2">
-                    Minerais
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <List>{Object.values(minerals).map(renderNutrient)}</List>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+          ) : (
+            <Typography>
+              Não há informações sobre os nutrientes deste alimento.
+            </Typography>
+          )}
         </Container>
       </Grid>
     </Grid>

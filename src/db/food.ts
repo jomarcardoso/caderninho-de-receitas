@@ -927,6 +927,7 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1472476443507-c7a5948772fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: 'liter',
+    keys: ['molho de tomate', 'tomate', 'extrato', 'extrato de tomate'],
     oneMeasures: [
       {
         quantity: 350,
@@ -1198,7 +1199,7 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/beef.svg',
     image:
       'https://images.unsplash.com/photo-1588347785102-2944ba63d0c3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    keys: ['carne', 'carne de gado', 'carne moída', 'bife'],
+    keys: ['carne', 'carne de gado', 'carne moída', 'bife', 'acém'],
   },
   {
     id: 55,
@@ -2106,6 +2107,31 @@ export const foodsData: Array<FoodData> = [
     image: 'https://cdn.panelinha.com.br/receita/1489425336617-301213.jpg',
     keys: ['feijão', 'feijão carioca', 'feijão carioca com cominho'],
     recipe: true,
+  },
+  {
+    id: 136,
+    name: 'Carne com batata e cenoura na panela de pressão',
+    enName: 'meat-with-potato-and-carrot-in-pressure-pan',
+    image:
+      'https://cdn.panelinha.com.br/receita/1636135550572-carne-com-batata-pressao.jpg',
+    keys: [
+      'carne',
+      'carne com batata',
+      'carne com batata e cenoura',
+      'carne com batata e cenoura na panela de pressão',
+      'carne de panela',
+      'carne na panela de pressão',
+    ],
+    recipe: true,
+  },
+  {
+    id: 137,
+    name: 'Urucum',
+    enName: 'annatto',
+    icon: '/images/food/seasoning.png',
+    image:
+      'https://www.dicasdemulher.com.br/wp-content/uploads/2020/03/urucum-0.png',
+    keys: ['falso-açafrão', 'colorau'],
   },
 ];
 

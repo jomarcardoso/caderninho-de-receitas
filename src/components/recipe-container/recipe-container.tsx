@@ -87,7 +87,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           <Grid item xs={12}>
             <ScoreComponent recipe={recipe} />
           </Grid>
-          {AminoAcidService.hasAminoAcid(recipe.aminoAcids) && (
+          {AminoAcidService.verifyHasAminoAcid(recipe.aminoAcids) && (
             <Grid item xs={12}>
               <Section title="Tabela de aminoácidos">
                 <AminoAcidsTable aminoAcids={recipe.aminoAcids} />

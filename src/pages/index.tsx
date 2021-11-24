@@ -14,6 +14,7 @@ import Header from '../components/root-header/root-header';
 import PageLoader from '../components/page-loader/page-loader';
 import LoadingContext from '../contexts/loading';
 import { CurrentPage } from '../services/page.service';
+import '../styles/main.scss';
 
 const useStyles = makeStyles({
   display: {
