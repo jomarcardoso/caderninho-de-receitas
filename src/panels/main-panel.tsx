@@ -1,5 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { makeStyles } from '@mui/styles';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import ListItem from '@mui/material/ListItem';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,6 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import TableRow from '@mui/material/TableRow';
 import capitalize from 'lodash/capitalize';
 import Layout from '../components/layout/layout';
+import Button from '../components/button/button';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { RECIPE, Recipe } from '../services/recipe';
@@ -71,20 +74,31 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
         ],
       }}
     >
-      {account.recipes.length && (
-        <>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
           <SectionTitle>Minhas receitas</SectionTitle>
           <TableContainer>
             <Table className={classes.table} size="small">
               <TableBody>{account.recipes.map(renderItem)}</TableBody>
             </Table>
           </TableContainer>
-        </>
-      )}
-      <SectionTitle>Receitas de futuros parceiros</SectionTitle>
-      <Table className={classes.table} size="small">
-        <TableBody>{recipes.map(renderItem)}</TableBody>
-      </Table>
+          <Box display="flex" justifyContent="center">
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => setCurrentRecipe(RECIPE)}
+            >
+              adicionar nova receita
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <SectionTitle>Receitas de futuros parceiros</SectionTitle>
+          <Table className={classes.table} size="small">
+            <TableBody>{recipes.map(renderItem)}</TableBody>
+          </Table>
+        </Grid>
+      </Grid>
     </Layout>
   );
 };

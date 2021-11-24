@@ -163,3 +163,7 @@ export { default as cuminSeed } from './cumin-seed.json';
 export { default as coffee } from './coffee.json';
 
 export { default as eggYolk } from './egg-yolk.json';
+
+export { default as tangerine } from './tangerine.json';
+
+export { default as kiwi } from './kiwi.json';
