@@ -87,6 +87,8 @@ import {
   cuminSeed,
   coffee,
   eggYolk,
+  tangerine,
+  kiwi,
 } from './src';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -1248,7 +1250,6 @@ export const foodsData: Array<FoodData> = [
       format(beef as unknown as FoodMyFoodData),
       verifyQuantity,
     ),
-    // ...formatNacional(foodListNacional[178] as unknown as FoodNacional),
     id: 54,
     name: 'Carne bovina',
     enName: 'beef',
@@ -2007,8 +2008,11 @@ export const foodsData: Array<FoodData> = [
     keys: ['gema', 'gema de ovo', 'gemas', 'gemas de ovo', 'gema de ovos'],
   },
   {
-    ...format(banana as unknown as FoodMyFoodData),
-    ...formatNacional(foodListNacional[178] as unknown as FoodNacional),
+    ...mergeWith(
+      format(banana as unknown as FoodMyFoodData),
+      formatNacional(foodListNacional[178] as unknown as FoodNacional),
+      verifyQuantity,
+    ),
     id: 121,
     name: 'Banana nanica',
     enName: 'dwarf-banana',
@@ -2188,6 +2192,57 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://www.dicasdemulher.com.br/wp-content/uploads/2020/03/urucum-0.png',
     keys: ['falso-açafrão', 'colorau'],
+  },
+  {
+    id: 138,
+    name: 'Hortelã',
+    enName: 'mint',
+    icon: '/images/food/mint.png',
+    image:
+      'https://images.unsplash.com/photo-1588908933351-eeb8cd4c4521?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
+    keys: ['hortelã', 'hortelãs', 'folha de hortelã', 'folhas de hortelã'],
+  },
+  {
+    id: 139,
+    ...format(tangerine as unknown as FoodMyFoodData),
+    name: 'Mexerica',
+    enName: 'tangerine',
+    icon: '/images/food/tangerine.png',
+    image:
+      'https://images.unsplash.com/photo-1564415900645-30612d54dd0c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=873&q=80',
+    keys: [
+      'mexerica',
+      'tangerina',
+      'bergamota',
+      'vergamota',
+      'laranja-mimosa',
+      'mandarina',
+      'fuxiqueira',
+      'poncã',
+      'manjerica',
+      'laranja-cravo',
+      'mimosa',
+    ],
+  },
+  {
+    ...format(kiwi as unknown as FoodMyFoodData),
+    id: 140,
+    name: 'Kiwi',
+    enName: 'kiwi',
+    icon: '/images/food/kiwi.png',
+    image:
+      'https://images.unsplash.com/photo-1616684000067-36952fde56ec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80',
+    keys: ['kiwi', 'kiwis', 'groselha chinesa'],
+  },
+  {
+    ...formatNacional(foodListNacional[189] as unknown as FoodNacional),
+    id: 141,
+    name: 'carambola',
+    enName: 'star-fruit',
+    icon: '/images/food/star-fruit.png',
+    image:
+      'https://s2.glbimg.com/oqkIn68SdYB-3esiOk0byUm9VL0=/620x455/e.glbimg.com/og/ed/f/original/2020/01/28/carambola.jpg',
+    keys: ['carambola', 'carambolas'],
   },
 ];
 

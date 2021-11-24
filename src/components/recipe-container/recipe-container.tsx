@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Slide from '@mui/material/Slide';
+import Slide, { SlideProps } from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Image from '../image/image';
 import ScoreComponent from '../score/score';
@@ -17,6 +17,20 @@ import SectionCard from '../section-card/section-card';
 import { AminoAcidService } from '../../services/amino-acid';
 import './recipe-container.scss';
 
+const HideOnScroll: FC<SlideProps> = ({ children, ...props }) => {
+  const trigger = useScrollTrigger({
+    target: document.querySelector('#recipe-panel') as HTMLElement,
+  });
+
+  console.log(trigger);
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger} {...props}>
+      {children}
+    </Slide>
+  );
+};
+
 export interface RecipeContainerProps {
   recipe: Recipe;
   setCurrentFood(food: Food): void;
@@ -28,14 +42,10 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
-  const scrollTrigger = useScrollTrigger({
-    target: document.querySelector('#recipe-panel') as HTMLElement,
-  });
-
   return (
     <div className="recipe-container">
       {recipe.name && (
-        <Slide appear={false} direction="down" in={!scrollTrigger}>
+        <HideOnScroll>
           <Box className="recipe-container__name">
             <Container>
               <Typography component="h2" variant="h1" color="inherit">
@@ -43,7 +53,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               </Typography>
             </Container>
           </Box>
-        </Slide>
+        </HideOnScroll>
       )}
       <Box marginBottom={3}>
         <Image src={recipe.image} alt="" aspectRatio={1.25} />
