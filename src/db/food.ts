@@ -980,7 +980,7 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1472476443507-c7a5948772fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: 'liter',
-    keys: ['molho de tomate', 'tomate', 'extrato', 'extrato de tomate'],
+    keys: ['molho de tomate', 'extrato', 'extrato de tomate'],
     oneMeasures: [
       {
         quantity: 350,
@@ -1148,6 +1148,7 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1561155713-50f2a38fde2c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: 'gram',
+    keys: ['tomate'],
     calories: 18,
     totalFat: 0.2,
     proteins: 0.9,
@@ -2243,6 +2244,38 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://s2.glbimg.com/oqkIn68SdYB-3esiOk0byUm9VL0=/620x455/e.glbimg.com/og/ed/f/original/2020/01/28/carambola.jpg',
     keys: ['carambola', 'carambolas'],
+  },
+  {
+    id: 142,
+    name: 'Pizza de muçarela',
+    enName: 'pizza-with-mozzarella',
+    image:
+      'https://cdn.panelinha.com.br/receita/1443495600000-Pizza-de-mucarela-caseira.jpg',
+    keys: [
+      'pizza',
+      'pizza de mozarela',
+      'pizza de muçarela',
+      'pizza de mozzarella',
+      'pizza muçarela',
+      'pizza mozzarella',
+      'pizza mozarela',
+      'pizza de queijo muçarela',
+      'pizza caseira',
+      'pizza caseira de mozarela',
+      'pizza caseira de muçarela',
+      'pizza caseira de mozzarella',
+    ],
+    recipe: true,
+  },
+  {
+    ...formatNacional(foodListNacional[462] as unknown as FoodNacional),
+    id: 143,
+    name: 'Queijo muçarela',
+    enName: 'mozzarella-cheese',
+    icon: '/images/food/cheese.svg',
+    image:
+      'https://www.alimentosonline.com.br/fotos_artigos/6253/mussarela.jpg',
+    keys: ['queijo', 'queijo muçarela', 'muçarela', 'mozarela', 'mozzarella'],
   },
 ];
 
