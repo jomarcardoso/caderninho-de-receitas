@@ -264,27 +264,6 @@ export const foodsData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
-    aminoAcids: {
-      tryptophan: 1,
-      threonine: 6,
-      isoleucine: 6,
-      leucine: 13,
-      lysine: 12,
-      methionine: 1,
-      cystine: 1,
-      phenylalanine: 6,
-      tyrosine: 1,
-      valine: 12,
-      histidine: 5,
-      arginine: 6,
-      alanine: 11,
-      asparticAcid: 70,
-      glutamicAcid: 25,
-      glycine: 9,
-      proline: 6,
-      serine: 10,
-      glutamine: 0,
-    },
   },
   {
     ...format(pear as unknown as FoodMyFoodData),
@@ -296,27 +275,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1562051725-cc35a65c8227?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     calories: 57,
-    aminoAcids: {
-      tryptophan: 2,
-      threonine: 11,
-      isoleucine: 11,
-      leucine: 19,
-      lysine: 17,
-      methionine: 2,
-      cystine: 2,
-      phenylalanine: 11,
-      tyrosine: 2,
-      valine: 17,
-      histidine: 2,
-      arginine: 10,
-      alanine: 14,
-      asparticAcid: 105,
-      glutamicAcid: 30,
-      glycine: 13,
-      proline: 21,
-      serine: 15,
-      glutamine: 0,
-    },
     unitOfMeasurement: 'gram',
     oneMeasures: [
       {
@@ -337,27 +295,6 @@ export const foodsData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1583485646409-f9feb9af2a67?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     calories: 89,
     carbohydrates: 28,
-    aminoAcids: {
-      tryptophan: 9,
-      threonine: 28,
-      isoleucine: 28,
-      leucine: 68,
-      lysine: 50,
-      methionine: 8,
-      cystine: 9,
-      phenylalanine: 49,
-      tyrosine: 9,
-      valine: 47,
-      histidine: 77,
-      arginine: 49,
-      alanine: 40,
-      asparticAcid: 124,
-      glutamicAcid: 152,
-      glycine: 28,
-      proline: 38,
-      serine: 40,
-      glutamine: 0,
-    },
     unitOfMeasurement: 'gram',
     oneMeasures: [
       {
@@ -505,11 +442,11 @@ export const foodsData: Array<FoodData> = [
     carbohydrates: 14,
     oneMeasures: [
       {
-        quantity: 248,
-        type: 'CUP',
+        quantity: 137,
+        type: 'UNITY',
       },
     ],
-    unitOfMeasurement: 'liter',
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(cornRecipe as unknown as FoodMyFoodData),
@@ -564,6 +501,13 @@ export const foodsData: Array<FoodData> = [
     calories: 0,
     carbohydrates: 6,
     aminoAcids: AMINO_ACIDS,
+    oneMeasures: [
+      {
+        quantity: 24,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(chickenPasty as unknown as FoodMyFoodData),
@@ -603,27 +547,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1622205313162-be1d5712a43f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80',
     description: 'Alface, roxa, crua',
-    aminoAcids: {
-      tryptophan: 0,
-      threonine: 30,
-      isoleucine: 30,
-      leucine: 60,
-      lysine: 50,
-      methionine: 10,
-      cystine: 0,
-      phenylalanine: 40,
-      tyrosine: 40,
-      valine: 40,
-      arginine: 60,
-      histidine: 20,
-      alanine: 50,
-      asparticAcid: 50,
-      glutamicAcid: 110,
-      glycine: 40,
-      proline: 30,
-      serine: 30,
-      glutamine: 0,
-    },
   },
   {
     ...format(ham as unknown as FoodMyFoodData),
@@ -769,7 +692,14 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1606728035253-49e8a23146de?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     unitOfMeasurement: 'gram',
-    keys: ['galinha', 'peito de frango', 'coxa de frango'],
+    keys: [
+      'galinha',
+      'peito de frango',
+      'coxa de frango',
+      'frango assado',
+      'frango desfiado',
+      'frango cozido',
+    ],
     oneMeasures: [
       {
         quantity: 400,
@@ -810,8 +740,7 @@ export const foodsData: Array<FoodData> = [
     enName: 'sugar',
     gi: 92,
     icon: '/images/food/sugar.svg',
-    image:
-      'https://images.unsplash.com/photo-1558467516-f427f3ea3c33?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80',
+    image: 'https://udop.com.br/u_img/noticias/2020/acucar33.jpg',
     unitOfMeasurement: 'gram',
     keys: ['açúcar', 'açucar'],
     oneMeasures: [
@@ -910,6 +839,12 @@ export const foodsData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1563012678-bdfec255931b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     unitOfMeasurement: 'gram',
     keys: ['batatinha', 'batata inglesa'],
+    oneMeasures: [
+      {
+        quantity: 225,
+        type: 'UNITY',
+      },
+    ],
   },
   {
     ...format(onion as unknown as FoodMyFoodData),
@@ -1090,6 +1025,13 @@ export const foodsData: Array<FoodData> = [
     gl: 6,
     version: 'JUICE',
     rawId: 8,
+    oneMeasures: [
+      {
+        quantity: 248,
+        type: 'CUP',
+      },
+    ],
+    unitOfMeasurement: 'liter',
   },
   {
     ...format(carrot as unknown as FoodMyFoodData),
@@ -1102,6 +1044,13 @@ export const foodsData: Array<FoodData> = [
     gi: 38,
     version: 'BOILED',
     rawId: 17,
+    oneMeasures: [
+      {
+        quantity: 130,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(oatFlour as unknown as FoodMyFoodData),
@@ -1318,6 +1267,13 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/lemon.png',
     image:
       'https://minhasaude.proteste.org.br/wp-content/uploads/2020/10/lim%C3%B5es-970x472.jpg',
+    oneMeasures: [
+      {
+        quantity: 170,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(blackPepper as unknown as FoodMyFoodData),
@@ -1406,6 +1362,13 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1584699006710-3ad3b82fce7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     keys: ['batata doce', 'batata-doce', 'batata doce cozida'],
+    oneMeasures: [
+      {
+        quantity: 240,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     id: 67,
@@ -1432,6 +1395,13 @@ export const foodsData: Array<FoodData> = [
       'couves-flores',
       'couve-flores',
     ],
+    oneMeasures: [
+      {
+        quantity: 600,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     id: 69,
@@ -1479,7 +1449,12 @@ export const foodsData: Array<FoodData> = [
     icon: '/images/food/chocolate.png',
     image:
       'https://media.istockphoto.com/photos/dark-chocolate-bar-on-rustic-wood-table-picture-id463813283?b=1&k=20&m=463813283&s=170667a&w=0&h=x-SXgRiiAkH-ilp7dZPZUQWdq0V7-4jwDf4BK8PRd0M=',
-    keys: ['chocolate', 'achocolatado', 'chocolate em pó'],
+    keys: [
+      'chocolate',
+      'achocolatado',
+      'chocolate em pó',
+      'chocolate ao leite',
+    ],
   },
   {
     ...format(thyme as unknown as FoodMyFoodData),
@@ -1678,6 +1653,13 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1580294672673-4fbda48428be?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['abobrinha', 'abobrinha italiana'],
+    oneMeasures: [
+      {
+        quantity: 255,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(paprika as unknown as FoodMyFoodData),
@@ -1834,6 +1816,13 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://media.istockphoto.com/photos/mangoes-composition-picture-id1272010307?b=1&k=20&m=1272010307&s=170667a&w=0&h=ZjJ85mpjAr__adYT7zqSdYEDi1XvWiqgtVLqNYIDtkw=',
     keys: ['manga', 'mangas'],
+    oneMeasures: [
+      {
+        quantity: 400,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(passionFruit as unknown as FoodMyFoodData),
@@ -1844,6 +1833,13 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://media.istockphoto.com/photos/fresh-passion-fruit-on-wood-table-in-top-view-flat-lay-for-background-picture-id860079962?b=1&k=20&m=860079962&s=170667a&w=0&h=WjvMtFrnUVnXWtwMt8uDO3MwEyveM-WEOQT-pG_6Npg=',
     keys: ['maracujá'],
+    oneMeasures: [
+      {
+        quantity: 44,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(porkLoin as unknown as FoodMyFoodData),
@@ -1881,6 +1877,13 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://static1.conquistesuavida.com.br/articles/2/78/82/@/25512-o-chuchu-e-uma-fonte-poderosa-de-nutrien-640x400-3.jpg',
     keys: ['chuchu', 'chuchu cru'],
+    oneMeasures: [
+      {
+        quantity: 320,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(redWineVinegar as unknown as FoodMyFoodData),
@@ -2007,6 +2010,13 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://static.clubedaanamariabraga.com.br/wp-content/uploads/2017/07/ovo-gema-636.jpg',
     keys: ['gema', 'gema de ovo', 'gemas', 'gemas de ovo', 'gema de ovos'],
+    oneMeasures: [
+      {
+        quantity: 15,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...mergeWith(
@@ -2224,6 +2234,13 @@ export const foodsData: Array<FoodData> = [
       'laranja-cravo',
       'mimosa',
     ],
+    oneMeasures: [
+      {
+        quantity: 135,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...format(kiwi as unknown as FoodMyFoodData),
@@ -2234,6 +2251,13 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1616684000067-36952fde56ec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80',
     keys: ['kiwi', 'kiwis', 'groselha chinesa'],
+    oneMeasures: [
+      {
+        quantity: 154,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     ...formatNacional(foodListNacional[189] as unknown as FoodNacional),
@@ -2244,6 +2268,13 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://s2.glbimg.com/oqkIn68SdYB-3esiOk0byUm9VL0=/620x455/e.glbimg.com/og/ed/f/original/2020/01/28/carambola.jpg',
     keys: ['carambola', 'carambolas'],
+    oneMeasures: [
+      {
+        quantity: 220,
+        type: 'UNITY',
+      },
+    ],
+    unitOfMeasurement: 'gram',
   },
   {
     id: 142,
@@ -2276,6 +2307,94 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://www.alimentosonline.com.br/fotos_artigos/6253/mussarela.jpg',
     keys: ['queijo', 'queijo muçarela', 'muçarela', 'mozarela', 'mozzarella'],
+  },
+  {
+    id: 144,
+    name: 'Musse de chocolate',
+    enName: 'chocolate-mousse',
+    image:
+      'https://cdn.panelinha.com.br/receita/1427252400000-Musse-de-chocolate-levissima.jpg',
+    keys: [
+      'mousse',
+      'mousse de chocolate',
+      'mousse de chocolate levissima',
+      'musse de chocolate',
+      'musse',
+    ],
+    recipe: true,
+  },
+  {
+    ...formatNacional(foodListNacional[485] as unknown as FoodNacional),
+    id: 145,
+    name: 'Clara de ovo',
+    enName: 'egg-white',
+    icon: '/images/food/egg.svg',
+    image:
+      'https://areademulher.r7.com/wp-content/uploads/2020/07/clara-de-ovo-beneficios-modo-de-usar-para-quem-e-mais-indicado.jpg',
+    keys: ['clara de ovo', 'clara de ovos', 'claras de ovo', 'claras de ovos'],
+    oneMeasures: [
+      {
+        quantity: 35,
+        type: 'UNITY',
+      },
+    ],
+  },
+  {
+    id: 146,
+    name: 'Salada de cebola com pepino e molho de coentro',
+    enName: 'onion-and-pepino-and-coentro-salad',
+    image:
+      'https://cdn.panelinha.com.br/receita/1473649200000-Salada-de-cebola-com-pepino-e-molho-de-coentro.jpg',
+    keys: [
+      'salada',
+      'salada de cebola',
+      'salada de cebolas',
+      'salada de cebola com pepino',
+      'salada de cebola com pepinos',
+      'salada de cebola com pepino e molho de coentro',
+      'salada de cebola com pepinos e molho de coentro',
+      'salada de cebolas com pepino',
+      'salada de cebolas com pepinos',
+      'salada de cebolas com pepino e molho de coentro',
+      'salada de cebolas com pepinos e molho de coentro',
+    ],
+    recipe: true,
+  },
+  {
+    ...formatNacional(foodListNacional[141] as unknown as FoodNacional),
+    id: 147,
+    name: 'Pepino',
+    icon: '/images/food/cucumber.png',
+    image: 'https://s1.static.brasilescola.uol.com.br/be/2021/05/pepino.jpg',
+    keys: ['pepino', 'pepinos'],
+    oneMeasures: [
+      {
+        quantity: 35,
+        type: 'UNITY',
+      },
+    ],
+  },
+  {
+    id: 148,
+    name: 'Gratinado de batata com frango',
+    enName: 'gratinado-of-potato-with-chicken',
+    image:
+      'https://cdn.panelinha.com.br/receita/1448503200000-Gratinado-de-batata-com-frango.jpg',
+    keys: [
+      'gratinado',
+      'gratinado de batata',
+      'gratinado de batata com frango',
+    ],
+    recipe: true,
+  },
+  {
+    id: 149,
+    name: 'Noz-moscada',
+    enName: 'nutmeg',
+    icon: '/images/food/seasoning.png',
+    image:
+      'https://radioaratiba.com.br/wp-content/uploads/2018/06/noz-moscada-696x462.jpg',
+    keys: ['noz-moscada', 'noz moscada', 'noz-moscadas', 'noz moscadas'],
   },
 ];
 
