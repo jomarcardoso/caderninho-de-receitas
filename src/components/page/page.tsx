@@ -7,6 +7,7 @@ import { PaletteColor } from '@mui/material/styles/createPalette';
 import { makeStyles } from '@mui/styles';
 import StyleContext, { Style } from '../../contexts/style';
 import LoadingContext from '../../contexts/loading';
+import NavigationContext from '../../contexts/navigation-context';
 
 const fontFamilyDisplay = 'Cinzel, Roboto, Helvetica, Arial, sans-serif';
 const fontFamilyText = 'Dosis, Roboto, Helvetica, Arial, sans-serif';
@@ -132,6 +133,9 @@ const useStyles = makeStyles({
 });
 
 const Page: FC = ({ children }) => {
+  const [navigationStack, setNavigationStack] = useState<string[]>([
+    'main-panel',
+  ]);
   const [style, setStyle] = useState<Style>({});
   const [, setReRender] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -144,13 +148,17 @@ const Page: FC = ({ children }) => {
 
   return (
     <div className={classes['@global']}>
-      <StyleContext.Provider value={{ style, setStyle }}>
-        <ThemeTopLayout theme={theme(style)}>
-          <LoadingContext.Provider value={{ loading, setLoading }}>
-            {children}
-          </LoadingContext.Provider>
-        </ThemeTopLayout>
-      </StyleContext.Provider>
+      <NavigationContext.Provider
+        value={{ stack: navigationStack, setStack: setNavigationStack }}
+      >
+        <StyleContext.Provider value={{ style, setStyle }}>
+          <ThemeTopLayout theme={theme(style)}>
+            <LoadingContext.Provider value={{ loading, setLoading }}>
+              {children}
+            </LoadingContext.Provider>
+          </ThemeTopLayout>
+        </StyleContext.Provider>
+      </NavigationContext.Provider>
     </div>
   );
 };

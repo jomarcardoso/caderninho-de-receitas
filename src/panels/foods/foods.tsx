@@ -20,6 +20,7 @@ interface Props {
 
 const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
   const foods = useContext(FoodsContext);
+
   const orderedFood = foods.sort((a, b) => {
     if (a.name > b.name) {
       return 1;

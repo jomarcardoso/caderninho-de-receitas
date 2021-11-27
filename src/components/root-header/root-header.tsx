@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from 'react';
-import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import IconButton from '@mui/material/IconButton';
 import AppBar, { AppBarProps } from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
@@ -12,6 +11,7 @@ import CheffLightSvg from '../../assets/svg/cheff-light.svg';
 import ListLightSvg from '../../assets/svg/list-light.svg';
 import ListDuoSvg from '../../assets/svg/list-duo.svg';
 import './root-header.scss';
+import useNavigation from '../../hooks/use-navigation';
 
 interface Props {
   currentPage?: CurrentPage;
@@ -20,6 +20,8 @@ interface Props {
 export type RootHeaderProps = Props & AppBarProps;
 
 const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
+  const { goTo } = useNavigation();
+
   function render() {
     return (
       <AppBar
@@ -30,7 +32,7 @@ const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
       >
         <Container maxWidth="md" disableGutters>
           <Toolbar variant="dense" className="root-header__toolbar">
-            <IconButton href="#foods-panel" color="inherit">
+            <IconButton onClick={() => goTo('foods-panel')} color="inherit">
               <SvgIcon>
                 {currentPage === 'FOODS' ? (
                   <ListDuoSvg secondary={primary.main} />
@@ -39,10 +41,10 @@ const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
                 )}
               </SvgIcon>
             </IconButton>
-            <AnchorLink to="#main-panel">
+            <button type="button" onClick={() => goTo('main-panel')}>
               <Logo active={currentPage === 'HOME'} />
-            </AnchorLink>
-            <IconButton href="#recipe-panel" color="inherit">
+            </button>
+            <IconButton onClick={() => goTo('recipe-panel')} color="inherit">
               <SvgIcon>
                 {currentPage === 'RECIPE' ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -70,7 +72,7 @@ const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
     );
   }
 
-  const renderMemo = useMemo(render, [currentPage]);
+  const renderMemo = useMemo(render, [currentPage, goTo]);
 
   return renderMemo;
 };
