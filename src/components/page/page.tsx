@@ -146,6 +146,11 @@ const Page: FC = ({ children }) => {
     setReRender(true);
   }, []);
 
+  useEffect(() => {
+    window.location.hash = 'main-panel';
+    // window.history.pushState({}, '', '#main-panel');
+  }, []);
+
   return (
     <div className={classes['@global']}>
       <NavigationContext.Provider

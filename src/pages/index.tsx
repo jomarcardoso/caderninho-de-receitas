@@ -32,47 +32,12 @@ const Index: FC = () => {
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
-  const [currentPage, setCurrentPage] = useState<CurrentPage>('HOME');
+  const [currentPage] = useState<CurrentPage>('HOME');
   const { currentRecipeData, setCurrentRecipeData, setCurrentRecipe } =
     useRecipe();
 
   useEffect(() => {
     setHideLeftPanel(false);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      if (typeof window === 'undefined') {
-        return;
-      }
-
-      const { ScrollSpy, createScrollSpyItem } = await import('ovos');
-
-      ScrollSpy({
-        method: 'CURRENT',
-        axis: 'x',
-        elRelative: document.querySelector('#root-content') as HTMLElement,
-        list: [
-          createScrollSpyItem({
-            callback: ({ active }) => active && setCurrentPage('FOODS'),
-            elContent: document.querySelector('#foods-panel') as HTMLElement,
-            elMenu: document.querySelector('#foods-panel') as HTMLElement,
-          }),
-          createScrollSpyItem({
-            callback: ({ active }) => active && setCurrentPage('HOME'),
-            elContent: document.querySelector('#main-panel') as HTMLElement,
-            elMenu: document.querySelector('#main-panel') as HTMLElement,
-          }),
-          createScrollSpyItem({
-            callback: ({ active }) => active && setCurrentPage('RECIPE'),
-            elContent: document.querySelector('#recipe-panel') as HTMLElement,
-            elMenu: document.querySelector('#recipe-panel') as HTMLElement,
-          }),
-        ],
-      });
-
-      clearInterval(interval);
-    }, 1000);
   }, []);
 
   return (

@@ -32,7 +32,7 @@ const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
       >
         <Container maxWidth="md" disableGutters>
           <Toolbar variant="dense" className="root-header__toolbar">
-            <IconButton onClick={() => goTo('foods-panel')} color="inherit">
+            <IconButton onClick={() => goTo('#foods-panel')} color="inherit">
               <SvgIcon>
                 {currentPage === 'FOODS' ? (
                   <ListDuoSvg secondary={primary.main} />
@@ -41,10 +41,10 @@ const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
                 )}
               </SvgIcon>
             </IconButton>
-            <button type="button" onClick={() => goTo('main-panel')}>
+            <button type="button" onClick={() => goTo('#main-panel')}>
               <Logo active={currentPage === 'HOME'} />
             </button>
-            <IconButton onClick={() => goTo('recipe-panel')} color="inherit">
+            <IconButton onClick={() => goTo('#recipe-panel')} color="inherit">
               <SvgIcon>
                 {currentPage === 'RECIPE' ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
