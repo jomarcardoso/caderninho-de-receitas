@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from 'react';
+import { AnchorLink } from 'gatsby-plugin-anchor-links';
 import IconButton from '@mui/material/IconButton';
 import AppBar, { AppBarProps } from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
@@ -38,9 +39,9 @@ const Header: FC<RootHeaderProps> = ({ currentPage = 'HOME' }) => {
                 )}
               </SvgIcon>
             </IconButton>
-            <a href="#main-panel">
+            <AnchorLink to="#main-panel">
               <Logo active={currentPage === 'HOME'} />
-            </a>
+            </AnchorLink>
             <IconButton href="#recipe-panel" color="inherit">
               <SvgIcon>
                 {currentPage === 'RECIPE' ? (
