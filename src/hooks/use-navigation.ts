@@ -46,6 +46,8 @@ const useNavigation = () => {
   }
 
   function goTo(newHash = '#main-panel') {
+    // console.log('goTo', newHash);
+
     if (hash === newHash) {
       return;
     }
@@ -81,16 +83,16 @@ const useNavigation = () => {
   }
 
   useEffect(() => {
-    window.onpopstate = () => {
+    window.addEventListener('popstate', () => {
       if (hash === window.location.hash) {
         return;
       }
 
-      console.log(hash, window.location.hash);
+      // console.log(hash, window.location.hash);
 
       hash = window.location.hash;
       navigateBack();
-    };
+    });
   }, [navigateBack]);
 
   return {

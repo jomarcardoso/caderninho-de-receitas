@@ -21,6 +21,7 @@ const useScroll = () => {
     if (busyScroll) {
       return;
     }
+
     // console.log(navigation.stack);
 
     if (navigation.stack.length === 1) {
@@ -29,14 +30,15 @@ const useScroll = () => {
       });
       return;
     }
-    if (navigation.stack.length > 1) {
-      if (navigation.stack[1] === 'recipe-panel') {
+    if (navigation.stack.length === 2) {
+      // console.log(navigation.stack[1]);
+      if (navigation.stack[1] === '#recipe-panel') {
         scrollToEl({
           el: document.querySelector('#recipe-panel') as HTMLElement,
         });
         return;
       }
-      if (navigation.stack[1] === 'foods-panel') {
+      if (navigation.stack[1] === '#foods-panel') {
         scrollToEl({
           el: document.querySelector('#foods-panel') as HTMLElement,
         });
@@ -64,8 +66,13 @@ const useScroll = () => {
             // callback: ({ active }) => active && setCurrentPage('FOODS'),
             callback: ({ active }) => {
               if (active) {
-                // console.log('#foods-panel');
-                goTo('#foods-panel');
+                if (
+                  navigation.stack.length < 3 &&
+                  window.location.hash !== '#food-modal'
+                ) {
+                  // console.log('scroll spy to foods panel', navigation.stack);
+                  goTo('#foods-panel');
+                }
               }
             },
             elContent: document.querySelector('#foods-panel') as HTMLElement,
@@ -76,7 +83,12 @@ const useScroll = () => {
             callback: ({ active }) => {
               if (active) {
                 // console.log('#main-panel');
-                goTo('#main-panel');
+                if (
+                  navigation.stack.length < 3 &&
+                  window.location.hash !== '#food-modal'
+                ) {
+                  goTo('#main-panel');
+                }
               }
             },
             elContent: document.querySelector('#main-panel') as HTMLElement,
@@ -87,7 +99,12 @@ const useScroll = () => {
             callback: ({ active }) => {
               if (active) {
                 // console.log('#recipe-panel');
-                goTo('#recipe-panel');
+                if (
+                  navigation.stack.length < 3 &&
+                  window.location.hash !== '#food-modal'
+                ) {
+                  goTo('#recipe-panel');
+                }
               }
             },
             elContent: document.querySelector('#recipe-panel') as HTMLElement,

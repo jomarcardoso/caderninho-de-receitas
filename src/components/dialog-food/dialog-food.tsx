@@ -17,6 +17,8 @@ const DialogTransition: FC<SlideProps> = (props) => {
   return <Slide direction="right" {...props} />;
 };
 
+// let timeout: NodeJS.Timeout;
+
 const DialogFood: FC<DialogFoodProps> = ({
   open = false,
   food = FOOD,
@@ -25,16 +27,27 @@ const DialogFood: FC<DialogFoodProps> = ({
 }) => {
   const { goTo, goBack } = useNavigation();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleClose() {
     if (onClose) onClose();
     goBack();
   }
 
   useEffect(() => {
-    if (open) {
+    if (open && window.location.hash !== '#food-modal') {
       goTo('#food-modal');
     }
-  }, [open, goTo]);
+  }, [open, goTo, goBack]);
+
+  useEffect(() => {
+    window.addEventListener('popstate', () => {
+      // console.log('popstate');
+      if (onClose) onClose();
+
+      // goTo('#foods-panel');
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Dialog fullScreen open={open} TransitionComponent={DialogTransition}>
