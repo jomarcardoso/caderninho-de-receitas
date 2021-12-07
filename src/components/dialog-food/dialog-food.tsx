@@ -17,8 +17,6 @@ const DialogTransition: FC<SlideProps> = (props) => {
   return <Slide direction="right" {...props} />;
 };
 
-// let timeout: NodeJS.Timeout;
-
 const DialogFood: FC<DialogFoodProps> = ({
   open = false,
   food = FOOD,
@@ -37,14 +35,12 @@ const DialogFood: FC<DialogFoodProps> = ({
     if (open && window.location.hash !== '#food-modal') {
       goTo('#food-modal');
     }
-  }, [open, goTo, goBack]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   useEffect(() => {
     window.addEventListener('popstate', () => {
-      // console.log('popstate');
       if (onClose) onClose();
-
-      // goTo('#foods-panel');
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

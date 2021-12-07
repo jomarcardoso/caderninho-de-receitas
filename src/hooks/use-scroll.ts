@@ -22,8 +22,6 @@ const useScroll = () => {
       return;
     }
 
-    // console.log(navigation.stack);
-
     if (navigation.stack.length === 1) {
       scrollToEl({
         el: document.querySelector('#main-panel') as HTMLElement,
@@ -31,7 +29,6 @@ const useScroll = () => {
       return;
     }
     if (navigation.stack.length === 2) {
-      // console.log(navigation.stack[1]);
       if (navigation.stack[1] === '#recipe-panel') {
         scrollToEl({
           el: document.querySelector('#recipe-panel') as HTMLElement,
@@ -63,14 +60,12 @@ const useScroll = () => {
         debounce: 100,
         list: [
           createScrollSpyItem({
-            // callback: ({ active }) => active && setCurrentPage('FOODS'),
             callback: ({ active }) => {
               if (active) {
                 if (
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'
                 ) {
-                  // console.log('scroll spy to foods panel', navigation.stack);
                   goTo('#foods-panel');
                 }
               }
@@ -79,10 +74,8 @@ const useScroll = () => {
             elMenu: document.querySelector('#foods-panel') as HTMLElement,
           }),
           createScrollSpyItem({
-            // callback: ({ active }) => active && setCurrentPage('HOME'),
             callback: ({ active }) => {
               if (active) {
-                // console.log('#main-panel');
                 if (
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'
@@ -95,10 +88,8 @@ const useScroll = () => {
             elMenu: document.querySelector('#main-panel') as HTMLElement,
           }),
           createScrollSpyItem({
-            // callback: ({ active }) => active && setCurrentPage('RECIPE'),
             callback: ({ active }) => {
               if (active) {
-                // console.log('#recipe-panel');
                 if (
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'

@@ -46,8 +46,6 @@ const useNavigation = () => {
   }
 
   function goTo(newHash = '#main-panel') {
-    // console.log('goTo', newHash);
-
     if (hash === newHash) {
       return;
     }
@@ -61,8 +59,6 @@ const useNavigation = () => {
       window.history.replaceState({}, '', newHash);
       horizontalNavigate(newHash);
 
-      // console.log('goTo', 'horizontalNavigate');
-
       return;
     }
 
@@ -70,15 +66,12 @@ const useNavigation = () => {
       goBack();
       navigateBack();
 
-      // console.log('goTo', 'navigateBack');
-
       return;
     }
 
     if (newLevel > level) {
       window.history.pushState({}, '', newHash);
       navigateAhead(newHash);
-      // console.log('goTo', 'navigateAhead');
     }
   }
 
@@ -87,8 +80,6 @@ const useNavigation = () => {
       if (hash === window.location.hash) {
         return;
       }
-
-      // console.log(hash, window.location.hash);
 
       hash = window.location.hash;
       navigateBack();
