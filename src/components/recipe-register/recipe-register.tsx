@@ -56,7 +56,9 @@ const RecipeRegister: FC<Props> = ({
       }}
       onSubmit={memoizedHandleSubmit}
     >
-      {(formik: FormikProps<RecipeForm>) => <RecipeRegisterForm {...formik} />}
+      {(formik: FormikProps<RecipeForm>) => (
+        <RecipeRegisterForm recipeData={recipeData} {...formik} />
+      )}
     </Formik>
   );
 };

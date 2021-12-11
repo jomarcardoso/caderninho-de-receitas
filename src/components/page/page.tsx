@@ -147,8 +147,8 @@ const Page: FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    window.location.hash = 'main-panel';
-    // window.history.pushState({}, '', '#main-panel');
+    // window.location.hash = 'main-panel';
+    window.history.pushState({}, '', '#main-panel');
   }, []);
 
   return (

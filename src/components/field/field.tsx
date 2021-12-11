@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps } from 'react';
+import React, { FC, HTMLProps, ReactNode } from 'react';
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from '@mui/material/TextareaAutosize';
@@ -9,6 +9,7 @@ interface Props {
   labelProps?: HTMLProps<HTMLLabelElement>;
   label: HTMLProps<HTMLLabelElement>['children'];
   multiline?: boolean;
+  hint?: ReactNode;
 }
 
 export type FieldProps = TextareaAutosizeProps & Props;
@@ -18,6 +19,7 @@ const Field: FC<FieldProps> = ({
   labelProps,
   rootProps,
   label,
+  hint = '',
   ...props
 }) => {
   const { id: inputId } = props;
@@ -36,6 +38,7 @@ const Field: FC<FieldProps> = ({
       <div className="field__box">
         <TextareaAutosize className="field__input" minRows={1} {...props} />
       </div>
+      {hint && <div className="field__hint">{hint}</div>}
     </div>
   );
 };

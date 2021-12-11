@@ -121,6 +121,7 @@ const RecipePanel: FC<{
     <Panel id="recipe-panel">
       <Layout
         showHeader={false}
+        showFooter={!editing}
         mainProps={{
           mt: !editing ? 0 : 5,
           containerProps: { disableGutters: true },

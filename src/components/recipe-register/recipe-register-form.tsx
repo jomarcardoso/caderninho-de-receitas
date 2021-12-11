@@ -21,11 +21,16 @@ export interface RecipeForm {
   quantitySteps: number;
 }
 
-const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
+interface Props {
+  recipeData: RecipeData;
+}
+
+const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   values,
   handleBlur: formikHandleBlur,
   handleChange,
   setFieldValue,
+  recipeData,
 }) => {
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredients = '') => {
@@ -73,11 +78,12 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
           <>
             <Grid item xs={12}>
               <Field
-                label={`Parte ${index + 1} nome`}
+                label={`nome da etapa ${index + 1} (opcional)`}
                 name={`steps.${index}.name`}
                 value={step.name}
                 onChange={handleChange}
                 onBlur={formikHandleBlur}
+                hint="massa, cobertura, etc"
               />
             </Grid>
             <Grid item xs={12}>
@@ -111,15 +117,31 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
       <FieldArray name="steps">
         {() => (
           <Container>
-            <Field
-              label="Receita"
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-              onBlur={formikHandleBlur}
-            />
             <Grid container spacing={3}>
-              <Grid item xs={12} />
+              <Grid item xs={12}>
+                {!recipeData.id ? (
+                  <p>
+                    Você está criando uma nova receita. Preencha os campos
+                    abaixo e pressione o botão salvar receita para criá-la e
+                    adicioná-la à sua lista.
+                  </p>
+                ) : (
+                  <p>
+                    Você está editando uma receita já existente. Preencha os
+                    campos abaixo e pressione o botão salvar receita para
+                    atualizá-la.
+                  </p>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  label="nome da receita"
+                  name="name"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={formikHandleBlur}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <Field
                   multiline
@@ -142,11 +164,11 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
                     setFieldValue('quantitySteps', values.quantitySteps + 1)
                   }
                 >
-                  adicionar etapa
+                  adicionar outra etapa
                 </Button>
               </Grid>
               <Grid item xs={12} className="recipe-register__submit">
-                <SubmitComponent>salvar refeição</SubmitComponent>
+                <SubmitComponent>salvar receita</SubmitComponent>
               </Grid>
             </Grid>
           </Container>
