@@ -23,12 +23,20 @@ const useScroll = () => {
     }
 
     if (navigation.stack.length === 1) {
+      const elMainPanel = document.querySelector('#main-panel') as HTMLElement;
+
+      if (!elMainPanel) {
+        return;
+      }
+
       scrollToEl({
-        el: document.querySelector('#main-panel') as HTMLElement,
+        el: elMainPanel,
       });
       return;
     }
     if (navigation.stack.length === 2) {
+      const elMainPanel = document.querySelector('#main-panel') as HTMLElement;
+
       if (navigation.stack[1] === '#recipe-panel') {
         scrollToEl({
           el: document.querySelector('#recipe-panel') as HTMLElement,

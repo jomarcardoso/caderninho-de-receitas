@@ -123,7 +123,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                   <p>
                     Você está criando uma nova receita. Preencha os campos
                     abaixo e pressione o botão salvar receita para criá-la e
-                    adicioná-la à sua lista.
+                    adicioná-la ao seu caderninho de receitas.
                   </p>
                 ) : (
                   <p>

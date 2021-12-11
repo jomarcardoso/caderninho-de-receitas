@@ -86,6 +86,41 @@ const useNavigation = () => {
     });
   }, [navigateBack]);
 
+  useEffect(() => {
+    if (window.location.hash === '#recipe-panel') {
+      window.history.pushState({}, '', '#main-panel');
+
+      setTimeout(() => {
+        window.history.pushState({}, '', '#recipe-panel');
+      }, 100);
+
+      hash = '#recipe-panel';
+
+      if (!navigation.setStack) {
+        return;
+      }
+
+      navigation.setStack(['#main-panel', '#recipe-panel']);
+    }
+
+    if (window.location.hash === '#foods-panel') {
+      window.history.pushState({}, '', '#main-panel');
+
+      setTimeout(() => {
+        window.history.pushState({}, '', '#foods-panel');
+      }, 100);
+
+      hash = '#foods-panel';
+
+      if (!navigation.setStack) {
+        return;
+      }
+
+      navigation.setStack(['#main-panel', '#foods-panel']);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return {
     goTo,
     goBack,
