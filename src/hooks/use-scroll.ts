@@ -1,18 +1,26 @@
 /* eslint-disable */
 import { useEffect } from 'react';
-import { scrollToEl } from 'ovos';
+import { scrollToEl, ScrollSpy, createScrollSpyItem } from 'ovos';
 import useNavigation from './use-navigation';
 
 // let timeout: NodeJS.Timeout;
 
 let busyScroll = false;
 
-document.addEventListener('touchstart', () => {
-  busyScroll = true;
-});
-document.addEventListener('touchend', () => {
-  busyScroll = false;
-});
+const busyScrollInterval = setInterval(() => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  clearInterval(busyScrollInterval);
+
+  document.addEventListener('touchstart', () => {
+    busyScroll = true;
+  });
+  document.addEventListener('touchend', () => {
+    busyScroll = false;
+  });
+}, 1000);
 
 const useScroll = () => {
   const { navigation, goTo } = useNavigation();
@@ -52,12 +60,10 @@ const useScroll = () => {
   }, [navigation.stack]);
 
   useEffect(() => {
-    const interval = setInterval(async () => {
+    const interval = setInterval(() => {
       if (typeof window === 'undefined') {
         return;
       }
-
-      const { ScrollSpy, createScrollSpyItem } = await import('ovos');
 
       clearInterval(interval);
 
