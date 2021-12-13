@@ -2,7 +2,6 @@ import { Form, FieldArray, FormikProps } from 'formik';
 import React, { FC, useCallback, ChangeEventHandler } from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import StepsInput from '../steps-input/steps-input';
 import Field from '../field/field';
 import {
   RecipeCategory,
@@ -12,6 +11,7 @@ import {
 } from '../../services/recipe/recipe.types';
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
+import Button from '../button/button';
 
 export interface RecipeForm {
   steps: RecipeData['steps'];
@@ -21,11 +21,16 @@ export interface RecipeForm {
   quantitySteps: number;
 }
 
-const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
+interface Props {
+  recipeData: RecipeData;
+}
+
+const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   values,
   handleBlur: formikHandleBlur,
   handleChange,
   setFieldValue,
+  recipeData,
 }) => {
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredients = '') => {
@@ -73,11 +78,12 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
           <>
             <Grid item xs={12}>
               <Field
-                label={`Parte ${index + 1} nome`}
+                label={`nome da etapa ${index + 1} (opcional)`}
                 name={`steps.${index}.name`}
                 value={step.name}
                 onChange={handleChange}
                 onBlur={formikHandleBlur}
+                hint="massa, cobertura, etc"
               />
             </Grid>
             <Grid item xs={12}>
@@ -111,15 +117,31 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
       <FieldArray name="steps">
         {() => (
           <Container>
-            <Field
-              label="Receita"
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-              onBlur={formikHandleBlur}
-            />
             <Grid container spacing={3}>
-              <Grid item xs={12} />
+              <Grid item xs={12}>
+                {!recipeData.id ? (
+                  <p>
+                    Você está criando uma nova receita. Preencha os campos
+                    abaixo e pressione o botão salvar receita para criá-la e
+                    adicioná-la ao seu caderninho de receitas.
+                  </p>
+                ) : (
+                  <p>
+                    Você está editando uma receita já existente. Preencha os
+                    campos abaixo e pressione o botão salvar receita para
+                    atualizá-la.
+                  </p>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  label="nome da receita"
+                  name="name"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={formikHandleBlur}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <Field
                   multiline
@@ -131,19 +153,22 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm>> = ({
                   minRows={2}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <StepsInput
-                  inputProps={{
-                    name: 'quantitySteps',
-                    value: values.quantitySteps,
-                    onChange: handleChange,
-                    onBlur: formikHandleBlur,
-                  }}
-                />
-              </Grid>
               {memoizedRenderSteps()}
+              <Grid item xs={12}>
+                <Button
+                  type="button"
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  onClick={() =>
+                    setFieldValue('quantitySteps', values.quantitySteps + 1)
+                  }
+                >
+                  adicionar outra etapa
+                </Button>
+              </Grid>
               <Grid item xs={12} className="recipe-register__submit">
-                <SubmitComponent>Cadastrar refeição</SubmitComponent>
+                <SubmitComponent>salvar receita</SubmitComponent>
               </Grid>
             </Grid>
           </Container>

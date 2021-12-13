@@ -27,11 +27,9 @@ if (typeof window !== 'undefined') {
     if (recipeShared.steps[0]?.ingredients?.length) {
       initialRecipeData = recipeShared;
 
-      window.history.replaceState(
-        {},
-        '',
-        `${window.location.origin}#recipe-panel`,
-      );
+      // setTimeout(() => {
+      //   window.history.replaceState({}, '', '/#recipe-panel');
+      // }, 4000);
     }
   }
 }

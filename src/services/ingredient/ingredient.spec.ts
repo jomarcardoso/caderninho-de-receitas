@@ -437,9 +437,41 @@ describe('IngredientService', () => {
 
       expect(isLiteral).toBe(true);
     });
+
+    it('¼ de xícara (chá) de molho de tomate para pizza', () => {
+      const isLiteral = verifyIsLiteralByUnit(
+        '¼ de xícara (chá) de molho de tomate para pizza',
+      );
+
+      expect(isLiteral).toBe(false);
+    });
+
+    it('½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)', () => {
+      const isLiteral = verifyIsLiteralByUnit(
+        '½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)',
+      );
+
+      expect(isLiteral).toBe(false);
+    });
   });
 
   describe('verifyIsLiteral', () => {
+    it('½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)', () => {
+      const isLiteral = verifyIsLiteral(
+        '½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)',
+      );
+
+      expect(isLiteral).toBe(true);
+    });
+
+    it('¼ de xícara (chá) de molho de tomate para pizza', () => {
+      const isLiteral = verifyIsLiteral(
+        '¼ de xícara (chá) de molho de tomate para pizza',
+      );
+
+      expect(isLiteral).toBe(false);
+    });
+
     it('500 ml de creme de leite fresco 35% de gordura', () => {
       const isLiteral = verifyIsLiteral(
         '500 ml de creme de leite fresco 35% de gordura',
@@ -532,6 +564,14 @@ describe('IngredientService', () => {
   });
 
   describe('getLiteralQuantity', () => {
+    it('½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)', () => {
+      const quantity = getLiteralQuantity(
+        '½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)',
+      );
+
+      expect(quantity).toBe(90);
+    });
+
     it('1 peça de filé mignon suíno (cerca de 650 g)', () => {
       const quantity = getLiteralQuantity(
         '1 peça de filé mignon suíno (cerca de 650 g)',

@@ -22,8 +22,6 @@ const HideOnScroll: FC<SlideProps> = ({ children, ...props }) => {
     target: document.querySelector('#recipe-panel') as HTMLElement,
   });
 
-  console.log(trigger);
-
   return (
     <Slide appear={false} direction="down" in={!trigger} {...props}>
       {children}

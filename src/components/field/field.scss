@@ -35,6 +35,11 @@
     padding: 0 8px;
   }
 
+  &__hint {
+    margin-top: 2px;
+    font-size: 13px;
+  }
+
   &--multiline {
     .field__label {
       align-self: stretch;

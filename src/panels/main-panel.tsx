@@ -17,6 +17,7 @@ import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { RECIPE, Recipe } from '../services/recipe';
 import { recipes } from '../db/recipe';
 import SectionTitle from '../components/section-title/section-title';
+import useScroll from '../hooks/use-scroll';
 
 const useStyles = makeStyles({
   listItem: {
@@ -33,6 +34,8 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
 }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
+
+  useScroll();
 
   function handleClickLink(recipe: Recipe) {
     setCurrentRecipe(recipe);
