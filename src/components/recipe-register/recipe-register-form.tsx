@@ -19,6 +19,7 @@ export interface RecipeForm {
   description: string;
   category: RecipeCategory | '';
   quantitySteps: number;
+  additional: string;
 }
 
 interface Props {
@@ -151,6 +152,17 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                   onChange={handleChange}
                   onBlur={formikHandleBlur}
                   minRows={2}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  multiline
+                  name="additional"
+                  label="informações adicionais"
+                  value={values.additional}
+                  onChange={handleChange}
+                  onBlur={formikHandleBlur}
+                  minRows={1}
                 />
               </Grid>
               {memoizedRenderSteps()}

@@ -2396,6 +2396,47 @@ export const foodsData: Array<FoodData> = [
       'https://radioaratiba.com.br/wp-content/uploads/2018/06/noz-moscada-696x462.jpg',
     keys: ['noz-moscada', 'noz moscada', 'noz-moscadas', 'noz moscadas'],
   },
+  {
+    id: 150,
+    name: 'Massa caseira com semolina',
+    enName: 'case-flour-with-semolina',
+    image:
+      'https://cdn.panelinha.com.br/receita/1623786205817-massa-caseira.jpg',
+    keys: [
+      'massa caseira',
+      'massa caseira com semolina',
+      'massa com semolina',
+      'massa com sêmola',
+      'massa caseira com sêmola',
+    ],
+    recipe: true,
+  },
+  {
+    id: 151,
+    name: 'Semolina',
+    enName: 'semolina',
+    icon: '/images/food/couscous.png',
+    image:
+      'https://www.mundoboaforma.com.br/wp-content/uploads/2020/11/semolina.jpg',
+    keys: ['semolina', 'semolina de trigo', 'sêmola', 'sêmola de trigo'],
+    calories: 360,
+    proteins: 13,
+    carbohydrates: 73,
+    dietaryFiber: 3.9,
+    minerals: {
+      ...MINERALS_DATA,
+      sodium: 1,
+      potassium: 186,
+      iron: 1.2,
+      magnesium: 47,
+      calcium: 17,
+    },
+    vitamins: {
+      ...VITAMINS_DATA,
+      c: 0,
+      b6: 0.1,
+    },
+  },
 ];
 
 export const foods = foodsData.map(FoodService.format);

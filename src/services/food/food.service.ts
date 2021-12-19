@@ -23,6 +23,13 @@ export const getFoodByString: GetFoodByString = ({ foods = [], text = '' }) => {
   const lowerText = text.toLowerCase();
   // const textWords = lowerText.split(' ');
 
+  if (lowerText.startsWith('sal para')) {
+    return {
+      food: foods.find((food) => food.name === 'Sal') ?? FOOD,
+      index: 0,
+    };
+  }
+
   const foodsFound =
     foods.filter((foodItem) => {
       const lowerFood = foodItem.name.toLowerCase();

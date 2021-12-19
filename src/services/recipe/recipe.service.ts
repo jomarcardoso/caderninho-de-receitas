@@ -61,15 +61,17 @@ export function calculateAcidification(
   return total / ingredients.length;
 }
 
-export function formatPart(
+export function formatStep(
   data: RecipeStepData,
   foods: Array<Food>,
 ): RecipeStep {
-  const ingredients: Array<Ingredient> = data?.ingredients
-    ?.split('\n')
-    .map((text) => {
+  let ingredients: Array<Ingredient> = [];
+
+  if (data.ingredients) {
+    ingredients = data.ingredients?.split('\n').map((text) => {
       return IngredientService.ingredientFromString({ text, foods });
     });
+  }
 
   return {
     name: data?.name ?? RECIPE_STEP.name,
@@ -87,7 +89,7 @@ export function format({
   foods: Array<Food>;
 }): Recipe {
   const steps =
-    recipeData?.steps?.map((partData) => formatPart(partData, foods)) ??
+    recipeData?.steps?.map((partData) => formatStep(partData, foods)) ??
     RECIPE.steps;
 
   const allIngredients = steps.flatMap(({ ingredients }) => {

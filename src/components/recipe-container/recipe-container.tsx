@@ -67,16 +67,23 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             <Grid item xs={12}>
               <SectionCard title={step.name}>
                 <Grid container spacing={4}>
-                  <Grid item xs={12}>
-                    <Ingredients
-                      ingredients={step.ingredients}
-                      setCurrentFood={setCurrentFood}
-                      setCurrentFoodQuantity={setCurrentFoodQuantity}
-                    />
-                  </Grid>
+                  {step.ingredients.length ? (
+                    <Grid item xs={12}>
+                      <Ingredients
+                        ingredients={step.ingredients}
+                        setCurrentFood={setCurrentFood}
+                        setCurrentFoodQuantity={setCurrentFoodQuantity}
+                      />
+                    </Grid>
+                  ) : (
+                    ''
+                  )}
                   {step.preparation && (
                     <Grid item xs={12}>
-                      <Preparation preparation={step.preparation} />
+                      <Preparation
+                        preparation={step.preparation}
+                        title={step.ingredients.length ? undefined : ''}
+                      />
                     </Grid>
                   )}
                   {step.additional && (
