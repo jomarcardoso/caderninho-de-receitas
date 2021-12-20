@@ -2437,6 +2437,118 @@ export const foodsData: Array<FoodData> = [
       b6: 0.1,
     },
   },
+  {
+    id: 152,
+    name: 'Macarrão com legumes assados',
+    image:
+      'https://cdn.panelinha.com.br/receita/1624481906297-macarra%CC%83o-legumes.jpg',
+    keys: [
+      'macarrão',
+      'macarrão com legumes',
+      'macarrão com legumes assados',
+      'massa com legumes',
+      'massa com legumes assados',
+    ],
+    recipe: true,
+  },
+  {
+    ...formatNacional(foodListNacional[141] as unknown as FoodNacional),
+    id: 153,
+    name: 'Pimentão amarelo',
+    enName: 'yellow-bell-pepper',
+    icon: '/images/food/paprika.png',
+    image:
+      'https://agrodomingues.com.br/wp-content/uploads/2020/10/paprika-yellow-vegetables-318208.jpg',
+    keys: ['pimentão', 'pimentão amarelo', 'pimentões amarelos'],
+    oneMeasures: [
+      {
+        quantity: 215,
+        type: 'UNITY',
+      },
+    ],
+  },
+  {
+    ...formatNacional(foodListNacional[147] as unknown as FoodNacional),
+    id: 154,
+    name: 'Rabanete',
+    enName: 'radish',
+    icon: '/images/food/radish.png',
+    image:
+      'http://vamoscomermelhor.com.br/wp-content/uploads/2014/07/dsc00507-2.jpg',
+    keys: ['rabanete', 'rabanetes', 'rabanete vermelho', 'rabanete cru'],
+    oneMeasures: [
+      {
+        quantity: 50,
+        type: 'UNITY',
+      },
+    ],
+  },
+  {
+    ...formatNacional(foodListNacional[39] as unknown as FoodNacional),
+    id: 155,
+    name: 'Macarrão fusilli',
+    enName: 'screw-pasta',
+    icon: '/images/food/screw-pasta.png',
+    image: 'https://www.bonde.com.br/img/bondenews/2017/11/img_1_33_1117.jpg',
+    keys: [
+      'massa',
+      'macarrão',
+      'massa parafuso',
+      'massa parafuso de trigo',
+      'macarrão parafuso',
+      'macarrão parafuso de trigo',
+      'macarrão fusilli',
+      'macarrão fusilli de trigo',
+      'massa fusilli',
+      'massa fusilli de trigo',
+      'massa fusili',
+      'massa fusili de trigo',
+      'macarrão fusili',
+      'macarrão fusili de trigo',
+    ],
+    oneMeasures: [
+      {
+        quantity: 500,
+        type: 'UNITY',
+      },
+    ],
+  },
+  {
+    id: 156,
+    name: 'Sopa de feijão com macarrão',
+    enName: 'soup-of-bean-with-pasta',
+    image:
+      'https://cdn.panelinha.com.br/receita/1616683531341-sopa-de-feija%CC%83o-com-macarra%CC%83o.jpg',
+    keys: [
+      'sopa de feijão',
+      'sopa de feijão com macarrão',
+      'sopa de feijão e macarrão',
+    ],
+    recipe: true,
+  },
+  {
+    ...formatNacional(foodListNacional[75] as unknown as FoodNacional),
+    id: 157,
+    name: 'Aipo',
+    enName: 'celery',
+    icon: '/images/food/celery.png',
+    image:
+      'https://www.cervejapetra.com.br/wp-content/uploads/2017/10/Sals%C3%A3o-min-945x486.jpg',
+    keys: [
+      'aipo',
+      'salsão',
+      'salsa em ponto grande',
+      'talo de aipo',
+      'talo de salsão',
+      'talo de salsa em ponto grande',
+    ],
+    oneMeasures: [
+      {
+        quantity: 250,
+        type: 'UNITY',
+      },
+    ],
+  },
 ];
 
 export const foods = foodsData.map(FoodService.format);
