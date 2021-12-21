@@ -826,6 +826,8 @@ export const foodsData: Array<FoodData> = [
     name: 'Sal',
     enName: 'salt',
     icon: '/images/food/salt.svg',
+    image:
+      'https://acrediteounao.com/wp-content/uploads/2018/12/sal-de-cozinha-e1543846010596.jpg',
     unitOfMeasurement: 'gram',
   },
   {
@@ -2548,6 +2550,33 @@ export const foodsData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+  },
+  {
+    id: 158,
+    name: 'Farofa de milho com cenoura e bacon',
+    enName: 'millet-bread-with-cabbage-and-bacon',
+    image: 'https://cdn.panelinha.com.br/receita/1639142039327-farofa.jpg',
+    keys: [
+      'farofa',
+      'farofa de milho',
+      'farofa de milho com cenoura',
+      'farofa de milho com cenoura e bacon',
+      'farofa de milho com bacon',
+      'farofa com cenoura',
+      'farofa com bacon',
+    ],
+    recipe: true,
+  },
+  {
+    ...formatNacional(foodListNacional[443] as unknown as FoodNacional),
+    id: 159,
+    name: 'Toucinho',
+    enName: 'bacon',
+    icon: '/images/food/ham.svg',
+    image:
+      'https://espetinhodesucesso.com.br/wp-content/uploads/2018/12/como-fazer-bacon-artesanal-1200x675.jpg',
+    keys: ['toucinho', 'toucinhos', 'bacon', 'bacon em cubos'],
+    unitOfMeasurement: 'gram',
   },
 ];
 
