@@ -53,9 +53,11 @@ export interface Food {
   calories: number;
   acidification: number;
   carbohydrates: number;
+  ashes: number;
   proteins: number;
   saturedFats: number;
   monounsaturatedFats: number;
+  polyunsaturatedFats: number;
   cholesterol: number;
   totalFat: number;
   dietaryFiber: number;
@@ -99,6 +101,7 @@ export const FOOD: Food = {
   acidification: 0,
   calories: 0,
   carbohydrates: 0,
+  ashes: 0,
   description: '',
   dietaryFiber: 0,
   sugar: 0,
@@ -107,6 +110,7 @@ export const FOOD: Food = {
   image: '',
   minerals: MINERALS,
   monounsaturatedFats: 0,
+  polyunsaturatedFats: 0,
   oneMeasures: [],
   proteins: 0,
   saturedFats: 0,

@@ -25,11 +25,33 @@ export function formatNacional(food: FoodNacional): FoodData {
     name: food?.description,
     enName: '',
     acidification: 0,
+    calories: !isString(food?.attributes?.energy?.kcal)
+      ? food?.attributes?.energy?.kcal ?? 0
+      : 0,
+    ashes: !isString(food?.attributes?.ashes?.qty)
+      ? food?.attributes?.ashes?.qty ?? 0
+      : 0,
     proteins: !isString(food?.attributes?.protein?.qty)
       ? food?.attributes?.protein?.qty ?? 0
       : 0,
+    saturedFats: !isString(food?.attributes?.fatty_acids?.saturated?.qty)
+      ? food?.attributes?.fatty_acids?.saturated?.qty ?? 0
+      : 0,
+    monounsaturatedFats: !isString(
+      food?.attributes?.fatty_acids?.monounsaturated?.qty,
+    )
+      ? food?.attributes?.fatty_acids?.monounsaturated?.qty ?? 0
+      : 0,
+    polyunsaturatedFats: !isString(
+      food?.attributes?.fatty_acids?.polyunsaturated?.qty,
+    )
+      ? food?.attributes?.fatty_acids?.polyunsaturated?.qty ?? 0
+      : 0,
     totalFat: !isString(food?.attributes?.lipid?.qty)
       ? food?.attributes?.lipid?.qty ?? 0
+      : 0,
+    cholesterol: !isString(food?.attributes?.cholesterol?.qty)
+      ? food?.attributes?.cholesterol?.qty ?? 0
       : 0,
     carbohydrates: !isString(food?.attributes?.carbohydrate?.qty)
       ? food?.attributes?.carbohydrate?.qty ?? 0
