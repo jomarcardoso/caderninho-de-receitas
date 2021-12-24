@@ -15,7 +15,7 @@ import Button from '../components/button/button';
 import AccountContext from '../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../services/account.service';
 import { RECIPE, Recipe } from '../services/recipe';
-import { recipes } from '../db/recipe';
+import { recipes } from '../db/partner-recipes';
 import SectionTitle from '../components/section-title/section-title';
 import useScroll from '../hooks/use-scroll';
 

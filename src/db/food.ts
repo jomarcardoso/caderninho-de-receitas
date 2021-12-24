@@ -1,8 +1,7 @@
 import mergeWith from 'lodash/mergeWith';
-import isNumber from 'lodash/isNumber';
-import isString from 'lodash/isString';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData, FoodService } from '../services/food';
+import { format, formatNacional, verifyQuantity } from './utils';
 import {
   coconut as coconutData,
   egg as eggData,
@@ -32,9 +31,7 @@ import {
   banana,
   whiteRice,
   blackBean,
-  cornRecipe,
   whiteBread,
-  chickenPasty,
   greenLeafLettuce,
   salt,
   boiledPotato,
@@ -94,155 +91,7 @@ import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
 import { AMINO_ACIDS } from '../services/amino-acid';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
-
-export function verifyQuantity<T>(objValue: T, srcValue: T): T {
-  if (isNumber(objValue)) {
-    const objValueNumber = Number(objValue);
-
-    if (objValueNumber) {
-      return objValue;
-    }
-
-    return srcValue;
-  }
-
-  return objValue;
-}
-
-function format(food: FoodMyFoodData): FoodData {
-  return {
-    saturedFats: food.FASAT,
-    calories: food.ENERC_KCAL,
-    enName: encodeURIComponent(
-      food?.name1?.toLowerCase().replace(/\s/, '-') ??
-        food?.name?.toLowerCase().replace(/\s/, '-') ??
-        food?.name3?.toLowerCase().replace(/\s/, '-') ??
-        food?.name2?.toLowerCase().replace(/\s/, '-'),
-    ),
-    aminoAcids: {
-      alanine: food.ALA_G,
-      arginine: food.ARG_G,
-      asparticAcid: food.ASP_G,
-      cystine: food.CYS_G,
-      glutamicAcid: food.GLU_G,
-      glutamine: 0,
-      glycine: food.GLY_G,
-      histidine: food.HISTN_G,
-      isoleucine: food.ILE_G,
-      leucine: food.LEU_G,
-      lysine: food.LYS_G,
-      methionine: food.MET_G,
-      phenylalanine: food.PHE_G,
-      proline: food.PRO_G,
-      serine: food.SER_G,
-      threonine: food.THR_G,
-      tryptophan: food.TRP_G,
-      tyrosine: food.TYR_G,
-      valine: food.VAL_G,
-    },
-    carbohydrates: food.CHOCDF,
-    proteins: Number(food.PROCNT),
-    totalFat: Number(food.FAT),
-    vitamins: {
-      ...VITAMINS_DATA, // tem que tirar isso
-      c: food.VITC,
-      a: food.VITA_RAE, // talvez não
-      betaCarotene: food.CARTB,
-      alphaCarotene: food.CARTA,
-      lycopene: food.LYCPN,
-      k: food.VITK1,
-      choline: food.CHOLN,
-      b3: food.NIA,
-      b12: food.VITB12,
-      b2: food.RIBF,
-      b6: food.VITB6A,
-      d: food.VITD_IU,
-    },
-    minerals: {
-      ...MINERALS_DATA,
-      calcium: food.CA,
-      iron: food.FE,
-      potassium: food.K,
-      magnesium: food.MG,
-      phosphorus: food.P,
-      manganese: food.MN,
-      copper: food.CU,
-      sodium: food.NA,
-      zinc: food.ZN,
-    },
-  };
-}
-
-export function formatNacional(food: FoodNacional): FoodData {
-  return {
-    name: food?.description,
-    enName: '',
-    acidification: 0,
-    proteins: !isString(food?.attributes?.protein?.qty)
-      ? food?.attributes?.protein?.qty ?? 0
-      : 0,
-    totalFat: !isString(food?.attributes?.lipid?.qty)
-      ? food?.attributes?.lipid?.qty ?? 0
-      : 0,
-    carbohydrates: !isString(food?.attributes?.carbohydrate?.qty)
-      ? food?.attributes?.carbohydrate?.qty ?? 0
-      : 0,
-    dietaryFiber: !isString(food?.attributes?.fiber?.qty)
-      ? food?.attributes?.fiber?.qty ?? 0
-      : 0,
-    aminoAcids: {
-      ...AMINO_ACIDS,
-      alanine: 0,
-    },
-    vitamins: {
-      ...VITAMINS_DATA,
-      c: !isString(food?.vitaminC?.qty) ? food?.vitaminC?.qty ?? 0 : 0,
-      a: !isString(food?.attributes?.retinol?.qty)
-        ? Number(food?.attributes?.retinol?.qty) ?? 0
-        : 0,
-      b1: !isString(food?.attributes?.thiamine?.qty)
-        ? food?.attributes?.thiamine?.qty ?? 0
-        : 0,
-      b2: !isString(food?.attributes?.riboflavin?.qty)
-        ? food?.attributes?.riboflavin?.qty ?? 0
-        : 0,
-      b3: !isString(food?.attributes?.niacin?.qty)
-        ? food?.attributes?.niacin?.qty ?? 0
-        : 0,
-    },
-    minerals: {
-      ...MINERALS_DATA,
-      calcium: !isString(food?.attributes?.calcium?.qty)
-        ? Number(food?.attributes?.calcium?.qty) ?? 0
-        : 0,
-      magnesium: !isString(food?.attributes?.magnesium?.qty)
-        ? food?.attributes?.magnesium?.qty ?? 0
-        : 0,
-      phosphorus: !isString(food?.attributes?.phosphorus?.qty)
-        ? food?.attributes?.phosphorus?.qty ?? 0
-        : 0,
-      iron: !isString(food?.attributes?.iron?.qty)
-        ? food?.attributes?.iron?.qty ?? 0
-        : 0,
-      potassium: !isString(food?.attributes?.potassium?.qty)
-        ? food?.attributes?.potassium?.qty ?? 0
-        : 0,
-      sodium: !isString(food?.attributes?.sodium?.qty)
-        ? food?.attributes?.sodium?.qty ?? 0
-        : 0,
-      zinc: !isString(food?.attributes?.zinc?.qty)
-        ? food?.attributes?.zinc?.qty ?? 0
-        : 0,
-      copper: !isString(food?.attributes?.copper?.qty)
-        ? food?.attributes?.copper?.qty ?? 0
-        : 0,
-      manganese: !isString(food?.attributes?.manganese?.qty)
-        ? food?.attributes?.manganese?.qty ?? 0
-        : 0,
-    },
-    unitOfMeasurement: food?.base_unit === 'g' ? 'gram' : 'liter',
-  };
-}
+import { recipesData } from './recipes';
 
 export const foodsData: Array<FoodData> = [
   {
@@ -449,26 +298,6 @@ export const foodsData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(cornRecipe as unknown as FoodMyFoodData),
-    name: 'Polenta',
-    enName: 'corn-meal',
-    id: 9,
-    gi: 74,
-    gl: 11,
-    icon: '/images/food/polenta.svg',
-    image: 'https://t2.rg.ltmcdn.com/pt/images/4/9/1/polenta_mole_194_600.jpg',
-    calories: 0,
-    carbohydrates: 21,
-    oneMeasures: [
-      {
-        quantity: 233,
-        type: 'CUP',
-      },
-    ],
-    unitOfMeasurement: 'gram',
-    recipe: true,
-  },
-  {
     ...format(whiteBread as unknown as FoodMyFoodData),
     name: 'Pão Francês',
     enName: 'bread-roll',
@@ -508,17 +337,6 @@ export const foodsData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
-  },
-  {
-    ...format(chickenPasty as unknown as FoodMyFoodData),
-    id: 12,
-    name: 'pastel',
-    enName: 'pasty',
-    icon: '/images/food/pasty.svg',
-    image:
-      'https://s2.glbimg.com/w5pW4yBkSibfdkhkDE-GGVYd21I=/0x0:1080x608/924x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2021/P/A/rfLBcEQhizbQPhwoBQew/capas-para-materias-gshow-home-2-.jpg',
-    description: 'pastel de frango, frito',
-    recipe: true,
   },
   {
     ...format(garlic as unknown as FoodMyFoodData),
@@ -810,17 +628,6 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    id: 27,
-    name: 'Bolo de cenoura',
-    enName: 'carrot-cake',
-    gi: 67,
-    icon: '/images/food/carrot-cake.svg',
-    image:
-      'https://d1uz88p17r663j.cloudfront.net/original/2b76e99abc4136ccf26008c1c387023f_Bolo-de-cenoura-com-cobertura-de-brigadeiro-receitas-nestle.jpg',
-    unitOfMeasurement: 'gram',
-    recipe: true,
-  },
-  {
     ...format(salt as unknown as FoodMyFoodData),
     id: 28,
     name: 'Sal',
@@ -1007,15 +814,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['pão', 'pãozinho', 'pão integral'],
   },
   {
-    id: 42,
-    name: 'Cuca',
-    icon: '/images/food/bread.svg',
-    image: 'https://cdn.panelinha.com.br/receita/1550859492306-cuca-banana.jpg',
-    enName: 'crumb-cake',
-    unitOfMeasurement: 'gram',
-    recipe: true,
-  },
-  {
     ...format(orangeJuice as unknown as FoodMyFoodData),
     id: 43,
     icon: '/images/food/orange-juice.svg',
@@ -1135,15 +933,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['queijo'],
   },
   {
-    id: 50,
-    name: 'Sanduíche',
-    enName: 'sandwich',
-    icon: '/images/food/sandwich.svg',
-    image:
-      'https://images.unsplash.com/photo-1592415486689-125cbbfcbee2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=625&q=80',
-    recipe: true,
-  },
-  {
     ...format(ham as unknown as FoodMyFoodData),
     id: 51,
     name: 'Peito de peru defumado',
@@ -1211,16 +1000,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['carne', 'carne de gado', 'carne moída', 'bife', 'acém'],
   },
   {
-    id: 55,
-    name: 'Galinhada',
-    enName: 'chicken-risotto',
-    icon: '/images/food/rice.svg',
-    image:
-      'https://images.unsplash.com/photo-1461009683693-342af2f2d6ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=731&q=80',
-    keys: ['risoto de frango', 'arroz com galinha', 'arroz com frango'],
-    recipe: true,
-  },
-  {
     ...format(cassava as unknown as FoodMyFoodData),
     id: 56,
     name: 'Aipim',
@@ -1229,26 +1008,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://a-static.mlcdn.com.br/618x463/aipim/fruitexpress/1878daaecaf611eb86614201ac18500e/a80c447bae57a657277ef1e2516cb498.jpg',
     keys: ['mandioca', 'macacheira', 'cassava'],
-  },
-  {
-    id: 57,
-    name: 'Estrogonofe de Carne',
-    enName: 'beef-stroganoff',
-    icon: '/images/food/stroganoff.png',
-    image:
-      'https://piracanjuba.com.br/content/receitas/cont/0000000056/rec056_1910.jpg',
-    keys: ['strogonofe', 'estrogonofe'],
-    recipe: true,
-  },
-  {
-    id: 58,
-    name: 'Estrogonofe de Frango',
-    enName: 'chicken-stroganoff',
-    icon: '/images/food/stroganoff.png',
-    image:
-      'https://img.cybercook.com.br/imagens/receitas/644/strogonoff-de-frango-1-840x480.jpg?q=75',
-    keys: ['strogonofe', 'estrogonofe'],
-    recipe: true,
   },
   {
     ...format(coriander as unknown as FoodMyFoodData),
@@ -1288,32 +1047,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['pimenta do reino', 'pimenta preta', 'pimenta'],
   },
   {
-    id: 62,
-    name: 'Guacamole',
-    enName: 'guacamole',
-    icon: '/images/food/guacamole.png',
-    image: 'https://cdn.panelinha.com.br/receita/1513697612821-guacamole.jpg',
-    recipe: true,
-    keys: ['guacamole'],
-  },
-  {
-    id: 63,
-    name: 'Molho de Limão e Mel para Salada',
-    enName: 'lemon-and-honey-salad-dressing',
-    icon: '/images/food/sauce.png',
-    image:
-      'https://cdn.panelinha.com.br/receita/1619447331360-molho%2011.07.16.jpg',
-    recipe: true,
-    keys: [
-      'molho de limão e mel para salada',
-      'molho de salada',
-      'molho para salada',
-      'molho pra   salada',
-      'molho de limão',
-      'molho de mel',
-    ],
-  },
-  {
     id: 64,
     name: 'Mel',
     enName: 'honey',
@@ -1340,22 +1073,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['mel', 'mel de abelha'],
   },
   {
-    id: 65,
-    name: 'Pão de Batata Doce',
-    enName: 'sweet-potato-bread',
-    icon: '/images/food/bread.png',
-    image:
-      'https://cdn.panelinha.com.br/receita/1544639354405-pa%CC%83o%20de%20batata-doce%20para%20trocar.jpg',
-    keys: [
-      'pão de batata doce',
-      'bolinho de batata',
-      'bolinho de batata doce',
-      'bolinho de batata-doce',
-      'pão de batata-doce',
-    ],
-    recipe: true,
-  },
-  {
     ...format(sweetPotato as unknown as FoodMyFoodData),
     id: 66,
     name: 'Batata Doce',
@@ -1371,16 +1088,6 @@ export const foodsData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
-  },
-  {
-    id: 67,
-    name: 'Sopa de Couve-flor',
-    enName: 'cauliflower-soup',
-    recipe: true,
-    icon: '/images/food/soup.svg',
-    image:
-      'https://cdn.panelinha.com.br/receita/1468292400000-Sopa-de-couve-flor-com-farofinha-de-pao.jpg',
-    keys: ['sopa de couve-flor', 'sopa de couve flor'],
   },
   {
     ...format(cauliflower as unknown as FoodMyFoodData),
@@ -1413,15 +1120,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1612549225312-900aa64d56bb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     keys: ['folha de louro', 'folhas de louro', 'louro'],
-  },
-  {
-    id: 70,
-    name: 'Caldo de Legumes',
-    enName: 'vegetable-broth',
-    image:
-      'https://cdn.panelinha.com.br/receita/1339470000000-Caldo-caseiro-de-legumes.jpg',
-    keys: ['caldo de legume', 'caldo de legumes'],
-    recipe: true,
   },
   {
     ...format(grape as unknown as FoodMyFoodData),
@@ -1566,34 +1264,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['massa gravatinha', 'gravatinha', 'massa', 'macarrão'],
   },
   {
-    id: 82,
-    name: 'Salada de macarrão com beringela e purê de beterraba',
-    enName: 'beetroot-eggplant-pastas-salad',
-    image:
-      'https://cdn.panelinha.com.br/receita/1461898800000-Salada-de-macarrao-com-berinjela-e-pure-de-beterraba.jpg',
-    keys: [
-      'salada de beterraba',
-      'salada de beringela',
-      'salada de beterraba',
-      'purê de beterraba',
-    ],
-    recipe: true,
-  },
-  {
-    id: 83,
-    name: 'Arroz doce, caramelizado com farofa',
-    enName: 'sweet-rice-caramelized-with-crumbs',
-    image:
-      'http://www.cookbookfritzefrida.com.br/assets/uploads/posts/710/g_thumb-whatsapp-image-2021-09-29-at-150825-8647128-6175614.jpeg',
-    keys: [
-      'arroz code',
-      'arroz doce caramelizado',
-      'arroz doce com farofa',
-      'arroz doce caramelizado com fafora',
-    ],
-    recipe: true,
-  },
-  {
     ...format(peanut as unknown as FoodMyFoodData),
     id: 84,
     name: 'Amendoim',
@@ -1632,19 +1302,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1626609940603-1fc7556a94ef?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
     keys: ['cravo', 'cravos', 'cravos da índia', 'cravo-da-índia'],
-  },
-  {
-    id: 88,
-    name: 'Rodelas de abobrinha crocantes com parmesão',
-    enName: 'Crispy zucchini slices with parmesan',
-    image:
-      'https://panelinha-sitenovo.s3.sa-east-1.amazonaws.com/receita/1632429758157-CP2021-12-05_0474.jpg',
-    keys: [
-      'rodelas de abobrinha',
-      'abobrinha assada',
-      'abobrinha com parmesão',
-    ],
-    recipe: true,
   },
   {
     ...format(zucchini as unknown as FoodMyFoodData),
@@ -1692,15 +1349,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1538596313828-41d729090199?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['manjericão'],
-  },
-  {
-    id: 93,
-    name: 'Arroz carreteiro',
-    enName: 'beef-risoto',
-    image:
-      'https://panelinha-sitenovo.s3.sa-east-1.amazonaws.com/receita/1633350306253-Panelinha_03_09_21_319.jpg',
-    keys: ['risoto', 'carreteiro', 'arroz com carne'],
-    recipe: true,
   },
   {
     ...format(chive as unknown as FoodMyFoodData),
@@ -1758,29 +1406,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['leite de coco', 'coco'],
   },
   {
-    id: 99,
-    name: 'Sopa de cenoura com curry',
-    enName: 'carrot-soup-with-curry',
-    image: 'https://cdn.panelinha.com.br/receita/1491332195377-300541.jpg',
-    keys: ['sopa de copo', 'sopa de cenoura', 'sopa de curry'],
-    recipe: true,
-  },
-  {
-    id: 100,
-    name: 'Cuscuz marroquino com filé mignon suíno',
-    enName: 'couscous',
-    image:
-      'https://cdn.panelinha.com.br/receita/1480557600000-Cuscuz-marroquino-com-file-mignon-suino.jpg',
-    keys: [
-      'cuscuz',
-      'cuscuz marroquino',
-      'cuscuz com carne',
-      'cuscuz marroquino com porco',
-      'cuscuz com porco',
-    ],
-    recipe: true,
-  },
-  {
     ...format(ginger as unknown as FoodMyFoodData),
     id: 101,
     name: 'Gengibre',
@@ -1799,15 +1424,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://media.istockphoto.com/photos/pea-protein-powder-and-snap-pea-portrait-picture-id1175572671?b=1&k=20&m=1175572671&s=170667a&w=0&h=EWO5nG741j6gFokkAljmYE6tkCyEvGZxMMjjJq3dJZc=',
     keys: ['ervilha', 'ervilhas'],
-  },
-  {
-    id: 103,
-    name: 'Geleia de manga e maracujá',
-    enName: 'mango-and-passion-fruit-jelly',
-    image:
-      'https://cdn.panelinha.com.br/receita/1540583468204-receita-geleiaaaaa.jpg',
-    keys: ['geleia de manga', 'geleia de maracujá', 'geleia', 'geléia'],
-    recipe: true,
   },
   {
     ...format(mango as unknown as FoodMyFoodData),
@@ -1862,15 +1478,6 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    id: 107,
-    name: 'Vinagrete de chuchu com cominho',
-    enName: 'chuchu-vinegaret-with-cumin',
-    image:
-      'https://cdn.panelinha.com.br/receita/1584364750707-vinagrete-de-chuchu.jpg',
-    keys: ['vinagrete de chuchu', 'vinagrete', 'vinagrete com cominho'],
-    recipe: true,
-  },
-  {
     ...format(chayote as unknown as FoodMyFoodData),
     id: 108,
     name: 'Chuchu',
@@ -1918,20 +1525,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['gelo'],
   },
   {
-    id: 112,
-    name: 'Brownie cremoso de castanha-do-pará',
-    enName: 'creamy-brazil-nut-brownie',
-    image:
-      'https://cdn.panelinha.com.br/receita/1472612400000-Brownie-cremoso-de-castanha-do-para.jpg',
-    keys: [
-      'brownie',
-      'brownie de castanha',
-      'brownie com castanha',
-      'brownie cremoso',
-    ],
-    recipe: true,
-  },
-  {
     ...formatNacional(foodListNacional[588] as unknown as FoodNacional),
     id: 113,
     name: 'Castanha-do-pará',
@@ -1940,21 +1533,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://www.sistersintravel.com/wp-content/uploads/2015/12/sisters-in-travel-curiosidade-castanha-do-par%C3%A1-720x485.jpg',
     keys: ['castanha', 'castanha do pará'],
-  },
-  {
-    id: 114,
-    name: 'Filé de frango grelhado com páprica e erva-doce',
-    enName: 'grilled-chicken-fillet-with-paprika-and-fennel',
-    image:
-      'https://cdn.panelinha.com.br/receita/1612811291559-FRANGO-GRELHADO.jpg',
-    keys: [
-      'frango',
-      'filé de frango frango',
-      'frango grelhado',
-      'frango grelhado com páprica',
-      'frango grelhado com páprica e erva-doce',
-    ],
-    recipe: true,
   },
   {
     ...formatNacional(foodListNacional[474] as unknown as FoodNacional),
@@ -1967,24 +1545,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['chá de erva-doce', 'erva-doce', 'erva doce'],
   },
   {
-    id: 116,
-    name: 'Clotted cream',
-    enName: 'clotted-cream',
-    image:
-      'https://cdn.panelinha.com.br/receita/1632170181467-clotted-cream.jpg',
-    keys: ['clotted cream', 'clotted cream caseiro'],
-    recipe: true,
-  },
-  {
-    id: 117,
-    name: 'Café de prensa',
-    enName: 'pressed-coffee',
-    image:
-      'https://cdn.panelinha.com.br/receita/1544023469159-cafe%CC%81%20prensa.jpg',
-    keys: ['café prensado', 'café de prensa', 'café'],
-    recipe: true,
-  },
-  {
     ...format(coffee as unknown as FoodMyFoodData),
     id: 118,
     name: 'Café',
@@ -1993,15 +1553,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=871&q=80',
     keys: ['grão de café', 'grãos de café', 'café moído'],
-  },
-  {
-    id: 119,
-    name: 'Torta de banana',
-    enName: 'banana-cake',
-    image:
-      'https://cdn.panelinha.com.br/receita/1597953473440-tortareceita.jpg',
-    keys: ['torta', 'torta de banana'],
-    recipe: true,
   },
   {
     ...format(eggYolk as unknown as FoodMyFoodData),
@@ -2033,169 +1584,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://cdn.awsli.com.br/600x450/1693/1693441/produto/92535301/9f9c9fa2f7.jpg',
     keys: ['banana', 'banana nanica', 'bananas', 'bananas nanicax'],
-  },
-  {
-    id: 122,
-    name: 'Suco refrescante de melão',
-    enName: 'refreshing-watermelon-juice',
-    image:
-      'https://cdn.panelinha.com.br/receita/1445306400000-Suco-refrescante-de-melao.jpg',
-    keys: ['suco', 'suco de melão', 'suco refrescante'],
-    recipe: true,
-  },
-  {
-    id: 123,
-    name: 'Sanduíche de atum',
-    enName: 'tuna-sandwich',
-    image:
-      'https://cdn.panelinha.com.br/receita/1570025865685-1544637932547-sandui%CC%81che%20pasta.jpg',
-    keys: ['sanduíche', 'sanduíche de atum'],
-    recipe: true,
-  },
-  {
-    id: 124,
-    name: 'Mate com limão',
-    enName: 'lime-juice-mate',
-    image:
-      'https://cdn.panelinha.com.br/receita/1511900022715-mate%20receita.jpg',
-    keys: ['mate', 'mate com limão', 'chá mate', 'chá mate com limão'],
-    recipe: true,
-  },
-  {
-    id: 125,
-    name: 'Bolinho de bacalhau com inhame',
-    enName: 'cod-dumpling-with-yam',
-    image:
-      'https://cdn.panelinha.com.br/receita/1478224800000-Bolinho-de-bacalhau-com-inhame.jpg',
-    keys: ['bolinho', 'bolinho de bacalhau', 'bolo de inhame'],
-    recipe: true,
-  },
-  {
-    id: 126,
-    name: 'Caipirinha de maracujá com gengibre e folhas de mexerica',
-    enName: 'passion-fruit-caipirinha-with-ginger-and-mexerica-leaves',
-    image:
-      'https://cdn.panelinha.com.br/receita/1457665200000-Caipirinha-de-maracuja-com-gengibre-e-folhas-de-mexerica.jpg',
-    keys: [
-      'caipirinha',
-      'caipirinha de maracujá',
-      'suco de maracujá',
-      'caipirinha de maracujá com gengibre',
-      'suco de maracujá com gengibre',
-    ],
-    recipe: true,
-  },
-  {
-    id: 127,
-    name: 'Gim tônica cítrica',
-    enName: 'citric-gim-tonica',
-    image:
-      'https://cdn.panelinha.com.br/receita/1349060400000-Gim-tonica-citrica.jpg',
-    keys: ['gim', 'gim tonica', 'gim tonica cítrica'],
-    recipe: true,
-  },
-  {
-    id: 128,
-    name: 'Crudités de legumes',
-    enName: 'legumes-crudites',
-    image:
-      'https://cdn.panelinha.com.br/receita/1450058400000-Crudites-de-legumes.jpg',
-    keys: ['crudités', 'crudités de legumes', 'crudite', 'crudité de legume'],
-    recipe: true,
-  },
-  {
-    id: 129,
-    name: 'Dip de feijão branco',
-    enName: 'white-bean-dip',
-    image:
-      'https://cdn.panelinha.com.br/receita/1391652000000-Dip-de-feijao-branco.jpg',
-    keys: ['dip', 'dip de feijão', 'dip de feijão branco'],
-    recipe: true,
-  },
-  {
-    id: 130,
-    name: 'Pão integral com nozes',
-    enName: 'integral-bread-with-nutmeg',
-    image:
-      'https://cdn.panelinha.com.br/receita/1515091594755-pa%CC%83o%20nozes%20receita.jpg',
-    keys: ['pão', 'pão integral', 'pão integral com nozes', 'pão com nozes'],
-    recipe: true,
-  },
-  {
-    id: 131,
-    name: 'Geleia de figo e vinho tinto',
-    enName: 'fig-and-wine-gelee',
-    image:
-      'https://cdn.panelinha.com.br/receita/1432609200000-Geleia-de-figo-e-vinho-tinto.jpg',
-    keys: [
-      'geleia',
-      'geleia de figo',
-      'geleia de figo e vinho',
-      'geleia com vinho',
-    ],
-    recipe: true,
-  },
-  {
-    id: 132,
-    name: 'Rabanada salgada com queijo',
-    enName: 'grilled-salted-chicken-with-cheese',
-    image:
-      'https://cdn.panelinha.com.br/receita/1432609200000-Rabanada-salgada.jpg',
-    keys: [
-      'rabanada',
-      'rabanada salgada',
-      'rabanada salgada com queijo',
-      'rabanada com queijo',
-    ],
-    recipe: true,
-  },
-  {
-    id: 133,
-    name: 'Salada de frutas com nibs de cacau',
-    enName: 'fruit-salad-with-cacao-nibs',
-    image:
-      'https://cdn.panelinha.com.br/receita/1459998000000-Salada-de-frutas-com-nibs-de-cacau.jpg',
-    keys: [
-      'salada de frutas',
-      'salada de fruta',
-      'salada de fruta com chocolate',
-      'salada de frutas com chocolate',
-      'salada de frutas com cacau',
-      'salada de frutas com nibs de cacau',
-    ],
-    recipe: true,
-  },
-  {
-    id: 134,
-    name: 'Cocada de forno',
-    enName: 'baked-coconut-candy',
-    image: 'https://cdn.panelinha.com.br/receita/1554380728519-IMG_9235-2.jpg',
-    keys: ['cocada', 'cocada de forno'],
-    recipe: true,
-  },
-  {
-    id: 135,
-    name: 'Feijão-carioca com cominho',
-    enName: 'bean-with-cumin',
-    image: 'https://cdn.panelinha.com.br/receita/1489425336617-301213.jpg',
-    keys: ['feijão', 'feijão carioca', 'feijão carioca com cominho'],
-    recipe: true,
-  },
-  {
-    id: 136,
-    name: 'Carne com batata e cenoura na panela de pressão',
-    enName: 'meat-with-potato-and-carrot-in-pressure-pan',
-    image:
-      'https://cdn.panelinha.com.br/receita/1636135550572-carne-com-batata-pressao.jpg',
-    keys: [
-      'carne',
-      'carne com batata',
-      'carne com batata e cenoura',
-      'carne com batata e cenoura na panela de pressão',
-      'carne de panela',
-      'carne na panela de pressão',
-    ],
-    recipe: true,
   },
   {
     id: 137,
@@ -2279,28 +1667,6 @@ export const foodsData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    id: 142,
-    name: 'Pizza de muçarela',
-    enName: 'pizza-with-mozzarella',
-    image:
-      'https://cdn.panelinha.com.br/receita/1443495600000-Pizza-de-mucarela-caseira.jpg',
-    keys: [
-      'pizza',
-      'pizza de mozarela',
-      'pizza de muçarela',
-      'pizza de mozzarella',
-      'pizza muçarela',
-      'pizza mozzarella',
-      'pizza mozarela',
-      'pizza de queijo muçarela',
-      'pizza caseira',
-      'pizza caseira de mozarela',
-      'pizza caseira de muçarela',
-      'pizza caseira de mozzarella',
-    ],
-    recipe: true,
-  },
-  {
     ...formatNacional(foodListNacional[462] as unknown as FoodNacional),
     id: 143,
     name: 'Queijo muçarela',
@@ -2309,21 +1675,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://www.alimentosonline.com.br/fotos_artigos/6253/mussarela.jpg',
     keys: ['queijo', 'queijo muçarela', 'muçarela', 'mozarela', 'mozzarella'],
-  },
-  {
-    id: 144,
-    name: 'Musse de chocolate',
-    enName: 'chocolate-mousse',
-    image:
-      'https://cdn.panelinha.com.br/receita/1427252400000-Musse-de-chocolate-levissima.jpg',
-    keys: [
-      'mousse',
-      'mousse de chocolate',
-      'mousse de chocolate levissima',
-      'musse de chocolate',
-      'musse',
-    ],
-    recipe: true,
   },
   {
     ...formatNacional(foodListNacional[485] as unknown as FoodNacional),
@@ -2342,27 +1693,6 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    id: 146,
-    name: 'Salada de cebola com pepino e molho de coentro',
-    enName: 'onion-and-pepino-and-coentro-salad',
-    image:
-      'https://cdn.panelinha.com.br/receita/1473649200000-Salada-de-cebola-com-pepino-e-molho-de-coentro.jpg',
-    keys: [
-      'salada',
-      'salada de cebola',
-      'salada de cebolas',
-      'salada de cebola com pepino',
-      'salada de cebola com pepinos',
-      'salada de cebola com pepino e molho de coentro',
-      'salada de cebola com pepinos e molho de coentro',
-      'salada de cebolas com pepino',
-      'salada de cebolas com pepinos',
-      'salada de cebolas com pepino e molho de coentro',
-      'salada de cebolas com pepinos e molho de coentro',
-    ],
-    recipe: true,
-  },
-  {
     ...formatNacional(foodListNacional[141] as unknown as FoodNacional),
     id: 147,
     name: 'Pepino',
@@ -2377,19 +1707,6 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    id: 148,
-    name: 'Gratinado de batata com frango',
-    enName: 'gratinado-of-potato-with-chicken',
-    image:
-      'https://cdn.panelinha.com.br/receita/1448503200000-Gratinado-de-batata-com-frango.jpg',
-    keys: [
-      'gratinado',
-      'gratinado de batata',
-      'gratinado de batata com frango',
-    ],
-    recipe: true,
-  },
-  {
     id: 149,
     name: 'Noz-moscada',
     enName: 'nutmeg',
@@ -2397,21 +1714,6 @@ export const foodsData: Array<FoodData> = [
     image:
       'https://radioaratiba.com.br/wp-content/uploads/2018/06/noz-moscada-696x462.jpg',
     keys: ['noz-moscada', 'noz moscada', 'noz-moscadas', 'noz moscadas'],
-  },
-  {
-    id: 150,
-    name: 'Massa caseira com semolina',
-    enName: 'case-flour-with-semolina',
-    image:
-      'https://cdn.panelinha.com.br/receita/1623786205817-massa-caseira.jpg',
-    keys: [
-      'massa caseira',
-      'massa caseira com semolina',
-      'massa com semolina',
-      'massa com sêmola',
-      'massa caseira com sêmola',
-    ],
-    recipe: true,
   },
   {
     id: 151,
@@ -2438,20 +1740,6 @@ export const foodsData: Array<FoodData> = [
       c: 0,
       b6: 0.1,
     },
-  },
-  {
-    id: 152,
-    name: 'Macarrão com legumes assados',
-    image:
-      'https://cdn.panelinha.com.br/receita/1624481906297-macarra%CC%83o-legumes.jpg',
-    keys: [
-      'macarrão',
-      'macarrão com legumes',
-      'macarrão com legumes assados',
-      'massa com legumes',
-      'massa com legumes assados',
-    ],
-    recipe: true,
   },
   {
     ...formatNacional(foodListNacional[141] as unknown as FoodNacional),
@@ -2516,19 +1804,6 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    id: 156,
-    name: 'Sopa de feijão com macarrão',
-    enName: 'soup-of-bean-with-pasta',
-    image:
-      'https://cdn.panelinha.com.br/receita/1616683531341-sopa-de-feija%CC%83o-com-macarra%CC%83o.jpg',
-    keys: [
-      'sopa de feijão',
-      'sopa de feijão com macarrão',
-      'sopa de feijão e macarrão',
-    ],
-    recipe: true,
-  },
-  {
     ...formatNacional(foodListNacional[75] as unknown as FoodNacional),
     id: 157,
     name: 'Aipo',
@@ -2552,22 +1827,6 @@ export const foodsData: Array<FoodData> = [
     ],
   },
   {
-    id: 158,
-    name: 'Farofa de milho com cenoura e bacon',
-    enName: 'millet-bread-with-cabbage-and-bacon',
-    image: 'https://cdn.panelinha.com.br/receita/1639142039327-farofa.jpg',
-    keys: [
-      'farofa',
-      'farofa de milho',
-      'farofa de milho com cenoura',
-      'farofa de milho com cenoura e bacon',
-      'farofa de milho com bacon',
-      'farofa com cenoura',
-      'farofa com bacon',
-    ],
-    recipe: true,
-  },
-  {
     ...formatNacional(foodListNacional[443] as unknown as FoodNacional),
     id: 159,
     name: 'Toucinho',
@@ -2578,6 +1837,7 @@ export const foodsData: Array<FoodData> = [
     keys: ['toucinho', 'toucinhos', 'bacon', 'bacon em cubos'],
     unitOfMeasurement: 'gram',
   },
+  ...recipesData,
 ];
 
 export const foods = foodsData.map(FoodService.format);
