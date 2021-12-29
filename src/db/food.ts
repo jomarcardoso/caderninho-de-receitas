@@ -30,7 +30,6 @@ import {
   apple,
   banana,
   whiteRice,
-  blackBean,
   whiteBread,
   greenLeafLettuce,
   salt,
@@ -92,6 +91,7 @@ import { MINERALS_DATA } from '../services/mineral';
 import { AMINO_ACIDS } from '../services/amino-acid';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { recipesData } from './recipes';
+import { beansData } from './beans';
 
 export const foodsData: Array<FoodData> = [
   {
@@ -185,22 +185,6 @@ export const foodsData: Array<FoodData> = [
       glutamine: 0,
     },
     keys: ['arroz'],
-  },
-  {
-    ...format(blackBean as unknown as FoodMyFoodData),
-    name: 'Feijão preto',
-    gi: 29,
-    icon: '/images/food/bean.svg',
-    image:
-      'https://minhasaude.proteste.org.br//wp-content/uploads/2020/07/escolher-o-feijao-preto-970x472.jpg',
-    unitOfMeasurement: 'gram',
-    oneMeasures: [
-      {
-        quantity: 172,
-        type: 'CUP',
-      },
-    ],
-    keys: ['feijão', 'feijoada'],
   },
   {
     name: 'Banana Nanica',
@@ -747,7 +731,6 @@ export const foodsData: Array<FoodData> = [
     gi: 50,
     gl: 6,
     version: 'JUICE',
-    rawId: 8,
     oneMeasures: [
       {
         quantity: 248,
@@ -764,7 +747,6 @@ export const foodsData: Array<FoodData> = [
     name: 'Cenoura cozida',
     gi: 38,
     version: 'BOILED',
-    rawId: 17,
     oneMeasures: [
       {
         quantity: 130,
@@ -782,7 +764,6 @@ export const foodsData: Array<FoodData> = [
     keys: ['farelo de aveia'],
     gi: 72,
     version: 'FLOUR',
-    rawId: 19,
   },
   {
     ...format(cornFlour as unknown as FoodMyFoodData),
@@ -792,7 +773,6 @@ export const foodsData: Array<FoodData> = [
       'https://caldobom.com.br/uploads/2018/12/diferenca-entre-fuba-e-farinha-de-milho.jpg',
     keys: ['farinha de milho'],
     version: 'FLOUR',
-    rawId: 32,
   },
   {
     name: 'Amido de milho',
@@ -801,7 +781,6 @@ export const foodsData: Array<FoodData> = [
       'https://images.armazemcerealista.com.br/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/a/m/amido-de-milho---100g.jpg',
     keys: ['maizena'],
     version: 'REFINED_FLOUR',
-    rawId: 32,
   },
   {
     ...format(tomato as unknown as FoodMyFoodData),
@@ -1619,55 +1598,8 @@ export const foodsData: Array<FoodData> = [
     keys: ['toucinho', 'toucinhos', 'bacon', 'bacon em cubos'],
     unitOfMeasurement: 'gram',
   },
-  {
-    ...formatNacional(foodListNacional[560] as unknown as FoodNacional),
-    name: 'Feijão carioca cozido',
-    icon: '/images/food/bean.svg',
-    image:
-      'https://www.sabornamesa.com.br/media/k2/items/cache/e63eba4a60c5a7383338249762b2606c_XL.jpg',
-    keys: ['feijão carioca', 'feijão carioca cozido'],
-    unitOfMeasurement: 'gram',
-  },
-  {
-    ...formatNacional(foodListNacional[561] as unknown as FoodNacional),
-    name: 'Feijão carioca cru',
-    icon: '/images/food/bean.svg',
-    image:
-      'https://http2.mlstatic.com/D_NQ_NP_832877-MLB40140053658_122019-O.jpg',
-    keys: [
-      'farinha de feijão carioca',
-      'feijão carioca moído',
-      'feijão carioca cru',
-    ],
-    unitOfMeasurement: 'gram',
-  },
-  {
-    ...formatNacional(foodListNacional[562] as unknown as FoodNacional),
-    name: 'Feijão fradinho cozido',
-    icon: '/images/food/bean.svg',
-    image:
-      'https://www.marolacomcarambola.com.br/wp-content/uploads/2019/04/receita-de-feijao-fradinho-com-calabresa-2.jpg',
-    keys: [
-      'farinha de feijão carioca',
-      'feijão carioca moído',
-      'feijão carioca cru',
-    ],
-    unitOfMeasurement: 'gram',
-  },
-  {
-    ...formatNacional(foodListNacional[563] as unknown as FoodNacional),
-    name: 'Feijão fradinho cru',
-    icon: '/images/food/bean.svg',
-    image:
-      'https://emporioquatroestrelas.vteximg.com.br/arquivos/ids/158084-1000-1000/Feijao-Fradinho-500g.png?v=636930890740770000',
-    keys: [
-      'farinha de feijão fradinho',
-      'feijão fradinho moído',
-      'feijão fradinho cru',
-    ],
-    unitOfMeasurement: 'gram',
-  },
   ...recipesData,
+  ...beansData,
 ];
 
 export const foods = foodsData.map(FoodService.format);
