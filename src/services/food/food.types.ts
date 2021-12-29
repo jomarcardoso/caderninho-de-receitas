@@ -47,7 +47,6 @@ export interface Food {
   id: number;
   name: string;
   description: string;
-  enName: string;
   image: string;
   gi: number;
   calories: number;
@@ -94,7 +93,6 @@ export type FoodVersion = keyof typeof FoodVersions;
 
 export const FOOD: Food = {
   aminoAcids: AMINO_ACIDS,
-  enName: '',
   id: 0,
   keys: [],
   name: '',

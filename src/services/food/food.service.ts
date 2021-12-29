@@ -183,7 +183,6 @@ export function format(data?: FoodData): Food {
     ashes: data?.ashes ?? FOOD.ashes,
     description: data?.description ?? FOOD.description,
     dietaryFiber: data?.dietaryFiber ?? FOOD.dietaryFiber,
-    enName: data?.enName ?? FOOD.enName,
     gi: data?.gi ?? FOOD.gi,
     gl: data?.gl ?? FOOD.gl,
     id: data?.id ?? FOOD.id,

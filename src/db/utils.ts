@@ -23,7 +23,6 @@ export function verifyQuantity<T>(objValue: T, srcValue: T): T {
 export function formatNacional(food: FoodNacional): FoodData {
   return {
     name: food?.description,
-    enName: '',
     acidification: 0,
     calories: !isString(food?.attributes?.energy?.kcal)
       ? food?.attributes?.energy?.kcal ?? 0
@@ -117,12 +116,6 @@ export function format(food: FoodMyFoodData): FoodData {
   return {
     saturedFats: food.FASAT,
     calories: food.ENERC_KCAL,
-    enName: encodeURIComponent(
-      food?.name1?.toLowerCase().replace(/\s/, '-') ??
-        food?.name?.toLowerCase().replace(/\s/, '-') ??
-        food?.name3?.toLowerCase().replace(/\s/, '-') ??
-        food?.name2?.toLowerCase().replace(/\s/, '-'),
-    ),
     aminoAcids: {
       alanine: food.ALA_G,
       arginine: food.ARG_G,
