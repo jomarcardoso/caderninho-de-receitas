@@ -23,7 +23,7 @@
 
   &__box {
     border: 2px dashed variables.$color-primary-medium;
-    padding-top: 12px;
+    padding: 12px 8px 0;
     border-radius: variables.$border-radius;
     border-top-left-radius: 0;
   }
@@ -37,7 +37,7 @@
     resize: none;
     width: 100%;
     border: 0;
-    padding: 0 8px;
+    padding: 0;
 
     &:focus {
       outline: none;
@@ -57,11 +57,11 @@
 
     .field__box {
       border: 0;
+      padding: 12px 0 0;
     }
 
     .field__input {
       background-image: url(/images/textures/linned-sheet-texture.svg);
-      padding: 0;
     }
   }
 

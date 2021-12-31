@@ -34,9 +34,10 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   recipeData,
 }) => {
   const memoizedRenderInputIngredient = useCallback(
-    (index = 0, ingredients = '') => {
+    (index = 0, ingredients = '', stepName = '') => {
       const ingredientList = ingredients.split('\n');
       const value = `• ${ingredientList.join('\n• ')}`;
+      const label = `Ingredientes${stepName ? ` - ${stepName}` : ''}`;
 
       const handleChangeIngredient: ChangeEventHandler<HTMLTextAreaElement> = (
         event,
@@ -51,7 +52,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
       return (
         <Field
           multiline
-          label="ingredientes"
+          label={label}
           minRows="4"
           name={`steps.${index}.ingredient`}
           value={value}
@@ -88,13 +89,17 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              {memoizedRenderInputIngredient(index, step.ingredients)}
+              {memoizedRenderInputIngredient(
+                index,
+                step.ingredients,
+                step.name,
+              )}
             </Grid>
             <Grid item xs={12}>
               <Field
                 multiline
                 minRows="4"
-                label="modo de preparo"
+                label={`Modo de preparo${step.name ? ` - ${step.name}` : ''}`}
                 name={`steps.${index}.preparation`}
                 value={step.preparation}
                 onChange={handleChange}
