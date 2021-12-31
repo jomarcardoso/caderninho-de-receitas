@@ -113,24 +113,27 @@ function theme({ bgBody = '' }: Style) {
   });
 }
 
-const useStyles = makeStyles({
-  '@global': {
-    body: {
-      overflow: 'hidden',
-    },
-    ':root': {
-      '--color-primary-light': primary.light,
-      '--color-primary-main': primary.main,
-      '--color-primary-dark': primary.dark,
-      '--color-secondary-light': secondary.light,
-      '--color-secondary-main': secondary.main,
-      '--color-secondary-dark': secondary.dark,
+const useStyles = ({ addressBarHeight = 0 }) =>
+  makeStyles({
+    '@global': {
+      body: {
+        overflow: 'hidden',
+      },
+      ':root': {
+        '--color-primary-light': primary.light,
+        '--color-primary-main': primary.main,
+        '--color-primary-dark': primary.dark,
+        '--color-secondary-light': secondary.light,
+        '--color-secondary-main': secondary.main,
+        '--color-secondary-dark': secondary.dark,
 
-      '--icon-color-primary': 'var(--color-secondary-main)',
-      '--icon-color-secondary': 'var(--color-primary-main)',
+        '--icon-color-primary': 'var(--color-secondary-main)',
+        '--icon-color-secondary': 'var(--color-primary-main)',
+
+        '--address-bar-height': `${addressBarHeight}px`,
+      },
     },
-  },
-});
+  });
 
 const Page: FC = ({ children }) => {
   const [navigationStack, setNavigationStack] = useState<string[]>([
@@ -139,7 +142,20 @@ const Page: FC = ({ children }) => {
   const [style, setStyle] = useState<Style>({});
   const [, setReRender] = useState(false);
   const [loading, setLoading] = useState(false);
-  const classes = useStyles();
+  const [addressBarHeight, setAddressBarHeight] = useState(0);
+  const classes = useStyles({ addressBarHeight })();
+
+  useEffect(() => {
+    window.document.documentElement.addEventListener('resize', () => {
+      setAddressBarHeight(
+        window.document.documentElement.offsetHeight - window.innerHeight,
+      );
+    });
+
+    setAddressBarHeight(
+      window.document.documentElement.offsetHeight - window.innerHeight,
+    );
+  }, []);
 
   // fix wrong render with JS
   useEffect(() => {
