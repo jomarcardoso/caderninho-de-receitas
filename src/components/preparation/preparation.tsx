@@ -5,17 +5,22 @@ import Section, { SectionProps } from '../section/section';
 
 interface Props {
   preparation: string;
+  title?: string;
 }
 
 export type PreparationProps = Props & SectionProps;
 
-const Preparation: FC<PreparationProps> = ({ preparation = '', ...props }) => {
+const Preparation: FC<PreparationProps> = ({
+  title = 'Modo de preparo',
+  preparation = '',
+  ...props
+}) => {
   if (!preparation) return <></>;
 
   const preparationList = preparation.split(/\n\s/);
 
   return (
-    <Section title="Modo de preparo" onBgWhite {...props}>
+    <Section title={title} onBgWhite {...props}>
       <Grid container spacing={1}>
         {preparationList.map((preparationLine) => (
           <Grid item xs={12} key={preparationLine}>

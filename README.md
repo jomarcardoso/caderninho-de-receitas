@@ -4,6 +4,13 @@
 
 Acesso o aplicativo em https://saude-em-pontos.surge.sh
 
+## Proposta de valor
+
+Problemas que a aplicação resolve:
+
+- **Dor:** passar uma receita para outra pessoa. **Solução:** compartilhar as receitas de forma prática.
+- **Dor:** em dietas com restrição calórica há muito trabalho para calcular uma receita com mais ingredientes. **Solução:** auxiliar na dieta dos pontos
+
 ## Cores
 
 - [Paleta](https://coolors.co/4d7a60-5d5e60-8d8d92-beb2c8-d7d6d6)

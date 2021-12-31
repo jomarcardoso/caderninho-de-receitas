@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps, ReactNode } from 'react';
+import React, { FC, HTMLProps, ReactNode, useState } from 'react';
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from '@mui/material/TextareaAutosize';
@@ -23,6 +23,7 @@ const Field: FC<FieldProps> = ({
   ...props
 }) => {
   const { id: inputId } = props;
+  const [focused, setFocused] = useState(false);
 
   let classes = 'field';
 
@@ -30,14 +31,24 @@ const Field: FC<FieldProps> = ({
     classes = `${classes} field--multiline`;
   }
 
+  if (focused) {
+    classes = `${classes} field--focused`;
+  }
+
   return (
     <div className={classes} {...rootProps}>
       <label className="field__label" htmlFor={inputId} {...labelProps}>
         {label}
       </label>
-      <div className="field__box">
-        <TextareaAutosize className="field__input" minRows={1} {...props} />
-      </div>
+      <label htmlFor={inputId} className="field__box">
+        <TextareaAutosize
+          className="field__input"
+          minRows={1}
+          {...props}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+        />
+      </label>
       {hint && <div className="field__hint">{hint}</div>}
     </div>
   );

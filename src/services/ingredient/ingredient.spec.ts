@@ -456,6 +456,14 @@ describe('IngredientService', () => {
   });
 
   describe('verifyIsLiteral', () => {
+    it('⅔ de xícara (chá) de água morna (160 ml)', () => {
+      const isLiteral = verifyIsLiteral(
+        '⅔ de xícara (chá) de água morna (160 ml)',
+      );
+
+      expect(isLiteral).toBe(true);
+    });
+
     it('½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)', () => {
       const isLiteral = verifyIsLiteral(
         '½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)',
@@ -564,6 +572,14 @@ describe('IngredientService', () => {
   });
 
   describe('getLiteralQuantity', () => {
+    it('⅔ de xícara (chá) de água morna (160 ml)', () => {
+      const quantity = getLiteralQuantity(
+        '⅔ de xícara (chá) de água morna (160 ml)',
+      );
+
+      expect(quantity).toBe(160);
+    });
+
     it('½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)', () => {
       const quantity = getLiteralQuantity(
         '½ xícara (chá) de tomate sweet grape cortados ao meio (90 g)',

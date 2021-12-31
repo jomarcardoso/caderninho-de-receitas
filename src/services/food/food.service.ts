@@ -23,6 +23,13 @@ export const getFoodByString: GetFoodByString = ({ foods = [], text = '' }) => {
   const lowerText = text.toLowerCase();
   // const textWords = lowerText.split(' ');
 
+  if (lowerText.startsWith('sal para')) {
+    return {
+      food: foods.find((food) => food.name === 'Sal') ?? FOOD,
+      index: 0,
+    };
+  }
+
   const foodsFound =
     foods.filter((foodItem) => {
       const lowerFood = foodItem.name.toLowerCase();
@@ -173,9 +180,9 @@ export function format(data?: FoodData): Food {
     aminoAcids: formatAminoAcids(data?.aminoAcids),
     calories: data?.calories ?? FOOD.calories,
     carbohydrates: data?.carbohydrates ?? FOOD.carbohydrates,
+    ashes: data?.ashes ?? FOOD.ashes,
     description: data?.description ?? FOOD.description,
     dietaryFiber: data?.dietaryFiber ?? FOOD.dietaryFiber,
-    enName: data?.enName ?? FOOD.enName,
     gi: data?.gi ?? FOOD.gi,
     gl: data?.gl ?? FOOD.gl,
     id: data?.id ?? FOOD.id,
@@ -183,6 +190,7 @@ export function format(data?: FoodData): Food {
     icon: data?.icon ?? FOOD.icon,
     keys: data?.keys ?? FOOD.keys,
     monounsaturatedFats: data?.monounsaturatedFats ?? FOOD.monounsaturatedFats,
+    polyunsaturatedFats: data?.polyunsaturatedFats ?? FOOD.polyunsaturatedFats,
     name: data?.name ?? FOOD.name,
     oneMeasures: data?.oneMeasures ?? FOOD.oneMeasures,
     proteins: data?.proteins ?? FOOD.proteins,

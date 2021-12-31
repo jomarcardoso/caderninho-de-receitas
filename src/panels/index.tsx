@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     width: '100vw',
     scrollSnapType: 'x mandatory',
     scrollBehavior: 'smooth',
-    height: 'calc(100vh - 48px)',
+    height: 'calc(100vh - 48px - var(--address-bar-height))',
     overflow: 'scroll',
   },
 });

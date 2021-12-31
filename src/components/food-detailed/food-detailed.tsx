@@ -31,6 +31,12 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
     gi,
     calories,
     carbohydrates,
+    totalFat,
+    cholesterol,
+    saturedFats,
+    monounsaturatedFats,
+    polyunsaturatedFats,
+    ashes,
     gl,
     proteins,
     vitamins = VITAMINS,
@@ -106,8 +112,38 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
                     name: 'Carboidratos',
                     value: carbohydrates * multiplier,
                   })}
-                  {renderQuality({ name: 'Proteínas', value: proteins })}
-                  {renderQuality({ name: 'Carga Glicêmica', value: gl })}
+                  {renderQuality({
+                    name: 'Proteínas',
+                    value: proteins * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Gorduras totais',
+                    value: totalFat * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Colesterol',
+                    value: cholesterol * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Gordura saturada',
+                    value: saturedFats * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Gordura monosaturada',
+                    value: monounsaturatedFats * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Gordura polisaturada',
+                    value: polyunsaturatedFats * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Carga Glicêmica',
+                    value: gl * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Cinzas',
+                    value: ashes * multiplier,
+                  })}
                 </List>
               </Grid>
               {hasAminoAcids && (

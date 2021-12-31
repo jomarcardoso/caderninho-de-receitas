@@ -47,15 +47,16 @@ export interface Food {
   id: number;
   name: string;
   description: string;
-  enName: string;
   image: string;
   gi: number;
   calories: number;
   acidification: number;
   carbohydrates: number;
+  ashes: number;
   proteins: number;
   saturedFats: number;
   monounsaturatedFats: number;
+  polyunsaturatedFats: number;
   cholesterol: number;
   totalFat: number;
   dietaryFiber: number;
@@ -92,13 +93,13 @@ export type FoodVersion = keyof typeof FoodVersions;
 
 export const FOOD: Food = {
   aminoAcids: AMINO_ACIDS,
-  enName: '',
   id: 0,
   keys: [],
   name: '',
   acidification: 0,
   calories: 0,
   carbohydrates: 0,
+  ashes: 0,
   description: '',
   dietaryFiber: 0,
   sugar: 0,
@@ -107,6 +108,7 @@ export const FOOD: Food = {
   image: '',
   minerals: MINERALS,
   monounsaturatedFats: 0,
+  polyunsaturatedFats: 0,
   oneMeasures: [],
   proteins: 0,
   saturedFats: 0,

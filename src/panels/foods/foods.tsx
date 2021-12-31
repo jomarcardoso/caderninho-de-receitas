@@ -8,11 +8,13 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Box from '@mui/material/Box';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
 import FoodsContext from '../../contexts/foods-context';
 import { Food } from '../../services/food';
 import './foods.scss';
+import Button from '../../components/button/button';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -20,8 +22,9 @@ interface Props {
 
 const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
   const foods = useContext(FoodsContext);
+  const [quantityToShow, setQuantityToShow] = React.useState(40);
 
-  const orderedFood = foods.sort((a, b) => {
+  const orderedFoods = foods.sort((a, b) => {
     if (a.name > b.name) {
       return 1;
     }
@@ -31,6 +34,8 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
 
     return 0;
   });
+
+  const cuttedOrderedFoods = orderedFoods.slice(0, quantityToShow);
 
   function renderFood(food: Food): ReactElement {
     if (food.recipe) return <></>;
@@ -54,19 +59,29 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
     );
   }
 
+  function handleShowMore(): void {
+    setQuantityToShow(quantityToShow + 40);
+  }
+
   return (
     <Layout showHeader={false} showFooter={false} currentPage="FOODS">
       <TableContainer>
-        <Table size="small" aria-label="a dense table">
+        <Table size="small" aria-label="tabela de alimentos">
           <TableHead>
             <TableRow>
               <TableCell>Medida 100g</TableCell>
               <TableCell align="right">Calorias</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>{orderedFood.map(renderFood)}</TableBody>
+          <TableBody>{cuttedOrderedFoods.map(renderFood)}</TableBody>
         </Table>
       </TableContainer>
+      <Box display="flex" justifyContent="center" marginTop={4}>
+        {/* eslint-disable-next-line react/jsx-no-bind */}
+        <Button variant="outlined" color="secondary" onClick={handleShowMore}>
+          mostrar mais
+        </Button>
+      </Box>
     </Layout>
   );
 };

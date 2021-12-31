@@ -5,63 +5,54 @@ import { FOOD, Food } from './food.types';
 const MOCK_CARROT: Food = {
   ...FOOD,
   name: 'Cenoura',
-  enName: 'carrot',
   keys: ['cenoura', 'cenoura ralada'],
 };
 
 const MOCK_POTATO: Food = {
   ...FOOD,
   name: 'Batata',
-  enName: 'potato',
   keys: ['batata', 'batatinha', 'batata inglesa'],
 };
 
 const MOCK_SWEET_POTATO: Food = {
   ...FOOD,
   name: 'Batata Doce',
-  enName: 'sweet-potato',
   keys: ['batata doce', 'batata-doce', 'batata doce cozida'],
 };
 
 const MOCK_WHEAT_BREAD: Food = {
   ...FOOD,
   name: 'Pão caseiro',
-  enName: 'homebread',
   keys: ['pão caseiro', 'pão', 'pãozinho', 'pão integral'],
 };
 
 const MOCK_APPLE: Food = {
   ...FOOD,
   name: 'Maçã',
-  enName: 'appe',
   keys: ['maçã', 'maçãs'],
 };
 
 const MOCK_JERIMUM: Food = {
   ...FOOD,
   name: 'Jerimum',
-  enName: 'pumpkin',
   keys: ['jerium', 'abóbora', 'abobora'],
 };
 
 const MOCK_HONEY: Food = {
   ...FOOD,
   name: 'Mel',
-  enName: 'honey',
   keys: ['mel'],
 };
 
 const MOCK_CARROT_CAKE: Food = {
   ...FOOD,
   name: 'Bolo de cenoura',
-  enName: 'carrot cake',
   keys: ['bolo de cenoura', 'bolo'],
 };
 
 const MOCK_LEMON_AND_HONEY_SALAD_DRESSING: Food = {
   ...FOOD,
   name: 'Molho de Limão e Mel para Salada',
-  enName: 'lemon-and-honey-salad-dressing',
   keys: [
     'Molho de Limão e Mel para Salada',
     'molho de salada',
@@ -75,7 +66,6 @@ const MOCK_LEMON_AND_HONEY_SALAD_DRESSING: Food = {
 const MOCK_SWEET_POTATO_BREAD: Food = {
   ...FOOD,
   name: 'Pão de Batata Doce',
-  enName: 'sweet-potato-bread',
   keys: [
     'bolinho de batata',
     'bolinho de batata doce',

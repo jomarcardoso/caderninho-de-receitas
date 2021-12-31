@@ -48,6 +48,7 @@ const RecipeRegister: FC<Props> = ({
       initialValues={{
         name: recipeData?.name ?? '',
         description: recipeData?.description ?? '',
+        additional: recipeData?.additional ?? '',
         category: recipeData?.category ?? '',
         steps: recipeData?.steps?.length
           ? recipeData.steps

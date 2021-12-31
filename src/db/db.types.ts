@@ -86,5 +86,11 @@ export interface FoodNacional {
       kcal: number;
     };
     manganese: FoodNacionalAttribute;
+    // eslint-disable-next-line camelcase
+    fatty_acids: {
+      saturated: FoodNacionalAttribute;
+      monounsaturated: FoodNacionalAttribute;
+      polyunsaturated: FoodNacionalAttribute;
+    };
   };
 }
