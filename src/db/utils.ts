@@ -77,6 +77,9 @@ export function formatNacional(food: FoodNacional): FoodData {
       b3: !isString(food?.attributes?.niacin?.qty)
         ? food?.attributes?.niacin?.qty ?? 0
         : 0,
+      b6: !isString(food?.attributes?.pyridoxine?.qty)
+        ? food?.attributes?.pyridoxine?.qty ?? 0
+        : 0,
     },
     minerals: {
       ...MINERALS_DATA,

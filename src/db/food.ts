@@ -1598,6 +1598,51 @@ export const foodsData: Array<FoodData> = [
     keys: ['toucinho', 'toucinhos', 'bacon', 'bacon em cubos'],
     unitOfMeasurement: 'gram',
   },
+  {
+    ...formatNacional(foodListNacional[574] as unknown as FoodNacional),
+    name: 'Grão-de-bico',
+    icon: '/images/food/chickpea.png',
+    image:
+      'https://conteudo.imguol.com.br/c/entretenimento/94/2016/12/07/grao-de-bico-1481138396075_v2_450x337.jpg',
+    keys: ['grão de bico', 'grãos de bico', 'grãos-de-bico'],
+    unitOfMeasurement: 'gram',
+  },
+  {
+    ...formatNacional(foodListNacional[575] as unknown as FoodNacional),
+    name: 'Guandu',
+    icon: '/images/food/peas.png',
+    image:
+      'https://content.paodeacucar.com/wp-content/uploads/2019/08/o-que-%C3%A9-guandu-4.jpg',
+    keys: [
+      'guandu',
+      'grãos de guandu',
+      'grão-de-guandu',
+      'grãos-de-guandu',
+      'ingá',
+      'inga',
+      'ingás',
+      'ingas',
+    ],
+    unitOfMeasurement: 'gram',
+  },
+  {
+    ...formatNacional(foodListNacional[576] as unknown as FoodNacional),
+    name: 'Lentilha cozida',
+    icon: '/images/food/lentils.png',
+    image:
+      'https://d1uz88p17r663j.cloudfront.net/resized/7b01c063de9f3c6a8b7b786f54df253c_lentilhas-vinho-receitas-nestle_1200_600.jpg',
+    keys: ['lentilha', 'lentilhas', 'lentilha cozida', 'lentilhas cozidas'],
+    unitOfMeasurement: 'gram',
+  },
+  {
+    ...formatNacional(foodListNacional[577] as unknown as FoodNacional),
+    name: 'Lentilha crua',
+    icon: '/images/food/lentils.png',
+    image:
+      'https://www.acasaencantada.com.br/wp-content/uploads/2019/09/lentilha.png',
+    keys: ['lentilha crua', 'farinha de lentilha', 'farinha de lentilhas'],
+    unitOfMeasurement: 'gram',
+  },
   ...recipesData,
   ...beansData,
 ];
