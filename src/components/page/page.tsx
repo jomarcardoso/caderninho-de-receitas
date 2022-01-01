@@ -146,7 +146,7 @@ const Page: FC = ({ children }) => {
   const classes = useStyles({ addressBarHeight })();
 
   useEffect(() => {
-    window.document.documentElement.addEventListener('resize', () => {
+    window.addEventListener('resize', () => {
       setAddressBarHeight(
         window.document.documentElement.offsetHeight - window.innerHeight,
       );
