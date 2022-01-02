@@ -1,18 +1,23 @@
 .caderninho .footer {
-  background-color: white;
+  background-color: var(--color-primary-main);
+  color: white;
   bottom: 0;
   height: 48;
   min-height: 48;
   overflow: hidden;
   position: sticky;
-  border: 0.5 solid #f2f2f2;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
 
   button {
+    color: inherit;
     display: block;
     padding-top: 8px !important;
   }
 
   &__navigation {
     height: 100%;
+    background-color: var(--color-primary-main);
+    color: white;
   }
 }

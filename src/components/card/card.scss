@@ -1,6 +1,7 @@
 @use '../../styles/utils/utils';
 
 .caderninho .card {
-  border: 2px solid utils.$color-primary-light;
+  border: 2px solid utils.$color-primary-main;
+  border-radius: var(--border-radius);
   overflow: hidden;
 }

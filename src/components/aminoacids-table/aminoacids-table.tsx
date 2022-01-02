@@ -107,7 +107,7 @@ const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
   }
 
   return (
-    <Paper variant="outlined">
+    <Paper variant="outlined" className="paper">
       <TableContainer>
         <Table size="small" aria-label="a dense table">
           <TableHead>
