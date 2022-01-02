@@ -15,6 +15,11 @@
   .d-none {
     display: none;
   }
+
+  .MuiPaper-root {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
 }
 
 html {

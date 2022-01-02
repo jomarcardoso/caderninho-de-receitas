@@ -2,7 +2,8 @@
 
 .caderninho .section-title {
   background-color: utils.$color-primary-medium;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
   color: white;
-  padding: 3px;
+  font-size: 17px;
+  padding: 7px 14px;
 }

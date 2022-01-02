@@ -78,7 +78,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
       </TableContainer>
       <Box display="flex" justifyContent="center" marginTop={4}>
         {/* eslint-disable-next-line react/jsx-no-bind */}
-        <Button variant="outlined" color="secondary" onClick={handleShowMore}>
+        <Button color="secondary" onClick={handleShowMore}>
           mostrar mais
         </Button>
       </Box>

@@ -1,6 +1,7 @@
 import { Form, FieldArray, FormikProps } from 'formik';
 import React, { FC, useCallback, ChangeEventHandler } from 'react';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Field from '../field/field';
 import {
@@ -172,17 +173,17 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
               </Grid>
               {memoizedRenderSteps()}
               <Grid item xs={12}>
-                <Button
-                  type="button"
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  onClick={() =>
-                    setFieldValue('quantitySteps', values.quantitySteps + 1)
-                  }
-                >
-                  adicionar outra etapa
-                </Button>
+                <Box justifyContent="center" display="flex">
+                  <Button
+                    type="button"
+                    color="secondary"
+                    onClick={() =>
+                      setFieldValue('quantitySteps', values.quantitySteps + 1)
+                    }
+                  >
+                    adicionar outra etapa
+                  </Button>
+                </Box>
               </Grid>
               <Grid item xs={12} className="recipe-register__submit">
                 <SubmitComponent>salvar receita</SubmitComponent>
