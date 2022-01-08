@@ -584,6 +584,7 @@ export const recipesData: Array<FoodData> = [
       'arroz com figo seco',
       'arroz com figo seco e especiarias',
     ],
+    recipe: true,
   },
   {
     name: 'Salada de feijão branco com salsão',
@@ -594,10 +595,12 @@ export const recipesData: Array<FoodData> = [
       'salada de feijão branco',
       'salada de feijão branco com salsão',
     ],
+    recipe: true,
   },
   {
     name: 'Bisteca grelhada',
     image:
       'https://cdn.panelinha.com.br/receita/1468206000000-Bisteca-grelhada.jpg',
+    recipe: true,
   },
 ];

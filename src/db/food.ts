@@ -1693,4 +1693,7 @@ export const foodsData: Array<FoodData> = [
   ...beansData,
 ];
 
-export const foods = foodsData.map(FoodService.format);
+export const foods = foodsData.map(FoodService.format).map((food, index) => ({
+  ...food,
+  id: index,
+}));
