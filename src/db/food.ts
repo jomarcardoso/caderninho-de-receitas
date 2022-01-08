@@ -1643,6 +1643,52 @@ export const foodsData: Array<FoodData> = [
     keys: ['lentilha crua', 'farinha de lentilha', 'farinha de lentilhas'],
     unitOfMeasurement: 'gram',
   },
+  {
+    ...formatNacional(foodListNacional[193] as unknown as FoodNacional),
+    name: 'Figo',
+    icon: '/images/food/fig.png',
+    image:
+      'https://conteudo.imguol.com.br/c/entretenimento/84/2021/03/15/figo-1615830295984_v2_615x300.jpg',
+    keys: ['figo', 'figos', 'figo cru', 'figos cru'],
+  },
+  {
+    ...formatNacional(foodListNacional[194] as unknown as FoodNacional),
+    name: 'Figo enlatado em calda',
+    icon: '/images/food/fig.png',
+    image:
+      'https://kemdistribuidora.com.br/wp-content/uploads/2015/09/figo-em-calda.bmp',
+    keys: [
+      'figo em calda',
+      'figos em calda',
+      'figo enlatado',
+      'figos enlatados',
+    ],
+  },
+  {
+    ...formatNacional(foodListNacional[586] as unknown as FoodNacional), // TODO: Verificar
+    name: 'Amêndoa',
+    icon: '/images/food/almond.png',
+    image:
+      'https://d3ugyf2ht6aenh.cloudfront.net/stores/798/671/products/amendoa-crua-111-74c26a793b14e338cb15407454214424-1024-1024.jpg',
+    keys: ['amêndoa', 'amêndoas', 'amêndoa com pele', 'amêndoas com pele'],
+    unitOfMeasurement: 'gram',
+  },
+  {
+    ...formatNacional(foodListNacional[586] as unknown as FoodNacional),
+    name: 'Amêndoa torrada e salgada',
+    icon: '/images/food/almond.png',
+    image:
+      'https://d3ugyf2ht6aenh.cloudfront.net/stores/798/671/products/amendoa-crua-111-74c26a793b14e338cb15407454214424-1024-1024.jpg',
+    keys: [
+      'amêndoa torrada',
+      'amêndoas torradas',
+      'amêndoa salgada',
+      'amêndoas salgadas',
+      'amêndoa torrada e salgada',
+      'amêndoas torrada e salgada',
+    ],
+    unitOfMeasurement: 'gram',
+  },
   ...recipesData,
   ...beansData,
 ];

@@ -1,3 +1,24 @@
 .caderninho .button {
-  border-radius: 2px;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  text-transform: lowercase;
+
+  svg {
+    width: 16px;
+    margin-right: 8px;
+  }
+
+  &.MuiButton-outlined {
+    border-width: var(--border-width);
+    border-color: currentColor;
+  }
+
+  &.MuiButton-containedSecondary {
+    background-color: white;
+    border-color: currentColor;
+    border-width: var(--border-width);
+    border-style: solid;
+    color: var(--color-secondary-main);
+    font-weight: bold;
+  }
 }

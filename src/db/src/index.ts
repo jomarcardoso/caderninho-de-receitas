@@ -167,3 +167,5 @@ export { default as eggYolk } from './egg-yolk.json';
 export { default as tangerine } from './tangerine.json';
 
 export { default as kiwi } from './kiwi.json';
+
+export { default as whiteBean } from './white-bean.json';

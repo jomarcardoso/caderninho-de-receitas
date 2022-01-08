@@ -575,4 +575,29 @@ export const recipesData: Array<FoodData> = [
     icon: '/images/food/yellow-sauce.png',
     keys: ['caldo de tucupi', 'tucupi', 'tucupi de mandioca'],
   },
+  {
+    name: 'Arroz com figo seco e especiarias',
+    image:
+      'https://cdn.panelinha.com.br/receita/1608244418784-arroz%20com%20figo%20e%20cebola%20blog.jpg',
+    keys: [
+      'arroz com figo',
+      'arroz com figo seco',
+      'arroz com figo seco e especiarias',
+    ],
+  },
+  {
+    name: 'Salada de feijão branco com salsão',
+    image:
+      'https://cdn.panelinha.com.br/receita/1636125267265-branco-salsao-limao.jpg',
+    keys: [
+      'salada de feijão',
+      'salada de feijão branco',
+      'salada de feijão branco com salsão',
+    ],
+  },
+  {
+    name: 'Bisteca grelhada',
+    image:
+      'https://cdn.panelinha.com.br/receita/1468206000000-Bisteca-grelhada.jpg',
+  },
 ];

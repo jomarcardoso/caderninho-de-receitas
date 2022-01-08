@@ -24,4 +24,13 @@
 
   --color-white: #{$color-white};
   --color-white-weak: #{$color-white-weak};
+
+  // font
+  --font-family-title: #{$font-family-title};
+  --font-family-text: #{$font-family-text};
+  --font-family-input: #{$font-family-input};
+
+  // border
+  --border-radius: #{$border-radius};
+  --border-width: #{$border-width};
 }

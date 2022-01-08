@@ -26,7 +26,7 @@ const Footer: FC<FooterProps> = ({ items = [], ...props }) => {
 
     return (
       <Box
-        borderTop={1}
+        boxShadow={4}
         component="footer"
         className="footer"
         zIndex={1}

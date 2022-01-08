@@ -6,7 +6,7 @@
   font-size: 16px;
   white-space: nowrap;
   letter-spacing: 0;
-  color: variables.$color-dark-main;
+  color: var(--color-secondary-main);
   text-decoration: none;
 
   &__text-large {
@@ -18,7 +18,7 @@
     text-shadow: 0 0 1px currentColor;
 
     .logo__text-small {
-      color: variables.$color-primary-main;
+      color: var(--color-primary-main);
     }
   }
 }

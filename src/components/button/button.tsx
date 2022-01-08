@@ -2,9 +2,15 @@ import React, { FC } from 'react';
 import ButtonMUI, { ButtonProps } from '@mui/material/Button';
 import './button.scss';
 
-const Button: FC<ButtonProps> = ({ children = '', ...props }) => {
+const Button: FC<ButtonProps> = ({
+  className = '',
+  children = '',
+  ...props
+}) => {
+  const classes = `button ${className}`;
+
   return (
-    <ButtonMUI {...props} className="button">
+    <ButtonMUI variant="contained" className={classes} {...props}>
       {children}
     </ButtonMUI>
   );
