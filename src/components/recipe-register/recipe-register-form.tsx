@@ -107,6 +107,19 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 onBlur={formikHandleBlur}
               />
             </Grid>
+            <Grid item xs={12}>
+              <Field
+                multiline
+                name={`steps.${index}.additional`}
+                label={`Informações adicionais${
+                  step.name ? ` - ${step.name}` : ''
+                }`}
+                value={step.additional}
+                onChange={handleChange}
+                onBlur={formikHandleBlur}
+                minRows={1}
+              />
+            </Grid>
           </>
         ))}
       </>
