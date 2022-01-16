@@ -1,4 +1,10 @@
-import React, { FC, HTMLProps, ReactNode, useState } from 'react';
+import React, {
+  FC,
+  HTMLProps,
+  ReactNode,
+  useState,
+  ChangeEventHandler,
+} from 'react';
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from '@mui/material/TextareaAutosize';
@@ -35,6 +41,14 @@ const Field: FC<FieldProps> = ({
     classes = `${classes} field--focused`;
   }
 
+  const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+    if (props.onChange) {
+      props.onChange(event);
+    }
+
+    console.log(event);
+  };
+
   return (
     <div className={classes} {...rootProps}>
       <label className="field__label" htmlFor={inputId} {...labelProps}>
@@ -47,6 +61,7 @@ const Field: FC<FieldProps> = ({
           {...props}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          onChange={handleChange}
         />
       </label>
       {hint && <div className="field__hint">{hint}</div>}
