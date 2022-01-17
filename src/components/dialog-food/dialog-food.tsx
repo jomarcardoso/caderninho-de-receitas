@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import Slide, { SlideProps } from '@mui/material/Slide';
-import FoodPanel from '../../panels/food';
+import FoodPanel from '../../panels/food/food';
 import { FOOD, Food } from '../../services/food';
 import { HeaderProps } from '../header/header';
 import useNavigation from '../../hooks/use-navigation';

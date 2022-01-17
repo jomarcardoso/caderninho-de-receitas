@@ -34,6 +34,16 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
 }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
+  const alphabeticalRecipes = account.recipes.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+
+    return 0;
+  });
 
   useScroll();
 
@@ -82,7 +92,7 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
           <SectionTitle>Minhas receitas</SectionTitle>
           <TableContainer>
             <Table className={classes.table} size="small">
-              <TableBody>{account.recipes.map(renderItem)}</TableBody>
+              <TableBody>{alphabeticalRecipes.map(renderItem)}</TableBody>
             </Table>
           </TableContainer>
           <Box display="flex" justifyContent="center">

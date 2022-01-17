@@ -45,8 +45,6 @@ const Field: FC<FieldProps> = ({
     if (props.onChange) {
       props.onChange(event);
     }
-
-    console.log(event);
   };
 
   return (

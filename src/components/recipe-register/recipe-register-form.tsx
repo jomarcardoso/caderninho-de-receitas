@@ -1,5 +1,5 @@
 import { Form, FieldArray, FormikProps } from 'formik';
-import React, { FC, useCallback, ChangeEventHandler } from 'react';
+import React, { FC, useCallback, ChangeEventHandler, useContext } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -13,6 +13,8 @@ import {
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
 import Button from '../button/button';
+import CurrentRecipeContext from '../../contexts/current-recipe';
+import EditingContext from '../../contexts/editing-context';
 
 export interface RecipeForm {
   steps: RecipeData['steps'];
@@ -34,6 +36,17 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   setFieldValue,
   recipeData,
 }) => {
+  const { restoreLastRecipe, currentRecipeData } =
+    useContext(CurrentRecipeContext);
+  const { setEditing } = useContext(EditingContext);
+
+  function handleCancel() {
+    if (!currentRecipeData.id) {
+      if (restoreLastRecipe) restoreLastRecipe();
+    }
+    if (setEditing) setEditing(false);
+  }
+
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredients = '', stepName = '') => {
       const ingredientList = ingredients.split('\n');
@@ -190,6 +203,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                   <Button
                     type="button"
                     color="secondary"
+                    variant="outlined"
                     onClick={() =>
                       setFieldValue('quantitySteps', values.quantitySteps + 1)
                     }
@@ -199,7 +213,17 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 </Box>
               </Grid>
               <Grid item xs={12} className="recipe-register__submit">
-                <SubmitComponent>salvar receita</SubmitComponent>
+                <Grid container spacing={1}>
+                  <Grid item xs={4} className="recipe-register__submit">
+                    {/* eslint-disable-next-line react/jsx-no-bind */}
+                    <Button fullWidth color="secondary" onClick={handleCancel}>
+                      cancelar
+                    </Button>
+                  </Grid>
+                  <Grid item xs={8} className="recipe-register__submit">
+                    <SubmitComponent>salvar receita</SubmitComponent>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Container>
