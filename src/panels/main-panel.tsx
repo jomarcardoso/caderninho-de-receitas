@@ -96,7 +96,11 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
             </Table>
           </TableContainer>
           <Box display="flex" justifyContent="center">
-            <Button color="secondary" onClick={() => setCurrentRecipe(RECIPE)}>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={() => setCurrentRecipe(RECIPE)}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path
                   fill="currentColor"

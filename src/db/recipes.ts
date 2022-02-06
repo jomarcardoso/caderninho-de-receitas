@@ -603,4 +603,17 @@ export const recipesData: Array<FoodData> = [
       'https://cdn.panelinha.com.br/receita/1468206000000-Bisteca-grelhada.jpg',
     recipe: true,
   },
+  {
+    name: 'Homus com cordeiro',
+    image: 'https://cdn.panelinha.com.br/receita/1632776457017-homus.jpg',
+    recipe: true,
+    keys: ['humus com cordeiro', 'homus com cordeiro'],
+  },
+  {
+    name: 'Homus',
+    image:
+      'https://static.clubedaanamariabraga.com.br/wp-content/uploads/2019/03/homus-1024x768.jpg',
+    recipe: true,
+    keys: ['homus', 'hômus', 'humus', 'pasta de grão de bico'],
+  },
 ];

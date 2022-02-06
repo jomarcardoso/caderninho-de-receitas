@@ -82,5 +82,13 @@ export function format(data?: Partial<MineralsData>): Minerals {
       quantity: data?.zinc ?? 0,
       unity: 'mg',
     },
+    selenium: {
+      dv: 0,
+      key: 'selenium',
+      name: 'Selênio',
+      nick: 'Se',
+      quantity: data?.selenium ?? 0,
+      unity: 'mcg',
+    },
   };
 }

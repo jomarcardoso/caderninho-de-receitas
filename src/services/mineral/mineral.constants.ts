@@ -10,6 +10,7 @@ export type MineralNick =
   | 'K'
   | 'Cu'
   | 'Zn'
+  | 'Se'
   | 'F';
 
 export type MineralName =
@@ -22,6 +23,7 @@ export type MineralName =
   | 'Potássio'
   | 'Cobre'
   | 'Zinco'
+  | 'Selênio'
   | 'Flúor';
 
 export type Mineral = Nutrient<MineralKey, MineralNick, MineralName>;
@@ -37,6 +39,7 @@ export interface Minerals {
   copper: Mineral;
   zinc: Mineral;
   fluoride: Mineral;
+  selenium: Mineral;
 }
 
 export type MineralKey = keyof Minerals;
@@ -63,6 +66,7 @@ export const MINERALS: Minerals = {
   sodium: MINERAL,
   zinc: MINERAL,
   fluoride: MINERAL,
+  selenium: MINERAL,
 };
 
 export const MINERALS_DATA: MineralsData = {
@@ -76,4 +80,5 @@ export const MINERALS_DATA: MineralsData = {
   potassium: 0,
   sodium: 0,
   zinc: 0,
+  selenium: 0,
 };
