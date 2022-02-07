@@ -1,10 +1,20 @@
 .caderninho .recipe-register {
   &__submit {
+    background-color: white;
     position: sticky;
-    bottom: 15px;
+    bottom: 0;
+    padding: .5rem 0;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+    margin-top: 2rem;
   }
 
   &__add-step {
     margin: 0 auto;
+  }
+
+  .layout__main {
+    margin-bottom: 0;
   }
 }

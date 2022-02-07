@@ -1,5 +1,5 @@
 import { Form, FieldArray, FormikProps } from 'formik';
-import React, { FC, useCallback, ChangeEventHandler, useContext } from 'react';
+import React, { FC, useCallback, ChangeEventHandler } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -13,8 +13,6 @@ import {
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
 import Button from '../button/button';
-import CurrentRecipeContext from '../../contexts/current-recipe';
-import EditingContext from '../../contexts/editing-context';
 
 export interface RecipeForm {
   steps: RecipeData['steps'];
@@ -27,26 +25,17 @@ export interface RecipeForm {
 
 interface Props {
   recipeData: RecipeData;
+  onCancel: () => void;
 }
 
 const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   values,
+  onCancel,
   handleBlur: formikHandleBlur,
   handleChange,
   setFieldValue,
   recipeData,
 }) => {
-  const { restoreLastRecipe, currentRecipeData } =
-    useContext(CurrentRecipeContext);
-  const { setEditing } = useContext(EditingContext);
-
-  function handleCancel() {
-    if (!currentRecipeData.id) {
-      if (restoreLastRecipe) restoreLastRecipe();
-    }
-    if (setEditing) setEditing(false);
-  }
-
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredients = '', stepName = '') => {
       const ingredientList = ingredients.split('\n');
@@ -212,23 +201,24 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                   </Button>
                 </Box>
               </Grid>
-              <Grid item xs={12} className="recipe-register__submit">
-                <Grid container spacing={1}>
-                  <Grid item xs={4} className="recipe-register__submit">
-                    {/* eslint-disable-next-line react/jsx-no-bind */}
-                    <Button fullWidth color="secondary" onClick={handleCancel}>
-                      cancelar
-                    </Button>
-                  </Grid>
-                  <Grid item xs={8} className="recipe-register__submit">
-                    <SubmitComponent>salvar receita</SubmitComponent>
-                  </Grid>
-                </Grid>
-              </Grid>
             </Grid>
           </Container>
         )}
       </FieldArray>
+      <div className="recipe-register__submit">
+        <Container>
+          <Grid container spacing={1}>
+            <Grid item xs={4}>
+              <Button fullWidth color="secondary" onClick={onCancel}>
+                cancelar
+              </Button>
+            </Grid>
+            <Grid item xs={8}>
+              <SubmitComponent>salvar receita</SubmitComponent>
+            </Grid>
+          </Grid>
+        </Container>
+      </div>
     </Form>
   );
 };

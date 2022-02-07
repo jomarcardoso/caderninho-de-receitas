@@ -86,6 +86,7 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
           },
         ],
       }}
+      mainProps={{ my: 5 }}
     >
       <Grid container spacing={4}>
         <Grid item xs={12}>
