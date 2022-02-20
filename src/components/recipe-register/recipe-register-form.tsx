@@ -14,6 +14,7 @@ import SubmitComponent from '../submit';
 import './recipe-register.scss';
 import Button from '../button/button';
 import CookSvg from '../../assets/svg/history/cook.svg';
+import PizzaSvg from '../../assets/svg/history/pizza.svg';
 
 export interface RecipeForm {
   steps: RecipeData['steps'];
@@ -152,9 +153,15 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
       <FieldArray name="steps">
         {() => (
           <>
-            <div className="recipe-register__story-image">
-              <CookSvg />
-            </div>
+            {recipeData.id ? (
+              <div className="recipe-register__story-image">
+                <CookSvg />
+              </div>
+            ) : (
+              <Container>
+                <PizzaSvg />
+              </Container>
+            )}
             <Container>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
