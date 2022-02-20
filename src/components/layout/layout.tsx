@@ -25,10 +25,19 @@ const Layout: FC<LayoutProps> = ({
   headerProps,
   footerProps,
   mainProps,
+  className,
   ...props
 }) => {
+  const classList = ['layout'];
+
+  if (className) {
+    classList.push(className);
+  }
+
+  const classes = classList.join(' ');
+
   return (
-    <Box className="layout" bgcolor="gray.700" {...props}>
+    <Box className={classes} bgcolor="gray.700" {...props}>
       {showHeader && <Header {...headerProps} />}
       <Main className="layout__main" {...mainProps}>
         {children}

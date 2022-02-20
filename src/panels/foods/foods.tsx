@@ -13,8 +13,8 @@ import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
 import FoodsContext from '../../contexts/foods-context';
 import { Food } from '../../services/food';
-import './foods.scss';
 import Button from '../../components/button/button';
+import './foods.scss';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -64,7 +64,12 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
   }
 
   return (
-    <Layout showHeader={false} showFooter={false} currentPage="FOODS">
+    <Layout
+      showHeader={false}
+      showFooter={false}
+      currentPage="FOODS"
+      mainProps={{ my: 5 }}
+    >
       <TableContainer>
         <Table size="small" aria-label="tabela de alimentos">
           <TableHead>

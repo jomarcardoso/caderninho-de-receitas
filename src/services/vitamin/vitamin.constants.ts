@@ -13,6 +13,7 @@ type VitaminNick =
   | 'foodFolate'
   | 'folateDFE'
   | 'Colina'
+  | 'B11'
   | 'B12'
   | 'retinol'
   | 'Betacaroteno'
@@ -38,6 +39,7 @@ type VitaminName =
   | 'Vitamina anti-hemorrágica'
   | 'Piridoxina'
   | 'Cobalamina'
+  | 'Ácido pteroilheptaglutâmico'
   | 'Alfa-caroteno'
   | 'Tiamina'
   | 'Riboflavina'
@@ -67,6 +69,7 @@ export interface Vitamins {
   // foodFolate: Vitamin;
   // folateDFE: Vitamin;
   choline: Vitamin;
+  b11: Vitamin;
   b12: Vitamin;
   // retinol: Vitamin;
   betaCarotene: Vitamin;
@@ -98,6 +101,7 @@ export const VITAMIN: Vitamin = {
 export const VITAMINS: Vitamins = {
   a: VITAMIN,
   alphaCarotene: VITAMIN,
+  b11: VITAMIN,
   b12: VITAMIN,
   b1: VITAMIN,
   b2: VITAMIN,
@@ -127,6 +131,7 @@ export const VITAMINS_DATA: VitaminsData = {
   a: 0,
   alphaCarotene: 0,
   b1: 0,
+  b11: 0,
   b12: 0,
   b2: 0,
   b3: 0,

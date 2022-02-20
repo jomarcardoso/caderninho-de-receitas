@@ -55,14 +55,21 @@ export default function useAccount(foods: Array<Food>): AccountAndSet {
     });
   }
 
+  function setHasCompletedTutorial(value = true) {
+    _setAccount({
+      ...account,
+      hasCompletedTutorial: value,
+    });
+  }
+
   useEffect(() => {
     AccountService.save(account);
   }, [account]);
 
   const setAccount: SetAccount = {
-    // account: _setAccount,
     recipe: setRecipe,
     removeRecipe,
+    completedTutorial: setHasCompletedTutorial,
   };
 
   return {

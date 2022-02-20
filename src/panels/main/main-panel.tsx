@@ -10,14 +10,16 @@ import TableContainer from '@mui/material/TableContainer';
 import ListItemText from '@mui/material/ListItemText';
 import TableRow from '@mui/material/TableRow';
 import capitalize from 'lodash/capitalize';
-import Layout from '../components/layout/layout';
-import Button from '../components/button/button';
-import AccountContext from '../contexts/account-context';
-import { AccountAndSet, ACCOUNT } from '../services/account.service';
-import { RECIPE, Recipe } from '../services/recipe';
-import { recipes } from '../db/partner-recipes';
-import SectionTitle from '../components/section-title/section-title';
-import useScroll from '../hooks/use-scroll';
+import Layout from '../../components/layout/layout';
+import Button from '../../components/button/button';
+import AccountContext from '../../contexts/account-context';
+import { AccountAndSet, ACCOUNT } from '../../services/account.service';
+import { RECIPE, Recipe } from '../../services/recipe';
+import { recipes } from '../../db/partner-recipes';
+import SectionTitle from '../../components/section-title/section-title';
+import useScroll from '../../hooks/use-scroll';
+import PizzaSvg from '../../assets/svg/history/pizza.svg';
+import './main-panel.scss';
 
 const useStyles = makeStyles({
   listItem: {
@@ -34,6 +36,16 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
 }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
+  const alphabeticalRecipes = account.recipes.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+
+    return 0;
+  });
 
   useScroll();
 
@@ -76,17 +88,22 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
           },
         ],
       }}
+      mainProps={{ my: 5 }}
     >
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <SectionTitle>Minhas receitas</SectionTitle>
           <TableContainer>
             <Table className={classes.table} size="small">
-              <TableBody>{account.recipes.map(renderItem)}</TableBody>
+              <TableBody>{alphabeticalRecipes.map(renderItem)}</TableBody>
             </Table>
           </TableContainer>
           <Box display="flex" justifyContent="center">
-            <Button color="secondary" onClick={() => setCurrentRecipe(RECIPE)}>
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={() => setCurrentRecipe(RECIPE)}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path
                   fill="currentColor"
@@ -99,6 +116,10 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
         </Grid>
         <Grid item xs={12}>
           <SectionTitle>Receitas de futuros parceiros</SectionTitle>
+          <div className="main-panel__story-partner">
+            <PizzaSvg />
+          </div>
+
           <Table className={classes.table} size="small">
             <TableBody>{recipes.map(renderItem)}</TableBody>
           </Table>
