@@ -6,16 +6,19 @@ const CURRENT_VERSION = 2;
 export interface SetAccount {
   recipe: SetRecipe;
   removeRecipe(id: number): void;
+  completedTutorial(yes: boolean): void;
 }
 
 export interface Account {
   recipes: Array<Recipe>;
   version: number;
+  hasCompletedTutorial: boolean;
 }
 
 export interface AccountData {
   recipes: Array<RecipeData>;
   version: number;
+  hasCompletedTutorial: boolean;
 }
 
 /**
@@ -35,6 +38,7 @@ const ACCOUNT_LOCAL_STORAGE = 'saude-em-pontos';
 export const ACCOUNT: Account = {
   recipes: [],
   version: 0,
+  hasCompletedTutorial: false,
 };
 
 function format({
@@ -50,6 +54,7 @@ function format({
         RecipeService.format({ recipeData, foods }),
       ) ?? ACCOUNT.recipes,
     version: CURRENT_VERSION,
+    hasCompletedTutorial: accountData?.hasCompletedTutorial ?? false,
   };
 }
 
@@ -82,6 +87,7 @@ function unFormat(account: Account): AccountData {
   return {
     recipes: account.recipes.map((recipe) => RecipeService.unFormat(recipe)),
     version: CURRENT_VERSION,
+    hasCompletedTutorial: account.hasCompletedTutorial,
   };
 }
 

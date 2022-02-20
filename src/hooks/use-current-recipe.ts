@@ -34,16 +34,40 @@ if (typeof window !== 'undefined') {
   }
 }
 
-const useRecipe = (): {
+const useRecipe = (
+  lastRegisteredRecipeData: RecipeData,
+): {
   currentRecipeData: RecipeData;
   setCurrentRecipeData: React.Dispatch<React.SetStateAction<RecipeData>>;
   setCurrentRecipe(recipe: Recipe): void;
+  restoreLastRecipe(): void;
 } => {
-  const [recipeData, setCurrentRecipeData] =
+  if (!initialRecipeData.name) {
+    initialRecipeData = lastRegisteredRecipeData;
+  }
+
+  const [recipeData, setRecipeData] = useState<RecipeData>(initialRecipeData);
+  const [lastRecipeData, setLastRecipeData] =
     useState<RecipeData>(initialRecipeData);
 
+  function setCurrentRecipeData(data: RecipeData) {
+    if (recipeData.id) {
+      setLastRecipeData(recipeData);
+    }
+
+    setRecipeData(data);
+  }
+
   function setCurrentRecipe(recipe: Recipe) {
-    setCurrentRecipeData(RecipeService.unFormat(recipe));
+    if (recipeData.id) {
+      setLastRecipeData(recipeData);
+    }
+
+    setRecipeData(RecipeService.unFormat(recipe));
+  }
+
+  function restoreLastRecipe() {
+    setRecipeData(lastRecipeData);
   }
 
   useEffect(() => {
@@ -54,6 +78,7 @@ const useRecipe = (): {
     currentRecipeData: recipeData,
     setCurrentRecipeData,
     setCurrentRecipe,
+    restoreLastRecipe,
   };
 };
 

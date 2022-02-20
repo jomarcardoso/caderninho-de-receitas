@@ -41,7 +41,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   setCurrentFoodQuantity,
 }) => {
   return (
-    <div className="recipe-container">
+    <Box className="recipe-container" mb={5}>
       {recipe.name && (
         <HideOnScroll>
           <Box className="recipe-container__name">
@@ -119,7 +119,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           )}
         </Grid>
       </Container>
-    </div>
+    </Box>
   );
 };
 

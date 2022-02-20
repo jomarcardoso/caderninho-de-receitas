@@ -119,6 +119,7 @@ export function measureTypeFromString(string: string): Measure['type'] {
 
   if (
     string.includes('a gosto') ||
+    string.startsWith('um fio') ||
     string.includes('à gosto') ||
     string.includes('para polvilhar') ||
     string.includes('pitada') ||

@@ -224,7 +224,6 @@ export const recipesData: Array<FoodData> = [
     image:
       'https://cdn.panelinha.com.br/receita/1612811291559-FRANGO-GRELHADO.jpg',
     keys: [
-      'frango',
       'filé de frango frango',
       'frango grelhado',
       'frango grelhado com páprica',
@@ -602,5 +601,35 @@ export const recipesData: Array<FoodData> = [
     image:
       'https://cdn.panelinha.com.br/receita/1468206000000-Bisteca-grelhada.jpg',
     recipe: true,
+  },
+  {
+    name: 'Homus com cordeiro',
+    image: 'https://cdn.panelinha.com.br/receita/1632776457017-homus.jpg',
+    recipe: true,
+    keys: ['humus com cordeiro', 'homus com cordeiro'],
+  },
+  {
+    name: 'Homus',
+    image:
+      'https://static.clubedaanamariabraga.com.br/wp-content/uploads/2019/03/homus-1024x768.jpg',
+    recipe: true,
+    keys: ['homus', 'hômus', 'humus', 'pasta de grão de bico'],
+  },
+  {
+    name: 'Pasta de alho',
+    image:
+      'https://www.momentocomida.com.br/wp-content/uploads/2018/01/maxresdefault.jpg',
+    recipe: true,
+    keys: ['pasta de alho'],
+  },
+  {
+    name: 'Frango na panela de pressão',
+    image:
+      'https://amp.bonde.com.br/mrf4u/statics/i/ps/www.bonde.com.br/img/bondenews/2018/07/img_1_33_1482.jpg?width=1200&enable=upscale',
+    keys: [
+      'frango na panela de pressão',
+      'molho de frango',
+      'molho de frango com tomate',
+    ],
   },
 ];

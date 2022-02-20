@@ -5,6 +5,7 @@ const CurrentRecipeContext = createContext<{
   currentRecipeData: RecipeData;
   setCurrentRecipeData?: React.Dispatch<React.SetStateAction<RecipeData>>;
   setCurrentRecipe?: React.Dispatch<React.SetStateAction<Recipe>>;
+  restoreLastRecipe?: () => void;
 }>({ currentRecipeData: RECIPE_DATA });
 
 export default CurrentRecipeContext;
