@@ -43,6 +43,8 @@ const IndexContainer: FC = () => {
     RecipeService.unFormat(last(account.recipes) || RECIPE) || RECIPE_DATA,
   );
 
+  console.log(account);
+
   useEffect(() => {
     setHideLeftPanel(false);
   }, []);

@@ -88,7 +88,19 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 value={step.name}
                 onChange={handleChange}
                 onBlur={formikHandleBlur}
-                hint="massa, cobertura, etc"
+                hint={
+                  <details>
+                    <summary>
+                      massa, cobertura, etc. <u>Saber mais.</u>
+                    </summary>
+                    Você não precisa preencher esse campo se a sua receita não
+                    possui mais do que uma etapa ou camada. Por exemplo uma
+                    salada pode ser feita com todos os ingredientes juntos e em
+                    um único processo, porém um bolo pode ter várias partes, a
+                    massa, o recheio e a cobertura, então é necessário
+                    diferenciar cada uma delas.
+                  </details>
+                }
               />
             </Grid>
             <Grid item xs={12}>

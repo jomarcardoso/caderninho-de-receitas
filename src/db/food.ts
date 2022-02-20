@@ -1785,6 +1785,25 @@ export const foodsData: Array<FoodData> = [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Pomegranate.jpg/1200px-Pomegranate.jpg',
     keys: ['romã', 'romãs'],
   },
+  {
+    name: 'Banha de porco',
+    icon: '/images/food/pork.png',
+    image:
+      'https://data.gessulli.com.br/file/2019/08/21/H102608-F00000-Q576-2000x0.jpeg',
+    keys: ['banha', 'banha de porco'],
+    calories: 902,
+    totalFat: 95,
+    saturedFats: 39,
+    carbohydrates: 0,
+    dietaryFiber: 0,
+    sugar: 0,
+    vitamins: {
+      ...VITAMINS_DATA,
+      c: 0,
+      b6: 0,
+      d: 102,
+    },
+  },
   ...recipesData,
   ...beansData,
 ];
