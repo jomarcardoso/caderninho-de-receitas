@@ -13,6 +13,7 @@ import {
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
 import Button from '../button/button';
+import CookSvg from '../../assets/svg/history/cook.svg';
 
 export interface RecipeForm {
   steps: RecipeData['steps'];
@@ -150,71 +151,76 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
     <Form action="/" method="post">
       <FieldArray name="steps">
         {() => (
-          <Container>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                {!recipeData.id ? (
-                  <p>
-                    Você está criando uma nova receita. Preencha os campos
-                    abaixo e pressione o botão salvar receita para criá-la e
-                    adicioná-la ao seu caderninho de receitas.
-                  </p>
-                ) : (
-                  <p>
-                    Você está editando uma receita já existente. Preencha os
-                    campos abaixo e pressione o botão salvar receita para
-                    atualizá-la.
-                  </p>
-                )}
+          <>
+            <div className="recipe-register__story-image">
+              <CookSvg />
+            </div>
+            <Container>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  {!recipeData.id ? (
+                    <p>
+                      Você está criando uma nova receita. Preencha os campos
+                      abaixo e pressione o botão salvar receita para criá-la e
+                      adicioná-la ao seu caderninho de receitas.
+                    </p>
+                  ) : (
+                    <p>
+                      Você está editando uma receita já existente. Preencha os
+                      campos abaixo e pressione o botão salvar receita para
+                      atualizá-la.
+                    </p>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    label="nome da receita"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={formikHandleBlur}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    multiline
+                    name="description"
+                    label="descrição"
+                    value={values.description}
+                    onChange={handleChange}
+                    onBlur={formikHandleBlur}
+                    minRows={2}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    multiline
+                    name="additional"
+                    label="informações adicionais"
+                    value={values.additional}
+                    onChange={handleChange}
+                    onBlur={formikHandleBlur}
+                    minRows={1}
+                  />
+                </Grid>
+                {memoizedRenderSteps()}
+                <Grid item xs={12}>
+                  <Box justifyContent="center" display="flex">
+                    <Button
+                      type="button"
+                      color="secondary"
+                      variant="outlined"
+                      onClick={() =>
+                        setFieldValue('quantitySteps', values.quantitySteps + 1)
+                      }
+                    >
+                      adicionar outra etapa
+                    </Button>
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Field
-                  label="nome da receita"
-                  name="name"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={formikHandleBlur}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  multiline
-                  name="description"
-                  label="descrição"
-                  value={values.description}
-                  onChange={handleChange}
-                  onBlur={formikHandleBlur}
-                  minRows={2}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  multiline
-                  name="additional"
-                  label="informações adicionais"
-                  value={values.additional}
-                  onChange={handleChange}
-                  onBlur={formikHandleBlur}
-                  minRows={1}
-                />
-              </Grid>
-              {memoizedRenderSteps()}
-              <Grid item xs={12}>
-                <Box justifyContent="center" display="flex">
-                  <Button
-                    type="button"
-                    color="secondary"
-                    variant="outlined"
-                    onClick={() =>
-                      setFieldValue('quantitySteps', values.quantitySteps + 1)
-                    }
-                  >
-                    adicionar outra etapa
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
-          </Container>
+            </Container>
+          </>
         )}
       </FieldArray>
       <div className="recipe-register__submit">

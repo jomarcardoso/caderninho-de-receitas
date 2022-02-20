@@ -7,7 +7,7 @@ import RecipePanel from './recipe-panel';
 import SEO from '../components/seo';
 import FoodsPanel from './foods/foods';
 import DialogFood from '../components/dialog-food/dialog-food';
-import MainPanel from './main-panel';
+import MainPanel from './main/main-panel';
 import Header from '../components/root-header/root-header';
 import PageLoader from '../components/page-loader/page-loader';
 import LoadingContext from '../contexts/loading';
@@ -42,8 +42,6 @@ const IndexContainer: FC = () => {
   } = useRecipe(
     RecipeService.unFormat(last(account.recipes) || RECIPE) || RECIPE_DATA,
   );
-
-  console.log(account);
 
   useEffect(() => {
     setHideLeftPanel(false);
