@@ -50,6 +50,14 @@ export function format(data?: Partial<VitaminsData>): Vitamins {
       quantity: data?.b6 ?? 0,
       unity: 'mg',
     },
+    b11: {
+      key: 'b11',
+      dv: 0,
+      name: 'Ácido pteroilheptaglutâmico',
+      nick: 'B11',
+      quantity: data?.b11 ?? 0,
+      unity: 'mg',
+    },
     b12: {
       key: 'b12',
       dv: 2.4,

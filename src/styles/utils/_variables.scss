@@ -1,7 +1,7 @@
 // color
 $color-primary-light: #d4b6aa;
-$color-primary-main: hsl(16, 18%, 45%);
-$color-primary-dark: hsl(16, 18%, 35%);
+$color-primary-main: #87695e;
+$color-primary-dark: #695249;
 $color-primary-strong: #{$color-primary-dark}e8;
 $color-primary-medium: #{$color-primary-dark}b8;
 $color-primary-weak: #{$color-primary-dark}88;
@@ -9,8 +9,9 @@ $color-primary-weak: #{$color-primary-dark}88;
 $color-secondary-light: #262626;
 $color-secondary-main: #191919;
 $color-secondary-dark: #000000;
-$color-secondary-medium: #{$color-secondary-dark}b8;
-$color-secondary-weak: #{$color-secondary-dark}88;
+$color-secondary-strong: #{$color-secondary-main}e8;
+$color-secondary-medium: #{$color-secondary-main}b8;
+$color-secondary-weak: #{$color-secondary-main}88;
 
 $color-dark-light: $color-secondary-light;
 $color-dark-main: $color-secondary-main;

@@ -9,7 +9,7 @@ interface Props {
 export type MainProps = HTMLProps<HTMLDivElement> & BoxProps & Props;
 
 const Main: FC<MainProps> = ({ children = '', containerProps, ...props }) => (
-  <Box component="main" role="main" my={5} {...props}>
+  <Box component="main" role="main" {...props}>
     <Container maxWidth="md" {...containerProps}>
       {children || ''}
     </Container>
