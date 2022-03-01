@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Grid, { GridProps } from '@mui/material/Grid';
 import Card from '../card/card';
 import { Recipe } from '../../services/recipe';
+import './score.scss';
 
 interface Props {
   recipe: Recipe;
@@ -23,11 +24,11 @@ const ScoreComponent: FC<ScoreProps> = ({ recipe, ...props }) => {
     return (
       <Grid item xs={6} sm={4} className="score" {...props}>
         <Card className="score__card">
-          <CardContent>
-            <Typography component="p" variant="h3" align="center">
+          <CardContent className="score__content">
+            <Typography component="p" className="score__value" align="center">
               {Math.round(Number(value))}
             </Typography>
-            <Typography component="h3" variant="h4" align="center">
+            <Typography component="p" variant="h4" align="center">
               {name}
             </Typography>
           </CardContent>
@@ -39,20 +40,24 @@ const ScoreComponent: FC<ScoreProps> = ({ recipe, ...props }) => {
   return (
     <Grid container spacing={2}>
       {renderResult({
-        name: 'Calorias Totais',
+        name: 'calorias',
         value: recipe.calories,
       })}
       {renderResult({
-        name: 'Acidificação',
-        value: recipe.gi,
+        name: 'gorduras',
+        value: recipe.totalFat.toFixed(0),
       })}
       {renderResult({
-        name: 'Índice Glicêmico',
-        value: recipe.gi,
+        name: 'carboidratos',
+        value: recipe.carbohydrates,
       })}
       {renderResult({
-        name: 'Carga Glicêmica',
-        value: recipe.gl,
+        name: 'fibras',
+        value: recipe.dietaryFiber,
+      })}
+      {renderResult({
+        name: 'proteínas',
+        value: recipe.proteins,
       })}
     </Grid>
   );

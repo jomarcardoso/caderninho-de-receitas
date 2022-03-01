@@ -7,6 +7,9 @@ export interface Ingredient {
   quantity: number;
   calories: number;
   carbohydrates: number;
+  totalFat: number;
+  dietaryFiber: number;
+  proteins: number;
   aminoAcids: AminoAcids;
   measure: Measure;
   description: string;
@@ -18,6 +21,9 @@ export const PORTION: Ingredient = {
   aminoAcids: AMINO_ACIDS,
   calories: 0,
   carbohydrates: 0,
+  totalFat: 0,
+  dietaryFiber: 0,
+  proteins: 0,
   food: FOOD,
   measure: {
     quantity: 0,

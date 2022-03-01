@@ -286,8 +286,11 @@ function ingredientFromString({
 
   // const food = foods[ingredientData.foodId - 1];
   const quantity = getQuantityByMeasure(measure, food);
-  const calories = (food.calories * quantity) / 100;
-  const carbohydrates = (food.carbohydrates * quantity) / 100;
+  const calories = (food.calories * quantity) / 100 || 0;
+  const totalFat = (food.totalFat * quantity) / 100 || 0;
+  const carbohydrates = (food.carbohydrates * quantity) / 100 || 0;
+  const dietaryFiber = (food.dietaryFiber * quantity) / 100 || 0;
+  const proteins = (food.proteins * quantity) / 100 || 0;
   const aminoAcids: AminoAcids = {
     alanine: (food.aminoAcids.alanine * quantity) / 100,
     valine: (food.aminoAcids.valine * quantity) / 100,
@@ -315,6 +318,9 @@ function ingredientFromString({
     quantity,
     calories,
     carbohydrates,
+    totalFat,
+    dietaryFiber,
+    proteins,
     aminoAcids,
     measure,
     description: text,

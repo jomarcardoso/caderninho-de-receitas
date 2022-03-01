@@ -4,7 +4,7 @@ import './card.scss';
 
 const Card: FC<CardProps> = ({ children = '', className, ...props }) => {
   return (
-    <CardMUI {...props} variant="outlined" className={`card ${className}`}>
+    <CardMUI {...props} className={`card ${className}`}>
       {children}
     </CardMUI>
   );
