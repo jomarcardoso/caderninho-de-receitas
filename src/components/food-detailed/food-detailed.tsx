@@ -82,8 +82,8 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
     );
   }
 
-  function renderNutrient(nutrient: Nutrient): ReactElement {
-    if (!nutrient.quantity) return <></>;
+  function renderNutrient(nutrient: Nutrient): ReactElement | null {
+    if (!nutrient.quantity) return null;
 
     return (
       <ListItem disableGutters>

@@ -37,8 +37,8 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
 
   const cuttedOrderedFoods = orderedFoods.slice(0, quantityToShow);
 
-  function renderFood(food: Food): ReactElement {
-    if (food.recipe) return <></>;
+  function renderFood(food: Food): ReactElement | null {
+    if (food.recipe) return null;
 
     return (
       <TableRow key={food.name}>

@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useContext } from 'react';
+import React, { FC, useState, useEffect, useContext, useMemo } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import last from 'lodash/last';
@@ -42,20 +42,27 @@ const IndexContainer: FC = () => {
   } = useRecipe(
     RecipeService.unFormat(last(account.recipes) || RECIPE) || RECIPE_DATA,
   );
+  const memoizedCurrentRecipe = useMemo(
+    () => ({
+      currentRecipeData,
+      restoreLastRecipe,
+      setCurrentRecipe,
+      setCurrentRecipeData,
+    }),
+    [
+      currentRecipeData,
+      restoreLastRecipe,
+      setCurrentRecipe,
+      setCurrentRecipeData,
+    ],
+  );
 
   useEffect(() => {
     setHideLeftPanel(false);
   }, []);
 
   return (
-    <CurrentRecipeContext.Provider
-      value={{
-        currentRecipeData,
-        restoreLastRecipe,
-        setCurrentRecipe,
-        setCurrentRecipeData,
-      }}
-    >
+    <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
       <DialogFood
         food={currentFood}
         onClose={() => setCurrentFood(FOOD)}

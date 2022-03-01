@@ -7,8 +7,6 @@ module.exports = {
   rules: {
     'react/require-default-props': 'off',
     'import/prefer-default-export': 'off',
-    'linebreak-style': 0,
-    'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': [
       2,

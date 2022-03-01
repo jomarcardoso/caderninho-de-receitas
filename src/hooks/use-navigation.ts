@@ -1,5 +1,13 @@
 import { useContext, useEffect } from 'react';
-import NavigationContext from '../contexts/navigation-context';
+import NavigationContext, {
+  NavigationContextType,
+} from '../contexts/navigation-context';
+
+interface UseNavigationReturn {
+  goTo(newHash: string): void;
+  goBack(): void;
+  navigation: NavigationContextType;
+}
 
 const stepsByLevel = [
   ['#main-panel'],
@@ -9,7 +17,7 @@ const stepsByLevel = [
 
 let hash = '#main-panel';
 
-const useNavigation = () => {
+const useNavigation = (): UseNavigationReturn => {
   const navigation = useContext(NavigationContext);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

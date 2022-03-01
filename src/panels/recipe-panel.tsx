@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { RecipeService, RECIPE_DATA, RecipeData } from '../services/recipe';
 import { UrlService } from '../services/url';
 import FoodsContext from '../contexts/foods-context';
@@ -29,6 +36,10 @@ const RecipePanel: FC<{
   const recipe = RecipeService.format({ foods, recipeData: currentRecipeData });
   const [editing, setEditing] = useState(true);
   const { setLoading } = useContext(LoadingContext);
+  const memoizedEditing = useMemo(
+    () => ({ editing, setEditing }),
+    [editing, setEditing],
+  );
 
   async function handleShare() {
     if (setLoading) {
@@ -119,7 +130,7 @@ const RecipePanel: FC<{
   }, [currentRecipeData, editing]);
 
   return (
-    <EditingContext.Provider value={{ editing, setEditing }}>
+    <EditingContext.Provider value={memoizedEditing}>
       <Panel id="recipe-panel">
         <Layout
           showHeader={false}

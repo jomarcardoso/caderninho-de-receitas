@@ -15,7 +15,7 @@ const Preparation: FC<PreparationProps> = ({
   preparation = '',
   ...props
 }) => {
-  if (!preparation) return <></>;
+  if (!preparation) return null;
 
   const preparationList = preparation.split(/\n\s/);
 
