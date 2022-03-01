@@ -32,6 +32,7 @@ const RecipeRegister: FC<Props> = ({
     if (!currentRecipeData.id) {
       if (restoreLastRecipe) restoreLastRecipe();
     }
+
     if (setEditing) setEditing(false);
   }, [currentRecipeData.id, restoreLastRecipe, setEditing]);
 

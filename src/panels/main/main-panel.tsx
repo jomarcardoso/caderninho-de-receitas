@@ -40,6 +40,7 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
     if (a.name < b.name) {
       return -1;
     }
+
     if (a.name > b.name) {
       return 1;
     }

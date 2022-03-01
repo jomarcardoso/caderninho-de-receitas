@@ -247,6 +247,7 @@ function measureFromString(text = ''): Measure {
 
     quantity *= units;
   }
+
   if (
     lowText.includes('a gosto') ||
     lowText.includes('à gosto') ||
