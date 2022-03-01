@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import FoodPanel from '../../panels/food/food';
@@ -25,11 +25,10 @@ const DialogFood: FC<DialogFoodProps> = ({
 }) => {
   const { goTo, goBack } = useNavigation();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function handleClose() {
+  const handleClose = useCallback(() => {
     if (onClose) onClose();
     goBack();
-  }
+  }, [goBack, onClose]);
 
   useEffect(() => {
     if (open && window.location.hash !== '#food-modal') {

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import NavigationContext, {
   NavigationContextType,
 } from '../contexts/navigation-context';
@@ -20,14 +20,13 @@ let hash = '#main-panel';
 const useNavigation = (): UseNavigationReturn => {
   const navigation = useContext(NavigationContext);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function navigateBack() {
+  const navigateBack = useCallback(() => {
     if (!navigation.setStack) {
       return;
     }
 
     navigation.setStack((prevStack) => prevStack.slice(0, -1));
-  }
+  }, [navigation]);
 
   function horizontalNavigate(newHash = '#main-panel') {
     if (!navigation.setStack) {
