@@ -8,7 +8,7 @@ import { NUTRIENT, Nutrient } from '../../services/nutrient.constants';
 const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({
   nutrient = NUTRIENT,
 }) => {
-  if (!nutrient.quantity) return <></>;
+  if (!nutrient.quantity) return null;
 
   return (
     <ListItem disableGutters>

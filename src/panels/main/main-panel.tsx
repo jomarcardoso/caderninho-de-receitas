@@ -18,7 +18,7 @@ import { RECIPE, Recipe } from '../../services/recipe';
 import { recipes } from '../../db/partner-recipes';
 import SectionTitle from '../../components/section-title/section-title';
 import useScroll from '../../hooks/use-scroll';
-import PizzaSvg from '../../assets/svg/history/pizza.svg';
+import ChefSvg from '../../assets/svg/history/chef.svg';
 import './main-panel.scss';
 
 const useStyles = makeStyles({
@@ -117,7 +117,7 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
         <Grid item xs={12}>
           <SectionTitle>Receitas de futuros parceiros</SectionTitle>
           <div className="main-panel__story-partner">
-            <PizzaSvg />
+            <ChefSvg />
           </div>
 
           <Table className={classes.table} size="small">

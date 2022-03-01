@@ -24,16 +24,16 @@ const RecipeRegister: FC<Props> = ({
   const [openedEmptyRecipe, setOpenedEmptyRecipe] = React.useState(false);
   const { setEditing } = useContext(EditingContext);
 
-  function handleCloseEmptyAlert() {
+  const handleCloseEmptyAlert = useCallback(() => {
     setOpenedEmptyRecipe(false);
-  }
+  }, []);
 
-  function handleCancel() {
+  const handleCancel = useCallback(() => {
     if (!currentRecipeData.id) {
       if (restoreLastRecipe) restoreLastRecipe();
     }
     if (setEditing) setEditing(false);
-  }
+  }, [currentRecipeData.id, restoreLastRecipe, setEditing]);
 
   const memoizedHandleSubmit = useCallback(
     ({
@@ -86,7 +86,6 @@ const RecipeRegister: FC<Props> = ({
         {(formik: FormikProps<RecipeForm>) => (
           <RecipeRegisterForm
             recipeData={recipeData}
-            // eslint-disable-next-line react/jsx-no-bind
             onCancel={handleCancel}
             {...formik}
           />
@@ -98,11 +97,9 @@ const RecipeRegister: FC<Props> = ({
         contentText="A receita precisa ter um nome. Deseja cancelar o cadastro ou preencher o nome e continuar?"
         actions={
           <>
-            {/* eslint-disable-next-line react/jsx-no-bind */}
             <Button color="secondary" onClick={handleCancel}>
               cancelar
             </Button>
-            {/* eslint-disable-next-line react/jsx-no-bind */}
             <Button onClick={handleCloseEmptyAlert} autoFocus>
               continuar
             </Button>

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 // @ts-expect-error instalação esquisita
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ThemeTopLayout from 'gatsby-theme-material-ui-top-layout/src/components/top-layout';
@@ -144,6 +144,12 @@ const Page: FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [addressBarHeight, setAddressBarHeight] = useState(0);
   const classes = useStyles({ addressBarHeight })();
+  const memoizedNavigation = useMemo(
+    () => ({ stack: navigationStack, setStack: setNavigationStack }),
+    [navigationStack],
+  );
+  const memoizedStyle = useMemo(() => ({ style, setStyle }), [style]);
+  const memoizedLoading = useMemo(() => ({ loading, setLoading }), [loading]);
 
   useEffect(() => {
     window.addEventListener('resize', () => {
@@ -169,12 +175,10 @@ const Page: FC = ({ children }) => {
 
   return (
     <div className={classes['@global']}>
-      <NavigationContext.Provider
-        value={{ stack: navigationStack, setStack: setNavigationStack }}
-      >
-        <StyleContext.Provider value={{ style, setStyle }}>
+      <NavigationContext.Provider value={memoizedNavigation}>
+        <StyleContext.Provider value={memoizedStyle}>
           <ThemeTopLayout theme={theme(style)}>
-            <LoadingContext.Provider value={{ loading, setLoading }}>
+            <LoadingContext.Provider value={memoizedLoading}>
               {children}
             </LoadingContext.Provider>
           </ThemeTopLayout>

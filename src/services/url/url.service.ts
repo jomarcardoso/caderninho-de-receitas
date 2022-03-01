@@ -7,7 +7,6 @@ interface RebrandlyData {
   shortUrl: string;
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export async function shortener(url = ''): Promise<string> {
   const json = JSON.stringify({ url });
 

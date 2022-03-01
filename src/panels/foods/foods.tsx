@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useContext } from 'react';
+import React, { FC, ReactElement, useCallback, useContext } from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -37,8 +37,8 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
 
   const cuttedOrderedFoods = orderedFoods.slice(0, quantityToShow);
 
-  function renderFood(food: Food): ReactElement {
-    if (food.recipe) return <></>;
+  function renderFood(food: Food): ReactElement | null {
+    if (food.recipe) return null;
 
     return (
       <TableRow key={food.name}>
@@ -59,9 +59,9 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
     );
   }
 
-  function handleShowMore(): void {
+  const handleShowMore = useCallback(() => {
     setQuantityToShow(quantityToShow + 40);
-  }
+  }, [quantityToShow]);
 
   return (
     <Layout
@@ -82,7 +82,6 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
         </Table>
       </TableContainer>
       <Box display="flex" justifyContent="center" marginTop={4}>
-        {/* eslint-disable-next-line react/jsx-no-bind */}
         <Button color="secondary" onClick={handleShowMore}>
           mostrar mais
         </Button>
