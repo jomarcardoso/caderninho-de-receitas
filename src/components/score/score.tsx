@@ -44,20 +44,16 @@ const ScoreComponent: FC<ScoreProps> = ({ recipe, ...props }) => {
         value: recipe.calories,
       })}
       {renderResult({
-        name: 'gorduras',
-        value: recipe.totalFat.toFixed(0),
+        name: 'índice glicêmico',
+        value: recipe.gi.toFixed(0),
       })}
       {renderResult({
-        name: 'carboidratos',
-        value: recipe.carbohydrates,
+        name: 'acidificação',
+        value: recipe.acidification.toFixed(0),
       })}
       {renderResult({
-        name: 'fibras',
-        value: recipe.dietaryFiber,
-      })}
-      {renderResult({
-        name: 'proteínas',
-        value: recipe.proteins,
+        name: 'carga glicêmica',
+        value: recipe.gl.toFixed(0),
       })}
     </Grid>
   );

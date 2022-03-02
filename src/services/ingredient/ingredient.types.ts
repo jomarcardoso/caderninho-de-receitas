@@ -1,6 +1,8 @@
 import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
 import { Food, Measure } from '../food';
 import { FOOD } from '../food/food.types';
+import { MINERALS, Minerals } from '../mineral';
+import { VITAMINS, Vitamins } from '../vitamin';
 
 export interface Ingredient {
   food: Food;
@@ -13,6 +15,8 @@ export interface Ingredient {
   aminoAcids: AminoAcids;
   measure: Measure;
   description: string;
+  vitamins: Vitamins;
+  minerals: Minerals;
 }
 
 export type UnFormat = (ingredient: Ingredient) => string;
@@ -31,4 +35,6 @@ export const PORTION: Ingredient = {
   },
   quantity: 0,
   description: '',
+  vitamins: VITAMINS,
+  minerals: MINERALS,
 };

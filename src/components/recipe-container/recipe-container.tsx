@@ -107,9 +107,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               Informações nutricionais
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <ScoreComponent recipe={recipe} />
-          </Grid>
+
           {AminoAcidService.verifyHasAminoAcid(recipe.aminoAcids) && (
             <Grid item xs={12}>
               <Section title="Tabela de aminoácidos">
@@ -117,6 +115,10 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               </Section>
             </Grid>
           )}
+
+          <Grid item xs={12}>
+            <ScoreComponent recipe={recipe} />
+          </Grid>
         </Grid>
       </Container>
     </Box>

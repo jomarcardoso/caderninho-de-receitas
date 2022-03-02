@@ -1,6 +1,8 @@
 import isNaN from 'lodash/isNaN';
 import { AminoAcids } from '../amino-acid';
 import { Food, Measure, Measurer, FoodService, MEASURE, FOOD } from '../food';
+import { MINERALS, Minerals } from '../mineral';
+import { VITAMINS, Vitamins } from '../vitamin';
 import { Ingredient, PORTION, UnFormat } from './ingredient.types';
 
 export function getQuantityByMeasure(
@@ -312,6 +314,21 @@ function ingredientFromString({
     asparticAcid: (food.aminoAcids.asparticAcid * quantity) / 100,
     arginine: (food.aminoAcids.arginine * quantity) / 100,
   };
+  const vitamins: Vitamins = Object.entries(food.vitamins).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [key]: (value * quantity) / 100,
+    }),
+    VITAMINS,
+  );
+
+  const minerals: Minerals = Object.entries(food.minerals).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [key]: (value * quantity) / 100,
+    }),
+    MINERALS,
+  );
 
   return {
     food,
@@ -324,6 +341,8 @@ function ingredientFromString({
     aminoAcids,
     measure,
     description: text,
+    vitamins,
+    minerals,
   };
 }
 
