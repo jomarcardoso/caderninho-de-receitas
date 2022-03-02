@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useEffect } from 'react';
 import { scrollToEl, ScrollSpy, createScrollSpyItem } from 'ovos';
 import useNavigation from './use-navigation';
@@ -22,17 +21,17 @@ const busyScrollInterval = setInterval(() => {
   });
 }, 1000);
 
-const useScroll = () => {
+const useScroll = (): void => {
   const { navigation, goTo } = useNavigation();
 
   useEffect(() => {
+    const elMainPanel = document.querySelector('#main-panel') as HTMLElement;
+
     if (busyScroll) {
       return;
     }
 
     if (navigation.stack.length === 1) {
-      const elMainPanel = document.querySelector('#main-panel') as HTMLElement;
-
       if (!elMainPanel) {
         return;
       }
@@ -40,17 +39,19 @@ const useScroll = () => {
       scrollToEl({
         el: elMainPanel,
       });
+
       return;
     }
-    if (navigation.stack.length === 2) {
-      const elMainPanel = document.querySelector('#main-panel') as HTMLElement;
 
+    if (navigation.stack.length === 2) {
       if (navigation.stack[1] === '#recipe-panel') {
         scrollToEl({
           el: document.querySelector('#recipe-panel') as HTMLElement,
         });
+
         return;
       }
+
       if (navigation.stack[1] === '#foods-panel') {
         scrollToEl({
           el: document.querySelector('#foods-panel') as HTMLElement,
@@ -118,7 +119,7 @@ const useScroll = () => {
         ],
       });
     }, 1000);
-  }, [goTo]);
+  }, [goTo, navigation.stack.length]);
 };
 
 export default useScroll;

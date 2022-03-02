@@ -1,4 +1,10 @@
 .caderninho .recipe-register {
+  &__body {
+    height: calc(100vh - var(--header-height) - 56px - var(--address-bar-height));
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+  }
+
   &__story-image {
     margin-bottom: -52px;
   }
@@ -11,7 +17,6 @@
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
     box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-    margin-top: 2rem;
   }
 
   &__add-step {

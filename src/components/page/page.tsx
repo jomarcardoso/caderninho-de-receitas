@@ -113,7 +113,7 @@ function theme({ bgBody = '' }: Style) {
   });
 }
 
-const useStyles = ({ addressBarHeight = 0 }) =>
+const useStyles = ({ addressBarHeight = 0, headerHeight = 0 }) =>
   makeStyles({
     '@global': {
       body: {
@@ -131,6 +131,7 @@ const useStyles = ({ addressBarHeight = 0 }) =>
         '--icon-color-secondary': 'var(--color-primary-main)',
 
         '--address-bar-height': `${addressBarHeight}px`,
+        '--header-height': `${headerHeight}px`,
       },
     },
   });
@@ -143,7 +144,8 @@ const Page: FC = ({ children }) => {
   const [, setReRender] = useState(false);
   const [loading, setLoading] = useState(false);
   const [addressBarHeight, setAddressBarHeight] = useState(0);
-  const classes = useStyles({ addressBarHeight })();
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const classes = useStyles({ addressBarHeight, headerHeight })();
   const memoizedNavigation = useMemo(
     () => ({ stack: navigationStack, setStack: setNavigationStack }),
     [navigationStack],
@@ -172,6 +174,27 @@ const Page: FC = ({ children }) => {
     // window.location.hash = 'main-panel';
     window.history.pushState({}, '', '#main-panel');
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const elHeader = document.querySelector('#header') as HTMLElement;
+
+      if (!elHeader) {
+        return;
+      }
+
+      clearInterval(interval);
+      const newHeaderHeight = elHeader.offsetHeight;
+
+      setHeaderHeight(newHeaderHeight);
+
+      elHeader.addEventListener('resize', () => {
+        const newHeaderHeight2 = elHeader.offsetHeight;
+
+        setHeaderHeight(newHeaderHeight2);
+      });
+    }, 100);
+  });
 
   return (
     <div className={classes['@global']}>

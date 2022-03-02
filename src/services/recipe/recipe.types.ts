@@ -1,5 +1,7 @@
 import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
 import { Ingredient } from '../ingredient/ingredient.types';
+import { MINERALS, Minerals } from '../mineral';
+import { VITAMINS, Vitamins } from '../vitamin';
 
 export type RecipeCategory =
   | 'pão'
@@ -41,10 +43,15 @@ export interface Recipe {
   gi: number;
   gl: number;
   carbohydrates: number;
+  totalFat: number;
+  dietaryFiber: number;
+  proteins: number;
   acidification: number;
   aminoAcids: AminoAcids;
   category: RecipeCategory | '';
   steps: Array<RecipeStep>;
+  vitamins: Vitamins;
+  minerals: Minerals;
 }
 
 export interface RecipeStepData {
@@ -98,7 +105,12 @@ export const RECIPE: Recipe = {
   acidification: 0,
   gl: 0,
   carbohydrates: 0,
+  totalFat: 0,
+  dietaryFiber: 0,
+  proteins: 0,
   aminoAcids: AMINO_ACIDS,
+  vitamins: VITAMINS,
+  minerals: MINERALS,
   category: '',
 };
 

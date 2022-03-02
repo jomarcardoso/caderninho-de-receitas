@@ -1,8 +1,11 @@
 .caderninho .score {
-  display: flex;
-  flex: 1;
+  &__content {
+    display: grid;
+    gap: 1rem;
+  }
 
-  &__card {
-    flex: 1;
+  &__value {
+    font-size: 28px;
+    color: var(--color-primary-main);
   }
 }
