@@ -25,6 +25,7 @@ const Header: FC<RootHeaderProps> = (props) => {
         position="static"
         role="banner"
         color="inherit"
+        id="header"
         {...props}
       >
         <Container maxWidth="md" disableGutters>
