@@ -315,17 +315,23 @@ function ingredientFromString({
     arginine: (food.aminoAcids.arginine * quantity) / 100,
   };
   const vitamins: Vitamins = Object.entries(food.vitamins).reduce(
-    (acc, [key, value]) => ({
+    (acc, [key, vitamin]): Vitamins => ({
       ...acc,
-      [key]: (value * quantity) / 100,
+      [key]: {
+        ...vitamin,
+        quantity: (vitamin.quantity * quantity) / 100,
+      },
     }),
     VITAMINS,
   );
 
   const minerals: Minerals = Object.entries(food.minerals).reduce(
-    (acc, [key, value]) => ({
+    (acc, [key, mineral]) => ({
       ...acc,
-      [key]: (value * quantity) / 100,
+      [key]: {
+        ...mineral,
+        quantity: (mineral.quantity * quantity) / 100,
+      },
     }),
     MINERALS,
   );

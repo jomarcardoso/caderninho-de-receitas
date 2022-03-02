@@ -39,6 +39,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
     ashes,
     gl,
     proteins,
+    dietaryFiber,
     vitamins = VITAMINS,
     minerals = MINERALS,
   } = food;
@@ -115,6 +116,10 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
                   {renderQuality({
                     name: 'Proteínas',
                     value: proteins * multiplier,
+                  })}
+                  {renderQuality({
+                    name: 'Fibras',
+                    value: dietaryFiber * multiplier,
                   })}
                   {renderQuality({
                     name: 'Gorduras totais',

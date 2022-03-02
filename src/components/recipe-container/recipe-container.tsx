@@ -1,5 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
+import round from 'lodash/round';
 import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Slide, { SlideProps } from '@mui/material/Slide';
@@ -15,7 +18,9 @@ import Container from '../container/container';
 import { Food } from '../../services/food';
 import SectionCard from '../section-card/section-card';
 import { AminoAcidService } from '../../services/amino-acid';
+import NutrientDisplay from '../nutrient/nutrient';
 import './recipe-container.scss';
+import { Nutrient } from '../../services/nutrient.constants';
 
 const HideOnScroll: FC<SlideProps> = ({ children, ...props }) => {
   const trigger = useScrollTrigger({
@@ -40,6 +45,41 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
+  const hasVitamins = Object.values(recipe.vitamins).some(
+    (vitamin) => vitamin.quantity,
+  );
+
+  const hasMinerals = Object.values(recipe.minerals).some(
+    (mineral) => mineral.quantity,
+  );
+
+  function renderNutrient(nutrient: Nutrient): ReactElement | null {
+    if (!nutrient.quantity) return null;
+
+    return (
+      <ListItem disableGutters>
+        <NutrientDisplay nutrient={nutrient} />
+      </ListItem>
+    );
+  }
+
+  function renderQuality({ name: foodName = '', value = 0 }) {
+    if (!value) return null;
+
+    return (
+      <ListItem disableGutters>
+        <Grid container spacing={1} justifyContent="space-between">
+          <Grid item>
+            <Typography component="h2">{foodName}</Typography>
+          </Grid>
+          <Grid item>
+            <Typography>{round(value, 2)}</Typography>
+          </Grid>
+        </Grid>
+      </ListItem>
+    );
+  }
+
   return (
     <Box className="recipe-container" mb={5}>
       {recipe.name && (
@@ -108,6 +148,51 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             </Typography>
           </Grid>
 
+          <Grid item xs={12}>
+            <List>
+              {renderQuality({
+                name: 'Calorias',
+                value: recipe.calories,
+              })}
+              {renderQuality({
+                name: 'Carboidratos',
+                value: recipe.carbohydrates,
+              })}
+              {renderQuality({
+                name: 'Proteínas',
+                value: recipe.proteins,
+              })}
+              {renderQuality({
+                name: 'Gorduras totais',
+                value: recipe.totalFat,
+              })}
+              {renderQuality({
+                name: 'Fibras',
+                value: recipe.dietaryFiber,
+              })}
+            </List>
+          </Grid>
+
+          {hasVitamins && (
+            <Grid item xs={12}>
+              <Section title="Vitaminas">
+                <List>
+                  {Object.values(recipe.vitamins).map(renderNutrient)}
+                </List>
+              </Section>
+            </Grid>
+          )}
+
+          {hasMinerals && (
+            <Grid item xs={12}>
+              <Section title="Minerais">
+                <List>
+                  {Object.values(recipe.minerals).map(renderNutrient)}
+                </List>
+              </Section>
+            </Grid>
+          )}
+
           {AminoAcidService.verifyHasAminoAcid(recipe.aminoAcids) && (
             <Grid item xs={12}>
               <Section title="Tabela de aminoácidos">
@@ -115,7 +200,6 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               </Section>
             </Grid>
           )}
-
           <Grid item xs={12}>
             <ScoreComponent recipe={recipe} />
           </Grid>
