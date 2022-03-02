@@ -1,6 +1,8 @@
 import isNaN from 'lodash/isNaN';
 import { AminoAcids } from '../amino-acid';
 import { Food, Measure, Measurer, FoodService, MEASURE, FOOD } from '../food';
+import { MINERALS, Minerals } from '../mineral';
+import { VITAMINS, Vitamins } from '../vitamin';
 import { Ingredient, PORTION, UnFormat } from './ingredient.types';
 
 export function getQuantityByMeasure(
@@ -247,6 +249,7 @@ function measureFromString(text = ''): Measure {
 
     quantity *= units;
   }
+
   if (
     lowText.includes('a gosto') ||
     lowText.includes('à gosto') ||
@@ -285,8 +288,11 @@ function ingredientFromString({
 
   // const food = foods[ingredientData.foodId - 1];
   const quantity = getQuantityByMeasure(measure, food);
-  const calories = (food.calories * quantity) / 100;
-  const carbohydrates = (food.carbohydrates * quantity) / 100;
+  const calories = (food.calories * quantity) / 100 || 0;
+  const totalFat = (food.totalFat * quantity) / 100 || 0;
+  const carbohydrates = (food.carbohydrates * quantity) / 100 || 0;
+  const dietaryFiber = (food.dietaryFiber * quantity) / 100 || 0;
+  const proteins = (food.proteins * quantity) / 100 || 0;
   const aminoAcids: AminoAcids = {
     alanine: (food.aminoAcids.alanine * quantity) / 100,
     valine: (food.aminoAcids.valine * quantity) / 100,
@@ -308,15 +314,41 @@ function ingredientFromString({
     asparticAcid: (food.aminoAcids.asparticAcid * quantity) / 100,
     arginine: (food.aminoAcids.arginine * quantity) / 100,
   };
+  const vitamins: Vitamins = Object.entries(food.vitamins).reduce(
+    (acc, [key, vitamin]): Vitamins => ({
+      ...acc,
+      [key]: {
+        ...vitamin,
+        quantity: (vitamin.quantity * quantity) / 100,
+      },
+    }),
+    VITAMINS,
+  );
+
+  const minerals: Minerals = Object.entries(food.minerals).reduce(
+    (acc, [key, mineral]) => ({
+      ...acc,
+      [key]: {
+        ...mineral,
+        quantity: (mineral.quantity * quantity) / 100,
+      },
+    }),
+    MINERALS,
+  );
 
   return {
     food,
     quantity,
     calories,
     carbohydrates,
+    totalFat,
+    dietaryFiber,
+    proteins,
     aminoAcids,
     measure,
     description: text,
+    vitamins,
+    minerals,
   };
 }
 

@@ -1,7 +1,10 @@
+import lodashSum from 'lodash/sum';
 import { AminoAcids } from '../amino-acid';
 import { Food, FoodService } from '../food';
 import IngredientService from '../ingredient/ingredient.service';
 import { Ingredient } from '../ingredient/ingredient.types';
+import { Minerals, MINERALS } from '../mineral';
+import { VITAMINS, Vitamins } from '../vitamin';
 import {
   Recipe,
   RecipeData,
@@ -182,6 +185,155 @@ export function format({
     text: recipeData.name,
   });
 
+  const vitamins: Vitamins = allIngredients.reduce(
+    (acc, ingredient): Vitamins => ({
+      a: {
+        ...ingredient.vitamins.a,
+        quantity: acc.a.quantity + ingredient.vitamins.a.quantity,
+      },
+      b1: {
+        ...ingredient.vitamins.b1,
+        quantity: acc.b1.quantity + ingredient.vitamins.b1.quantity,
+      },
+      b2: {
+        ...ingredient.vitamins.b2,
+        quantity: acc.b2.quantity + ingredient.vitamins.b2.quantity,
+      },
+      b3: {
+        ...ingredient.vitamins.b3,
+        quantity: acc.b3.quantity + ingredient.vitamins.b3.quantity,
+      },
+      b5: {
+        ...ingredient.vitamins.b5,
+        quantity: acc.b5.quantity + ingredient.vitamins.b5.quantity,
+      },
+      b6: {
+        ...ingredient.vitamins.b6,
+        quantity: acc.b6.quantity + ingredient.vitamins.b6.quantity,
+      },
+      b7: {
+        ...ingredient.vitamins.b7,
+        quantity: acc.b7.quantity + ingredient.vitamins.b7.quantity,
+      },
+      b9: {
+        ...ingredient.vitamins.b9,
+        quantity: acc.b9.quantity + ingredient.vitamins.b9.quantity,
+      },
+      b11: {
+        ...ingredient.vitamins.b11,
+        quantity: acc.b11.quantity + ingredient.vitamins.b11.quantity,
+      },
+      b12: {
+        ...ingredient.vitamins.b12,
+        quantity: acc.b12.quantity + ingredient.vitamins.b12.quantity,
+      },
+      c: {
+        ...ingredient.vitamins.c,
+        quantity: acc.c.quantity + ingredient.vitamins.c.quantity,
+      },
+      d: {
+        ...ingredient.vitamins.d,
+        quantity: acc.d.quantity + ingredient.vitamins.d.quantity,
+      },
+      e: {
+        ...ingredient.vitamins.e,
+        quantity: acc.e.quantity + ingredient.vitamins.e.quantity,
+      },
+      alphaCarotene: {
+        ...ingredient.vitamins.alphaCarotene,
+        quantity:
+          acc.alphaCarotene.quantity +
+          ingredient.vitamins.alphaCarotene.quantity,
+      },
+      betaCarotene: {
+        ...ingredient.vitamins.betaCarotene,
+        quantity:
+          acc.betaCarotene.quantity + ingredient.vitamins.betaCarotene.quantity,
+      },
+      cryptoxanthinCarotene: {
+        ...ingredient.vitamins.cryptoxanthinCarotene,
+        quantity:
+          acc.cryptoxanthinCarotene.quantity +
+          ingredient.vitamins.cryptoxanthinCarotene.quantity,
+      },
+      d2: {
+        ...ingredient.vitamins.d2,
+        quantity: acc.d2.quantity + ingredient.vitamins.d2.quantity,
+      },
+      d3: {
+        ...ingredient.vitamins.d3,
+        quantity: acc.d3.quantity + ingredient.vitamins.d3.quantity,
+      },
+      k: {
+        ...ingredient.vitamins.k,
+        quantity: acc.k.quantity + ingredient.vitamins.k.quantity,
+      },
+      lycopene: {
+        ...ingredient.vitamins.lycopene,
+        quantity: acc.lycopene.quantity + ingredient.vitamins.lycopene.quantity,
+      },
+      choline: {
+        ...ingredient.vitamins.choline,
+        quantity: acc.choline.quantity + ingredient.vitamins.choline.quantity,
+      },
+    }),
+    VITAMINS,
+  );
+
+  const minerals: Minerals = allIngredients.reduce(
+    (acc, ingredient): Minerals => ({
+      calcium: {
+        ...ingredient.minerals.calcium,
+        quantity: acc.calcium.quantity + ingredient.minerals.calcium.quantity,
+      },
+      copper: {
+        ...ingredient.minerals.copper,
+        quantity: acc.copper.quantity + ingredient.minerals.copper.quantity,
+      },
+      iron: {
+        ...ingredient.minerals.iron,
+        quantity: acc.iron.quantity + ingredient.minerals.iron.quantity,
+      },
+      magnesium: {
+        ...ingredient.minerals.magnesium,
+        quantity:
+          acc.magnesium.quantity + ingredient.minerals.magnesium.quantity,
+      },
+      manganese: {
+        ...ingredient.minerals.manganese,
+        quantity:
+          acc.manganese.quantity + ingredient.minerals.manganese.quantity,
+      },
+      phosphorus: {
+        ...ingredient.minerals.phosphorus,
+        quantity:
+          acc.phosphorus.quantity + ingredient.minerals.phosphorus.quantity,
+      },
+      fluoride: {
+        ...ingredient.minerals.fluoride,
+        quantity: acc.fluoride.quantity + ingredient.minerals.fluoride.quantity,
+      },
+      selenium: {
+        ...ingredient.minerals.selenium,
+        quantity: acc.selenium.quantity + ingredient.minerals.selenium.quantity,
+      },
+      sodium: {
+        ...ingredient.minerals.sodium,
+        quantity: acc.sodium.quantity + ingredient.minerals.sodium.quantity,
+      },
+      zinc: {
+        ...ingredient.minerals.zinc,
+        quantity: acc.zinc.quantity + ingredient.minerals.zinc.quantity,
+      },
+      potassium: {
+        ...ingredient.minerals.potassium,
+        quantity:
+          acc.potassium.quantity + ingredient.minerals.potassium.quantity,
+      },
+    }),
+    MINERALS,
+  );
+
   return {
     ...recipeData,
     id: recipeData?.id ?? Math.round(Math.random() * 1000),
@@ -197,6 +349,17 @@ export function format({
     carbohydrates: calculateCarbohidrates(allIngredients),
     aminoAcids: allAminoAcids,
     category: recipeData?.category ?? RECIPE_DATA.category,
+    totalFat: lodashSum(
+      allIngredients.map((ingredient) => ingredient.totalFat),
+    ),
+    dietaryFiber: lodashSum(
+      allIngredients.map((ingredient) => ingredient.dietaryFiber),
+    ),
+    proteins: lodashSum(
+      allIngredients.map((ingredient) => ingredient.proteins),
+    ),
+    vitamins,
+    minerals,
   };
 }
 

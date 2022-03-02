@@ -22,7 +22,7 @@ module.exports = {
       {
         blankLine: 'always',
         prev: '*',
-        next: ['return', 'export'],
+        next: ['return', 'export', 'if'],
       },
       {
         blankLine: 'always',
