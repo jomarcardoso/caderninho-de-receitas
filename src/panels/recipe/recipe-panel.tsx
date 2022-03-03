@@ -6,17 +6,17 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { RecipeService, RECIPE_DATA, RecipeData } from '../services/recipe';
-import { UrlService } from '../services/url';
-import FoodsContext from '../contexts/foods-context';
-import Layout from '../components/layout/layout';
-import { Food } from '../services/food';
-import AccountContext from '../contexts/account-context';
-import RecipeRegister from '../components/recipe-register/recipe-register';
-import RecipeContainer from '../components/recipe-container/recipe-container';
-import Panel from '../components/panel/panel';
-import LoadingContext from '../contexts/loading';
-import EditingContext from '../contexts/editing-context';
+import { RecipeService, RECIPE_DATA, RecipeData } from '../../services/recipe';
+import { UrlService } from '../../services/url';
+import FoodsContext from '../../contexts/foods-context';
+import Layout from '../../components/layout/layout';
+import { Food } from '../../services/food';
+import AccountContext from '../../contexts/account-context';
+import RecipeRegister from '../../components/recipe-register/recipe-register';
+import RecipeContainer from '../../components/recipe-container/recipe-container';
+import Panel from '../../components/panel/panel';
+import LoadingContext from '../../contexts/loading';
+import EditingContext from '../../contexts/editing-context';
 
 let rendered = 0;
 

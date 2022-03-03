@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import Page from '../components/page/page';
-import IndexContainer from '../panels';
+import AppPage from '../panels/app/app';
 
 import '../styles/main.scss';
 
 const Index: FC = () => {
   return (
     <Page>
-      <IndexContainer />
+      <AppPage />
     </Page>
   );
 };
