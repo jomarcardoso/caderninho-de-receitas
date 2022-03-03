@@ -120,13 +120,6 @@ const useStyles = ({ addressBarHeight = 0, headerHeight = 0 }) =>
         overflow: 'hidden',
       },
       ':root': {
-        '--color-primary-light': primary.light,
-        '--color-primary-main': primary.main,
-        '--color-primary-dark': primary.dark,
-        '--color-secondary-light': secondary.light,
-        '--color-secondary-main': secondary.main,
-        '--color-secondary-dark': secondary.dark,
-
         '--icon-color-primary': 'var(--color-secondary-main)',
         '--icon-color-secondary': 'var(--color-primary-main)',
 

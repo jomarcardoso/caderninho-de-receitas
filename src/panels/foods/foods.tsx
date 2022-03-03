@@ -50,7 +50,12 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
             onClick={() => setCurrentFood(food)}
           >
             <ListItemIcon className="foods-panel__icon">
-              <Image className="foods-panel__img" src={food.icon} alt="" />
+              <Image
+                className="foods-panel__img"
+                src={food.icon}
+                alt=""
+                transparent
+              />
             </ListItemIcon>
             <ListItemText primary={food.name} />
           </ListItem>

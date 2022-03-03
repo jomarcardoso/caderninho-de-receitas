@@ -6,18 +6,19 @@ $color-primary-strong: #{$color-primary-dark}e8;
 $color-primary-medium: #{$color-primary-dark}b8;
 $color-primary-weak: #{$color-primary-dark}88;
 
-$color-secondary-light: #262626;
-$color-secondary-main: #191919;
-$color-secondary-dark: #000000;
-$color-secondary-strong: #{$color-secondary-main}e8;
-$color-secondary-medium: #{$color-secondary-main}b8;
-$color-secondary-weak: #{$color-secondary-main}88;
+$color-secondary-light: #A9B9D4;
+$color-secondary-main: #5e6d87;
+$color-secondary-dark: #232C3B;
+$color-secondary-strong: #{$color-secondary-dark}e8;
+$color-secondary-medium: #{$color-secondary-dark}b8;
+$color-secondary-weak: #{$color-secondary-dark}88;
 
-$color-dark-light: $color-secondary-light;
-$color-dark-main: $color-secondary-main;
-$color-dark-dark: $color-secondary-dark;
-$color-dark-strong: $color-secondary-medium;
-$color-dark-weak: $color-secondary-weak;
+$color-dark-light: #262626;
+$color-dark-main: #191919;
+$color-dark-dark: #000000;
+$color-dark-strong: #{$color-dark-main}e8;
+$color-dark-medium: #{$color-dark-main}b8;
+$color-dark-weak: #{$color-dark-main}88;
 
 $color-light-light: #f8f8f8;
 $color-light-main: #f2f2f2;

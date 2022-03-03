@@ -42,6 +42,7 @@ const Ingredients: FC<IngredientsProps> = ({
                 <Image
                   src={ingredient.food.icon || ingredient.food.image}
                   alt={ingredient.food.name}
+                  transparent
                 />
               </Grid>
               <Grid item xs={11}>

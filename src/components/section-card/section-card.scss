@@ -1,10 +1,8 @@
-@use '../../styles/utils/utils';
 
 .caderninho .section-card {
   border-radius: 2px;
   overflow: hidden;
-  // border: 2px solid utils.$color-primary-main;
-  background-color: utils.$color-primary-main;
+  background-color: var(--color-primary-main);
 
   &__title {
     color: white;

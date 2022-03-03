@@ -1,51 +1,41 @@
-import React, { FC, ImgHTMLAttributes, ReactElement } from 'react';
-import { makeStyles } from '@mui/styles';
-
-const useStyles = ({ paddingBottom = '100%' }) =>
-  makeStyles({
-    root: {
-      width: '100%',
-    },
-    container: {
-      position: 'relative',
-
-      '&::before': {
-        content: '""',
-        display: 'block',
-        paddingBottom,
-      },
-    },
-    img: {
-      position: 'absolute',
-      objectFit: 'cover',
-      width: '100%',
-      height: '100%',
-      top: 0,
-      left: 0,
-    },
-  });
+import React, { FC, ImgHTMLAttributes, ReactElement, useEffect } from 'react';
+import './image.scss';
 
 interface Props {
   aspectRatio?: number;
+  transparent?: boolean;
 }
 
 type ImageProps = Props & ImgHTMLAttributes<HTMLImageElement>;
 
 const Image: FC<ImageProps> = ({
   alt = '',
+  transparent = false,
   className = '',
   aspectRatio = 1,
+  src = '',
   ...props
 }): ReactElement => {
   const paddingBottom = `${100 - (aspectRatio * 100 - 100)}%`;
-  const classes = useStyles({ paddingBottom })();
+  const [stagedSrc, setStagedSrc] = React.useState<string>(src);
+
+  useEffect(() => {
+    setStagedSrc('');
+
+    setTimeout(() => {
+      setStagedSrc(src);
+    });
+  }, [src]);
 
   return (
-    <div className={classes.root}>
-      <div className={className}>
-        <div className={classes.container}>
-          <img alt={alt} className={classes.img} {...props} />
-        </div>
+    <div
+      className={`image ${className} ${
+        transparent ? 'image--transparent' : ''
+      }`}
+    >
+      <div className="image__container">
+        <div className="image__padding" style={{ paddingBottom }} />
+        <img alt={alt} className="image__img" src={stagedSrc} {...props} />
       </div>
     </div>
   );
