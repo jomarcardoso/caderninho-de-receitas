@@ -104,4 +104,8 @@ https://storyset.com/illustration/cooking/bro/animate?share=38930
 
 https://storyset.com/illustration/order-food/bro/animate?share=38946
 
+## Ícones
 
+https://ionic.io/ionicons
+
+https://react-icons.github.io/react-icons

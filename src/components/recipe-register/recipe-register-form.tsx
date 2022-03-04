@@ -1,5 +1,6 @@
 import { Form, FieldArray, FormikProps } from 'formik';
 import React, { FC, useCallback, ChangeEventHandler } from 'react';
+import { IoDuplicateOutline, IoSaveOutline } from 'react-icons/io5';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -225,6 +226,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                           )
                         }
                       >
+                        <IoDuplicateOutline />
                         adicionar outra etapa
                       </Button>
                     </Box>
@@ -244,7 +246,10 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
               </Button>
             </Grid>
             <Grid item xs={8}>
-              <SubmitComponent>salvar receita</SubmitComponent>
+              <SubmitComponent>
+                <IoSaveOutline />
+                salvar receita
+              </SubmitComponent>
             </Grid>
           </Grid>
         </Container>
