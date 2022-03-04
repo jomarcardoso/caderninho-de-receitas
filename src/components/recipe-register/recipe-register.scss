@@ -1,6 +1,6 @@
 .caderninho .recipe-register {
   &__body {
-    height: calc(100vh - var(--header-height) - 56px - var(--address-bar-height));
+    height: calc(100vh - var(--header-height) - 44px - var(--address-bar-height));
     overflow-y: scroll;
     padding-bottom: 2rem;
   }
@@ -13,10 +13,13 @@
     background-color: white;
     position: sticky;
     bottom: 0;
-    padding: .5rem 0;
+    padding: .25rem 0;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
-    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+    box-shadow:
+      0px 2px 4px -1px rgb(0 0 0 / 20%),
+      0px 4px 5px 0px rgb(0 0 0 / 14%),
+      0px 1px 10px 0px rgb(0 0 0 / 12%);
   }
 
   &__add-step {

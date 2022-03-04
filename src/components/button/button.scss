@@ -4,6 +4,8 @@
   text-transform: lowercase;
   border: var(--border-width) solid var(--color-primary);
   gap: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 
   &.MuiButton-outlined {
     background-color: white;
