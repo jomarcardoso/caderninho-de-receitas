@@ -1,7 +1,7 @@
 import mergeWith from 'lodash/mergeWith';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional, verifyQuantity } from './utils';
+import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 
 import {
@@ -23,7 +23,7 @@ import {
 
 export const cFoodData: Array<FoodData> = [
   {
-    ...format(cocoa as unknown as FoodMyFoodData),
+    ...formatMyFood(cocoa as unknown as FoodMyFoodData),
     name: 'Cacau',
     icon: '/images/food/cocoa.png',
     image:
@@ -31,7 +31,7 @@ export const cFoodData: Array<FoodData> = [
     keys: ['cacau'],
   },
   {
-    ...format(coffee as unknown as FoodMyFoodData),
+    ...formatMyFood(coffee as unknown as FoodMyFoodData),
     name: 'Café',
     icon: '/images/food/coffee.png',
     image:
@@ -39,7 +39,7 @@ export const cFoodData: Array<FoodData> = [
     keys: ['grão de café', 'grãos de café', 'café moído'],
   },
   {
-    ...format(cinnamon as unknown as FoodMyFoodData),
+    ...formatMyFood(cinnamon as unknown as FoodMyFoodData),
     name: 'Canela',
     icon: '/images/food/cinnamon.png',
     image:
@@ -69,7 +69,7 @@ export const cFoodData: Array<FoodData> = [
     keys: ['cardamomo', 'cardamomos', 'baga de cardamomo'],
   },
   {
-    ...format(curry as unknown as FoodMyFoodData),
+    ...formatMyFood(curry as unknown as FoodMyFoodData),
     name: 'Caril',
     icon: '/images/food/curry.png',
     image:
@@ -79,7 +79,7 @@ export const cFoodData: Array<FoodData> = [
   {
     ...mergeWith(
       formatNacional(foodListNacional[178] as unknown as FoodNacional),
-      format(beef as unknown as FoodMyFoodData),
+      formatMyFood(beef as unknown as FoodMyFoodData),
       verifyQuantity,
     ),
     name: 'Carne bovina',
@@ -97,7 +97,7 @@ export const cFoodData: Array<FoodData> = [
     keys: ['castanha', 'castanha do pará'],
   },
   {
-    ...format(onion as unknown as FoodMyFoodData),
+    ...formatMyFood(onion as unknown as FoodMyFoodData),
     name: 'Cebola',
     icon: '/images/food/onion.svg',
     image:
@@ -123,7 +123,7 @@ export const cFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(chive as unknown as FoodMyFoodData),
+    ...formatMyFood(chive as unknown as FoodMyFoodData),
     name: 'Cebolinha',
     icon: '/images/food/chive.png',
     image:
@@ -136,7 +136,7 @@ export const cFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(carrot as unknown as FoodMyFoodData),
+    ...formatMyFood(carrot as unknown as FoodMyFoodData),
     name: 'Cenoura',
     gi: 16,
     icon: '/images/food/carrot.svg',
@@ -152,7 +152,7 @@ export const cFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(carrot as unknown as FoodMyFoodData),
+    ...formatMyFood(carrot as unknown as FoodMyFoodData),
     name: 'Cenoura cozida',
     icon: '/images/food/carrot.svg',
     image:
@@ -176,7 +176,7 @@ export const cFoodData: Array<FoodData> = [
     keys: ['chá de erva-doce', 'erva-doce', 'erva doce'],
   },
   {
-    ...format(chocolateDark45at59 as unknown as FoodMyFoodData),
+    ...formatMyFood(chocolateDark45at59 as unknown as FoodMyFoodData),
     name: 'Chocolate preto 45 - 59%',
     icon: '/images/food/chocolate.png',
     image:
@@ -189,7 +189,7 @@ export const cFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(chayote as unknown as FoodMyFoodData),
+    ...formatMyFood(chayote as unknown as FoodMyFoodData),
     name: 'Chuchu',
     icon: '/images/food/chayote.png',
     image:
@@ -218,7 +218,7 @@ export const cFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(coconutData as unknown as FoodMyFoodData),
+    ...formatMyFood(coconutData as unknown as FoodMyFoodData),
     name: 'Coco ralado',
     gi: 42,
     icon: '/images/food/coconut.svg',
@@ -242,7 +242,7 @@ export const cFoodData: Array<FoodData> = [
     keys: ['coco', 'côco', 'cocos', 'côcos'],
   },
   {
-    ...format(coriander as unknown as FoodMyFoodData),
+    ...formatMyFood(coriander as unknown as FoodMyFoodData),
     name: 'Coentro',
     keys: ['coentro'],
     icon: '/images/food/coriander.png',
@@ -250,7 +250,7 @@ export const cFoodData: Array<FoodData> = [
       'https://s2.glbimg.com/2uv6Zz8Fr8j89rvJC1mZl8wGPdo=/smart/e.glbimg.com/og/ed/f/original/2020/10/27/coriandrum-sativum-coentro-aespeciarista-.jpg',
   },
   {
-    ...format(cauliflower as unknown as FoodMyFoodData),
+    ...formatMyFood(cauliflower as unknown as FoodMyFoodData),
     name: 'Couve-flor',
     icon: '/images/food/cauliflower.png',
     image:
@@ -271,7 +271,7 @@ export const cFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(clove as unknown as FoodMyFoodData),
+    ...formatMyFood(clove as unknown as FoodMyFoodData),
     name: 'Cravo da índia',
     icon: '/images/food/clove.png',
     image:

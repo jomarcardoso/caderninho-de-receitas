@@ -1,12 +1,12 @@
 import { FoodData } from '../services/food';
 import { FoodMyFoodData } from './db.types';
 
-import { format } from './utils';
+import { formatMyFood } from './utils';
 import { yogurt } from './src';
 
 export const iFoodData: Array<FoodData> = [
   {
-    ...format(yogurt as unknown as FoodMyFoodData),
+    ...formatMyFood(yogurt as unknown as FoodMyFoodData),
     name: 'Iogurte natural',
     icon: '/images/food/yoghurt.png',
     image:

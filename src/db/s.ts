@@ -4,11 +4,11 @@ import { MINERALS_DATA } from '../services/mineral';
 import { orangeJuice, parsley, cuminSeed, salt } from './src';
 import { FoodData } from '../services/food';
 import { FoodMyFoodData } from './db.types';
-import { format } from './utils';
+import { formatMyFood } from './utils';
 
 export const sFoodData: Array<FoodData> = [
   {
-    ...format(salt as unknown as FoodMyFoodData),
+    ...formatMyFood(salt as unknown as FoodMyFoodData),
     name: 'Sal',
     icon: '/images/food/salt.svg',
     image:
@@ -16,7 +16,7 @@ export const sFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(parsley as unknown as FoodMyFoodData),
+    ...formatMyFood(parsley as unknown as FoodMyFoodData),
     name: 'Salsa',
     icon: '/images/food/parsley.png',
     image:
@@ -34,7 +34,7 @@ export const sFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(cuminSeed as unknown as FoodMyFoodData),
+    ...formatMyFood(cuminSeed as unknown as FoodMyFoodData),
     name: 'Semente de cominho',
     icon: '/images/food/cumin-seed.png',
     image:
@@ -66,7 +66,7 @@ export const sFoodData: Array<FoodData> = [
     },
   },
   {
-    ...format(orangeJuice as unknown as FoodMyFoodData),
+    ...formatMyFood(orangeJuice as unknown as FoodMyFoodData),
     name: 'Suco de Laranja',
     icon: '/images/food/orange-juice.svg',
     image:

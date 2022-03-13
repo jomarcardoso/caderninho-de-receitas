@@ -1,12 +1,12 @@
 import { milk, orange, lemon, coconutMilk, porkLoin } from './src';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 
 export const lFoodData: Array<FoodData> = [
   {
-    ...format(orange as unknown as FoodMyFoodData),
+    ...formatMyFood(orange as unknown as FoodMyFoodData),
     name: 'Laranja',
     gi: 43,
     icon: '/images/food/orange.svg',
@@ -23,7 +23,7 @@ export const lFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(coconutMilk as unknown as FoodMyFoodData),
+    ...formatMyFood(coconutMilk as unknown as FoodMyFoodData),
     name: 'Leite de coco',
     icon: '/images/food/coconut-milk.png',
     image:
@@ -31,7 +31,7 @@ export const lFoodData: Array<FoodData> = [
     keys: ['leite de coco', 'coco'],
   },
   {
-    ...format(milk as unknown as FoodMyFoodData),
+    ...formatMyFood(milk as unknown as FoodMyFoodData),
     name: 'Leite de vaca',
     icon: '/images/food/milk.svg',
     image:
@@ -58,7 +58,7 @@ export const lFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(lemon as unknown as FoodMyFoodData),
+    ...formatMyFood(lemon as unknown as FoodMyFoodData),
     name: 'Limão',
     keys: ['limão', 'limões'],
     icon: '/images/food/lemon.png',
@@ -73,7 +73,7 @@ export const lFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(porkLoin as unknown as FoodMyFoodData),
+    ...formatMyFood(porkLoin as unknown as FoodMyFoodData),
     name: 'Lombo de porco',
     icon: '/images/food/chop.png',
     image:

@@ -2,11 +2,11 @@ import { egg as eggData, soybeanOil } from './src';
 
 import { FoodMyFoodData } from './db.types';
 import { FoodData } from '../services/food';
-import { format } from './utils';
+import { formatMyFood } from './utils';
 
 export const oFoodData: Array<FoodData> = [
   {
-    ...format(soybeanOil as unknown as FoodMyFoodData),
+    ...formatMyFood(soybeanOil as unknown as FoodMyFoodData),
     name: 'Óleo de soja',
     icon: '/images/food/oil.svg',
     image:
@@ -15,7 +15,7 @@ export const oFoodData: Array<FoodData> = [
     keys: ['óleo'],
   },
   {
-    ...format(eggData as unknown as FoodMyFoodData),
+    ...formatMyFood(eggData as unknown as FoodMyFoodData),
     name: 'Ovo',
     gi: 0,
     icon: '/images/food/egg.svg',

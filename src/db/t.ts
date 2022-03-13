@@ -1,12 +1,12 @@
 import { FoodData } from '../services/food';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { tomato, thyme } from './src';
-import { formatNacional, format } from './utils';
+import { formatNacional, formatMyFood } from './utils';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 
 export const tFoodData: Array<FoodData> = [
   {
-    ...format(tomato as unknown as FoodMyFoodData),
+    ...formatMyFood(tomato as unknown as FoodMyFoodData),
     name: 'Tomate',
     icon: '/images/food/tomato.svg',
     image:
@@ -31,7 +31,7 @@ export const tFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(thyme as unknown as FoodMyFoodData),
+    ...formatMyFood(thyme as unknown as FoodMyFoodData),
     name: 'Tomilho',
     icon: '/images/food/thyme.png',
     image:

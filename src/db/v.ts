@@ -1,11 +1,11 @@
 import { FoodData } from '../services/food';
 import { FoodMyFoodData } from './db.types';
 import { redWineVinegar } from './src';
-import { format } from './utils';
+import { formatMyFood } from './utils';
 
 export const vFoodData: Array<FoodData> = [
   {
-    ...format(redWineVinegar as unknown as FoodMyFoodData),
+    ...formatMyFood(redWineVinegar as unknown as FoodMyFoodData),
     name: 'Vinagre de vinho tinto',
     icon: '/images/food/red-wine-vinegar.png',
     image:

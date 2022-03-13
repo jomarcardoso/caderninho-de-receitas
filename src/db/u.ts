@@ -1,7 +1,7 @@
 import { FoodData } from '../services/food';
 import { FoodMyFoodData } from './db.types';
 import { grape } from './src';
-import { format } from './utils';
+import { formatMyFood } from './utils';
 
 export const uFoodData: Array<FoodData> = [
   {
@@ -12,7 +12,7 @@ export const uFoodData: Array<FoodData> = [
     keys: ['falso-açafrão', 'colorau'],
   },
   {
-    ...format(grape as unknown as FoodMyFoodData),
+    ...formatMyFood(grape as unknown as FoodMyFoodData),
     name: 'Uva',
     icon: '/images/food/grape.png',
     image:

@@ -1,7 +1,7 @@
 import { FoodData } from '../services/food';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { creamCheese } from './src';
-import { formatNacional, format } from './utils';
+import { formatNacional, formatMyFood } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 
 export const rFoodData: Array<FoodData> = [
@@ -20,7 +20,7 @@ export const rFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(creamCheese as unknown as FoodMyFoodData),
+    ...formatMyFood(creamCheese as unknown as FoodMyFoodData),
     name: 'Requeijão',
     icon: '/images/food/cream-cheese.svg',
     image:

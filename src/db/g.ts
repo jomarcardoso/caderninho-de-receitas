@@ -1,12 +1,12 @@
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { eggYolk, ginger, water } from './src';
 
 export const gFoodData: Array<FoodData> = [
   {
-    ...format(water as unknown as FoodMyFoodData),
+    ...formatMyFood(water as unknown as FoodMyFoodData),
     name: 'Gelo',
     icon: '/images/food/ice.png',
     image:
@@ -14,7 +14,7 @@ export const gFoodData: Array<FoodData> = [
     keys: ['gelo'],
   },
   {
-    ...format(eggYolk as unknown as FoodMyFoodData),
+    ...formatMyFood(eggYolk as unknown as FoodMyFoodData),
     name: 'Gema de ovo',
     icon: '/images/food/egg-yolk.png',
     image:
@@ -29,7 +29,7 @@ export const gFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(ginger as unknown as FoodMyFoodData),
+    ...formatMyFood(ginger as unknown as FoodMyFoodData),
     name: 'Gengibre',
     icon: '/images/food/ginger.png',
     image:

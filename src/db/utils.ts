@@ -115,7 +115,7 @@ export function formatNacional(food: FoodNacional): FoodData {
   };
 }
 
-export function format(food: FoodMyFoodData): FoodData {
+export function formatMyFood(food: FoodMyFoodData): FoodData {
   return {
     saturedFats: food.FASAT,
     calories: food.ENERC_KCAL,

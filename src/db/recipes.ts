@@ -1,4 +1,4 @@
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import { FoodData } from '../services/food';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { chickenPasty, cornRecipe } from './src';
@@ -6,7 +6,7 @@ import foodListNacional from './src/cadastro-nacional/food-list.json';
 
 export const recipesData: Array<FoodData> = [
   {
-    ...format(cornRecipe as unknown as FoodMyFoodData),
+    ...formatMyFood(cornRecipe as unknown as FoodMyFoodData),
     ...formatNacional(foodListNacional[61] as unknown as FoodNacional),
     name: 'Polenta',
     gi: 74,
@@ -25,7 +25,7 @@ export const recipesData: Array<FoodData> = [
     recipe: true,
   },
   {
-    ...format(chickenPasty as unknown as FoodMyFoodData),
+    ...formatMyFood(chickenPasty as unknown as FoodMyFoodData),
     name: 'pastel',
     icon: '/images/food/pasty.svg',
     image:

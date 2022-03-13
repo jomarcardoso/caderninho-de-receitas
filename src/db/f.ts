@@ -1,6 +1,6 @@
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import {
   chicken as chickenData,
@@ -22,7 +22,7 @@ export const fFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(oatFlour as unknown as FoodMyFoodData),
+    ...formatMyFood(oatFlour as unknown as FoodMyFoodData),
     icon: '/images/food/oat-flour.svg',
     image:
       'https://cdn.awsli.com.br/600x450/757/757669/produto/41919778/2bbdd6f3f5.jpg',
@@ -32,7 +32,7 @@ export const fFoodData: Array<FoodData> = [
     version: 'FLOUR',
   },
   {
-    ...format(cassavaFlour as unknown as FoodMyFoodData),
+    ...formatMyFood(cassavaFlour as unknown as FoodMyFoodData),
     name: 'Farinha de mandioca',
     icon: '/images/food/cassava-flour.png',
     image:
@@ -40,7 +40,7 @@ export const fFoodData: Array<FoodData> = [
     keys: ['farinha de mandioca', 'farofa'],
   },
   {
-    ...format(wheatFlourData as unknown as FoodMyFoodData),
+    ...formatMyFood(wheatFlourData as unknown as FoodMyFoodData),
     name: 'Farinha de trigo',
     gi: 85,
     icon: '/images/food/wheat-flour.svg',
@@ -99,7 +99,7 @@ export const fFoodData: Array<FoodData> = [
     keys: ['folha de louro', 'folhas de louro', 'louro'],
   },
   {
-    ...format(chickenData as unknown as FoodMyFoodData),
+    ...formatMyFood(chickenData as unknown as FoodMyFoodData),
     gi: 0,
     name: 'Frango',
     icon: '/images/food/chicken.svg',
@@ -122,7 +122,7 @@ export const fFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(cornFlour as unknown as FoodMyFoodData),
+    ...formatMyFood(cornFlour as unknown as FoodMyFoodData),
     name: 'Fubá',
     icon: '/images/food/corn-flour.svg',
     image:

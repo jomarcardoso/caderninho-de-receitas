@@ -9,7 +9,7 @@ import {
 } from './src';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional, verifyQuantity } from './utils';
+import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 
@@ -47,7 +47,7 @@ export const bFoodData: Array<FoodData> = [
   },
   {
     ...mergeWith(
-      format(banana as unknown as FoodMyFoodData),
+      formatMyFood(banana as unknown as FoodMyFoodData),
       formatNacional(foodListNacional[178] as unknown as FoodNacional),
       verifyQuantity,
     ),
@@ -83,7 +83,7 @@ export const bFoodData: Array<FoodData> = [
     },
   },
   {
-    ...format(banana as unknown as FoodMyFoodData),
+    ...formatMyFood(banana as unknown as FoodMyFoodData),
     name: 'Banana Prata',
     gi: 39,
     gl: 8,
@@ -121,7 +121,7 @@ export const bFoodData: Array<FoodData> = [
     },
   },
   {
-    ...format(boiledPotato as unknown as FoodMyFoodData),
+    ...formatMyFood(boiledPotato as unknown as FoodMyFoodData),
     name: 'Batata',
     description: 'batata inglesa cozida',
     icon: '/images/food/potato.svg',
@@ -137,7 +137,7 @@ export const bFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(sweetPotato as unknown as FoodMyFoodData),
+    ...formatMyFood(sweetPotato as unknown as FoodMyFoodData),
     name: 'Batata Doce',
     icon: '/images/food/sweet-potato.png',
     image:
@@ -152,7 +152,7 @@ export const bFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(eggplant as unknown as FoodMyFoodData),
+    ...formatMyFood(eggplant as unknown as FoodMyFoodData),
     name: 'Beringela',
     icon: '/images/food/eggplant.png',
     image:
@@ -170,7 +170,7 @@ export const bFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(beetroot as unknown as FoodMyFoodData),
+    ...formatMyFood(beetroot as unknown as FoodMyFoodData),
     name: 'Beterraba',
     icon: '/images/food/beetroot.png',
     image:
@@ -184,7 +184,7 @@ export const bFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(bakingSoda as unknown as FoodMyFoodData),
+    ...formatMyFood(bakingSoda as unknown as FoodMyFoodData),
     name: 'Bicarbonato de sódio',
     icon: '/images/food/baking-soda.png',
     image:

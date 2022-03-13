@@ -1,11 +1,11 @@
 import { FoodMyFoodData } from './db.types';
 import { FoodData } from '../services/food';
-import { format } from './utils';
+import { formatMyFood } from './utils';
 import { pea } from './src';
 
 export const eFoodData: Array<FoodData> = [
   {
-    ...format(pea as unknown as FoodMyFoodData),
+    ...formatMyFood(pea as unknown as FoodMyFoodData),
     name: 'Ervilha',
     icon: '/images/food/pea.png',
     image:

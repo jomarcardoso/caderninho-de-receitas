@@ -14,7 +14,7 @@ import {
 } from './src';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
@@ -50,7 +50,7 @@ export const mFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(apple as unknown as FoodMyFoodData),
+    ...formatMyFood(apple as unknown as FoodMyFoodData),
     name: 'Maçã Fuji',
     gi: 25,
     gl: 3,
@@ -68,7 +68,7 @@ export const mFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(mango as unknown as FoodMyFoodData),
+    ...formatMyFood(mango as unknown as FoodMyFoodData),
     name: 'Manga',
     icon: '/images/food/mango.png',
     image:
@@ -83,7 +83,7 @@ export const mFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(basil as unknown as FoodMyFoodData),
+    ...formatMyFood(basil as unknown as FoodMyFoodData),
     name: 'Manjericão',
     icon: '/images/food/basil.png',
     image:
@@ -91,7 +91,7 @@ export const mFoodData: Array<FoodData> = [
     keys: ['manjericão'],
   },
   {
-    ...format(butter as unknown as FoodMyFoodData),
+    ...formatMyFood(butter as unknown as FoodMyFoodData),
     name: 'Manteiga',
     icon: '/images/food/butter.svg',
     image:
@@ -100,7 +100,7 @@ export const mFoodData: Array<FoodData> = [
   },
   {
     ...formatNacional(foodListNacional[556] as unknown as FoodNacional),
-    ...format(peanutButterSmooth as unknown as FoodMyFoodData),
+    ...formatMyFood(peanutButterSmooth as unknown as FoodMyFoodData),
     name: 'Manteiga de amendoim',
     icon: '/images/food/peanut-butter.svg',
     image:
@@ -108,7 +108,7 @@ export const mFoodData: Array<FoodData> = [
     unitOfMeasurement: 'liter',
   },
   {
-    ...format(passionFruit as unknown as FoodMyFoodData),
+    ...formatMyFood(passionFruit as unknown as FoodMyFoodData),
     name: 'Maracujá',
     icon: '/images/food/passion-fruit.png',
     image:
@@ -123,7 +123,7 @@ export const mFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(margarine as unknown as FoodMyFoodData),
+    ...formatMyFood(margarine as unknown as FoodMyFoodData),
     name: 'Margarina',
     icon: '/images/food/margarine.svg',
     image:
@@ -131,7 +131,7 @@ export const mFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(pasta as unknown as FoodMyFoodData),
+    ...formatMyFood(pasta as unknown as FoodMyFoodData),
     name: 'Massa gravatinha',
     icon: '/images/food/farfalle.png',
     image:
@@ -163,7 +163,7 @@ export const mFoodData: Array<FoodData> = [
     keys: ['mel', 'mel de abelha'],
   },
   {
-    ...format(tangerine as unknown as FoodMyFoodData),
+    ...formatMyFood(tangerine as unknown as FoodMyFoodData),
     name: 'Mexerica',
     icon: '/images/food/tangerine.png',
     image:
@@ -190,7 +190,7 @@ export const mFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(corn as unknown as FoodMyFoodData),
+    ...formatMyFood(corn as unknown as FoodMyFoodData),
     name: 'Milho',
     icon: '/images/food/corn.svg',
     image:
@@ -216,7 +216,7 @@ export const mFoodData: Array<FoodData> = [
     keys: ['molho de tahine'],
   },
   {
-    ...format(tomato as unknown as FoodMyFoodData),
+    ...formatMyFood(tomato as unknown as FoodMyFoodData),
     name: 'Molho de tomate',
     icon: '/images/food/tomato-sauce.svg',
     image:
@@ -231,7 +231,7 @@ export const mFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(strawberry as unknown as FoodMyFoodData),
+    ...formatMyFood(strawberry as unknown as FoodMyFoodData),
     name: 'Morango',
     gi: 53,
     gl: 2,

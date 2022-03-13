@@ -1,11 +1,11 @@
 import { FoodMyFoodData } from './db.types';
 import { FoodData } from '../services/food';
-import { format } from './utils';
+import { formatMyFood } from './utils';
 import { nut } from './src';
 
 export const nFoodData: Array<FoodData> = [
   {
-    ...format(nut as unknown as FoodMyFoodData),
+    ...formatMyFood(nut as unknown as FoodMyFoodData),
     name: 'Noz',
     icon: '/images/food/walnut.png',
     image:

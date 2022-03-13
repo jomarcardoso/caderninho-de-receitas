@@ -1,12 +1,12 @@
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { edamCheese } from './src';
 
 export const qFoodData: Array<FoodData> = [
   {
-    ...format(edamCheese as unknown as FoodMyFoodData),
+    ...formatMyFood(edamCheese as unknown as FoodMyFoodData),
     name: 'Queijo Edam',
     icon: '/images/food/cheese.svg',
     image:

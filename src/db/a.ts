@@ -1,6 +1,6 @@
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import {
   zucchini,
@@ -23,7 +23,7 @@ import {
 
 export const aFoodData: Array<FoodData> = [
   {
-    ...format(avocado as unknown as FoodMyFoodData),
+    ...formatMyFood(avocado as unknown as FoodMyFoodData),
     name: 'Abacate',
     gi: 15,
     icon: '/images/food/avocado.svg',
@@ -39,7 +39,7 @@ export const aFoodData: Array<FoodData> = [
     keys: ['avocado'],
   },
   {
-    ...format(pineapple as unknown as FoodMyFoodData),
+    ...formatMyFood(pineapple as unknown as FoodMyFoodData),
     name: 'Abacaxi',
     gi: 59,
     unitOfMeasurement: 'gram',
@@ -55,7 +55,7 @@ export const aFoodData: Array<FoodData> = [
     keys: [],
   },
   {
-    ...format(zucchini as unknown as FoodMyFoodData),
+    ...formatMyFood(zucchini as unknown as FoodMyFoodData),
     name: 'Abobrinha',
     icon: '/images/food/zucchini.png',
     image:
@@ -70,7 +70,7 @@ export const aFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(sugarData as unknown as FoodMyFoodData),
+    ...formatMyFood(sugarData as unknown as FoodMyFoodData),
     name: 'Açúcar branco',
     gi: 92,
     icon: '/images/food/sugar.svg',
@@ -93,7 +93,7 @@ export const aFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(brownSugar as unknown as FoodMyFoodData), // TODO: precisa diferenciar do açúcar branco
+    ...formatMyFood(brownSugar as unknown as FoodMyFoodData), // TODO: precisa diferenciar do açúcar branco
     name: 'Açúcar mascavo',
     gi: 80,
     icon: '/images/food/sugar.svg', // TODO: precisa diferenciar do açúcar branco
@@ -116,7 +116,7 @@ export const aFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(water as unknown as FoodMyFoodData),
+    ...formatMyFood(water as unknown as FoodMyFoodData),
     name: 'Água',
     icon: '/images/food/water.svg',
     image:
@@ -130,7 +130,7 @@ export const aFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(coconutWater as unknown as FoodMyFoodData),
+    ...formatMyFood(coconutWater as unknown as FoodMyFoodData),
     name: 'Água de coco',
     icon: '/images/food/coconut-water.png',
     image:
@@ -138,7 +138,7 @@ export const aFoodData: Array<FoodData> = [
     keys: ['coco', 'agua de coco', 'água de coco'],
   },
   {
-    ...format(cassava as unknown as FoodMyFoodData),
+    ...formatMyFood(cassava as unknown as FoodMyFoodData),
     name: 'Aipim',
     icon: '/images/food/cassava.png',
     image:
@@ -146,7 +146,7 @@ export const aFoodData: Array<FoodData> = [
     keys: ['mandioca', 'macacheira', 'cassava'],
   },
   {
-    ...format(rosemary as unknown as FoodMyFoodData),
+    ...formatMyFood(rosemary as unknown as FoodMyFoodData),
     name: 'Alecrim',
     icon: '/images/food/rosemary.png',
     image:
@@ -175,7 +175,7 @@ export const aFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(greenLeafLettuce as unknown as FoodMyFoodData),
+    ...formatMyFood(greenLeafLettuce as unknown as FoodMyFoodData),
     name: 'alface',
     gi: 0,
     icon: '/images/food/lettuce.svg',
@@ -184,7 +184,7 @@ export const aFoodData: Array<FoodData> = [
     description: 'Alface, roxa, crua',
   },
   {
-    ...format(garlic as unknown as FoodMyFoodData),
+    ...formatMyFood(garlic as unknown as FoodMyFoodData),
     name: 'alho',
     gi: 0,
     icon: '/images/food/garlic.svg',
@@ -224,7 +224,7 @@ export const aFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(peanut as unknown as FoodMyFoodData),
+    ...formatMyFood(peanut as unknown as FoodMyFoodData),
     name: 'Amendoim',
     icon: '/images/food/peanut.png',
     image:
@@ -240,7 +240,7 @@ export const aFoodData: Array<FoodData> = [
     version: 'REFINED_FLOUR',
   },
   {
-    ...format(whiteRice as unknown as FoodMyFoodData),
+    ...formatMyFood(whiteRice as unknown as FoodMyFoodData),
     name: 'Arroz Branco',
     gi: 81,
     gl: 18,
@@ -280,7 +280,7 @@ export const aFoodData: Array<FoodData> = [
     keys: ['arroz'],
   },
   {
-    ...format(oat as unknown as FoodMyFoodData),
+    ...formatMyFood(oat as unknown as FoodMyFoodData),
     name: 'Aveia',
     icon: '/images/food/oats.svg',
     image:
@@ -295,7 +295,7 @@ export const aFoodData: Array<FoodData> = [
     keys: ['aveia em flocos', 'flocos de aveia'],
   },
   {
-    ...format(oliveOilData as unknown as FoodMyFoodData),
+    ...formatMyFood(oliveOilData as unknown as FoodMyFoodData),
     name: 'Azeite de oliva',
     gi: 0,
     icon: '/images/food/olive-oil.svg',
@@ -319,7 +319,7 @@ export const aFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(olive as unknown as FoodMyFoodData),
+    ...formatMyFood(olive as unknown as FoodMyFoodData),
     name: 'Azeitona',
     icon: '/images/food/olive.png',
     image:

@@ -1,6 +1,6 @@
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
@@ -16,7 +16,7 @@ import {
 
 export const pFoodData: Array<FoodData> = [
   {
-    ...format(wheatBread as unknown as FoodMyFoodData),
+    ...formatMyFood(wheatBread as unknown as FoodMyFoodData),
     name: 'Pão caseiro',
     icon: '/images/food/bread.svg',
     image:
@@ -25,7 +25,7 @@ export const pFoodData: Array<FoodData> = [
     keys: ['pão', 'pãozinho', 'pão integral'],
   },
   {
-    ...format(whiteBread as unknown as FoodMyFoodData),
+    ...formatMyFood(whiteBread as unknown as FoodMyFoodData),
     name: 'Pão Francês',
     gi: 100,
     gl: 14,
@@ -43,7 +43,7 @@ export const pFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(paprika as unknown as FoodMyFoodData),
+    ...formatMyFood(paprika as unknown as FoodMyFoodData),
     name: 'Páprica',
     icon: '/images/food/paprika.png',
     image:
@@ -51,7 +51,7 @@ export const pFoodData: Array<FoodData> = [
     keys: ['paprica', 'páprica doce', 'páprica picante'],
   },
   {
-    ...format(ham as unknown as FoodMyFoodData),
+    ...formatMyFood(ham as unknown as FoodMyFoodData),
     name: 'Peito de peru defumado',
     icon: '/images/food/ham.svg',
     image:
@@ -79,7 +79,7 @@ export const pFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(pear as unknown as FoodMyFoodData),
+    ...formatMyFood(pear as unknown as FoodMyFoodData),
     name: 'Pêra',
     gi: 38,
     icon: '/images/food/pear.svg',
@@ -152,7 +152,7 @@ export const pFoodData: Array<FoodData> = [
     },
   },
   {
-    ...format(pepper as unknown as FoodMyFoodData),
+    ...formatMyFood(pepper as unknown as FoodMyFoodData),
     name: 'Pimenta',
     icon: '/images/food/pepper.svg',
     image:
@@ -160,7 +160,7 @@ export const pFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(blackPepper as unknown as FoodMyFoodData),
+    ...formatMyFood(blackPepper as unknown as FoodMyFoodData),
     name: 'Pimenta do Reino',
     icon: '/images/food/black-pepper.png',
     image:
@@ -182,7 +182,7 @@ export const pFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...format(ham as unknown as FoodMyFoodData),
+    ...formatMyFood(ham as unknown as FoodMyFoodData),
     name: 'Presunto',
     gi: 0,
     icon: '/images/food/ham.svg',
