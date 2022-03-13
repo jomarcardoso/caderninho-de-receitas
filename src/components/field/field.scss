@@ -3,11 +3,8 @@
 .caderninho .field {
   display: flex;
   flex-direction: column;
-
-  &::before {
-    content: '';
-    background-image: url(/images/textures/linned-sheet-texture-focus.svg);
-  }
+  background-image: url('/images/textures/linned-sheet-texture-focus.svg');
+  background-size: 0;
 
   &__label {
     color: variables.$color-white;
@@ -67,7 +64,7 @@
     }
 
     .field__input {
-      background-image: url(/images/textures/linned-sheet-texture.svg);
+      background-image: url('/images/textures/linned-sheet-texture2.svg');
     }
   }
 
@@ -82,7 +79,7 @@
 
     &.field--multiline {
       .field__input {
-        background-image: url(/images/textures/linned-sheet-texture-focus.svg);
+        background-image: url('/images/textures/linned-sheet-texture-focus.svg');
       }
     }
   }
