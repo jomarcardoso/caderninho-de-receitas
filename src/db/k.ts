@@ -18,5 +18,6 @@ export const kFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'fruit',
   },
 ];

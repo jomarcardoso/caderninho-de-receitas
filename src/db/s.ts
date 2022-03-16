@@ -14,6 +14,7 @@ export const sFoodData: Array<FoodData> = [
     image:
       'https://acrediteounao.com/wp-content/uploads/2018/12/sal-de-cozinha-e1543846010596.jpg',
     unitOfMeasurement: 'gram',
+    type: 'powder',
   },
   {
     ...formatMyFood(parsley as unknown as FoodMyFoodData),
@@ -32,6 +33,7 @@ export const sFoodData: Array<FoodData> = [
       'temperinho verde',
       'tempero verde',
     ],
+    type: 'herb',
   },
   {
     ...formatMyFood(cuminSeed as unknown as FoodMyFoodData),
@@ -40,6 +42,7 @@ export const sFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1601723897386-e5df0c749fb7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y3VtaW58ZW58MHwwfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     keys: ['cominho', 'sementes de cominho'],
+    type: 'seed',
   },
   {
     name: 'Semolina',
@@ -64,6 +67,7 @@ export const sFoodData: Array<FoodData> = [
       c: 0,
       b6: 0.1,
     },
+    type: 'powder',
   },
   {
     ...formatMyFood(orangeJuice as unknown as FoodMyFoodData),
@@ -81,5 +85,6 @@ export const sFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'liter',
+    type: 'liquid',
   },
 ];

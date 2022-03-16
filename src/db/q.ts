@@ -19,6 +19,7 @@ export const qFoodData: Array<FoodData> = [
       },
     ],
     keys: ['queijo edam'],
+    type: 'cheese',
   },
   {
     ...formatNacional(foodListNacional[462] as unknown as FoodNacional),
@@ -27,5 +28,6 @@ export const qFoodData: Array<FoodData> = [
     image:
       'https://www.alimentosonline.com.br/fotos_artigos/6253/mussarela.jpg',
     keys: ['queijo', 'queijo muçarela', 'muçarela', 'mozarela', 'mozzarella'],
+    type: 'cheese',
   },
 ];

@@ -44,6 +44,13 @@ export const bFoodData: Array<FoodData> = [
       serine: 40,
       glutamine: 0,
     },
+    oneMeasures: [
+      {
+        type: 'UNITY',
+        quantity: 100,
+      },
+    ],
+    type: 'fruit',
   },
   {
     ...mergeWith(
@@ -81,6 +88,13 @@ export const bFoodData: Array<FoodData> = [
       serine: 40,
       glutamine: 0,
     },
+    oneMeasures: [
+      {
+        type: 'UNITY',
+        quantity: 110,
+      },
+    ],
+    type: 'fruit',
   },
   {
     ...formatMyFood(banana as unknown as FoodMyFoodData),
@@ -96,10 +110,11 @@ export const bFoodData: Array<FoodData> = [
     keys: ['banana'],
     oneMeasures: [
       {
-        quantity: 101,
+        quantity: 70,
         type: 'UNITY',
       },
     ],
+    type: 'fruit',
   },
   {
     name: 'Banha de porco',
@@ -119,6 +134,7 @@ export const bFoodData: Array<FoodData> = [
       b6: 0,
       d: 102,
     },
+    type: 'oil',
   },
   {
     ...formatMyFood(boiledPotato as unknown as FoodMyFoodData),
@@ -135,6 +151,7 @@ export const bFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'root',
   },
   {
     ...formatMyFood(sweetPotato as unknown as FoodMyFoodData),
@@ -150,6 +167,7 @@ export const bFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'root',
   },
   {
     ...formatMyFood(eggplant as unknown as FoodMyFoodData),
@@ -168,6 +186,7 @@ export const bFoodData: Array<FoodData> = [
         type: 'UNITY_LARGE',
       },
     ],
+    type: 'fruit',
   },
   {
     ...formatMyFood(beetroot as unknown as FoodMyFoodData),
@@ -182,6 +201,7 @@ export const bFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'root',
   },
   {
     ...formatMyFood(bakingSoda as unknown as FoodMyFoodData),
@@ -190,5 +210,6 @@ export const bFoodData: Array<FoodData> = [
     image:
       'https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/06/baking-soda-water-and-wooden-spoon-1296x728-1.jpg?h=1528',
     keys: ['bicarbonato', 'bicarbonato de sódio'],
+    type: 'powder',
   },
 ];

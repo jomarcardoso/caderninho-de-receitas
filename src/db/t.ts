@@ -29,6 +29,7 @@ export const tFoodData: Array<FoodData> = [
         type: 'SLICE',
       },
     ],
+    type: 'fruit',
   },
   {
     ...formatMyFood(thyme as unknown as FoodMyFoodData),
@@ -37,6 +38,7 @@ export const tFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1606072104299-cdaab62c0a07?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
     keys: ['tomilho', 'ramo de tomilho', 'ramos de tomilho'],
+    type: 'herb',
   },
   {
     ...formatNacional(foodListNacional[443] as unknown as FoodNacional),
@@ -46,5 +48,6 @@ export const tFoodData: Array<FoodData> = [
       'https://espetinhodesucesso.com.br/wp-content/uploads/2018/12/como-fazer-bacon-artesanal-1200x675.jpg',
     keys: ['toucinho', 'toucinhos', 'bacon', 'bacon em cubos'],
     unitOfMeasurement: 'gram',
+    type: 'meat',
   },
 ];

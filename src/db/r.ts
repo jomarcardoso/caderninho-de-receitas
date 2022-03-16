@@ -18,6 +18,7 @@ export const rFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'root',
   },
   {
     ...formatMyFood(creamCheese as unknown as FoodMyFoodData),
@@ -26,6 +27,7 @@ export const rFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1547920303-9befbe3decc7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80',
     unitOfMeasurement: 'gram',
+    type: 'cheese',
   },
   {
     ...formatNacional(foodListNacional[248] as unknown as FoodNacional),
@@ -34,5 +36,12 @@ export const rFoodData: Array<FoodData> = [
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Pomegranate.jpg/1200px-Pomegranate.jpg',
     keys: ['romã', 'romãs'],
+    oneMeasures: [
+      {
+        type: 'UNITY',
+        quantity: 100,
+      },
+    ],
+    type: 'fruit',
   },
 ];

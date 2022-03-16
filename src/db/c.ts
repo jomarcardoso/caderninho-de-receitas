@@ -24,19 +24,21 @@ import {
 export const cFoodData: Array<FoodData> = [
   {
     ...formatMyFood(cocoa as unknown as FoodMyFoodData),
-    name: 'Cacau',
+    name: 'Cacau em pó',
     icon: '/images/food/cocoa.png',
     image:
       'https://images.unsplash.com/photo-1578269830911-6159f1aee3b4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1974&q=80',
-    keys: ['cacau'],
+    keys: ['cacau', 'cacau em pó'],
+    type: 'powder',
   },
   {
     ...formatMyFood(coffee as unknown as FoodMyFoodData),
-    name: 'Café',
+    name: 'Café moído',
     icon: '/images/food/coffee.png',
     image:
       'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=871&q=80',
-    keys: ['grão de café', 'grãos de café', 'café moído'],
+    keys: ['café', 'grão de café', 'grãos de café', 'café moído'],
+    type: 'powder',
   },
   {
     ...formatMyFood(cinnamon as unknown as FoodMyFoodData),
@@ -45,6 +47,7 @@ export const cFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1611256243212-48a03787ea01?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1177&q=80',
     keys: ['canela', 'casca de canela', 'canela em pó', 'canela em casca'],
+    type: 'powder',
   },
   {
     ...formatNacional(foodListNacional[189] as unknown as FoodNacional),
@@ -60,21 +63,28 @@ export const cFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'fruit',
   },
   {
     name: 'Cardamomo',
+    description:
+      'O cardamomo é uma especiaria bastante versátil, podendo ser usado na forma natural em chás, como substituto do alho no refogado do arroz ou adicionado em doces como pudins e geleias. Também pode-se aromatizar pães, colocar no molho da carne e saladas de frutas, por exemplo.',
     icon: '/images/food/cardamom.png',
     image:
       'https://a-static.mlcdn.com.br/618x463/cardamomo-verdadeiro-ou-cardamomo-verde-jardim-exotico/jardimexotico/4499408033/715cda1e07338ac245ed33643f8fc305.jpg',
     keys: ['cardamomo', 'cardamomos', 'baga de cardamomo'],
+    type: 'seed',
   },
   {
     ...formatMyFood(curry as unknown as FoodMyFoodData),
     name: 'Caril',
+    description:
+      'O caril ou curry é um nome dado a determinados pratos, cuja principal caraterística é ter um molho cozinhado com especiarias e outros ingredientes típicos da cozinha da Índia, da Tailândia e de outros países asiáticos.',
     icon: '/images/food/curry.png',
     image:
       'https://media.istockphoto.com/photos/curry-powder-on-a-wooden-spoon-and-in-a-wooden-bowl-picture-id1271918149?b=1&k=20&m=1271918149&s=170667a&w=0&h=ICQNG-IxiJ-ExTpYkn87rW5qhN8Cu5tVHEwVnAsGZSs=',
     keys: ['caril', 'curry'],
+    type: 'liquid',
   },
   {
     ...mergeWith(
@@ -87,6 +97,7 @@ export const cFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1588347785102-2944ba63d0c3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     keys: ['carne', 'carne de gado', 'carne moída', 'bife', 'acém'],
+    type: 'meat',
   },
   {
     ...formatNacional(foodListNacional[588] as unknown as FoodNacional),
@@ -95,6 +106,7 @@ export const cFoodData: Array<FoodData> = [
     image:
       'https://www.sistersintravel.com/wp-content/uploads/2015/12/sisters-in-travel-curiosidade-castanha-do-par%C3%A1-720x485.jpg',
     keys: ['castanha', 'castanha do pará'],
+    type: 'seed',
   },
   {
     ...formatMyFood(onion as unknown as FoodMyFoodData),
@@ -121,6 +133,7 @@ export const cFoodData: Array<FoodData> = [
         type: 'UNITY_LARGE',
       },
     ],
+    type: 'vegetable',
   },
   {
     ...formatMyFood(chive as unknown as FoodMyFoodData),
@@ -134,6 +147,7 @@ export const cFoodData: Array<FoodData> = [
       'cebolinha-francesa',
       'cebolinha francesa',
     ],
+    type: 'herb',
   },
   {
     ...formatMyFood(carrot as unknown as FoodMyFoodData),
@@ -150,6 +164,7 @@ export const cFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'root',
   },
   {
     ...formatMyFood(carrot as unknown as FoodMyFoodData),
@@ -166,6 +181,7 @@ export const cFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'root',
   },
   {
     ...formatNacional(foodListNacional[474] as unknown as FoodNacional),
@@ -174,6 +190,7 @@ export const cFoodData: Array<FoodData> = [
     image:
       'https://diariodonordeste.verdesmares.com.br/image/contentid/policy:7.4537296:1625738451/erva-doce%201.jpeg?f=default&$p$f=bacd656',
     keys: ['chá de erva-doce', 'erva-doce', 'erva doce'],
+    type: 'liquid',
   },
   {
     ...formatMyFood(chocolateDark45at59 as unknown as FoodMyFoodData),
@@ -187,6 +204,7 @@ export const cFoodData: Array<FoodData> = [
       'chocolate em pó',
       'chocolate ao leite',
     ],
+    type: 'solid',
   },
   {
     ...formatMyFood(chayote as unknown as FoodMyFoodData),
@@ -202,6 +220,7 @@ export const cFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'fruit',
   },
   {
     ...formatNacional(foodListNacional[485] as unknown as FoodNacional),
@@ -216,6 +235,7 @@ export const cFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'liquid',
   },
   {
     ...formatMyFood(coconutData as unknown as FoodMyFoodData),
@@ -240,6 +260,7 @@ export const cFoodData: Array<FoodData> = [
     ],
     unitOfMeasurement: 'gram',
     keys: ['coco', 'côco', 'cocos', 'côcos'],
+    type: 'flake',
   },
   {
     ...formatMyFood(coriander as unknown as FoodMyFoodData),
@@ -248,6 +269,7 @@ export const cFoodData: Array<FoodData> = [
     icon: '/images/food/coriander.png',
     image:
       'https://s2.glbimg.com/2uv6Zz8Fr8j89rvJC1mZl8wGPdo=/smart/e.glbimg.com/og/ed/f/original/2020/10/27/coriandrum-sativum-coentro-aespeciarista-.jpg',
+    type: 'herb',
   },
   {
     ...formatMyFood(cauliflower as unknown as FoodMyFoodData),
@@ -269,6 +291,7 @@ export const cFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'legumen',
   },
   {
     ...formatMyFood(clove as unknown as FoodMyFoodData),
@@ -277,5 +300,6 @@ export const cFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1626609940603-1fc7556a94ef?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
     keys: ['cravo', 'cravos', 'cravos da índia', 'cravo-da-índia'],
+    type: 'herb',
   },
 ];

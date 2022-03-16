@@ -1,4 +1,4 @@
-import { FOOD, Measure } from '../food';
+import { Food, FOOD, Measure } from '../food';
 import IngredientService, {
   verifyIsLiteral,
   getQuantityByMeasure,
@@ -9,6 +9,26 @@ import IngredientService, {
 describe('IngredientService', () => {
   describe('measureFromString', () => {
     const { measureFromString } = IngredientService;
+
+    it('meio cacho de uva', () => {
+      const measure: Measure = {
+        quantity: 0.5,
+        type: 'BUNCH',
+      };
+
+      expect(measureFromString('meio cacho de uva')).toStrictEqual(measure);
+    });
+
+    it('1 vidro de azeitonas sem caroço', () => {
+      const measure: Measure = {
+        quantity: 1,
+        type: 'GLASS',
+      };
+
+      expect(
+        measureFromString('1 vidro de azeitonas sem caroço'),
+      ).toStrictEqual(measure);
+    });
 
     it('raspas de 1 limão', () => {
       const measure: Measure = {
@@ -265,6 +285,36 @@ describe('IngredientService', () => {
   });
 
   describe('getQuantityByMeasure', () => {
+    it('1 cup of seed', () => {
+      const quantiy = getQuantityByMeasure(
+        {
+          quantity: 1,
+          type: 'CUP',
+        },
+        {
+          ...FOOD,
+          type: 'seed',
+        } as Food,
+      );
+
+      expect(quantiy).toBe(200);
+    });
+
+    it('4 spoon of powder', () => {
+      const quantiy = getQuantityByMeasure(
+        {
+          quantity: 4,
+          type: 'TABLE_SPOON',
+        },
+        {
+          ...FOOD,
+          type: 'powder',
+        } as Food,
+      );
+
+      expect(quantiy).toBe(30);
+    });
+
     it('1000g literal', () => {
       const quantiy = getQuantityByMeasure({
         quantity: 1000,

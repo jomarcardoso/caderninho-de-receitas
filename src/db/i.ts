@@ -24,5 +24,6 @@ export const iFoodData: Array<FoodData> = [
       'yoghurte',
       'ioghurte',
     ],
+    type: 'liquid',
   },
 ];

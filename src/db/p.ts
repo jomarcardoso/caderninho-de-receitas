@@ -23,6 +23,7 @@ export const pFoodData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1537200275355-4f0c0714f777?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: 'gram',
     keys: ['pão', 'pãozinho', 'pão integral'],
+    type: 'cake',
   },
   {
     ...formatMyFood(whiteBread as unknown as FoodMyFoodData),
@@ -41,6 +42,7 @@ export const pFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'cake',
   },
   {
     ...formatMyFood(paprika as unknown as FoodMyFoodData),
@@ -49,6 +51,7 @@ export const pFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1575319026763-726d092c26c0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['paprica', 'páprica doce', 'páprica picante'],
+    type: 'powder',
   },
   {
     ...formatMyFood(ham as unknown as FoodMyFoodData),
@@ -64,6 +67,7 @@ export const pFoodData: Array<FoodData> = [
       },
     ],
     keys: ['peito de peru'],
+    type: 'meat',
   },
   {
     ...formatNacional(foodListNacional[141] as unknown as FoodNacional),
@@ -77,6 +81,7 @@ export const pFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'fruit',
   },
   {
     ...formatMyFood(pear as unknown as FoodMyFoodData),
@@ -93,6 +98,7 @@ export const pFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'fruit',
   },
   {
     name: 'Pernil de cordeiro',
@@ -150,6 +156,7 @@ export const pFoodData: Array<FoodData> = [
       e: 0.2,
       k: 0,
     },
+    type: 'meat',
   },
   {
     ...formatMyFood(pepper as unknown as FoodMyFoodData),
@@ -166,6 +173,7 @@ export const pFoodData: Array<FoodData> = [
     image:
       'http://premiertemperos.com.br/novo/wp-content/uploads/2020/04/1706-1-1200x675.jpg',
     keys: ['pimenta do reino', 'pimenta preta', 'pimenta'],
+    type: 'powder',
   },
   {
     ...formatNacional(foodListNacional[141] as unknown as FoodNacional),
@@ -180,6 +188,7 @@ export const pFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'fruit',
   },
   {
     ...formatMyFood(ham as unknown as FoodMyFoodData),
@@ -197,5 +206,6 @@ export const pFoodData: Array<FoodData> = [
         type: 'SLICE',
       },
     ],
+    type: 'meat',
   },
 ];

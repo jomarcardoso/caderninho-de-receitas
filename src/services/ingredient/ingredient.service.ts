@@ -17,15 +17,31 @@ export function getQuantityByMeasure(
 
   if (quantity === 0) {
     if (measure.type === 'CUP') {
-      quantity = 240;
+      if (food.type === 'seed') {
+        quantity = 200;
+      } else if (food.type === 'powder') {
+        quantity = 120;
+      } else if (food.type === 'oil') {
+        quantity = 180;
+      } else {
+        quantity = 240;
+      }
     }
 
     if (measure.type === 'TABLE_SPOON') {
-      quantity = 15;
+      if (food.type === 'powder') {
+        quantity = 7.5;
+      } else {
+        quantity = 15;
+      }
     }
 
     if (measure.type === 'TEA_SPOON') {
-      quantity = 5;
+      if (food.type === 'powder') {
+        quantity = 1.5;
+      } else {
+        quantity = 5;
+      }
     }
 
     if (measure.type === 'UNITY_LARGE') {
@@ -73,8 +89,16 @@ export function measureTypeFromString(string: string): Measure['type'] {
     type = 'BREAST';
   }
 
-  if (string.includes('lata')) {
+  if (string.includes(' lata')) {
     type = 'CAN';
+  }
+
+  if (string.includes(' vidro')) {
+    type = 'GLASS';
+  }
+
+  if (string.includes(' cacho')) {
+    type = 'BUNCH';
   }
 
   if (string.includes('dente')) {

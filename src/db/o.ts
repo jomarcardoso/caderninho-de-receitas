@@ -13,6 +13,7 @@ export const oFoodData: Array<FoodData> = [
       'https://img.ibxk.com.br/2020/01/22/22215352968302.jpg?w=1120&h=420&mode=crop&scale=both',
     unitOfMeasurement: 'liter',
     keys: ['óleo'],
+    type: 'oil',
   },
   {
     ...formatMyFood(eggData as unknown as FoodMyFoodData),
@@ -29,5 +30,6 @@ export const oFoodData: Array<FoodData> = [
     ],
     unitOfMeasurement: 'gram',
     keys: ['ovos'],
+    type: 'liquid',
   },
 ];

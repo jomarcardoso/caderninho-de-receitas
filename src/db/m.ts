@@ -48,6 +48,7 @@ export const mFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'solid',
   },
   {
     ...formatMyFood(apple as unknown as FoodMyFoodData),
@@ -66,6 +67,7 @@ export const mFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'fruit',
   },
   {
     ...formatMyFood(mango as unknown as FoodMyFoodData),
@@ -81,6 +83,7 @@ export const mFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'fruit',
   },
   {
     ...formatMyFood(basil as unknown as FoodMyFoodData),
@@ -89,6 +92,7 @@ export const mFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1538596313828-41d729090199?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['manjericão'],
+    type: 'herb',
   },
   {
     ...formatMyFood(butter as unknown as FoodMyFoodData),
@@ -97,6 +101,7 @@ export const mFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: 'gram',
+    type: 'oil',
   },
   {
     ...formatNacional(foodListNacional[556] as unknown as FoodNacional),
@@ -106,6 +111,7 @@ export const mFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/flagged/photo-1625402535207-953e03369f59?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     unitOfMeasurement: 'liter',
+    type: 'oil',
   },
   {
     ...formatMyFood(passionFruit as unknown as FoodMyFoodData),
@@ -121,6 +127,7 @@ export const mFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'fruit',
   },
   {
     ...formatMyFood(margarine as unknown as FoodMyFoodData),
@@ -129,6 +136,7 @@ export const mFoodData: Array<FoodData> = [
     image:
       'https://www.saudevitalidade.com/wp-content/uploads/2021/02/pao-com-margarina-cafe-da-manha-1571859727604_v2_1920x1146-800x445.jpg',
     unitOfMeasurement: 'gram',
+    type: 'oil',
   },
   {
     ...formatMyFood(pasta as unknown as FoodMyFoodData),
@@ -161,6 +169,7 @@ export const mFoodData: Array<FoodData> = [
       sodium: 4,
     },
     keys: ['mel', 'mel de abelha'],
+    type: 'liquid',
   },
   {
     ...formatMyFood(tangerine as unknown as FoodMyFoodData),
@@ -188,6 +197,7 @@ export const mFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'fruit',
   },
   {
     ...formatMyFood(corn as unknown as FoodMyFoodData),
@@ -208,6 +218,7 @@ export const mFoodData: Array<FoodData> = [
       },
     ],
     keys: ['milho verde'],
+    type: 'seed',
   },
   {
     name: 'Molho de tahine',
@@ -229,6 +240,7 @@ export const mFoodData: Array<FoodData> = [
         type: 'CAN',
       },
     ],
+    type: 'liquid',
   },
   {
     ...formatMyFood(strawberry as unknown as FoodMyFoodData),
@@ -248,5 +260,6 @@ export const mFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'fruit',
   },
 ];

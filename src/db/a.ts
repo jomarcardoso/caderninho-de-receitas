@@ -37,6 +37,7 @@ export const aFoodData: Array<FoodData> = [
       },
     ],
     keys: ['avocado'],
+    type: 'fruit',
   },
   {
     ...formatMyFood(pineapple as unknown as FoodMyFoodData),
@@ -53,6 +54,7 @@ export const aFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1572859730774-2cb70677d258?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     keys: [],
+    type: 'fruit',
   },
   {
     ...formatMyFood(zucchini as unknown as FoodMyFoodData),
@@ -68,6 +70,7 @@ export const aFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
+    type: 'fruit',
   },
   {
     ...formatMyFood(sugarData as unknown as FoodMyFoodData),
@@ -91,6 +94,7 @@ export const aFoodData: Array<FoodData> = [
         type: 'TEA_SPOON',
       },
     ],
+    type: 'powder',
   },
   {
     ...formatMyFood(brownSugar as unknown as FoodMyFoodData), // TODO: precisa diferenciar do açúcar branco
@@ -114,6 +118,7 @@ export const aFoodData: Array<FoodData> = [
         type: 'TEA_SPOON',
       },
     ],
+    type: 'powder',
   },
   {
     ...formatMyFood(water as unknown as FoodMyFoodData),
@@ -128,6 +133,7 @@ export const aFoodData: Array<FoodData> = [
         type: 'CUP',
       },
     ],
+    type: 'liquid',
   },
   {
     ...formatMyFood(coconutWater as unknown as FoodMyFoodData),
@@ -136,6 +142,7 @@ export const aFoodData: Array<FoodData> = [
     image:
       'https://media.istockphoto.com/photos/coconut-drink-with-pulp-in-glass-on-wooden-table-picture-id526133774?b=1&k=20&m=526133774&s=170667a&w=0&h=0OifDfpyMrzYuy2fy-D-FRlucUJx2IjXJGK47vk4X7s=',
     keys: ['coco', 'agua de coco', 'água de coco'],
+    type: 'liquid',
   },
   {
     ...formatMyFood(cassava as unknown as FoodMyFoodData),
@@ -152,6 +159,7 @@ export const aFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1603129624917-3c579e864025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
     keys: ['alecrim', 'ramo de alecrim', 'ramos de alecrim'],
+    type: 'herb',
   },
   {
     ...formatNacional(foodListNacional[75] as unknown as FoodNacional),
@@ -173,6 +181,7 @@ export const aFoodData: Array<FoodData> = [
         type: 'UNITY',
       },
     ],
+    type: 'legumen',
   },
   {
     ...formatMyFood(greenLeafLettuce as unknown as FoodMyFoodData),
@@ -182,6 +191,7 @@ export const aFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1622205313162-be1d5712a43f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80',
     description: 'Alface, roxa, crua',
+    type: 'herb',
   },
   {
     ...formatMyFood(garlic as unknown as FoodMyFoodData),
@@ -197,6 +207,7 @@ export const aFoodData: Array<FoodData> = [
         type: 'CLOVE',
       },
     ],
+    type: 'legumen',
   },
   {
     ...formatNacional(foodListNacional[586] as unknown as FoodNacional), // TODO: Verificar
@@ -206,6 +217,7 @@ export const aFoodData: Array<FoodData> = [
       'https://d3ugyf2ht6aenh.cloudfront.net/stores/798/671/products/amendoa-crua-111-74c26a793b14e338cb15407454214424-1024-1024.jpg',
     keys: ['amêndoa', 'amêndoas', 'amêndoa com pele', 'amêndoas com pele'],
     unitOfMeasurement: 'gram',
+    type: 'seed',
   },
   {
     ...formatNacional(foodListNacional[586] as unknown as FoodNacional),
@@ -222,6 +234,7 @@ export const aFoodData: Array<FoodData> = [
       'amêndoas torrada e salgada',
     ],
     unitOfMeasurement: 'gram',
+    type: 'seed',
   },
   {
     ...formatMyFood(peanut as unknown as FoodMyFoodData),
@@ -238,6 +251,7 @@ export const aFoodData: Array<FoodData> = [
       'https://images.armazemcerealista.com.br/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/a/m/amido-de-milho---100g.jpg',
     keys: ['maizena'],
     version: 'REFINED_FLOUR',
+    type: 'powder',
   },
   {
     ...formatMyFood(whiteRice as unknown as FoodMyFoodData),
@@ -278,6 +292,7 @@ export const aFoodData: Array<FoodData> = [
       glutamine: 0,
     },
     keys: ['arroz'],
+    type: 'seed',
   },
   {
     ...formatMyFood(oat as unknown as FoodMyFoodData),
@@ -293,6 +308,7 @@ export const aFoodData: Array<FoodData> = [
     ],
     unitOfMeasurement: 'gram',
     keys: ['aveia em flocos', 'flocos de aveia'],
+    type: 'flake',
   },
   {
     ...formatMyFood(oliveOilData as unknown as FoodMyFoodData),
@@ -317,6 +333,7 @@ export const aFoodData: Array<FoodData> = [
         type: 'TEA_SPOON',
       },
     ],
+    type: 'oil',
   },
   {
     ...formatMyFood(olive as unknown as FoodMyFoodData),
@@ -325,5 +342,12 @@ export const aFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1582042043408-de36ded9059b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
     keys: ['azeitona', 'oliva', 'azeitonas'],
+    oneMeasures: [
+      {
+        type: 'GLASS',
+        quantity: 160,
+      },
+    ],
+    type: 'fruit',
   },
 ];
