@@ -49,6 +49,12 @@ const Field: FC<FieldProps> = ({
 
   return (
     <div className={classes} {...rootProps}>
+      <img
+        src="/images/textures/linned-sheet-texture.svg"
+        alt=""
+        width="0"
+        height="0"
+      />
       <label className="field__label" htmlFor={inputId} {...labelProps}>
         {label}
       </label>

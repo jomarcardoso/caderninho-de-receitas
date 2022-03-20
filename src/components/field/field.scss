@@ -1,10 +1,8 @@
 @use '../../styles/utils/variables';
 
-.caderninho .field {
+.field {
   display: flex;
   flex-direction: column;
-  background-image: url('/images/textures/linned-sheet-texture-focus.svg');
-  background-size: 0;
 
   &__label {
     color: variables.$color-white;
@@ -64,7 +62,7 @@
     }
 
     .field__input {
-      background-image: url('/images/textures/linned-sheet-texture2.svg');
+      background-image: url('/images/textures/linned-sheet-texture.svg');
     }
   }
 
