@@ -1,6 +1,6 @@
 .caderninho .recipe-register {
   &__body {
-    height: calc(100vh - var(--header-height) - 44px - var(--address-bar-height));
+    height: calc(100vh - var(--header-height) - var(--footer-height) - var(--address-bar-height));
     overflow-y: scroll;
     padding-bottom: 2rem;
   }

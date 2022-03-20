@@ -50,6 +50,7 @@
   "scripts": {
     "lint": "eslint src/**/*.{js,ts,tsx} --fix",
     "build": "gatsby build",
+    "deploy": "rm -rf public && yarn build && yarn lint && yarn test && yarn tsc && surge -p ./public -d saude-em-pontos.surge.sh",
     "dev": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "yarn dev",

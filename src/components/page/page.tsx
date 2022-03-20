@@ -113,7 +113,11 @@ function theme({ bgBody = '' }: Style) {
   });
 }
 
-const useStyles = ({ addressBarHeight = 0, headerHeight = 0 }) =>
+const useStyles = ({
+  addressBarHeight = 0,
+  headerHeight = 44,
+  footerHeight = 44,
+}) =>
   makeStyles({
     '@global': {
       body: {
@@ -125,6 +129,7 @@ const useStyles = ({ addressBarHeight = 0, headerHeight = 0 }) =>
 
         '--address-bar-height': `${addressBarHeight}px`,
         '--header-height': `${headerHeight}px`,
+        '--footer-height': `${footerHeight}px`,
       },
     },
   });
@@ -138,7 +143,8 @@ const Page: FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [addressBarHeight, setAddressBarHeight] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(0);
-  const classes = useStyles({ addressBarHeight, headerHeight })();
+  const [footerHeight, setFooterHeight] = useState(0);
+  const classes = useStyles({ addressBarHeight, headerHeight, footerHeight })();
   const memoizedNavigation = useMemo(
     () => ({ stack: navigationStack, setStack: setNavigationStack }),
     [navigationStack],
@@ -185,6 +191,25 @@ const Page: FC = ({ children }) => {
         const newHeaderHeight2 = elHeader.offsetHeight;
 
         setHeaderHeight(newHeaderHeight2);
+      });
+    }, 100);
+
+    const intervalFooter = setInterval(() => {
+      const elFooter = document.querySelector('.footer') as HTMLElement;
+
+      if (!elFooter) {
+        return;
+      }
+
+      clearInterval(intervalFooter);
+      const newFooterHeight = elFooter.offsetHeight;
+
+      setFooterHeight(newFooterHeight);
+
+      elFooter.addEventListener('resize', () => {
+        const newFooterHeight2 = elFooter.offsetHeight;
+
+        setFooterHeight(newFooterHeight2);
       });
     }, 100);
   });
