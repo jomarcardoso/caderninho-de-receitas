@@ -142,8 +142,9 @@ const Page: FC = ({ children }) => {
   const [, setReRender] = useState(false);
   const [loading, setLoading] = useState(false);
   const [addressBarHeight, setAddressBarHeight] = useState(0);
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const [footerHeight, setFooterHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(44);
+  const [footerHeight, setFooterHeight] = useState(44);
+
   const classes = useStyles({ addressBarHeight, headerHeight, footerHeight })();
   const memoizedNavigation = useMemo(
     () => ({ stack: navigationStack, setStack: setNavigationStack }),
@@ -205,12 +206,12 @@ const Page: FC = ({ children }) => {
       clearInterval(intervalFooter);
       const newFooterHeight = elFooter.offsetHeight;
 
-      setFooterHeight(newFooterHeight);
+      setFooterHeight(newFooterHeight || 44);
 
       elFooter.addEventListener('resize', () => {
         const newFooterHeight2 = elFooter.offsetHeight;
 
-        setFooterHeight(newFooterHeight2);
+        setFooterHeight(newFooterHeight2 || 44);
       });
     }, 1000);
 

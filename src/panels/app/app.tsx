@@ -79,7 +79,10 @@ const AppPage: FC = () => {
           <FoodsPanel setCurrentFood={setCurrentFood} />
         </Panel>
         <Panel id="main-panel">
-          <MainPanel setCurrentRecipe={setCurrentRecipe} />
+          <MainPanel
+            currentRecipeData={currentRecipeData}
+            setCurrentRecipe={setCurrentRecipe}
+          />
         </Panel>
         <RecipePanel
           currentRecipeData={currentRecipeData}

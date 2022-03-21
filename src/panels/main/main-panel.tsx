@@ -10,12 +10,13 @@ import Layout from '../../components/layout/layout';
 import Button from '../../components/button/button';
 import AccountContext from '../../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../../services/account.service';
-import { RECIPE, Recipe } from '../../services/recipe';
+import { RECIPE, Recipe, RecipeData } from '../../services/recipe';
 import { recipes } from '../../db/partner-recipes';
 import SectionTitle from '../../components/section-title/section-title';
 import useScroll from '../../hooks/use-scroll';
 import ChefSvg from '../../assets/svg/history/chef.svg';
 import './main-panel.scss';
+import { ListItem } from '../../components/list-item/list-item';
 
 const useStyles = makeStyles({
   listItem: {
@@ -27,9 +28,10 @@ const useStyles = makeStyles({
   },
 });
 
-const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
-  setCurrentRecipe,
-}) => {
+const MainPanel: FC<{
+  setCurrentRecipe(recipe: Recipe): void;
+  currentRecipeData: RecipeData;
+}> = ({ setCurrentRecipe, currentRecipeData }) => {
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
   const alphabeticalRecipes = account.recipes.sort((a, b) => {
@@ -53,14 +55,15 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
   function renderItem(recipe: Recipe) {
     return (
       // eslint-disable-next-line
-      <li
+      <ListItem
         // eslint-disable-next-line
+        isAction
+        isActive={recipe.id === currentRecipeData.id}
         tabIndex={0}
         onClick={() => handleClickLink(recipe)}
-        className="list__item"
       >
         {capitalize(recipe.name)}
-      </li>
+      </ListItem>
     );
   }
 
@@ -80,18 +83,26 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
     >
       <Grid container spacing={4}>
         <Grid item xs={12}>
-          <SectionTitle>Minhas receitas</SectionTitle>
-          <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
-          <Box display="flex" justifyContent="center">
-            <Button
-              color="secondary"
-              variant="outlined"
-              onClick={() => setCurrentRecipe(RECIPE)}
-            >
-              <IoAddCircleOutline />
-              adicionar nova receita
-            </Button>
-          </Box>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <SectionTitle>Minhas receitas</SectionTitle>
+            </Grid>
+            <Grid item xs={12}>
+              <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
+            </Grid>
+            <Grid item xs={12}>
+              <Box display="flex" justifyContent="center">
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  onClick={() => setCurrentRecipe(RECIPE)}
+                >
+                  <IoAddCircleOutline />
+                  adicionar nova receita
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <SectionTitle>Receitas de futuros parceiros</SectionTitle>
