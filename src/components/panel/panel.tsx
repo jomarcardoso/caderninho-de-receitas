@@ -17,19 +17,19 @@ const useStyles = makeStyles({
     // backgroundImage: 'url(/images/textures/paper-texture.png)',
     minHeight: '100%',
     position: 'relative',
+    backgroundImage: 'url(/images/textures/paper-texture.png)',
 
-    '&:before': {
-      display: 'block',
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundImage: 'url(/images/textures/paper-texture.png)',
-      filter: 'contrast(1.1)',
-      zIndex: -1,
-    },
+    // '&:before': {
+    //   display: 'block',
+    //   content: '""',
+    //   position: 'absolute',
+    //   top: 0,
+    //   left: 0,
+    //   width: '100%',
+    //   height: '100%',
+    //   filter: 'contrast(1.1)',
+    //   zIndex: -1,
+    // },
   },
 });
 

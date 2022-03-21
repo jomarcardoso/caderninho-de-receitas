@@ -175,6 +175,7 @@ const Page: FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    let contBarInterval = 0;
     const interval = setInterval(() => {
       const elHeader = document.querySelector('#header') as HTMLElement;
 
@@ -192,7 +193,7 @@ const Page: FC = ({ children }) => {
 
         setHeaderHeight(newHeaderHeight2);
       });
-    }, 100);
+    }, 1000);
 
     const intervalFooter = setInterval(() => {
       const elFooter = document.querySelector('.footer') as HTMLElement;
@@ -211,8 +212,20 @@ const Page: FC = ({ children }) => {
 
         setFooterHeight(newFooterHeight2);
       });
-    }, 100);
-  });
+    }, 1000);
+
+    const addressBarInterval = setInterval(() => {
+      contBarInterval += 1;
+
+      if (contBarInterval > 5) {
+        clearInterval(addressBarInterval);
+      }
+
+      setFooterHeight(
+        window.document.documentElement.offsetHeight - window.innerHeight,
+      );
+    }, 1000);
+  }, []);
 
   return (
     <div className={classes['@global']}>

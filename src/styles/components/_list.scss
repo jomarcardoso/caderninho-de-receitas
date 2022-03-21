@@ -1,0 +1,27 @@
+.list {
+  &__item {
+    display: block;
+    min-height: 44px;
+    padding: 10px;
+    text-overflow: ellipsis;
+    border-top: 1px solid #bbb;
+    width: 100%;
+    text-align: left;
+    mix-blend-mode: multiply;
+
+    &:last-child {
+      border-bottom: 1px solid #bbb;
+    }
+
+    &:active,
+    &:hover {
+      background-color: var(--color-light-main);
+      color: var(--color-dark-dark);
+      border-color: #999;
+
+      + .list__item {
+        border-top-color: #999;
+      }
+    }
+  }
+}

@@ -3,13 +3,8 @@ import { IoAddCircleOutline } from 'react-icons/io5';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import ListItem from '@mui/material/ListItem';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import ListItemText from '@mui/material/ListItemText';
-import TableRow from '@mui/material/TableRow';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import Button from '../../components/button/button';
@@ -57,17 +52,15 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
 
   function renderItem(recipe: Recipe) {
     return (
-      <TableRow key={recipe.id}>
-        <TableCell component="th" scope="row">
-          <ListItem
-            className={classes.listItem}
-            button
-            onClick={() => handleClickLink(recipe)}
-          >
-            <ListItemText primary={capitalize(recipe.name)} />
-          </ListItem>
-        </TableCell>
-      </TableRow>
+      // eslint-disable-next-line
+      <li
+        // eslint-disable-next-line
+        tabIndex={0}
+        onClick={() => handleClickLink(recipe)}
+        className="list__item"
+      >
+        {capitalize(recipe.name)}
+      </li>
     );
   }
 
@@ -88,11 +81,7 @@ const MainPanel: FC<{ setCurrentRecipe(recipe: Recipe): void }> = ({
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <SectionTitle>Minhas receitas</SectionTitle>
-          <TableContainer>
-            <Table className={classes.table} size="small">
-              <TableBody>{alphabeticalRecipes.map(renderItem)}</TableBody>
-            </Table>
-          </TableContainer>
+          <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
           <Box display="flex" justifyContent="center">
             <Button
               color="secondary"
