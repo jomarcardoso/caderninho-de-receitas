@@ -240,21 +240,19 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
         </div>
       </div>
       <div className="recipe-register__submit">
-        <Container>
-          <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <Button fullWidth color="secondary" onClick={onCancel}>
-                cancelar
-              </Button>
-            </Grid>
-            <Grid item xs={8}>
-              <SubmitComponent>
-                <IoSaveOutline />
-                salvar receita
-              </SubmitComponent>
-            </Grid>
+        <Grid container spacing={0}>
+          <Grid item xs={4}>
+            <Button fullWidth color="secondary" onClick={onCancel}>
+              cancelar
+            </Button>
           </Grid>
-        </Container>
+          <Grid item xs={8}>
+            <SubmitComponent>
+              <IoSaveOutline />
+              salvar receita
+            </SubmitComponent>
+          </Grid>
+        </Grid>
       </div>
     </Form>
   );

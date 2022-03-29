@@ -8,7 +8,7 @@
     color: variables.$color-white;
     border-top-left-radius: variables.$border-radius;
     border-top-right-radius: variables.$border-radius;
-    background-color: var(--color-primary-medium);
+    background-color: var(--color-primary-main);
     padding: 5px 16px 3px 16px;
     align-self: flex-start;
     font-size: 15px;
@@ -18,7 +18,7 @@
   }
 
   &__box {
-    border: 2px dashed variables.$color-primary-medium;
+    border: 2px dashed variables.$color-primary-main;
     padding: 12px 8px 0;
     border-radius: variables.$border-radius;
     border-top-left-radius: 0;

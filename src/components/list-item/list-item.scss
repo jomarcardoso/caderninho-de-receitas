@@ -7,9 +7,14 @@
   width: 100%;
   text-align: left;
   mix-blend-mode: multiply;
+  gap: 1rem;
 
   &__icon {
     color: var(--color-dark-light);
+  }
+
+  &__image {
+    width: 26px;
   }
 
   &:first-child {

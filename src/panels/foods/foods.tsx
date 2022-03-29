@@ -1,13 +1,4 @@
 import React, { FC, ReactElement, useCallback, useContext } from 'react';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
@@ -15,6 +6,8 @@ import FoodsContext from '../../contexts/foods-context';
 import { Food } from '../../services/food';
 import Button from '../../components/button/button';
 import './foods.scss';
+import { ListItem } from '../../components/list-item/list-item';
+import SectionTitle from '../../components/section-title/section-title';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -42,26 +35,14 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
     if (food.recipe) return null;
 
     return (
-      <TableRow key={food.name}>
-        <TableCell component="th" scope="row">
-          <ListItem
-            className="foods-panel__list-item"
-            button
-            onClick={() => setCurrentFood(food)}
-          >
-            <ListItemIcon className="foods-panel__icon">
-              <Image
-                className="foods-panel__img"
-                src={food.icon}
-                alt=""
-                transparent
-              />
-            </ListItemIcon>
-            <ListItemText primary={food.name} />
-          </ListItem>
-        </TableCell>
-        <TableCell align="right">{Math.round(food.calories)}</TableCell>
-      </TableRow>
+      <ListItem
+        isAction
+        className="list-item"
+        onClick={() => setCurrentFood(food)}
+        image={<Image src={food.icon} alt="" transparent />}
+      >
+        {food.name}
+      </ListItem>
     );
   }
 
@@ -75,18 +56,10 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
       showFooter={false}
       currentPage="FOODS"
       mainProps={{ my: 5 }}
+      className="foods-panel"
     >
-      <TableContainer>
-        <Table size="small" aria-label="tabela de alimentos">
-          <TableHead>
-            <TableRow>
-              <TableCell>Medida 100g</TableCell>
-              <TableCell align="right">Calorias</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{cuttedOrderedFoods.map(renderFood)}</TableBody>
-        </Table>
-      </TableContainer>
+      <SectionTitle opaque>Lista de alimentos</SectionTitle>
+      <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
       <Box display="flex" justifyContent="center" marginTop={4}>
         <Button color="secondary" onClick={handleShowMore}>
           mostrar mais
