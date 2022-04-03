@@ -139,6 +139,15 @@ export const mFoodData: Array<FoodData> = [
     type: 'oil',
   },
   {
+    ...formatNacional(foodListNacional[467] as unknown as FoodNacional),
+    name: 'Maria mole',
+    icon: '/images/food/marshmallows.png',
+    image:
+      'https://www.oetker.com.br/Recipe/Recipes/oetker.com.br/br-pt/dessert/image-thumb__70800__RecipeDetailsLightBox/maria-mole.jpg',
+    keys: ['maria-mole', 'marshmallow', 'marximelo'],
+    type: 'cake',
+  },
+  {
     ...formatMyFood(pasta as unknown as FoodMyFoodData),
     name: 'Massa gravatinha',
     icon: '/images/food/farfalle.png',

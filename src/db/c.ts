@@ -32,13 +32,51 @@ export const cFoodData: Array<FoodData> = [
     type: 'powder',
   },
   {
+    ...formatNacional(foodListNacional[473] as unknown as FoodNacional),
+    name: 'Cachaça',
+    icon: '/images/food/liquor.png',
+    image:
+      'https://www.cachacariadosamigos.com.br/smart/modulos/blog/imagens/grande/quais-sao-as-caracteristicas-de-uma-cachaca-boa_60-45.jpg',
+    keys: ['cachaça', 'aguardente', 'cachaça de cana', 'aguardente de cana'],
+    type: 'liquid',
+  },
+  {
+    ...mergeWith(
+      formatNacional(foodListNacional[472] as unknown as FoodNacional),
+      formatMyFood(coffee as unknown as FoodMyFoodData),
+      verifyQuantity,
+    ),
+    name: 'Café passado',
+    description: 'Café infusão 10%.',
+    icon: '/images/food/coffee.png',
+    image:
+      'https://loucodocafe.com.br/wp-content/uploads/2019/09/como-coar-cafe-02-e1568171389779-1280x720.jpg',
+    keys: [
+      'café',
+      'café passado',
+      'café de infusão',
+      'café de infusão 10%',
+      'café infusão',
+    ],
+    type: 'powder',
+  },
+  {
     ...formatMyFood(coffee as unknown as FoodMyFoodData),
     name: 'Café moído',
     icon: '/images/food/coffee.png',
     image:
       'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=871&q=80',
-    keys: ['café', 'grão de café', 'grãos de café', 'café moído'],
+    keys: ['grão de café', 'grãos de café', 'café moído'],
     type: 'powder',
+  },
+  {
+    ...formatNacional(foodListNacional[474] as unknown as FoodNacional),
+    name: 'Caldo de cana',
+    icon: '/images/food/lemon-juice.png',
+    image:
+      'https://comeraprender.com.br/wp-content/uploads/2019/07/shutterstock_348902039-1-1200x675.jpg',
+    keys: ['caldo de cana'],
+    type: 'liquid',
   },
   {
     ...formatMyFood(cinnamon as unknown as FoodMyFoodData),
@@ -184,12 +222,30 @@ export const cFoodData: Array<FoodData> = [
     type: 'root',
   },
   {
-    ...formatNacional(foodListNacional[474] as unknown as FoodNacional),
+    ...formatNacional(foodListNacional[475] as unknown as FoodNacional),
+    name: 'Cerveja pilsen',
+    icon: '/images/food/beer.svg',
+    image:
+      'https://blog.todovino.com.br/wp-content/uploads/2020/01/cerveja-pilsen1.jpg',
+    keys: ['cerveja'],
+    type: 'liquid',
+  },
+  {
+    ...formatNacional(foodListNacional[476] as unknown as FoodNacional),
     name: 'Chá de erva-doce',
+    description: 'Chá de erva-doce(Pimpinella anisum), infusão 5%',
     icon: '/images/food/anise.png',
     image:
       'https://diariodonordeste.verdesmares.com.br/image/contentid/policy:7.4537296:1625738451/erva-doce%201.jpeg?f=default&$p$f=bacd656',
-    keys: ['chá de erva-doce', 'erva-doce', 'erva doce'],
+    keys: [
+      'chá de erva-doce',
+      'erva-doce',
+      'erva doce',
+      'anis-verde',
+      'anis verde',
+      'pimpinela-branca',
+      'pimpinela branca',
+    ],
     type: 'liquid',
   },
   {

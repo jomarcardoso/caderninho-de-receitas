@@ -1,6 +1,7 @@
+import mergeWith from 'lodash/mergeWith';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { formatMyFood, formatNacional } from './utils';
+import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import {
   zucchini,
@@ -73,13 +74,32 @@ export const aFoodData: Array<FoodData> = [
     type: 'fruit',
   },
   {
-    ...formatMyFood(sugarData as unknown as FoodMyFoodData),
+    ...formatNacional(foodListNacional[492] as unknown as FoodNacional),
+    name: 'Achocolatado em pó',
+    icon: '/images/food/cocoa.png',
+    image:
+      'https://amochocolate.net/wp-content/uploads/2019/12/Diferen%C3%A7a-entre-chocolate-em-p%C3%B3-e-achocolatado-1.jpg',
+    keys: ['achocoltado', 'achocolatado em pó', 'nescau'],
+    type: 'powder',
+  },
+  {
+    ...mergeWith(
+      formatNacional(foodListNacional[495] as unknown as FoodNacional),
+      formatMyFood(sugarData as unknown as FoodMyFoodData),
+      verifyQuantity,
+    ),
     name: 'Açúcar branco',
     gi: 92,
     icon: '/images/food/sugar.svg',
     image: 'https://udop.com.br/u_img/noticias/2020/acucar33.jpg',
     unitOfMeasurement: 'gram',
-    keys: ['açúcar', 'açucar'],
+    keys: [
+      'açúcar',
+      'açucar',
+      'açúcar refinado',
+      'açúcar branco',
+      'açucar refinado',
+    ],
     oneMeasures: [
       {
         quantity: 160,
@@ -97,7 +117,20 @@ export const aFoodData: Array<FoodData> = [
     type: 'powder',
   },
   {
-    ...formatMyFood(brownSugar as unknown as FoodMyFoodData), // TODO: precisa diferenciar do açúcar branco
+    ...formatNacional(foodListNacional[493] as unknown as FoodNacional),
+    name: 'Açúcar cristal',
+    icon: '/images/food/sugar.svg',
+    image:
+      'https://www.planusi.com.br/admin/public/img/thumb-precos-do-acucar-cristal-seguem-em-alta-no-spot-paulista-9773361543.png',
+    keys: ['açúcar cristal', 'açucar cristal'],
+    type: 'powder',
+  },
+  {
+    ...mergeWith(
+      formatNacional(foodListNacional[494] as unknown as FoodNacional),
+      formatMyFood(brownSugar as unknown as FoodMyFoodData), // TODO: precisa diferenciar do açúcar branco
+      verifyQuantity,
+    ),
     name: 'Açúcar mascavo',
     gi: 80,
     icon: '/images/food/sugar.svg', // TODO: precisa diferenciar do açúcar branco
@@ -136,13 +169,33 @@ export const aFoodData: Array<FoodData> = [
     type: 'liquid',
   },
   {
-    ...formatMyFood(coconutWater as unknown as FoodMyFoodData),
+    ...mergeWith(
+      formatNacional(foodListNacional[479] as unknown as FoodNacional),
+      formatMyFood(coconutWater as unknown as FoodMyFoodData),
+      verifyQuantity,
+    ),
     name: 'Água de coco',
     icon: '/images/food/coconut-water.png',
     image:
       'https://media.istockphoto.com/photos/coconut-drink-with-pulp-in-glass-on-wooden-table-picture-id526133774?b=1&k=20&m=526133774&s=170667a&w=0&h=0OifDfpyMrzYuy2fy-D-FRlucUJx2IjXJGK47vk4X7s=',
     keys: ['coco', 'agua de coco', 'água de coco'],
     type: 'liquid',
+  },
+  {
+    ...formatNacional(foodListNacional[480] as unknown as FoodNacional),
+    name: 'Água tônica',
+    description: 'Refrigerante água tônica',
+    icon: '/images/food/baking-soda.png',
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTPmrat6BsytvikRaNJtzOjhJYVqm3qDECfA&usqp=CAU',
+    keys: [
+      'agua tonica',
+      'água tonica',
+      'tônica',
+      'tonica',
+      'água tônica',
+      'refrigerante tônico',
+    ],
   },
   {
     ...formatMyFood(cassava as unknown as FoodMyFoodData),
