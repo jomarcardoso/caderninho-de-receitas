@@ -1,4 +1,12 @@
-import React, { FC, ReactElement, useCallback, useContext } from 'react';
+import React, {
+  FC,
+  FormEventHandler,
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import Box from '@mui/material/Box';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
@@ -8,16 +16,34 @@ import Button from '../../components/button/button';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import SectionTitle from '../../components/section-title/section-title';
+import Field from '../../components/field/field';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
 }
 
+let timeoutSearch: NodeJS.Timeout;
+
 const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
   const foods = useContext(FoodsContext);
-  const [quantityToShow, setQuantityToShow] = React.useState(40);
+  const [quantityToShow, setQuantityToShow] = useState(40);
+  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
 
-  const orderedFoods = foods.sort((a, b) => {
+  let searchedFoods = [...foods];
+
+  if (search) {
+    searchedFoods = foods.filter(
+      (food) =>
+        food.name.toLowerCase().includes(search.toLowerCase()) ||
+        food.description.toLowerCase().includes(search.toLowerCase()) ||
+        food.keys.some((key) =>
+          key.toLowerCase().includes(search.toLowerCase()),
+        ),
+    );
+  }
+
+  const orderedFoods = searchedFoods.sort((a, b) => {
     if (a.name > b.name) {
       return 1;
     }
@@ -50,6 +76,18 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
     setQuantityToShow(quantityToShow + 40);
   }, [quantityToShow]);
 
+  const handleChangeFilter: FormEventHandler<HTMLInputElement> = (event) => {
+    setSearchInput((event.target as HTMLInputElement).value);
+  };
+
+  useEffect(() => {
+    clearTimeout(timeoutSearch);
+
+    timeoutSearch = setTimeout(() => {
+      setSearch(searchInput);
+    }, 500);
+  }, [searchInput]);
+
   return (
     <Layout
       showHeader={false}
@@ -59,12 +97,21 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
       className="foods-panel"
     >
       <SectionTitle opaque>Lista de alimentos</SectionTitle>
+      <Field
+        placeholder="buscar"
+        onChange={handleChangeFilter}
+        breakline={false}
+        onErase={() => setSearchInput('')}
+        value={searchInput}
+      />
       <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
-      <Box display="flex" justifyContent="center" marginTop={4}>
-        <Button color="secondary" onClick={handleShowMore}>
-          mostrar mais
-        </Button>
-      </Box>
+      {orderedFoods.length >= quantityToShow && (
+        <Box display="flex" justifyContent="center" marginTop={4}>
+          <Button color="secondary" onClick={handleShowMore}>
+            mostrar mais
+          </Button>
+        </Box>
+      )}
     </Layout>
   );
 };

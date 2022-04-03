@@ -19,6 +19,8 @@
 
   &__box {
     border: 2px dashed variables.$color-primary-main;
+    display: flex;
+    align-items: center;
     padding: 12px 8px 0;
     border-radius: variables.$border-radius;
     border-top-left-radius: 0;
@@ -35,6 +37,12 @@
     border: 0;
     padding: 0;
 
+    &::placeholder {
+      color: var(--color-dark-light);
+      font-family: variables.$font-family-text;
+      letter-spacing: 1px;
+    }
+
     &::selection {
       color: var(--color-dark-dark);
       background: var(--color-secondary-light);
@@ -48,6 +56,16 @@
   &__hint {
     margin-top: 2px;
     font-size: 13px;
+  }
+
+  &__action {
+    display: flex;
+    padding-left: 1rem;
+  }
+
+  &__icon {
+    width: 26px;
+    height: 26px;
   }
 
   &--multiline {
@@ -79,6 +97,18 @@
       .field__input {
         background-image: url('/images/textures/linned-sheet-texture-focus.svg');
       }
+    }
+  }
+
+  &--no-label {
+    .field__box {
+      border-radius: variables.$border-radius;
+    }
+  }
+
+  &--no-breakline {
+    .field__box {
+      padding: 12px 8px;
     }
   }
 }
