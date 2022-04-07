@@ -92,6 +92,23 @@ export const qFoodData: Array<FoodData> = [
     type: 'cheese',
   },
   {
+    ...formatNacional(foodListNacional[441] as unknown as FoodNacional),
+    name: 'Quibe assado',
+    icon: '/images/food/cake.svg',
+    image: 'https://cdn.panelinha.com.br/receita/1564765785453-quibe.jpg',
+    keys: ['quibe assado'],
+    type: 'solid',
+  },
+  {
+    ...formatNacional(foodListNacional[443] as unknown as FoodNacional),
+    name: 'Quibe frito',
+    icon: '/images/food/quibe.png',
+    image:
+      'https://salgadosdesucesso.com.br/wp-content/uploads/2019/02/receita-de-quibe-frito-1200x900.jpg',
+    keys: ['quibe frito', 'quibe'],
+    type: 'solid',
+  },
+  {
     ...formatNacional(foodListNacional[468] as unknown as FoodNacional),
     name: 'Ricota',
     icon: '/images/food/ricotta.png',

@@ -43,6 +43,20 @@ export const fFoodData: Array<FoodData> = [
     type: 'powder',
   },
   {
+    ...formatNacional(foodListNacional[35] as unknown as FoodNacional),
+    name: 'Farinha de rosca',
+    icon: '/images/food/wheat-flour.svg',
+    image:
+      'https://img.itdg.com.br/tdg/images/blog/uploads/2017/09/shutterstock_170955137.jpg?w=1200',
+    keys: [
+      'farinha de rosca',
+      'farinha de pão',
+      'farinha de pães',
+      'pão ralado',
+      'pão seco moído',
+    ],
+  },
+  {
     ...formatMyFood(wheatFlourData as unknown as FoodMyFoodData),
     name: 'Farinha de trigo',
     gi: 85,

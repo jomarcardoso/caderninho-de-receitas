@@ -271,4 +271,17 @@ export const mFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
     type: 'fruit',
   },
+  {
+    name: 'Muhammara',
+    image:
+      'https://cdn.panelinha.com.br/receita/1608246532491-Muhammara_receita.jpg',
+    keys: [
+      'muhammara',
+      'pasta de pimentão',
+      'pasta de pimentão vermelho',
+      'muhamara',
+      'mhammara',
+    ],
+    recipe: true,
+  },
 ];

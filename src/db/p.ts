@@ -54,6 +54,37 @@ export const pFoodData: Array<FoodData> = [
     type: 'powder',
   },
   {
+    ...formatNacional(foodListNacional[377] as unknown as FoodNacional),
+    name: 'Patinho',
+    icon: '/images/food/meat-steak.svg',
+    image:
+      'https://s.cornershopapp.com/product-images/2660452.jpg?versionId=BnVK8BbjHmNiGVF3YvP8nYkZs4fDnYIr',
+    keys: [
+      'patinho',
+      'carne moída',
+      'patinho moído',
+      'carne patinho',
+      'carne de patinho',
+    ],
+    type: 'meat',
+  },
+  {
+    ...formatNacional(foodListNacional[378] as unknown as FoodNacional),
+    name: 'Patinho grelhado',
+    icon: '/images/food/meat-steak.svg',
+    image:
+      'https://www.kitano.com.br/wp-content/uploads/2019/07/SSP_2546-Contra-file%E2%95%A0%C3%BC-na-manteiga-e-alecrim.jpg',
+    keys: [
+      'patinho grelhado',
+      'patinho assado',
+      'carne de patinho grelhado',
+      'carne de patinho assado',
+      'patinho assada',
+      'patinho assado',
+    ],
+    type: 'meat',
+  },
+  {
     ...formatMyFood(ham as unknown as FoodMyFoodData),
     name: 'Peito de peru defumado',
     icon: '/images/food/ham.svg',
@@ -176,12 +207,42 @@ export const pFoodData: Array<FoodData> = [
     type: 'powder',
   },
   {
-    ...formatNacional(foodListNacional[141] as unknown as FoodNacional),
+    ...formatNacional(foodListNacional[144] as unknown as FoodNacional),
     name: 'Pimentão amarelo',
     icon: '/images/food/paprika.png',
     image:
       'https://agrodomingues.com.br/wp-content/uploads/2020/10/paprika-yellow-vegetables-318208.jpg',
-    keys: ['pimentão', 'pimentão amarelo', 'pimentões amarelos'],
+    keys: ['pimentão amarelo', 'pimentões amarelos', 'pimentões amarelo'],
+    oneMeasures: [
+      {
+        quantity: 215,
+        type: 'UNITY',
+      },
+    ],
+    type: 'fruit',
+  },
+  {
+    ...formatNacional(foodListNacional[145] as unknown as FoodNacional),
+    name: 'Pimentão verde',
+    icon: '/images/food/paprika.png',
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmkxpDwz0UbKAHT7Yp0Qfo_37-sxuk50wlBw&usqp=CAU',
+    keys: ['pimentão', 'pimentão verde', 'pimentões verdes', 'pimentões'],
+    oneMeasures: [
+      {
+        quantity: 215,
+        type: 'UNITY',
+      },
+    ],
+    type: 'fruit',
+  },
+  {
+    ...formatNacional(foodListNacional[146] as unknown as FoodNacional),
+    name: 'Pimentão vermelho',
+    icon: '/images/food/paprika.png',
+    image:
+      'https://cdn.awsli.com.br/800x800/998/998380/produto/36868381/1c91e001cd.jpg',
+    keys: ['pimentão vermelho', 'pimentões vermelhos', 'pimentões vermelho'],
     oneMeasures: [
       {
         quantity: 215,
