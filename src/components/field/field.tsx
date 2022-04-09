@@ -4,24 +4,32 @@ import React, {
   ReactNode,
   useState,
   ChangeEventHandler,
+  ChangeEvent,
+  FormEvent,
 } from 'react';
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from '@mui/material/TextareaAutosize';
+import { IoCloseCircleOutline } from 'react-icons/io5';
 import './field.scss';
 
 interface Props {
   rootProps?: HTMLProps<HTMLDivElement>;
   labelProps?: HTMLProps<HTMLLabelElement>;
-  label: HTMLProps<HTMLLabelElement>['children'];
+  label?: HTMLProps<HTMLLabelElement>['children'];
   multiline?: boolean;
+  breakline?: boolean;
   hint?: ReactNode;
+  onErase?(): void;
 }
 
-export type FieldProps = TextareaAutosizeProps & Props;
+export type FieldProps = (TextareaAutosizeProps | HTMLProps<HTMLInputElement>) &
+  Props;
 
 const Field: FC<FieldProps> = ({
   multiline = false,
+  breakline = true,
+  onErase,
   labelProps,
   rootProps,
   label,
@@ -41,26 +49,70 @@ const Field: FC<FieldProps> = ({
     classes = `${classes} field--focused`;
   }
 
-  const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+  if (!label) {
+    classes = `${classes} field--no-label`;
+  }
+
+  if (!onErase) {
+    classes = `${classes} field--no-erasable`;
+  }
+
+  if (!breakline) {
+    classes = `${classes} field--no-breakline`;
+  }
+
+  const handleChange: ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = (event) => {
     if (props.onChange) {
-      props.onChange(event);
+      props.onChange(
+        event as ChangeEvent<HTMLTextAreaElement> & FormEvent<HTMLInputElement>,
+      );
     }
   };
 
   return (
     <div className={classes} {...rootProps}>
-      <label className="field__label" htmlFor={inputId} {...labelProps}>
-        {label}
-      </label>
+      <img
+        src="/images/textures/linned-sheet-texture.svg"
+        alt=""
+        width="0"
+        height="0"
+      />
+      {label && (
+        <label className="field__label" htmlFor={inputId} {...labelProps}>
+          {label}
+        </label>
+      )}
       <label htmlFor={inputId} className="field__box">
-        <TextareaAutosize
-          className="field__input"
-          minRows={1}
-          {...props}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          onChange={handleChange}
-        />
+        {breakline ? (
+          <TextareaAutosize
+            className="field__input"
+            minRows={1}
+            {...(props as TextareaAutosizeProps)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            onChange={handleChange}
+          />
+        ) : (
+          <input
+            type="text"
+            className="field__input"
+            {...(props as HTMLProps<HTMLInputElement>)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            onChange={handleChange}
+          />
+        )}
+        {onErase && (
+          <button
+            className="field__action"
+            type="button"
+            onClick={() => onErase()}
+          >
+            <IoCloseCircleOutline className="field__icon" />
+          </button>
+        )}
       </label>
       {hint && <div className="field__hint">{hint}</div>}
     </div>

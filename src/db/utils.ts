@@ -22,7 +22,7 @@ export function verifyQuantity<T>(objValue: T, srcValue: T): T {
 
 export function formatNacional(food: FoodNacional): FoodData {
   return {
-    name: food?.description,
+    name: food?.description.replace(/,/g, ''),
     acidification: 0,
     calories: !isString(food?.attributes?.energy?.kcal)
       ? food?.attributes?.energy?.kcal ?? 0
@@ -115,7 +115,7 @@ export function formatNacional(food: FoodNacional): FoodData {
   };
 }
 
-export function format(food: FoodMyFoodData): FoodData {
+export function formatMyFood(food: FoodMyFoodData): FoodData {
   return {
     saturedFats: food.FASAT,
     calories: food.ENERC_KCAL,

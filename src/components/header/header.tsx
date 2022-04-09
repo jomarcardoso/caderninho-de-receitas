@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import SvgIcon from '@mui/material/SvgIcon';
-import CloseIcon from '../../assets/svg/close-light.svg';
+import { IoClose } from 'react-icons/io5';
 import './header.scss';
 
 export interface HeaderProps {
@@ -53,7 +53,7 @@ const Header: FC<HeaderProps & AppBarProps> = ({
               color={theme === 'dark' ? 'inherit' : 'secondary'}
             >
               <SvgIcon>
-                <CloseIcon />
+                <IoClose />
               </SvgIcon>
             </IconButton>
           )}

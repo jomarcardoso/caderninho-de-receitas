@@ -1,13 +1,12 @@
-import React, { FC, ReactElement, useCallback, useContext } from 'react';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import React, {
+  FC,
+  FormEventHandler,
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import Box from '@mui/material/Box';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
@@ -15,16 +14,36 @@ import FoodsContext from '../../contexts/foods-context';
 import { Food } from '../../services/food';
 import Button from '../../components/button/button';
 import './foods.scss';
+import { ListItem } from '../../components/list-item/list-item';
+import SectionTitle from '../../components/section-title/section-title';
+import Field from '../../components/field/field';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
 }
 
+let timeoutSearch: NodeJS.Timeout;
+
 const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
   const foods = useContext(FoodsContext);
-  const [quantityToShow, setQuantityToShow] = React.useState(40);
+  const [quantityToShow, setQuantityToShow] = useState(40);
+  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
 
-  const orderedFoods = foods.sort((a, b) => {
+  let searchedFoods = [...foods];
+
+  if (search) {
+    searchedFoods = foods.filter(
+      (food) =>
+        food.name.toLowerCase().includes(search.toLowerCase()) ||
+        food.description.toLowerCase().includes(search.toLowerCase()) ||
+        food.keys.some((key) =>
+          key.toLowerCase().includes(search.toLowerCase()),
+        ),
+    );
+  }
+
+  const orderedFoods = searchedFoods.sort((a, b) => {
     if (a.name > b.name) {
       return 1;
     }
@@ -42,21 +61,14 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
     if (food.recipe) return null;
 
     return (
-      <TableRow key={food.name}>
-        <TableCell component="th" scope="row">
-          <ListItem
-            className="foods-panel__list-item"
-            button
-            onClick={() => setCurrentFood(food)}
-          >
-            <ListItemIcon className="foods-panel__icon">
-              <Image className="foods-panel__img" src={food.icon} alt="" />
-            </ListItemIcon>
-            <ListItemText primary={food.name} />
-          </ListItem>
-        </TableCell>
-        <TableCell align="right">{Math.round(food.calories)}</TableCell>
-      </TableRow>
+      <ListItem
+        isAction
+        className="list-item"
+        onClick={() => setCurrentFood(food)}
+        image={<Image src={food.icon} alt="" transparent />}
+      >
+        {food.name}
+      </ListItem>
     );
   }
 
@@ -64,29 +76,42 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
     setQuantityToShow(quantityToShow + 40);
   }, [quantityToShow]);
 
+  const handleChangeFilter: FormEventHandler<HTMLInputElement> = (event) => {
+    setSearchInput((event.target as HTMLInputElement).value);
+  };
+
+  useEffect(() => {
+    clearTimeout(timeoutSearch);
+
+    timeoutSearch = setTimeout(() => {
+      setSearch(searchInput);
+    }, 500);
+  }, [searchInput]);
+
   return (
     <Layout
       showHeader={false}
       showFooter={false}
       currentPage="FOODS"
       mainProps={{ my: 5 }}
+      className="foods-panel"
     >
-      <TableContainer>
-        <Table size="small" aria-label="tabela de alimentos">
-          <TableHead>
-            <TableRow>
-              <TableCell>Medida 100g</TableCell>
-              <TableCell align="right">Calorias</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{cuttedOrderedFoods.map(renderFood)}</TableBody>
-        </Table>
-      </TableContainer>
-      <Box display="flex" justifyContent="center" marginTop={4}>
-        <Button color="secondary" onClick={handleShowMore}>
-          mostrar mais
-        </Button>
-      </Box>
+      <SectionTitle opaque>Lista de alimentos</SectionTitle>
+      <Field
+        placeholder="buscar"
+        onChange={handleChangeFilter}
+        breakline={false}
+        onErase={() => setSearchInput('')}
+        value={searchInput}
+      />
+      <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
+      {orderedFoods.length >= quantityToShow && (
+        <Box display="flex" justifyContent="center" marginTop={4}>
+          <Button color="secondary" onClick={handleShowMore}>
+            mostrar mais
+          </Button>
+        </Box>
+      )}
     </Layout>
   );
 };

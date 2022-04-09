@@ -29,6 +29,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
+    "react-icons": "^4.3.1",
     "sass": "^1.49.8"
   },
   "devDependencies": {
@@ -49,6 +50,7 @@
   "scripts": {
     "lint": "eslint src/**/*.{js,ts,tsx} --fix",
     "build": "gatsby build",
+    "deploy": "rm -rf public && yarn build && yarn lint && yarn test && yarn tsc && surge -p ./public -d saude-em-pontos.surge.sh",
     "dev": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "yarn dev",

@@ -204,5 +204,6 @@ export function format(data?: FoodData): Food {
     rawId: data?.id ?? FOOD.rawId,
     cholesterol: data?.cholesterol ?? FOOD.cholesterol,
     recipe: data?.recipe ?? FOOD.recipe,
+    type: data?.type ?? FOOD.type,
   };
 }

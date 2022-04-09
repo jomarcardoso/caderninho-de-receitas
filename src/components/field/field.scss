@@ -1,28 +1,26 @@
 @use '../../styles/utils/variables';
 
-.caderninho .field {
+.field {
   display: flex;
   flex-direction: column;
-
-  &::before {
-    content: '';
-    background-image: url(/images/textures/linned-sheet-texture-focus.svg);
-  }
 
   &__label {
     color: variables.$color-white;
     border-top-left-radius: variables.$border-radius;
     border-top-right-radius: variables.$border-radius;
-    background-color: variables.$color-primary-medium;
+    background-color: var(--color-primary-main);
     padding: 5px 16px 3px 16px;
     align-self: flex-start;
     font-size: 15px;
     font-family: variables.$font-family-title;
     letter-spacing: 0.5px;
+    mix-blend-mode: multiply;
   }
 
   &__box {
-    border: 2px dashed variables.$color-primary-medium;
+    border: 2px dashed variables.$color-primary-main;
+    display: flex;
+    align-items: center;
     padding: 12px 8px 0;
     border-radius: variables.$border-radius;
     border-top-left-radius: 0;
@@ -33,11 +31,22 @@
     font-family: variables.$font-family-input;
     line-height: 31px;
     font-size: 22px;
-    color: variables.$color-dark-main;
+    color: var(--color-dark-main);
     resize: none;
     width: 100%;
     border: 0;
     padding: 0;
+
+    &::placeholder {
+      color: var(--color-dark-light);
+      font-family: variables.$font-family-text;
+      letter-spacing: 1px;
+    }
+
+    &::selection {
+      color: var(--color-dark-dark);
+      background: var(--color-secondary-light);
+    }
 
     &:focus {
       outline: none;
@@ -47,6 +56,16 @@
   &__hint {
     margin-top: 2px;
     font-size: 13px;
+  }
+
+  &__action {
+    display: flex;
+    padding-left: 1rem;
+  }
+
+  &__icon {
+    width: 26px;
+    height: 26px;
   }
 
   &--multiline {
@@ -61,7 +80,7 @@
     }
 
     .field__input {
-      background-image: url(/images/textures/linned-sheet-texture.svg);
+      background-image: url('/images/textures/linned-sheet-texture.svg');
     }
   }
 
@@ -76,8 +95,20 @@
 
     &.field--multiline {
       .field__input {
-        background-image: url(/images/textures/linned-sheet-texture-focus.svg);
+        background-image: url('/images/textures/linned-sheet-texture-focus.svg');
       }
+    }
+  }
+
+  &--no-label {
+    .field__box {
+      border-radius: variables.$border-radius;
+    }
+  }
+
+  &--no-breakline {
+    .field__box {
+      padding: 12px 8px;
     }
   }
 }

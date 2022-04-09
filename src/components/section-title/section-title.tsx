@@ -2,7 +2,14 @@ import React, { FC } from 'react';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import './section-title.scss';
 
-const SectionTitle: FC<TypographyProps<'h3'>> = ({
+interface Props {
+  opaque?: boolean;
+}
+
+export type SectionTitleProps = Props & TypographyProps<'h3'>;
+
+const SectionTitle: FC<SectionTitleProps> = ({
+  opaque = false,
   children = '',
   ...props
 }) => {
@@ -11,7 +18,7 @@ const SectionTitle: FC<TypographyProps<'h3'>> = ({
       variant="h2"
       component="h3"
       align="center"
-      className="section-title"
+      className={`section-title ${opaque ? 'section-title--opaque' : ''}`}
       {...props}
     >
       {children}

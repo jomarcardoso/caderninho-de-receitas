@@ -1,5 +1,5 @@
 import { FoodData } from '../services/food';
-import { format, formatNacional } from './utils';
+import { formatMyFood, formatNacional } from './utils';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { blackBean, whiteBean } from './src';
@@ -100,7 +100,7 @@ export const beansData: Array<FoodData> = [
     version: 'RAW',
   },
   {
-    ...format(blackBean as unknown as FoodMyFoodData),
+    ...formatMyFood(blackBean as unknown as FoodMyFoodData),
     ...formatNacional(foodListNacional[566] as unknown as FoodNacional),
     name: 'Feijão preto cozido',
     gi: 29,
@@ -125,7 +125,7 @@ export const beansData: Array<FoodData> = [
     version: 'BOILED',
   },
   {
-    ...format(blackBean as unknown as FoodMyFoodData),
+    ...formatMyFood(blackBean as unknown as FoodMyFoodData),
     ...formatNacional(foodListNacional[567] as unknown as FoodNacional),
     name: 'Feijão preto cru',
     gi: 29,
@@ -258,7 +258,7 @@ export const beansData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
   },
   {
-    ...format(whiteBean as unknown as FoodMyFoodData),
+    ...formatMyFood(whiteBean as unknown as FoodMyFoodData),
     name: 'feijão branco',
     icon: '/images/food/bean.svg',
     image:

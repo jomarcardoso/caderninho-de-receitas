@@ -113,25 +113,23 @@ function theme({ bgBody = '' }: Style) {
   });
 }
 
-const useStyles = ({ addressBarHeight = 0, headerHeight = 0 }) =>
+const useStyles = ({
+  addressBarHeight = 0,
+  headerHeight = 44,
+  footerHeight = 44,
+}) =>
   makeStyles({
     '@global': {
       body: {
         overflow: 'hidden',
       },
       ':root': {
-        '--color-primary-light': primary.light,
-        '--color-primary-main': primary.main,
-        '--color-primary-dark': primary.dark,
-        '--color-secondary-light': secondary.light,
-        '--color-secondary-main': secondary.main,
-        '--color-secondary-dark': secondary.dark,
-
         '--icon-color-primary': 'var(--color-secondary-main)',
         '--icon-color-secondary': 'var(--color-primary-main)',
 
         '--address-bar-height': `${addressBarHeight}px`,
         '--header-height': `${headerHeight}px`,
+        '--footer-height': `${footerHeight}px`,
       },
     },
   });
@@ -144,8 +142,10 @@ const Page: FC = ({ children }) => {
   const [, setReRender] = useState(false);
   const [loading, setLoading] = useState(false);
   const [addressBarHeight, setAddressBarHeight] = useState(0);
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const classes = useStyles({ addressBarHeight, headerHeight })();
+  const [headerHeight, setHeaderHeight] = useState(44);
+  const [footerHeight, setFooterHeight] = useState(44);
+
+  const classes = useStyles({ addressBarHeight, headerHeight, footerHeight })();
   const memoizedNavigation = useMemo(
     () => ({ stack: navigationStack, setStack: setNavigationStack }),
     [navigationStack],
@@ -176,6 +176,7 @@ const Page: FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    let contBarInterval = 0;
     const interval = setInterval(() => {
       const elHeader = document.querySelector('#header') as HTMLElement;
 
@@ -193,8 +194,39 @@ const Page: FC = ({ children }) => {
 
         setHeaderHeight(newHeaderHeight2);
       });
-    }, 100);
-  });
+    }, 1000);
+
+    const intervalFooter = setInterval(() => {
+      const elFooter = document.querySelector('.footer') as HTMLElement;
+
+      if (!elFooter) {
+        return;
+      }
+
+      clearInterval(intervalFooter);
+      const newFooterHeight = elFooter.offsetHeight;
+
+      setFooterHeight(newFooterHeight || 44);
+
+      elFooter.addEventListener('resize', () => {
+        const newFooterHeight2 = elFooter.offsetHeight;
+
+        setFooterHeight(newFooterHeight2 || 44);
+      });
+    }, 1000);
+
+    const addressBarInterval = setInterval(() => {
+      contBarInterval += 1;
+
+      if (contBarInterval > 5) {
+        clearInterval(addressBarInterval);
+      }
+
+      setFooterHeight(
+        window.document.documentElement.offsetHeight - window.innerHeight,
+      );
+    }, 1000);
+  }, []);
 
   return (
     <div className={classes['@global']}>

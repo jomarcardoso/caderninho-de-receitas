@@ -29,6 +29,7 @@ Problemas que a aplicação resolve:
 - [site com busca de alimentos dos aminoácidos](https://tools.myfooddata.com/nutrition-comparison.php?foods=173735&serv=100g&qty=1)
 - [json de alimento](https://tools.myfooddata.com/api/food/Eggs)
 - [TACO 4](https://www.cfn.org.br/wp-content/uploads/2017/03/taco_4_edicao_ampliada_e_revisada.pdf)
+- [pesos](https://endocrinosaude.com/tabela-de-calorias/frutas-e-castanhas-2/)
 
 ## Imagens
 
@@ -104,4 +105,8 @@ https://storyset.com/illustration/cooking/bro/animate?share=38930
 
 https://storyset.com/illustration/order-food/bro/animate?share=38946
 
+## Ícones
 
+https://ionic.io/ionicons
+
+https://react-icons.github.io/react-icons

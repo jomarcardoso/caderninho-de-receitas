@@ -17,9 +17,11 @@ export const MeasurerValues = {
   UNITY_LARGE: 'unidade grande',
   LITERAL: '',
   CAN: 'lata',
+  GLASS: 'vidro',
   BREAST: 'peito',
   CLOVE: 'dente',
   SLICE: 'fatia',
+  BUNCH: 'cacho',
 };
 
 export type Measurer = keyof typeof MeasurerValues;
@@ -35,13 +37,21 @@ export const MEASURE: Measure = {
 };
 
 export type FoodType =
-  | 'flour'
   | 'liquid'
   | 'seed'
-  | 'leaf'
+  | 'herb'
   | 'temper'
   | 'fruit'
-  | 'solid';
+  | 'solid'
+  | 'oil'
+  | 'legumen'
+  | 'flake'
+  | 'root'
+  | 'meat'
+  | 'vegetable'
+  | 'cake'
+  | 'cheese'
+  | 'powder';
 
 export interface Food {
   id: number;
@@ -72,6 +82,7 @@ export interface Food {
   rawId: number;
   recipe: boolean;
   icon: string;
+  type: FoodType;
 }
 
 export interface FoodData
@@ -120,4 +131,5 @@ export const FOOD: Food = {
   rawId: 0,
   recipe: false,
   icon: '',
+  type: 'solid',
 };

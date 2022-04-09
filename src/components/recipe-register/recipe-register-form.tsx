@@ -1,5 +1,6 @@
 import { Form, FieldArray, FormikProps } from 'formik';
 import React, { FC, useCallback, ChangeEventHandler } from 'react';
+import { IoDuplicateOutline, IoSaveOutline } from 'react-icons/io5';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -151,103 +152,107 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   return (
     <Form action="/" method="post">
       <div className="recipe-register__body">
-        <FieldArray name="steps">
-          {() => (
-            <>
-              {recipeData.id ? (
-                <div className="recipe-register__story-image">
-                  <CookSvg />
-                </div>
-              ) : (
+        <div className="recipe-register__wrapper">
+          <FieldArray name="steps">
+            {() => (
+              <>
+                {recipeData.id ? (
+                  <div className="recipe-register__story-image">
+                    <CookSvg />
+                  </div>
+                ) : (
+                  <Container>
+                    <PizzaSvg />
+                  </Container>
+                )}
                 <Container>
-                  <PizzaSvg />
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      {!recipeData.id ? (
+                        <p>
+                          Você está criando uma nova receita. Preencha os campos
+                          abaixo e pressione o botão salvar receita para criá-la
+                          e adicioná-la ao seu caderninho de receitas.
+                        </p>
+                      ) : (
+                        <p>
+                          Você está editando uma receita já existente. Preencha
+                          os campos abaixo e pressione o botão salvar receita
+                          para atualizá-la.
+                        </p>
+                      )}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        label="nome da receita"
+                        name="name"
+                        value={values.name}
+                        onChange={handleChange}
+                        onBlur={formikHandleBlur}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        multiline
+                        name="description"
+                        label="descrição"
+                        value={values.description}
+                        onChange={handleChange}
+                        onBlur={formikHandleBlur}
+                        minRows={2}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        multiline
+                        name="additional"
+                        label="informações adicionais"
+                        value={values.additional}
+                        onChange={handleChange}
+                        onBlur={formikHandleBlur}
+                        minRows={1}
+                      />
+                    </Grid>
+                    {memoizedRenderSteps()}
+                    <Grid item xs={12}>
+                      <Box justifyContent="center" display="flex">
+                        <Button
+                          type="button"
+                          color="secondary"
+                          variant="outlined"
+                          onClick={() =>
+                            setFieldValue(
+                              'quantitySteps',
+                              values.quantitySteps + 1,
+                            )
+                          }
+                        >
+                          <IoDuplicateOutline />
+                          adicionar outra etapa
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
                 </Container>
-              )}
-              <Container>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    {!recipeData.id ? (
-                      <p>
-                        Você está criando uma nova receita. Preencha os campos
-                        abaixo e pressione o botão salvar receita para criá-la e
-                        adicioná-la ao seu caderninho de receitas.
-                      </p>
-                    ) : (
-                      <p>
-                        Você está editando uma receita já existente. Preencha os
-                        campos abaixo e pressione o botão salvar receita para
-                        atualizá-la.
-                      </p>
-                    )}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      label="nome da receita"
-                      name="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      onBlur={formikHandleBlur}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      multiline
-                      name="description"
-                      label="descrição"
-                      value={values.description}
-                      onChange={handleChange}
-                      onBlur={formikHandleBlur}
-                      minRows={2}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      multiline
-                      name="additional"
-                      label="informações adicionais"
-                      value={values.additional}
-                      onChange={handleChange}
-                      onBlur={formikHandleBlur}
-                      minRows={1}
-                    />
-                  </Grid>
-                  {memoizedRenderSteps()}
-                  <Grid item xs={12}>
-                    <Box justifyContent="center" display="flex">
-                      <Button
-                        type="button"
-                        color="secondary"
-                        variant="outlined"
-                        onClick={() =>
-                          setFieldValue(
-                            'quantitySteps',
-                            values.quantitySteps + 1,
-                          )
-                        }
-                      >
-                        adicionar outra etapa
-                      </Button>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Container>
-            </>
-          )}
-        </FieldArray>
+              </>
+            )}
+          </FieldArray>
+        </div>
       </div>
       <div className="recipe-register__submit">
-        <Container>
-          <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <Button fullWidth color="secondary" onClick={onCancel}>
-                cancelar
-              </Button>
-            </Grid>
-            <Grid item xs={8}>
-              <SubmitComponent>salvar receita</SubmitComponent>
-            </Grid>
+        <Grid container spacing={0}>
+          <Grid item xs={4}>
+            <Button fullWidth color="secondary" onClick={onCancel}>
+              cancelar
+            </Button>
           </Grid>
-        </Container>
+          <Grid item xs={8}>
+            <SubmitComponent>
+              <IoSaveOutline />
+              salvar receita
+            </SubmitComponent>
+          </Grid>
+        </Grid>
       </div>
     </Form>
   );
