@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useContext, useMemo } from 'react';
-import Box from '@mui/material/Box';
+import Box, { BoxProps } from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import last from 'lodash/last';
 import Panel from '../../components/panel/panel';
@@ -17,6 +17,8 @@ import AccountContext from '../../contexts/account-context';
 import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
 
+export type AppProps = BoxProps;
+
 // to load with the page
 const useStyles = makeStyles({
   display: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles({
   },
 });
 
-const AppPage: FC = () => {
+const AppPage: FC<BoxProps> = (props) => {
   const classes = useStyles();
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
@@ -71,7 +73,7 @@ const AppPage: FC = () => {
         quantity={currentFoodQuantity}
       />
       <Header />
-      <Box className={classes.display} id="root-content">
+      <Box className={classes.display} id="root-content" {...props}>
         <Panel
           id="foods-panel"
           style={{ display: hideLeftPanel ? 'none' : 'initial' }}

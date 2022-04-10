@@ -10,7 +10,8 @@
     "jsx": "react",
     "target" : "esnext",
     "moduleResolution": "node",
-    "module": "ESNext"
+    "module": "ESNext",
+    "skipLibCheck": true
   },
   "include": [
     "src",

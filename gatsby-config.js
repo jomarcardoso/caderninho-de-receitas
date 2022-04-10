@@ -25,6 +25,12 @@ module.exports = {
         precachePages: [`/src/*`],
       },
     },
+    {
+      resolve: `gatsby-plugin-stylelint`,
+      options: {
+        files: ['src/**/*.scss'],
+      },
+    },
     'gatsby-plugin-eslint',
     `gatsby-theme-material-ui`,
     `gatsby-plugin-sass`,

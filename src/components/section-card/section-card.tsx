@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import Box, { BoxProps } from '@mui/material/Box';
 import Container from '../container/container';
 import './section-card.scss';
 
@@ -8,7 +8,9 @@ interface Props {
   title?: string;
 }
 
-const SectionCard: FC<Props> = ({ title = '', children }) => {
+export type SectionCardProps = BoxProps & Props;
+
+const SectionCard: FC<SectionCardProps> = ({ title = '', children }) => {
   return (
     <Box className="section-card" boxShadow={2}>
       {title && (

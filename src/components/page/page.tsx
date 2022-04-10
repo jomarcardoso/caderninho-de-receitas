@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, HTMLProps, useEffect, useMemo, useState } from 'react';
 // @ts-expect-error instalação esquisita
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ThemeTopLayout from 'gatsby-theme-material-ui-top-layout/src/components/top-layout';
@@ -134,7 +134,9 @@ const useStyles = ({
     },
   });
 
-const Page: FC = ({ children }) => {
+export type PageProps = HTMLProps<HTMLDivElement>;
+
+const Page: FC<PageProps> = ({ children, ...props }) => {
   const [navigationStack, setNavigationStack] = useState<string[]>([
     'main-panel',
   ]);
@@ -229,7 +231,7 @@ const Page: FC = ({ children }) => {
   }, []);
 
   return (
-    <div className={classes['@global']}>
+    <div {...props} className={classes['@global']}>
       <NavigationContext.Provider value={memoizedNavigation}>
         <StyleContext.Provider value={memoizedStyle}>
           <ThemeTopLayout theme={theme(style)}>

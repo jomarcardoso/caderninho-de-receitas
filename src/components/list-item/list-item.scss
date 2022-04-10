@@ -29,6 +29,10 @@
     border-color: #777;
     font-weight: bold;
 
+    + .list-item {
+      border-top-color: #777;
+    }
+
     &:first-child {
       border-top: 1px solid #777;
     }
@@ -38,11 +42,7 @@
     }
 
     .list-item__icon {
-      color: currentColor;
-    }
-
-    + .list-item {
-      border-top-color: #777;
+      color: currentcolor;
     }
   }
 

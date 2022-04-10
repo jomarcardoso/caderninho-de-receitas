@@ -1,4 +1,4 @@
-@use '../../styles/utils/variables';
+@use "../../styles/utils/variables";
 
 .field {
   display: flex;
@@ -9,7 +9,7 @@
     border-top-left-radius: variables.$border-radius;
     border-top-right-radius: variables.$border-radius;
     background-color: var(--color-primary-main);
-    padding: 5px 16px 3px 16px;
+    padding: 5px 16px 3px;
     align-self: flex-start;
     font-size: 15px;
     font-family: variables.$font-family-title;
@@ -80,7 +80,7 @@
     }
 
     .field__input {
-      background-image: url('/images/textures/linned-sheet-texture.svg');
+      background-image: url("/images/textures/linned-sheet-texture.svg");
     }
   }
 
@@ -95,7 +95,7 @@
 
     &.field--multiline {
       .field__input {
-        background-image: url('/images/textures/linned-sheet-texture-focus.svg');
+        background-image: url("/images/textures/linned-sheet-texture-focus.svg");
       }
     }
   }

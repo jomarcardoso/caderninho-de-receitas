@@ -1,4 +1,4 @@
-@use '../../styles/utils/variables';
+@use "../../styles/utils/variables";
 
 .caderninho .logo {
   text-align: justify;
@@ -15,7 +15,7 @@
   }
 
   &--active {
-    text-shadow: 0 0 1px currentColor;
+    text-shadow: 0 0 1px currentcolor;
 
     .logo__text-small {
       color: var(--color-primary-main);

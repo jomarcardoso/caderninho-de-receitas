@@ -35,5 +35,13 @@ module.exports = {
         next: ['const', 'let', 'var'],
       },
     ],
+
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
   },
 };
