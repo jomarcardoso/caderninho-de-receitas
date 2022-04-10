@@ -1204,11 +1204,6 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/cedarville-cursive@^4.5.3":
-  version "4.5.7"
-  resolved "https://registry.yarnpkg.com/@fontsource/cedarville-cursive/-/cedarville-cursive-4.5.7.tgz#29274e46428a0c0085844499a358c4063c8c3493"
-  integrity sha512-JS2YZKVsIjuQW/JUY7vBh8TVfsImo/mDWhzF5oRQx/tArsJNlcoCX0oOtF2uvSnNLA3VMojUaPE0sjZE9kylBA==
-
 "@fontsource/cinzel@^4.5.3":
   version "4.5.6"
   resolved "https://registry.yarnpkg.com/@fontsource/cinzel/-/cinzel-4.5.6.tgz#dbe39e8c3e362095080853957935c0f48d2950ba"
@@ -1218,6 +1213,11 @@
   version "4.5.7"
   resolved "https://registry.yarnpkg.com/@fontsource/dosis/-/dosis-4.5.7.tgz#68ab792ebea28412481f720ebfec8cda135fba37"
   integrity sha512-Xmh8nbjuKpbOt78iJAymIyTbffRdBUtx1yCATVeIO0mflunygedsgZd+ymKhFbItM3BqNN1BFt+vhg9LCviwRw==
+
+"@fontsource/vibur@^4.5.6":
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/@fontsource/vibur/-/vibur-4.5.6.tgz#5800f6b9399564b70615993b953cc66142311780"
+  integrity sha512-O/CUCXNOheNSdg1M4fghNnyRuX469IAts0UIqYI8dNtStzR8LVJFelyeThCSEWdVLl5HGQKp+tcMFTyZ/SDNog==
 
 "@gatsbyjs/parcel-namer-relative-to-cwd@0.0.2":
   version "0.0.2"
@@ -12560,6 +12560,11 @@ stylehacks@^5.1.0:
     browserslist "^4.16.6"
     postcss-selector-parser "^6.0.4"
 
+stylelint-config-prettier@^9.0.3:
+  version "9.0.3"
+  resolved "https://registry.yarnpkg.com/stylelint-config-prettier/-/stylelint-config-prettier-9.0.3.tgz#0dccebeff359dcc393c9229184408b08964d561c"
+  integrity sha512-5n9gUDp/n5tTMCq1GLqSpA30w2sqWITSSEiAWQlpxkKGAUbjcemQ0nbkRvRUa0B1LgD3+hCvdL7B1eTxy1QHJg==
+
 stylelint-config-recommended-scss@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-5.0.2.tgz#193f483861c76a36ece24c52eb6baca4838f4a48"
@@ -12588,6 +12593,13 @@ stylelint-config-standard@^24.0.0:
   integrity sha512-+RtU7fbNT+VlNbdXJvnjc3USNPZRiRVp/d2DxOF/vBDDTi0kH5RX2Ny6errdtZJH3boO+bmqIYEllEmok4jiuw==
   dependencies:
     stylelint-config-recommended "^6.0.0"
+
+stylelint-prettier@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/stylelint-prettier/-/stylelint-prettier-2.0.0.tgz#ead781aea522379f2ffa2d136bafdfc451d699a5"
+  integrity sha512-jvT3G+9lopkeB0ARmDPszyfaOnvnIF+30QCjZxyt7E6fynI1T9mOKgYDNb9bXX17M7PXMZaX3j/26wqakjp1tw==
+  dependencies:
+    prettier-linter-helpers "^1.0.0"
 
 stylelint-scss@^4.0.0, stylelint-scss@^4.2.0:
   version "4.2.0"
