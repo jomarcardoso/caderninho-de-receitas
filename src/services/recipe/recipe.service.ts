@@ -14,6 +14,8 @@ import {
   RECIPE_DATA,
   RECIPE_STEP,
   RECIPE_STEP_DATA,
+  RecipeToShare,
+  RecipeStepToShare,
 } from './recipe.types';
 
 export function calculateCalories(ingredients: Array<Ingredient> = []): number {
@@ -381,21 +383,84 @@ export function unFormat(recipe: Recipe): RecipeData {
   };
 }
 
-export function formatToShare(recipeData: RecipeData): string {
-  const copy = { ...recipeData };
+function formatStepToShare(step: RecipeStepData): RecipeStepToShare {
+  const stepToShare: RecipeStepToShare = {};
 
-  delete copy.id;
-  const json = JSON.stringify(recipeData);
+  if (step.additional) {
+    stepToShare.a = step.additional;
+  }
 
-  return new URLSearchParams({ recipeData: json }).toString();
+  if (step.ingredients) {
+    stepToShare.i = step.ingredients;
+  }
+
+  if (step.name) {
+    stepToShare.n = step.name;
+  }
+
+  if (step.preparation) {
+    stepToShare.p = step.preparation;
+  }
+
+  return stepToShare;
 }
 
-export function unFormatToShare(paramString: string): RecipeData {
-  const json = new URLSearchParams(paramString).get('recipeData') ?? 'null';
+export function formatToShare(recipeData: RecipeData): RecipeToShare {
+  const recipeToShare: RecipeToShare = {};
 
-  const recipeData: RecipeData = JSON.parse(json);
+  if (recipeData.additional) {
+    recipeToShare.a = recipeData.additional;
+  }
 
-  if (!recipeData?.id) {
+  if (recipeData.description) {
+    recipeToShare.d = recipeData.description;
+  }
+
+  if (recipeData.name) {
+    recipeToShare.n = recipeData.name;
+  }
+
+  if (recipeData.steps.length) {
+    recipeToShare.s = recipeData.steps.map(formatStepToShare);
+  }
+
+  return recipeToShare;
+}
+
+export function unformatToShare(recipeToShare: RecipeToShare): RecipeData {
+  return {
+    category: RECIPE_DATA.category,
+    description: recipeToShare.d ?? RECIPE_DATA.description,
+    additional: recipeToShare.a ?? RECIPE_DATA.additional,
+    name: recipeToShare.n ?? RECIPE_DATA.name,
+    steps:
+      recipeToShare.s?.map((step) => ({
+        name: step.n ?? RECIPE_STEP_DATA.name,
+        preparation: step.p ?? RECIPE_STEP_DATA.preparation,
+        ingredients: step.i ?? RECIPE_STEP_DATA.ingredients,
+        additional: step.a ?? RECIPE_STEP_DATA.additional,
+      })) ?? RECIPE_DATA.steps,
+  };
+}
+
+export function generateParamsToShare(recipeData: RecipeData): string {
+  const recipeToShare = formatToShare(recipeData);
+  const json = JSON.stringify(recipeToShare);
+  // const shortJSON = StringService.short(json);
+
+  return new URLSearchParams({ r: json }).toString();
+  // return UrlService.short(params);
+}
+
+export function generateRecipeDataByParams(params: string): RecipeData {
+  // const params = UrlService.unshort(shortParams);
+  const json = new URLSearchParams(params).get('r') ?? 'null';
+  // const json = StringService.unshort(shortJSON);
+  const recipeToShare: RecipeToShare = JSON.parse(json);
+
+  const recipeData = unformatToShare(recipeToShare);
+
+  if (!recipeData?.name) {
     return RECIPE_DATA;
   }
 

@@ -348,6 +348,19 @@ export const aFoodData: Array<FoodData> = [
     type: 'seed',
   },
   {
+    name: 'Arroz libanês com frango, coalhada e nozes',
+    image:
+      'https://cdn.panelinha.com.br/receita/1469761200000-Arroz-libanes-com-frango-coalhada-e-nozes.jpg',
+    keys: [
+      'arroz libanês',
+      'arroz libanes',
+      'arroz libanês com frango',
+      'arroz libanês com frango e coalhada',
+      'arroz libanês com frango e nozes',
+    ],
+    recipe: true,
+  },
+  {
     ...formatMyFood(oat as unknown as FoodMyFoodData),
     name: 'Aveia',
     icon: '/images/food/oats.svg',

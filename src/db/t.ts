@@ -6,6 +6,17 @@ import { FoodMyFoodData, FoodNacional } from './db.types';
 
 export const tFoodData: Array<FoodData> = [
   {
+    name: 'Tabule',
+    image: 'https://cdn.panelinha.com.br/receita/1565021106629-tabule.jpg',
+    keys: [
+      'tabule',
+      'salada de triguinho',
+      'salada libanesa',
+      'salada de triguinho libanesa',
+    ],
+    recipe: true,
+  },
+  {
     ...formatMyFood(tomato as unknown as FoodMyFoodData),
     name: 'Tomate',
     icon: '/images/food/tomato.svg',

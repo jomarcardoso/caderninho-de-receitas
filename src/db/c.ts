@@ -249,6 +249,22 @@ export const cFoodData: Array<FoodData> = [
     type: 'liquid',
   },
   {
+    name: 'Chapati',
+    description:
+      'Também conhecido como pão ázimo, pãozinho indiano ou pão sírio',
+    image: 'https://cdn.panelinha.com.br/receita/1594316806337-chapati1.jpg',
+    keys: [
+      'chapati',
+      'pão ázimo',
+      'pão azimo',
+      'pão sírio',
+      'pão indiano',
+      'pãozinho indiano',
+      'pãozinho sírio',
+    ],
+    recipe: true,
+  },
+  {
     ...formatMyFood(chocolateDark45at59 as unknown as FoodMyFoodData),
     name: 'Chocolate preto 45 - 59%',
     icon: '/images/food/chocolate.png',

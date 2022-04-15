@@ -70,6 +70,29 @@ export interface RecipeData {
   category: RecipeCategory | '';
 }
 
+export interface RecipeStepToShare {
+  /** @alias name */
+  n?: string;
+  /** @alias ingredients */
+  i?: string;
+  /** @alias preparation */
+  p?: string;
+  /** @alias additional */
+  a?: string;
+}
+
+export interface RecipeToShare {
+  /** @alias name */
+  n?: string;
+  /** @alias description */
+  d?: string;
+  /** @alias additional */
+  a?: string;
+  /** @alias steps */
+  s?: Array<RecipeStepToShare>;
+  /** @alias category */
+}
+
 export const RECIPE_STEP_DATA: RecipeStepData = {
   name: '',
   ingredients: '',

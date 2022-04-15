@@ -13,7 +13,6 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import { RecipeService, RECIPE_DATA, RecipeData } from '../../services/recipe';
-import { UrlService } from '../../services/url';
 import FoodsContext from '../../contexts/foods-context';
 import Layout from '../../components/layout/layout';
 import { Food } from '../../services/food';
@@ -52,10 +51,9 @@ const RecipePanel: FC<{
       setLoading(true);
     }
 
-    const toShare = RecipeService.formatToShare(currentRecipeData);
+    const toShare = RecipeService.generateParamsToShare(currentRecipeData);
     const url = `${window.location.origin}?${toShare}#recipe-panel` ?? '';
     const title = currentRecipeData.name || 'Receita';
-    const urlShort = await UrlService.shortener(url);
 
     if (setLoading) {
       setLoading(false);
@@ -66,7 +64,7 @@ const RecipePanel: FC<{
     navigator.share({
       title,
       text: title,
-      url: urlShort,
+      url,
     });
   }
 

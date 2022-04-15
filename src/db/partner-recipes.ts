@@ -600,6 +600,203 @@ Após os 5 minutos, a panela vai desligar sozinha e manter o ensopado aquecido. 
     ],
     additional: '',
   },
+  {
+    name: 'Arroz árabe com carne moída e especiarias (HASHWEH)',
+    description:
+      'Você não vai nem reconhecer o básico arroz com carne moída. O segredo está na cebola caramelizada e nas especiarias que se juntam à dupla para trazer muito mais sabor.',
+    additional: `\
+Autor: Panelinha
+Tempo de preparo: Até 1h
+Serve: 4 porções`,
+    category: 'comida',
+    steps: [
+      {
+        name: 'para saladinha de tomate',
+        ingredients: `\
+3 tomates maduros
+¼ de xícara (chá) de castanha-de-caju torrada sem sal picada fino
+1 colher (sopa) de azeite
+caldo de 1 limão
+folhas de hortelã picadas a gosto
+sal e pimenta-do-reino moída na hora a gosto`,
+        preparation: `\
+Lave, seque e corte os tomates ao meio; descarte as sementes e corte cada metade em cubos de 0,5 cm. Transfira para uma tigela, tempere com o azeite, o caldo de limão, sal e pimenta a gosto. Misture as folhas de hortelã e deixe na geladeira enquanto prepara o arroz. Na hora de servir, misture a castanha picada.`,
+        additional: '',
+      },
+      {
+        name: 'para o arroz',
+        ingredients: `\
+1 xícara (chá) de arroz
+2 xícaras (chá) de água
+250 g de patinho moído
+2 cebolas
+¼ de xícara (chá) de uvas-passas brancas
+3 colheres (sopa) de manteiga
+1 colher (sopa) de azeite
+1 folha de louro
+½ colher (chá) de pimenta síria
+1 colher (chá) de cominho
+1 colher (chá) de páprica doce
+½ colher (chá) de canela em pó
+1 pitada de açúcar
+sal e pimenta-do-reino moída na hora a gosto`,
+        preparation: `\
+Numa chaleira, leve um pouco mais de 2 xícaras (chá) de água ao fogo alto para ferver. Leve uma panela pequena ao fogo baixo. Quando aquecer, regue com 1 colher (sopa) de azeite, junte o arroz, a folha de louro e refogue por 1 minuto para envolver os grãos com o azeite – isso deixa o arroz soltinho depois de cozido.
+
+Meça 2 xícaras (chá) de água fervente e regue o arroz. Misture ½ colher (chá) de sal, aumente o fogo para médio e deixe cozinhar até a água atingir o nível do arroz.
+
+Abaixe o fogo, tampe parcialmente a panela e deixe o arroz cozinhar até absorver toda a água – para verificar, fure com um garfo e afaste os grãos do fundo da panela. Desligue o fogo e mantenha a panela tampada por mais 5 minutos para o arroz terminar de cozinhar no vapor.
+
+Enquanto o arroz cozinha, aproveite para preparar a cebola caramelizada e retirar a carne da geladeira – ela não pode estar gelada na hora de entrar na frigideira.
+
+Descasque e fatie a cebola em meias-luas finas. Leve uma frigideira grande com 2 colheres (sopa) de manteiga ao fogo médio. Quando derreter, acrescente a cebola, tempere com uma pitada de sal e de açúcar e deixe cozinhar, mexendo de vez em quando por cerca de 15 minutos até caramelizar – se a cebola começar a queimar, abaixe o fogo.
+
+Afaste a cebola para a lateral da frigideira e acrescente mais 1 colher (sopa) de manteiga, junte a carne moída, tempere com a pimenta síria, o cominho, a páprica, a canela, 1 colher (chá) de sal, pimenta-do-reino a gosto e refogue por 5 minutos, mexendo com a espátula para desmanchar a carne em pedaços menores. Junte a uva-passa e misture bem.
+
+Solte os grãos de arroz com um garfo e acrescente ao refogado de carne, mexa por mais 5 minutos para absorver o sabor do refogado. Regue com ¼ de xícara (chá) de água, desligue o fogo e misture bem para deixar o arroz úmido. Sirva a seguir com a saladinha de tomate.`,
+        additional:
+          'Essa receita é uma ótima opção para reaproveitar o arroz cozido que estiver na geladeira (ou congelador). No total, você precisa de 3 xícaras (chá) dos grãos já cozidos.',
+      },
+    ],
+  },
+  {
+    name: 'Arroz libanês com frango, coalhada e nozes',
+    description:
+      'Um prato único, que vale por uma refeição completa, e que serve a família toda. Coalhada e nozes não podem faltar!',
+    additional: `\
+Autor: Panelinha
+Tempo de preparo: Até 1h
+Serve: Até 6 porções`,
+    category: 'comida',
+    steps: [
+      {
+        name: '',
+        ingredients: `\
+2 xícaras (chá) de arroz
+1 xícara (chá) de lentilha
+2 filés de peito de frango
+2 cebolas
+1 cenoura
+2 colheres (sopa) de azeite
+2 colheres (sopa) de manteiga
+1 folha de louro
+2 cravos-da-índia
+5 grãos de pimenta-do-reino
+2 colheres (chá) de pimenta síria
+1 colher (chá) de canela em pó
+1 pitada de açúcar
+sal a gosto`,
+        preparation: `\
+1. Numa tigela coloque a lentilha, cubra com 2 xícaras (chá) de água fervente e deixe de molho enquanto prepara o caldo de frango - assim ela absorve a água, amolece e cozinha no mesmo tempo do arroz.
+
+2. Descasque e corte as cebolas ao meio. Numa das metades, espete a folha de louro com os cravos e reserve o restante para o refogado. Descasque e corte a cenoura em 3 pedaços.
+
+3. Numa panela média, coloque 1,25 litro de água, a cebola cravejada com louro, a cenoura, os grãos de pimenta, os filés de frango e 1 colher (chá) de sal. Leve ao fogo alto; quando ferver, abaixe o fogo e deixe cozinhar por mais 15 minutos.
+
+4. Enquanto isso, aproveite para caramelizar as cebolas: corte o restante das cebolas em meias-luas finas e leve uma panela grande com o azeite ao fogo baixo. Quando aquecer, junte as cebolas e tempere com uma pitada de sal e de açúcar; deixe cozinhar por cerca de 20 minutos, mexendo de vez em quando até ficar bem dourada - não aumente o fogo, senão a cebola pode queimar em vez de caramelizar.
+
+5. Passado o tempo do caldo, com uma pinça transfira os filés de frango para um prato e deixe amornar - assim fica mais fácil para fatiar. Reserve a cenoura e a cebola para outra receita e mantenha o caldo aquecido na panela.
+
+6. Assim que as cebolas estiverem bem douradas, acrescente o arroz e misture bem para envolver todos os grãos com o azeite. Misture a pimenta-síria, a canela e 1 colher (chá) de sal. Escorra a água da lentilha e junte ao arroz. Regue com 4 xícaras (chá) do caldo, misture e aumente o fogo para médio.
+
+7. Quando ferver, abaixe o fogo e deixe cozinhar com a tampa entreaberta até o arroz e a lentilha absorverem todo o caldo, por cerca de 20 minutos. Enquanto isso, doure os filés de frango.
+
+8. Corte os filés de frango ao meio, no sentido do comprimento, e cada metade em fatias na diagonal. Leve uma frigideira ao fogo médio com ½ colher (sopa) de manteiga. Quando derreter, doure as fatias de frango em etapas - não coloque todas de uma só vez; elas devem ficar em contato com o fundo da frigideira para dourar. Tempere com sal a gosto, transfira para um prato e repita com o restante, colocando mais manteiga na frigideira a cada leva.
+
+9. Assim que a água do arroz secar, desligue o fogo e tampe a panela por 5 minutos para que os grãos terminem de cozinhar no próprio vapor.`,
+        additional: '',
+      },
+      {
+        name: 'para servir',
+        ingredients: `\
+1 xícara (chá) de coalhada seca (cerca de 200 g)
+½ xícara (chá) de nozes
+folhas de hortelã a gosto
+azeite a gosto`,
+        preparation: `\
+1. Numa frigideira pequena coloque as nozes e leve ao fogo médio. Deixe por cerca de 5 minutos, mexendo de vez em quando até ficarem tostadinhas. Deixe esfriar antes de picar grosseiramente.
+
+2. Com um garfo, solte o arroz com lentilhas, transfira para uma travessa e distribua os pedaços de frango dourados ao redor. Coloque sobre o arroz colheradas da coalhada seca, salpique com as nozes e folhas de hortelã a gosto. Regue com azeite e sirva a seguir.`,
+        additional: '',
+      },
+    ],
+  },
+  {
+    name: 'Chapati',
+    description:
+      'Também conhecido como pão ázimo, o chapati é uma daquelas receitas que sobrevivem ao tempo. O pãozinho indiano, um dos mais antigos do mundo, é uma maravilha: não leva fermento e é feito na chapa!',
+    additional: `\
+Autor: Panelinha
+Tempo de preparo: Até 1h
+Serve: 10 pãezinhos`,
+    category: 'pão',
+    steps: [
+      {
+        name: '',
+        ingredients: `\
+1 xícara (chá) de farinha de trigo
+½ colher (chá) de sal
+1 colher (sopa) de óleo
+⅓ de xícara (chá) de água
+farinha de trigo a gosto para polvilhar a bancada`,
+        preparation: `\
+Numa tigela grande misture a farinha de trigo com o sal. Regue com metade da água e misture com a mão até formar uma farofa grossa – a farinha precisa entrar em contato com um pouco de água antes do óleo, para absorver melhor o líquido.
+
+Adicione o óleo e misture bem. Ainda dentro da tigela, acrescente aos poucos o restante da água, amassando com a mão até que a massa absorva todo o líquido.
+
+Sove a massa por 5 minutos: aperte, amasse, estique e amasse novamente, dentro da tigela até atingir uma textura macia e elástica. Se preferir sovar na bancada, polvilhe a superfície com uma camada bem fina de farinha de trigo – é bem fina mesmo, evite juntar mais farinha na massa, o pão pode ficar ressecado.
+
+Modele a massa numa bola e embale com filme (ou cubra com um pano) e deixe descansar por 10 minutos – esse descanso relaxa o glúten e faz o pão inflar com mais facilidade.
+
+Modele um rolinho com a massa e, com uma espátula de padeiro (ou faca), divida em 10 porções. Enrole cada porção numa bolinha e polvilhe a bancada com farinha de trigo. Abra uma bolinha com o rolo de macarrão até formar um disco bem fino – vá polvilhando farinha sob e sobre a massa para não grudar.
+
+Leve uma frigideira média (pode ser de inox ou ferro) ao fogo médio – não precisa untar. Quando estiver quente, bata o disco de massa contra as mãos para tirar o excesso de farinha e coloque na frigideira. Deixe o pão assar por 20 a 30 segundos, até começar a formar bolhas. Com cuidado para não rasgar a massa, vire o pão com uma pinça e deixe por mais 15 segundos na frigideira – o pão vai começar a inflar. Enquanto isso, acenda uma outra boca do fogão.
+
+Tire o pão da frigideira com uma pinça e coloque diretamente na chama da outra boca do fogão para chamuscar levemente. Transfira o pão para um prato e cubra com um pano de prato – assim os pães ficam macios e permanecem quentinhos. Repita com o os outros discos. Você também pode finalizar os chapatis na frigideira, basta deixar cozinhar por mais tempo depois de virar. Sirva a seguir.`,
+        additional: `\
+Para armazenar: para manter os pãezinhos macios, conserve num saco plástico por até 3 dias.
+
+Pode congelar: se não quiser fazer todos os discos, congele a massa restante, já porcionada, mas antes de abrir (em bolinhas). Na hora que quiser usar, tire do freezer com antecedência. Quando a massa estiver mole de novo, retome o preparo a partir do passo 5.`,
+      },
+    ],
+  },
+  {
+    name: 'Tabule',
+    description:
+      'Tabule é um prato tradicional da culinária árabe, cheio de frescor e alguns segredinhos: o trigo não deve ficar muito tempo de molho para não empapar, e a salsinha deve ir para a receita lavada e bem sequinha.',
+    additional: `\
+Autor: Panelinha
+Tempo de preparo: Pá-Pum
+Serve: 3 porções`,
+    category: 'salada',
+    steps: [
+      {
+        name: '',
+        ingredients: `\
+½ xícara (chá) de trigo fino (para quibe)
+2 tomates maduros
+½ cebola
+1 ½ xícara (chá) de folhas de salsinha (cerca de 1 maço)
+¾ de xícara (chá) de folhas de hortelã fresca (cerca de 1 maço)
+caldo de 1 limão
+¼ de xícara (chá) de azeite
+sal a gosto
+folhas de minialface romana para servir`,
+        preparation: `\
+Numa tigela média, coloque o trigo, cubra com água e deixe hidratar por 15 minutos. Enquanto isso, prepare os outros ingredientes.
+
+Lave, seque e corte os tomates ao meio. Descarte as sementes e corte cada metade em cubos pequenos. Descasque e corte a cebola em cubos pequenos.
+
+Lave e seque bem as folhas de salsinha e de hortelã – para ficar mais fácil, utilize uma centrífuga de saladas, assim as folhas ficam bem sequinhas. Pique grosseiramente a salsinha e a hortelã.
+
+Passado os 15 minutos, forre uma peneira com um pano de prato limpo e escorra a água do trigo. Una as pontas do pano, fazendo uma trouxinha, e torça bem para escorrer o excesso de água.
+
+Numa tigela coloque a cebola, o tomate, a salsinha e a hortelã picados. Tempere com o caldo de limão, o azeite, sal a gosto e misture bem. Acrescente o trigo hidratado e misture delicadamente com uma colher – o trigo é o último a entrar na salada para não ficar encharcado. Prove e ajuste o sal. Sirva a seguir com folhas de alface a gosto. `,
+        additional:
+          'O tabule dura até 1 dia na geladeira, mas o trigo aos poucos vai absorvendo a umidade dos ingredientes e o tabule não fica tão soltinho quanto feito na hora.',
+      },
+    ],
+  },
 ];
 
 export const recipes = recipesData.map((recipeData) =>

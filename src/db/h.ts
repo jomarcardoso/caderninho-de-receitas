@@ -2,6 +2,14 @@ import { FoodData } from '../services/food';
 
 export const hFoodData: Array<FoodData> = [
   {
+    name: 'Hashweh',
+    image:
+      'https://cdn.panelinha.com.br/receita/1531406282006-corte%20arroz.jpg',
+    description: 'arroz árabe',
+    keys: ['arroz árabe', 'hashweh', 'arroz marroquino'],
+    recipe: true,
+  },
+  {
     name: 'Hortelã',
     icon: '/images/food/mint.png',
     image:

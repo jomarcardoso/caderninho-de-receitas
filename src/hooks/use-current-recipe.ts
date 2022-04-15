@@ -22,7 +22,9 @@ if (typeof window !== 'undefined') {
   const sharedString = window.location.search;
 
   if (sharedString) {
-    const recipeShared = RecipeService.unFormatToShare(sharedString);
+    const recipeShared = RecipeService.generateRecipeDataByParams(sharedString);
+
+    console.log('generateRecipeDataByParams', recipeShared);
 
     if (recipeShared.steps[0]?.ingredients?.length) {
       initialRecipeData = recipeShared;
