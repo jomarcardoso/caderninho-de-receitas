@@ -49,6 +49,10 @@ const useNavigation = (): UseNavigationReturn => {
   }
 
   function goBack() {
+    if (window.location.hash === '#main-panel') {
+      return;
+    }
+
     window.history.back();
   }
 

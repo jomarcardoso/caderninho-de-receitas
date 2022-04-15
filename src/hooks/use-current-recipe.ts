@@ -5,16 +5,16 @@ import {
   RecipeService,
   RECIPE_DATA,
 } from '../services/recipe';
-
-const CURRENT_SAVED_RECIPE = 'currentRecipe';
+import { StorageService } from '../storage';
+import { STORAGE_CURRENT_RECIPE } from '../storage/storage.service';
 
 let initialRecipeData = RECIPE_DATA;
 
 if (typeof window !== 'undefined') {
-  const savedCurrentRecipeJson = localStorage.getItem(CURRENT_SAVED_RECIPE);
+  const editingRecipeJson = localStorage.getItem(STORAGE_CURRENT_RECIPE);
 
-  if (savedCurrentRecipeJson) {
-    initialRecipeData = JSON.parse(savedCurrentRecipeJson) as RecipeData;
+  if (editingRecipeJson) {
+    initialRecipeData = JSON.parse(editingRecipeJson) as RecipeData;
   }
 }
 
@@ -24,14 +24,11 @@ if (typeof window !== 'undefined') {
   if (sharedString) {
     const recipeShared = RecipeService.generateRecipeDataByParams(sharedString);
 
-    console.log('generateRecipeDataByParams', recipeShared);
-
     if (recipeShared.steps[0]?.ingredients?.length) {
       initialRecipeData = recipeShared;
 
-      // setTimeout(() => {
-      //   window.history.replaceState({}, '', '/#recipe-panel');
-      // }, 4000);
+      StorageService.setCurrentRecipe(recipeShared);
+      window.location.search = '';
     }
   }
 }
@@ -73,7 +70,7 @@ const useRecipe = (
   }
 
   useEffect(() => {
-    localStorage.setItem(CURRENT_SAVED_RECIPE, JSON.stringify(recipeData));
+    localStorage.setItem(STORAGE_CURRENT_RECIPE, JSON.stringify(recipeData));
   }, [recipeData]);
 
   return {

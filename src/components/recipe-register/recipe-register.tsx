@@ -8,6 +8,7 @@ import AlertEmptyRecipe from '../alert-empty-recipe/alert-empty-recipe';
 import Button from '../button/button';
 import EditingContext from '../../contexts/editing-context';
 import CurrentRecipeContext from '../../contexts/current-recipe';
+import { StorageService } from '../../storage';
 
 interface Props {
   recipeData: RecipeData;
@@ -29,6 +30,8 @@ const RecipeRegister: FC<Props> = ({
   }, []);
 
   const handleCancel = useCallback(() => {
+    StorageService.removeCurrentRecipe();
+
     if (!currentRecipeData.id) {
       if (restoreLastRecipe) restoreLastRecipe();
     }
