@@ -20,7 +20,6 @@ export const fFoodData: Array<FoodData> = [
       'falafel de grão-de-bico',
       'falafel de fava',
     ],
-    recipe: true,
   },
   {
     ...formatMyFood(oatFlour as unknown as FoodMyFoodData),
@@ -155,6 +154,20 @@ export const fFoodData: Array<FoodData> = [
       },
     ],
     type: 'meat',
+  },
+  {
+    name: 'Frango assado',
+    image:
+      'https://www.mexidodeideias.com.br/wp-content/uploads/2012/07/Farofa_Caipira1.jpg',
+    keys: [
+      'frango assado',
+      'frango assado com farofa',
+      'frango recheado',
+      'frango assado com recheio',
+      'frango recheado assado',
+      'frango recheado assado com farofa',
+      'frango assado com recheio de farofa',
+    ],
   },
   {
     ...formatMyFood(cornFlour as unknown as FoodMyFoodData),

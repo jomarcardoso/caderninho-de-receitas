@@ -14,7 +14,6 @@ export const tFoodData: Array<FoodData> = [
       'salada libanesa',
       'salada de triguinho libanesa',
     ],
-    recipe: true,
   },
   {
     ...formatMyFood(tomato as unknown as FoodMyFoodData),

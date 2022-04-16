@@ -70,6 +70,13 @@ export const mFoodData: Array<FoodData> = [
     type: 'fruit',
   },
   {
+    ...formatNacional(foodListNacional[542] as unknown as FoodNacional),
+    name: 'Maniçoba',
+    image:
+      'https://i.pinimg.com/originals/aa/69/2b/aa692b1b67df3742efe2cf6e521068b3.jpg',
+    keys: ['maniçoba'],
+  },
+  {
     ...formatMyFood(mango as unknown as FoodMyFoodData),
     name: 'Manga',
     icon: '/images/food/mango.png',
@@ -230,6 +237,21 @@ export const mFoodData: Array<FoodData> = [
     type: 'seed',
   },
   {
+    name: 'Molho de Limão e Mel para Salada',
+    icon: '/images/food/sauce.png',
+    image:
+      'https://cdn.panelinha.com.br/receita/1619447331360-molho%2011.07.16.jpg',
+
+    keys: [
+      'molho de limão e mel para salada',
+      'molho de salada',
+      'molho para salada',
+      'molho pra   salada',
+      'molho de limão',
+      'molho de mel',
+    ],
+  },
+  {
     name: 'Molho de tahine',
     image:
       'https://cdn.panelinha.com.br/receita/1409799600000-Molho-de-tahine.jpg',
@@ -282,6 +304,5 @@ export const mFoodData: Array<FoodData> = [
       'muhamara',
       'mhammara',
     ],
-    recipe: true,
   },
 ];

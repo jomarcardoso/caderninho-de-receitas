@@ -1,6 +1,7 @@
+import mergeWith from 'lodash/mergeWith';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { FoodData } from '../services/food';
-import { formatMyFood, formatNacional } from './utils';
+import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
@@ -12,6 +13,8 @@ import {
   wheatBread,
   blackPepper,
   paprika,
+  cornRecipe,
+  chickenPasty,
 } from './src';
 
 export const pFoodData: Array<FoodData> = [
@@ -24,6 +27,25 @@ export const pFoodData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
     keys: ['pão', 'pãozinho', 'pão integral'],
     type: 'cake',
+  },
+  {
+    name: 'Pão de Batata Doce',
+    icon: '/images/food/bread.png',
+    image:
+      'https://cdn.panelinha.com.br/receita/1544639354405-pa%CC%83o%20de%20batata-doce%20para%20trocar.jpg',
+    keys: [
+      'pão de batata doce',
+      'bolinho de batata',
+      'bolinho de batata doce',
+      'bolinho de batata-doce',
+      'pão de batata-doce',
+    ],
+  },
+  {
+    name: 'Pão de Ló',
+    image:
+      'https://s2.glbimg.com/WoMudBfzWeMl0GzSwccmbkAOiW4=/0x0:5472x3648/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2021/8/N/inlAOzTDKABlgDpAoqlg/pao-de-lo-1-.jpg',
+    keys: ['pão de ló', 'pão-de-ló'],
   },
   {
     ...formatMyFood(whiteBread as unknown as FoodMyFoodData),
@@ -83,6 +105,30 @@ export const pFoodData: Array<FoodData> = [
       'patinho assado',
     ],
     type: 'meat',
+  },
+  {
+    ...formatMyFood(chickenPasty as unknown as FoodMyFoodData),
+    name: 'pastel',
+    icon: '/images/food/pasty.svg',
+    image:
+      'https://s2.glbimg.com/w5pW4yBkSibfdkhkDE-GGVYd21I=/0x0:1080x608/924x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2021/P/A/rfLBcEQhizbQPhwoBQew/capas-para-materias-gshow-home-2-.jpg',
+    description: 'pastel de frango, frito',
+  },
+  {
+    name: 'Pavê de chocolate',
+    image: 'https://cdn.panelinha.com.br/receita/1554734130093-_MGL7178.jpg',
+    keys: [
+      'torta de bolacha',
+      'torta de bolacha maria',
+      'torta de biscoito',
+      'torta de biscoito maria',
+      'pavê de bolacha',
+      'pavê de bolacha maria',
+      'pavê de chocolate',
+      'pavê de biscoito',
+      'pavê de biscoito maria',
+      'pavê',
+    ],
   },
   {
     ...formatMyFood(ham as unknown as FoodMyFoodData),
@@ -190,6 +236,11 @@ export const pFoodData: Array<FoodData> = [
     type: 'meat',
   },
   {
+    name: 'Peru de natal',
+    image: 'https://cdn.panelinha.com.br/receita/1167789600000-Peru-assado.jpg',
+    keys: ['peru assado', 'peru de natal'],
+  },
+  {
     ...formatMyFood(pepper as unknown as FoodMyFoodData),
     name: 'Pimenta',
     icon: '/images/food/pepper.svg',
@@ -252,6 +303,27 @@ export const pFoodData: Array<FoodData> = [
     type: 'fruit',
   },
   {
+    ...mergeWith(
+      formatMyFood(cornRecipe as unknown as FoodMyFoodData),
+      formatNacional(foodListNacional[61] as unknown as FoodNacional),
+      verifyQuantity,
+    ),
+    name: 'Polenta',
+    gi: 74,
+    gl: 11,
+    icon: '/images/food/polenta.svg',
+    image: 'https://t2.rg.ltmcdn.com/pt/images/4/9/1/polenta_mole_194_600.jpg',
+    calories: 0,
+    carbohydrates: 21,
+    oneMeasures: [
+      {
+        quantity: 233,
+        type: 'CUP',
+      },
+    ],
+    unitOfMeasurement: 'gram',
+  },
+  {
     ...formatMyFood(ham as unknown as FoodMyFoodData),
     name: 'Presunto',
     gi: 0,
@@ -268,5 +340,24 @@ export const pFoodData: Array<FoodData> = [
       },
     ],
     type: 'meat',
+  },
+  {
+    name: 'Pudim',
+    description: `\
+Seja de leite, de coco ou até de pão, uma das sobremesas que mais tem ligação com brasileiro é o pudim. Apesar de alguns indícios apontarem Portugal como seu berço, o pudim é um dos orgulhos e paixões nacionais. E é claro que este doce merecia um dia só dele: no dia 22 de Maio se comemora o Dia Nacional do Pudim.
+
+Se por um lado é praticamente incontestável o quão delicioso um pudim pode ser, em relação à sua origem, há várias dúvidas. Os portugueses afirmam ser os criadores do pudim, no século XVI, porém há controvérsias, pois historiadores afirmam que não tem como saber exatamente onde e nem quando esse doce foi inventado.
+
+Outra história conta que o pudim foi inventado por um abade português (cargo religioso acima do monge). Os relatos dão conta de que ele não divulgava a sua receita secreta para ninguém que ousasse perguntar. Com o sucesso do doce entre a população, ele pensou em fazer uma competição com outros confeiteiros, para ver se algum deles conseguia fazer o pudim perfeitamente.
+
+No fim das contas, ninguém conseguiu fazer a receita exatamente igual, porém já tinham uma ideia de como chegar a algo relativamente próximo. A receita original só foi revelada após a morte do abade, quando seu caderno de receitas foi encontrado. Bem, se é lenda ou não, dificilmente saberemos.
+
+A primeira vez que se tem registro de uma receita de pudim no Brasil, foi no “O Cozinheiro Imperial”, primeiro livro de cozinha editado no País, de 1840. A receita era de pudim de nata. Porém, a forma atual da receita é preparada com leite condensado (mais à frente falaremos especificamente dele).
+
+O Dia Nacional do Pudim é comemorado em 22 de Maio. Porém, não há registros de quando, nem do porquê de a data ter sido criada. Em outros países, como nos Estados Unidos (que tem praticamente um dia para tudo), a iguaria também tem seu valor – como no dia 12/02, quando é celebrado o Dia Nacional do Pudim de Ameixa.
+`,
+    image:
+      'https://cdn.panelinha.com.br/receita/955076400000-Pudim-de-leite.jpg',
+    keys: ['pudim', 'pudim de leite', 'pudim de leite condensado'],
   },
 ];

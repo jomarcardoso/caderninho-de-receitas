@@ -79,6 +79,12 @@ export const cFoodData: Array<FoodData> = [
     type: 'liquid',
   },
   {
+    name: 'Caldo de Legumes',
+    image:
+      'https://cdn.panelinha.com.br/receita/1339470000000-Caldo-caseiro-de-legumes.jpg',
+    keys: ['caldo de legume', 'caldo de legumes'],
+  },
+  {
     ...formatMyFood(cinnamon as unknown as FoodMyFoodData),
     name: 'Canela',
     icon: '/images/food/cinnamon.png',
@@ -262,7 +268,6 @@ export const cFoodData: Array<FoodData> = [
       'pãozinho indiano',
       'pãozinho sírio',
     ],
-    recipe: true,
   },
   {
     ...formatMyFood(chocolateDark45at59 as unknown as FoodMyFoodData),
@@ -295,6 +300,12 @@ export const cFoodData: Array<FoodData> = [
     type: 'fruit',
   },
   {
+    name: 'Churrasco',
+    image:
+      'https://img.itdg.com.br/tdg/images/blog/uploads/2021/08/Churrasco-barato.jpg',
+    keys: ['churrasco', 'churrasco de carne'],
+  },
+  {
     ...formatNacional(foodListNacional[485] as unknown as FoodNacional),
     name: 'Clara de ovo',
     icon: '/images/food/egg.svg',
@@ -308,6 +319,18 @@ export const cFoodData: Array<FoodData> = [
       },
     ],
     type: 'liquid',
+  },
+  {
+    name: 'Coalhada fresca',
+    image:
+      'https://img.cybercook.com.br/imagens/receitas/190/coalhada-seca.jpg',
+    keys: ['coalhada', 'coalhada fresca'],
+  },
+  {
+    name: 'Coalhada seca',
+    image:
+      'https://img.cybercook.com.br/imagens/receitas/190/coalhada-seca.jpg',
+    keys: ['coalhada seca'],
   },
   {
     ...formatMyFood(coconutData as unknown as FoodMyFoodData),
@@ -373,5 +396,11 @@ export const cFoodData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1626609940603-1fc7556a94ef?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
     keys: ['cravo', 'cravos', 'cravos da índia', 'cravo-da-índia'],
     type: 'herb',
+  },
+  {
+    name: 'Cuca',
+    icon: '/images/food/bread.svg',
+    image: 'https://cdn.panelinha.com.br/receita/1550859492306-cuca-banana.jpg',
+    unitOfMeasurement: 'gram',
   },
 ];

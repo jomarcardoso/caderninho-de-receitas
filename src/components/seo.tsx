@@ -14,6 +14,7 @@ interface Props {
   lang?: string;
   meta?: HTMLMetaElement;
   title: string;
+  icon?: string;
 }
 
 const SEO: FC<Props> = ({
@@ -21,6 +22,7 @@ const SEO: FC<Props> = ({
   lang = 'pt',
   meta,
   title = '',
+  icon = '',
 }) => {
   const { site } = useStaticQuery(
     graphql`
@@ -88,7 +90,9 @@ const SEO: FC<Props> = ({
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
       meta={fullMeta}
-    />
+    >
+      {icon && <link rel="icon" type="image/png" href={icon} />}
+    </Helmet>
   );
 };
 

@@ -6,8 +6,15 @@ export const hFoodData: Array<FoodData> = [
     image:
       'https://cdn.panelinha.com.br/receita/1531406282006-corte%20arroz.jpg',
     description: 'arroz árabe',
-    keys: ['arroz árabe', 'hashweh', 'arroz marroquino'],
-    recipe: true,
+    keys: [
+      'arroz árabe',
+      'hashweh',
+      'arroz marroquino',
+      'arroz árabe com carne',
+      'arroz árabe com carne moída',
+      'arroz árabe com especiarias',
+      'arroz árabe com carne moída e especiarias',
+    ],
   },
   {
     name: 'Hortelã',

@@ -348,6 +348,17 @@ export const aFoodData: Array<FoodData> = [
     type: 'seed',
   },
   {
+    name: 'Arroz doce, caramelizado com farofa',
+    image:
+      'http://www.cookbookfritzefrida.com.br/assets/uploads/posts/710/g_thumb-whatsapp-image-2021-09-29-at-150825-8647128-6175614.jpeg',
+    keys: [
+      'arroz code',
+      'arroz doce caramelizado',
+      'arroz doce com farofa',
+      'arroz doce caramelizado com fafora',
+    ],
+  },
+  {
     name: 'Arroz libanês com frango, coalhada e nozes',
     image:
       'https://cdn.panelinha.com.br/receita/1469761200000-Arroz-libanes-com-frango-coalhada-e-nozes.jpg',
@@ -358,7 +369,6 @@ export const aFoodData: Array<FoodData> = [
       'arroz libanês com frango e coalhada',
       'arroz libanês com frango e nozes',
     ],
-    recipe: true,
   },
   {
     ...formatMyFood(oat as unknown as FoodMyFoodData),

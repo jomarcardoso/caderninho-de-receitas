@@ -15,6 +15,17 @@ import foodListNacional from './src/cadastro-nacional/food-list.json';
 
 export const bFoodData: Array<FoodData> = [
   {
+    name: 'Babaganouch',
+    image: 'https://cdn.panelinha.com.br/receita/958532400000-Babaganouch.jpg',
+    keys: [
+      'babaganouch',
+      'baba ghanoush',
+      'babaganuche',
+      'baba ganoush',
+      'babaganoush',
+    ],
+  },
+  {
     name: 'Banana Mysore',
     gi: 87,
     gl: 6,
@@ -211,5 +222,19 @@ export const bFoodData: Array<FoodData> = [
       'https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/06/baking-soda-water-and-wooden-spoon-1296x728-1.jpg?h=1528',
     keys: ['bicarbonato', 'bicarbonato de sódio'],
     type: 'powder',
+  },
+  {
+    name: 'Bolo de cenoura',
+    gi: 67,
+    icon: '/images/food/carrot-cake.svg',
+    image:
+      'https://d1uz88p17r663j.cloudfront.net/original/2b76e99abc4136ccf26008c1c387023f_Bolo-de-cenoura-com-cobertura-de-brigadeiro-receitas-nestle.jpg',
+    unitOfMeasurement: 'gram',
+  },
+  {
+    name: 'Bolo de laranja',
+    image:
+      'https://cdn.panelinha.com.br/receita/1632405810503-bolo-laranja.jpg',
+    keys: ['bolo de laranja'],
   },
 ];

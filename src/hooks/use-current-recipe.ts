@@ -70,7 +70,7 @@ const useRecipe = (
   }
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_CURRENT_RECIPE, JSON.stringify(recipeData));
+    StorageService.setCurrentRecipe(recipeData);
   }, [recipeData]);
 
   return {

@@ -58,7 +58,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
   const cuttedOrderedFoods = orderedFoods.slice(0, quantityToShow);
 
   function renderFood(food: Food): ReactElement | null {
-    if (food.recipe) return null;
+    if (food.recipe || !food.icon) return null;
 
     return (
       <ListItem

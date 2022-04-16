@@ -6,6 +6,13 @@ import { eggYolk, ginger, water } from './src';
 
 export const gFoodData: Array<FoodData> = [
   {
+    name: 'Galinhada',
+    icon: '/images/food/rice.svg',
+    image:
+      'https://images.unsplash.com/photo-1461009683693-342af2f2d6ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=731&q=80',
+    keys: ['risoto de frango', 'arroz com galinha', 'arroz com frango'],
+  },
+  {
     ...formatMyFood(water as unknown as FoodMyFoodData),
     name: 'Gelo',
     icon: '/images/food/ice.png',
@@ -73,6 +80,13 @@ export const gFoodData: Array<FoodData> = [
     keys: ['grão de bico', 'grãos de bico', 'grãos-de-bico'],
     unitOfMeasurement: 'gram',
     type: 'seed',
+  },
+  {
+    name: 'Guacamole',
+    icon: '/images/food/guacamole.png',
+    image: 'https://cdn.panelinha.com.br/receita/1513697612821-guacamole.jpg',
+
+    keys: ['guacamole'],
   },
   {
     ...formatNacional(foodListNacional[575] as unknown as FoodNacional),
