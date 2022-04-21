@@ -5,6 +5,7 @@ module.exports = {
   },
   extends: 'airbnb-typescript-prettier',
   rules: {
+    'react/button-has-type': 'off',
     'react/require-default-props': 'off',
     'import/prefer-default-export': 'off',
     'react/jsx-props-no-spreading': 'off',

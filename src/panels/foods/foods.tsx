@@ -12,7 +12,7 @@ import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
 import FoodsContext from '../../contexts/foods-context';
 import { Food } from '../../services/food';
-import Button from '../../components/button/button';
+import { Button } from '../../components/button';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import SectionTitle from '../../components/section-title/section-title';
@@ -111,7 +111,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
       <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
       {orderedFoods.length >= quantityToShow && (
         <Box display="flex" justifyContent="center" marginTop={4}>
-          <Button color="secondary" onClick={handleShowMore}>
+          <Button variant="secondary" onClick={handleShowMore}>
             mostrar mais
           </Button>
         </Box>

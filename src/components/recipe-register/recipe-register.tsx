@@ -5,7 +5,7 @@ import AccountContext from '../../contexts/account-context';
 import { RECIPE_STEP_DATA } from '../../services/recipe/recipe.types';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import AlertEmptyRecipe from '../alert-empty-recipe/alert-empty-recipe';
-import Button from '../button/button';
+import { Button } from '../button';
 import EditingContext from '../../contexts/editing-context';
 import CurrentRecipeContext from '../../contexts/current-recipe';
 import { StorageService } from '../../storage';

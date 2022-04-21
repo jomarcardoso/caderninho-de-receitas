@@ -7,7 +7,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
-import Button from '../../components/button/button';
+import { Button } from '../../components/button';
 import AccountContext from '../../contexts/account-context';
 import { AccountAndSet, ACCOUNT } from '../../services/account.service';
 import { RECIPE, Recipe, RecipeData } from '../../services/recipe';
@@ -93,8 +93,8 @@ const MainPanel: FC<{
             <Grid item xs={12}>
               <Box display="flex" justifyContent="center">
                 <Button
-                  color="secondary"
-                  variant="outlined"
+                  variant="secondary"
+                  background="light"
                   onClick={() => setCurrentRecipe(RECIPE)}
                 >
                   <IoAddCircleOutline />

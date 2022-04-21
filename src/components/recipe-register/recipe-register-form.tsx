@@ -13,7 +13,7 @@ import {
 } from '../../services/recipe/recipe.types';
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
-import Button from '../button/button';
+import { Button } from '../button';
 import CookSvg from '../../assets/svg/history/cook.svg';
 import PizzaSvg from '../../assets/svg/history/pizza.svg';
 
@@ -218,8 +218,8 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                       <Box justifyContent="center" display="flex">
                         <Button
                           type="button"
-                          color="secondary"
-                          variant="outlined"
+                          variant="secondary"
+                          background="light"
                           onClick={() =>
                             setFieldValue(
                               'quantitySteps',
@@ -242,7 +242,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
       <div className="recipe-register__submit">
         <Grid container spacing={0}>
           <Grid item xs={4}>
-            <Button fullWidth color="secondary" onClick={onCancel}>
+            <Button fullWidth variant="secondary" onClick={onCancel}>
               cancelar
             </Button>
           </Grid>

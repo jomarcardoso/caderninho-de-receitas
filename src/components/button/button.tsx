@@ -1,19 +1,33 @@
-import React, { FC } from 'react';
-import ButtonMUI, { ButtonProps } from '@mui/material/Button';
+import React, { FC, ButtonHTMLAttributes } from 'react';
 import './button.scss';
 
-const Button: FC<ButtonProps> = ({
+interface Props {
+  variant?: 'primary' | 'secondary';
+  fullWidth?: boolean;
+  background?: 'white' | 'light' | 'dark';
+}
+
+export type ButtonProps = Props & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export const Button: FC<ButtonProps> = ({
   className = '',
   children = '',
+  variant = 'primary',
+  type = 'button',
+  background = 'white',
+  fullWidth = false,
   ...props
 }) => {
-  const classes = `button ${className}`;
+  let classes = 'button';
+
+  classes += className ? ` ${className}` : '';
+  classes += variant === 'secondary' ? ' button--secondary' : '';
+  classes += fullWidth ? ' button--full' : '';
+  classes += background === 'light' ? ' button--on-light' : '';
 
   return (
-    <ButtonMUI variant="contained" className={classes} {...props}>
+    <button className={classes} type={type} {...props}>
       {children}
-    </ButtonMUI>
+    </button>
   );
 };
-
-export default Button;
