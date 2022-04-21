@@ -78,7 +78,10 @@ const AppPage: FC<BoxProps> = (props) => {
           id="foods-panel"
           style={{ display: hideLeftPanel ? 'none' : 'initial' }}
         >
-          <FoodsPanel setCurrentFood={setCurrentFood} />
+          <FoodsPanel
+            setCurrentFood={setCurrentFood}
+            setCurrentFoodQuantity={setCurrentFoodQuantity}
+          />
         </Panel>
         <Panel id="main-panel">
           <MainPanel

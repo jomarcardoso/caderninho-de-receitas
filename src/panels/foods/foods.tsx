@@ -20,11 +20,12 @@ import Field from '../../components/field/field';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
+  setCurrentFoodQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
 let timeoutSearch: NodeJS.Timeout;
 
-const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
+const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
   const foods = useContext(FoodsContext);
   const [quantityToShow, setQuantityToShow] = useState(40);
   const [search, setSearch] = useState('');
@@ -64,7 +65,10 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood }) => {
       <ListItem
         isAction
         className="list-item"
-        onClick={() => setCurrentFood(food)}
+        onClick={() => {
+          setCurrentFood(food);
+          setCurrentFoodQuantity(100);
+        }}
         image={<Image src={food.icon} alt="" transparent />}
       >
         {food.name}

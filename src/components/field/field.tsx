@@ -104,7 +104,7 @@ const Field: FC<FieldProps> = ({
             onChange={handleChange}
           />
         )}
-        {onErase && (
+        {onErase && props.value && (
           <button
             className="field__action"
             type="button"

@@ -25,7 +25,9 @@ const FoodPanel: FC<Props> = ({ food, quantity = 100, headerProps }) => {
       }}
       headerProps={{
         ...headerProps,
-        pageName: `${name} (${quantity}g)`,
+        pageName: `${name} (${quantity}${
+          food.type === 'liquid' || food.type === 'oil' ? 'ml' : 'g'
+        })`,
         theme: 'dark',
       }}
     >
