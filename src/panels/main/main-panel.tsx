@@ -94,7 +94,7 @@ const MainPanel: FC<{
               <Box display="flex" justifyContent="center">
                 <Button
                   variant="secondary"
-                  background="light"
+                  contrast="light"
                   onClick={() => setCurrentRecipe(RECIPE)}
                 >
                   <IoAddCircleOutline />

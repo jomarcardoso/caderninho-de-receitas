@@ -1,32 +1,38 @@
 .button {
-  border-radius: var(--border-radius);
-  font-size: 16px;
-  text-transform: lowercase;
-  border: var(--border-width) solid var(--color-primary);
-  gap: 8px;
-  padding: 4px 16px;
-  min-height: 44px;
-  display: inline-flex;
   align-items: center;
   background-color: var(--color-primary-main);
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid var(--color-primary-main);
   color: white;
-  text-align: center;
+  display: inline-flex;
+  font-family: var(--font-family-text);
+  font-size: 16px;
+  gap: 8px;
   justify-content: center;
+  letter-spacing: 0.5px;
+  min-height: 44px;
+  padding: 4px 16px;
+  text-align: center;
+  text-transform: lowercase;
 
   // stylelint-disable-next-line plugin/stylelint-bem-namics -- Reason Mui
   &--secondary {
     background-color: var(--color-dark-main);
+    border-color: var(--color-dark-main);
   }
 
   &--on-light {
+    box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    background-color: white;
+    color: var(--color-dark-main);
+    border-bottom-width: 4px;
+    border-right-width: 4px;
+    border-style: solid;
+    font-weight: bold;
+
     &.button--secondary {
-      background-color: white;
-      border-color: currentcolor;
-      border-width: var(--border-width);
-      border-style: solid;
-      box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
       color: var(--color-dark-main);
-      font-weight: bold;
+      border-color: currentcolor;
     }
   }
 

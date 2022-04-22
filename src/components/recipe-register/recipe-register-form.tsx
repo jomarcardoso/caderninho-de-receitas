@@ -219,7 +219,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                         <Button
                           type="button"
                           variant="secondary"
-                          background="light"
+                          contrast="light"
                           onClick={() =>
                             setFieldValue(
                               'quantitySteps',

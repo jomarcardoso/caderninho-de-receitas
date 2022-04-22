@@ -59,6 +59,7 @@ typings/
 public
 src/db/food.json
 types
+storybook-static
 
 # Mac files
 .DS_Store
