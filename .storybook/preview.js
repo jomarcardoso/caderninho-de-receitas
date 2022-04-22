@@ -1,4 +1,5 @@
 import '../src/styles/base/_custom-properties.scss';
+import '../src/styles/base/_resets.scss';
 import '@fontsource/dosis';
 import '@fontsource/cinzel';
 import '@fontsource/vibur';

@@ -1,3 +1,7 @@
+const path = require('path');
+
+// https://duncanleung.com/import-svg-storybook-webpack-loader/
+
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
@@ -28,6 +32,13 @@ module.exports = {
         'sass-loader',
       ],
     });
+
+    config.resolve.mainFields = ['browser', 'module', 'main'];
+
+    config.resolve.alias['/images'] = path.resolve(
+      __dirname,
+      '../static/images',
+    );
 
     return config;
   },

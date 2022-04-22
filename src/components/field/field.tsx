@@ -6,6 +6,8 @@ import React, {
   ChangeEventHandler,
   ChangeEvent,
   FormEvent,
+  useRef,
+  MutableRefObject,
 } from 'react';
 import TextareaAutosize, {
   TextareaAutosizeProps,
@@ -38,6 +40,7 @@ const Field: FC<FieldProps> = ({
 }) => {
   const { id: inputId } = props;
   const [focused, setFocused] = useState(false);
+  const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   let classes = 'field';
 
@@ -102,9 +105,10 @@ const Field: FC<FieldProps> = ({
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
             onChange={handleChange}
+            ref={inputRef}
           />
         )}
-        {onErase && props.value && (
+        {onErase && (props.value || inputRef?.current?.value) && (
           <button
             className="field__action"
             type="button"
