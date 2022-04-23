@@ -101,7 +101,7 @@ const RecipeRegister: FC<Props> = ({
         contentText="A receita precisa ter um nome. Deseja cancelar o cadastro ou preencher o nome e continuar?"
         actions={
           <>
-            <Button color="secondary" onClick={handleCancel}>
+            <Button variant="secondary" onClick={handleCancel}>
               cancelar
             </Button>
             <Button onClick={handleCloseEmptyAlert} autoFocus>
