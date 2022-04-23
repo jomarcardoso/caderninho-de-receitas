@@ -74,7 +74,7 @@
     "lint:eslint": "eslint src/**/*.{js,ts,tsx} --fix",
     "lint:stylelint": "stylelint **/*.scss --fix",
     "build": "gatsby build",
-    "deploy": "rm -rf public && yarn build && yarn lint && yarn test && yarn tsc && surge -p ./public -d saude-em-pontos.surge.sh",
+    "deploy": "rm -rf public && yarn lint && yarn test && yarn tsc && yarn build && surge -p ./public -d saude-em-pontos.surge.sh",
     "dev": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "yarn dev",

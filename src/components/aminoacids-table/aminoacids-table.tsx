@@ -1,12 +1,5 @@
-import React, { FC } from 'react';
-import Table from '@mui/material/Table';
+import React, { FC, HTMLProps } from 'react';
 import Box from '@mui/material/Box';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import {
   AminoAcids,
   AMINO_ACIDS,
@@ -16,9 +9,22 @@ import './aminoacids-table.scss';
 
 interface Props {
   aminoAcids: AminoAcids;
+  contrast?: 'light' | 'dark';
 }
 
-const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
+export type AminoAcidsTableProps = Props & HTMLProps<HTMLTableElement>;
+
+const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
+  aminoAcids = AMINO_ACIDS,
+  contrast,
+  className = '',
+  ...props
+}) => {
+  let classes = 'aminoacids-table table';
+
+  classes += contrast === 'light' ? ' table--on-light' : '';
+  classes += className ? ` ${className}` : '';
+
   const essentialAminoAcids = [
     {
       name: TRANSLATED_AMINO_ACIDS.tryptophan,
@@ -70,59 +76,68 @@ const AminoAcidsTable: FC<Props> = ({ aminoAcids = AMINO_ACIDS }) => {
     const highQuantity = quantity >= (abundantAminoAcidFromIngredient / 5) * 4;
 
     return (
-      <TableRow key={name}>
-        <TableCell component="th" scope="row">
-          {name}
-        </TableCell>
-        <TableCell className="aminoacids-table__cell" align="right">
+      <tr className="table__tr" key={name}>
+        <td className="table__td">{name}</td>
+        <td className="table__td aminoacids-table__cell" align="right">
           {veryLowQuantity ? (
-            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar aminoacids-table__bar--filled" />
           ) : (
             <Box className="aminoacids-table__bar" />
           )}
-        </TableCell>
-        <TableCell className="aminoacids-table__cell" align="right">
+        </td>
+        <td className="table__td aminoacids-table__cell" align="right">
           {lowQuantity ? (
-            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar aminoacids-table__bar--filled" />
           ) : (
             <Box className="aminoacids-table__bar" />
           )}
-        </TableCell>
-        <TableCell className="aminoacids-table__cell" align="right">
+        </td>
+        <td className="table__td aminoacids-table__cell" align="right">
           {regularQuantity ? (
-            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar aminoacids-table__bar--filled" />
           ) : (
             <Box className="aminoacids-table__bar" />
           )}
-        </TableCell>
-        <TableCell className="aminoacids-table__cell" align="right">
+        </td>
+        <td className="table__td aminoacids-table__cell" align="right">
           {highQuantity ? (
-            <Box className="aminoacids-table__bar" bgcolor="primary.main" />
+            <Box className="aminoacids-table__bar aminoacids-table__bar--filled" />
           ) : (
             <Box className="aminoacids-table__bar" />
           )}
-        </TableCell>
-      </TableRow>
+        </td>
+      </tr>
     );
   }
 
   return (
-    <Paper variant="outlined" className="paper">
-      <TableContainer>
-        <Table size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Alimento</TableCell>
-              <TableCell align="right">1</TableCell>
-              <TableCell align="right">2</TableCell>
-              <TableCell align="right">3</TableCell>
-              <TableCell align="right">4</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{essentialAminoAcids.map(renderRow)}</TableBody>
-        </Table>
-      </TableContainer>
-    </Paper>
+    <div
+      className={`table-container ${
+        contrast === 'light' ? 'table-container--light' : ''
+      }`}
+    >
+      <table className={classes} {...props}>
+        <caption className="table__caption">Tabela de aminoácidos</caption>
+        <thead>
+          <tr className="table__tr">
+            <th className="table__th aminoacids-table__name">Alimento</th>
+            <th align="center" className="table__th">
+              1
+            </th>
+            <th align="center" className="table__th">
+              2
+            </th>
+            <th align="center" className="table__th">
+              3
+            </th>
+            <th align="center" className="table__th">
+              4
+            </th>
+          </tr>
+        </thead>
+        <tbody>{essentialAminoAcids.map(renderRow)}</tbody>
+      </table>
+    </div>
   );
 };
 

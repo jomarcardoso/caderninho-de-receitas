@@ -9,7 +9,6 @@ import Slide, { SlideProps } from '@mui/material/Slide';
 import Container from '@mui/material/Container';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Image from '../image/image';
-import ScoreComponent from '../score/score';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import Ingredients from '../ingredients/ingredients';
 import Preparation from '../preparation/preparation';
@@ -195,14 +194,12 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
           {AminoAcidService.verifyHasAminoAcid(recipe.aminoAcids) && (
             <Grid item xs={12}>
-              <Section title="Tabela de aminoácidos">
-                <AminoAcidsTable aminoAcids={recipe.aminoAcids} />
-              </Section>
+              <AminoAcidsTable
+                contrast="light"
+                aminoAcids={recipe.aminoAcids}
+              />
             </Grid>
           )}
-          <Grid item xs={12}>
-            <ScoreComponent recipe={recipe} />
-          </Grid>
         </Grid>
       </Container>
     </Box>

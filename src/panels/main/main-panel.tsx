@@ -107,7 +107,7 @@ const MainPanel: FC<{
         <Grid item xs={12}>
           <SectionTitle>Receitas de futuros parceiros</SectionTitle>
           <div className="main-panel__story-partner">
-            <ChefSvg />
+            <ChefSvg style={{ mixBlendMode: 'multiply' }} />
           </div>
 
           <Table className={classes.table} size="small">

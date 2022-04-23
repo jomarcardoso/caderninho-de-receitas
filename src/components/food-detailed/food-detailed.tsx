@@ -153,16 +153,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
               </Grid>
               {hasAminoAcids && (
                 <Grid item xs={12}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Typography variant="h2" component="h2">
-                        Tabela de aminoácidos
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <AminoAcidsTable aminoAcids={aminoAcids} />
-                    </Grid>
-                  </Grid>
+                  <AminoAcidsTable aminoAcids={aminoAcids} />
                 </Grid>
               )}
               {hasVitamins && (

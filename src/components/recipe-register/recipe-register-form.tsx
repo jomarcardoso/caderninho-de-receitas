@@ -134,7 +134,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 value={step.additional}
                 onChange={handleChange}
                 onBlur={formikHandleBlur}
-                minRows={1}
+                minRows={2}
               />
             </Grid>
           </>
@@ -158,11 +158,11 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
               <>
                 {recipeData.id ? (
                   <div className="recipe-register__story-image">
-                    <CookSvg />
+                    <CookSvg style={{ mixBlendMode: 'multiply' }} />
                   </div>
                 ) : (
                   <Container>
-                    <PizzaSvg />
+                    <PizzaSvg style={{ mixBlendMode: 'multiply' }} />
                   </Container>
                 )}
                 <Container>
