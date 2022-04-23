@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Typography from '@mui/material/Typography';
 import Box, { BoxProps } from '@mui/material/Box';
-import Container from '../container/container';
+import Container from '@mui/material/Container';
 import './section-card.scss';
 
 interface Props {

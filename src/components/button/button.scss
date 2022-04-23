@@ -1,10 +1,10 @@
 .button {
   align-items: center;
   background-color: var(--color-primary-main);
-  border-bottom-width: 4px;
-  border-radius: var(--border-radius);
-  border-right-width: 4px;
   border: var(--border-width) solid var(--color-primary-main);
+  border-bottom-width: 4px;
+  border-radius: var(--border-radius-primary);
+  border-right-width: 4px;
   color: white;
   display: inline-flex;
   font-family: var(--font-family-text);
@@ -18,9 +18,7 @@
   text-align: center;
   text-transform: lowercase;
 
-  &:hover,
-  &:active,
-  &:focus {
+  &:active {
     background-color: var(--color-primary-dark);
     border-color: var(--color-primary-dark);
   }
@@ -29,9 +27,7 @@
     background-color: var(--color-dark-main);
     border-color: var(--color-dark-main);
 
-    &:hover,
-    &:active,
-    &:focus {
+    &:active {
       background-color: var(--color-dark-dark);
       border-color: var(--color-dark-dark);
     }
@@ -39,25 +35,19 @@
 
   &--on-light {
     background-color: white;
-    border-style: solid;
     box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     color: var(--color-dark-main);
 
-    &:hover,
-    &:active,
-    &:focus {
-      background-color: var(--color-primary-main);
+    &:active {
+      background-color: var(--color-primary-dark);
       color: white;
     }
 
     &.button--secondary {
-      border-color: var(--color-dark-main);
       color: var(--color-dark-main);
 
-      &:hover,
-      &:active,
-      &:focus {
-        background-color: var(--color-dark-main);
+      &:active {
+        background-color: var(--color-dark-dark);
         color: white;
       }
     }

@@ -6,8 +6,8 @@
 
   &__label {
     color: variables.$color-white;
-    border-top-left-radius: variables.$border-radius;
-    border-top-right-radius: variables.$border-radius;
+    border-top-left-radius: var(--border-radius-secondary);
+    border-top-right-radius: var(--border-radius-secondary);
     background-color: var(--color-primary-main);
     padding: 5px 24px 3px;
     align-self: flex-start;
@@ -23,7 +23,7 @@
     display: flex;
     align-items: center;
     padding: 12px 10px 0;
-    border-radius: variables.$border-radius;
+    border-radius: var(--border-radius-primary);
     border-top-left-radius: 0;
     transition: border-color 0.2s ease-in-out;
   }
@@ -106,7 +106,7 @@
 
   &--no-label {
     .field__box {
-      border-radius: variables.$border-radius;
+      border-radius: var(--border-radius-primary);
     }
   }
 

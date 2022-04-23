@@ -166,7 +166,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                   </Container>
                 )}
                 <Container>
-                  <Grid container spacing={3}>
+                  <Grid container spacing={6}>
                     <Grid item xs={12}>
                       {!recipeData.id ? (
                         <p>
@@ -210,7 +210,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                         value={values.additional}
                         onChange={handleChange}
                         onBlur={formikHandleBlur}
-                        minRows={1}
+                        minRows={2}
                       />
                     </Grid>
                     {memoizedRenderSteps()}
