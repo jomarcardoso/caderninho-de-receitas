@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Grid, { GridProps } from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import SectionTitle from '../section-title/section-title';
 
 interface Props {
@@ -20,14 +19,9 @@ const Section: FC<SectionProps> = ({
       {title && (
         <Grid item xs={12}>
           {onBgWhite ? (
-            <Typography
-              variant="h2"
-              component="h3"
-              align="center"
-              color="secondary"
-            >
+            <h3 className="h2" style={{ textAlign: 'center' }}>
               {title}
-            </Typography>
+            </h3>
           ) : (
             <SectionTitle>{title}</SectionTitle>
           )}

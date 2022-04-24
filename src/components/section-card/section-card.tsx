@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import Typography from '@mui/material/Typography';
 import Box, { BoxProps } from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import './section-card.scss';
@@ -14,15 +13,9 @@ const SectionCard: FC<SectionCardProps> = ({ title = '', children }) => {
   return (
     <Box className="section-card" boxShadow={2}>
       {title && (
-        <Typography
-          variant="h2"
-          component="h3"
-          align="left"
-          className="section-card__title"
-          color="white"
-        >
+        <h3 className="section-card__title h2">
           <Container>{title}</Container>
-        </Typography>
+        </h3>
       )}
       <div className="section-card__body">{children}</div>
     </Box>

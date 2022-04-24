@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import Section, { SectionProps } from '../section/section';
 
 interface Props {
@@ -24,7 +23,7 @@ const Preparation: FC<PreparationProps> = ({
       <Grid container spacing={1}>
         {preparationList.map((preparationLine) => (
           <Grid item xs={12} key={preparationLine}>
-            <Typography>{preparationLine}</Typography>
+            {preparationLine}
           </Grid>
         ))}
       </Grid>

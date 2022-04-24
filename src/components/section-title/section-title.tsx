@@ -1,12 +1,11 @@
-import React, { FC } from 'react';
-import Typography, { TypographyProps } from '@mui/material/Typography';
+import React, { FC, HTMLProps } from 'react';
 import './section-title.scss';
 
 interface Props {
   opaque?: boolean;
 }
 
-export type SectionTitleProps = Props & TypographyProps<'h3'>;
+export type SectionTitleProps = Props & HTMLProps<HTMLHeadingElement>;
 
 const SectionTitle: FC<SectionTitleProps> = ({
   opaque = false,
@@ -14,15 +13,12 @@ const SectionTitle: FC<SectionTitleProps> = ({
   ...props
 }) => {
   return (
-    <Typography
-      variant="h2"
-      component="h3"
-      align="center"
-      className={`section-title ${opaque ? 'section-title--opaque' : ''}`}
+    <h3
+      className={`h2 section-title ${opaque ? 'section-title--opaque' : ''}`}
       {...props}
     >
       {children}
-    </Typography>
+    </h3>
   );
 };
 

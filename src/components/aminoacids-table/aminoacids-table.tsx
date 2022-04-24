@@ -22,7 +22,7 @@ const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
 }) => {
   let classes = 'aminoacids-table table';
 
-  classes += contrast === 'light' ? ' table--on-light' : '';
+  classes += contrast === 'light' ? ' aminoacids-table--on-light' : '';
   classes += className ? ` ${className}` : '';
 
   const essentialAminoAcids = [

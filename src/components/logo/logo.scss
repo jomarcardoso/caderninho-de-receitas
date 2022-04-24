@@ -1,17 +1,18 @@
 @use "../../styles/utils/variables";
 
 .caderninho .logo {
-  text-align: justify;
-  line-height: 0.82;
-  font-size: 16px;
-  white-space: nowrap;
-  letter-spacing: 0;
   color: var(--color-dark-main);
+  font-family: var(--font-family-title);
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: justify;
   text-decoration: none;
+  white-space: nowrap;
 
   &__text-large {
     font-size: 17px;
-    letter-spacing: 0.1;
+    letter-spacing: 0.1px;
   }
 
   &--active {

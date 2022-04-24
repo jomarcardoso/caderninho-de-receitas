@@ -1,6 +1,5 @@
 import React, { FC, ReactElement } from 'react';
 import round from 'lodash/round';
-import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Box from '@mui/material/Box';
@@ -69,11 +68,9 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
       <ListItem disableGutters>
         <Grid container spacing={1} justifyContent="space-between">
           <Grid item>
-            <Typography component="h2">{foodName}</Typography>
+            <h2>{foodName}</h2>
           </Grid>
-          <Grid item>
-            <Typography>{round(value, 2)}</Typography>
-          </Grid>
+          <Grid item>{round(value, 2)}</Grid>
         </Grid>
       </ListItem>
     );
@@ -85,9 +82,12 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         <HideOnScroll>
           <Box className="recipe-container__name">
             <Container>
-              <Typography component="h2" variant="h1" color="inherit">
+              <h2
+                className="h2"
+                style={{ fontSize: recipe.name.length > 30 ? 17 : 19 }}
+              >
                 {recipe.name}
-              </Typography>
+              </h2>
             </Container>
           </Box>
         </HideOnScroll>
@@ -99,7 +99,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         <Grid container spacing={4}>
           {recipe.description && (
             <Grid item xs={12}>
-              <Typography>{recipe.description}</Typography>
+              {recipe.description}
             </Grid>
           )}
           {recipe.steps.map((step) => (
@@ -127,7 +127,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
                   )}
                   {step.additional && (
                     <Grid item xs={12}>
-                      <Typography>{step.additional}</Typography>
+                      {step.additional}
                     </Grid>
                   )}
                 </Grid>
@@ -137,14 +137,12 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
           {recipe.additional && (
             <Grid item xs={12}>
-              <Typography>{recipe.additional}</Typography>
+              {recipe.additional}
             </Grid>
           )}
 
           <Grid item xs={12}>
-            <Typography variant="h2" component="h2" color="secondary">
-              Informações nutricionais
-            </Typography>
+            <h2 className="h2">Informações nutricionais</h2>
           </Grid>
 
           <Grid item xs={12}>

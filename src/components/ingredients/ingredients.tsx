@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import Image from '../image/image';
 import { Ingredient } from '../../services/ingredient/ingredient.types';
 import { Food } from '../../services/food';
@@ -46,7 +45,7 @@ const Ingredients: FC<IngredientsProps> = ({
                 />
               </Grid>
               <Grid item xs={11}>
-                <Typography>{ingredient.description}</Typography>
+                <p>{ingredient.description}</p>
               </Grid>
             </Grid>
           </ListItem>

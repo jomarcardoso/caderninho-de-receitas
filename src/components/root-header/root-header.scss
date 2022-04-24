@@ -1,9 +1,25 @@
-.caderninho .root-header {
+.root-header {
+  background-color: white;
+  box-shadow:
+    0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%),
+    0px 1px 10px 0px rgb(0 0 0 / 12%);
   position: relative;
   z-index: 2;
 
-  &__toolbar {
+  &__wrapper {
+    align-items: center;
+    display: flex;
     justify-content: space-between;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  &__button {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
     min-height: 44px;
+    min-width: 44px;
   }
 }

@@ -1,7 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 import List from '@mui/material/List';
 import Grid, { GridProps } from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import round from 'lodash/round';
 import ListItem from '@mui/material/ListItem';
 import Container from '@mui/material/Container';
@@ -66,18 +65,16 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
     carbohydrates ||
     proteins;
 
-  function renderQuality({ name: foodName = '', value = 0 }) {
+  function renderQuality({ name: quality = '', value = 0 }) {
     if (!value) return null;
 
     return (
       <ListItem disableGutters>
         <Grid container spacing={1} justifyContent="space-between">
           <Grid item>
-            <Typography component="h2">{foodName}</Typography>
+            <h2>{quality}</h2>
           </Grid>
-          <Grid item>
-            <Typography>{round(value, 2)}</Typography>
-          </Grid>
+          <Grid item>{round(value, 2)}</Grid>
         </Grid>
       </ListItem>
     );
@@ -160,9 +157,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
                 <Grid item xs={12}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Typography variant="h2" component="h2">
-                        Vitaminas
-                      </Typography>
+                      <h2 className="h2">Vitaminas</h2>
                     </Grid>
                     <Grid item xs={12}>
                       <List>{Object.values(vitamins).map(renderNutrient)}</List>
@@ -174,9 +169,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
                 <Grid item xs={12}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Typography variant="h2" component="h2">
-                        Minerais
-                      </Typography>
+                      <h2 className="h2">Minerais</h2>
                     </Grid>
                     <Grid item xs={12}>
                       <List>{Object.values(minerals).map(renderNutrient)}</List>
@@ -186,9 +179,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
               )}
             </Grid>
           ) : (
-            <Typography>
-              Não há informações nutricionais deste alimento.
-            </Typography>
+            <p>Não há informações nutricionais deste alimento.</p>
           )}
         </Container>
       </Grid>
