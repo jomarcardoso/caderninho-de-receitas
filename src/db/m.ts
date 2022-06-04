@@ -237,6 +237,19 @@ export const mFoodData: Array<FoodData> = [
     type: 'seed',
   },
   {
+    ...formatNacional(foodListNacional[13] as unknown as FoodNacional),
+    name: 'Mistura para bolo',
+    icon: '/images/food/cake.svg',
+    image:
+      'https://img.shoppub.io/w=1000,h=1000,q=80,f=auto/beirario/media/uploads/produtos/foto/bb4dcde9240cafile.png',
+    keys: [
+      'mistura para bolo',
+      'mistura pronta para bolo',
+      'mistura de bolo',
+      'mistura pronta',
+    ],
+  },
+  {
     name: 'Molho de Limão e Mel para Salada',
     icon: '/images/food/sauce.png',
     image:

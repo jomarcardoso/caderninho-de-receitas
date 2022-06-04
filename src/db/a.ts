@@ -348,6 +348,22 @@ export const aFoodData: Array<FoodData> = [
     type: 'seed',
   },
   {
+    ...formatNacional(foodListNacional[0] as unknown as FoodNacional),
+    name: 'Arroz integral cozido',
+    icon: '/images/food/rice.svg',
+    image:
+      'https://caldobom.com.br/uploads/receitas-com-sobra-de-arroz-integral-cc17a08874a25bb2bad16f8fd21db64f1588776452.jpg',
+    keys: ['arroz integral', 'arroz integral cozido'],
+  },
+  {
+    ...formatNacional(foodListNacional[0] as unknown as FoodNacional),
+    name: 'Arroz integral cru',
+    icon: '/images/food/rice.svg',
+    image:
+      'https://d3ugyf2ht6aenh.cloudfront.net/stores/328/703/products/arroz-integral-agulha-com-arroz-vermelho-21-e0c3694e87622d8a6d16457318623947-1024-1024.jpg',
+    keys: ['arroz integral cru', 'farinha de arroz integral'],
+  },
+  {
     name: 'Arroz doce, caramelizado com farofa',
     image:
       'http://www.cookbookfritzefrida.com.br/assets/uploads/posts/710/g_thumb-whatsapp-image-2021-09-29-at-150825-8647128-6175614.jpeg',
@@ -371,7 +387,11 @@ export const aFoodData: Array<FoodData> = [
     ],
   },
   {
-    ...formatMyFood(oat as unknown as FoodMyFoodData),
+    ...mergeWith(
+      formatNacional(foodListNacional[6] as unknown as FoodNacional),
+      formatMyFood(oat as unknown as FoodMyFoodData),
+      verifyQuantity,
+    ),
     name: 'Aveia',
     icon: '/images/food/oats.svg',
     image:
@@ -383,7 +403,7 @@ export const aFoodData: Array<FoodData> = [
       },
     ],
     unitOfMeasurement: 'gram',
-    keys: ['aveia em flocos', 'flocos de aveia'],
+    keys: ['aveia em flocos', 'flocos de aveia', 'aveia em floco'],
     type: 'flake',
   },
   {

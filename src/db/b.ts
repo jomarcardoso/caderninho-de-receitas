@@ -224,6 +224,22 @@ export const bFoodData: Array<FoodData> = [
     type: 'powder',
   },
   {
+    ...formatNacional(foodListNacional[7] as unknown as FoodNacional),
+    name: 'Biscoito de maizena',
+    icon: '/images/food/biscuit.png',
+    image:
+      'https://3.bp.blogspot.com/-TonRrjPIQss/XAWN49EDjuI/AAAAAAAANqE/oJEtizgTh3Q8nKYzxOUyNfBxPPyxFAaKQCLcBGAs/s1600/biscoito-de-maizena.jpg',
+    keys: ['biscoito de maizena'],
+  },
+  {
+    ...formatNacional(foodListNacional[8] as unknown as FoodNacional),
+    name: 'Biscoito recheado',
+    icon: '/images/food/oreo.png',
+    image:
+      'https://www.mashed.com/img/gallery/oreo-just-hinted-at-a-new-flavor-and-fans-cant-stop-guessing/l-intro-1645649340.jpg',
+    keys: ['biscoito recheado', 'oreo', 'bolacha recheada', 'biscoito oreo'],
+  },
+  {
     name: 'Bolo de cenoura',
     gi: 67,
     icon: '/images/food/carrot-cake.svg',
