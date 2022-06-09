@@ -14,6 +14,7 @@ interface Props {
   headerProps?: HeaderProps;
   footerProps?: FooterProps;
   mainProps?: MainProps;
+  footerMenu?: boolean;
 }
 
 export type LayoutProps = Props & BoxProps;
@@ -24,6 +25,7 @@ const Layout: FC<LayoutProps> = ({
   showFooter = true,
   headerProps,
   footerProps,
+  footerMenu = false,
   mainProps,
   className,
   ...props
@@ -34,15 +36,20 @@ const Layout: FC<LayoutProps> = ({
     classList.push(className);
   }
 
+  if (footerMenu) {
+    classList.push('layout--footer-menu');
+  }
+
   const classes = classList.join(' ');
 
   return (
     <Box className={classes} bgcolor="gray.700" {...props}>
       {showHeader && <Header {...headerProps} />}
+      {footerMenu && <div className="layout__overlay" />}
       <Main className="layout__main" {...mainProps}>
         {children}
       </Main>
-      {showFooter && <Footer {...footerProps} />}
+      {showFooter && <Footer footerMenu={footerMenu} {...footerProps} />}
     </Box>
   );
 };

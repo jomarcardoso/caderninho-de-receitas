@@ -9,11 +9,12 @@ import './footer.scss';
 
 interface Props {
   items?: BottomNavigationActionProps[];
+  footerMenu?: boolean;
 }
 
 export type FooterProps = Props & BoxProps;
 
-const Footer: FC<FooterProps> = ({ items = [], ...props }) => {
+const Footer: FC<FooterProps> = ({ items = [], footerMenu, ...props }) => {
   function render() {
     function renderItem({ icon, ...itemProps }: BottomNavigationActionProps) {
       return (
@@ -28,7 +29,7 @@ const Footer: FC<FooterProps> = ({ items = [], ...props }) => {
       <Box
         boxShadow={4}
         component="footer"
-        className="footer"
+        className={`footer ${footerMenu ? 'footer--menu' : ''}`}
         zIndex={1}
         {...props}
       >
@@ -39,7 +40,7 @@ const Footer: FC<FooterProps> = ({ items = [], ...props }) => {
     );
   }
 
-  const renderMemo = useMemo(render, [items, props]);
+  const renderMemo = useMemo(render, [footerMenu, items, props]);
 
   return renderMemo;
 };

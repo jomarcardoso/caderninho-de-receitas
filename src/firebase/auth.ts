@@ -9,8 +9,6 @@ if (typeof window !== 'undefined') {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
 
-  console.log(auth);
-
   // signOut(auth);
 
   signInWithPopup(auth, provider).then((result) => {

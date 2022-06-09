@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Page, { PageProps } from '../components/page/page';
 import AppPage from '../panels/app/app';
 import '../firebase/firebase';
-import '../firebase/auth';
+// import '../firebase/auth';
 
 import '../styles/main.scss';
 

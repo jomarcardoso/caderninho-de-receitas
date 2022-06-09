@@ -69,6 +69,7 @@ const MainPanel: FC<{
 
   return (
     <Layout
+      footerMenu
       currentPage="HOME"
       showHeader={false}
       footerProps={{
@@ -79,7 +80,7 @@ const MainPanel: FC<{
           },
         ],
       }}
-      mainProps={{ my: 5 }}
+      mainProps={{ pt: 5 }}
     >
       <Grid container spacing={4}>
         <Grid item xs={12}>

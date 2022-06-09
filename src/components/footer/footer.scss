@@ -23,4 +23,18 @@
     background-color: var(--color-primary-main);
     color: white;
   }
+
+  &--menu {
+    min-height: 500px;
+
+    &::before {
+      content: '';
+      display: block;
+      max-width: 28px;
+      height: 4px;
+      border-radius: 2px;
+      background-color: white;
+      margin: 4px auto;
+    }
+  }
 }

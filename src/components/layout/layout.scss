@@ -1,10 +1,41 @@
 .caderninho .layout {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: calc(100% - var(--header-height) - var(--address-bar-height));
+  height: calc(100vh - var(--header-height) - var(--address-bar-height));
+  position: relative;
 
   &__main {
     flex: 1;
+  }
+
+  &--footer-menu {
+    display: block;
+    position: static;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+    .layout__overlay {
+      height: calc(100% - 56px);
+      pointer-events: none;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    .layout__main {
+      height: calc(100% - 56px);
+      overflow: scroll;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .footer {
+      position: relative;
+      bottom: initial;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
   }
 }
