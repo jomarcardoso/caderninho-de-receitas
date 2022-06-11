@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect, useContext, useMemo } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import last from 'lodash/last';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import Panel from '../../components/panel/panel';
 import RecipePanel from '../recipe/recipe-panel';
 import SEO from '../../components/seo';
@@ -16,6 +17,10 @@ import useRecipe from '../../hooks/use-current-recipe';
 import AccountContext from '../../contexts/account-context';
 import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
+import { currentUser, auth } from '../../firebase/firebase';
+import UserContext from '../../contexts/user-context';
+
+// console.log(currentUser);
 
 export type AppProps = BoxProps;
 
@@ -32,6 +37,9 @@ const useStyles = makeStyles({
 });
 
 const AppPage: FC<BoxProps> = (props) => {
+  const [user, setUser] = useState<User | undefined>(
+    currentUser as User | undefined,
+  );
   const classes = useStyles();
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
@@ -60,47 +68,63 @@ const AppPage: FC<BoxProps> = (props) => {
     ],
   );
 
+  const memoizedUser = useMemo(
+    () => ({
+      user,
+      setUser,
+    }),
+    [user],
+  );
+
   useEffect(() => {
     setHideLeftPanel(false);
   }, []);
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (newUser) => setUser(newUser as User));
+  });
+
+  // console.log(memoizedUser, currentUser);
+
   return (
-    <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
-      <DialogFood
-        food={currentFood}
-        onClose={() => setCurrentFood(FOOD)}
-        open={Boolean(currentFood.name)}
-        quantity={currentFoodQuantity}
-      />
-      <Header />
-      <Box className={classes.display} id="root-content" {...props}>
-        <Panel
-          id="foods-panel"
-          style={{ display: hideLeftPanel ? 'none' : 'initial' }}
-        >
-          <FoodsPanel
+    <UserContext.Provider value={memoizedUser}>
+      <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
+        <DialogFood
+          food={currentFood}
+          onClose={() => setCurrentFood(FOOD)}
+          open={Boolean(currentFood.name)}
+          quantity={currentFoodQuantity}
+        />
+        <Header />
+        <Box className={classes.display} id="root-content" {...props}>
+          <Panel
+            id="foods-panel"
+            style={{ display: hideLeftPanel ? 'none' : 'initial' }}
+          >
+            <FoodsPanel
+              setCurrentFood={setCurrentFood}
+              setCurrentFoodQuantity={setCurrentFoodQuantity}
+            />
+          </Panel>
+          <Panel id="main-panel">
+            <MainPanel
+              currentRecipeData={currentRecipeData}
+              setCurrentRecipe={setCurrentRecipe}
+            />
+          </Panel>
+          <RecipePanel
+            currentRecipeData={currentRecipeData}
+            setCurrentRecipeData={setCurrentRecipeData}
             setCurrentFood={setCurrentFood}
             setCurrentFoodQuantity={setCurrentFoodQuantity}
           />
-        </Panel>
-        <Panel id="main-panel">
-          <MainPanel
-            currentRecipeData={currentRecipeData}
-            setCurrentRecipe={setCurrentRecipe}
-          />
-        </Panel>
-        <RecipePanel
-          currentRecipeData={currentRecipeData}
-          setCurrentRecipeData={setCurrentRecipeData}
-          setCurrentFood={setCurrentFood}
-          setCurrentFoodQuantity={setCurrentFoodQuantity}
-        />
-        <SEO title="Caderninho de Receitas" />
-      </Box>
-      <LoadingContext.Consumer>
-        {({ loading = false }) => <PageLoader open={loading} />}
-      </LoadingContext.Consumer>
-    </CurrentRecipeContext.Provider>
+          <SEO title="Caderninho de Receitas" />
+        </Box>
+        <LoadingContext.Consumer>
+          {({ loading = false }) => <PageLoader open={loading} />}
+        </LoadingContext.Consumer>
+      </CurrentRecipeContext.Provider>
+    </UserContext.Provider>
   );
 };
 

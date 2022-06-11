@@ -17,6 +17,8 @@ import useScroll from '../../hooks/use-scroll';
 import ChefSvg from '../../assets/svg/history/chef.svg';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
+import UserContext from '../../contexts/user-context';
+import { Avatar } from '../../components/avatar/avatar';
 
 const useStyles = makeStyles({
   listItem: {
@@ -32,6 +34,7 @@ const MainPanel: FC<{
   setCurrentRecipe(recipe: Recipe): void;
   currentRecipeData: RecipeData;
 }> = ({ setCurrentRecipe, currentRecipeData }) => {
+  const { user } = useContext(UserContext);
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
   const alphabeticalRecipes = account.recipes.sort((a, b) => {
@@ -84,6 +87,7 @@ const MainPanel: FC<{
     >
       <Grid container spacing={4}>
         <Grid item xs={12}>
+          <Avatar src={user?.photoURL || ''} />
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <SectionTitle>Minhas receitas</SectionTitle>
