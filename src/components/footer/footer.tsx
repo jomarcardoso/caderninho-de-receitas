@@ -6,10 +6,12 @@ import BottomNavigationAction, {
 import Box, { BoxProps } from '@mui/material/Box';
 import SvgIcon from '@mui/material/SvgIcon';
 import './footer.scss';
+import { generateCSSClasses } from '../../services/dom/classes';
 
 interface Props {
   items?: BottomNavigationActionProps[];
   footerMenu?: boolean;
+  open?: boolean;
 }
 
 export type FooterProps = Props & BoxProps;
@@ -17,9 +19,16 @@ export type FooterProps = Props & BoxProps;
 const Footer: FC<FooterProps> = ({
   items = [],
   footerMenu,
+  open = false,
   children,
   ...props
 }) => {
+  const classes = generateCSSClasses({
+    footer: true,
+    'footer--menu': footerMenu,
+    'footer--open': open,
+  });
+
   function render() {
     function renderItem({ icon, ...itemProps }: BottomNavigationActionProps) {
       return (
@@ -34,7 +43,7 @@ const Footer: FC<FooterProps> = ({
       <Box
         boxShadow={4}
         component="footer"
-        className={`footer ${footerMenu ? 'footer--menu' : ''}`}
+        className={classes}
         zIndex={1}
         {...props}
       >
@@ -47,7 +56,7 @@ const Footer: FC<FooterProps> = ({
     );
   }
 
-  const renderMemo = useMemo(render, [children, footerMenu, items, props]);
+  const renderMemo = useMemo(render, [children, classes, items, props]);
 
   return renderMemo;
 };

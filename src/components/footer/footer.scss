@@ -26,6 +26,7 @@
 
   &--menu {
     padding: 16px;
+    transition: background-color 300ms;
 
     &::before {
       content: '';
@@ -37,5 +38,9 @@
       margin: 8px auto;
       margin-bottom: 22px;
     }
+  }
+
+  &--open {
+    background-color: var(--color-primary-dark);
   }
 }

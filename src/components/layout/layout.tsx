@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, UIEvent, useState, useCallback } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import Header, { HeaderProps } from '../header/header';
 import Main, { MainProps } from '../main';
@@ -6,6 +6,7 @@ import './layout.scss';
 
 import { CurrentPage } from '../../services/page.service';
 import Footer, { FooterProps } from '../footer/footer';
+import { generateCSSClasses } from '../../services/dom/classes';
 
 interface Props {
   showHeader?: boolean;
@@ -27,29 +28,49 @@ const Layout: FC<LayoutProps> = ({
   footerProps,
   footerMenu = false,
   mainProps,
-  className,
+  className = '',
   ...props
 }) => {
-  const classList = ['layout'];
+  const [open, setOpen] = useState(false);
 
-  if (className) {
-    classList.push(className);
-  }
+  const classes = generateCSSClasses({
+    layout: true,
+    'layout--footer-menu': footerMenu,
+    [className]: className,
+  });
 
-  if (footerMenu) {
-    classList.push('layout--footer-menu');
-  }
+  const handleOpen = useCallback(
+    (event: UIEvent<HTMLDivElement>) => {
+      if ((event.target as HTMLElement).scrollTop) {
+        if (!open) {
+          setOpen(true);
+        }
 
-  const classes = classList.join(' ');
+        return;
+      }
+
+      if (open) {
+        setOpen(false);
+      }
+    },
+    [open],
+  );
 
   return (
-    <Box className={classes} bgcolor="gray.700" {...props}>
+    <Box
+      className={classes}
+      onScroll={handleOpen}
+      bgcolor="gray.700"
+      {...props}
+    >
       {showHeader && <Header {...headerProps} />}
       {footerMenu && <div className="layout__overlay" />}
       <Main className="layout__main" {...mainProps}>
         {children}
       </Main>
-      {showFooter && <Footer footerMenu={footerMenu} {...footerProps} />}
+      {showFooter && (
+        <Footer open={open} footerMenu={footerMenu} {...footerProps} />
+      )}
     </Box>
   );
 };
