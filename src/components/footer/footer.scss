@@ -5,8 +5,8 @@
   min-height: 44px;
   overflow: hidden;
   position: sticky;
-  border-top-left-radius: var(--border-radius-secondary);
-  border-top-right-radius: var(--border-radius-secondary);
+  border-top-left-radius: var(--border-radius-primary);
+  border-top-right-radius: var(--border-radius-primary);
   box-shadow:
     0 2px 4px -1px rgb(0 0 0 / 20%),
     0 4px 5px 0 rgb(0 0 0 / 14%),
@@ -25,7 +25,7 @@
   }
 
   &--menu {
-    min-height: 500px;
+    padding: 16px;
 
     &::before {
       content: '';
@@ -34,7 +34,8 @@
       height: 4px;
       border-radius: 2px;
       background-color: white;
-      margin: 4px auto;
+      margin: 8px auto;
+      margin-bottom: 22px;
     }
   }
 }

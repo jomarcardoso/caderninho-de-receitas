@@ -14,7 +14,12 @@ interface Props {
 
 export type FooterProps = Props & BoxProps;
 
-const Footer: FC<FooterProps> = ({ items = [], footerMenu, ...props }) => {
+const Footer: FC<FooterProps> = ({
+  items = [],
+  footerMenu,
+  children,
+  ...props
+}) => {
   function render() {
     function renderItem({ icon, ...itemProps }: BottomNavigationActionProps) {
       return (
@@ -33,14 +38,16 @@ const Footer: FC<FooterProps> = ({ items = [], footerMenu, ...props }) => {
         zIndex={1}
         {...props}
       >
-        <BottomNavigation className="footer__navigation">
-          {items.map(renderItem)}
-        </BottomNavigation>
+        {children || (
+          <BottomNavigation className="footer__navigation">
+            {items.map(renderItem)}
+          </BottomNavigation>
+        )}
       </Box>
     );
   }
 
-  const renderMemo = useMemo(render, [footerMenu, items, props]);
+  const renderMemo = useMemo(render, [children, footerMenu, items, props]);
 
   return renderMemo;
 };

@@ -77,7 +77,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   }
 
   return (
-    <Box className="recipe-container" mb={5}>
+    <Box className="recipe-container">
       {recipe.name && (
         <HideOnScroll>
           <Box className="recipe-container__name">

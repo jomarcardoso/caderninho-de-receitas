@@ -18,7 +18,7 @@ import ChefSvg from '../../assets/svg/history/chef.svg';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import UserContext from '../../contexts/user-context';
-import { Avatar } from '../../components/avatar/avatar';
+import { UserBox } from '../../components/user-box/user-box';
 
 const useStyles = makeStyles({
   listItem: {
@@ -76,18 +76,14 @@ const MainPanel: FC<{
       currentPage="HOME"
       showHeader={false}
       footerProps={{
-        items: [
-          {
-            onClick: () => setCurrentRecipe(RECIPE),
-            icon: <IoAddCircleOutline />,
-          },
-        ],
+        children: (
+          <UserBox src={user?.photoURL as string} name={user?.displayName} />
+        ),
       }}
       mainProps={{ pt: 5 }}
     >
       <Grid container spacing={4}>
         <Grid item xs={12}>
-          <Avatar src={user?.photoURL || ''} />
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <SectionTitle>Minhas receitas</SectionTitle>

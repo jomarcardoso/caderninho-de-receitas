@@ -110,7 +110,12 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
       />
       <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
       {orderedFoods.length >= quantityToShow && (
-        <Box display="flex" justifyContent="center" marginTop={4}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          marginTop={4}
+          marginBottom={5}
+        >
           <Button variant="secondary" onClick={handleShowMore}>
             mostrar mais
           </Button>

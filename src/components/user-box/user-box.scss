@@ -1,0 +1,9 @@
+.user-box {
+  border-radius: var(--border-radius-secondary);
+  border: 2px solid white;
+  padding: 8px;
+  display: flex;
+  gap: 8px 16px;
+  border-bottom-left-radius: var(--border-radius-primary);
+  border-top-left-radius: var(--border-radius-primary);
+}
