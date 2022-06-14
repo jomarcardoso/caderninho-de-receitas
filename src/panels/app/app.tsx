@@ -2,7 +2,6 @@ import React, { FC, useState, useEffect, useContext, useMemo } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import last from 'lodash/last';
-import { onAuthStateChanged, User } from 'firebase/auth';
 import Panel from '../../components/panel/panel';
 import RecipePanel from '../recipe/recipe-panel';
 import SEO from '../../components/seo';
@@ -17,8 +16,8 @@ import useRecipe from '../../hooks/use-current-recipe';
 import AccountContext from '../../contexts/account-context';
 import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
-import { currentUser, auth } from '../../firebase/firebase';
-import UserContext from '../../contexts/user-context';
+import FirebaseContext from '../../contexts/user-context';
+import { useFirebase } from '../../hooks/use-firebase';
 
 // console.log(currentUser);
 
@@ -37,9 +36,7 @@ const useStyles = makeStyles({
 });
 
 const AppPage: FC<BoxProps> = (props) => {
-  const [user, setUser] = useState<User | undefined>(
-    currentUser as User | undefined,
-  );
+  const firebase = useFirebase();
   const classes = useStyles();
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
@@ -68,26 +65,14 @@ const AppPage: FC<BoxProps> = (props) => {
     ],
   );
 
-  const memoizedUser = useMemo(
-    () => ({
-      user,
-      setUser,
-    }),
-    [user],
-  );
-
   useEffect(() => {
     setHideLeftPanel(false);
   }, []);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (newUser) => setUser(newUser as User));
-  });
-
   // console.log(memoizedUser, currentUser);
 
   return (
-    <UserContext.Provider value={memoizedUser}>
+    <FirebaseContext.Provider value={firebase}>
       <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
         <DialogFood
           food={currentFood}
@@ -124,7 +109,7 @@ const AppPage: FC<BoxProps> = (props) => {
           {({ loading = false }) => <PageLoader open={loading} />}
         </LoadingContext.Consumer>
       </CurrentRecipeContext.Provider>
-    </UserContext.Provider>
+    </FirebaseContext.Provider>
   );
 };
 
