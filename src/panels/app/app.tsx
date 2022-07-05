@@ -16,10 +16,8 @@ import useRecipe from '../../hooks/use-current-recipe';
 import AccountContext from '../../contexts/account-context';
 import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
-import FirebaseContext from '../../contexts/user-context';
+import FirebaseContext from '../../contexts/firebase-context';
 import { useFirebase } from '../../hooks/use-firebase';
-
-// console.log(currentUser);
 
 export type AppProps = BoxProps;
 
@@ -68,8 +66,6 @@ const AppPage: FC<BoxProps> = (props) => {
   useEffect(() => {
     setHideLeftPanel(false);
   }, []);
-
-  // console.log(memoizedUser, currentUser);
 
   return (
     <FirebaseContext.Provider value={firebase}>

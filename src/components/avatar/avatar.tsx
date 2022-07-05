@@ -8,26 +8,29 @@ export const Avatar: FC<ImgHTMLAttributes<HTMLImageElement>> = ({
   className = '',
   ...props
 }) => {
-  const [hideImage, setHideImage] = useState(false);
+  const [hideImage, setHideImage] = useState(true);
   const classes = generateCSSClasses({
     avatar: true,
     [className]: className,
   });
 
   useEffect(() => {
-    setHideImage(false);
+    setHideImage(!props.src);
   }, [props.src]);
+
+  console.log(hideImage, props.src);
 
   return (
     <div className={classes}>
-      <img src="/images/decorations/chef.png" alt="" width="0" height="0" />
-      {!hideImage && (
+      {!hideImage ? (
         <img
           alt={alt}
           className="avatar__img"
           onError={() => setHideImage(true)}
           {...props}
         />
+      ) : (
+        <img src="/images/decorations/chef.png" alt="" width="0" height="0" />
       )}
     </div>
   );

@@ -17,7 +17,6 @@ import useScroll from '../../hooks/use-scroll';
 import ChefSvg from '../../assets/svg/history/chef.svg';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
-import FirebaseContext from '../../contexts/user-context';
 import { UserBox } from '../../components/user-box/user-box';
 
 const useStyles = makeStyles({
@@ -34,7 +33,6 @@ const MainPanel: FC<{
   setCurrentRecipe(recipe: Recipe): void;
   currentRecipeData: RecipeData;
 }> = ({ setCurrentRecipe, currentRecipeData }) => {
-  const { user } = useContext(FirebaseContext);
   const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
   const classes = useStyles();
   const alphabeticalRecipes = account.recipes.sort((a, b) => {
@@ -70,17 +68,13 @@ const MainPanel: FC<{
     );
   }
 
-  // console.log(user);
-
   return (
     <Layout
       footerMenu
       currentPage="HOME"
       showHeader={false}
       footerProps={{
-        children: (
-          <UserBox src={user?.photoURL as string} name={user?.displayName} />
-        ),
+        children: <UserBox />,
       }}
       mainProps={{ pt: 5 }}
     >

@@ -9,8 +9,18 @@ import {
   User,
   Auth,
   onAuthStateChanged,
+  signOut,
 } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import {
+  getFirestore,
+  Firestore,
+  collection,
+  getDocs,
+  where,
+  query,
+} from 'firebase/firestore';
+
+import { useCallback, useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import app from 'gatsby-plugin-firebase-v9.0';
@@ -21,23 +31,25 @@ const defaultCredential = GoogleAuthProvider.credential(
   localStorage.getItem('OAuthToken'),
 );
 
+const db = getFirestore(app);
+
 export const useFirebase = (): {
   auth?: Auth;
   user?: User;
   credential?: OAuthCredential;
+  db?: Firestore;
+  login?(): void;
+  logout?(): void;
 } => {
+  // const [db, setDB] = useState<Firestore>(defaultDB);
   const [user, setUser] = useState<User>(auth?.currentUser as User);
   const [credential, setCredential] =
     useState<OAuthCredential>(defaultCredential);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (newUser) => setUser(newUser as User));
-  }, []);
-
-  useEffect(() => {
+  const login = useCallback(() => {
     const provider = new GoogleAuthProvider();
 
-    if (credential) {
+    if (!credential) {
       return;
     }
 
@@ -72,15 +84,48 @@ export const useFirebase = (): {
       });
   }, [credential]);
 
-  console.log({
-    auth,
-    user,
-    credential,
-  });
+  function logout() {
+    signOut(auth);
+
+    setUser(undefined as unknown as User);
+  }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (newUser) => setUser(newUser as User));
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    async function test() {
+      try {
+        const q = query(
+          collection(db, 'recipes'),
+          where('userId', '==', user.uid),
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, ' => ', doc.data());
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    test();
+  }, [user]);
 
   return {
+    db,
     auth,
     user,
     credential,
+    login,
+    logout,
   };
 };

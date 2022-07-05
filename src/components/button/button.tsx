@@ -4,7 +4,7 @@ import './button.scss';
 interface Props {
   variant?: 'primary' | 'secondary';
   fullWidth?: boolean;
-  contrast?: 'white' | 'light';
+  contrast?: 'white' | 'light' | 'dark';
 }
 
 export type ButtonProps = Props & ButtonHTMLAttributes<HTMLButtonElement>;
@@ -24,6 +24,7 @@ export const Button: FC<ButtonProps> = ({
   classes += variant === 'secondary' ? ' button--secondary' : '';
   classes += fullWidth ? ' button--full' : '';
   classes += contrast === 'light' ? ' button--on-light' : '';
+  classes += contrast === 'dark' ? ' button--on-dark' : '';
 
   return (
     <button className={classes} type={type} {...props}>

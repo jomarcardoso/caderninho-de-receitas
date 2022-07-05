@@ -12,10 +12,12 @@
     0 4px 5px 0 rgb(0 0 0 / 14%),
     0 1px 10px 0 rgb(0 0 0 / 12%);
 
-  button {
-    color: inherit;
-    display: block;
-    padding-top: 8px !important;
+  &:not(.footer--menu) {
+    button {
+      color: inherit;
+      display: block;
+      padding-top: 8px !important;
+    }
   }
 
   &__navigation {
