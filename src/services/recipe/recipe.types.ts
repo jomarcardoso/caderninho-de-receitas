@@ -69,7 +69,7 @@ export interface RecipeData {
   additional?: string;
   steps: Array<RecipeStepData>;
   category: RecipeCategory | '';
-  lastUpdate: Date;
+  lastUpdate: number;
 }
 
 export interface RecipeStepToShare {
@@ -109,7 +109,7 @@ export const RECIPE_DATA: RecipeData = {
   additional: '',
   category: '',
   steps: [],
-  lastUpdate: new Date(),
+  lastUpdate: Date.now(),
 };
 
 export const RECIPE_STEP: RecipeStep = {

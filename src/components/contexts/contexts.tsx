@@ -1,23 +1,23 @@
 import React, { FC, HTMLProps, useMemo } from 'react';
-import useAccount from '../../hooks/use-account';
+import useRecipes from '../../hooks/use-recipes';
 import useFoods from '../../hooks/use-food';
-import AccountContext from '../../contexts/account-context';
+import RecipesContext from '../../contexts/recipes-context';
 import FoodsContext from '../../contexts/foods-context';
 
 const Contexts: FC<HTMLProps<HTMLDivElement>> = ({ children }) => {
   const foods = useFoods();
-  const { account, setAccount } = useAccount(foods);
+  const { addRecipe, recipes, removeRecipe } = useRecipes(foods);
   const memoizedFoods = useMemo(() => foods, [foods]);
-  const memoizedAccount = useMemo(
-    () => ({ account, setAccount }),
-    [account, setAccount],
+  const memoizedRecipes = useMemo(
+    () => ({ addRecipe, recipes, removeRecipe }),
+    [addRecipe, recipes, removeRecipe],
   );
 
   return (
     <FoodsContext.Provider value={memoizedFoods}>
-      <AccountContext.Provider value={memoizedAccount}>
+      <RecipesContext.Provider value={memoizedRecipes}>
         {children}
-      </AccountContext.Provider>
+      </RecipesContext.Provider>
     </FoodsContext.Provider>
   );
 };

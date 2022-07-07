@@ -13,7 +13,7 @@ import PageLoader from '../../components/page-loader/page-loader';
 import LoadingContext from '../../contexts/loading';
 import { FOOD } from '../../services/food';
 import useRecipe from '../../hooks/use-current-recipe';
-import AccountContext from '../../contexts/account-context';
+import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
 import FirebaseContext from '../../contexts/firebase-context';
@@ -39,15 +39,13 @@ const AppPage: FC<BoxProps> = (props) => {
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
-  const { account } = useContext(AccountContext);
+  const { recipes = [] } = useContext(RecipesContext);
   const {
     currentRecipeData,
     setCurrentRecipeData,
     setCurrentRecipe,
     restoreLastRecipe,
-  } = useRecipe(
-    RecipeService.unFormat(last(account.recipes) || RECIPE) || RECIPE_DATA,
-  );
+  } = useRecipe(RecipeService.unFormat(last(recipes) || RECIPE) || RECIPE_DATA);
   const memoizedCurrentRecipe = useMemo(
     () => ({
       currentRecipeData,

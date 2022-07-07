@@ -16,7 +16,7 @@ import { RecipeService, RECIPE_DATA, RecipeData } from '../../services/recipe';
 import FoodsContext from '../../contexts/foods-context';
 import Layout from '../../components/layout/layout';
 import { Food } from '../../services/food';
-import AccountContext from '../../contexts/account-context';
+import RecipesContext from '../../contexts/recipes-context';
 import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';
 import Panel from '../../components/panel/panel';
@@ -36,7 +36,7 @@ const RecipePanel: FC<{
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
-  const { setAccount } = useContext(AccountContext);
+  const { removeRecipe } = useContext(RecipesContext);
   const foods = useContext(FoodsContext);
   const recipe = RecipeService.format({ foods, recipeData: currentRecipeData });
   const [editing, setEditing] = useState(true);
@@ -73,7 +73,10 @@ const RecipePanel: FC<{
   }, [setCurrentRecipeData]);
 
   function handleClickRemove() {
-    setAccount?.removeRecipe(recipe.id);
+    if (removeRecipe) {
+      removeRecipe(recipe.id);
+    }
+
     setCurrentRecipeData(RECIPE_DATA);
   }
 

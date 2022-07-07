@@ -18,8 +18,6 @@ export const Avatar: FC<ImgHTMLAttributes<HTMLImageElement>> = ({
     setHideImage(!props.src);
   }, [props.src]);
 
-  console.log(hideImage, props.src);
-
   return (
     <div className={classes}>
       {!hideImage ? (

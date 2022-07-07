@@ -8,8 +8,7 @@ import TableBody from '@mui/material/TableBody';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
-import AccountContext from '../../contexts/account-context';
-import { AccountAndSet, ACCOUNT } from '../../services/account.service';
+import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE, Recipe, RecipeData } from '../../services/recipe';
 import { recipes } from '../../db/partner-recipes';
 import SectionTitle from '../../components/section-title/section-title';
@@ -33,9 +32,9 @@ const MainPanel: FC<{
   setCurrentRecipe(recipe: Recipe): void;
   currentRecipeData: RecipeData;
 }> = ({ setCurrentRecipe, currentRecipeData }) => {
-  const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
+  const { recipes: savedRecipes = [] } = useContext(RecipesContext);
   const classes = useStyles();
-  const alphabeticalRecipes = account.recipes.sort((a, b) => {
+  const alphabeticalRecipes = savedRecipes.sort((a, b) => {
     if (a.name < b.name) {
       return -1;
     }

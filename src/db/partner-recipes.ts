@@ -40,7 +40,7 @@ sal a gosto`,
         additional: '',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 2,
@@ -81,7 +81,7 @@ Canela Moída Fritz & Frida a gosto
         additional: '',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     category: 'aperitivo',
@@ -128,7 +128,7 @@ raspas de 1 limão
         additional: '',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
     description:
       'Uma casquinha crocante e dourada envolve as rodelas de abobrinha, bem macias. A melhor parte: é sem fritura. Antes de sair correndo para já preaquecer o forno, um conselho: não deixe de preparar a tapenade para acompanhar!',
     id: 3,
@@ -189,7 +189,7 @@ Leve uma frigideira média com a manteiga ao fogo médio. Assim que derreter, ju
         additional: '',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 5,
@@ -236,7 +236,7 @@ Tempere com o sal e o curry e bata apenas para misturar. Sirva a seguir ainda qu
           'OBS: se quiser levar de marmita para o trabalho, transfira a sopa para uma garrafa de vidro com tampa e mantenha na geladeira até a hora de servir. Esquente no micro-ondas ou sirva fria - fica deliciosa!',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 6,
@@ -278,7 +278,7 @@ Assim que estiver assado, retire do forno e transfira o filé mignon suíno para
           'OBS: para montar as marmitas, coloque o cuscuz marroquino em potes de vidro e cubra com as folhas de salsinha e coentro. Feche e mantenha na geladeira até a hora de servir.',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 7,
@@ -306,7 +306,7 @@ Com uma concha, transfira a geleia ainda quente para potes de vidro esterilizado
           'Você pode conservar a geleia pronta por até 2 meses, fechada a vácuo, em temperatura ambiente; por até 6 meses no congelador e após aberta por 1 mês na geladeira.',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 8,
@@ -338,7 +338,7 @@ Escorra a cebola e adicione ao chuchu. Tempere com o azeite, o caldo de limão, 
           'OBS: não precisa tirar o miolo do chuchu. Caso tenha vindo com a semente, retire com uma colher e descarte.',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 9,
@@ -393,7 +393,7 @@ Desenforme o brownie e descarte o papel da lateral. Cubra com um prato e vire de
         additional: '',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 10,
@@ -427,7 +427,7 @@ Deixe os filés de frango terminarem de cozinhar em fogo baixo por mais 3 minuto
           'Caso esteja utilizando um cooktop por indução, selecione a potência 12 para selar os filés, depois diminua para a potência 6.',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 11,
@@ -465,7 +465,7 @@ Na hora de servir, retire da geladeira e, com uma colher, transfira o creme para
         additional: '',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 12,
@@ -489,7 +489,7 @@ Regue com um pouco mais da água, mexa o café com uma colher e apenas então de
           'Se sua prensa tiver uma capacidade maior, use o dobro da quantidade de café e de água.',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     id: 13,
@@ -558,7 +558,7 @@ Com a ponta de uma faquinha, faça 4 cortes em cruz no centro da torta – eles 
           'OBS: a torta de banana também fica uma delícia servida quente com sorvete, creme batido ou pé de moleque com laranja.',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
     additional:
       'Para congelar: Depois de assada, deixe a torta esfriar completamente. Embale bem com filme, assim a torta não absorve a umidade do congelador, nem pega gosto de outras comidas, e leve ao freezer. Na hora de descongelar, preaqueça o forno a 180 ºC (temperatura média), desembale e transfira a torta para uma assadeira. Leve direto ao forno (ainda congelada), o tempo varia de forno para forno, o mais importante é verificar se o centro do recheio descongelou e está aquecido. A torta tem validade de 3 meses congelada.',
   },
@@ -611,7 +611,7 @@ Após os 5 minutos, a panela vai desligar sozinha e manter o ensopado aquecido. 
         additional: '',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
     additional: '',
   },
   {
@@ -672,7 +672,7 @@ Solte os grãos de arroz com um garfo e acrescente ao refogado de carne, mexa po
           'Essa receita é uma ótima opção para reaproveitar o arroz cozido que estiver na geladeira (ou congelador). No total, você precisa de 3 xícaras (chá) dos grãos já cozidos.',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     name: 'Arroz libanês com frango, coalhada e nozes',
@@ -735,7 +735,7 @@ azeite a gosto`,
         additional: '',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     name: 'Chapati',
@@ -775,7 +775,7 @@ Para armazenar: para manter os pãezinhos macios, conserve num saco plástico po
 Pode congelar: se não quiser fazer todos os discos, congele a massa restante, já porcionada, mas antes de abrir (em bolinhas). Na hora que quiser usar, tire do freezer com antecedência. Quando a massa estiver mole de novo, retome o preparo a partir do passo 5.`,
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
   {
     name: 'Tabule',
@@ -813,7 +813,7 @@ Numa tigela coloque a cebola, o tomate, a salsinha e a hortelã picados. Tempere
           'O tabule dura até 1 dia na geladeira, mas o trigo aos poucos vai absorvendo a umidade dos ingredientes e o tabule não fica tão soltinho quanto feito na hora.',
       },
     ],
-    lastUpdate: new Date(1657158241946),
+    lastUpdate: 1657158241946,
   },
 ];
 
