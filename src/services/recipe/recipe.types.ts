@@ -52,6 +52,7 @@ export interface Recipe {
   steps: Array<RecipeStep>;
   vitamins: Vitamins;
   minerals: Minerals;
+  lastUpdate: Date;
 }
 
 export interface RecipeStepData {
@@ -68,6 +69,7 @@ export interface RecipeData {
   additional?: string;
   steps: Array<RecipeStepData>;
   category: RecipeCategory | '';
+  lastUpdate: Date;
 }
 
 export interface RecipeStepToShare {
@@ -107,6 +109,7 @@ export const RECIPE_DATA: RecipeData = {
   additional: '',
   category: '',
   steps: [],
+  lastUpdate: new Date(),
 };
 
 export const RECIPE_STEP: RecipeStep = {
@@ -135,6 +138,7 @@ export const RECIPE: Recipe = {
   vitamins: VITAMINS,
   minerals: MINERALS,
   category: '',
+  lastUpdate: new Date(),
 };
 
 export type SetRecipe = (recipeData: RecipeData) => number;

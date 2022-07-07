@@ -60,6 +60,7 @@ const RecipeRegister: FC<Props> = ({
         description,
         id: recipeData?.id ?? 0,
         category,
+        lastUpdate: new Date(),
       };
 
       const id = setAccount.recipe(newRecipeData);

@@ -380,6 +380,7 @@ export function unFormat(recipe: Recipe): RecipeData {
       preparation: step.preparation ?? RECIPE_STEP_DATA.preparation,
       additional: step.additional ?? RECIPE_STEP_DATA.additional,
     })),
+    lastUpdate: recipe.lastUpdate ?? RECIPE_DATA.lastUpdate,
   };
 }
 
@@ -440,6 +441,7 @@ export function unformatToShare(recipeToShare: RecipeToShare): RecipeData {
         ingredients: step.i ?? RECIPE_STEP_DATA.ingredients,
         additional: step.a ?? RECIPE_STEP_DATA.additional,
       })) ?? RECIPE_DATA.steps,
+    lastUpdate: new Date(),
   };
 }
 
