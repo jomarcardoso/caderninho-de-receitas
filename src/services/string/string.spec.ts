@@ -194,7 +194,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(2398);
+    expect(shortRecipe.length).toBeLessThan(2399);
   });
 
   it('short 1 lesser than', () => {
@@ -202,7 +202,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(1660);
+    expect(shortRecipe.length).toBeLessThan(1675);
   });
 
   it('short 2 lesser than', () => {
@@ -210,7 +210,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(2394);
+    expect(shortRecipe.length).toBeLessThan(2395);
   });
 
   it('short 3 lesser than', () => {
@@ -218,7 +218,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(3352);
+    expect(shortRecipe.length).toBeLessThan(3353);
   });
 
   it('short 4 lesser than', () => {
@@ -226,7 +226,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(1881);
+    expect(shortRecipe.length).toBeLessThan(1882);
   });
 
   it('short 5 lesser than', () => {
@@ -234,7 +234,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(2765);
+    expect(shortRecipe.length).toBeLessThan(2766);
   });
 
   it('short 6 lesser than', () => {
@@ -242,7 +242,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(1567);
+    expect(shortRecipe.length).toBeLessThan(1594);
   });
 
   it('short 7 lesser than', () => {
@@ -250,7 +250,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(1525);
+    expect(shortRecipe.length).toBeLessThan(1526);
   });
 
   it('short 8 lesser than', () => {
@@ -258,7 +258,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(2997);
+    expect(shortRecipe.length).toBeLessThan(3024);
   });
 
   it('short 9 lesser than', () => {
@@ -266,7 +266,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(2142);
+    expect(shortRecipe.length).toBeLessThan(2143);
   });
 
   it('short 10 lesser than', () => {
@@ -274,7 +274,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(2876);
+    expect(shortRecipe.length).toBeLessThan(2903);
   });
 
   it('short 11 lesser than', () => {
@@ -282,7 +282,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(1293);
+    expect(shortRecipe.length).toBeLessThan(1308);
   });
 
   it('short 12 lesser than', () => {
@@ -290,7 +290,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(5327);
+    expect(shortRecipe.length).toBeLessThan(5328);
   });
 
   it('short 13 lesser than', () => {
@@ -298,7 +298,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(2655);
+    expect(shortRecipe.length).toBeLessThan(2656);
   });
 
   it('short 14 lesser than', () => {
@@ -306,7 +306,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(3228);
+    expect(shortRecipe.length).toBeLessThan(3229);
   });
 
   it('short 15 lesser than', () => {
@@ -314,7 +314,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(3433);
+    expect(shortRecipe.length).toBeLessThan(3434);
   });
 
   it('short 16 lesser than', () => {
@@ -322,7 +322,7 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(2850);
+    expect(shortRecipe.length).toBeLessThan(2858);
   });
 
   it('short 17 lesser than', () => {
@@ -330,6 +330,6 @@ describe('StringService', () => {
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
-    expect(shortRecipe.length).toBeLessThan(1716);
+    expect(shortRecipe.length).toBeLessThan(1743);
   });
 });

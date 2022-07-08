@@ -16,8 +16,6 @@ import useRecipe from '../../hooks/use-current-recipe';
 import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
-import FirebaseContext from '../../contexts/firebase-context';
-import { useFirebase } from '../../hooks/use-firebase';
 
 export type AppProps = BoxProps;
 
@@ -34,7 +32,6 @@ const useStyles = makeStyles({
 });
 
 const AppPage: FC<BoxProps> = (props) => {
-  const firebase = useFirebase();
   const classes = useStyles();
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
@@ -66,44 +63,42 @@ const AppPage: FC<BoxProps> = (props) => {
   }, []);
 
   return (
-    <FirebaseContext.Provider value={firebase}>
-      <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
-        <DialogFood
-          food={currentFood}
-          onClose={() => setCurrentFood(FOOD)}
-          open={Boolean(currentFood.name)}
-          quantity={currentFoodQuantity}
-        />
-        <Header />
-        <Box className={classes.display} id="root-content" {...props}>
-          <Panel
-            id="foods-panel"
-            style={{ display: hideLeftPanel ? 'none' : 'initial' }}
-          >
-            <FoodsPanel
-              setCurrentFood={setCurrentFood}
-              setCurrentFoodQuantity={setCurrentFoodQuantity}
-            />
-          </Panel>
-          <Panel id="main-panel">
-            <MainPanel
-              currentRecipeData={currentRecipeData}
-              setCurrentRecipe={setCurrentRecipe}
-            />
-          </Panel>
-          <RecipePanel
-            currentRecipeData={currentRecipeData}
-            setCurrentRecipeData={setCurrentRecipeData}
+    <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
+      <DialogFood
+        food={currentFood}
+        onClose={() => setCurrentFood(FOOD)}
+        open={Boolean(currentFood.name)}
+        quantity={currentFoodQuantity}
+      />
+      <Header />
+      <Box className={classes.display} id="root-content" {...props}>
+        <Panel
+          id="foods-panel"
+          style={{ display: hideLeftPanel ? 'none' : 'initial' }}
+        >
+          <FoodsPanel
             setCurrentFood={setCurrentFood}
             setCurrentFoodQuantity={setCurrentFoodQuantity}
           />
-          <SEO title="Caderninho de Receitas" />
-        </Box>
-        <LoadingContext.Consumer>
-          {({ loading = false }) => <PageLoader open={loading} />}
-        </LoadingContext.Consumer>
-      </CurrentRecipeContext.Provider>
-    </FirebaseContext.Provider>
+        </Panel>
+        <Panel id="main-panel">
+          <MainPanel
+            currentRecipeData={currentRecipeData}
+            setCurrentRecipe={setCurrentRecipe}
+          />
+        </Panel>
+        <RecipePanel
+          currentRecipeData={currentRecipeData}
+          setCurrentRecipeData={setCurrentRecipeData}
+          setCurrentFood={setCurrentFood}
+          setCurrentFoodQuantity={setCurrentFoodQuantity}
+        />
+        <SEO title="Caderninho de Receitas" />
+      </Box>
+      <LoadingContext.Consumer>
+        {({ loading = false }) => <PageLoader open={loading} />}
+      </LoadingContext.Consumer>
+    </CurrentRecipeContext.Provider>
   );
 };
 

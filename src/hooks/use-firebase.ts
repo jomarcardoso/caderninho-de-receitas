@@ -25,33 +25,34 @@ import { useCallback, useEffect, useState } from 'react';
 // @ts-expect-error
 import app from 'gatsby-plugin-firebase-v9.0';
 
+const token = localStorage.getItem('OAuthToken');
+
 export const auth = getAuth(app);
 // TODO: salvar token no localStorage
-const defaultCredential = GoogleAuthProvider.credential(
-  localStorage.getItem('OAuthToken'),
-);
+const defaultCredential = token
+  ? GoogleAuthProvider.credential(token)
+  : undefined;
 
-const db = getFirestore(app);
-
-export const useFirebase = (): {
+export interface FirebaseHook {
   auth?: Auth;
   user?: User;
   credential?: OAuthCredential;
   db?: Firestore;
   login?(): void;
   logout?(): void;
-} => {
+}
+
+const db = getFirestore(app);
+
+export const useFirebase = (): FirebaseHook => {
   // const [db, setDB] = useState<Firestore>(defaultDB);
   const [user, setUser] = useState<User>(auth?.currentUser as User);
-  const [credential, setCredential] =
-    useState<OAuthCredential>(defaultCredential);
+  const [credential, setCredential] = useState<OAuthCredential>(
+    defaultCredential as OAuthCredential,
+  );
 
   const login = useCallback(() => {
     const provider = new GoogleAuthProvider();
-
-    if (!credential) {
-      return;
-    }
 
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -82,7 +83,7 @@ export const useFirebase = (): {
           setCredential(newCredential);
         }
       });
-  }, [credential]);
+  }, []);
 
   function logout() {
     signOut(auth);

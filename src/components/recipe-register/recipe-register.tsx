@@ -60,7 +60,7 @@ const RecipeRegister: FC<Props> = ({
         description,
         id: recipeData?.id ?? 0,
         category,
-        lastUpdate: Date.now(),
+        lastUpdate: Date.now() + Math.random() * 10000000000000,
       };
 
       const id = addRecipe(newRecipeData);
