@@ -55,7 +55,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
     if (!nutrient.quantity) return null;
 
     return (
-      <ListItem disableGutters>
+      <ListItem disableGutters key={nutrient.name}>
         <NutrientDisplay nutrient={nutrient} />
       </ListItem>
     );
@@ -103,7 +103,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             </Grid>
           )}
           {recipe.steps.map((step) => (
-            <Grid item xs={12}>
+            <Grid item xs={12} key={step.ingredients.join('')}>
               <SectionCard title={step.name}>
                 <Grid container spacing={4}>
                   {step.ingredients.length ? (

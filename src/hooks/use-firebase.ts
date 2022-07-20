@@ -11,14 +11,7 @@ import {
   onAuthStateChanged,
   signOut,
 } from 'firebase/auth';
-import {
-  getFirestore,
-  Firestore,
-  collection,
-  getDocs,
-  where,
-  query,
-} from 'firebase/firestore';
+import { getFirestore, Firestore } from 'firebase/firestore';
 
 import { useCallback, useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -94,32 +87,6 @@ export const useFirebase = (): FirebaseHook => {
   useEffect(() => {
     onAuthStateChanged(auth, (newUser) => setUser(newUser as User));
   }, []);
-
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-
-    async function test() {
-      try {
-        const q = query(
-          collection(db, 'recipes'),
-          where('userId', '==', user.uid),
-        );
-
-        const querySnapshot = await getDocs(q);
-
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    test();
-  }, [user]);
 
   return {
     db,

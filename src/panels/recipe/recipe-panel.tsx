@@ -151,21 +151,25 @@ const RecipePanel: FC<{
               {
                 onClick: memoizedhandleNewRecipe,
                 icon: <IoAddCircleOutline />,
+                key: 'add',
               },
               {
                 hidden: recipe.id < 10000,
                 onClick: handleEdit,
                 icon: <IoCreateOutline />,
+                key: 'edit',
               },
               {
                 hidden: recipe.id < 10000,
                 onClick: handleShare,
                 icon: <IoShareOutline />,
+                key: 'share',
               },
               {
                 hidden: recipe.id < 10000,
                 onClick: handleClickRemove,
                 icon: <IoTrashOutline />,
+                key: 'remove',
               },
             ],
           }}

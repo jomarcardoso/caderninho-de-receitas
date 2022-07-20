@@ -63,6 +63,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
 
     return (
       <ListItem
+        key={food.name}
         isAction
         className="list-item"
         onClick={() => {

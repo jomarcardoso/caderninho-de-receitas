@@ -83,7 +83,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
     return (
       <>
         {steps.map((step, index) => (
-          <>
+          <div>
             <Grid item xs={12}>
               <Field
                 label={`nome da etapa ${index + 1} (opcional)`}
@@ -137,7 +137,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 minRows={2}
               />
             </Grid>
-          </>
+          </div>
         ))}
       </>
     );

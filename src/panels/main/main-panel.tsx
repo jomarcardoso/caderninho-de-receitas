@@ -56,6 +56,7 @@ const MainPanel: FC<{
     return (
       // eslint-disable-next-line
       <ListItem
+        key={recipe.id}
         // eslint-disable-next-line
         isAction
         isActive={recipe.id === currentRecipeData.id}
