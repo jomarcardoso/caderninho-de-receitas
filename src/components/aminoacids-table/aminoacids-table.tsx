@@ -1,5 +1,4 @@
 import React, { FC, HTMLProps } from 'react';
-import Box from '@mui/material/Box';
 import {
   AminoAcids,
   AMINO_ACIDS,
@@ -80,30 +79,30 @@ const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
         <td className="table__td">{name}</td>
         <td className="table__td aminoacids-table__cell" align="right">
           {veryLowQuantity ? (
-            <Box className="aminoacids-table__bar aminoacids-table__bar--filled" />
+            <div className="aminoacids-table__bar aminoacids-table__bar--filled" />
           ) : (
-            <Box className="aminoacids-table__bar" />
+            <div className="aminoacids-table__bar" />
           )}
         </td>
         <td className="table__td aminoacids-table__cell" align="right">
           {lowQuantity ? (
-            <Box className="aminoacids-table__bar aminoacids-table__bar--filled" />
+            <div className="aminoacids-table__bar aminoacids-table__bar--filled" />
           ) : (
-            <Box className="aminoacids-table__bar" />
+            <div className="aminoacids-table__bar" />
           )}
         </td>
         <td className="table__td aminoacids-table__cell" align="right">
           {regularQuantity ? (
-            <Box className="aminoacids-table__bar aminoacids-table__bar--filled" />
+            <div className="aminoacids-table__bar aminoacids-table__bar--filled" />
           ) : (
-            <Box className="aminoacids-table__bar" />
+            <div className="aminoacids-table__bar" />
           )}
         </td>
         <td className="table__td aminoacids-table__cell" align="right">
           {highQuantity ? (
-            <Box className="aminoacids-table__bar aminoacids-table__bar--filled" />
+            <div className="aminoacids-table__bar aminoacids-table__bar--filled" />
           ) : (
-            <Box className="aminoacids-table__bar" />
+            <div className="aminoacids-table__bar" />
           )}
         </td>
       </tr>

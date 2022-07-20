@@ -31,8 +31,6 @@ const Footer: FC<FooterProps> = ({
 
   function render() {
     function renderItem({ icon, ...itemProps }: BottomNavigationActionProps) {
-      console.log(icon);
-
       return (
         <BottomNavigationAction
           key={String(icon)}

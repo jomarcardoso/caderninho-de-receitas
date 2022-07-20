@@ -143,8 +143,8 @@ const RecipePanel: FC<{
           showHeader={false}
           showFooter={!editing}
           mainProps={{
-            mt: 0,
-            containerProps: { disableGutters: true },
+            style: { marginTop: 0 },
+            containerProps: { style: { paddingLeft: 0, paddingRight: 0 } },
           }}
           footerProps={{
             items: [

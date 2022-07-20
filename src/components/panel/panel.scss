@@ -1,0 +1,27 @@
+.panel {
+  flex-shrink: 0;
+  width: 100vw;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &__content {
+    min-height: 100%;
+    position: relative;
+
+    &::before {
+      display: block;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('/images/textures/paper-texture.png');
+      filter: contrast(1.07);
+      z-index: -1;
+    }
+  }
+}

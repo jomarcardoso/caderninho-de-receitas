@@ -2,10 +2,8 @@ import React, { FC, ReactElement } from 'react';
 import round from 'lodash/round';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Slide, { SlideProps } from '@mui/material/Slide';
-import Container from '@mui/material/Container';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
@@ -77,25 +75,25 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   }
 
   return (
-    <Box className="recipe-container">
+    <div className="recipe-container">
       {recipe.name && (
         <HideOnScroll>
-          <Box className="recipe-container__name">
-            <Container>
+          <div className="recipe-container__name">
+            <div className="container">
               <h2
                 className="h2"
                 style={{ fontSize: recipe.name.length > 30 ? 17 : 19 }}
               >
                 {recipe.name}
               </h2>
-            </Container>
-          </Box>
+            </div>
+          </div>
         </HideOnScroll>
       )}
-      <Box marginBottom={3}>
+      <div style={{ marginBottom: '24px' }}>
         <Image src={recipe.image} alt="" aspectRatio={1.25} />
-      </Box>
-      <Container className="recipe-container__body">
+      </div>
+      <div className="recipe-container__body container">
         <Grid container spacing={4}>
           {recipe.description && (
             <Grid item xs={12}>
@@ -199,8 +197,8 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             </Grid>
           )}
         </Grid>
-      </Container>
-    </Box>
+      </div>
+    </div>
   );
 };
 

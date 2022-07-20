@@ -1,7 +1,5 @@
 import React, { FC, useContext } from 'react';
 import { IoAddCircleOutline } from 'react-icons/io5';
-import { makeStyles } from '@mui/styles';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,22 +16,11 @@ import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import { UserBox } from '../../components/user-box/user-box';
 
-const useStyles = makeStyles({
-  listItem: {
-    padding: 0,
-  },
-  table: {
-    marginBottom: 32,
-    marginTop: 16,
-  },
-});
-
 const MainPanel: FC<{
   setCurrentRecipe(recipe: Recipe): void;
   currentRecipeData: RecipeData;
 }> = ({ setCurrentRecipe, currentRecipeData }) => {
   const { recipes: savedRecipes = [] } = useContext(RecipesContext);
-  const classes = useStyles();
   const alphabeticalRecipes = savedRecipes.sort((a, b) => {
     if (a.name < b.name) {
       return -1;
@@ -76,7 +63,7 @@ const MainPanel: FC<{
       footerProps={{
         children: <UserBox />,
       }}
-      mainProps={{ pt: 5 }}
+      mainProps={{ style: { paddingTop: '40px' } }}
     >
       <Grid container spacing={4}>
         <Grid item xs={12}>
@@ -88,7 +75,7 @@ const MainPanel: FC<{
               <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
             </Grid>
             <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
                   variant="secondary"
                   contrast="light"
@@ -97,7 +84,7 @@ const MainPanel: FC<{
                   <IoAddCircleOutline />
                   adicionar nova receita
                 </Button>
-              </Box>
+              </div>
             </Grid>
           </Grid>
         </Grid>
@@ -107,7 +94,7 @@ const MainPanel: FC<{
             <ChefSvg style={{ mixBlendMode: 'multiply' }} />
           </div>
 
-          <Table className={classes.table} size="small">
+          <Table className="main-panel__table" size="small">
             <TableBody>{recipes.map(renderItem)}</TableBody>
           </Table>
         </Grid>

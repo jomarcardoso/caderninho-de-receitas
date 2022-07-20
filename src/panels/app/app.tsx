@@ -1,6 +1,11 @@
-import React, { FC, useState, useEffect, useContext, useMemo } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
-import { makeStyles } from '@mui/styles';
+import React, {
+  FC,
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  HTMLProps,
+} from 'react';
 import last from 'lodash/last';
 import Panel from '../../components/panel/panel';
 import RecipePanel from '../recipe/recipe-panel';
@@ -16,23 +21,11 @@ import useRecipe from '../../hooks/use-current-recipe';
 import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
+import './app.scss';
 
-export type AppProps = BoxProps;
+export type AppProps = HTMLProps<HTMLDivElement>;
 
-// to load with the page
-const useStyles = makeStyles({
-  display: {
-    display: 'flex',
-    width: '100vw',
-    scrollSnapType: 'x mandatory',
-    scrollBehavior: 'smooth',
-    height: 'calc(100vh - var(--header-height) - var(--address-bar-height))',
-    overflow: 'scroll',
-  },
-});
-
-const AppPage: FC<BoxProps> = (props) => {
-  const classes = useStyles();
+const AppPage: FC<AppProps> = (props) => {
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
@@ -71,7 +64,7 @@ const AppPage: FC<BoxProps> = (props) => {
         quantity={currentFoodQuantity}
       />
       <Header />
-      <Box className={classes.display} id="root-content" {...props}>
+      <div className="app-page__body" id="root-content" {...props}>
         <Panel
           id="foods-panel"
           style={{ display: hideLeftPanel ? 'none' : 'initial' }}
@@ -94,7 +87,7 @@ const AppPage: FC<BoxProps> = (props) => {
           setCurrentFoodQuantity={setCurrentFoodQuantity}
         />
         <SEO title="Caderninho de Receitas" />
-      </Box>
+      </div>
       <LoadingContext.Consumer>
         {({ loading = false }) => <PageLoader open={loading} />}
       </LoadingContext.Consumer>

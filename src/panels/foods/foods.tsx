@@ -7,7 +7,6 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import Box from '@mui/material/Box';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
 import FoodsContext from '../../contexts/foods-context';
@@ -98,7 +97,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
       showHeader={false}
       showFooter={false}
       currentPage="FOODS"
-      mainProps={{ my: 5 }}
+      mainProps={{ style: { paddingBottom: '40px', paddingTop: '40px' } }}
       className="foods-panel"
     >
       <SectionTitle opaque>Lista de alimentos</SectionTitle>
@@ -111,16 +110,18 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
       />
       <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
       {orderedFoods.length >= quantityToShow && (
-        <Box
-          display="flex"
-          justifyContent="center"
-          marginTop={4}
-          marginBottom={5}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '32px',
+            marginBottom: '40px',
+          }}
         >
           <Button variant="secondary" onClick={handleShowMore}>
             mostrar mais
           </Button>
-        </Box>
+        </div>
       )}
     </Layout>
   );
