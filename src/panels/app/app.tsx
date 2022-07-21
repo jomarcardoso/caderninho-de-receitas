@@ -74,12 +74,14 @@ const AppPage: FC<AppProps> = (props) => {
             setCurrentFoodQuantity={setCurrentFoodQuantity}
           />
         </Panel>
+
         <Panel id="main-panel">
           <MainPanel
             currentRecipeData={currentRecipeData}
             setCurrentRecipe={setCurrentRecipe}
           />
         </Panel>
+
         <RecipePanel
           currentRecipeData={currentRecipeData}
           setCurrentRecipeData={setCurrentRecipeData}

@@ -51,7 +51,7 @@ function saveAll(recipes: Recipe[], db?: Firestore, user?: User): void {
           userId: user.uid,
         });
       } catch (e) {
-        console.error('saving recipes to firestore', e);
+        console.log('erro ao salvar receita', e);
       }
     });
   }
@@ -108,39 +108,47 @@ export default function useRecipes(
 
   const getSavedRecipes = useCallback(
     async (db: Firestore) => {
+      if (!firebase.user?.uid) return;
+
       const q = query(
         collection(db, 'recipes'),
-        where('userId', '==', firebase.user?.uid),
+        where('userId', '==', firebase.user.uid),
       );
 
-      const querySnapshot = await getDocs(q);
-      const recipesToStorage = [...recipes];
+      try {
+        const querySnapshot = await getDocs(q);
+        const recipesToStorage = [...recipes];
 
-      querySnapshot.forEach((doc3) => {
-        const data = doc3.data();
+        querySnapshot.forEach((doc3) => {
+          const data = doc3.data();
 
-        delete data.userId;
+          delete data.userId;
 
-        const recipeData = data as RecipeData;
-        const storageRecipe = recipes.find(
-          (recipe) => recipe.id === recipeData.id,
-        );
-
-        const formattedRecipe = RecipeService.format({ recipeData, foods });
-
-        if (!storageRecipe) {
-          recipesToStorage.push(formattedRecipe);
-        } else if (storageRecipe.lastUpdate.getTime() < recipeData.lastUpdate) {
-          const index = recipesToStorage.findIndex(
-            (recipe) => recipe.id === storageRecipe.id,
+          const recipeData = data as RecipeData;
+          const storageRecipe = recipes.find(
+            (recipe) => recipe.id === recipeData.id,
           );
 
-          recipesToStorage[index] = formattedRecipe;
-        }
-      });
+          const formattedRecipe = RecipeService.format({ recipeData, foods });
 
-      if (recipesToStorage.length !== recipes.length) {
-        setRecipes(recipesToStorage);
+          if (!storageRecipe) {
+            recipesToStorage.push(formattedRecipe);
+          } else if (
+            storageRecipe.lastUpdate.getTime() < recipeData.lastUpdate
+          ) {
+            const index = recipesToStorage.findIndex(
+              (recipe) => recipe.id === storageRecipe.id,
+            );
+
+            recipesToStorage[index] = formattedRecipe;
+          }
+        });
+
+        if (recipesToStorage.length !== recipes.length) {
+          setRecipes(recipesToStorage);
+        }
+      } catch (error) {
+        console.log('erro ao buscar receitas', error);
       }
     },
     [firebase.user?.uid, foods, recipes],

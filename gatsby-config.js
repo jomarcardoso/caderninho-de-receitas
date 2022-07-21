@@ -6,28 +6,6 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: 'gatsby-plugin-firebase-v9.0',
-      options: {
-        credentials: {
-          // apiKey: "<YOUR_FIREBASE_API_KEY>",
-          // authDomain: "<YOUR_FIREBASE_AUTH_DOMAIN>",
-          // databaseURL: "<YOUR_FIREBASE_DATABASE_URL>",
-          // projectId: "<YOUR_FIREBASE_PROJECT_ID>",
-          // storageBucket: "<YOUR_FIREBASE_STORAGE_BUCKET>",
-          // messagingSenderId: "<YOUR_FIREBASE_MESSAGING_SENDER_ID>",
-          // appId: "<YOUR_FIREBASE_APP_ID>",
-          // measurementId: "<YOUR_FIREBASE_MEASUREMENT_ID>"
-          apiKey: 'AIzaSyDHP6-sAs4qz57wZobWdaeE4DkeugXYR8g',
-          authDomain: 'caderninho-de-receitas.firebaseapp.com',
-          projectId: 'caderninho-de-receitas',
-          storageBucket: 'caderninho-de-receitas.appspot.com',
-          messagingSenderId: '909303160702',
-          appId: '1:909303160702:web:2b48872dc46031cda4dd2f',
-          measurementId: 'G-KFJQN1XXZP',
-        },
-      },
-    },
-    {
       resolve: 'gatsby-plugin-web-font-loader',
       options: {
         typekit: {
