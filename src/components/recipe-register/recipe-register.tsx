@@ -1,7 +1,7 @@
 import React, { FC, useContext, useCallback } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { RecipeData, RECIPE_DATA } from '../../services/recipe';
-import AccountContext from '../../contexts/account-context';
+import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE_STEP_DATA } from '../../services/recipe/recipe.types';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import AlertEmptyRecipe from '../alert-empty-recipe/alert-empty-recipe';
@@ -19,7 +19,7 @@ const RecipeRegister: FC<Props> = ({
   recipeData = RECIPE_DATA,
   setCurrentRecipeData,
 }) => {
-  const { setAccount } = useContext(AccountContext);
+  const { addRecipe } = useContext(RecipesContext);
   const { restoreLastRecipe, currentRecipeData } =
     useContext(CurrentRecipeContext);
   const [openedEmptyRecipe, setOpenedEmptyRecipe] = React.useState(false);
@@ -46,7 +46,7 @@ const RecipeRegister: FC<Props> = ({
       steps: stepsData = [],
       category = '',
     }: RecipeForm): void => {
-      if (!setAccount) return;
+      if (!addRecipe) return;
 
       if (!name) {
         setOpenedEmptyRecipe(true);
@@ -60,16 +60,17 @@ const RecipeRegister: FC<Props> = ({
         description,
         id: recipeData?.id ?? 0,
         category,
+        lastUpdate: Date.now() + Math.random() * 10000000000000,
       };
 
-      const id = setAccount.recipe(newRecipeData);
+      const id = addRecipe(newRecipeData);
 
       setCurrentRecipeData({
         ...newRecipeData,
         id,
       });
     },
-    [recipeData?.id, setAccount, setCurrentRecipeData],
+    [recipeData?.id, addRecipe, setCurrentRecipeData],
   );
 
   return (

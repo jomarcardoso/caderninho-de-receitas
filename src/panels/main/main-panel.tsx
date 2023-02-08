@@ -1,15 +1,12 @@
 import React, { FC, useContext } from 'react';
 import { IoAddCircleOutline } from 'react-icons/io5';
-import { makeStyles } from '@mui/styles';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
-import AccountContext from '../../contexts/account-context';
-import { AccountAndSet, ACCOUNT } from '../../services/account.service';
+import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE, Recipe, RecipeData } from '../../services/recipe';
 import { recipes } from '../../db/partner-recipes';
 import SectionTitle from '../../components/section-title/section-title';
@@ -17,24 +14,14 @@ import useScroll from '../../hooks/use-scroll';
 import ChefSvg from '../../assets/svg/history/chef.svg';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
-
-const useStyles = makeStyles({
-  listItem: {
-    padding: 0,
-  },
-  table: {
-    marginBottom: 32,
-    marginTop: 16,
-  },
-});
+import { UserBox } from '../../components/user-box/user-box';
 
 const MainPanel: FC<{
   setCurrentRecipe(recipe: Recipe): void;
   currentRecipeData: RecipeData;
 }> = ({ setCurrentRecipe, currentRecipeData }) => {
-  const { account = ACCOUNT }: AccountAndSet = useContext(AccountContext);
-  const classes = useStyles();
-  const alphabeticalRecipes = account.recipes.sort((a, b) => {
+  const { recipes: savedRecipes = [] } = useContext(RecipesContext);
+  const alphabeticalRecipes = savedRecipes.sort((a, b) => {
     if (a.name < b.name) {
       return -1;
     }
@@ -56,6 +43,7 @@ const MainPanel: FC<{
     return (
       // eslint-disable-next-line
       <ListItem
+        key={recipe.id}
         // eslint-disable-next-line
         isAction
         isActive={recipe.id === currentRecipeData.id}
@@ -69,17 +57,13 @@ const MainPanel: FC<{
 
   return (
     <Layout
+      footerMenu
       currentPage="HOME"
       showHeader={false}
       footerProps={{
-        items: [
-          {
-            onClick: () => setCurrentRecipe(RECIPE),
-            icon: <IoAddCircleOutline />,
-          },
-        ],
+        children: <UserBox />,
       }}
-      mainProps={{ my: 5 }}
+      mainProps={{ style: { paddingTop: '40px' } }}
     >
       <Grid container spacing={4}>
         <Grid item xs={12}>
@@ -91,7 +75,7 @@ const MainPanel: FC<{
               <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
             </Grid>
             <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
                   variant="secondary"
                   contrast="light"
@@ -100,7 +84,7 @@ const MainPanel: FC<{
                   <IoAddCircleOutline />
                   adicionar nova receita
                 </Button>
-              </Box>
+              </div>
             </Grid>
           </Grid>
         </Grid>
@@ -110,7 +94,7 @@ const MainPanel: FC<{
             <ChefSvg style={{ mixBlendMode: 'multiply' }} />
           </div>
 
-          <Table className={classes.table} size="small">
+          <Table className="main-panel__table" size="small">
             <TableBody>{recipes.map(renderItem)}</TableBody>
           </Table>
         </Grid>

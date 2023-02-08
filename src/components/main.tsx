@@ -1,19 +1,17 @@
 import React, { HTMLProps, FC } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
-import Container, { ContainerProps } from '@mui/material/Container';
 
 interface Props {
-  containerProps?: Omit<ContainerProps, 'children'>;
+  containerProps?: HTMLProps<HTMLDivElement>;
 }
 
-export type MainProps = HTMLProps<HTMLDivElement> & BoxProps & Props;
+export type MainProps = HTMLProps<HTMLDivElement> & Props;
 
 const Main: FC<MainProps> = ({ children = '', containerProps, ...props }) => (
-  <Box component="main" role="main" {...props}>
-    <Container maxWidth="md" {...containerProps}>
+  <main {...props}>
+    <div className="container" {...containerProps}>
       {children || ''}
-    </Container>
-  </Box>
+    </div>
+  </main>
 );
 
 export default Main;

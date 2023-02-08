@@ -2,8 +2,6 @@ import { Form, FieldArray, FormikProps } from 'formik';
 import React, { FC, useCallback, ChangeEventHandler } from 'react';
 import { IoDuplicateOutline, IoSaveOutline } from 'react-icons/io5';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import Field from '../field/field';
 import {
   RecipeCategory,
@@ -161,11 +159,11 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                     <CookSvg style={{ mixBlendMode: 'multiply' }} />
                   </div>
                 ) : (
-                  <Container>
+                  <div className="container">
                     <PizzaSvg style={{ mixBlendMode: 'multiply' }} />
-                  </Container>
+                  </div>
                 )}
-                <Container>
+                <div className="container">
                   <Grid container spacing={6}>
                     <Grid item xs={12}>
                       {!recipeData.id ? (
@@ -215,7 +213,9 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                     </Grid>
                     {memoizedRenderSteps()}
                     <Grid item xs={12}>
-                      <Box justifyContent="center" display="flex">
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
                         <Button
                           type="button"
                           variant="secondary"
@@ -230,10 +230,10 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                           <IoDuplicateOutline />
                           adicionar outra etapa
                         </Button>
-                      </Box>
+                      </div>
                     </Grid>
                   </Grid>
-                </Container>
+                </div>
               </>
             )}
           </FieldArray>

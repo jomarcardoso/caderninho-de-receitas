@@ -18,6 +18,11 @@
   text-align: center;
   text-transform: lowercase;
 
+  svg {
+    font-size: 1.15em;
+    margin-left: -4px;
+  }
+
   &:active {
     background-color: var(--color-primary-dark);
     border-color: var(--color-primary-dark);
@@ -50,6 +55,15 @@
         background-color: var(--color-dark-dark);
         color: white;
       }
+    }
+  }
+
+  &--on-dark {
+    background-color: white;
+
+    &.button--secondary {
+      border-color: currentcolor;
+      color: var(--color-dark-main);
     }
   }
 

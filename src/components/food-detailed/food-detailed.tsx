@@ -3,7 +3,6 @@ import List from '@mui/material/List';
 import Grid, { GridProps } from '@mui/material/Grid';
 import round from 'lodash/round';
 import ListItem from '@mui/material/ListItem';
-import Container from '@mui/material/Container';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import { Food } from '../../services/food';
@@ -96,7 +95,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
         <Image src={image} alt="" aspectRatio={1.25} />
       </Grid>
       <Grid item xs={12}>
-        <Container>
+        <div className="container">
           {hasNutrients ? (
             <Grid container spacing={4} justifyContent="center">
               <Grid item xs={12}>
@@ -181,7 +180,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
           ) : (
             <p>Não há informações nutricionais deste alimento.</p>
           )}
-        </Container>
+        </div>
       </Grid>
     </Grid>
   );

@@ -5,22 +5,44 @@
   min-height: 44px;
   overflow: hidden;
   position: sticky;
-  border-top-left-radius: var(--border-radius-secondary);
-  border-top-right-radius: var(--border-radius-secondary);
+  border-top-left-radius: var(--border-radius-primary);
+  border-top-right-radius: var(--border-radius-primary);
   box-shadow:
     0 2px 4px -1px rgb(0 0 0 / 20%),
     0 4px 5px 0 rgb(0 0 0 / 14%),
     0 1px 10px 0 rgb(0 0 0 / 12%);
 
-  button {
-    color: inherit;
-    display: block;
-    padding-top: 8px !important;
+  &:not(.footer--menu) {
+    button {
+      color: inherit;
+      display: block;
+      padding-top: 8px !important;
+    }
   }
 
   &__navigation {
     height: 100%;
     background-color: var(--color-primary-main);
     color: white;
+  }
+
+  &--menu {
+    padding: 16px;
+    transition: background-color 300ms;
+
+    &::before {
+      content: '';
+      display: block;
+      max-width: 28px;
+      height: 4px;
+      border-radius: 2px;
+      background-color: white;
+      margin: 8px auto;
+      margin-bottom: 22px;
+    }
+  }
+
+  &--open {
+    background-color: var(--color-primary-dark);
   }
 }

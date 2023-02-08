@@ -20,8 +20,8 @@ const FoodPanel: FC<Props> = ({ food, quantity = 100, headerProps }) => {
       className="food-panel"
       showFooter={false}
       mainProps={{
-        mt: 0,
-        containerProps: { disableGutters: true },
+        style: { marginTop: 0 },
+        containerProps: { style: { paddingLeft: 0, paddingRight: 0 } },
       }}
       headerProps={{
         ...headerProps,
