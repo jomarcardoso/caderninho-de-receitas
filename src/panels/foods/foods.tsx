@@ -33,7 +33,7 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
   let searchedFoods = [...foods];
 
   if (search) {
-    searchedFoods = foods.filter(
+    searchedFoods = [...foods].filter(
       (food) =>
         food.name.toLowerCase().includes(search.toLowerCase()) ||
         food.description.toLowerCase().includes(search.toLowerCase()) ||

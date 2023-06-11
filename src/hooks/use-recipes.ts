@@ -25,8 +25,8 @@ function get(foods: Array<Food>): Recipe[] {
   // legacy recipes
   if (!recipesData.length) {
     recipesData =
-      JSON.parse(localStorage.getItem('saude-em-pontos') || 'null')?.recipes ??
-      [];
+      JSON.parse(localStorage.getItem('cadertinho-de-receitas') || 'null')
+        ?.recipes ?? [];
   }
 
   return (

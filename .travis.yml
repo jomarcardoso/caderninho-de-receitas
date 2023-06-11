@@ -12,7 +12,7 @@ script:
 deploy:
   provider: surge
   project: ./public
-  domain: saude-em-pontos.surge.sh
+  domain: cadertinho-de-receitas.surge.sh
   skip_cleanup: true
   on:
     branch: master
