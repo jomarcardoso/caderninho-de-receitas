@@ -33,7 +33,9 @@ const Ingredients: FC<IngredientsProps> = ({
           <ListItem
             button
             disableGutters
-            key={`${ingredient.food.id}${ingredient.quantity}`}
+            key={`${ingredient.food.id}-${
+              ingredient.quantity
+            }-${ingredient.description.replace(/\s/g, '-')}`}
             onClick={() => handleClick(ingredient)}
           >
             <Grid container spacing={1} alignItems="center">

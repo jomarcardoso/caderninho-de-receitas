@@ -1,20 +1,20 @@
 import React, { FC, useContext } from 'react';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import Grid from '@mui/material/Grid';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
 import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE, Recipe, RecipeData } from '../../services/recipe';
-import { recipes } from '../../db/partner-recipes';
 import SectionTitle from '../../components/section-title/section-title';
 import useScroll from '../../hooks/use-scroll';
-import ChefSvg from '../../assets/svg/history/chef.svg';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import { UserBox } from '../../components/user-box/user-box';
+
+/* <div className="main-panel__story-partner">
+<ChefSvg style={{ mixBlendMode: 'multiply' }} />
+</div> */
 
 const MainPanel: FC<{
   setCurrentRecipe(recipe: Recipe): void;
@@ -58,45 +58,30 @@ const MainPanel: FC<{
   return (
     <Layout
       footerMenu
-      currentPage="HOME"
       showHeader={false}
       footerProps={{
         children: <UserBox />,
       }}
-      mainProps={{ style: { paddingTop: '40px' } }}
+      mainProps={{ style: { paddingTop: '40px', paddingBottom: '40px' } }}
     >
-      <Grid container spacing={4}>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <SectionTitle>Minhas receitas</SectionTitle>
-            </Grid>
-            <Grid item xs={12}>
-              <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
-            </Grid>
-            <Grid item xs={12}>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button
-                  variant="secondary"
-                  contrast="light"
-                  onClick={() => setCurrentRecipe(RECIPE)}
-                >
-                  <IoAddCircleOutline />
-                  adicionar nova receita
-                </Button>
-              </div>
-            </Grid>
-          </Grid>
+          <SectionTitle>Minhas receitas</SectionTitle>
         </Grid>
         <Grid item xs={12}>
-          <SectionTitle>Receitas de futuros parceiros</SectionTitle>
-          <div className="main-panel__story-partner">
-            <ChefSvg style={{ mixBlendMode: 'multiply' }} />
+          <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
+        </Grid>
+        <Grid item xs={12}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant="secondary"
+              contrast="light"
+              onClick={() => setCurrentRecipe(RECIPE)}
+            >
+              <IoAddCircleOutline />
+              adicionar nova receita
+            </Button>
           </div>
-
-          <Table className="main-panel__table" size="small">
-            <TableBody>{recipes.map(renderItem)}</TableBody>
-          </Table>
         </Grid>
       </Grid>
     </Layout>

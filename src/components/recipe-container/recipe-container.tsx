@@ -52,11 +52,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   function renderNutrient(nutrient: Nutrient): ReactElement | null {
     if (!nutrient.quantity) return null;
 
-    return (
-      <ListItem disableGutters key={nutrient.name}>
-        <NutrientDisplay nutrient={nutrient} />
-      </ListItem>
-    );
+    return <NutrientDisplay nutrient={nutrient} key={nutrient.name} />;
   }
 
   function renderQuality({ name: foodName = '', value = 0 }) {

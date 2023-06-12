@@ -1,5 +1,5 @@
 import { Form, FieldArray, FormikProps } from 'formik';
-import React, { FC, useCallback, ChangeEventHandler } from 'react';
+import React, { FC, useCallback, ChangeEventHandler, Fragment } from 'react';
 import { IoDuplicateOutline, IoSaveOutline } from 'react-icons/io5';
 import Grid from '@mui/material/Grid';
 import Field from '../field/field';
@@ -81,7 +81,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
     return (
       <>
         {steps.map((step, index) => (
-          <>
+          <Fragment key={step.name}>
             <Grid item xs={12}>
               <Field
                 label={`nome da etapa ${index + 1} (opcional)`}
@@ -135,7 +135,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 minRows={2}
               />
             </Grid>
-          </>
+          </Fragment>
         ))}
       </>
     );

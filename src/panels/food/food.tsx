@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, forwardRef } from 'react';
 import Grid from '@mui/material/Grid';
 import { Food } from '../../services/food';
 import Layout from '../../components/layout/layout';
@@ -12,31 +12,34 @@ interface Props {
   headerProps?: HeaderProps;
 }
 
-const FoodPanel: FC<Props> = ({ food, quantity = 100, headerProps }) => {
-  const { name = '' } = food;
+const FoodPanel: FC<Props> = forwardRef(
+  ({ food, quantity = 100, headerProps }, ref) => {
+    const { name = '' } = food;
 
-  return (
-    <Layout
-      className="food-panel"
-      showFooter={false}
-      mainProps={{
-        style: { marginTop: 0 },
-        containerProps: { style: { paddingLeft: 0, paddingRight: 0 } },
-      }}
-      headerProps={{
-        ...headerProps,
-        pageName: `${name} (${quantity}${
-          food.type === 'liquid' || food.type === 'oil' ? 'ml' : 'g'
-        })`,
-      }}
-    >
-      <Grid container spacing={4} justifyContent="center">
-        <Grid item xs={12}>
-          <FoodDetailed food={food} />
+    return (
+      <Layout
+        ref={ref}
+        className="food-panel"
+        showFooter={false}
+        mainProps={{
+          style: { marginTop: 0 },
+          containerProps: { style: { paddingLeft: 0, paddingRight: 0 } },
+        }}
+        headerProps={{
+          ...headerProps,
+          pageName: `${name} (${quantity}${
+            food.type === 'liquid' || food.type === 'oil' ? 'ml' : 'g'
+          })`,
+        }}
+      >
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12}>
+            <FoodDetailed food={food} />
+          </Grid>
         </Grid>
-      </Grid>
-    </Layout>
-  );
-};
+      </Layout>
+    );
+  },
+);
 
 export default FoodPanel;

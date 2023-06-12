@@ -7,6 +7,7 @@ import {
   where,
   getDocs,
   collection,
+  deleteDoc,
 } from 'firebase/firestore';
 import remove from 'lodash/remove';
 import { useState, useEffect, useCallback } from 'react';
@@ -36,13 +37,17 @@ function get(foods: Array<Food>): Recipe[] {
   );
 }
 
-function saveAll(recipes: Recipe[], db?: Firestore, user?: User): void {
-  if (typeof window === 'undefined') return;
+function removeFromDB(id?: number, db?: Firestore) {
+  if (db && id) {
+    try {
+      deleteDoc(doc(db, 'recipes', String(id)));
+    } catch (e) {
+      console.log('erro ao salvar receita', e);
+    }
+  }
+}
 
-  const recipesData = recipes.map((recipe) => RecipeService.unFormat(recipe));
-
-  localStorage.setItem(RECIPES_LOCAL_STORAGE, JSON.stringify(recipesData));
-
+function saveAllOnDB(recipesData: RecipeData[], db?: Firestore, user?: User) {
   if (db && user) {
     recipesData.forEach((recipeData) => {
       try {
@@ -57,6 +62,28 @@ function saveAll(recipes: Recipe[], db?: Firestore, user?: User): void {
   }
 }
 
+function update(recipes: Recipe[], db?: Firestore, user?: User): void {
+  if (typeof window === 'undefined') return;
+
+  const recipesData = recipes.map((recipe) => RecipeService.unFormat(recipe));
+  const savedRecipesData: RecipeData[] =
+    JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? [];
+
+  const toRemove = savedRecipesData.filter(
+    (recipeData) => !recipesData.some((saved) => recipeData.id === saved.id),
+  );
+
+  localStorage.setItem(RECIPES_LOCAL_STORAGE, JSON.stringify(recipesData));
+
+  if (toRemove.length) {
+    toRemove.forEach((recipeToRemove) => removeFromDB(recipeToRemove.id, db));
+
+    return;
+  }
+
+  saveAllOnDB(recipesData, db, user);
+}
+
 export default function useRecipes(
   foods: Array<Food>,
   firebase: FirebaseHook,
@@ -66,6 +93,7 @@ export default function useRecipes(
   removeRecipe(id: number): void;
 } {
   const [recipes, setRecipes] = useState(get(foods));
+  const [hasFetched, setHasFetched] = useState(false);
 
   /**
    * @returns id
@@ -155,13 +183,14 @@ export default function useRecipes(
   );
 
   useEffect(() => {
-    if (firebase.db) {
+    if (firebase.db && !hasFetched) {
+      setHasFetched(true);
       getSavedRecipes(firebase.db);
     }
-  }, [firebase.db, getSavedRecipes]);
+  }, [firebase, getSavedRecipes, hasFetched]);
 
   useEffect(() => {
-    saveAll(recipes, firebase.db, firebase.user);
+    update(recipes, firebase.db, firebase.user);
   }, [firebase, recipes]);
 
   return {

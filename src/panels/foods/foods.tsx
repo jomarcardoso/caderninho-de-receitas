@@ -96,7 +96,6 @@ const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
     <Layout
       showHeader={false}
       showFooter={false}
-      currentPage="FOODS"
       mainProps={{ style: { paddingBottom: '40px', paddingTop: '40px' } }}
       className="foods-panel"
     >
