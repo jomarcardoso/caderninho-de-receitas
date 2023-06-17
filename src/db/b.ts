@@ -246,6 +246,8 @@ export const bFoodData: Array<FoodData> = [
     image:
       'https://d1uz88p17r663j.cloudfront.net/original/2b76e99abc4136ccf26008c1c387023f_Bolo-de-cenoura-com-cobertura-de-brigadeiro-receitas-nestle.jpg',
     unitOfMeasurement: 'gram',
+    recipe: true,
+    keys: ['bolo de cenoura com cobertura', 'bolo de cenoura'],
   },
   {
     name: 'Bolo de laranja',
