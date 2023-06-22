@@ -4,7 +4,7 @@
 
 Acesso o aplicativo em
 
-- https://cadertinho-de-receitas.surge.sh
+- https://caderninho-de-receitas.surge.sh
 - https://caderninho-de-receitas.web.app
 - https://caderninho-de-receitas.firebaseapp.com
 
