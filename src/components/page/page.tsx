@@ -8,6 +8,7 @@ import { makeStyles } from '@mui/styles';
 import StyleContext, { Style } from '../../contexts/style';
 import LoadingContext from '../../contexts/loading';
 import NavigationContext from '../../contexts/navigation-context';
+import { isMobile } from '../../services/user-agent/user-agent.service';
 
 const fontFamilyDisplay = 'Cinzel, Roboto, Helvetica, Arial, sans-serif';
 const fontFamilyText = 'Dosis, Roboto, Helvetica, Arial, sans-serif';
@@ -121,7 +122,7 @@ const useStyles = ({
   makeStyles({
     '@global': {
       body: {
-        overflow: 'hidden',
+        overflow: isMobile() ? 'hidden' : 'initial',
       },
       ':root': {
         '--icon-color-primary': 'var(--color-secondary-main)',

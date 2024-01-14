@@ -7,6 +7,7 @@ import React, {
   HTMLProps,
 } from 'react';
 import last from 'lodash/last';
+import { Grid } from '@mui/material';
 import Panel from '../../components/panel/panel';
 import RecipePanel from '../recipe/recipe-panel';
 import SEO from '../../components/seo';
@@ -98,6 +99,22 @@ const AppPage: FC<AppProps> = (props) => {
         <div className="container-desktop">
           <div className="wrapper">
             <DesktopHeader />
+
+            <Grid container>
+              <Grid item xs={12} md={5}>
+                <FoodsPanel
+                  setCurrentFood={setCurrentFood}
+                  setCurrentFoodQuantity={setCurrentFoodQuantity}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={7}>
+                <MainPanel
+                  currentRecipeData={currentRecipeData}
+                  setCurrentRecipe={setCurrentRecipe}
+                />
+              </Grid>
+            </Grid>
           </div>
         </div>
       )}

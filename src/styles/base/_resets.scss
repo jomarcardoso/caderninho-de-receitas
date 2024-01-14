@@ -16,6 +16,10 @@ body {
     position: fixed;
     top: 0;
   }
+
+  @media (min-width: 1024px) {
+    padding-bottom: 44px;
+  }
 }
 
 ol,
