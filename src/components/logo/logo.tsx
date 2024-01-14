@@ -1,8 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import './logo.scss';
+import { generateCSSClasses } from '../../services/dom/classes';
 
-const Logo: FC<{ active: boolean }> = ({ active = false }) => {
-  const classes = `logo${active ? ' logo--active' : ''}`;
+const Logo: FC<{ active?: boolean; contrast?: boolean }> = ({
+  active = false,
+  contrast = false,
+}) => {
+  const classes = useMemo(() => {
+    return generateCSSClasses({
+      logo: true,
+      active,
+      'logo--contrast': contrast,
+    });
+  }, [active, contrast]);
 
   return (
     <h1 className={classes}>

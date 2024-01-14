@@ -45,7 +45,23 @@ const DialogFood: FC<DialogFoodProps> = ({
   }, []);
 
   return (
-    <Dialog fullScreen open={open} TransitionComponent={DialogTransition}>
+    <Dialog
+      fullScreen
+      open={open}
+      TransitionComponent={DialogTransition}
+      sx={[
+        {
+          '.MuiDialog-container': {
+            justifyContent: 'flex-start',
+          },
+        },
+      ]}
+      PaperProps={{
+        sx: {
+          // maxWidth: 'calc(100vw / 3)',
+        },
+      }}
+    >
       <FoodPanel
         quantity={quantity}
         food={food}

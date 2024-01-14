@@ -12,7 +12,8 @@
     "plugin/stylelint-bem-namics": {
       "patternPrefixes": [],
       "helperPrefixes": []
-    }
+    },
+    "scss/at-extend-no-missing-placeholder": null
   },
   "files": [
     "src/*.scss",

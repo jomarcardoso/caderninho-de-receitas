@@ -5,3 +5,13 @@
 .ml-auto {
   margin-left: auto !important;
 }
+
+.none {
+  display: none;
+}
+
+.block-desk {
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}

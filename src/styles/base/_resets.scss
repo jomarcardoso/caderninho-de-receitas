@@ -11,8 +11,11 @@
 body {
   color: var(--color-dark-main);
   font-family: var(--font-family-text);
-  position: fixed;
-  top: 0;
+
+  @media (max-width: 1023px) {
+    position: fixed;
+    top: 0;
+  }
 }
 
 ol,
