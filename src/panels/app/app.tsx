@@ -25,6 +25,7 @@ import CurrentRecipeContext from '../../contexts/current-recipe';
 import './app.scss';
 import { isMobile } from '../../services/user-agent/user-agent.service';
 import DesktopHeader from '../../components/desktop-header/desktop-header';
+import NotebookTabs from '../../components/notebook-tabs/notebook-tabs';
 
 export type AppProps = HTMLProps<HTMLDivElement>;
 
@@ -96,8 +97,8 @@ const AppPage: FC<AppProps> = (props) => {
           </div>
         </>
       ) : (
-        <div className="container-desktop">
-          <div className="wrapper">
+        <div className="container-desktop desktop-content">
+          <div className="page position-relative">
             <DesktopHeader />
 
             <Grid container>
@@ -116,6 +117,21 @@ const AppPage: FC<AppProps> = (props) => {
               </Grid>
             </Grid>
           </div>
+
+          <NotebookTabs
+            tabs={[
+              {
+                children: 'alimentos',
+              },
+              {
+                active: true,
+                children: 'receitas',
+              },
+              {
+                children: 'cozinhar',
+              },
+            ]}
+          />
         </div>
       )}
       <SEO title="Caderninho de Receitas" />

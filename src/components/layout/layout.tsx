@@ -5,6 +5,7 @@ import Main, { MainProps } from '../main';
 import './layout.scss';
 import Footer, { FooterProps } from '../footer/footer';
 import { generateCSSClasses } from '../../services/dom/classes';
+import { isMobile } from '../../services/user-agent/user-agent.service';
 
 interface Props {
   showHeader?: boolean;
@@ -70,7 +71,7 @@ const Layout: FC<LayoutProps> = forwardRef(
         <Main className="layout__main" {...mainProps}>
           {children}
         </Main>
-        {showFooter && (
+        {showFooter && isMobile() && (
           <Footer open={open} footerMenu={footerMenu} {...footerProps} />
         )}
       </Box>
