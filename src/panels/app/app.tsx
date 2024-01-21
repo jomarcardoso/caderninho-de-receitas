@@ -98,7 +98,7 @@ const AppPage: FC<AppProps> = (props) => {
         </>
       ) : (
         <div className="container-desktop desktop-content">
-          <div className="page position-relative">
+          <div className="page relative" style={{ zIndex: 1 }}>
             <DesktopHeader />
 
             <Grid container>
@@ -122,13 +122,16 @@ const AppPage: FC<AppProps> = (props) => {
             tabs={[
               {
                 children: 'alimentos',
+                link: '/food',
               },
               {
                 active: true,
                 children: 'receitas',
+                link: '/',
               },
               {
                 children: 'cozinhar',
+                link: '/recipe',
               },
             ]}
           />

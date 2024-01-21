@@ -175,7 +175,9 @@ const Page: FC<PageProps> = ({ children, ...props }) => {
 
   useEffect(() => {
     // window.location.hash = 'main-panel';
-    window.history.pushState({}, '', '#main-panel');
+    if (isMobile()) {
+      window.history.pushState({}, '', '#main-panel');
+    }
   }, []);
 
   useEffect(() => {

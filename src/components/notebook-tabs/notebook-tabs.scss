@@ -5,9 +5,8 @@
   position: absolute;
   display: grid;
   gap: 8px;
-  z-index: -1;
 
-  > li {
+  > li a {
     writing-mode: vertical-lr;
     text-orientation: upright;
     background-color: white;
