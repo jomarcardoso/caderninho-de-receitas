@@ -13,10 +13,7 @@
     background-color: white;
     border-bottom-right-radius: var(--border-radius-primary);
     border-top-right-radius: var(--border-radius-primary);
-    box-shadow:
-      0 2px 4px -1px rgb(0 0 0 / 20%),
-      0 4px 5px 0 rgb(0 0 0 / 14%),
-      0 1px 10px 0 rgb(0 0 0 / 12%);
+    box-shadow: var(--shadow-primary);
     padding: 8px;
     letter-spacing: -2px;
     line-height: 1;
