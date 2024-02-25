@@ -1,6 +1,5 @@
 import React, { FC, useContext } from 'react';
 import { IoAddCircleOutline } from 'react-icons/io5';
-import Grid from '@mui/material/Grid';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
@@ -64,14 +63,16 @@ const MainPanel: FC<{
       }}
       mainProps={{ style: { paddingTop: '40px', paddingBottom: '40px' } }}
     >
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <div className="grid">
+        <div className="g-col-12">
           <SectionTitle>Minhas receitas</SectionTitle>
-        </Grid>
-        <Grid item xs={12}>
+        </div>
+
+        <div className="g-col-12">
           <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
-        </Grid>
-        <Grid item xs={12}>
+        </div>
+
+        <div className="g-col-12">
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               variant="secondary"
@@ -82,8 +83,8 @@ const MainPanel: FC<{
               adicionar nova receita
             </Button>
           </div>
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     </Layout>
   );
 };

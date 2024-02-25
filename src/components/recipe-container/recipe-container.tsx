@@ -2,7 +2,6 @@ import React, { FC, ReactElement } from 'react';
 import round from 'lodash/round';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Grid from '@mui/material/Grid';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Image from '../image/image';
@@ -60,12 +59,11 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
     return (
       <ListItem disableGutters>
-        <Grid container spacing={1} justifyContent="space-between">
-          <Grid item>
-            <h2>{foodName}</h2>
-          </Grid>
-          <Grid item>{round(value, 2)}</Grid>
-        </Grid>
+        <div className="w-100 d-flex gap-1 justify-content-between">
+          <div>{foodName}</div>
+
+          <div>{round(value, 2)}</div>
+        </div>
       </ListItem>
     );
   }
@@ -90,56 +88,39 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         <Image src={recipe.image} alt="" aspectRatio={1.25} />
       </div>
       <div className="recipe-container__body container">
-        <Grid container spacing={4}>
-          {recipe.description && (
-            <Grid item xs={12}>
-              {recipe.description}
-            </Grid>
-          )}
+        <div className="grid columns-1 g-6">
+          {recipe.description && <div>{recipe.description}</div>}
+
           {recipe.steps.map((step) => (
-            <Grid item xs={12} key={step.ingredients.join('')}>
-              <SectionCard title={step.name}>
-                <Grid container spacing={4}>
-                  {step.ingredients.length ? (
-                    <Grid item xs={12}>
-                      <Ingredients
-                        ingredients={step.ingredients}
-                        setCurrentFood={setCurrentFood}
-                        setCurrentFoodQuantity={setCurrentFoodQuantity}
-                      />
-                    </Grid>
-                  ) : (
-                    ''
-                  )}
-                  {step.preparation && (
-                    <Grid item xs={12}>
-                      <Preparation
-                        preparation={step.preparation}
-                        title={step.ingredients.length ? undefined : ''}
-                      />
-                    </Grid>
-                  )}
-                  {step.additional && (
-                    <Grid item xs={12}>
-                      {step.additional}
-                    </Grid>
-                  )}
-                </Grid>
-              </SectionCard>
-            </Grid>
+            <SectionCard title={step.name} key={step.ingredients.join('')}>
+              <div className="grid columns-1 g-4">
+                {step.ingredients.length ? (
+                  <Ingredients
+                    ingredients={step.ingredients}
+                    setCurrentFood={setCurrentFood}
+                    setCurrentFoodQuantity={setCurrentFoodQuantity}
+                  />
+                ) : (
+                  ''
+                )}
+
+                {step.preparation && (
+                  <Preparation
+                    preparation={step.preparation}
+                    title={step.ingredients.length ? undefined : ''}
+                  />
+                )}
+
+                {step.additional && <div>{step.additional}</div>}
+              </div>
+            </SectionCard>
           ))}
 
-          {recipe.additional && (
-            <Grid item xs={12}>
-              {recipe.additional}
-            </Grid>
-          )}
+          {recipe.additional && <div>{recipe.additional}</div>}
 
-          <Grid item xs={12}>
+          <div className="grid columns-1 g-3">
             <h2 className="h2">Informações nutricionais</h2>
-          </Grid>
 
-          <Grid item xs={12}>
             <List>
               {renderQuality({
                 name: 'Calorias',
@@ -162,37 +143,24 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
                 value: recipe.dietaryFiber,
               })}
             </List>
-          </Grid>
+          </div>
 
           {hasVitamins && (
-            <Grid item xs={12}>
-              <Section title="Vitaminas">
-                <List>
-                  {Object.values(recipe.vitamins).map(renderNutrient)}
-                </List>
-              </Section>
-            </Grid>
+            <Section title="Vitaminas">
+              <List>{Object.values(recipe.vitamins).map(renderNutrient)}</List>
+            </Section>
           )}
 
           {hasMinerals && (
-            <Grid item xs={12}>
-              <Section title="Minerais">
-                <List>
-                  {Object.values(recipe.minerals).map(renderNutrient)}
-                </List>
-              </Section>
-            </Grid>
+            <Section title="Minerais">
+              <List>{Object.values(recipe.minerals).map(renderNutrient)}</List>
+            </Section>
           )}
 
           {AminoAcidService.verifyHasAminoAcid(recipe.aminoAcids) && (
-            <Grid item xs={12}>
-              <AminoAcidsTable
-                contrast="light"
-                aminoAcids={recipe.aminoAcids}
-              />
-            </Grid>
+            <AminoAcidsTable contrast="light" aminoAcids={recipe.aminoAcids} />
           )}
-        </Grid>
+        </div>
       </div>
     </div>
   );

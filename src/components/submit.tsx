@@ -1,14 +1,16 @@
-import React, { FC, HTMLProps } from 'react';
+import React, { ButtonHTMLAttributes, FC } from 'react';
+import { IoSaveOutline } from 'react-icons/io5';
 import { Button } from './button';
 
-const SubmitComponent: FC<HTMLProps<HTMLDivElement>> = ({ children }) => (
-  <div className="row justify-content-end">
-    <div className="col-12 col-sm-8 col-md-6">
-      <Button fullWidth type="submit">
-        {children}
-      </Button>
-    </div>
-  </div>
+const SubmitComponent: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
+  children,
+  ...props
+}) => (
+  <Button fullWidth type="submit" {...props}>
+    <IoSaveOutline />
+
+    {children}
+  </Button>
 );
 
 export default SubmitComponent;

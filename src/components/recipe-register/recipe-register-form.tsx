@@ -1,7 +1,6 @@
 import { Form, FieldArray, FormikProps } from 'formik';
 import React, { FC, useCallback, ChangeEventHandler, Fragment } from 'react';
-import { IoDuplicateOutline, IoSaveOutline } from 'react-icons/io5';
-import Grid from '@mui/material/Grid';
+import { IoDuplicateOutline } from 'react-icons/io5';
 import Field from '../field/field';
 import {
   RecipeCategory,
@@ -82,7 +81,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
       <>
         {steps.map((step, index) => (
           <>
-            <Grid item xs={12}>
+            <div>
               <Field
                 label={`nome da etapa ${index + 1} (opcional)`}
                 name={`steps.${index}.name`}
@@ -103,15 +102,17 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                   </details>
                 }
               />
-            </Grid>
-            <Grid item xs={12}>
+            </div>
+
+            <div>
               {memoizedRenderInputIngredient(
                 index,
                 step.ingredients,
                 step.name,
               )}
-            </Grid>
-            <Grid item xs={12}>
+            </div>
+
+            <div>
               <Field
                 multiline
                 minRows="4"
@@ -121,8 +122,9 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 onChange={handleChange}
                 onBlur={formikHandleBlur}
               />
-            </Grid>
-            <Grid item xs={12}>
+            </div>
+
+            <div>
               <Field
                 multiline
                 name={`steps.${index}.additional`}
@@ -134,7 +136,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 onBlur={formikHandleBlur}
                 minRows={2}
               />
-            </Grid>
+            </div>
           </>
         ))}
       </>
@@ -164,8 +166,8 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                   </div>
                 )}
                 <div className="container">
-                  <Grid container spacing={6}>
-                    <Grid item xs={12}>
+                  <div className="grid columns-1 g-6">
+                    <div>
                       {!recipeData.id ? (
                         <p>
                           Você está criando uma nova receita. Preencha os campos
@@ -179,8 +181,9 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                           para atualizá-la.
                         </p>
                       )}
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+
+                    <div>
                       <Field
                         label="nome da receita"
                         name="name"
@@ -188,8 +191,9 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                         onChange={handleChange}
                         onBlur={formikHandleBlur}
                       />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+
+                    <div>
                       <Field
                         multiline
                         name="description"
@@ -199,8 +203,9 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                         onBlur={formikHandleBlur}
                         minRows={2}
                       />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+
+                    <div>
                       <Field
                         multiline
                         name="additional"
@@ -210,9 +215,11 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                         onBlur={formikHandleBlur}
                         minRows={2}
                       />
-                    </Grid>
+                    </div>
+
                     {memoizedRenderSteps()}
-                    <Grid item xs={12}>
+
+                    <div>
                       <div
                         style={{ display: 'flex', justifyContent: 'center' }}
                       >
@@ -231,8 +238,8 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                           adicionar outra etapa
                         </Button>
                       </div>
-                    </Grid>
-                  </Grid>
+                    </div>
+                  </div>
                 </div>
               </>
             )}
@@ -240,19 +247,17 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
         </div>
       </div>
       <div className="recipe-register__submit">
-        <Grid container spacing={0}>
-          <Grid item xs={4}>
+        <div className="grid g-0">
+          <div className="g-col-4">
             <Button fullWidth variant="secondary" onClick={onCancel}>
               cancelar
             </Button>
-          </Grid>
-          <Grid item xs={8}>
-            <SubmitComponent>
-              <IoSaveOutline />
-              salvar receita
-            </SubmitComponent>
-          </Grid>
-        </Grid>
+          </div>
+
+          <div className="g-col-8">
+            <SubmitComponent>salvar receita</SubmitComponent>
+          </div>
+        </div>
       </div>
     </Form>
   );

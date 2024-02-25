@@ -1,23 +1,21 @@
-import React, { FC } from 'react';
-import Grid, { GridProps } from '@mui/material/Grid';
+import React, { FC, HTMLProps } from 'react';
 import SectionTitle from '../section-title/section-title';
 
-interface Props {
+export interface SectionProps extends HTMLProps<HTMLDivElement> {
   title?: string;
   onBgWhite?: boolean;
 }
-
-export type SectionProps = Props & GridProps;
 
 const Section: FC<SectionProps> = ({
   onBgWhite = false,
   title = '',
   children,
+  ...props
 }) => {
   return (
-    <Grid container spacing={2}>
+    <div className="grid columns-1 g-3" {...props}>
       {title && (
-        <Grid item xs={12}>
+        <div>
           {onBgWhite ? (
             <h3 className="h2" style={{ textAlign: 'center' }}>
               {title}
@@ -25,12 +23,10 @@ const Section: FC<SectionProps> = ({
           ) : (
             <SectionTitle>{title}</SectionTitle>
           )}
-        </Grid>
+        </div>
       )}
-      <Grid item xs={12}>
-        {children}
-      </Grid>
-    </Grid>
+      {children}
+    </div>
   );
 };
 

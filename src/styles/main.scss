@@ -3,3 +3,7 @@
 @use "components/components";
 @use "helpers/helpers";
 
+$enable-cssgrid: true;
+
+@import "bootstrap/scss/bootstrap-grid";
+@import "bootstrap/scss/bootstrap-utilities";

@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Grid } from '@mui/material';
 import FoodsPanel from '../panels/foods/foods';
 import { FOOD } from '../services/food';
 import FoodDetailed from '../components/food-detailed/food-detailed';
@@ -11,20 +10,22 @@ export const DesktopFoodsPage: FC = () => {
   console.log(currentFood, currentFoodQuantity);
 
   return (
-    <Grid container>
-      <Grid item xs={12} md={5}>
-        <FoodsPanel
-          setCurrentFood={setCurrentFood}
-          setCurrentFoodQuantity={setCurrentFoodQuantity}
-          quantityToShow={20}
-        />
-      </Grid>
-
-      <Grid item xs={12} md={7}>
-        <div className="container" style={{ paddingTop: 40 }}>
-          <FoodDetailed food={currentFood} />
+    <div className="container">
+      <div className="grid g-4">
+        <div className="g-col-12 g-col-md-5">
+          <FoodsPanel
+            setCurrentFood={setCurrentFood}
+            setCurrentFoodQuantity={setCurrentFoodQuantity}
+            quantityToShow={20}
+          />
         </div>
-      </Grid>
-    </Grid>
+
+        <div className="g-col-12 g-col-md-7">
+          <div style={{ paddingTop: 40 }}>
+            <FoodDetailed food={currentFood} />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

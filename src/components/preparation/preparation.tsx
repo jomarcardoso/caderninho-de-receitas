@@ -1,13 +1,10 @@
 import React, { FC } from 'react';
-import Grid from '@mui/material/Grid';
 import Section, { SectionProps } from '../section/section';
 
-interface Props {
+export interface PreparationProps extends SectionProps {
   preparation: string;
   title?: string;
 }
-
-export type PreparationProps = Props & SectionProps;
 
 const Preparation: FC<PreparationProps> = ({
   title = 'Modo de preparo',
@@ -20,13 +17,11 @@ const Preparation: FC<PreparationProps> = ({
 
   return (
     <Section title={title} onBgWhite {...props}>
-      <Grid container spacing={1}>
+      <div className="grid g-2 columns-1">
         {preparationList.map((preparationLine) => (
-          <Grid item xs={12} key={preparationLine}>
-            {preparationLine}
-          </Grid>
+          <div key={preparationLine}>{preparationLine}</div>
         ))}
-      </Grid>
+      </div>
     </Section>
   );
 };

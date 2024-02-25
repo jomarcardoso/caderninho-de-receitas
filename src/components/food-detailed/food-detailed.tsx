@@ -1,6 +1,5 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, HTMLProps, ReactElement } from 'react';
 import List from '@mui/material/List';
-import Grid, { GridProps } from '@mui/material/Grid';
 import round from 'lodash/round';
 import ListItem from '@mui/material/ListItem';
 import Image from '../image/image';
@@ -12,12 +11,10 @@ import { Nutrient } from '../../services/nutrient.constants';
 import NutrientDisplay from '../nutrient/nutrient';
 import { AminoAcidService } from '../../services/amino-acid';
 
-interface Props {
+interface FoodDetailedProps extends HTMLProps<HTMLDivElement> {
   food: Food;
   quantity?: number;
 }
-
-export type FoodDetailedProps = GridProps & Props;
 
 const FoodDetailed: FC<FoodDetailedProps> = ({
   food,
@@ -69,12 +66,13 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
     return (
       <ListItem disableGutters>
-        <Grid container spacing={1} justifyContent="space-between">
-          <Grid item>
+        <div className="w-100 d-flex justify-content-between gap-3">
+          <div>
             <h2>{quality}</h2>
-          </Grid>
-          <Grid item>{round(value, 2)}</Grid>
-        </Grid>
+          </div>
+
+          <div>{round(value, 2)}</div>
+        </div>
       </ListItem>
     );
   }
@@ -90,99 +88,85 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
   }
 
   return (
-    <Grid container spacing={4} justifyContent="center" {...props}>
-      <Grid item xs={12}>
-        <Image src={image} alt="" aspectRatio={1.25} />
-      </Grid>
-      <Grid item xs={12}>
-        <div className="container">
-          {hasNutrients ? (
-            <Grid container spacing={4} justifyContent="center">
-              <Grid item xs={12}>
-                <List>
-                  {renderQuality({ name: 'Índice Glicêmico', value: gi })}
-                  {renderQuality({
-                    name: 'Calorias',
-                    value: calories * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Carboidratos',
-                    value: carbohydrates * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Proteínas',
-                    value: proteins * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Fibras',
-                    value: dietaryFiber * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Gorduras totais',
-                    value: totalFat * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Colesterol',
-                    value: cholesterol * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Gordura saturada',
-                    value: saturedFats * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Gordura monosaturada',
-                    value: monounsaturatedFats * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Gordura polisaturada',
-                    value: polyunsaturatedFats * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Carga Glicêmica',
-                    value: gl * multiplier,
-                  })}
-                  {renderQuality({
-                    name: 'Cinzas',
-                    value: ashes * multiplier,
-                  })}
-                </List>
-              </Grid>
-              {hasAminoAcids && (
-                <Grid item xs={12}>
-                  <AminoAcidsTable aminoAcids={aminoAcids} />
-                </Grid>
-              )}
-              {hasVitamins && (
-                <Grid item xs={12}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <h2 className="h2">Vitaminas</h2>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <List>{Object.values(vitamins).map(renderNutrient)}</List>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              )}
-              {hasMinerals && (
-                <Grid item xs={12}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <h2 className="h2">Minerais</h2>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <List>{Object.values(minerals).map(renderNutrient)}</List>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              )}
-            </Grid>
-          ) : (
-            <p>Não há informações nutricionais deste alimento.</p>
-          )}
-        </div>
-      </Grid>
-    </Grid>
+    <div className="grid g-4 columns-1" {...props}>
+      <Image src={image} alt="" aspectRatio={1.25} />
+
+      <div className="container">
+        {hasNutrients ? (
+          <div className="grid g-7 columns-1">
+            <div className="grid g-4 columns-1">
+              <List>
+                {renderQuality({ name: 'Índice Glicêmico', value: gi })}
+                {renderQuality({
+                  name: 'Calorias',
+                  value: calories * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Carboidratos',
+                  value: carbohydrates * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Proteínas',
+                  value: proteins * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Fibras',
+                  value: dietaryFiber * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Gorduras totais',
+                  value: totalFat * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Colesterol',
+                  value: cholesterol * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Gordura saturada',
+                  value: saturedFats * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Gordura monosaturada',
+                  value: monounsaturatedFats * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Gordura polisaturada',
+                  value: polyunsaturatedFats * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Carga Glicêmica',
+                  value: gl * multiplier,
+                })}
+                {renderQuality({
+                  name: 'Cinzas',
+                  value: ashes * multiplier,
+                })}
+              </List>
+
+              {hasAminoAcids && <AminoAcidsTable aminoAcids={aminoAcids} />}
+            </div>
+
+            {hasVitamins && (
+              <div className="grid g-2 columns-1">
+                <h2 className="h2">Vitaminas</h2>
+
+                <List>{Object.values(vitamins).map(renderNutrient)}</List>
+              </div>
+            )}
+
+            {hasMinerals && (
+              <div className="grid g-2 columns-1">
+                <h2 className="h2">Minerais</h2>
+
+                <List>{Object.values(minerals).map(renderNutrient)}</List>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p>Não há informações nutricionais deste alimento.</p>
+        )}
+      </div>
+    </div>
   );
 };
 

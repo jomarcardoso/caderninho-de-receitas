@@ -1,5 +1,4 @@
 import React, { FC, forwardRef } from 'react';
-import Grid from '@mui/material/Grid';
 import { Food } from '../../services/food';
 import Layout from '../../components/layout/layout';
 import FoodDetailed from '../../components/food-detailed/food-detailed';
@@ -32,11 +31,7 @@ const FoodPanel: FC<Props> = forwardRef(
           })`,
         }}
       >
-        <Grid container spacing={4} justifyContent="center">
-          <Grid item xs={12}>
-            <FoodDetailed food={food} />
-          </Grid>
-        </Grid>
+        <FoodDetailed food={food} />
       </Layout>
     );
   },

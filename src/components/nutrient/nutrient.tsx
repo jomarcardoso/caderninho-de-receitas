@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Round from 'lodash/round';
-import Grid from '@mui/material/Grid';
 import ListItem from '@mui/material/ListItem';
 import { NUTRIENT, Nutrient } from '../../services/nutrient.constants';
 
@@ -11,17 +10,14 @@ const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({
 
   return (
     <ListItem disableGutters>
-      <Grid container spacing={1} justifyContent="space-between">
-        <Grid item>
-          <h3>{nutrient.nick}</h3>
-        </Grid>
-        <Grid item>
-          <p style={{ whiteSpace: 'nowrap' }}>
-            {Round(nutrient.quantity, 2)}
-            {nutrient.unity}
-          </p>
-        </Grid>
-      </Grid>
+      <div className="w-100 d-flex gap-1 justify-content-between">
+        <h3>{nutrient.nick}</h3>
+
+        <p style={{ whiteSpace: 'nowrap' }}>
+          {Round(nutrient.quantity, 2)}
+          {nutrient.unity}
+        </p>
+      </div>
     </ListItem>
   );
 };
