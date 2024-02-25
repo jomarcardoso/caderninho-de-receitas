@@ -78,8 +78,6 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
       });
     }
 
-    console.log(steps);
-
     return (
       <>
         {steps.map((step, index) => (

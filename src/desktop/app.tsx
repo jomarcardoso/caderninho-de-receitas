@@ -1,4 +1,4 @@
-import React, { FC, useContext, useMemo } from 'react';
+import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import { last } from 'lodash';
 
 import RecipesContext from '../contexts/recipes-context';
@@ -34,6 +34,11 @@ export const DesktopApp: FC = () => {
       setCurrentRecipeData,
     ],
   );
+  const [currentPage, setCurrentPage] = useState('#main-panel');
+
+  useEffect(() => {
+    console.log(setCurrentPage);
+  }, []);
 
   return (
     <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
@@ -47,15 +52,17 @@ export const DesktopApp: FC = () => {
         <NotebookTabs
           tabs={[
             {
+              active: currentPage === '#foods-panel',
               children: 'alimentos',
               link: '#foods-panel',
             },
             {
-              active: true,
+              active: currentPage === '#main-panel',
               children: 'receitas',
               link: '#main-panel',
             },
             {
+              active: currentPage === '#recipe-panel',
               children: 'cozinhar',
               link: '#recipe-panel',
             },
