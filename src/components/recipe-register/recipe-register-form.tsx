@@ -78,10 +78,12 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
       });
     }
 
+    console.log(steps);
+
     return (
       <>
         {steps.map((step, index) => (
-          <Fragment key={step.name}>
+          <>
             <Grid item xs={12}>
               <Field
                 label={`nome da etapa ${index + 1} (opcional)`}
@@ -135,7 +137,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 minRows={2}
               />
             </Grid>
-          </Fragment>
+          </>
         ))}
       </>
     );

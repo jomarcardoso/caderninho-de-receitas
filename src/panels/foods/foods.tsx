@@ -20,13 +20,18 @@ import Field from '../../components/field/field';
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
   setCurrentFoodQuantity: React.Dispatch<React.SetStateAction<number>>;
+  quantityToShow?: number;
 }
 
 let timeoutSearch: NodeJS.Timeout;
 
-const FoodsPanel: FC<Props> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
+const FoodsPanel: FC<Props> = ({
+  setCurrentFood,
+  setCurrentFoodQuantity,
+  quantityToShow: externalQuantityToShow = 40,
+}) => {
   const foods = useContext(FoodsContext);
-  const [quantityToShow, setQuantityToShow] = useState(40);
+  const [quantityToShow, setQuantityToShow] = useState(externalQuantityToShow);
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
 

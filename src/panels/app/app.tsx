@@ -7,7 +7,6 @@ import React, {
   HTMLProps,
 } from 'react';
 import last from 'lodash/last';
-import { Grid } from '@mui/material';
 import Panel from '../../components/panel/panel';
 import RecipePanel from '../recipe/recipe-panel';
 import SEO from '../../components/seo';
@@ -23,16 +22,13 @@ import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
 import './app.scss';
-import { isMobile } from '../../services/user-agent/user-agent.service';
-import DesktopHeader from '../../components/desktop-header/desktop-header';
-import NotebookTabs from '../../components/notebook-tabs/notebook-tabs';
 
 export type AppProps = HTMLProps<HTMLDivElement>;
 
 const AppPage: FC<AppProps> = (props) => {
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
-  const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
+  const [currentFoodQuantity, setCurrentFoodQuantity] = useState(40);
   const { recipes = [] } = useContext(RecipesContext);
   const {
     currentRecipeData,
@@ -61,82 +57,40 @@ const AppPage: FC<AppProps> = (props) => {
 
   return (
     <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
-      {isMobile() ? (
-        <>
-          <DialogFood
-            food={currentFood}
-            onClose={() => setCurrentFood(FOOD)}
-            open={Boolean(currentFood.name)}
-            quantity={currentFoodQuantity}
-          />
-          <Header />
-          <div className="app-page__body" id="root-content" {...props}>
-            <Panel
-              id="foods-panel"
-              style={{ display: hideLeftPanel ? 'none' : 'initial' }}
-            >
-              <FoodsPanel
-                setCurrentFood={setCurrentFood}
-                setCurrentFoodQuantity={setCurrentFoodQuantity}
-              />
-            </Panel>
-
-            <Panel id="main-panel">
-              <MainPanel
-                currentRecipeData={currentRecipeData}
-                setCurrentRecipe={setCurrentRecipe}
-              />
-            </Panel>
-
-            <RecipePanel
-              currentRecipeData={currentRecipeData}
-              setCurrentRecipeData={setCurrentRecipeData}
+      <>
+        <DialogFood
+          food={currentFood}
+          onClose={() => setCurrentFood(FOOD)}
+          open={Boolean(currentFood.name)}
+          quantity={currentFoodQuantity}
+        />
+        <Header />
+        <div className="app-page__body" id="root-content" {...props}>
+          <Panel
+            id="foods-panel"
+            style={{ display: hideLeftPanel ? 'none' : 'initial' }}
+          >
+            <FoodsPanel
               setCurrentFood={setCurrentFood}
               setCurrentFoodQuantity={setCurrentFoodQuantity}
             />
-          </div>
-        </>
-      ) : (
-        <div className="container-desktop desktop-content">
-          <div className="page relative" style={{ zIndex: 1 }}>
-            <DesktopHeader />
+          </Panel>
 
-            <Grid container>
-              <Grid item xs={12} md={5}>
-                <FoodsPanel
-                  setCurrentFood={setCurrentFood}
-                  setCurrentFoodQuantity={setCurrentFoodQuantity}
-                />
-              </Grid>
+          <Panel id="main-panel">
+            <MainPanel
+              currentRecipeData={currentRecipeData}
+              setCurrentRecipe={setCurrentRecipe}
+            />
+          </Panel>
 
-              <Grid item xs={12} md={7}>
-                <MainPanel
-                  currentRecipeData={currentRecipeData}
-                  setCurrentRecipe={setCurrentRecipe}
-                />
-              </Grid>
-            </Grid>
-          </div>
-
-          <NotebookTabs
-            tabs={[
-              {
-                children: 'alimentos',
-                link: '/food',
-              },
-              {
-                active: true,
-                children: 'receitas',
-                link: '/',
-              },
-              {
-                children: 'cozinhar',
-                link: '/recipe',
-              },
-            ]}
+          <RecipePanel
+            currentRecipeData={currentRecipeData}
+            setCurrentRecipeData={setCurrentRecipeData}
+            setCurrentFood={setCurrentFood}
+            setCurrentFoodQuantity={setCurrentFoodQuantity}
           />
         </div>
-      )}
+      </>
       <SEO title="Caderninho de Receitas" />
 
       <LoadingContext.Consumer>
