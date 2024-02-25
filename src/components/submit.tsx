@@ -1,15 +1,14 @@
-import React, { FC } from 'react';
-import Grid, { GridProps } from '@mui/material/Grid';
+import React, { FC, HTMLProps } from 'react';
 import { Button } from './button';
 
-const SubmitComponent: FC<GridProps> = ({ children }) => (
-  <Grid container justifyContent="flex-end">
-    <Grid item xs={12} sm={8} md={6}>
+const SubmitComponent: FC<HTMLProps<HTMLDivElement>> = ({ children }) => (
+  <div className="row justify-content-end">
+    <div className="col-12 col-sm-8 col-md-6">
       <Button fullWidth type="submit">
         {children}
       </Button>
-    </Grid>
-  </Grid>
+    </div>
+  </div>
 );
 
 export default SubmitComponent;
