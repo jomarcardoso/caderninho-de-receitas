@@ -9,7 +9,7 @@ const Logo: FC<{ active?: boolean; contrast?: boolean }> = ({
   const classes = useMemo(() => {
     return generateCSSClasses({
       logo: true,
-      active,
+      '-active': active,
       'logo--contrast': contrast,
     });
   }, [active, contrast]);

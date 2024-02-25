@@ -4,15 +4,10 @@
     "stylelint-prettier/recommended"
   ],
   "plugins": [
-    "stylelint-scss",
-    "@namics/stylelint-bem"
+    "stylelint-scss"
   ],
   "rules": {
     "selector-class-pattern": null,
-    "plugin/stylelint-bem-namics": {
-      "patternPrefixes": [],
-      "helperPrefixes": []
-    },
     "scss/at-extend-no-missing-placeholder": null
   },
   "files": [

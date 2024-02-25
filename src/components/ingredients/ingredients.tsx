@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
 import Image from '../image/image';
 import { Ingredient } from '../../services/ingredient/ingredient.types';
 import { Food } from '../../services/food';
 import Section, { SectionProps } from '../section/section';
+import { SemanticButton } from '../semantic-button';
 
 interface Props {
   ingredients: Array<Ingredient>;
@@ -27,32 +26,34 @@ const Ingredients: FC<IngredientsProps> = ({
 
   return (
     <Section title="Ingredientes" onBgWhite {...props}>
-      <List>
+      <ul className="list">
         {ingredients.map((ingredient) => (
-          <ListItem
-            button
-            disableGutters
+          <li
             key={`${ingredient.food.id}-${
               ingredient.quantity
             }-${ingredient.description.replace(/\s/g, '-')}`}
-            onClick={() => handleClick(ingredient)}
           >
-            <div className="w-100 grid columns-9 align-items-center g-2">
-              <div className="g-col-1">
-                <Image
-                  src={ingredient.food.icon || ingredient.food.image}
-                  alt={ingredient.food.name}
-                  transparent
-                />
-              </div>
+            <SemanticButton
+              className="list-item -no-gutter"
+              onClick={() => handleClick(ingredient)}
+            >
+              <div className="w-100 grid columns-10 align-items-center g-2">
+                <div className="g-col-1">
+                  <Image
+                    src={ingredient.food.icon || ingredient.food.image}
+                    alt={ingredient.food.name}
+                    transparent
+                  />
+                </div>
 
-              <div className="g-col-8">
-                <p>{ingredient.description}</p>
+                <div className="g-col-9">
+                  <p>{ingredient.description}</p>
+                </div>
               </div>
-            </div>
-          </ListItem>
+            </SemanticButton>
+          </li>
         ))}
-      </List>
+      </ul>
     </Section>
   );
 };
