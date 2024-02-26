@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { scrollToEl, ScrollSpy, createScrollSpyItem } from 'ovos';
+import { scrollToEl, scrollSpy, createScrollSpyItem } from 'ovos';
 import useNavigation from './use-navigation';
 
 // let timeout: NodeJS.Timeout;
@@ -68,7 +68,7 @@ const useScroll = (): void => {
 
       clearInterval(interval);
 
-      ScrollSpy({
+      scrollSpy({
         method: 'EXACT',
         axis: 'x',
         elRelative: document.querySelector('#root-content') as HTMLElement,

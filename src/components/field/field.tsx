@@ -11,9 +11,10 @@ import React, {
   useMemo,
   useCallback,
 } from 'react';
-import TextareaAutosize, {
+import {
+  TextareaAutosize,
   TextareaAutosizeProps,
-} from '@mui/material/TextareaAutosize';
+} from '@mui/base/TextareaAutosize';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import './field.scss';
 

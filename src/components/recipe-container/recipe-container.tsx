@@ -1,7 +1,6 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useEffect } from 'react';
 import round from 'lodash/round';
-import Slide, { SlideProps } from '@mui/material/Slide';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
+import { StickyHeader } from 'ovos';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import Ingredients from '../ingredients/ingredients';
@@ -15,18 +14,6 @@ import NutrientDisplay from '../nutrient/nutrient';
 import './recipe-container.scss';
 import { Nutrient } from '../../services/nutrient.constants';
 import { ListItem } from '../list-item/list-item';
-
-const HideOnScroll: FC<SlideProps> = ({ children, ...props }) => {
-  const trigger = useScrollTrigger({
-    target: document.querySelector('#recipe-panel') as HTMLElement,
-  });
-
-  return (
-    <Slide appear={false} direction="down" in={!trigger} {...props}>
-      {children}
-    </Slide>
-  );
-};
 
 export interface RecipeContainerProps {
   recipe: Recipe;
@@ -71,10 +58,23 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
     );
   }
 
+  useEffect(() => {
+    StickyHeader({});
+  }, []);
+
   return (
     <div className="recipe-container">
       {recipe.name && (
-        <HideOnScroll>
+        <div
+          data-ovo-sticky-header
+          style={{
+            position: 'sticky',
+            top: 0,
+            right: 0,
+            width: '100vw',
+            zIndex: 1,
+          }}
+        >
           <div className="recipe-container__name">
             <div className="container">
               <h2
@@ -85,7 +85,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               </h2>
             </div>
           </div>
-        </HideOnScroll>
+        </div>
       )}
       <div style={{ marginBottom: '24px' }}>
         <Image src={recipe.image} alt="" aspectRatio={1.25} />
