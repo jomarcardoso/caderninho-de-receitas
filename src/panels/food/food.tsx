@@ -1,4 +1,4 @@
-import React, { FC, forwardRef } from 'react';
+import React, { FC, LegacyRef, forwardRef } from 'react';
 import { Food } from '../../services/food';
 import Layout from '../../components/layout/layout';
 import FoodDetailed from '../../components/food-detailed/food-detailed';
@@ -17,7 +17,7 @@ const FoodPanel: FC<Props> = forwardRef(
 
     return (
       <Layout
-        ref={ref}
+        ref={ref as LegacyRef<HTMLDivElement>}
         className="food-panel"
         showFooter={false}
         mainProps={{

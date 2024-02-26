@@ -1,7 +1,5 @@
 import React, { FC, HTMLProps, ReactElement } from 'react';
-import List from '@mui/material/List';
 import round from 'lodash/round';
-import ListItem from '@mui/material/ListItem';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import { Food } from '../../services/food';
@@ -10,6 +8,7 @@ import { MINERALS } from '../../services/mineral';
 import { Nutrient } from '../../services/nutrient.constants';
 import NutrientDisplay from '../nutrient/nutrient';
 import { AminoAcidService } from '../../services/amino-acid';
+import { ListItem } from '../list-item/list-item';
 
 interface FoodDetailedProps extends HTMLProps<HTMLDivElement> {
   food: Food;
@@ -65,7 +64,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
     if (!value) return null;
 
     return (
-      <ListItem disableGutters>
+      <ListItem noGutters noBorder>
         <div className="w-100 d-flex justify-content-between gap-3">
           <div>
             <h2>{quality}</h2>
@@ -81,7 +80,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
     if (!nutrient.quantity) return null;
 
     return (
-      <ListItem disableGutters>
+      <ListItem noGutters noBorder>
         <NutrientDisplay nutrient={nutrient} />
       </ListItem>
     );
@@ -95,7 +94,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
         {hasNutrients ? (
           <div className="grid g-7 columns-1">
             <div className="grid g-4 columns-1">
-              <List>
+              <ul className="list">
                 {renderQuality({ name: 'Índice Glicêmico', value: gi })}
                 {renderQuality({
                   name: 'Calorias',
@@ -141,7 +140,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
                   name: 'Cinzas',
                   value: ashes * multiplier,
                 })}
-              </List>
+              </ul>
 
               {hasAminoAcids && <AminoAcidsTable aminoAcids={aminoAcids} />}
             </div>
@@ -150,7 +149,9 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
               <div className="grid g-2 columns-1">
                 <h2 className="h2">Vitaminas</h2>
 
-                <List>{Object.values(vitamins).map(renderNutrient)}</List>
+                <ul className="list">
+                  {Object.values(vitamins).map(renderNutrient)}
+                </ul>
               </div>
             )}
 
@@ -158,7 +159,9 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
               <div className="grid g-2 columns-1">
                 <h2 className="h2">Minerais</h2>
 
-                <List>{Object.values(minerals).map(renderNutrient)}</List>
+                <ul className="list">
+                  {Object.values(minerals).map(renderNutrient)}
+                </ul>
               </div>
             )}
           </div>

@@ -26,34 +26,31 @@ const Ingredients: FC<IngredientsProps> = ({
 
   return (
     <Section title="Ingredientes" onBgWhite {...props}>
-      <ul className="list">
+      <div className="list">
         {ingredients.map((ingredient) => (
-          <li
+          <SemanticButton
             key={`${ingredient.food.id}-${
               ingredient.quantity
             }-${ingredient.description.replace(/\s/g, '-')}`}
+            className="list-item -no-gutters -no-border"
+            onClick={() => handleClick(ingredient)}
           >
-            <SemanticButton
-              className="list-item -no-gutter"
-              onClick={() => handleClick(ingredient)}
-            >
-              <div className="w-100 grid columns-10 align-items-center g-2">
-                <div className="g-col-1">
-                  <Image
-                    src={ingredient.food.icon || ingredient.food.image}
-                    alt={ingredient.food.name}
-                    transparent
-                  />
-                </div>
-
-                <div className="g-col-9">
-                  <p>{ingredient.description}</p>
-                </div>
+            <div className="w-100 grid columns-10 align-items-center g-2">
+              <div className="g-col-1">
+                <Image
+                  src={ingredient.food.icon || ingredient.food.image}
+                  alt={ingredient.food.name}
+                  transparent
+                />
               </div>
-            </SemanticButton>
-          </li>
+
+              <div className="g-col-9">
+                <p>{ingredient.description}</p>
+              </div>
+            </div>
+          </SemanticButton>
         ))}
-      </ul>
+      </div>
     </Section>
   );
 };

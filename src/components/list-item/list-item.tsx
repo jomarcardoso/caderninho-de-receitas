@@ -1,11 +1,14 @@
 import React, { FC, HTMLProps, ReactNode } from 'react';
 import { IoChevronForward } from 'react-icons/io5';
 import './list-item.scss';
+import { generateCSSClasses } from '../../services/dom/classes';
 
 interface Props {
   isAction?: boolean;
   isActive?: boolean;
   image?: ReactNode;
+  noGutters?: boolean;
+  noBorder?: boolean;
 }
 
 export type ListItemProps = Props & HTMLProps<HTMLLIElement>;
@@ -16,21 +19,18 @@ export const ListItem: FC<ListItemProps> = ({
   isActive = false,
   image = '',
   className = '',
+  noGutters = false,
+  noBorder = false,
   ...props
 }) => {
-  let classes = 'list-item';
-
-  if (className) {
-    classes += ` ${className}`;
-  }
-
-  if (isAction) {
-    classes += ' list-item--action';
-  }
-
-  if (isActive) {
-    classes += ' list-item--active';
-  }
+  const classes = generateCSSClasses({
+    'list-item': true,
+    [className]: className,
+    'list-item--action': isAction,
+    'list-item--active': isActive,
+    '-no-gutters': noGutters,
+    '-no-border': noBorder,
+  });
 
   return (
     <li className={classes} {...props}>

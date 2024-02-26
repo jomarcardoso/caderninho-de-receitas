@@ -1,7 +1,5 @@
 import React, { FC, ReactElement } from 'react';
 import round from 'lodash/round';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Image from '../image/image';
@@ -16,6 +14,7 @@ import { AminoAcidService } from '../../services/amino-acid';
 import NutrientDisplay from '../nutrient/nutrient';
 import './recipe-container.scss';
 import { Nutrient } from '../../services/nutrient.constants';
+import { ListItem } from '../list-item/list-item';
 
 const HideOnScroll: FC<SlideProps> = ({ children, ...props }) => {
   const trigger = useScrollTrigger({
@@ -51,14 +50,18 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   function renderNutrient(nutrient: Nutrient): ReactElement | null {
     if (!nutrient.quantity) return null;
 
-    return <NutrientDisplay nutrient={nutrient} key={nutrient.name} />;
+    return (
+      <ListItem noGutters noBorder>
+        <NutrientDisplay nutrient={nutrient} key={nutrient.name} />
+      </ListItem>
+    );
   }
 
   function renderQuality({ name: foodName = '', value = 0 }) {
     if (!value) return null;
 
     return (
-      <ListItem disableGutters>
+      <ListItem noGutters noBorder>
         <div className="w-100 d-flex gap-1 justify-content-between">
           <div>{foodName}</div>
 
@@ -121,7 +124,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           <div className="grid columns-1 g-3">
             <h2 className="h2">Informações nutricionais</h2>
 
-            <List>
+            <ul>
               {renderQuality({
                 name: 'Calorias',
                 value: recipe.calories,
@@ -142,18 +145,22 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
                 name: 'Fibras',
                 value: recipe.dietaryFiber,
               })}
-            </List>
+            </ul>
           </div>
 
           {hasVitamins && (
             <Section title="Vitaminas">
-              <List>{Object.values(recipe.vitamins).map(renderNutrient)}</List>
+              <ul className="list">
+                {Object.values(recipe.vitamins).map(renderNutrient)}
+              </ul>
             </Section>
           )}
 
           {hasMinerals && (
             <Section title="Minerais">
-              <List>{Object.values(recipe.minerals).map(renderNutrient)}</List>
+              <ul className="list">
+                {Object.values(recipe.minerals).map(renderNutrient)}
+              </ul>
             </Section>
           )}
 

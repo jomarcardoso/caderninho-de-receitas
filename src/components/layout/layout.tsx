@@ -1,5 +1,11 @@
-import React, { FC, UIEvent, useState, useCallback, forwardRef } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
+import React, {
+  FC,
+  UIEvent,
+  useState,
+  useCallback,
+  forwardRef,
+  HTMLProps,
+} from 'react';
 import Header, { HeaderProps } from '../header/header';
 import Main, { MainProps } from '../main';
 import './layout.scss';
@@ -7,7 +13,7 @@ import Footer, { FooterProps } from '../footer/footer';
 import { generateCSSClasses } from '../../services/dom/classes';
 import { isMobile } from '../../services/user-agent/user-agent.service';
 
-interface Props {
+interface LayoutProps extends HTMLProps<HTMLDivElement> {
   showHeader?: boolean;
   showFooter?: boolean;
   headerProps?: HeaderProps;
@@ -15,8 +21,6 @@ interface Props {
   mainProps?: MainProps;
   footerMenu?: boolean;
 }
-
-export type LayoutProps = Props & BoxProps;
 
 const Layout: FC<LayoutProps> = forwardRef(
   (
@@ -59,13 +63,7 @@ const Layout: FC<LayoutProps> = forwardRef(
     );
 
     return (
-      <Box
-        className={classes}
-        onScroll={handleOpen}
-        bgcolor="gray.700"
-        {...props}
-        ref={ref}
-      >
+      <div className={classes} onScroll={handleOpen} {...props} ref={ref}>
         {showHeader && <Header {...headerProps} />}
         {footerMenu && <div className="layout__overlay" />}
         <Main className="layout__main" {...mainProps}>
@@ -74,7 +72,7 @@ const Layout: FC<LayoutProps> = forwardRef(
         {showFooter && isMobile() && (
           <Footer open={open} footerMenu={footerMenu} {...footerProps} />
         )}
-      </Box>
+      </div>
     );
   },
 );
