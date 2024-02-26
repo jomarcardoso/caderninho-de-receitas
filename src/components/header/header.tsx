@@ -1,5 +1,4 @@
 import React, { FC, ReactNode, ReactElement, HTMLProps } from 'react';
-import SvgIcon from '@mui/material/SvgIcon';
 import { IoClose } from 'react-icons/io5';
 import './header.scss';
 
@@ -28,9 +27,9 @@ const Header: FC<HeaderProps> = ({ pageName = '', onClose, tools }) => {
         {tools}
         {onClose && (
           <button className="header__button" onClick={onClose}>
-            <SvgIcon>
+            <span className="svg-icon">
               <IoClose />
-            </SvgIcon>
+            </span>
           </button>
         )}
       </div>

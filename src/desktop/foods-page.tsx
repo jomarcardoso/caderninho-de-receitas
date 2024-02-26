@@ -7,7 +7,7 @@ export const DesktopFoodsPage: FC = () => {
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(100);
 
-  console.log(currentFood, currentFoodQuantity);
+  console.log(currentFoodQuantity);
 
   return (
     <div className="container">
@@ -17,6 +17,7 @@ export const DesktopFoodsPage: FC = () => {
             setCurrentFood={setCurrentFood}
             setCurrentFoodQuantity={setCurrentFoodQuantity}
             quantityToShow={20}
+            currentFood={currentFood}
           />
         </div>
 

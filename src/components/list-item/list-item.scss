@@ -1,5 +1,6 @@
 .list-item {
-  display: block;
+  align-items: center;
+  display: flex;
   min-height: 44px;
   padding: 11px 10px;
   text-overflow: ellipsis;
@@ -17,11 +18,15 @@
     width: 26px;
   }
 
+  &__content {
+    flex: 1;
+  }
+
   &:first-child {
     border-top: 0;
   }
 
-  &--active,
+  &.-active,
   &:where(button, a, [tabindex]):active,
   &:where(button, a, [tabindex]):hover {
     background-color: var(--color-light-main);
@@ -43,15 +48,6 @@
 
     .list-item__icon {
       color: currentcolor;
-    }
-  }
-
-  &--action {
-    align-items: center;
-    display: flex;
-
-    .list-item__content {
-      flex: 1;
     }
   }
 

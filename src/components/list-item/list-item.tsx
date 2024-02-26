@@ -1,42 +1,64 @@
-import React, { FC, HTMLProps, ReactNode } from 'react';
+import React, { FC, HTMLProps, ReactNode, useMemo } from 'react';
 import { IoChevronForward } from 'react-icons/io5';
 import './list-item.scss';
 import { generateCSSClasses } from '../../services/dom/classes';
+import { SemanticButton, SemanticButtonProps } from '../semantic-button';
 
 interface Props {
   isAction?: boolean;
   isActive?: boolean;
-  image?: ReactNode;
+  icon?: ReactNode;
   noGutters?: boolean;
   noBorder?: boolean;
 }
 
-export type ListItemProps = Props & HTMLProps<HTMLLIElement>;
+export type ListItemProps = Props &
+  HTMLProps<HTMLLIElement> &
+  SemanticButtonProps;
 
 export const ListItem: FC<ListItemProps> = ({
   children,
   isAction = false,
   isActive = false,
-  image = '',
+  icon = '',
   className = '',
   noGutters = false,
   noBorder = false,
   ...props
 }) => {
+  const { onClick } = props;
+
   const classes = generateCSSClasses({
     'list-item': true,
     [className]: className,
-    'list-item--action': isAction,
-    'list-item--active': isActive,
+    '-icon': !!icon,
+    '-active': isActive,
     '-no-gutters': noGutters,
     '-no-border': noBorder,
   });
 
+  const content = useMemo(
+    () => (
+      <>
+        {icon && <div className="list-item__image">{icon}</div>}
+        <div className="list-item__content">{children}</div>
+        {isAction && <IoChevronForward className="list-item__icon" />}
+      </>
+    ),
+    [children, icon, isAction],
+  );
+
+  if (onClick) {
+    return (
+      <SemanticButton className={classes} {...props}>
+        {content}
+      </SemanticButton>
+    );
+  }
+
   return (
     <li className={classes} {...props}>
-      {image && <div className="list-item__image">{image}</div>}
-      <div className="list-item__content">{children}</div>
-      {isAction && <IoChevronForward className="list-item__icon" />}
+      {content}
     </li>
   );
 };

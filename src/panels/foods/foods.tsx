@@ -21,6 +21,7 @@ interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
   setCurrentFoodQuantity: React.Dispatch<React.SetStateAction<number>>;
   quantityToShow?: number;
+  currentFood?: Food;
 }
 
 let timeoutSearch: NodeJS.Timeout;
@@ -29,6 +30,7 @@ const FoodsPanel: FC<Props> = ({
   setCurrentFood,
   setCurrentFoodQuantity,
   quantityToShow: externalQuantityToShow = 40,
+  currentFood,
 }) => {
   const foods = useContext(FoodsContext);
   const [quantityToShow, setQuantityToShow] = useState(externalQuantityToShow);
@@ -67,14 +69,13 @@ const FoodsPanel: FC<Props> = ({
 
     return (
       <ListItem
+        isActive={food.id === currentFood?.id}
         key={food.name}
-        isAction
-        className="list-item"
         onClick={() => {
           setCurrentFood(food);
           setCurrentFoodQuantity(100);
         }}
-        image={<Image src={food.icon} alt="" transparent />}
+        icon={<Image src={food.icon} alt="" transparent />}
       >
         {food.name}
       </ListItem>
@@ -105,6 +106,7 @@ const FoodsPanel: FC<Props> = ({
       className="foods-panel"
     >
       <SectionTitle opaque>Lista de alimentos</SectionTitle>
+
       <Field
         placeholder="buscar"
         onChange={handleChangeFilter}
@@ -112,7 +114,9 @@ const FoodsPanel: FC<Props> = ({
         onErase={() => setSearchInput('')}
         value={searchInput}
       />
+
       <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
+
       {orderedFoods.length >= quantityToShow && (
         <div
           style={{

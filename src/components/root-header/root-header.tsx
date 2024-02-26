@@ -1,5 +1,4 @@
 import React, { FC, HTMLProps, useMemo } from 'react';
-import SvgIcon from '@mui/material/SvgIcon';
 import { primary, secondary } from '../page/page';
 import Logo from '../logo/logo';
 import CheffLightSvg from '../../assets/svg/cheff-light.svg';
@@ -22,13 +21,13 @@ const Header: FC<RootHeaderProps> = (props) => {
             className="root-header__button"
             onClick={() => goTo('#foods-panel')}
           >
-            <SvgIcon>
+            <div className="svg-icon">
               {currentPageHash === '#foods-panel' ? (
                 <ListDuoSvg secondary={primary.main} />
               ) : (
                 <ListLightSvg />
               )}
-            </SvgIcon>
+            </div>
           </button>
           <button
             className="root-header__button"
@@ -41,7 +40,7 @@ const Header: FC<RootHeaderProps> = (props) => {
             className="root-header__button"
             onClick={() => goTo('#recipe-panel')}
           >
-            <SvgIcon>
+            <div className="svg-icon">
               {currentPageHash === '#recipe-panel' ? (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                   <g className="fa-group">
@@ -60,7 +59,7 @@ const Header: FC<RootHeaderProps> = (props) => {
               ) : (
                 <CheffLightSvg />
               )}
-            </SvgIcon>
+            </div>
           </button>
         </div>
       </header>

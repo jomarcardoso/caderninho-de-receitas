@@ -1,20 +1,17 @@
-import React, { FC, useMemo } from 'react';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction, {
-  BottomNavigationActionProps,
-} from '@mui/material/BottomNavigationAction';
-import Box, { BoxProps } from '@mui/material/Box';
-import SvgIcon from '@mui/material/SvgIcon';
+import React, { FC, HTMLProps, ReactNode, useMemo } from 'react';
 import './footer.scss';
 import { generateCSSClasses } from '../../services/dom/classes';
+import { SemanticButton, SemanticButtonProps } from '../semantic-button';
 
-interface Props {
-  items?: BottomNavigationActionProps[];
+export interface FooterItemProps extends SemanticButtonProps {
+  icon?: ReactNode;
+}
+
+export interface FooterProps extends HTMLProps<HTMLDivElement> {
+  items?: FooterItemProps[];
   footerMenu?: boolean;
   open?: boolean;
 }
-
-export type FooterProps = Props & BoxProps;
 
 const Footer: FC<FooterProps> = ({
   items = [],
@@ -30,30 +27,24 @@ const Footer: FC<FooterProps> = ({
   });
 
   function render() {
-    function renderItem({ icon, ...itemProps }: BottomNavigationActionProps) {
+    function renderItem({ icon, ...itemProps }: FooterItemProps) {
       return (
-        <BottomNavigationAction
+        <SemanticButton
+          className="footer__control"
           key={String(icon)}
-          icon={<SvgIcon>{icon}</SvgIcon>}
           {...itemProps}
-        />
+        >
+          <span className="svg-icon">{icon}</span>
+        </SemanticButton>
       );
     }
 
     return (
-      <Box
-        boxShadow={4}
-        component="footer"
-        className={classes}
-        zIndex={1}
-        {...props}
-      >
+      <footer className={classes} style={{ zIndex: 1 }} {...props}>
         {children || (
-          <BottomNavigation className="footer__navigation">
-            {items.map(renderItem)}
-          </BottomNavigation>
+          <div className="footer__navigation">{items.map(renderItem)}</div>
         )}
-      </Box>
+      </footer>
     );
   }
 
