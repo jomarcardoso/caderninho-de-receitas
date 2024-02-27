@@ -13,7 +13,7 @@ import Footer, { FooterProps } from '../footer/footer';
 import { generateCSSClasses } from '../../services/dom/classes';
 import { isMobile } from '../../services/user-agent/user-agent.service';
 
-interface LayoutProps extends HTMLProps<HTMLDivElement> {
+export interface LayoutProps extends HTMLProps<HTMLDivElement> {
   showHeader?: boolean;
   showFooter?: boolean;
   headerProps?: HeaderProps;

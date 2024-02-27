@@ -4,7 +4,7 @@ import { RecipeData, RECIPE_DATA } from '../../services/recipe';
 import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE_STEP_DATA } from '../../services/recipe/recipe.types';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
-import AlertEmptyRecipe from '../alert-empty-recipe/alert-empty-recipe';
+import Dialog from '../dialog/dialog';
 import { Button } from '../button';
 import EditingContext from '../../contexts/editing-context';
 import CurrentRecipeContext from '../../contexts/current-recipe';
@@ -96,10 +96,9 @@ const RecipeRegister: FC<Props> = ({
           />
         )}
       </Formik>
-      <AlertEmptyRecipe
+      <Dialog
         open={openedEmptyRecipe}
         title="erro ao cadastrar uma nova receita"
-        contentText="A receita precisa ter um nome. Deseja cancelar o cadastro ou preencher o nome e continuar?"
         actions={
           <>
             <Button variant="secondary" onClick={handleCancel}>
@@ -110,7 +109,10 @@ const RecipeRegister: FC<Props> = ({
             </Button>
           </>
         }
-      />
+      >
+        A receita precisa ter um nome. Deseja cancelar o cadastro ou preencher o
+        nome e continuar?
+      </Dialog>
     </>
   );
 };

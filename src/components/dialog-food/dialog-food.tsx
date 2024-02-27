@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect } from 'react';
-import Dialog from '@mui/material/Dialog';
-import Slide, { SlideProps } from '@mui/material/Slide';
+import { Modal } from '@mui/base/Modal';
 import FoodPanel from '../../panels/food/food';
 import { FOOD, Food } from '../../services/food';
 import { HeaderProps } from '../header/header';
@@ -12,10 +11,6 @@ export interface DialogFoodProps {
   food: Food;
   onClose: HeaderProps['onClose'];
 }
-
-const DialogTransition: FC<SlideProps> = (props) => {
-  return <Slide direction="right" {...props} />;
-};
 
 const DialogFood: FC<DialogFoodProps> = ({
   open = false,
@@ -45,29 +40,14 @@ const DialogFood: FC<DialogFoodProps> = ({
   }, []);
 
   return (
-    <Dialog
-      fullScreen
-      open={open}
-      TransitionComponent={DialogTransition}
-      sx={[
-        {
-          '.MuiDialog-container': {
-            justifyContent: 'flex-start',
-          },
-        },
-      ]}
-      PaperProps={{
-        sx: {
-          // maxWidth: 'calc(100vw / 3)',
-        },
-      }}
-    >
+    <Modal open={open} className="modal-overlay">
       <FoodPanel
         quantity={quantity}
         food={food}
         headerProps={{ onClose: handleClose }}
+        style={{ height: '100vh', background: 'white' }}
       />
-    </Dialog>
+    </Modal>
   );
 };
 

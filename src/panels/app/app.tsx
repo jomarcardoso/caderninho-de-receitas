@@ -14,8 +14,6 @@ import FoodsPanel from '../foods/foods';
 import DialogFood from '../../components/dialog-food/dialog-food';
 import MainPanel from '../main/main-panel';
 import Header from '../../components/root-header/root-header';
-import PageLoader from '../../components/page-loader/page-loader';
-import LoadingContext from '../../contexts/loading';
 import { FOOD } from '../../services/food';
 import useRecipe from '../../hooks/use-current-recipe';
 import RecipesContext from '../../contexts/recipes-context';
@@ -91,11 +89,8 @@ const AppPage: FC<AppProps> = (props) => {
           />
         </div>
       </>
-      <SEO title="Caderninho de Receitas" />
 
-      <LoadingContext.Consumer>
-        {({ loading = false }) => <PageLoader open={loading} />}
-      </LoadingContext.Consumer>
+      <SEO title="Caderninho de Receitas" />
     </CurrentRecipeContext.Provider>
   );
 };
