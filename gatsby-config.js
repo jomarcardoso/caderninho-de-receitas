@@ -32,7 +32,6 @@ module.exports = {
       },
     },
     'gatsby-plugin-eslint',
-    `gatsby-theme-material-ui`,
     `gatsby-plugin-sass`,
     {
       resolve: 'gatsby-plugin-react-svg',

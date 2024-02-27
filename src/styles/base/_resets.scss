@@ -1,11 +1,11 @@
-* {
-  border: 0;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
+@import "the-new-css-reset/css/reset.css";
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -26,36 +26,8 @@ body {
   }
 }
 
-ol,
-ul {
-  list-style: none;
-}
-
-input,
-textarea,
-button,
-select,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.caderninho {
-  a {
-    color: inherit;
-    text-decoration: inherit;
-  }
-
-  ul {
-    padding-left: 0;
-  }
-
-  .d-none {
-    display: none;
-  }
-
-  .MuiPaper-root {
-    overflow: hidden;
-  }
+.d-none {
+  display: none;
 }
 
 html {
@@ -64,10 +36,9 @@ html {
   text-size-adjust: 100%;
 }
 
-button {
+th,
+td {
   border: 0;
-  background: none;
-  cursor: pointer;
 }
 
 gatsby-qod {

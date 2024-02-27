@@ -8,7 +8,13 @@
   ],
   "rules": {
     "selector-class-pattern": null,
-    "scss/at-extend-no-missing-placeholder": null
+    "scss/at-extend-no-missing-placeholder": null,
+    "length-zero-no-unit": [
+      true,
+      {
+        "ignore": ["custom-properties"]
+      }
+    ]
   },
   "files": [
     "src/*.scss",
