@@ -11,7 +11,9 @@
 body {
   color: var(--color-dark-main);
   font-family: var(--font-family-text);
-  font-size: 14px;
+  font-size: 1rem;
+  letter-spacing: 0.0093em;
+  font-weight: 200;
   overflow: hidden;
 
   @media (max-width: 1023px) {
@@ -58,6 +60,8 @@ a {
 
 html {
   height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
 }
 
 button {
