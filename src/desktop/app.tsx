@@ -40,7 +40,7 @@ export const DesktopApp: FC = () => {
 
   return (
     <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
-      <div className="container-desktop desktop-content">
+      <div className="desktop-container">
         <div className="page relative" style={{ zIndex: 1 }}>
           <DesktopHeader />
 

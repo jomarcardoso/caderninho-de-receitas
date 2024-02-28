@@ -8,7 +8,9 @@ $enable-cssgrid: true;
 @import "bootstrap/scss/bootstrap-grid";
 @import "bootstrap/scss/bootstrap-utilities";
 
-:root {
-  --font: 'Dosis, sans-serif';
-  --font-display: 'Cinzel, serif';
+.desktop-container {
+  max-width: 960px;
+  position: relative;
+  padding-left: 32px;
+  margin: 0 auto;
 }
