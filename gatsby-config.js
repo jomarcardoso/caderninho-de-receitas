@@ -15,7 +15,6 @@ module.exports = {
     },
     'gatsby-plugin-ts-config',
     `gatsby-plugin-typescript`,
-    'gatsby-plugin-typescript-checker',
     {
       resolve: `gatsby-plugin-offline`,
       options: {
@@ -25,13 +24,6 @@ module.exports = {
         precachePages: [`/src/*`],
       },
     },
-    {
-      resolve: `@danbruegge/gatsby-plugin-stylelint`,
-      options: {
-        files: ['src/**/*.scss'],
-      },
-    },
-    'gatsby-plugin-eslint',
     `gatsby-plugin-sass`,
     {
       resolve: 'gatsby-plugin-react-svg',
