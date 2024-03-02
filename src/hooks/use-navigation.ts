@@ -9,13 +9,9 @@ interface UseNavigationReturn {
   navigation: NavigationContextType;
 }
 
-const stepsByLevel = [
-  ['#main-panel'],
-  ['#foods-panel', '#recipe-panel'],
-  ['#food-modal'],
-];
+const stepsByLevel = [['#main'], ['#foods', '#recipe'], ['#food-modal']];
 
-let hash = '#main-panel';
+let hash = '#main';
 
 const useNavigation = (): UseNavigationReturn => {
   const navigation = useContext(NavigationContext);
@@ -28,7 +24,7 @@ const useNavigation = (): UseNavigationReturn => {
     navigation.setStack((prevStack) => prevStack.slice(0, -1));
   }, [navigation]);
 
-  function horizontalNavigate(newHash = '#main-panel') {
+  function horizontalNavigate(newHash = '#main') {
     if (!navigation.setStack) {
       return;
     }
@@ -38,7 +34,7 @@ const useNavigation = (): UseNavigationReturn => {
     });
   }
 
-  function navigateAhead(newHash = '#main-panel') {
+  function navigateAhead(newHash = '#main') {
     if (!navigation.setStack) {
       return;
     }
@@ -49,14 +45,14 @@ const useNavigation = (): UseNavigationReturn => {
   }
 
   function goBack() {
-    if (window.location.hash === '#main-panel') {
+    if (window.location.hash === '#main') {
       return;
     }
 
     window.history.back();
   }
 
-  function goTo(newHash = '#main-panel') {
+  function goTo(newHash = '#main') {
     if (hash === newHash) {
       return;
     }
@@ -98,36 +94,36 @@ const useNavigation = (): UseNavigationReturn => {
   }, [navigateBack]);
 
   useEffect(() => {
-    if (window.location.hash === '#recipe-panel') {
-      window.history.pushState({}, '', '#main-panel');
+    if (window.location.hash === '#recipe') {
+      window.history.pushState({}, '', '#main');
 
       setTimeout(() => {
-        window.history.pushState({}, '', '#recipe-panel');
+        window.history.pushState({}, '', '#recipe');
       }, 100);
 
-      hash = '#recipe-panel';
+      hash = '#recipe';
 
       if (!navigation.setStack) {
         return;
       }
 
-      navigation.setStack(['#main-panel', '#recipe-panel']);
+      navigation.setStack(['#main', '#recipe']);
     }
 
-    if (window.location.hash === '#foods-panel') {
-      window.history.pushState({}, '', '#main-panel');
+    if (window.location.hash === '#foods') {
+      window.history.pushState({}, '', '#main');
 
       setTimeout(() => {
-        window.history.pushState({}, '', '#foods-panel');
+        window.history.pushState({}, '', '#foods');
       }, 100);
 
-      hash = '#foods-panel';
+      hash = '#foods';
 
       if (!navigation.setStack) {
         return;
       }
 
-      navigation.setStack(['#main-panel', '#foods-panel']);
+      navigation.setStack(['#main', '#foods']);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

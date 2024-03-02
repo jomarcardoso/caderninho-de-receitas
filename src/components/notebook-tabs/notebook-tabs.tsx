@@ -1,10 +1,9 @@
 import React, { FC, HTMLProps } from 'react';
 import './notebook-tabs.scss';
-import { Link } from 'gatsby';
 import { generateCSSClasses } from '../../services/dom/classes';
+import { NavLink } from 'react-router-dom';
 
 interface NotebookTabProps extends HTMLProps<HTMLLIElement> {
-  active?: boolean;
   link?: string;
 }
 
@@ -26,9 +25,14 @@ const NotebookTabs: FC<NotebookTabsProps> = ({
     <ul className={classes} {...props}>
       {tabs.map(({ children, active, link = '#', ...tabProps }) => (
         <li key={String(children)} {...tabProps}>
-          <Link to={link} className={active ? 'active' : ''}>
+          <NavLink
+            to={link}
+            className={({ isActive, isPending }) =>
+              isPending ? 'pending' : isActive ? 'active' : ''
+            }
+          >
             {children}
-          </Link>
+          </NavLink>
         </li>
       ))}
     </ul>

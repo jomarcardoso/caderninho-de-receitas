@@ -7,9 +7,7 @@ import { isMobile } from '../../services/user-agent/user-agent.service';
 export type PageProps = HTMLProps<HTMLDivElement>;
 
 const Page: FC<PageProps> = ({ children, ...props }) => {
-  const [navigationStack, setNavigationStack] = useState<string[]>([
-    'main-panel',
-  ]);
+  const [navigationStack, setNavigationStack] = useState<string[]>(['main']);
   const [style, setStyle] = useState<Style>({});
   const [, setReRender] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,9 +25,9 @@ const Page: FC<PageProps> = ({ children, ...props }) => {
   }, []);
 
   useEffect(() => {
-    // window.location.hash = 'main-panel';
+    // window.location.hash = 'main';
     if (isMobile()) {
-      window.history.pushState({}, '', '#main-panel');
+      window.history.pushState({}, '', '#main');
     }
   }, []);
 

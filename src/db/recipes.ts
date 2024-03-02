@@ -437,7 +437,7 @@ export const recipesData: Array<FoodData> = [
   {
     name: 'Frango na panela de pressão',
     image:
-      'https://www.receiteria.com.br/wp-content/uploads/frango-facil-na-panela-de-pressao.png',
+      'https://www.receiteria.com.br/wp-content/uploads/frango-facil-naa-de-pressao.png',
     keys: [
       'frango na panela',
       'frango na panela de pressão',

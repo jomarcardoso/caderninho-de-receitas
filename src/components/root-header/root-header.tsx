@@ -10,7 +10,7 @@ export type RootHeaderProps = HTMLProps<HTMLDivElement>;
 
 const Header: FC<RootHeaderProps> = (props) => {
   const { goTo, navigation } = useNavigation();
-  const currentPageHash = navigation.stack?.[1] || '#main-panel';
+  const currentPageHash = navigation.stack?.[1] || '#main';
 
   function render() {
     return (
@@ -18,10 +18,10 @@ const Header: FC<RootHeaderProps> = (props) => {
         <div className="root-header__wrapper">
           <button
             className="root-header__button"
-            onClick={() => goTo('#foods-panel')}
+            onClick={() => goTo('#foods')}
           >
             <div className="svg-icon">
-              {currentPageHash === '#foods-panel' ? (
+              {currentPageHash === '#foods' ? (
                 <ListDuoSvg secondary="var(--color-primary-main)" />
               ) : (
                 <ListLightSvg />
@@ -31,16 +31,16 @@ const Header: FC<RootHeaderProps> = (props) => {
           <button
             className="root-header__button"
             type="button"
-            onClick={() => goTo('#main-panel')}
+            onClick={() => goTo('#main')}
           >
-            <Logo active={currentPageHash === '#main-panel'} />
+            <Logo active={currentPageHash === '#main'} />
           </button>
           <button
             className="root-header__button"
-            onClick={() => goTo('#recipe-panel')}
+            onClick={() => goTo('#recipe')}
           >
             <div className="svg-icon">
-              {currentPageHash === '#recipe-panel' ? (
+              {currentPageHash === '#recipe' ? (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                   <g className="fa-group">
                     <path

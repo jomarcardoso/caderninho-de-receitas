@@ -6,7 +6,7 @@ export interface NavigationContextType {
 }
 
 const NavigationContext = createContext<NavigationContextType>({
-  stack: ['main-panel'],
+  stack: ['main'],
 });
 
 export default NavigationContext;

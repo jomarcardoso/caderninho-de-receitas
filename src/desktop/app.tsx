@@ -9,6 +9,8 @@ import NotebookTabs from '../components/notebook-tabs/notebook-tabs';
 import SEO from '../components/seo';
 import CurrentRecipeContext from '../contexts/current-recipe';
 import { DesktopFoodsPage } from './foods-page';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { DesktopRecipesPage } from './recipes-page';
 
 export const DesktopApp: FC = () => {
   const { recipes = [] } = useContext(RecipesContext);
@@ -32,43 +34,47 @@ export const DesktopApp: FC = () => {
       setCurrentRecipeData,
     ],
   );
-  const [currentPage, setCurrentPage] = useState('#main-panel');
+  const [currentPage, setCurrentPage] = useState('');
 
   useEffect(() => {
     console.log(setCurrentPage);
   }, []);
 
-  return (
-    <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
-      <div className="desktop-container">
-        <div className="page relative" style={{ zIndex: 1 }}>
-          <DesktopHeader />
+  console.log(currentPage);
 
-          <DesktopFoodsPage />
+  return (
+    <HashRouter>
+      <CurrentRecipeContext.Provider value={memoizedCurrentRecipe}>
+        <div className="desktop-container">
+          <div className="page relative" style={{ zIndex: 1 }}>
+            <DesktopHeader />
+
+            <Routes>
+              <Route path="foods" element={<DesktopFoodsPage />} />
+              <Route path="/" element={<DesktopRecipesPage />} />
+            </Routes>
+          </div>
+
+          <NotebookTabs
+            tabs={[
+              {
+                children: 'alimentos',
+                link: 'foods',
+              },
+              {
+                children: 'receitas',
+                link: '',
+              },
+              {
+                children: 'cozinhar',
+                link: 'recipe',
+              },
+            ]}
+          />
         </div>
 
-        <NotebookTabs
-          tabs={[
-            {
-              active: currentPage === '#foods-panel',
-              children: 'alimentos',
-              link: '#foods-panel',
-            },
-            {
-              active: currentPage === '#main-panel',
-              children: 'receitas',
-              link: '#main-panel',
-            },
-            {
-              active: currentPage === '#recipe-panel',
-              children: 'cozinhar',
-              link: '#recipe-panel',
-            },
-          ]}
-        />
-      </div>
-
-      <SEO title="Caderninho de Receitas" />
-    </CurrentRecipeContext.Provider>
+        <SEO title="Caderninho de Receitas" />
+      </CurrentRecipeContext.Provider>
+    </HashRouter>
   );
 };

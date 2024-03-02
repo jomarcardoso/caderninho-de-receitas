@@ -52,7 +52,7 @@ const RecipePanel: FC<{
     }
 
     const toShare = RecipeService.generateParamsToShare(currentRecipeData);
-    const url = `${window.location.origin}?${toShare}#recipe-panel` ?? '';
+    const url = `${window.location.origin}?${toShare}#recipe` ?? '';
     const title = currentRecipeData.name || 'Receita';
 
     if (setLoading) {
@@ -129,7 +129,7 @@ const RecipePanel: FC<{
       behavior: 'smooth',
     });
 
-    const elRecipePanel = document.querySelector('#recipe-panel');
+    const elRecipePanel = document.querySelector('#recipe');
 
     elRecipePanel?.scrollTo({
       top: 0,
@@ -138,7 +138,7 @@ const RecipePanel: FC<{
 
   return (
     <EditingContext.Provider value={memoizedEditing}>
-      <Panel id="recipe-panel">
+      <Panel id="recipe">
         <Layout
           showHeader={false}
           showFooter={!editing}

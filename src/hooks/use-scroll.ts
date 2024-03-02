@@ -25,7 +25,7 @@ const useScroll = (): void => {
   const { navigation, goTo } = useNavigation();
 
   useEffect(() => {
-    const elMainPanel = document.querySelector('#main-panel') as HTMLElement;
+    const elMainPanel = document.querySelector('#main') as HTMLElement;
 
     if (busyScroll) {
       return;
@@ -44,17 +44,17 @@ const useScroll = (): void => {
     }
 
     if (navigation.stack.length === 2) {
-      if (navigation.stack[1] === '#recipe-panel') {
+      if (navigation.stack[1] === '#recipe') {
         scrollToEl({
-          el: document.querySelector('#recipe-panel') as HTMLElement,
+          el: document.querySelector('#recipe') as HTMLElement,
         });
 
         return;
       }
 
-      if (navigation.stack[1] === '#foods-panel') {
+      if (navigation.stack[1] === '#foods') {
         scrollToEl({
-          el: document.querySelector('#foods-panel') as HTMLElement,
+          el: document.querySelector('#foods') as HTMLElement,
         });
       }
     }
@@ -81,12 +81,12 @@ const useScroll = (): void => {
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'
                 ) {
-                  goTo('#foods-panel');
+                  goTo('#foods');
                 }
               }
             },
-            elContent: document.querySelector('#foods-panel') as HTMLElement,
-            elMenu: document.querySelector('#foods-panel') as HTMLElement,
+            elContent: document.querySelector('#foods') as HTMLElement,
+            elMenu: document.querySelector('#foods') as HTMLElement,
           }),
           createScrollSpyItem({
             callback: ({ active }) => {
@@ -95,12 +95,12 @@ const useScroll = (): void => {
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'
                 ) {
-                  goTo('#main-panel');
+                  goTo('#main');
                 }
               }
             },
-            elContent: document.querySelector('#main-panel') as HTMLElement,
-            elMenu: document.querySelector('#main-panel') as HTMLElement,
+            elContent: document.querySelector('#main') as HTMLElement,
+            elMenu: document.querySelector('#main') as HTMLElement,
           }),
           createScrollSpyItem({
             callback: ({ active }) => {
@@ -109,12 +109,12 @@ const useScroll = (): void => {
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'
                 ) {
-                  goTo('#recipe-panel');
+                  goTo('#recipe');
                 }
               }
             },
-            elContent: document.querySelector('#recipe-panel') as HTMLElement,
-            elMenu: document.querySelector('#recipe-panel') as HTMLElement,
+            elContent: document.querySelector('#recipe') as HTMLElement,
+            elMenu: document.querySelector('#recipe') as HTMLElement,
           }),
         ],
       });

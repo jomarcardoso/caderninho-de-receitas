@@ -65,7 +65,7 @@ const AppPage: FC<AppProps> = (props) => {
         <Header />
         <div className="app-page__body" id="root-content" {...props}>
           <Panel
-            id="foods-panel"
+            id="foods"
             style={{ display: hideLeftPanel ? 'none' : 'initial' }}
           >
             <FoodsPanel
@@ -74,7 +74,7 @@ const AppPage: FC<AppProps> = (props) => {
             />
           </Panel>
 
-          <Panel id="main-panel">
+          <Panel id="main">
             <MainPanel
               currentRecipeData={currentRecipeData}
               setCurrentRecipe={setCurrentRecipe}

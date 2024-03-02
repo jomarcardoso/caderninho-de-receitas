@@ -11,7 +11,7 @@ import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import { UserBox } from '../../components/user-box/user-box';
 
-/* <div className="main-panel__story-partner">
+/* <div className="main__story-partner">
 <ChefSvg style={{ mixBlendMode: 'multiply' }} />
 </div> */
 

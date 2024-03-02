@@ -103,7 +103,7 @@ const FoodsPanel: FC<Props> = ({
       showHeader={false}
       showFooter={false}
       mainProps={{ style: { paddingBottom: '40px', paddingTop: '40px' } }}
-      className="foods-panel"
+      className="foods"
     >
       <SectionTitle opaque>Lista de alimentos</SectionTitle>
 

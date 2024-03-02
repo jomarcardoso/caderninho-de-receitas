@@ -18,7 +18,7 @@ const FoodPanel: FC<Props> = forwardRef(
     return (
       <Layout
         ref={ref as LegacyRef<HTMLDivElement>}
-        className="food-panel"
+        className="food"
         showFooter={false}
         mainProps={{
           style: { marginTop: 0 },
