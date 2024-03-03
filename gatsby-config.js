@@ -13,7 +13,6 @@ module.exports = {
         },
       },
     },
-    'gatsby-plugin-ts-config',
     `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-plugin-offline`,
