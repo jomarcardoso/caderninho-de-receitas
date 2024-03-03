@@ -38,8 +38,8 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
     if (!nutrient.quantity) return null;
 
     return (
-      <ListItem noGutters noBorder>
-        <NutrientDisplay nutrient={nutrient} key={nutrient.name} />
+      <ListItem noGutters noBorder key={nutrient.name}>
+        <NutrientDisplay nutrient={nutrient} />
       </ListItem>
     );
   }

@@ -17,7 +17,6 @@ export const SemanticButton: FC<SemanticButtonProps> = ({
   };
 
   return (
-    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a href="#" role="button" {...props} onClick={handleClick}>
       {children}
     </a>
