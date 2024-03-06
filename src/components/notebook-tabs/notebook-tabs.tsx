@@ -23,7 +23,7 @@ const NotebookTabs: FC<NotebookTabsProps> = ({
 
   return (
     <ul className={classes} {...props}>
-      {tabs.map(({ children, active, link = '#', ...tabProps }) => (
+      {tabs.map(({ children, link = '#', ...tabProps }) => (
         <li key={String(children)} {...tabProps}>
           <NavLink
             to={link}

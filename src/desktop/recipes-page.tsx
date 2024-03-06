@@ -57,7 +57,7 @@ export const DesktopRecipesPage: FC = () => {
                 <Button
                   variant="secondary"
                   contrast="light"
-                  onClick={() => setCurrentRecipe(RECIPE)}
+                  // onClick={() => setCurrentRecipe(RECIPE)}
                 >
                   <IoAddCircleOutline />
                   adicionar nova receita

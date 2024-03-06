@@ -73,7 +73,7 @@ export const DesktopApp: FC = () => {
           />
         </div>
 
-        <SEO title="Caderninho de Receitas" />
+        <SEO title="Caderninho de Receitas" className="desktop" />
       </CurrentRecipeContext.Provider>
     </HashRouter>
   );

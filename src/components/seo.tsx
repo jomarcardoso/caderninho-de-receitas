@@ -15,6 +15,7 @@ interface Props {
   meta?: HTMLMetaElement;
   title: string;
   icon?: string;
+  className?: string;
 }
 
 const SEO: FC<Props> = ({
@@ -23,20 +24,19 @@ const SEO: FC<Props> = ({
   meta,
   title = '',
   icon = '',
+  className = '',
 }) => {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-          }
+  const { site } = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+          description
+          author
         }
       }
-    `,
-  );
+    }
+  `);
 
   const metaDescription = description || site.siteMetadata.description;
 
@@ -85,7 +85,7 @@ const SEO: FC<Props> = ({
     <Helmet
       htmlAttributes={{
         lang,
-        class: 'caderninho',
+        class: `caderninho ${className}`.trim(),
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
