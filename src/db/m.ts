@@ -51,6 +51,13 @@ export const mFoodData: Array<FoodData> = [
     type: 'solid',
   },
   {
+    name: 'Massa de pastel',
+    image: 'https://i.panelinha.com.br/i1/64-bk-6977-massa-pastel1.webp',
+    type: 'solid',
+    keys: ['massa de'],
+    recipe: true,
+  },
+  {
     ...formatMyFood(apple as unknown as FoodMyFoodData),
     name: 'Maçã Fuji',
     gi: 25,

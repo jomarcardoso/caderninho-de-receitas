@@ -1,5 +1,4 @@
 import React, { FC, ReactElement, useEffect } from 'react';
-import round from 'lodash/round';
 import { StickyHeader } from 'ovos';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
@@ -52,7 +51,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         <div className="w-100 d-flex gap-1 justify-content-between">
           <div>{foodName}</div>
 
-          <div>{round(value, 2)}</div>
+          <div>{value.toFixed(2)}</div>
         </div>
       </ListItem>
     );
@@ -96,7 +95,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
           {recipe.steps.map((step) => (
             <SectionCard title={step.name} key={step.ingredients.join('')}>
-              <div className="grid columns-1 g-4">
+              <div className="grid columns-1 g-6">
                 {step.ingredients.length ? (
                   <Ingredients
                     ingredients={step.ingredients}

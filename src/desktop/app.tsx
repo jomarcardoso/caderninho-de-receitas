@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
-import { last } from 'lodash';
+import last from 'lodash/last';
 
 import RecipesContext from '../contexts/recipes-context';
 import useRecipe from '../hooks/use-current-recipe';

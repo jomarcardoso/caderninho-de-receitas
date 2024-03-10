@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import Round from 'lodash/round';
 import { NUTRIENT, Nutrient } from '../../services/nutrient.constants';
 
 const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({
@@ -12,7 +11,7 @@ const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({
       <div>{nutrient.nick}</div>
 
       <p style={{ whiteSpace: 'nowrap' }}>
-        {Round(nutrient.quantity, 2)}
+        {nutrient.quantity.toFixed(2)}
         {nutrient.unity}
       </p>
     </div>

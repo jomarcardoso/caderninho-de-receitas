@@ -1,5 +1,4 @@
 import React, { FC, HTMLProps, ReactElement } from 'react';
-import round from 'lodash/round';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import { Food } from '../../services/food';
@@ -70,7 +69,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             <h2>{quality}</h2>
           </div>
 
-          <div>{round(value, 2)}</div>
+          <div>{value.toFixed(2)}</div>
         </div>
       </ListItem>
     );

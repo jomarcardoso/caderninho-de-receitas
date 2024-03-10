@@ -1,4 +1,4 @@
-import lodashSum from 'lodash/sum';
+import sum from 'lodash/sum';
 import { AminoAcids } from '../amino-acid';
 import { Food, FoodService } from '../food';
 import IngredientService from '../ingredient/ingredient.service';
@@ -351,15 +351,11 @@ export function format({
     carbohydrates: calculateCarbohidrates(allIngredients),
     aminoAcids: allAminoAcids,
     category: recipeData?.category ?? RECIPE_DATA.category,
-    totalFat: lodashSum(
-      allIngredients.map((ingredient) => ingredient.totalFat),
-    ),
-    dietaryFiber: lodashSum(
+    totalFat: sum(allIngredients.map((ingredient) => ingredient.totalFat)),
+    dietaryFiber: sum(
       allIngredients.map((ingredient) => ingredient.dietaryFiber),
     ),
-    proteins: lodashSum(
-      allIngredients.map((ingredient) => ingredient.proteins),
-    ),
+    proteins: sum(allIngredients.map((ingredient) => ingredient.proteins)),
     vitamins,
     minerals,
     lastUpdate: new Date(recipeData?.lastUpdate ?? Date.now()),

@@ -3,11 +3,12 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    height: calc(100vh - var(--header-height) - var(--address-bar-height));
+    height: calc(100dvh - var(--header-height));
 
     &__main {
       flex: 1;
       position: relative;
+      width: 100%;
 
       &::before {
         display: block;

@@ -5,7 +5,7 @@ import { IoAddCircleOutline } from 'react-icons/io5';
 import RecipesContext from '../contexts/recipes-context';
 import { Recipe } from '../services/recipe';
 import { ListItem } from '../components/list-item/list-item';
-import { capitalize } from 'lodash';
+import capitalize from 'lodash/capitalize';
 
 export const DesktopRecipesPage: FC = () => {
   const { recipes: savedRecipes = [] } = useContext(RecipesContext);
