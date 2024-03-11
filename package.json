@@ -55,7 +55,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "deploy": "npm run clean && rm -rf public && npm run test && npm run tsc && npm run build && npm run deploy:surge && npm run deploy:firebase",
+    "deploy": "npm run clean && rm -rf public && npm run test && npm run tsc && npm run build && npm run deploy:firebase",
     "deploy:surge": "surge ./public caderninho-de-receitas.surge.sh",
     "deploy:firebase": "firebase deploy",
     "dev": "gatsby develop",

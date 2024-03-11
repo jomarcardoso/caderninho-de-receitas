@@ -138,7 +138,23 @@ export default function useRecipes(
     async (db: Firestore) => {
       const uid = firebase.auth?.currentUser?.uid;
 
-      if (!uid) return;
+      console.log('uid', uid, firebase);
+
+      if (!uid) {
+        if (!hasFetched) {
+          return;
+        }
+
+        setHasFetched(true);
+
+        setTimeout(() => {
+          getSavedRecipes(db);
+        }, 1000);
+
+        return;
+      }
+
+      setHasFetched(true);
 
       const q = query(collection(db, 'recipes'), where('userId', '==', uid));
 
@@ -182,8 +198,10 @@ export default function useRecipes(
   );
 
   useEffect(() => {
+    console.log('firebase.db', firebase.db);
+    console.log('hasFetched', hasFetched);
+
     if (firebase.db && !hasFetched) {
-      setHasFetched(true);
       getSavedRecipes(firebase.db);
     }
   }, [firebase, getSavedRecipes, hasFetched]);

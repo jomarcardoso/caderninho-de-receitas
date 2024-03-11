@@ -122,6 +122,13 @@ const RecipePanel: FC<{
       return;
     }
 
+    // const elPage = document.querySelector('#root-content');
+
+    // // elPage?.scrollTo({
+    // //   left: 9999,
+    // //   behavior: 'smooth',
+    // // });
+
     const elRecipePanel = document.querySelector('#recipe');
 
     elRecipePanel?.scrollTo({
