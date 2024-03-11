@@ -10,7 +10,7 @@ import Header, { HeaderProps } from '../header/header';
 import Main, { MainProps } from '../main';
 import './layout.scss';
 import Footer, { FooterProps } from '../footer/footer';
-import { generateCSSClasses } from '../../services/dom/classes';
+import { generateClasses } from '../../services/dom/classes';
 import { isMobile } from '../../services/user-agent/user-agent.service';
 
 export interface LayoutProps extends HTMLProps<HTMLDivElement> {
@@ -39,7 +39,7 @@ const Layout: FC<LayoutProps> = forwardRef(
   ) => {
     const [open, setOpen] = useState(false);
 
-    const classes = generateCSSClasses({
+    const classes = generateClasses({
       layout: true,
       'layout--footer-menu': footerMenu,
       [className]: className,

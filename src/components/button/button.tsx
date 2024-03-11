@@ -1,5 +1,4 @@
 import React, { FC, ButtonHTMLAttributes } from 'react';
-import './button.scss';
 
 interface Props {
   variant?: 'primary' | 'secondary';

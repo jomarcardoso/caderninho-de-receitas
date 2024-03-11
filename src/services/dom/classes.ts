@@ -1,4 +1,4 @@
-export function generateCSSClasses(
+export function generateClasses(
   object: Record<string, boolean | string | undefined | null>,
 ): string {
   return Object.entries(object)

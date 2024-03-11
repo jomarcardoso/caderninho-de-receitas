@@ -1,7 +1,7 @@
 import React, { FC, HTMLProps, ReactNode, useMemo } from 'react';
 import { IoChevronForward } from 'react-icons/io5';
 import './list-item.scss';
-import { generateCSSClasses } from '../../services/dom/classes';
+import { generateClasses } from '../../services/dom/classes';
 import { SemanticButton, SemanticButtonProps } from '../semantic-button';
 
 interface Props {
@@ -28,7 +28,7 @@ export const ListItem: FC<ListItemProps> = ({
 }) => {
   const { onClick } = props;
 
-  const classes = generateCSSClasses({
+  const classes = generateClasses({
     'list-item': true,
     [className]: className,
     '-icon': !!icon,

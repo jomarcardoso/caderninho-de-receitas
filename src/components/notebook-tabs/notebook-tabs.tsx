@@ -1,6 +1,6 @@
 import React, { FC, HTMLProps } from 'react';
 import './notebook-tabs.scss';
-import { generateCSSClasses } from '../../services/dom/classes';
+import { generateClasses } from '../../services/dom/classes';
 import { NavLink } from 'react-router-dom';
 
 interface NotebookTabProps extends HTMLProps<HTMLLIElement> {
@@ -16,7 +16,7 @@ const NotebookTabs: FC<NotebookTabsProps> = ({
   className = '',
   ...props
 }) => {
-  const classes = generateCSSClasses({
+  const classes = generateClasses({
     'notebook-tabs': true,
     [className]: className,
   });

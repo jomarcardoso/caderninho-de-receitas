@@ -1,6 +1,6 @@
 import React, { FC, ImgHTMLAttributes, useState, useEffect } from 'react';
 
-import { generateCSSClasses } from '../../services/dom/classes';
+import { generateClasses } from '../../services/dom/classes';
 import './avatar.scss';
 
 export const Avatar: FC<ImgHTMLAttributes<HTMLImageElement>> = ({
@@ -9,7 +9,7 @@ export const Avatar: FC<ImgHTMLAttributes<HTMLImageElement>> = ({
   ...props
 }) => {
   const [hideImage, setHideImage] = useState(true);
-  const classes = generateCSSClasses({
+  const classes = generateClasses({
     avatar: true,
     [className]: className,
   });

@@ -16,7 +16,7 @@
   min-height: 44px;
   padding: 4px 16px;
   text-align: center;
-  text-transform: lowercase;
+  text-transform: uppercase;
 
   svg {
     font-size: 1.15em;
@@ -70,4 +70,14 @@
   &--full {
     width: 100%;
   }
+}
+
+.action-button {
+  min-height: 44px;
+  padding: 4px 12px;
+  gap: 8px;
+  align-items: center;
+  display: inline-flex;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }

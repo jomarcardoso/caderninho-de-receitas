@@ -1,6 +1,6 @@
 import React, { FC, HTMLProps, ReactNode, useMemo } from 'react';
 import './footer.scss';
-import { generateCSSClasses } from '../../services/dom/classes';
+import { generateClasses } from '../../services/dom/classes';
 import { SemanticButton, SemanticButtonProps } from '../semantic-button';
 
 export interface FooterItemProps extends SemanticButtonProps {
@@ -20,7 +20,7 @@ const Footer: FC<FooterProps> = ({
   children,
   ...props
 }) => {
-  const classes = generateCSSClasses({
+  const classes = generateClasses({
     footer: true,
     'footer--menu': footerMenu,
     'footer--open': open,

@@ -1,13 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import './logo.scss';
-import { generateCSSClasses } from '../../services/dom/classes';
+import { generateClasses } from '../../services/dom/classes';
 
 const Logo: FC<{ active?: boolean; contrast?: boolean }> = ({
   active = false,
   contrast = false,
 }) => {
   const classes = useMemo(() => {
-    return generateCSSClasses({
+    return generateClasses({
       logo: true,
       '-active': active,
       'logo--contrast': contrast,

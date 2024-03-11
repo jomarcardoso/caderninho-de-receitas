@@ -136,12 +136,11 @@ export default function useRecipes(
 
   const getSavedRecipes = useCallback(
     async (db: Firestore) => {
-      if (!firebase.user?.uid) return;
+      const uid = firebase.auth?.currentUser?.uid;
 
-      const q = query(
-        collection(db, 'recipes'),
-        where('userId', '==', firebase.user.uid),
-      );
+      if (!uid) return;
+
+      const q = query(collection(db, 'recipes'), where('userId', '==', uid));
 
       try {
         const querySnapshot = await getDocs(q);
