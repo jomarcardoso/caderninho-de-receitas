@@ -14,15 +14,8 @@ body {
   font-size: 1rem;
   letter-spacing: 0.0093em;
   font-weight: 200;
-
-  @media (max-width: 1023px) {
-    position: fixed;
-    top: 0;
-  }
-
-  @media (min-width: 1024px) {
-    padding-bottom: 44px;
-  }
+  position: fixed;
+  top: 0;
 }
 
 .d-none {

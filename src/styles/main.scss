@@ -8,13 +8,6 @@ $enable-cssgrid: true;
 @import "bootstrap/scss/bootstrap-grid";
 @import "bootstrap/scss/bootstrap-utilities";
 
-.desktop-container {
-  max-width: 960px;
-  position: relative;
-  padding-left: 32px;
-  margin: 0 auto;
-}
-
 @media (min-width: 768px) {
   html {
     overflow: hidden;
