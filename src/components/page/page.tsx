@@ -2,6 +2,7 @@ import React, { FC, HTMLProps, useEffect, useMemo, useState } from 'react';
 import LoadingContext from '../../contexts/loading';
 import NavigationContext from '../../contexts/navigation-context';
 import { isMobile } from '../../services/user-agent/user-agent.service';
+import { ShareContext } from '../../contexts/share-context';
 
 export type PageProps = HTMLProps<HTMLDivElement>;
 
@@ -32,7 +33,7 @@ const Page: FC<PageProps> = ({ children, ...props }) => {
     <div {...props}>
       <NavigationContext.Provider value={memoizedNavigation}>
         <LoadingContext.Provider value={memoizedLoading}>
-          {children}
+          <ShareContext.Provider>{children}</ShareContext.Provider>
         </LoadingContext.Provider>
       </NavigationContext.Provider>
     </div>

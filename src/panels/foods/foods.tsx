@@ -99,38 +99,38 @@ const FoodsPanel: FC<Props> = ({
   }, [searchInput]);
 
   return (
-    <Layout
-      showHeader={false}
-      showFooter={false}
-      mainProps={{ style: { paddingBottom: '40px', paddingTop: '40px' } }}
-      className="foods"
-    >
-      <SectionTitle opaque>Lista de alimentos</SectionTitle>
+    <Layout showHeader={false} showFooter={false} className="foods">
+      <div
+        className="paper-bg container"
+        style={{ paddingBottom: '40px', paddingTop: '40px' }}
+      >
+        <SectionTitle opaque>Lista de alimentos</SectionTitle>
 
-      <Field
-        placeholder="buscar"
-        onChange={handleChangeFilter}
-        breakline={false}
-        onErase={() => setSearchInput('')}
-        value={searchInput}
-      />
+        <Field
+          placeholder="buscar"
+          onChange={handleChangeFilter}
+          breakline={false}
+          onErase={() => setSearchInput('')}
+          value={searchInput}
+        />
 
-      <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
+        <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
 
-      {orderedFoods.length >= quantityToShow && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '32px',
-            marginBottom: '40px',
-          }}
-        >
-          <Button variant="secondary" onClick={handleShowMore}>
-            mostrar mais
-          </Button>
-        </div>
-      )}
+        {orderedFoods.length >= quantityToShow && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '32px',
+              marginBottom: '40px',
+            }}
+          >
+            <Button variant="secondary" onClick={handleShowMore}>
+              mostrar mais
+            </Button>
+          </div>
+        )}
+      </div>
     </Layout>
   );
 };

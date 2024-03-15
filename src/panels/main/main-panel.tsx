@@ -61,27 +61,31 @@ const MainPanel: FC<{
       footerProps={{
         children: <UserBox />,
       }}
-      mainProps={{ style: { paddingTop: '40px', paddingBottom: '40px' } }}
     >
-      <div className="grid">
-        <div className="g-col-12">
-          <SectionTitle>Minhas receitas</SectionTitle>
-        </div>
+      <div
+        className="container paper-bg"
+        style={{ paddingTop: '40px', paddingBottom: '40px' }}
+      >
+        <div className="grid">
+          <div className="g-col-12">
+            <SectionTitle>Minhas receitas</SectionTitle>
+          </div>
 
-        <div className="g-col-12">
-          <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
-        </div>
+          <div className="g-col-12">
+            <ol className="list">{alphabeticalRecipes.map(renderItem)}</ol>
+          </div>
 
-        <div className="g-col-12">
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              variant="secondary"
-              contrast="light"
-              onClick={() => setCurrentRecipe(RECIPE)}
-            >
-              <IoAddCircleOutline />
-              adicionar nova receita
-            </Button>
+          <div className="g-col-12">
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="secondary"
+                contrast="light"
+                onClick={() => setCurrentRecipe(RECIPE)}
+              >
+                <IoAddCircleOutline />
+                adicionar nova receita
+              </Button>
+            </div>
           </div>
         </div>
       </div>

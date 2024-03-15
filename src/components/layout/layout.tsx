@@ -7,7 +7,6 @@ import React, {
   HTMLProps,
 } from 'react';
 import Header, { HeaderProps } from '../header/header';
-import Main, { MainProps } from '../main';
 import './layout.scss';
 import Footer, { FooterProps } from '../footer/footer';
 import { generateClasses } from '../../services/dom/classes';
@@ -18,7 +17,7 @@ export interface LayoutProps extends HTMLProps<HTMLDivElement> {
   showFooter?: boolean;
   headerProps?: HeaderProps;
   footerProps?: FooterProps;
-  mainProps?: MainProps;
+  mainProps?: HTMLProps<HTMLDivElement>;
   footerMenu?: boolean;
 }
 
@@ -66,9 +65,11 @@ const Layout: FC<LayoutProps> = forwardRef(
       <div className={classes} onScroll={handleOpen} {...props} ref={ref}>
         {showHeader && <Header {...headerProps} />}
         {footerMenu && <div className="layout__overlay" />}
-        <Main className="layout__main" {...mainProps}>
+
+        <main className="layout__main" {...mainProps}>
           {children}
-        </Main>
+        </main>
+
         {showFooter && isMobile() && (
           <Footer open={open} footerMenu={footerMenu} {...footerProps} />
         )}

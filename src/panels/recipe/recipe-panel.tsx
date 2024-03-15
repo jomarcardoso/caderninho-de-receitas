@@ -46,6 +46,8 @@ const RecipePanel: FC<{
     [editing, setEditing],
   );
 
+  console.log(recipe);
+
   async function handleShare() {
     if (setLoading) {
       setLoading(true);
@@ -118,16 +120,16 @@ const RecipePanel: FC<{
       rendered += 1;
     }, 0);
 
-    if (rendered < 3) {
+    if (rendered < 4) {
       return;
     }
 
-    // const elPage = document.querySelector('#root-content');
+    const elPage = document.querySelector('#root-content');
 
-    // // elPage?.scrollTo({
-    // //   left: 9999,
-    // //   behavior: 'smooth',
-    // // });
+    elPage?.scrollTo({
+      left: 9999,
+      behavior: 'smooth',
+    });
 
     const elRecipePanel = document.querySelector('#recipe');
 
@@ -144,7 +146,6 @@ const RecipePanel: FC<{
           showFooter={!editing}
           mainProps={{
             style: { marginTop: 0 },
-            containerProps: { style: { paddingLeft: 0, paddingRight: 0 } },
           }}
           footerProps={{
             items: [
@@ -174,7 +175,7 @@ const RecipePanel: FC<{
             ],
           }}
         >
-          {renderBody()}
+          <div className="paper-bg">{renderBody()}</div>
         </Layout>
       </Panel>
     </EditingContext.Provider>

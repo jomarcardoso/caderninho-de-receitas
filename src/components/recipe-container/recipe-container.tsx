@@ -61,6 +61,8 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
     StickyHeader({});
   }, []);
 
+  console.log('oi');
+
   return (
     <div className="recipe-container">
       {recipe.name && (

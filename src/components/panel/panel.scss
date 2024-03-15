@@ -9,19 +9,6 @@
   &__content {
     min-height: 100%;
     position: relative;
-
-    &::before {
-      display: block;
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('/images/textures/paper-texture.png');
-      filter: contrast(1.07);
-      z-index: -1;
-    }
   }
 
   @media (min-width: 1024px) {
