@@ -22,7 +22,6 @@ const FoodPanel: FC<Props> = forwardRef(
         showFooter={false}
         mainProps={{
           style: { marginTop: 0 },
-          containerProps: { style: { paddingLeft: 0, paddingRight: 0 } },
         }}
         headerProps={{
           ...headerProps,
