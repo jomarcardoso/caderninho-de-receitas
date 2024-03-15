@@ -1,8 +1,6 @@
 import React, { FC, HTMLProps, useEffect, useMemo, useState } from 'react';
 import LoadingContext from '../../contexts/loading';
 import NavigationContext from '../../contexts/navigation-context';
-import { isMobile } from '../../services/user-agent/user-agent.service';
-import { ShareContext } from '../../contexts/share-context';
 
 export type PageProps = HTMLProps<HTMLDivElement>;
 
@@ -23,17 +21,14 @@ const Page: FC<PageProps> = ({ children, ...props }) => {
   }, []);
 
   useEffect(() => {
-    // window.location.hash = 'main';
-    if (isMobile()) {
-      window.history.pushState({}, '', '#main');
-    }
+    window.history.pushState({}, '', '#main');
   }, []);
 
   return (
     <div {...props}>
       <NavigationContext.Provider value={memoizedNavigation}>
         <LoadingContext.Provider value={memoizedLoading}>
-          <ShareContext.Provider>{children}</ShareContext.Provider>
+          {children}
         </LoadingContext.Provider>
       </NavigationContext.Provider>
     </div>

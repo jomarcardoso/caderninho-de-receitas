@@ -10,7 +10,6 @@ import Header, { HeaderProps } from '../header/header';
 import './layout.scss';
 import Footer, { FooterProps } from '../footer/footer';
 import { generateClasses } from '../../services/dom/classes';
-import { isMobile } from '../../services/user-agent/user-agent.service';
 
 export interface LayoutProps extends HTMLProps<HTMLDivElement> {
   showHeader?: boolean;
@@ -70,7 +69,7 @@ const Layout: FC<LayoutProps> = forwardRef(
           {children}
         </main>
 
-        {showFooter && isMobile() && (
+        {showFooter && (
           <Footer open={open} footerMenu={footerMenu} {...footerProps} />
         )}
       </div>

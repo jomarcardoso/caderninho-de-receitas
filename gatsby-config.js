@@ -58,14 +58,6 @@ module.exports = {
         display: `standalone`,
         icon: `src/images/logo.png`,
         cache_busting_mode: 'none',
-        file_handlers: [
-          {
-            action: '/',
-            accept: {
-              'text/json': ['.json'],
-            },
-          },
-        ],
       },
     },
   ],

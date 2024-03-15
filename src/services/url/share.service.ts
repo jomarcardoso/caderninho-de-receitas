@@ -1,14 +1,13 @@
-import { ShareFunction } from '../contexts/share-context';
-import { RecipeData, RecipeService } from '../services/recipe';
+import { RecipeData, RecipeService } from '../recipe';
 
-function shareFullRecipe(recipe: RecipeData) {
+function shareFullRecipe(recipe: RecipeData): Promise<void> {
   const toShare = RecipeService.generateParamsToShare(recipe);
   const url = `${window.location.origin}?${toShare}#recipe` ?? '';
   const title = recipe.name || 'Receita';
 
-  if (!navigator.share) return;
+  if (!navigator.share) return Promise.resolve();
 
-  navigator.share({
+  return navigator.share({
     title,
     text: title,
     url,
@@ -28,14 +27,7 @@ function shareIdRecipe(recipe: RecipeData) {
   });
 }
 
-export function useShare(): ShareFunction {
-  return (recipe: Parameters<ShareFunction>[0]) => {
-    const hasId = !!recipe.id;
-
-    if (!hasId) {
-      shareFullRecipe(recipe as RecipeData);
-
-      return;
-    }
-  };
-}
+export const ShareService = {
+  shareFullRecipe,
+  shareIdRecipe,
+};

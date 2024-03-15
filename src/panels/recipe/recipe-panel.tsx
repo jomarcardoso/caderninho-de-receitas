@@ -22,6 +22,7 @@ import RecipeContainer from '../../components/recipe-container/recipe-container'
 import Panel from '../../components/panel/panel';
 import LoadingContext from '../../contexts/loading';
 import EditingContext from '../../contexts/editing-context';
+import { ShareService } from '../../services/url/share.service';
 
 let rendered = 0;
 
@@ -53,21 +54,11 @@ const RecipePanel: FC<{
       setLoading(true);
     }
 
-    const toShare = RecipeService.generateParamsToShare(currentRecipeData);
-    const url = `${window.location.origin}?${toShare}#recipe` ?? '';
-    const title = currentRecipeData.name || 'Receita';
+    await ShareService.shareFullRecipe(currentRecipeData);
 
     if (setLoading) {
       setLoading(false);
     }
-
-    if (!navigator.share) return;
-
-    navigator.share({
-      title,
-      text: title,
-      url,
-    });
   }
 
   const memoizedhandleNewRecipe = useCallback(() => {
