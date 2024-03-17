@@ -68,6 +68,14 @@ const useScroll = (): void => {
 
       clearInterval(interval);
 
+      const foodsPanel = document.querySelector('#foods') as HTMLElement;
+      const mainPanel = document.querySelector('#main') as HTMLElement;
+      const recipePanel = document.querySelector('#recipe') as HTMLElement;
+
+      foodsPanel.setAttribute('aria-hidden', 'true');
+      mainPanel.setAttribute('aria-hidden', 'true');
+      recipePanel.setAttribute('aria-hidden', 'true');
+
       scrollSpy({
         method: 'EXACT',
         axis: 'x',
@@ -77,44 +85,56 @@ const useScroll = (): void => {
           createScrollSpyItem({
             callback: ({ active }) => {
               if (active) {
+                foodsPanel.removeAttribute('aria-hidden');
+
                 if (
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'
                 ) {
                   goTo('#foods');
                 }
+              } else {
+                foodsPanel.setAttribute('aria-hidden', 'true');
               }
             },
-            elContent: document.querySelector('#foods') as HTMLElement,
-            elMenu: document.querySelector('#foods') as HTMLElement,
+            elContent: foodsPanel,
+            elMenu: foodsPanel,
           }),
           createScrollSpyItem({
             callback: ({ active }) => {
               if (active) {
+                mainPanel.removeAttribute('aria-hidden');
+
                 if (
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'
                 ) {
                   goTo('#main');
                 }
+              } else {
+                mainPanel.setAttribute('aria-hidden', 'true');
               }
             },
-            elContent: document.querySelector('#main') as HTMLElement,
-            elMenu: document.querySelector('#main') as HTMLElement,
+            elContent: mainPanel,
+            elMenu: mainPanel,
           }),
           createScrollSpyItem({
             callback: ({ active }) => {
               if (active) {
+                recipePanel.removeAttribute('aria-hidden');
+
                 if (
                   navigation.stack.length < 3 &&
                   window.location.hash !== '#food-modal'
                 ) {
                   goTo('#recipe');
                 }
+              } else {
+                recipePanel.setAttribute('aria-hidden', 'true');
               }
             },
-            elContent: document.querySelector('#recipe') as HTMLElement,
-            elMenu: document.querySelector('#recipe') as HTMLElement,
+            elContent: recipePanel,
+            elMenu: recipePanel,
           }),
         ],
       });

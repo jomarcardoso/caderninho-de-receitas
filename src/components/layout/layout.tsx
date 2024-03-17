@@ -63,7 +63,6 @@ const Layout: FC<LayoutProps> = forwardRef(
     return (
       <div className={classes} onScroll={handleOpen} {...props} ref={ref}>
         {showHeader && <Header {...headerProps} />}
-        {footerMenu && <div className="layout__overlay" />}
 
         <main className="layout__main" {...mainProps}>
           {children}
