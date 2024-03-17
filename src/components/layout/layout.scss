@@ -1,21 +1,20 @@
 .layout {
-  display: flex;
-  flex-direction: column;
   position: relative;
-  height: calc(100dvh - var(--header-height));
-  display: block;
-  position: static;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
 
-  &::before {
-    content: '';
-    display: block;
-    height: calc(100% - 44px);
-    pointer-events: none;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+  &__content {
+    height: calc(100dvh - var(--header-height));
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+    &::before {
+      content: '';
+      display: block;
+      height: calc(100% - 44px);
+      pointer-events: none;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
   }
 
   &__main {

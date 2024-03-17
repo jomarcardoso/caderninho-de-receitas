@@ -6,7 +6,6 @@ import React, {
   forwardRef,
   HTMLProps,
 } from 'react';
-import Header, { HeaderProps } from '../header/header';
 import './layout.scss';
 import Footer, { FooterProps } from '../footer/footer';
 import { generateClasses } from '../../services/dom/classes';
@@ -14,7 +13,6 @@ import { generateClasses } from '../../services/dom/classes';
 export interface LayoutProps extends HTMLProps<HTMLDivElement> {
   showHeader?: boolean;
   showFooter?: boolean;
-  headerProps?: HeaderProps;
   footerProps?: FooterProps;
   mainProps?: HTMLProps<HTMLDivElement>;
   footerMenu?: boolean;
@@ -26,7 +24,6 @@ const Layout: FC<LayoutProps> = forwardRef(
       children,
       showHeader = true,
       showFooter = true,
-      headerProps,
       footerProps,
       footerMenu = false,
       mainProps,
@@ -62,15 +59,15 @@ const Layout: FC<LayoutProps> = forwardRef(
 
     return (
       <div className={classes} onScroll={handleOpen} {...props} ref={ref}>
-        {showHeader && <Header {...headerProps} />}
+        <div className="layout__content">
+          <main className="layout__main" {...mainProps}>
+            {children}
+          </main>
 
-        <main className="layout__main" {...mainProps}>
-          {children}
-        </main>
-
-        {showFooter && (
-          <Footer open={open} footerMenu={footerMenu} {...footerProps} />
-        )}
+          {showFooter && (
+            <Footer open={open} footerMenu={footerMenu} {...footerProps} />
+          )}
+        </div>
       </div>
     );
   },
