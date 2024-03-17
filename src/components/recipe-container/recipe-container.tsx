@@ -4,7 +4,6 @@ import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import Ingredients from '../ingredients/ingredients';
 import Preparation from '../preparation/preparation';
-import Section from '../section/section';
 import { RECIPE, Recipe } from '../../services/recipe';
 import { Food } from '../../services/food';
 import SectionCard from '../section-card/section-card';
@@ -78,12 +77,12 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         >
           <div className="recipe-container__name">
             <div className="container">
-              <h2
+              <h1
                 className="h2"
                 style={{ fontSize: recipe.name.length > 30 ? 17 : 19 }}
               >
                 {recipe.name}
-              </h2>
+              </h1>
             </div>
           </div>
         </div>
@@ -93,7 +92,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
       </div>
       <div className="recipe-container__body container">
         <div className="grid columns-1 g-6">
-          {recipe.description && <div>{recipe.description}</div>}
+          {recipe.description && <p>{recipe.description}</p>}
 
           {recipe.steps.map((step) => (
             <SectionCard title={step.name} key={step.ingredients.join('')}>
@@ -150,19 +149,23 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           </div>
 
           {hasVitamins && (
-            <Section title="Vitaminas">
+            <div className="grid columns-1 g-3">
+              <h3 className="section-title">Vitaminas</h3>
+
               <ul className="list">
                 {Object.values(recipe.vitamins).map(renderNutrient)}
               </ul>
-            </Section>
+            </div>
           )}
 
           {hasMinerals && (
-            <Section title="Minerais">
+            <div className="grid columns-1 g-3">
+              <h3 className="section-title">Vitaminas</h3>
+
               <ul className="list">
                 {Object.values(recipe.minerals).map(renderNutrient)}
               </ul>
-            </Section>
+            </div>
           )}
 
           {AminoAcidService.verifyHasAminoAcid(recipe.aminoAcids) && (

@@ -5,7 +5,6 @@ import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
 import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE, Recipe, RecipeData } from '../../services/recipe';
-import SectionTitle from '../../components/section-title/section-title';
 import useScroll from '../../hooks/use-scroll';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
@@ -68,7 +67,7 @@ const MainPanel: FC<{
       >
         <div className="grid">
           <div className="g-col-12">
-            <SectionTitle>Minhas receitas</SectionTitle>
+            <h1 className="section-title">Minhas receitas</h1>
           </div>
 
           <div className="g-col-12">

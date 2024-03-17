@@ -15,10 +15,10 @@ const Logo: FC<{ active?: boolean; contrast?: boolean }> = ({
   }, [active, contrast]);
 
   return (
-    <h1 className={classes}>
+    <strong className={classes}>
       <div className="logo__text-small">caderninho</div>
       <div className="logo__text-large">DE RECEITAS</div>
-    </h1>
+    </strong>
   );
 };
 
