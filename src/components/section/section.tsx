@@ -17,9 +17,9 @@ const Section: FC<SectionProps> = ({
       {title && (
         <div>
           {onBgWhite ? (
-            <h3 className="h2" style={{ textAlign: 'center' }}>
+            <h2 className="h2" style={{ textAlign: 'center' }}>
               {title}
-            </h3>
+            </h2>
           ) : (
             <SectionTitle>{title}</SectionTitle>
           )}

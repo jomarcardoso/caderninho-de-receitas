@@ -4,8 +4,7 @@ import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
 import RecipesContext from '../../contexts/recipes-context';
-import { RECIPE, Recipe, RecipeData } from '../../services/recipe';
-import SectionTitle from '../../components/section-title/section-title';
+import { RECIPE, Recipe } from '../../services/recipe';
 import useScroll from '../../hooks/use-scroll';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
@@ -17,8 +16,8 @@ import { UserBox } from '../../components/user-box/user-box';
 
 const MainPanel: FC<{
   setCurrentRecipe(recipe: Recipe): void;
-  currentRecipeData: RecipeData;
-}> = ({ setCurrentRecipe, currentRecipeData }) => {
+  currentRecipe: Recipe;
+}> = ({ setCurrentRecipe, currentRecipe }) => {
   const { recipes: savedRecipes = [] } = useContext(RecipesContext);
   const alphabeticalRecipes = savedRecipes.sort((a, b) => {
     if (a.name < b.name) {
@@ -45,7 +44,7 @@ const MainPanel: FC<{
         key={recipe.id}
         // eslint-disable-next-line
         isAction
-        isActive={recipe.id === currentRecipeData.id}
+        isActive={recipe.id === currentRecipe.id}
         tabIndex={0}
         onClick={() => handleClickLink(recipe)}
       >
@@ -68,7 +67,7 @@ const MainPanel: FC<{
       >
         <div className="grid">
           <div className="g-col-12">
-            <SectionTitle>Minhas receitas</SectionTitle>
+            <h1 className="section-title">Minhas receitas</h1>
           </div>
 
           <div className="g-col-12">

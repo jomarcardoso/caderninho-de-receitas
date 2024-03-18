@@ -6,14 +6,14 @@ import { Ingredient } from '../ingredient/ingredient.types';
 import { Minerals, MINERALS } from '../mineral';
 import { VITAMINS, Vitamins } from '../vitamin';
 import {
+  ProcessedRecipe,
   Recipe,
-  RecipeData,
+  ProcessedRecipeStep,
   RecipeStep,
-  RecipeStepData,
+  PROCESSED_RECIPE,
   RECIPE,
-  RECIPE_DATA,
+  PROCESSED_RECIPE_STEP,
   RECIPE_STEP,
-  RECIPE_STEP_DATA,
   RecipeToShare,
   RecipeStepToShare,
 } from './recipe.types';
@@ -67,9 +67,9 @@ export function calculateAcidification(
 }
 
 export function formatStep(
-  data: RecipeStepData,
+  data: RecipeStep,
   foods: Array<Food>,
-): RecipeStep {
+): ProcessedRecipeStep {
   let ingredients: Array<Ingredient> = [];
 
   if (data.ingredients) {
@@ -79,23 +79,23 @@ export function formatStep(
   }
 
   return {
-    name: data?.name ?? RECIPE_STEP.name,
-    ingredients: ingredients ?? RECIPE_STEP.ingredients,
-    preparation: data?.preparation ?? RECIPE_STEP.preparation,
-    additional: data?.additional ?? RECIPE_STEP.additional,
+    name: data?.name ?? PROCESSED_RECIPE_STEP.name,
+    ingredients: ingredients ?? PROCESSED_RECIPE_STEP.ingredients,
+    preparation: data?.preparation ?? PROCESSED_RECIPE_STEP.preparation,
+    additional: data?.additional ?? PROCESSED_RECIPE_STEP.additional,
   };
 }
 
 export function format({
-  recipeData = RECIPE_DATA,
+  recipe = RECIPE,
   foods = [],
 }: {
-  recipeData: RecipeData;
+  recipe: Recipe;
   foods: Array<Food>;
-}): Recipe {
+}): ProcessedRecipe {
   const steps =
-    recipeData?.steps?.map((partData) => formatStep(partData, foods)) ??
-    RECIPE.steps;
+    recipe?.steps?.map((partData) => formatStep(partData, foods)) ??
+    PROCESSED_RECIPE.steps;
 
   const allIngredients = steps.flatMap(({ ingredients }) => {
     return ingredients;
@@ -184,7 +184,7 @@ export function format({
     food: { image = '' },
   } = FoodService.getFoodByString({
     foods,
-    text: recipeData.name,
+    text: recipe.name,
   });
 
   const vitamins: Vitamins = allIngredients.reduce(
@@ -337,20 +337,20 @@ export function format({
   );
 
   return {
-    ...recipeData,
-    id: recipeData?.id ?? Math.round(Math.random() * 1000),
+    ...recipe,
+    id: recipe?.id ?? Math.round(Math.random() * 1000),
     steps,
     calories: calculateCalories(allIngredients),
-    name: recipeData.name,
-    description: recipeData?.description ?? '',
-    additional: recipeData?.additional ?? '',
+    name: recipe.name,
+    description: recipe?.description ?? '',
+    additional: recipe?.additional ?? '',
     image,
     gi: calculateGI(allIngredients),
     acidification: calculateAcidification(allIngredients),
     gl: calculateGC(allIngredients),
     carbohydrates: calculateCarbohidrates(allIngredients),
     aminoAcids: allAminoAcids,
-    category: recipeData?.category ?? RECIPE_DATA.category,
+    category: recipe?.category ?? RECIPE.category,
     totalFat: sum(allIngredients.map((ingredient) => ingredient.totalFat)),
     dietaryFiber: sum(
       allIngredients.map((ingredient) => ingredient.dietaryFiber),
@@ -358,30 +358,10 @@ export function format({
     proteins: sum(allIngredients.map((ingredient) => ingredient.proteins)),
     vitamins,
     minerals,
-    lastUpdate: new Date(recipeData?.lastUpdate ?? Date.now()),
   };
 }
 
-export function unFormat(recipe: Recipe): RecipeData {
-  return {
-    id: recipe.id ?? RECIPE_DATA.id,
-    category: recipe?.category ?? RECIPE_DATA.category,
-    name: recipe.name ?? RECIPE_DATA.name,
-    description: recipe.description ?? RECIPE_DATA.description,
-    additional: recipe.additional ?? RECIPE_DATA.additional,
-    steps: recipe.steps.map((step) => ({
-      name: step.name,
-      ingredients:
-        step.ingredients.map(IngredientService.unFormat).join('\n') ??
-        RECIPE_STEP_DATA.ingredients,
-      preparation: step.preparation ?? RECIPE_STEP_DATA.preparation,
-      additional: step.additional ?? RECIPE_STEP_DATA.additional,
-    })),
-    lastUpdate: recipe.lastUpdate?.getTime() ?? RECIPE_DATA.lastUpdate,
-  };
-}
-
-function formatStepToShare(step: RecipeStepData): RecipeStepToShare {
+function formatStepToShare(step: RecipeStep): RecipeStepToShare {
   const stepToShare: RecipeStepToShare = {};
 
   if (step.additional) {
@@ -403,47 +383,47 @@ function formatStepToShare(step: RecipeStepData): RecipeStepToShare {
   return stepToShare;
 }
 
-export function formatToShare(recipeData: RecipeData): RecipeToShare {
+export function formatToShare(recipe: Recipe): RecipeToShare {
   const recipeToShare: RecipeToShare = {};
 
-  if (recipeData.additional) {
-    recipeToShare.a = recipeData.additional;
+  if (recipe.additional) {
+    recipeToShare.a = recipe.additional;
   }
 
-  if (recipeData.description) {
-    recipeToShare.d = recipeData.description;
+  if (recipe.description) {
+    recipeToShare.d = recipe.description;
   }
 
-  if (recipeData.name) {
-    recipeToShare.n = recipeData.name;
+  if (recipe.name) {
+    recipeToShare.n = recipe.name;
   }
 
-  if (recipeData.steps.length) {
-    recipeToShare.s = recipeData.steps.map(formatStepToShare);
+  if (recipe.steps.length) {
+    recipeToShare.s = recipe.steps.map(formatStepToShare);
   }
 
   return recipeToShare;
 }
 
-export function unformatToShare(recipeToShare: RecipeToShare): RecipeData {
+export function unformatToShare(recipeToShare: RecipeToShare): Recipe {
   return {
-    category: RECIPE_DATA.category,
-    description: recipeToShare.d ?? RECIPE_DATA.description,
-    additional: recipeToShare.a ?? RECIPE_DATA.additional,
-    name: recipeToShare.n ?? RECIPE_DATA.name,
+    category: RECIPE.category,
+    description: recipeToShare.d ?? RECIPE.description,
+    additional: recipeToShare.a ?? RECIPE.additional,
+    name: recipeToShare.n ?? RECIPE.name,
     steps:
       recipeToShare.s?.map((step) => ({
-        name: step.n ?? RECIPE_STEP_DATA.name,
-        preparation: step.p ?? RECIPE_STEP_DATA.preparation,
-        ingredients: step.i ?? RECIPE_STEP_DATA.ingredients,
-        additional: step.a ?? RECIPE_STEP_DATA.additional,
-      })) ?? RECIPE_DATA.steps,
+        name: step.n ?? RECIPE_STEP.name,
+        preparation: step.p ?? RECIPE_STEP.preparation,
+        ingredients: step.i ?? RECIPE_STEP.ingredients,
+        additional: step.a ?? RECIPE_STEP.additional,
+      })) ?? RECIPE.steps,
     lastUpdate: new Date().getTime(),
   };
 }
 
-export function generateParamsToShare(recipeData: RecipeData): string {
-  const recipeToShare = formatToShare(recipeData);
+export function generateParamsToShare(recipe: Recipe): string {
+  const recipeToShare = formatToShare(recipe);
   const json = JSON.stringify(recipeToShare);
   // const shortJSON = StringService.short(json);
 
@@ -451,19 +431,19 @@ export function generateParamsToShare(recipeData: RecipeData): string {
   // return UrlService.short(params);
 }
 
-export function generateRecipeDataByParams(params: string): RecipeData {
+export function generateRecipeByParams(params: string): Recipe {
   // const params = UrlService.unshort(shortParams);
   const json = new URLSearchParams(params).get('r') ?? 'null';
   // const json = StringService.unshort(shortJSON);
   const recipeToShare: RecipeToShare = JSON.parse(json);
 
-  const recipeData = unformatToShare(recipeToShare);
+  const recipe = unformatToShare(recipeToShare);
 
-  if (!recipeData?.name) {
-    return RECIPE_DATA;
+  if (!recipe?.name) {
+    return RECIPE;
   }
 
-  delete recipeData.id;
+  delete recipe.id;
 
-  return recipeData;
+  return recipe;
 }

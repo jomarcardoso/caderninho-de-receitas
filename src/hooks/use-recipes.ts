@@ -12,28 +12,22 @@ import {
 import remove from 'lodash/remove';
 import { useState, useEffect, useCallback } from 'react';
 import { Food } from '../services/food';
-import { RecipeService, Recipe, RecipeData } from '../services/recipe';
+import { Recipe } from '../services/recipe';
 import type { FirebaseHook } from './use-firebase';
 
 const RECIPES_LOCAL_STORAGE = 'recipes';
 
-function get(foods: Array<Food>): Recipe[] {
+function saveRecipesInLocalStorage(recipes: Recipe[]) {
+  if (typeof window === 'undefined') return;
+
+  localStorage.setItem(RECIPES_LOCAL_STORAGE, JSON.stringify(recipes));
+}
+
+function getRecipesFromLocalStorage(): Recipe[] {
   if (typeof window === 'undefined') return [];
 
-  let recipesData: RecipeData[] =
-    JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? [];
-
-  // legacy recipes
-  if (!recipesData.length) {
-    recipesData =
-      JSON.parse(localStorage.getItem('cadertinho-de-receitas') || 'null')
-        ?.recipes ?? [];
-  }
-
   return (
-    recipesData?.map((recipeData) =>
-      RecipeService.format({ recipeData, foods }),
-    ) ?? []
+    JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? []
   );
 }
 
@@ -47,67 +41,70 @@ function removeFromDB(id?: number, db?: Firestore) {
   }
 }
 
-function saveAllOnDB(recipesData: RecipeData[], db?: Firestore, user?: User) {
-  if (db && user) {
-    recipesData.forEach((recipeData) => {
-      try {
-        setDoc(doc(db, 'recipes', String(recipeData.id)), {
-          ...recipeData,
-          userId: user.uid,
-        });
-      } catch (e) {
-        console.log('erro ao salvar receita', e);
-      }
-    });
-  }
-}
-
-function update(recipes: Recipe[], db?: Firestore, user?: User): void {
-  if (typeof window === 'undefined') return;
-
-  const recipesData = recipes.map((recipe) => RecipeService.unFormat(recipe));
-  const savedRecipesData: RecipeData[] =
-    JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? [];
-
-  const toRemove = savedRecipesData.filter(
-    (recipeData) => !recipesData.some((saved) => recipeData.id === saved.id),
-  );
-
-  localStorage.setItem(RECIPES_LOCAL_STORAGE, JSON.stringify(recipesData));
-
-  if (toRemove.length) {
-    toRemove.forEach((recipeToRemove) => removeFromDB(recipeToRemove.id, db));
-
-    return;
-  }
-
-  saveAllOnDB(recipesData, db, user);
-}
-
 export default function useRecipes(
   foods: Array<Food>,
   firebase: FirebaseHook,
 ): {
   recipes: Array<Recipe>;
-  addRecipe(recipeData: RecipeData): number;
+  addRecipe(recipe: Recipe): number;
   removeRecipe(id: number): void;
 } {
-  const [recipes, setRecipes] = useState(get(foods));
+  const [recipes, setRecipes] = useState(getRecipesFromLocalStorage());
   const [hasFetched, setHasFetched] = useState(false);
+
+  const saveAllOnDB = (db?: Firestore, user?: User) => {
+    if (!db || !user) {
+      return;
+    }
+
+    const recipesToSync = recipes.filter((recipe) => recipe.needSync);
+
+    console.log('vai sincronizar 4', recipesToSync);
+
+    recipesToSync.forEach(async (recipe) => {
+      try {
+        await setDoc(doc(db, 'recipes', String(recipe.id)), {
+          ...recipe,
+          userId: user.uid,
+        });
+
+        setRecipes(recipes.map((recipe) => ({ ...recipe, needSync: false })));
+      } catch (e) {
+        console.log('erro ao salvar receita', e);
+      }
+    });
+  };
+
+  const update = (recipes: Recipe[], db?: Firestore, user?: User): void => {
+    if (typeof window === 'undefined') return;
+
+    const savedRecipesData = getRecipesFromLocalStorage();
+
+    const toRemove = savedRecipesData.filter(
+      (recipe) => !recipes.some((saved) => recipe.id === saved.id),
+    );
+
+    saveRecipesInLocalStorage(recipes);
+
+    if (toRemove.length) {
+      toRemove.forEach((recipeToRemove) => removeFromDB(recipeToRemove.id, db));
+
+      return;
+    }
+
+    saveAllOnDB(db, user);
+  };
 
   /**
    * @returns id
    */
-  function addRecipe(recipeData: RecipeData): number {
-    const id = recipeData.id || new Date().getTime();
-    const editing = recipeData.id;
-    const newRecipe: Recipe = RecipeService.format({
-      recipeData: {
-        ...recipeData,
-        id,
-      },
-      foods,
-    });
+  function addRecipe(recipe: Recipe): number {
+    const id = recipe.id || new Date().getTime();
+    const editing = recipe.id;
+    const newRecipe = {
+      ...recipe,
+      id,
+    };
 
     if (editing) {
       const indexToChange = recipes.findIndex(
@@ -165,23 +162,19 @@ export default function useRecipes(
 
           delete data.userId;
 
-          const recipeData = data as RecipeData;
+          const recipe = data as Recipe;
           const storageRecipe = recipes.find(
-            (recipe) => recipe.id === recipeData.id,
+            (recipe) => recipe.id === recipe.id,
           );
 
-          const formattedRecipe = RecipeService.format({ recipeData, foods });
-
           if (!storageRecipe) {
-            recipesToStorage.push(formattedRecipe);
-          } else if (
-            storageRecipe.lastUpdate.getTime() < recipeData.lastUpdate
-          ) {
+            recipesToStorage.push(recipe);
+          } else if (storageRecipe.lastUpdate < recipe.lastUpdate) {
             const index = recipesToStorage.findIndex(
               (recipe) => recipe.id === storageRecipe.id,
             );
 
-            recipesToStorage[index] = formattedRecipe;
+            recipesToStorage[index] = recipe;
           }
         });
 

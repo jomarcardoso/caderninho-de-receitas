@@ -28,16 +28,30 @@ export const recipeCategoryList: Array<RecipeCategory> = [
 
 export interface RecipeStep {
   name: string;
-  ingredients: Array<Ingredient>;
+  ingredients: string;
   preparation: string;
   additional: string;
 }
 
 export interface Recipe {
-  id: number;
+  id?: number;
   name: string;
-  description: string;
+  description?: string;
+  additional?: string;
+  steps: Array<RecipeStep>;
+  category: RecipeCategory | '';
+  lastUpdate: number;
+  needSync?: boolean;
+}
+
+export interface ProcessedRecipeStep {
+  name: string;
+  ingredients: Array<Ingredient>;
+  preparation: string;
   additional: string;
+}
+
+export interface ProcessedRecipe extends Omit<Recipe, 'steps'> {
   image: string;
   calories: number;
   gi: number;
@@ -48,28 +62,9 @@ export interface Recipe {
   proteins: number;
   acidification: number;
   aminoAcids: AminoAcids;
-  category: RecipeCategory | '';
-  steps: Array<RecipeStep>;
+  steps: Array<ProcessedRecipeStep>;
   vitamins: Vitamins;
   minerals: Minerals;
-  lastUpdate: Date;
-}
-
-export interface RecipeStepData {
-  name: string;
-  ingredients: string;
-  preparation: string;
-  additional: string;
-}
-
-export interface RecipeData {
-  id?: number;
-  name: string;
-  description?: string;
-  additional?: string;
-  steps: Array<RecipeStepData>;
-  category: RecipeCategory | '';
-  lastUpdate: number;
 }
 
 export interface RecipeStepToShare {
@@ -95,14 +90,14 @@ export interface RecipeToShare {
   /** @alias category */
 }
 
-export const RECIPE_STEP_DATA: RecipeStepData = {
+export const RECIPE_STEP: RecipeStep = {
   name: '',
   ingredients: '',
   preparation: '',
   additional: '',
 };
 
-export const RECIPE_DATA: RecipeData = {
+export const RECIPE: Recipe = {
   id: 0,
   name: '',
   description: '',
@@ -112,14 +107,14 @@ export const RECIPE_DATA: RecipeData = {
   lastUpdate: Date.now(),
 };
 
-export const RECIPE_STEP: RecipeStep = {
+export const PROCESSED_RECIPE_STEP: ProcessedRecipeStep = {
   name: '',
   ingredients: [],
   preparation: '',
   additional: '',
 };
 
-export const RECIPE: Recipe = {
+export const PROCESSED_RECIPE: ProcessedRecipe = {
   calories: 0,
   description: '',
   additional: '',
@@ -138,7 +133,7 @@ export const RECIPE: Recipe = {
   vitamins: VITAMINS,
   minerals: MINERALS,
   category: '',
-  lastUpdate: new Date(),
+  lastUpdate: 0,
 };
 
-export type SetRecipe = (recipeData: RecipeData) => number;
+export type SetRecipe = (recipe: Recipe) => number;

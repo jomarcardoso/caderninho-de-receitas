@@ -19,8 +19,6 @@ export interface Ingredient {
   minerals: Minerals;
 }
 
-export type UnFormat = (ingredient: Ingredient) => string;
-
 export const PORTION: Ingredient = {
   aminoAcids: AMINO_ACIDS,
   calories: 0,

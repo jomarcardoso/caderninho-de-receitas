@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps } from 'react';
+import React, { FC, HTMLProps, useId } from 'react';
 import './section-card.scss';
 
 interface Props {
@@ -12,15 +12,19 @@ const SectionCard: FC<SectionCardProps> = ({
   children,
   ...props
 }) => {
+  const id = useId();
+
   return (
-    <div className="section-card" {...props}>
+    <section aria-labelledby={id} className="section-card" {...props}>
       {title && (
-        <h3 className="section-card__title h2">
-          <div className="container">{title}</div>
-        </h3>
+        <strong className="section-card__title h2">
+          <div className="container" id={id}>
+            {title}
+          </div>
+        </strong>
       )}
       <div className="section-card__body">{children}</div>
-    </div>
+    </section>
   );
 };
 

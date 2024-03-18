@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import {
+  ProcessedRecipe,
   Recipe,
-  RecipeData,
   RecipeService,
-  RECIPE_DATA,
+  RECIPE,
 } from '../services/recipe';
 import { StorageService } from '../storage';
 import { STORAGE_CURRENT_RECIPE } from '../storage/storage.service';
 
-let initialRecipeData = RECIPE_DATA;
+let initialRecipe = RECIPE;
 
 if (typeof window !== 'undefined') {
   const editingRecipeJson = localStorage.getItem(STORAGE_CURRENT_RECIPE);
 
   if (editingRecipeJson) {
-    initialRecipeData = JSON.parse(editingRecipeJson) as RecipeData;
+    initialRecipe = JSON.parse(editingRecipeJson) as Recipe;
   }
 }
 
@@ -22,10 +22,10 @@ if (typeof window !== 'undefined') {
   const sharedString = window.location.search;
 
   if (sharedString) {
-    const recipeShared = RecipeService.generateRecipeDataByParams(sharedString);
+    const recipeShared = RecipeService.generateRecipeByParams(sharedString);
 
     if (recipeShared.steps[0]?.ingredients?.length) {
-      initialRecipeData = recipeShared;
+      initialRecipe = recipeShared;
 
       StorageService.setCurrentRecipe(recipeShared);
       window.location.search = '';
@@ -34,48 +34,37 @@ if (typeof window !== 'undefined') {
 }
 
 const useRecipe = (
-  lastRegisteredRecipeData: RecipeData,
+  lastRegisteredRecipe: Recipe,
 ): {
-  currentRecipeData: RecipeData;
-  setCurrentRecipeData: React.Dispatch<React.SetStateAction<RecipeData>>;
-  setCurrentRecipe(recipe: Recipe): void;
+  currentRecipe: Recipe;
+  setCurrentRecipe: React.Dispatch<React.SetStateAction<Recipe>>;
   restoreLastRecipe(): void;
 } => {
-  if (!initialRecipeData.name) {
-    initialRecipeData = lastRegisteredRecipeData;
+  if (!initialRecipe.name) {
+    initialRecipe = lastRegisteredRecipe;
   }
 
-  const [recipeData, setRecipeData] = useState<RecipeData>(initialRecipeData);
-  const [lastRecipeData, setLastRecipeData] =
-    useState<RecipeData>(initialRecipeData);
-
-  function setCurrentRecipeData(data: RecipeData) {
-    if (recipeData.id) {
-      setLastRecipeData(recipeData);
-    }
-
-    setRecipeData(data);
-  }
+  const [recipe, setRecipe] = useState<Recipe>(initialRecipe);
+  const [lastRecipe, setLastRecipe] = useState<Recipe>(initialRecipe);
 
   function setCurrentRecipe(recipe: Recipe) {
-    if (recipeData.id) {
-      setLastRecipeData(recipeData);
+    if (recipe.id) {
+      setLastRecipe(recipe);
     }
 
-    setRecipeData(RecipeService.unFormat(recipe));
+    setRecipe(recipe);
   }
 
   function restoreLastRecipe() {
-    setRecipeData(lastRecipeData);
+    setRecipe(lastRecipe);
   }
 
   useEffect(() => {
-    StorageService.setCurrentRecipe(recipeData);
-  }, [recipeData]);
+    StorageService.setCurrentRecipe(recipe);
+  }, [recipe]);
 
   return {
-    currentRecipeData: recipeData,
-    setCurrentRecipeData,
+    currentRecipe: recipe,
     setCurrentRecipe,
     restoreLastRecipe,
   };

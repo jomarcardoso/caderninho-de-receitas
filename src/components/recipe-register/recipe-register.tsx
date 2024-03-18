@@ -1,8 +1,8 @@
 import React, { FC, useContext, useCallback } from 'react';
 import { Formik, FormikProps } from 'formik';
-import { RecipeData, RECIPE_DATA } from '../../services/recipe';
+import { Recipe, RECIPE } from '../../services/recipe';
 import RecipesContext from '../../contexts/recipes-context';
-import { RECIPE_STEP_DATA } from '../../services/recipe/recipe.types';
+import { RECIPE_STEP } from '../../services/recipe/recipe.types';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import Dialog from '../dialog/dialog';
 import { Button } from '../button';
@@ -11,17 +11,13 @@ import CurrentRecipeContext from '../../contexts/current-recipe';
 import { StorageService } from '../../storage';
 
 interface Props {
-  recipeData: RecipeData;
-  setCurrentRecipeData(data: RecipeData): void;
+  recipe: Recipe;
+  setCurrentRecipe(data: Recipe): void;
 }
 
-const RecipeRegister: FC<Props> = ({
-  recipeData = RECIPE_DATA,
-  setCurrentRecipeData,
-}) => {
+const RecipeRegister: FC<Props> = ({ recipe = RECIPE, setCurrentRecipe }) => {
   const { addRecipe } = useContext(RecipesContext);
-  const { restoreLastRecipe, currentRecipeData } =
-    useContext(CurrentRecipeContext);
+  const { restoreLastRecipe, currentRecipe } = useContext(CurrentRecipeContext);
   const [openedEmptyRecipe, setOpenedEmptyRecipe] = React.useState(false);
   const { setEditing } = useContext(EditingContext);
 
@@ -32,12 +28,12 @@ const RecipeRegister: FC<Props> = ({
   const handleCancel = useCallback(() => {
     StorageService.removeCurrentRecipe();
 
-    if (!currentRecipeData.id) {
+    if (!currentRecipe.id) {
       if (restoreLastRecipe) restoreLastRecipe();
     }
 
     if (setEditing) setEditing(false);
-  }, [currentRecipeData.id, restoreLastRecipe, setEditing]);
+  }, [currentRecipe.id, restoreLastRecipe, setEditing]);
 
   const memoizedHandleSubmit = useCallback(
     ({
@@ -54,43 +50,42 @@ const RecipeRegister: FC<Props> = ({
         return;
       }
 
-      const newRecipeData: RecipeData = {
+      const newRecipe: Recipe = {
         steps: stepsData,
         name,
         description,
-        id: recipeData?.id ?? 0,
+        id: recipe?.id ?? 0,
         category,
         lastUpdate: Date.now() + Math.random() * 10000000000000,
+        needSync: true,
       };
 
-      const id = addRecipe(newRecipeData);
+      const id = addRecipe(newRecipe);
 
-      setCurrentRecipeData({
-        ...newRecipeData,
+      setCurrentRecipe({
+        ...newRecipe,
         id,
       });
     },
-    [recipeData?.id, addRecipe, setCurrentRecipeData],
+    [recipe?.id, addRecipe, setCurrentRecipe],
   );
 
   return (
     <>
       <Formik
         initialValues={{
-          name: recipeData?.name ?? '',
-          description: recipeData?.description ?? '',
-          additional: recipeData?.additional ?? '',
-          category: recipeData?.category ?? '',
-          steps: recipeData?.steps?.length
-            ? recipeData.steps
-            : [RECIPE_STEP_DATA],
-          quantitySteps: recipeData?.steps?.length || 1,
+          name: recipe?.name ?? '',
+          description: recipe?.description ?? '',
+          additional: recipe?.additional ?? '',
+          category: recipe?.category ?? '',
+          steps: recipe?.steps?.length ? recipe.steps : [RECIPE_STEP],
+          quantitySteps: recipe?.steps?.length || 1,
         }}
         onSubmit={memoizedHandleSubmit}
       >
         {(formik: FormikProps<RecipeForm>) => (
           <RecipeRegisterForm
-            recipeData={recipeData}
+            recipe={recipe}
             onCancel={handleCancel}
             {...formik}
           />

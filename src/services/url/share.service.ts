@@ -1,6 +1,6 @@
-import { RecipeData, RecipeService } from '../recipe';
+import { Recipe, RecipeService } from '../recipe';
 
-function shareFullRecipe(recipe: RecipeData): Promise<void> {
+function shareFullRecipe(recipe: Recipe): Promise<void> {
   const toShare = RecipeService.generateParamsToShare(recipe);
   const url = `${window.location.origin}?${toShare}#recipe` ?? '';
   const title = recipe.name || 'Receita';
@@ -14,7 +14,7 @@ function shareFullRecipe(recipe: RecipeData): Promise<void> {
   });
 }
 
-function shareIdRecipe(recipe: RecipeData) {
+function shareIdRecipe(recipe: Recipe) {
   const url = `${window.location.origin}?sharedId=${recipe.id}#recipe` ?? '';
   const title = recipe.name || 'Receita';
 

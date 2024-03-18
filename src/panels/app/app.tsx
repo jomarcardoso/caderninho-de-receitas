@@ -17,7 +17,7 @@ import Header from '../../components/root-header/root-header';
 import { FOOD } from '../../services/food';
 import useRecipe from '../../hooks/use-current-recipe';
 import RecipesContext from '../../contexts/recipes-context';
-import { RECIPE, RecipeService, RECIPE_DATA } from '../../services/recipe';
+import { RECIPE } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
 import './app.scss';
 
@@ -28,25 +28,16 @@ const AppPage: FC<AppProps> = (props) => {
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(40);
   const { recipes = [] } = useContext(RecipesContext);
-  const {
-    currentRecipeData,
-    setCurrentRecipeData,
-    setCurrentRecipe,
-    restoreLastRecipe,
-  } = useRecipe(RecipeService.unFormat(last(recipes) || RECIPE) || RECIPE_DATA);
+  const { currentRecipe, setCurrentRecipe, restoreLastRecipe } = useRecipe(
+    last(recipes) || RECIPE,
+  );
   const memoizedCurrentRecipe = useMemo(
     () => ({
-      currentRecipeData,
+      currentRecipe,
       restoreLastRecipe,
       setCurrentRecipe,
-      setCurrentRecipeData,
     }),
-    [
-      currentRecipeData,
-      restoreLastRecipe,
-      setCurrentRecipe,
-      setCurrentRecipeData,
-    ],
+    [currentRecipe, restoreLastRecipe, setCurrentRecipe, setCurrentRecipe],
   );
 
   useEffect(() => {
@@ -76,14 +67,14 @@ const AppPage: FC<AppProps> = (props) => {
 
           <Panel id="main">
             <MainPanel
-              currentRecipeData={currentRecipeData}
+              currentRecipe={currentRecipe}
               setCurrentRecipe={setCurrentRecipe}
             />
           </Panel>
 
           <RecipePanel
-            currentRecipeData={currentRecipeData}
-            setCurrentRecipeData={setCurrentRecipeData}
+            currentRecipe={currentRecipe}
+            setCurrentRecipe={setCurrentRecipe}
             setCurrentFood={setCurrentFood}
             setCurrentFoodQuantity={setCurrentFoodQuantity}
           />

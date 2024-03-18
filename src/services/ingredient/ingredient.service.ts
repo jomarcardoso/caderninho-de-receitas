@@ -3,7 +3,7 @@ import { AminoAcids } from '../amino-acid';
 import { Food, Measure, Measurer, FoodService, MEASURE, FOOD } from '../food';
 import { MINERALS, Minerals } from '../mineral';
 import { VITAMINS, Vitamins } from '../vitamin';
-import { Ingredient, PORTION, UnFormat } from './ingredient.types';
+import { Ingredient, PORTION } from './ingredient.types';
 
 export function getQuantityByMeasure(
   measure: Measure = MEASURE,
@@ -290,8 +290,6 @@ function measureFromString(text = ''): Measure {
   };
 }
 
-const unFormat: UnFormat = ({ description }) => description;
-
 interface IngredientFromStringArgs {
   foods: Array<Food>;
   text: string;
@@ -377,7 +375,6 @@ function ingredientFromString({
 }
 
 const IngredientService = {
-  unFormat,
   ingredientFromString,
   measureFromString,
 };

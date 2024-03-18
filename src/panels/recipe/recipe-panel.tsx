@@ -12,7 +12,7 @@ import {
   IoShareOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
-import { RecipeService, RECIPE_DATA, RecipeData } from '../../services/recipe';
+import { RECIPE, Recipe } from '../../services/recipe';
 import FoodsContext from '../../contexts/foods-context';
 import Layout from '../../components/layout/layout';
 import { Food } from '../../services/food';
@@ -27,19 +27,17 @@ import { ShareService } from '../../services/url/share.service';
 let rendered = 0;
 
 const RecipePanel: FC<{
-  currentRecipeData: RecipeData;
-  setCurrentRecipeData(data: RecipeData): void;
+  currentRecipe: Recipe;
+  setCurrentRecipe(data: Recipe): void;
   setCurrentFood(food: Food): void;
   setCurrentFoodQuantity(quantity: number): void;
 }> = ({
-  currentRecipeData = RECIPE_DATA,
-  setCurrentRecipeData,
+  currentRecipe = RECIPE,
+  setCurrentRecipe,
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
   const { removeRecipe } = useContext(RecipesContext);
-  const foods = useContext(FoodsContext);
-  const recipe = RecipeService.format({ foods, recipeData: currentRecipeData });
   const [editing, setEditing] = useState(true);
   const { setLoading } = useContext(LoadingContext);
   const memoizedEditing = useMemo(
@@ -47,14 +45,12 @@ const RecipePanel: FC<{
     [editing, setEditing],
   );
 
-  console.log(recipe);
-
   async function handleShare() {
     if (setLoading) {
       setLoading(true);
     }
 
-    await ShareService.shareFullRecipe(currentRecipeData);
+    await ShareService.shareFullRecipe(currentRecipe);
 
     if (setLoading) {
       setLoading(false);
@@ -62,15 +58,15 @@ const RecipePanel: FC<{
   }
 
   const memoizedhandleNewRecipe = useCallback(() => {
-    setCurrentRecipeData(RECIPE_DATA);
-  }, [setCurrentRecipeData]);
+    setCurrentRecipe(RECIPE);
+  }, [setCurrentRecipe]);
 
   function handleClickRemove() {
-    if (removeRecipe) {
-      removeRecipe(recipe.id);
+    if (removeRecipe && currentRecipe.id) {
+      removeRecipe(currentRecipe.id);
     }
 
-    setCurrentRecipeData(RECIPE_DATA);
+    setCurrentRecipe(RECIPE);
   }
 
   function handleEdit() {
@@ -81,15 +77,15 @@ const RecipePanel: FC<{
     if (editing) {
       return (
         <RecipeRegister
-          recipeData={currentRecipeData}
-          setCurrentRecipeData={setCurrentRecipeData}
+          recipe={currentRecipe}
+          setCurrentRecipe={setCurrentRecipe}
         />
       );
     }
 
     return (
       <RecipeContainer
-        recipe={recipe}
+        recipe={currentRecipe}
         setCurrentFoodQuantity={setCurrentFoodQuantity}
         setCurrentFood={setCurrentFood}
       />
@@ -97,12 +93,12 @@ const RecipePanel: FC<{
   }
 
   useEffect(() => {
-    if (!currentRecipeData.id) {
+    if (!currentRecipe.id) {
       setEditing(true);
     } else {
       setEditing(false);
     }
-  }, [currentRecipeData]);
+  }, [currentRecipe]);
 
   useEffect(() => {
     rendered += 1;
@@ -127,7 +123,7 @@ const RecipePanel: FC<{
     elRecipePanel?.scrollTo({
       top: 0,
     });
-  }, [currentRecipeData, editing]);
+  }, [currentRecipe, editing]);
 
   return (
     <EditingContext.Provider value={memoizedEditing}>
@@ -146,19 +142,19 @@ const RecipePanel: FC<{
                 key: 'add',
               },
               {
-                hidden: recipe.id < 10000,
+                hidden: (currentRecipe?.id ?? 0) < 10000,
                 onClick: handleEdit,
                 icon: <IoCreateOutline />,
                 key: 'edit',
               },
               {
-                hidden: recipe.id < 10000,
+                hidden: (currentRecipe?.id ?? 0) < 10000,
                 onClick: handleShare,
                 icon: <IoShareOutline />,
                 key: 'share',
               },
               {
-                hidden: recipe.id < 10000,
+                hidden: (currentRecipe?.id ?? 0) < 10000,
                 onClick: handleClickRemove,
                 icon: <IoTrashOutline />,
                 key: 'remove',

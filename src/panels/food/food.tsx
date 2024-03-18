@@ -2,7 +2,7 @@ import React, { FC, LegacyRef, forwardRef } from 'react';
 import { Food } from '../../services/food';
 import Layout, { LayoutProps } from '../../components/layout/layout';
 import FoodDetailed from '../../components/food-detailed/food-detailed';
-import { HeaderProps } from '../../components/header/header';
+import Header, { HeaderProps } from '../../components/header/header';
 import './food.scss';
 
 interface Props extends LayoutProps {
@@ -16,23 +16,25 @@ const FoodPanel: FC<Props> = forwardRef(
     const { name = '' } = food;
 
     return (
-      <Layout
-        ref={ref as LegacyRef<HTMLDivElement>}
-        className="food"
-        showFooter={false}
-        mainProps={{
-          style: { marginTop: 0 },
-        }}
-        headerProps={{
-          ...headerProps,
-          pageName: `${name} (${quantity}${
+      <div>
+        <Header
+          pageName={`${name} (${quantity}${
             food.type === 'liquid' || food.type === 'oil' ? 'ml' : 'g'
-          })`,
-        }}
-        {...props}
-      >
-        <FoodDetailed food={food} />
-      </Layout>
+          })`}
+          {...headerProps}
+        />
+        <Layout
+          ref={ref as LegacyRef<HTMLDivElement>}
+          className="food"
+          showFooter={false}
+          mainProps={{
+            style: { marginTop: 0 },
+          }}
+          {...props}
+        >
+          <FoodDetailed food={food} />
+        </Layout>
+      </div>
     );
   },
 );
