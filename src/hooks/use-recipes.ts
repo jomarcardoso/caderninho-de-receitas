@@ -59,14 +59,16 @@ export default function useRecipes(
 
     const recipesToSync = recipes.filter((recipe) => recipe.needSync);
 
-    console.log('vai sincronizar 4', recipesToSync);
-
     recipesToSync.forEach(async (recipe) => {
+      const newRecipe = {
+        ...recipe,
+        userId: user.uid,
+      };
+
+      delete newRecipe.needSync;
+
       try {
-        await setDoc(doc(db, 'recipes', String(recipe.id)), {
-          ...recipe,
-          userId: user.uid,
-        });
+        await setDoc(doc(db, 'recipes', String(recipe.id)), newRecipe);
 
         setRecipes(recipes.map((recipe) => ({ ...recipe, needSync: false })));
       } catch (e) {

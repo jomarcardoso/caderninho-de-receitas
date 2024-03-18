@@ -13,7 +13,6 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import { RECIPE, Recipe } from '../../services/recipe';
-import FoodsContext from '../../contexts/foods-context';
 import Layout from '../../components/layout/layout';
 import { Food } from '../../services/food';
 import RecipesContext from '../../contexts/recipes-context';
