@@ -358,26 +358,6 @@ export function format({
     proteins: sum(allIngredients.map((ingredient) => ingredient.proteins)),
     vitamins,
     minerals,
-    lastUpdate: new Date(recipeData?.lastUpdate ?? Date.now()),
-  };
-}
-
-export function unFormat(recipe: Recipe): RecipeData {
-  return {
-    id: recipe.id ?? RECIPE_DATA.id,
-    category: recipe?.category ?? RECIPE_DATA.category,
-    name: recipe.name ?? RECIPE_DATA.name,
-    description: recipe.description ?? RECIPE_DATA.description,
-    additional: recipe.additional ?? RECIPE_DATA.additional,
-    steps: recipe.steps.map((step) => ({
-      name: step.name,
-      ingredients:
-        step.ingredients.map(IngredientService.unFormat).join('\n') ??
-        RECIPE_STEP_DATA.ingredients,
-      preparation: step.preparation ?? RECIPE_STEP_DATA.preparation,
-      additional: step.additional ?? RECIPE_STEP_DATA.additional,
-    })),
-    lastUpdate: recipe.lastUpdate?.getTime() ?? RECIPE_DATA.lastUpdate,
   };
 }
 

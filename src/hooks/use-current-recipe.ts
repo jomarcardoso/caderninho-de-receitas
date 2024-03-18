@@ -57,12 +57,12 @@ const useRecipe = (
     setRecipeData(data);
   }
 
-  function setCurrentRecipe(recipe: Recipe) {
+  function setCurrentRecipe(recipe: RecipeData) {
     if (recipeData.id) {
       setLastRecipeData(recipeData);
     }
 
-    setRecipeData(RecipeService.unFormat(recipe));
+    setRecipeData(recipe);
   }
 
   function restoreLastRecipe() {

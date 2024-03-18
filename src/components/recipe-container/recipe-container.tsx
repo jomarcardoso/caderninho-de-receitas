@@ -1,10 +1,10 @@
-import React, { FC, ReactElement, useEffect } from 'react';
+import React, { FC, ReactElement, useContext, useEffect, useMemo } from 'react';
 import { StickyHeader } from 'ovos';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import Ingredients from '../ingredients/ingredients';
 import Preparation from '../preparation/preparation';
-import { RECIPE, Recipe } from '../../services/recipe';
+import { RECIPE_DATA, RecipeData, RecipeService } from '../../services/recipe';
 import { Food } from '../../services/food';
 import SectionCard from '../section-card/section-card';
 import { AminoAcidService } from '../../services/amino-acid';
@@ -12,23 +12,32 @@ import NutrientDisplay from '../nutrient/nutrient';
 import './recipe-container.scss';
 import { Nutrient } from '../../services/nutrient.constants';
 import { ListItem } from '../list-item/list-item';
+import FoodsContext from '../../contexts/foods-context';
 
 export interface RecipeContainerProps {
-  recipe: Recipe;
+  recipe: RecipeData;
   setCurrentFood(food: Food): void;
   setCurrentFoodQuantity(quantity: number): void;
 }
 
 const RecipeContainer: FC<RecipeContainerProps> = ({
-  recipe = RECIPE,
+  recipe = RECIPE_DATA,
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
-  const hasVitamins = Object.values(recipe.vitamins).some(
+  const foods = useContext(FoodsContext);
+  const formattedRecipe = useMemo(() => {
+    return RecipeService.format({
+      foods,
+      recipeData: recipe,
+    });
+  }, [recipe]);
+
+  const hasVitamins = Object.values(formattedRecipe.vitamins).some(
     (vitamin) => vitamin.quantity,
   );
 
-  const hasMinerals = Object.values(recipe.minerals).some(
+  const hasMinerals = Object.values(formattedRecipe.minerals).some(
     (mineral) => mineral.quantity,
   );
 
@@ -64,7 +73,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
   return (
     <div className="recipe-container">
-      {recipe.name && (
+      {formattedRecipe.name && (
         <div
           data-ovo-sticky-header
           style={{
@@ -79,22 +88,22 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             <div className="container">
               <h1
                 className="h2"
-                style={{ fontSize: recipe.name.length > 30 ? 17 : 19 }}
+                style={{ fontSize: formattedRecipe.name.length > 30 ? 17 : 19 }}
               >
-                {recipe.name}
+                {formattedRecipe.name}
               </h1>
             </div>
           </div>
         </div>
       )}
       <div style={{ marginBottom: '24px' }}>
-        <Image src={recipe.image} alt="" aspectRatio={1.25} />
+        <Image src={formattedRecipe.image} alt="" aspectRatio={1.25} />
       </div>
       <div className="recipe-container__body container">
         <div className="grid columns-1 g-6">
-          {recipe.description && <p>{recipe.description}</p>}
+          {formattedRecipe.description && <p>{formattedRecipe.description}</p>}
 
-          {recipe.steps.map((step) => (
+          {formattedRecipe.steps.map((step) => (
             <SectionCard title={step.name} key={step.ingredients.join('')}>
               <div className="grid columns-1 g-6">
                 {step.ingredients.length ? (
@@ -119,7 +128,9 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             </SectionCard>
           ))}
 
-          {recipe.additional && <div>{recipe.additional}</div>}
+          {formattedRecipe.additional && (
+            <div>{formattedRecipe.additional}</div>
+          )}
 
           <div className="grid columns-1 g-3">
             <h2 className="h2">Informações nutricionais</h2>
@@ -127,23 +138,23 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             <ul>
               {renderQuality({
                 name: 'Calorias',
-                value: recipe.calories,
+                value: formattedRecipe.calories,
               })}
               {renderQuality({
                 name: 'Carboidratos',
-                value: recipe.carbohydrates,
+                value: formattedRecipe.carbohydrates,
               })}
               {renderQuality({
                 name: 'Proteínas',
-                value: recipe.proteins,
+                value: formattedRecipe.proteins,
               })}
               {renderQuality({
                 name: 'Gorduras totais',
-                value: recipe.totalFat,
+                value: formattedRecipe.totalFat,
               })}
               {renderQuality({
                 name: 'Fibras',
-                value: recipe.dietaryFiber,
+                value: formattedRecipe.dietaryFiber,
               })}
             </ul>
           </div>
@@ -153,7 +164,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               <h3 className="section-title">Vitaminas</h3>
 
               <ul className="list">
-                {Object.values(recipe.vitamins).map(renderNutrient)}
+                {Object.values(formattedRecipe.vitamins).map(renderNutrient)}
               </ul>
             </div>
           )}
@@ -163,13 +174,16 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
               <h3 className="section-title">Vitaminas</h3>
 
               <ul className="list">
-                {Object.values(recipe.minerals).map(renderNutrient)}
+                {Object.values(formattedRecipe.minerals).map(renderNutrient)}
               </ul>
             </div>
           )}
 
-          {AminoAcidService.verifyHasAminoAcid(recipe.aminoAcids) && (
-            <AminoAcidsTable contrast="light" aminoAcids={recipe.aminoAcids} />
+          {AminoAcidService.verifyHasAminoAcid(formattedRecipe.aminoAcids) && (
+            <AminoAcidsTable
+              contrast="light"
+              aminoAcids={formattedRecipe.aminoAcids}
+            />
           )}
         </div>
       </div>

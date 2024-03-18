@@ -1,8 +1,8 @@
 import { createContext } from 'react';
-import { Recipe, RecipeData } from '../services/recipe';
+import { RecipeData } from '../services/recipe';
 
 const RecipesContext = createContext<{
-  recipes: Array<Recipe>;
+  recipes: Array<RecipeData>;
   addRecipe?(recipeData: RecipeData): number;
   removeRecipe?(id: number): void;
 }>({ recipes: [] });

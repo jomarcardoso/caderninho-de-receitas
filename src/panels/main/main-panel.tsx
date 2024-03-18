@@ -4,7 +4,7 @@ import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
 import RecipesContext from '../../contexts/recipes-context';
-import { RECIPE, Recipe, RecipeData } from '../../services/recipe';
+import { RECIPE_DATA, RecipeData } from '../../services/recipe';
 import useScroll from '../../hooks/use-scroll';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
@@ -15,7 +15,7 @@ import { UserBox } from '../../components/user-box/user-box';
 </div> */
 
 const MainPanel: FC<{
-  setCurrentRecipe(recipe: Recipe): void;
+  setCurrentRecipe(recipe: RecipeData): void;
   currentRecipeData: RecipeData;
 }> = ({ setCurrentRecipe, currentRecipeData }) => {
   const { recipes: savedRecipes = [] } = useContext(RecipesContext);
@@ -33,11 +33,11 @@ const MainPanel: FC<{
 
   useScroll();
 
-  function handleClickLink(recipe: Recipe) {
+  function handleClickLink(recipe: RecipeData) {
     setCurrentRecipe(recipe);
   }
 
-  function renderItem(recipe: Recipe) {
+  function renderItem(recipe: RecipeData) {
     return (
       // eslint-disable-next-line
       <ListItem
@@ -79,7 +79,7 @@ const MainPanel: FC<{
               <Button
                 variant="secondary"
                 contrast="light"
-                onClick={() => setCurrentRecipe(RECIPE)}
+                onClick={() => setCurrentRecipe(RECIPE_DATA)}
               >
                 <IoAddCircleOutline />
                 adicionar nova receita

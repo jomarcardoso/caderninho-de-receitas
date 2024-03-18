@@ -33,7 +33,7 @@ const AppPage: FC<AppProps> = (props) => {
     setCurrentRecipeData,
     setCurrentRecipe,
     restoreLastRecipe,
-  } = useRecipe(RecipeService.unFormat(last(recipes) || RECIPE) || RECIPE_DATA);
+  } = useRecipe(last(recipes) || RECIPE_DATA);
   const memoizedCurrentRecipe = useMemo(
     () => ({
       currentRecipeData,

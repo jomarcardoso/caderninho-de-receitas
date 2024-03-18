@@ -33,11 +33,18 @@ export interface RecipeStep {
   additional: string;
 }
 
-export interface Recipe {
-  id: number;
+export interface RecipeData {
+  id?: number;
   name: string;
-  description: string;
-  additional: string;
+  description?: string;
+  additional?: string;
+  steps: Array<RecipeStepData>;
+  category: RecipeCategory | '';
+  lastUpdate: number;
+  hasSync?: boolean;
+}
+
+export interface Recipe extends Omit<RecipeData, 'steps'> {
   image: string;
   calories: number;
   gi: number;
@@ -48,11 +55,9 @@ export interface Recipe {
   proteins: number;
   acidification: number;
   aminoAcids: AminoAcids;
-  category: RecipeCategory | '';
   steps: Array<RecipeStep>;
   vitamins: Vitamins;
   minerals: Minerals;
-  lastUpdate: Date;
 }
 
 export interface RecipeStepData {
@@ -60,16 +65,6 @@ export interface RecipeStepData {
   ingredients: string;
   preparation: string;
   additional: string;
-}
-
-export interface RecipeData {
-  id?: number;
-  name: string;
-  description?: string;
-  additional?: string;
-  steps: Array<RecipeStepData>;
-  category: RecipeCategory | '';
-  lastUpdate: number;
 }
 
 export interface RecipeStepToShare {
@@ -138,7 +133,7 @@ export const RECIPE: Recipe = {
   vitamins: VITAMINS,
   minerals: MINERALS,
   category: '',
-  lastUpdate: new Date(),
+  lastUpdate: 0,
 };
 
 export type SetRecipe = (recipeData: RecipeData) => number;

@@ -12,7 +12,7 @@ import {
   IoShareOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
-import { RecipeService, RECIPE_DATA, RecipeData } from '../../services/recipe';
+import { RECIPE_DATA, RecipeData } from '../../services/recipe';
 import FoodsContext from '../../contexts/foods-context';
 import Layout from '../../components/layout/layout';
 import { Food } from '../../services/food';
@@ -38,16 +38,12 @@ const RecipePanel: FC<{
   setCurrentFoodQuantity,
 }) => {
   const { removeRecipe } = useContext(RecipesContext);
-  const foods = useContext(FoodsContext);
-  const recipe = RecipeService.format({ foods, recipeData: currentRecipeData });
   const [editing, setEditing] = useState(true);
   const { setLoading } = useContext(LoadingContext);
   const memoizedEditing = useMemo(
     () => ({ editing, setEditing }),
     [editing, setEditing],
   );
-
-  console.log(recipe);
 
   async function handleShare() {
     if (setLoading) {
@@ -66,8 +62,8 @@ const RecipePanel: FC<{
   }, [setCurrentRecipeData]);
 
   function handleClickRemove() {
-    if (removeRecipe) {
-      removeRecipe(recipe.id);
+    if (removeRecipe && currentRecipeData.id) {
+      removeRecipe(currentRecipeData.id);
     }
 
     setCurrentRecipeData(RECIPE_DATA);
@@ -89,7 +85,7 @@ const RecipePanel: FC<{
 
     return (
       <RecipeContainer
-        recipe={recipe}
+        recipe={currentRecipeData}
         setCurrentFoodQuantity={setCurrentFoodQuantity}
         setCurrentFood={setCurrentFood}
       />
@@ -146,19 +142,19 @@ const RecipePanel: FC<{
                 key: 'add',
               },
               {
-                hidden: recipe.id < 10000,
+                hidden: (currentRecipeData?.id ?? 0) < 10000,
                 onClick: handleEdit,
                 icon: <IoCreateOutline />,
                 key: 'edit',
               },
               {
-                hidden: recipe.id < 10000,
+                hidden: (currentRecipeData?.id ?? 0) < 10000,
                 onClick: handleShare,
                 icon: <IoShareOutline />,
                 key: 'share',
               },
               {
-                hidden: recipe.id < 10000,
+                hidden: (currentRecipeData?.id ?? 0) < 10000,
                 onClick: handleClickRemove,
                 icon: <IoTrashOutline />,
                 key: 'remove',
