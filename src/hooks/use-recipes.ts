@@ -12,15 +12,15 @@ import {
 import remove from 'lodash/remove';
 import { useState, useEffect, useCallback } from 'react';
 import { Food } from '../services/food';
-import { RecipeService, RecipeData } from '../services/recipe';
+import { Recipe } from '../services/recipe';
 import type { FirebaseHook } from './use-firebase';
 
 const RECIPES_LOCAL_STORAGE = 'recipes';
 
-function getRecipeDatas(): RecipeData[] {
+function getRecipes(): Recipe[] {
   if (typeof window === 'undefined') return [];
 
-  let recipesData: RecipeData[] =
+  let recipesData: Recipe[] =
     JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? [];
 
   // legacy recipes
@@ -43,12 +43,12 @@ function removeFromDB(id?: number, db?: Firestore) {
   }
 }
 
-function saveAllOnDB(recipesData: RecipeData[], db?: Firestore, user?: User) {
+function saveAllOnDB(recipesData: Recipe[], db?: Firestore, user?: User) {
   if (db && user) {
-    recipesData.forEach((recipeData) => {
+    recipesData.forEach((recipe) => {
       try {
-        setDoc(doc(db, 'recipes', String(recipeData.id)), {
-          ...recipeData,
+        setDoc(doc(db, 'recipes', String(recipe.id)), {
+          ...recipe,
           userId: user.uid,
         });
       } catch (e) {
@@ -58,23 +58,23 @@ function saveAllOnDB(recipesData: RecipeData[], db?: Firestore, user?: User) {
   }
 }
 
-function saveRecipesInLocalStorage(recipesData: RecipeData[]) {
+function saveRecipesInLocalStorage(recipesData: Recipe[]) {
   localStorage.setItem(RECIPES_LOCAL_STORAGE, JSON.stringify(recipesData));
 }
 
-function getRecipesFromLocalStorage(): RecipeData[] {
+function getRecipesFromLocalStorage(): Recipe[] {
   return (
     JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? []
   );
 }
 
-function update(recipesData: RecipeData[], db?: Firestore, user?: User): void {
+function update(recipesData: Recipe[], db?: Firestore, user?: User): void {
   if (typeof window === 'undefined') return;
 
   const savedRecipesData = getRecipesFromLocalStorage();
 
   const toRemove = savedRecipesData.filter(
-    (recipeData) => !recipesData.some((saved) => recipeData.id === saved.id),
+    (recipe) => !recipesData.some((saved) => recipe.id === saved.id),
   );
 
   saveRecipesInLocalStorage(recipesData);
@@ -92,21 +92,21 @@ export default function useRecipes(
   foods: Array<Food>,
   firebase: FirebaseHook,
 ): {
-  recipes: Array<RecipeData>;
-  addRecipe(recipeData: RecipeData): number;
+  recipes: Array<Recipe>;
+  addRecipe(recipe: Recipe): number;
   removeRecipe(id: number): void;
 } {
-  const [recipes, setRecipes] = useState(getRecipeDatas());
+  const [recipes, setRecipes] = useState(getRecipes());
   const [hasFetched, setHasFetched] = useState(false);
 
   /**
    * @returns id
    */
-  function addRecipe(recipeData: RecipeData): number {
-    const id = recipeData.id || new Date().getTime();
-    const editing = recipeData.id;
+  function addRecipe(recipe: Recipe): number {
+    const id = recipe.id || new Date().getTime();
+    const editing = recipe.id;
     const newRecipe = {
-      ...recipeData,
+      ...recipe,
       id,
     };
 
@@ -166,19 +166,19 @@ export default function useRecipes(
 
           delete data.userId;
 
-          const recipeData = data as RecipeData;
+          const recipe = data as Recipe;
           const storageRecipe = recipes.find(
-            (recipe) => recipe.id === recipeData.id,
+            (recipe) => recipe.id === recipe.id,
           );
 
           if (!storageRecipe) {
-            recipesToStorage.push(recipeData);
-          } else if (storageRecipe.lastUpdate < recipeData.lastUpdate) {
+            recipesToStorage.push(recipe);
+          } else if (storageRecipe.lastUpdate < recipe.lastUpdate) {
             const index = recipesToStorage.findIndex(
               (recipe) => recipe.id === storageRecipe.id,
             );
 
-            recipesToStorage[index] = recipeData;
+            recipesToStorage[index] = recipe;
           }
         });
 

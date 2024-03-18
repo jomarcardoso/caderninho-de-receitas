@@ -1,7 +1,7 @@
-import { RecipeData, RecipeService } from '../services/recipe';
+import { Recipe, RecipeService } from '../services/recipe';
 import { foods } from './food';
 
-export const recipesData: Array<RecipeData> = [
+export const recipesData: Array<Recipe> = [
   {
     id: 1,
     name: 'Salada de macarrão com beringela e purê de beterraba (Panelinha)',
@@ -817,6 +817,6 @@ Numa tigela coloque a cebola, o tomate, a salsinha e a hortelã picados. Tempere
   },
 ];
 
-export const recipes = recipesData.map((recipeData) =>
-  RecipeService.format({ foods, recipeData }),
+export const recipes = recipesData.map((recipe) =>
+  RecipeService.format({ foods, recipe }),
 );

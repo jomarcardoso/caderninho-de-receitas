@@ -1,10 +1,17 @@
-import React, { FC, ReactElement, useContext, useEffect, useMemo } from 'react';
+import React, {
+  FC,
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react';
 import { StickyHeader } from 'ovos';
 import Image from '../image/image';
 import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import Ingredients from '../ingredients/ingredients';
 import Preparation from '../preparation/preparation';
-import { RECIPE_DATA, RecipeData, RecipeService } from '../../services/recipe';
+import { RECIPE, Recipe, RecipeService } from '../../services/recipe';
 import { Food } from '../../services/food';
 import SectionCard from '../section-card/section-card';
 import { AminoAcidService } from '../../services/amino-acid';
@@ -15,13 +22,13 @@ import { ListItem } from '../list-item/list-item';
 import FoodsContext from '../../contexts/foods-context';
 
 export interface RecipeContainerProps {
-  recipe: RecipeData;
+  recipe: Recipe;
   setCurrentFood(food: Food): void;
   setCurrentFoodQuantity(quantity: number): void;
 }
 
 const RecipeContainer: FC<RecipeContainerProps> = ({
-  recipe = RECIPE_DATA,
+  recipe = RECIPE,
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
@@ -29,29 +36,40 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   const formattedRecipe = useMemo(() => {
     return RecipeService.format({
       foods,
-      recipeData: recipe,
+      recipe,
     });
   }, [recipe]);
 
-  const hasVitamins = Object.values(formattedRecipe.vitamins).some(
-    (vitamin) => vitamin.quantity,
+  const hasVitamins = useMemo(
+    () =>
+      Object.values(formattedRecipe.vitamins).some(
+        (vitamin) => vitamin.quantity,
+      ),
+    [formattedRecipe],
   );
 
-  const hasMinerals = Object.values(formattedRecipe.minerals).some(
-    (mineral) => mineral.quantity,
+  const hasMinerals = useMemo(
+    () =>
+      Object.values(formattedRecipe.minerals).some(
+        (mineral) => mineral.quantity,
+      ),
+    [formattedRecipe],
   );
 
-  function renderNutrient(nutrient: Nutrient): ReactElement | null {
-    if (!nutrient.quantity) return null;
+  const renderNutrient = useCallback(
+    (nutrient: Nutrient): ReactElement | null => {
+      if (!nutrient.quantity) return null;
 
-    return (
-      <ListItem noGutters noBorder key={nutrient.name}>
-        <NutrientDisplay nutrient={nutrient} />
-      </ListItem>
-    );
-  }
+      return (
+        <ListItem noGutters noBorder key={nutrient.name}>
+          <NutrientDisplay nutrient={nutrient} />
+        </ListItem>
+      );
+    },
+    [],
+  );
 
-  function renderQuality({ name: foodName = '', value = 0 }) {
+  const renderQuality = useCallback(({ name: foodName = '', value = 0 }) => {
     if (!value) return null;
 
     return (
@@ -63,13 +81,11 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         </div>
       </ListItem>
     );
-  }
+  }, []);
 
   useEffect(() => {
     StickyHeader({});
   }, []);
-
-  console.log('oi');
 
   return (
     <div className="recipe-container">

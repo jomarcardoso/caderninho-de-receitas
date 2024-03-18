@@ -4,9 +4,9 @@ import { IoDuplicateOutline } from 'react-icons/io5';
 import Field from '../field/field';
 import {
   RecipeCategory,
-  RecipeStepData,
-  RECIPE_STEP_DATA,
-  RecipeData,
+  RecipeStep,
+  RECIPE_STEP,
+  Recipe,
 } from '../../services/recipe/recipe.types';
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
@@ -15,7 +15,7 @@ import CookSvg from '../../assets/svg/history/cook.svg';
 import PizzaSvg from '../../assets/svg/history/pizza.svg';
 
 export interface RecipeForm {
-  steps: RecipeData['steps'];
+  steps: Recipe['steps'];
   name: string;
   description: string;
   category: RecipeCategory | '';
@@ -24,7 +24,7 @@ export interface RecipeForm {
 }
 
 interface Props {
-  recipeData: RecipeData;
+  recipe: Recipe;
   onCancel: () => void;
 }
 
@@ -34,7 +34,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   handleBlur: formikHandleBlur,
   handleChange,
   setFieldValue,
-  recipeData,
+  recipe,
 }) => {
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredients = '', stepName = '') => {
@@ -68,11 +68,11 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   );
 
   const memoizedRenderSteps = useCallback(() => {
-    const steps: RecipeStepData[] = [];
+    const steps: RecipeStep[] = [];
 
     for (let i = 0; i < Number(values.quantitySteps); i += 1) {
       steps.push({
-        ...RECIPE_STEP_DATA,
+        ...RECIPE_STEP,
         ...values.steps[i],
       });
     }
@@ -156,7 +156,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
           <FieldArray name="steps">
             {() => (
               <>
-                {recipeData.id ? (
+                {recipe.id ? (
                   <div className="recipe-register__story-image">
                     <CookSvg style={{ mixBlendMode: 'multiply' }} />
                   </div>
@@ -168,7 +168,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 <div className="container">
                   <div className="grid columns-1 g-6">
                     <div>
-                      {!recipeData.id ? (
+                      {!recipe.id ? (
                         <p>
                           Você está criando uma nova receita. Preencha os campos
                           abaixo e pressione o botão salvar receita para criá-la

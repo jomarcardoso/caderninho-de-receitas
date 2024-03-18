@@ -4,7 +4,7 @@ import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
 import RecipesContext from '../../contexts/recipes-context';
-import { RECIPE_DATA, RecipeData } from '../../services/recipe';
+import { RECIPE, Recipe } from '../../services/recipe';
 import useScroll from '../../hooks/use-scroll';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
@@ -15,9 +15,9 @@ import { UserBox } from '../../components/user-box/user-box';
 </div> */
 
 const MainPanel: FC<{
-  setCurrentRecipe(recipe: RecipeData): void;
-  currentRecipeData: RecipeData;
-}> = ({ setCurrentRecipe, currentRecipeData }) => {
+  setCurrentRecipe(recipe: Recipe): void;
+  currentRecipe: Recipe;
+}> = ({ setCurrentRecipe, currentRecipe }) => {
   const { recipes: savedRecipes = [] } = useContext(RecipesContext);
   const alphabeticalRecipes = savedRecipes.sort((a, b) => {
     if (a.name < b.name) {
@@ -33,18 +33,18 @@ const MainPanel: FC<{
 
   useScroll();
 
-  function handleClickLink(recipe: RecipeData) {
+  function handleClickLink(recipe: Recipe) {
     setCurrentRecipe(recipe);
   }
 
-  function renderItem(recipe: RecipeData) {
+  function renderItem(recipe: Recipe) {
     return (
       // eslint-disable-next-line
       <ListItem
         key={recipe.id}
         // eslint-disable-next-line
         isAction
-        isActive={recipe.id === currentRecipeData.id}
+        isActive={recipe.id === currentRecipe.id}
         tabIndex={0}
         onClick={() => handleClickLink(recipe)}
       >
@@ -79,7 +79,7 @@ const MainPanel: FC<{
               <Button
                 variant="secondary"
                 contrast="light"
-                onClick={() => setCurrentRecipe(RECIPE_DATA)}
+                onClick={() => setCurrentRecipe(RECIPE)}
               >
                 <IoAddCircleOutline />
                 adicionar nova receita

@@ -1,11 +1,10 @@
 import React, { createContext } from 'react';
-import { Recipe, RecipeData, RECIPE_DATA } from '../services/recipe';
+import { Recipe, RECIPE } from '../services/recipe';
 
 const CurrentRecipeContext = createContext<{
-  currentRecipeData: RecipeData;
-  setCurrentRecipeData?: React.Dispatch<React.SetStateAction<RecipeData>>;
+  currentRecipe: Recipe;
   setCurrentRecipe?: React.Dispatch<React.SetStateAction<Recipe>>;
   restoreLastRecipe?: () => void;
-}>({ currentRecipeData: RECIPE_DATA });
+}>({ currentRecipe: RECIPE });
 
 export default CurrentRecipeContext;

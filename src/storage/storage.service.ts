@@ -1,4 +1,4 @@
-import { RecipeData, RECIPE_DATA } from '../services/recipe';
+import { Recipe, RECIPE } from '../services/recipe';
 
 export interface GlobalObject {
   isSharedUrl: boolean;
@@ -26,15 +26,15 @@ export function removeCurrentRecipe(): void {
   localStorage.removeItem(STORAGE_CURRENT_RECIPE);
 }
 
-export function setCurrentRecipe(recipe: RecipeData): void {
+export function setCurrentRecipe(recipe: Recipe): void {
   localStorage.setItem(STORAGE_CURRENT_RECIPE, JSON.stringify(recipe));
 }
 
-export function getCurrentRecipe(): RecipeData {
+export function getCurrentRecipe(): Recipe {
   const recipe = localStorage.getItem(STORAGE_CURRENT_RECIPE);
 
   if (!recipe) {
-    return RECIPE_DATA;
+    return RECIPE;
   }
 
   return JSON.parse(recipe);
