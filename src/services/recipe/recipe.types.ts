@@ -41,7 +41,7 @@ export interface Recipe {
   steps: Array<RecipeStep>;
   category: RecipeCategory | '';
   lastUpdate: number;
-  hasSync?: boolean;
+  needSync?: boolean;
 }
 
 export interface ProcessedRecipeStep {

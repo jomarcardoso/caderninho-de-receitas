@@ -1,9 +1,9 @@
 import { short, unshort } from './string.service';
-import { recipesData } from '../../db/partner-recipes';
+import { recipes } from '../../db/partner-recipes';
 
 describe('StringService', () => {
   it('short 0 partner recipe', () => {
-    const recipe = recipesData[0];
+    const recipe = recipes[0];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -14,7 +14,7 @@ describe('StringService', () => {
   });
 
   it('short 1 partner recipe', () => {
-    const recipe = recipesData[1];
+    const recipe = recipes[1];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -25,7 +25,7 @@ describe('StringService', () => {
   });
 
   it('short 2 partner recipe', () => {
-    const recipe = recipesData[2];
+    const recipe = recipes[2];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -36,7 +36,7 @@ describe('StringService', () => {
   });
 
   it('short 3 partner recipe', () => {
-    const recipe = recipesData[3];
+    const recipe = recipes[3];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -47,7 +47,7 @@ describe('StringService', () => {
   });
 
   it('short 4 partner recipe', () => {
-    const recipe = recipesData[4];
+    const recipe = recipes[4];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -58,7 +58,7 @@ describe('StringService', () => {
   });
 
   it('short 5 partner recipe', () => {
-    const recipe = recipesData[5];
+    const recipe = recipes[5];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -69,7 +69,7 @@ describe('StringService', () => {
   });
 
   it('short 6 partner recipe', () => {
-    const recipe = recipesData[6];
+    const recipe = recipes[6];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -80,7 +80,7 @@ describe('StringService', () => {
   });
 
   it('short 7 partner recipe', () => {
-    const recipe = recipesData[7];
+    const recipe = recipes[7];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -91,7 +91,7 @@ describe('StringService', () => {
   });
 
   it('short 8 partner recipe', () => {
-    const recipe = recipesData[8];
+    const recipe = recipes[8];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -102,7 +102,7 @@ describe('StringService', () => {
   });
 
   it('short 9 partner recipe', () => {
-    const recipe = recipesData[9];
+    const recipe = recipes[9];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -113,7 +113,7 @@ describe('StringService', () => {
   });
 
   it('short 11 partner recipe', () => {
-    const recipe = recipesData[11];
+    const recipe = recipes[11];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -124,7 +124,7 @@ describe('StringService', () => {
   });
 
   it('short 12 partner recipe', () => {
-    const recipe = recipesData[12];
+    const recipe = recipes[12];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -135,7 +135,7 @@ describe('StringService', () => {
   });
 
   it('short 13 partner recipe', () => {
-    const recipe = recipesData[13];
+    const recipe = recipes[13];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -146,7 +146,7 @@ describe('StringService', () => {
   });
 
   it('short 14 partner recipe', () => {
-    const recipe = recipesData[14];
+    const recipe = recipes[14];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -157,7 +157,7 @@ describe('StringService', () => {
   });
 
   it('short 15 partner recipe', () => {
-    const recipe = recipesData[15];
+    const recipe = recipes[15];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -168,7 +168,7 @@ describe('StringService', () => {
   });
 
   it('short 16 partner recipe', () => {
-    const recipe = recipesData[16];
+    const recipe = recipes[16];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -179,7 +179,7 @@ describe('StringService', () => {
   });
 
   it('short 17 partner recipe', () => {
-    const recipe = recipesData[17];
+    const recipe = recipes[17];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -190,7 +190,7 @@ describe('StringService', () => {
   });
 
   it('short 0 lesser than', () => {
-    const recipe = recipesData[0];
+    const recipe = recipes[0];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -198,7 +198,7 @@ describe('StringService', () => {
   });
 
   it('short 1 lesser than', () => {
-    const recipe = recipesData[1];
+    const recipe = recipes[1];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -206,7 +206,7 @@ describe('StringService', () => {
   });
 
   it('short 2 lesser than', () => {
-    const recipe = recipesData[2];
+    const recipe = recipes[2];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -214,7 +214,7 @@ describe('StringService', () => {
   });
 
   it('short 3 lesser than', () => {
-    const recipe = recipesData[3];
+    const recipe = recipes[3];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -222,7 +222,7 @@ describe('StringService', () => {
   });
 
   it('short 4 lesser than', () => {
-    const recipe = recipesData[4];
+    const recipe = recipes[4];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -230,7 +230,7 @@ describe('StringService', () => {
   });
 
   it('short 5 lesser than', () => {
-    const recipe = recipesData[5];
+    const recipe = recipes[5];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -238,7 +238,7 @@ describe('StringService', () => {
   });
 
   it('short 6 lesser than', () => {
-    const recipe = recipesData[6];
+    const recipe = recipes[6];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -246,7 +246,7 @@ describe('StringService', () => {
   });
 
   it('short 7 lesser than', () => {
-    const recipe = recipesData[7];
+    const recipe = recipes[7];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -254,7 +254,7 @@ describe('StringService', () => {
   });
 
   it('short 8 lesser than', () => {
-    const recipe = recipesData[8];
+    const recipe = recipes[8];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -262,7 +262,7 @@ describe('StringService', () => {
   });
 
   it('short 9 lesser than', () => {
-    const recipe = recipesData[9];
+    const recipe = recipes[9];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -270,7 +270,7 @@ describe('StringService', () => {
   });
 
   it('short 10 lesser than', () => {
-    const recipe = recipesData[10];
+    const recipe = recipes[10];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -278,7 +278,7 @@ describe('StringService', () => {
   });
 
   it('short 11 lesser than', () => {
-    const recipe = recipesData[11];
+    const recipe = recipes[11];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -286,7 +286,7 @@ describe('StringService', () => {
   });
 
   it('short 12 lesser than', () => {
-    const recipe = recipesData[12];
+    const recipe = recipes[12];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -294,7 +294,7 @@ describe('StringService', () => {
   });
 
   it('short 13 lesser than', () => {
-    const recipe = recipesData[13];
+    const recipe = recipes[13];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -302,7 +302,7 @@ describe('StringService', () => {
   });
 
   it('short 14 lesser than', () => {
-    const recipe = recipesData[14];
+    const recipe = recipes[14];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -310,7 +310,7 @@ describe('StringService', () => {
   });
 
   it('short 15 lesser than', () => {
-    const recipe = recipesData[15];
+    const recipe = recipes[15];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -318,7 +318,7 @@ describe('StringService', () => {
   });
 
   it('short 16 lesser than', () => {
-    const recipe = recipesData[16];
+    const recipe = recipes[16];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 
@@ -326,7 +326,7 @@ describe('StringService', () => {
   });
 
   it('short 17 lesser than', () => {
-    const recipe = recipesData[17];
+    const recipe = recipes[17];
     const json = JSON.stringify(recipe);
     const shortRecipe = short(json);
 

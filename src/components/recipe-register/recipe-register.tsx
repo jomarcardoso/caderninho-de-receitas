@@ -57,7 +57,7 @@ const RecipeRegister: FC<Props> = ({ recipe = RECIPE, setCurrentRecipe }) => {
         id: recipe?.id ?? 0,
         category,
         lastUpdate: Date.now() + Math.random() * 10000000000000,
-        hasSync: false,
+        needSync: true,
       };
 
       const id = addRecipe(newRecipe);

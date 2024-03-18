@@ -1,5 +1,5 @@
 import { FoodData, FoodService } from '../services/food';
-import { recipesData } from './recipes';
+import { recipes } from './recipes';
 import { beansData } from './beans';
 import { aFoodData } from './a';
 import { bFoodData } from './b';
@@ -49,7 +49,7 @@ export const foodsData: Array<FoodData> = [
   ...uFoodData,
   ...vFoodData,
   ...wFoodData,
-  ...recipesData,
+  ...recipes,
   ...beansData,
 ];
 

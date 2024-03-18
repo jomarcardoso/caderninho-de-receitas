@@ -3,7 +3,7 @@ import { FoodData } from '../services/food';
 import { FoodNacional } from './db.types';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 
-export const recipesData: Array<FoodData> = [
+export const recipes: Array<FoodData> = [
   {
     name: 'Rodelas de abobrinha crocantes com parmesão',
     image:

@@ -17,20 +17,18 @@ import type { FirebaseHook } from './use-firebase';
 
 const RECIPES_LOCAL_STORAGE = 'recipes';
 
-function getRecipes(): Recipe[] {
+function saveRecipesInLocalStorage(recipes: Recipe[]) {
+  if (typeof window === 'undefined') return;
+
+  localStorage.setItem(RECIPES_LOCAL_STORAGE, JSON.stringify(recipes));
+}
+
+function getRecipesFromLocalStorage(): Recipe[] {
   if (typeof window === 'undefined') return [];
 
-  let recipesData: Recipe[] =
-    JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? [];
-
-  // legacy recipes
-  if (!recipesData.length) {
-    recipesData =
-      JSON.parse(localStorage.getItem('cadertinho-de-receitas') || 'null')
-        ?.recipes ?? [];
-  }
-
-  return recipesData;
+  return (
+    JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? []
+  );
 }
 
 function removeFromDB(id?: number, db?: Firestore) {
@@ -43,51 +41,6 @@ function removeFromDB(id?: number, db?: Firestore) {
   }
 }
 
-function saveAllOnDB(recipesData: Recipe[], db?: Firestore, user?: User) {
-  if (db && user) {
-    recipesData.forEach((recipe) => {
-      try {
-        setDoc(doc(db, 'recipes', String(recipe.id)), {
-          ...recipe,
-          userId: user.uid,
-        });
-      } catch (e) {
-        console.log('erro ao salvar receita', e);
-      }
-    });
-  }
-}
-
-function saveRecipesInLocalStorage(recipesData: Recipe[]) {
-  localStorage.setItem(RECIPES_LOCAL_STORAGE, JSON.stringify(recipesData));
-}
-
-function getRecipesFromLocalStorage(): Recipe[] {
-  return (
-    JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? []
-  );
-}
-
-function update(recipesData: Recipe[], db?: Firestore, user?: User): void {
-  if (typeof window === 'undefined') return;
-
-  const savedRecipesData = getRecipesFromLocalStorage();
-
-  const toRemove = savedRecipesData.filter(
-    (recipe) => !recipesData.some((saved) => recipe.id === saved.id),
-  );
-
-  saveRecipesInLocalStorage(recipesData);
-
-  if (toRemove.length) {
-    toRemove.forEach((recipeToRemove) => removeFromDB(recipeToRemove.id, db));
-
-    return;
-  }
-
-  saveAllOnDB(recipesData, db, user);
-}
-
 export default function useRecipes(
   foods: Array<Food>,
   firebase: FirebaseHook,
@@ -96,8 +49,51 @@ export default function useRecipes(
   addRecipe(recipe: Recipe): number;
   removeRecipe(id: number): void;
 } {
-  const [recipes, setRecipes] = useState(getRecipes());
+  const [recipes, setRecipes] = useState(getRecipesFromLocalStorage());
   const [hasFetched, setHasFetched] = useState(false);
+
+  const saveAllOnDB = (db?: Firestore, user?: User) => {
+    if (!db || !user) {
+      return;
+    }
+
+    const recipesToSync = recipes.filter((recipe) => recipe.needSync);
+
+    console.log('vai sincronizar 4', recipesToSync);
+
+    recipesToSync.forEach(async (recipe) => {
+      try {
+        await setDoc(doc(db, 'recipes', String(recipe.id)), {
+          ...recipe,
+          userId: user.uid,
+        });
+
+        setRecipes(recipes.map((recipe) => ({ ...recipe, needSync: false })));
+      } catch (e) {
+        console.log('erro ao salvar receita', e);
+      }
+    });
+  };
+
+  const update = (recipes: Recipe[], db?: Firestore, user?: User): void => {
+    if (typeof window === 'undefined') return;
+
+    const savedRecipesData = getRecipesFromLocalStorage();
+
+    const toRemove = savedRecipesData.filter(
+      (recipe) => !recipes.some((saved) => recipe.id === saved.id),
+    );
+
+    saveRecipesInLocalStorage(recipes);
+
+    if (toRemove.length) {
+      toRemove.forEach((recipeToRemove) => removeFromDB(recipeToRemove.id, db));
+
+      return;
+    }
+
+    saveAllOnDB(db, user);
+  };
 
   /**
    * @returns id
