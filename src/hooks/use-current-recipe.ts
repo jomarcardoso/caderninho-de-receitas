@@ -38,7 +38,6 @@ const useRecipe = (
 ): {
   currentRecipe: Recipe;
   setCurrentRecipe: React.Dispatch<React.SetStateAction<Recipe>>;
-  setCurrentRecipe(recipe: ProcessedRecipe): void;
   restoreLastRecipe(): void;
 } => {
   if (!initialRecipe.name) {
@@ -47,14 +46,6 @@ const useRecipe = (
 
   const [recipe, setRecipe] = useState<Recipe>(initialRecipe);
   const [lastRecipe, setLastRecipe] = useState<Recipe>(initialRecipe);
-
-  function setCurrentRecipe(data: Recipe) {
-    if (recipe.id) {
-      setLastRecipe(recipe);
-    }
-
-    setRecipe(data);
-  }
 
   function setCurrentRecipe(recipe: Recipe) {
     if (recipe.id) {
@@ -74,7 +65,6 @@ const useRecipe = (
 
   return {
     currentRecipe: recipe,
-    setCurrentRecipe,
     setCurrentRecipe,
     restoreLastRecipe,
   };
