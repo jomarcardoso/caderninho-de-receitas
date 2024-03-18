@@ -43,13 +43,13 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
   const memoUnlogged = useMemo(() => {
     return (
       <>
-        <p className="mb-16">
+        <p className="mb-3">
           Você não está conectado, é importante fazer login para nunca perder
           suas receitas.
         </p>
 
         <Button
-          className="ml-auto"
+          className="ms-auto"
           contrast="light"
           variant="secondary"
           onClick={login}
