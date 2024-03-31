@@ -187,7 +187,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
           {hasMinerals && (
             <div className="grid columns-1 g-3">
-              <h3 className="section-title">Vitaminas</h3>
+              <h3 className="section-title">Minerais</h3>
 
               <ul className="list">
                 {Object.values(formattedRecipe.minerals).map(renderNutrient)}

@@ -157,31 +157,28 @@ export default function useRecipes(
 
       try {
         const querySnapshot = await getDocs(q);
-        const recipesToStorage = [...recipes];
+        const recipesFromStorage = [...recipes];
 
         querySnapshot.forEach((doc3) => {
-          const data = doc3.data();
+          const recipeFromDB = doc3.data() as Recipe;
 
-          delete data.userId;
-
-          const recipe = data as Recipe;
-          const storageRecipe = recipes.find(
-            (recipe) => recipe.id === recipe.id,
+          const storagedRecipe = recipes.find(
+            (storageRecipe) => storageRecipe.id === recipeFromDB.id,
           );
 
-          if (!storageRecipe) {
-            recipesToStorage.push(recipe);
-          } else if (storageRecipe.lastUpdate < recipe.lastUpdate) {
-            const index = recipesToStorage.findIndex(
-              (recipe) => recipe.id === storageRecipe.id,
+          if (!storagedRecipe) {
+            recipesFromStorage.push(recipeFromDB);
+          } else if (storagedRecipe.lastUpdate < recipeFromDB.lastUpdate) {
+            const index = recipesFromStorage.findIndex(
+              (recipe) => recipe.id === storagedRecipe.id,
             );
 
-            recipesToStorage[index] = recipe;
+            recipesFromStorage[index] = recipeFromDB;
           }
         });
 
-        if (recipesToStorage.length !== recipes.length) {
-          setRecipes(recipesToStorage);
+        if (recipesFromStorage.length !== recipes.length) {
+          setRecipes(recipesFromStorage);
         }
       } catch (error) {
         console.log('erro ao buscar receitas', error);

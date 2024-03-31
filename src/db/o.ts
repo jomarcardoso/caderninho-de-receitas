@@ -17,6 +17,19 @@ export const oFoodData: Array<FoodData> = [
     type: 'oil',
   },
   {
+    name: 'Orégano',
+    icon: '/images/food/oregano.png',
+    image:
+      'https://www.blog.bioritmo.com.br/wp-content/uploads/2021/11/shutterstock_524219779-1.jpg',
+    unitOfMeasurement: 'gram',
+    oneMeasures: [
+      {
+        quantity: 2.5,
+        type: 'TABLE_SPOON',
+      },
+    ],
+  },
+  {
     ...mergeWith(
       formatNacional(foodListNacional[489] as unknown as FoodNacional),
       formatMyFood(eggData as unknown as FoodMyFoodData),

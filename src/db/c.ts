@@ -178,6 +178,13 @@ export const cFoodData: Array<FoodData> = [
       },
     ],
     type: 'vegetable',
+    keys: [
+      'cebola palito',
+      'cebolas palito',
+      'cebolete',
+      'cebola para conserva',
+      'cebolas para conserva',
+    ],
   },
   {
     ...formatMyFood(chive as unknown as FoodMyFoodData),
@@ -192,6 +199,13 @@ export const cFoodData: Array<FoodData> = [
       'cebolinha francesa',
     ],
     type: 'herb',
+  },
+  {
+    name: 'Cebolas em conserva',
+    image:
+      'https://www.sumerbol.com.br/uploads/images/2017/11/cebola-em-conserva-576-1510594360.jpg',
+    keys: ['cebola em conserva'],
+    recipe: true,
   },
   {
     ...formatMyFood(carrot as unknown as FoodMyFoodData),

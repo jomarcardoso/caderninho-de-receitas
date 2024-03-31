@@ -312,6 +312,20 @@ export const mFoodData: Array<FoodData> = [
     ],
     unitOfMeasurement: 'gram',
     type: 'fruit',
+    keys: ['moranguinho'],
+  },
+  {
+    name: 'Semente de mostarda',
+    icon: '/images/food/mustard-seed.png',
+    type: 'seed',
+    unitOfMeasurement: 'gram',
+    oneMeasures: [
+      {
+        quantity: 6,
+        type: 'TABLE_SPOON',
+      },
+    ],
+    keys: ['sementes de mostarda', 'mostarda em semente'],
   },
   {
     name: 'Muhammara',
