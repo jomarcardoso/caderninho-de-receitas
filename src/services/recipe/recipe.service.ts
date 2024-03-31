@@ -13,9 +13,6 @@ import {
   PROCESSED_RECIPE,
   RECIPE,
   PROCESSED_RECIPE_STEP,
-  RECIPE_STEP,
-  RecipeToShare,
-  RecipeStepToShare,
 } from './recipe.types';
 
 export function calculateCalories(ingredients: Array<Ingredient> = []): number {
@@ -34,7 +31,7 @@ export function calculateCarbohidrates(
   return Number(
     ingredients
       .reduce((sum, ingredient) => {
-        return sum + ingredient.calories;
+        return sum + ingredient.carbohydrates;
       }, 0)
       .toFixed(0),
   );
@@ -361,89 +358,14 @@ export function format({
   };
 }
 
-function formatStepToShare(step: RecipeStep): RecipeStepToShare {
-  const stepToShare: RecipeStepToShare = {};
-
-  if (step.additional) {
-    stepToShare.a = step.additional;
-  }
-
-  if (step.ingredients) {
-    stepToShare.i = step.ingredients;
-  }
-
-  if (step.name) {
-    stepToShare.n = step.name;
-  }
-
-  if (step.preparation) {
-    stepToShare.p = step.preparation;
-  }
-
-  return stepToShare;
-}
-
-export function formatToShare(recipe: Recipe): RecipeToShare {
-  const recipeToShare: RecipeToShare = {};
-
-  if (recipe.additional) {
-    recipeToShare.a = recipe.additional;
-  }
-
-  if (recipe.description) {
-    recipeToShare.d = recipe.description;
-  }
-
-  if (recipe.name) {
-    recipeToShare.n = recipe.name;
-  }
-
-  if (recipe.steps.length) {
-    recipeToShare.s = recipe.steps.map(formatStepToShare);
-  }
-
-  return recipeToShare;
-}
-
-export function unformatToShare(recipeToShare: RecipeToShare): Recipe {
-  return {
-    category: RECIPE.category,
-    description: recipeToShare.d ?? RECIPE.description,
-    additional: recipeToShare.a ?? RECIPE.additional,
-    name: recipeToShare.n ?? RECIPE.name,
-    steps:
-      recipeToShare.s?.map((step) => ({
-        name: step.n ?? RECIPE_STEP.name,
-        preparation: step.p ?? RECIPE_STEP.preparation,
-        ingredients: step.i ?? RECIPE_STEP.ingredients,
-        additional: step.a ?? RECIPE_STEP.additional,
-      })) ?? RECIPE.steps,
-    lastUpdate: new Date().getTime(),
-  };
-}
-
 export function generateParamsToShare(recipe: Recipe): string {
-  const recipeToShare = formatToShare(recipe);
-  const json = JSON.stringify(recipeToShare);
-  // const shortJSON = StringService.short(json);
-
-  return new URLSearchParams({ r: json }).toString();
-  // return UrlService.short(params);
-}
-
-export function generateRecipeByParams(params: string): Recipe {
-  // const params = UrlService.unshort(shortParams);
-  const json = new URLSearchParams(params).get('r') ?? 'null';
-  // const json = StringService.unshort(shortJSON);
-  const recipeToShare: RecipeToShare = JSON.parse(json);
-
-  const recipe = unformatToShare(recipeToShare);
-
-  if (!recipe?.name) {
-    return RECIPE;
+  if (!recipe.id) {
+    return '';
   }
 
-  delete recipe.id;
+  return new URLSearchParams({ recipe: String(recipe.id) }).toString();
+}
 
-  return recipe;
+export function generateRecipeByParams(params: string): Recipe['id'] {
+  return Number(new URLSearchParams(params).get('recipe') ?? 0);
 }

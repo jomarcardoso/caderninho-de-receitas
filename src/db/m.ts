@@ -317,6 +317,8 @@ export const mFoodData: Array<FoodData> = [
   {
     name: 'Semente de mostarda',
     icon: '/images/food/mustard-seed.png',
+    image:
+      'https://media.swncdn.com/via/5884-istockgetty-images-plusrezkrr.jpg',
     type: 'seed',
     unitOfMeasurement: 'gram',
     oneMeasures: [

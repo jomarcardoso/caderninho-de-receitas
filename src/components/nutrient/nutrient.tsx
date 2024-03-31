@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { NUTRIENT, Nutrient } from '../../services/nutrient.constants';
+import round from 'lodash/round';
 
 const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({
   nutrient = NUTRIENT,
@@ -11,7 +12,7 @@ const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({
       <div>{nutrient.nick}</div>
 
       <p style={{ whiteSpace: 'nowrap' }}>
-        {nutrient.quantity.toFixed(2)}
+        {String(round(nutrient.quantity, 2)).replace('.', ',')}
         {nutrient.unity}
       </p>
     </div>

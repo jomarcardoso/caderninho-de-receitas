@@ -20,6 +20,7 @@ import './recipe-container.scss';
 import { Nutrient } from '../../services/nutrient.constants';
 import { ListItem } from '../list-item/list-item';
 import FoodsContext from '../../contexts/foods-context';
+import round from 'lodash/round';
 
 export interface RecipeContainerProps {
   recipe: Recipe;
@@ -77,7 +78,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         <div className="w-100 d-flex gap-1 justify-content-between">
           <div>{foodName}</div>
 
-          <div>{value.toFixed(2)}</div>
+          <div>{String(value).replace('.', ',')}</div>
         </div>
       </ListItem>
     );
@@ -154,23 +155,23 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             <ul>
               {renderQuality({
                 name: 'Calorias',
-                value: formattedRecipe.calories,
+                value: Math.round(formattedRecipe.calories),
               })}
               {renderQuality({
                 name: 'Carboidratos',
-                value: formattedRecipe.carbohydrates,
+                value: Math.round(formattedRecipe.carbohydrates),
               })}
               {renderQuality({
                 name: 'Proteínas',
-                value: formattedRecipe.proteins,
+                value: round(formattedRecipe.proteins, 2),
               })}
               {renderQuality({
                 name: 'Gorduras totais',
-                value: formattedRecipe.totalFat,
+                value: round(formattedRecipe.totalFat, 2),
               })}
               {renderQuality({
                 name: 'Fibras',
-                value: formattedRecipe.dietaryFiber,
+                value: round(formattedRecipe.dietaryFiber, 2),
               })}
             </ul>
           </div>

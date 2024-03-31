@@ -8,6 +8,7 @@ import { Nutrient } from '../../services/nutrient.constants';
 import NutrientDisplay from '../nutrient/nutrient';
 import { AminoAcidService } from '../../services/amino-acid';
 import { ListItem } from '../list-item/list-item';
+import round from 'lodash/round';
 
 interface FoodDetailedProps extends HTMLProps<HTMLDivElement> {
   food: Food;
@@ -69,7 +70,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             <h2>{quality}</h2>
           </div>
 
-          <div>{value.toFixed(2)}</div>
+          <div>{String(value).replace('.', ',')}</div>
         </div>
       </ListItem>
     );
@@ -97,47 +98,47 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
                 {renderQuality({ name: 'Índice Glicêmico', value: gi })}
                 {renderQuality({
                   name: 'Calorias',
-                  value: calories * multiplier,
+                  value: Math.round(calories * multiplier),
                 })}
                 {renderQuality({
                   name: 'Carboidratos',
-                  value: carbohydrates * multiplier,
+                  value: Math.round(carbohydrates * multiplier),
                 })}
                 {renderQuality({
                   name: 'Proteínas',
-                  value: proteins * multiplier,
+                  value: round(proteins * multiplier, 2),
                 })}
                 {renderQuality({
                   name: 'Fibras',
-                  value: dietaryFiber * multiplier,
+                  value: round(dietaryFiber * multiplier, 2),
                 })}
                 {renderQuality({
                   name: 'Gorduras totais',
-                  value: totalFat * multiplier,
+                  value: round(totalFat * multiplier, 2),
                 })}
                 {renderQuality({
                   name: 'Colesterol',
-                  value: cholesterol * multiplier,
+                  value: round(cholesterol * multiplier, 2),
                 })}
                 {renderQuality({
                   name: 'Gordura saturada',
-                  value: saturedFats * multiplier,
+                  value: round(saturedFats * multiplier, 2),
                 })}
                 {renderQuality({
                   name: 'Gordura monosaturada',
-                  value: monounsaturatedFats * multiplier,
+                  value: round(monounsaturatedFats * multiplier, 2),
                 })}
                 {renderQuality({
                   name: 'Gordura polisaturada',
-                  value: polyunsaturatedFats * multiplier,
+                  value: round(polyunsaturatedFats * multiplier, 2),
                 })}
                 {renderQuality({
                   name: 'Carga Glicêmica',
-                  value: gl * multiplier,
+                  value: round(gl * multiplier, 2),
                 })}
                 {renderQuality({
                   name: 'Cinzas',
-                  value: ashes * multiplier,
+                  value: round(ashes * multiplier, 2),
                 })}
               </ul>
 
