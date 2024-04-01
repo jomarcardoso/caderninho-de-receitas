@@ -4,8 +4,7 @@ import { RECIPE, Recipe, RecipeService } from '../recipe';
 const RECIPE_PARAM = 'recipeId';
 
 function shareRecipe(recipe: Recipe): Promise<void> {
-  const url =
-    `${window.location.origin}?${RECIPE_PARAM}=${recipe.id}#recipe` ?? '';
+  const url = `${window.location.origin}?${RECIPE_PARAM}=${recipe.id}` ?? '';
   const title = recipe.name || 'Receita';
 
   if (!navigator.share) return Promise.resolve();
