@@ -49,7 +49,7 @@ const RecipePanel: FC<{
       setLoading(true);
     }
 
-    await ShareService.shareFullRecipe(currentRecipe);
+    await ShareService.shareRecipe(currentRecipe);
 
     if (setLoading) {
       setLoading(false);

@@ -24,14 +24,16 @@ import round from 'lodash/round';
 
 export interface RecipeContainerProps {
   recipe: Recipe;
-  setCurrentFood(food: Food): void;
-  setCurrentFoodQuantity(quantity: number): void;
+  setCurrentFood?(food: Food): void;
+  setCurrentFoodQuantity?(quantity: number): void;
+  compact?: boolean;
 }
 
 const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
   setCurrentFoodQuantity,
+  compact = false,
 }) => {
   const foods = useContext(FoodsContext);
   const formattedRecipe = useMemo(() => {
@@ -97,7 +99,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             position: 'sticky',
             top: 0,
             right: 0,
-            width: '100vw',
+            width: '100%',
             zIndex: 1,
           }}
         >

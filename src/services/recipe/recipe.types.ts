@@ -42,6 +42,7 @@ export interface Recipe {
   category: RecipeCategory | '';
   lastUpdate: number;
   needSync?: boolean;
+  userId?: number;
 }
 
 export interface ProcessedRecipeStep {

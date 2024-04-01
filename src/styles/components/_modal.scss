@@ -45,6 +45,17 @@
     justify-content: flex-end;
     padding: 8px;
   }
+
+  &.-no-padding {
+    .modal__content {
+      padding: 0;
+    }
+  }
+
+  &.-dense {
+    max-height: calc(100% - 32px);
+    margin: 16px;
+  }
 }
 
 .modal-overlay {

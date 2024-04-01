@@ -7,8 +7,8 @@ import { SemanticButton } from '../semantic-button';
 
 interface Props {
   ingredients: Array<Ingredient>;
-  setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
-  setCurrentFoodQuantity: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentFood?: React.Dispatch<React.SetStateAction<Food>>;
+  setCurrentFoodQuantity?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export type IngredientsProps = Props & SectionProps;
@@ -20,8 +20,13 @@ const Ingredients: FC<IngredientsProps> = ({
   ...props
 }) => {
   function handleClick(ingredient: Ingredient) {
-    setCurrentFood(ingredient.food);
-    setCurrentFoodQuantity(ingredient.quantity);
+    if (setCurrentFood) {
+      setCurrentFood(ingredient.food);
+    }
+
+    if (setCurrentFoodQuantity) {
+      setCurrentFoodQuantity(ingredient.quantity);
+    }
   }
 
   return (

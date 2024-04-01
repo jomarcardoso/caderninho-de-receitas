@@ -14,6 +14,7 @@ import {
   RECIPE,
   PROCESSED_RECIPE_STEP,
 } from './recipe.types';
+import { Firestore, doc, getDoc } from 'firebase/firestore';
 
 export function calculateCalories(ingredients: Array<Ingredient> = []): number {
   return Number(
@@ -358,14 +359,42 @@ export function format({
   };
 }
 
-export function generateParamsToShare(recipe: Recipe): string {
-  if (!recipe.id) {
-    return '';
-  }
+function stepToText(step: RecipeStep): string {
+  return `\
+Ingredientes ${step.name}
 
-  return new URLSearchParams({ recipe: String(recipe.id) }).toString();
+${step.ingredients}
+
+Modo de preparo ${step.name}
+
+${step.name}`;
 }
 
-export function generateRecipeByParams(params: string): Recipe['id'] {
-  return Number(new URLSearchParams(params).get('recipe') ?? 0);
+export function formatToText(recipe: Recipe): string {
+  return `\
+*${recipe.name.toUpperCase()}*
+
+${recipe.description}
+
+${recipe.steps.map(stepToText)}`;
+}
+
+export async function getRecipeByIdFromDB(
+  recipeId = 0,
+  db: Firestore,
+): Promise<Recipe | null> {
+  try {
+    const docRef = doc(db, 'recipes', String(recipeId));
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data() as Recipe;
+
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  return null;
 }

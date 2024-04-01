@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react';
-import {
-  ProcessedRecipe,
-  Recipe,
-  RecipeService,
-  RECIPE,
-} from '../services/recipe';
+import { Recipe, RecipeService, RECIPE } from '../services/recipe';
 import { StorageService } from '../storage';
 import { STORAGE_CURRENT_RECIPE } from '../storage/storage.service';
+import { FirebaseHook } from './use-firebase';
+import { ShareService } from '../services/url/share.service';
 
 let initialRecipe = RECIPE;
 
@@ -15,21 +12,6 @@ if (typeof window !== 'undefined') {
 
   if (editingRecipeJson) {
     initialRecipe = JSON.parse(editingRecipeJson) as Recipe;
-  }
-}
-
-if (typeof window !== 'undefined') {
-  const sharedString = window.location.search;
-
-  if (sharedString) {
-    const recipeShared = RecipeService.generateRecipeByParams(sharedString);
-
-    if (recipeShared.steps[0]?.ingredients?.length) {
-      initialRecipe = recipeShared;
-
-      StorageService.setCurrentRecipe(recipeShared);
-      window.location.search = '';
-    }
   }
 }
 

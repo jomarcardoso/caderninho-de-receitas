@@ -20,6 +20,7 @@ import RecipesContext from '../../contexts/recipes-context';
 import { RECIPE } from '../../services/recipe';
 import CurrentRecipeContext from '../../contexts/current-recipe';
 import './app.scss';
+import { DialogSharedRecipe } from '../../components/dialog-shared-recipe/dialog-shared-recipe';
 
 export type AppProps = HTMLProps<HTMLDivElement>;
 
@@ -53,6 +54,7 @@ const AppPage: FC<AppProps> = (props) => {
           open={Boolean(currentFood.name)}
           quantity={currentFoodQuantity}
         />
+        <DialogSharedRecipe />
         <Header />
         <div className="app-page__body" id="root-content" {...props}>
           <Panel

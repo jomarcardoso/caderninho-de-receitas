@@ -1,6 +1,7 @@
 import React, { FC, HTMLProps, ReactNode } from 'react';
 import { Modal, ModalProps } from '@mui/base/Modal';
 import { FocusTrap } from '@mui/base';
+import { generateClasses } from '../../services/dom/classes';
 
 export interface AlertEmptyRecipeProps extends Omit<ModalProps, 'children'> {
   titleProps?: HTMLProps<HTMLHeadingElement>;
@@ -8,6 +9,8 @@ export interface AlertEmptyRecipeProps extends Omit<ModalProps, 'children'> {
   actions: ReactNode;
   actionsProps?: HTMLProps<HTMLDivElement>;
   children?: ReactNode;
+  noPadding?: boolean;
+  dense?: boolean;
 }
 
 const Dialog: FC<AlertEmptyRecipeProps> = ({
@@ -17,10 +20,19 @@ const Dialog: FC<AlertEmptyRecipeProps> = ({
   contentProps,
   actions = '',
   actionsProps,
+  noPadding,
+  dense,
+  className = '',
   ...props
 }) => {
+  const classes = generateClasses({
+    modal: true,
+    '-no-padding': noPadding,
+    '-dense': dense,
+    [className]: className,
+  });
   return (
-    <Modal className="modal-overlay" {...props}>
+    <Modal {...props} className="modal-overlay">
       <>
         <div className="modal-backdrop" />
         <FocusTrap open>
@@ -28,16 +40,18 @@ const Dialog: FC<AlertEmptyRecipeProps> = ({
             <section
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
-              className="modal"
+              className={classes}
               role="dialog"
             >
-              <h2
-                className="modal__title"
-                id="alert-dialog-title"
-                {...titleProps}
-              >
-                {title}
-              </h2>
+              {title && (
+                <h2
+                  className="modal__title"
+                  id="alert-dialog-title"
+                  {...titleProps}
+                >
+                  {title}
+                </h2>
+              )}
 
               {children && (
                 <div
