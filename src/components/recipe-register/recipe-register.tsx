@@ -6,7 +6,7 @@ import { RECIPE_STEP } from '../../services/recipe/recipe.types';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import Dialog from '../dialog/dialog';
 import { Button } from '../button';
-import EditingContext from '../../contexts/editing-context';
+import { EditingContext } from '../../providers/editing/editing.context';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { StorageService } from '../../storage';
 

@@ -20,7 +20,7 @@ import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';
 import Panel from '../../components/panel/panel';
 import LoadingContext from '../../providers/loading/loading.context';
-import EditingContext from '../../contexts/editing-context';
+import { EditingContext } from '../../providers/editing/editing.context';
 import { ShareService } from '../../services/url/share.service';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 
@@ -32,12 +32,8 @@ const RecipePanel: FC<{
 }> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
   const { removeRecipe } = useContext(RecipesContext);
-  const [editing, setEditing] = useState(true);
   const { setLoading } = useContext(LoadingContext);
-  const memoizedEditing = useMemo(
-    () => ({ editing, setEditing }),
-    [editing, setEditing],
-  );
+  const { editing, setEditing } = useContext(EditingContext);
 
   async function handleShare() {
     if (setLoading) {
@@ -64,7 +60,7 @@ const RecipePanel: FC<{
   }
 
   function handleEdit() {
-    setEditing(true);
+    setEditing?.(true);
   }
 
   function renderBody() {
@@ -83,9 +79,9 @@ const RecipePanel: FC<{
 
   useEffect(() => {
     if (!currentRecipe.id) {
-      setEditing(true);
+      setEditing?.(true);
     } else {
-      setEditing(false);
+      setEditing?.(false);
     }
   }, [currentRecipe]);
 
@@ -115,46 +111,44 @@ const RecipePanel: FC<{
   }, [currentRecipe, editing]);
 
   return (
-    <EditingContext.Provider value={memoizedEditing}>
-      <Panel id="recipe">
-        <Layout
-          showHeader={false}
-          showFooter={!editing}
-          mainProps={{
-            style: { marginTop: 0 },
-          }}
-          footerProps={{
-            items: [
-              {
-                onClick: memoizedhandleNewRecipe,
-                icon: <IoAddCircleOutline />,
-                key: 'add',
-              },
-              {
-                hidden: (currentRecipe?.id ?? 0) < 10000,
-                onClick: handleEdit,
-                icon: <IoCreateOutline />,
-                key: 'edit',
-              },
-              {
-                hidden: (currentRecipe?.id ?? 0) < 10000,
-                onClick: handleShare,
-                icon: <IoShareOutline />,
-                key: 'share',
-              },
-              {
-                hidden: (currentRecipe?.id ?? 0) < 10000,
-                onClick: handleClickRemove,
-                icon: <IoTrashOutline />,
-                key: 'remove',
-              },
-            ],
-          }}
-        >
-          <div className="paper-bg">{renderBody()}</div>
-        </Layout>
-      </Panel>
-    </EditingContext.Provider>
+    <Panel id="recipe">
+      <Layout
+        showHeader={false}
+        showFooter={!editing}
+        mainProps={{
+          style: { marginTop: 0 },
+        }}
+        footerProps={{
+          items: [
+            {
+              onClick: memoizedhandleNewRecipe,
+              icon: <IoAddCircleOutline />,
+              key: 'add',
+            },
+            {
+              hidden: (currentRecipe?.id ?? 0) < 10000,
+              onClick: handleEdit,
+              icon: <IoCreateOutline />,
+              key: 'edit',
+            },
+            {
+              hidden: (currentRecipe?.id ?? 0) < 10000,
+              onClick: handleShare,
+              icon: <IoShareOutline />,
+              key: 'share',
+            },
+            {
+              hidden: (currentRecipe?.id ?? 0) < 10000,
+              onClick: handleClickRemove,
+              icon: <IoTrashOutline />,
+              key: 'remove',
+            },
+          ],
+        }}
+      >
+        <div className="paper-bg">{renderBody()}</div>
+      </Layout>
+    </Panel>
   );
 };
 

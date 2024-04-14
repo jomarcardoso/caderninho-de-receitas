@@ -17,7 +17,7 @@ import { getFirestore, Firestore } from 'firebase/firestore';
 import { useCallback, useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
-const firebaseConfig = {
+const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyDHP6-sAs4qz57wZobWdaeE4DkeugXYR8g',
   authDomain: 'caderninho-de-receitas.firebaseapp.com',
   databaseURL: 'https://caderninho-de-receitas-default-rtdb.firebaseio.com',
@@ -28,8 +28,16 @@ const firebaseConfig = {
   measurementId: 'G-KFJQN1XXZP',
 };
 
-const app = initializeApp(firebaseConfig);
-const token = localStorage.getItem('OAuthToken');
+function getToken() {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('OAuthToken');
+  }
+
+  return '';
+}
+
+const app = initializeApp(FIREBASE_CONFIG);
+const token = getToken();
 const auth = getAuth(app);
 const db = getFirestore(app);
 

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import AppPage, { AppProps } from '../panels/app/app';
 import {
   CurrentRecipeProvider,
+  EditingProvider,
   FirebaseProvider,
   FoodsProvider,
   LoadingProvider,
@@ -18,7 +19,9 @@ const Index: FC<AppProps> = () => {
           <CurrentRecipeProvider>
             <NavigationProvider>
               <LoadingProvider>
-                <AppPage />
+                <EditingProvider>
+                  <AppPage />
+                </EditingProvider>
               </LoadingProvider>
             </NavigationProvider>
           </CurrentRecipeProvider>
