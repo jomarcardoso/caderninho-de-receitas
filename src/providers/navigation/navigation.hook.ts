@@ -1,7 +1,5 @@
 import { useCallback, useContext, useEffect } from 'react';
-import NavigationContext, {
-  NavigationContextType,
-} from '../providers/navigation/navigation.context';
+import NavigationContext, { NavigationContextType } from './navigation.context';
 
 interface UseNavigationReturn {
   goTo(newHash: string): void;
@@ -13,7 +11,7 @@ const stepsByLevel = [['#main'], ['#foods', '#recipe'], ['#food-modal']];
 
 let hash = '#main';
 
-const useNavigation = (): UseNavigationReturn => {
+export const useNavigation = (): UseNavigationReturn => {
   const navigation = useContext(NavigationContext);
 
   const navigateBack = useCallback(() => {
@@ -134,5 +132,3 @@ const useNavigation = (): UseNavigationReturn => {
     navigation,
   };
 };
-
-export default useNavigation;

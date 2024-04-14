@@ -9,13 +9,13 @@ import React, {
 } from 'react';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
-import FoodsContext from '../../providers/foods/foods.context';
 import { Food } from '../../services/food';
 import { Button } from '../../components/button';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import SectionTitle from '../../components/section-title/section-title';
 import Field from '../../components/field/field';
+import { FoodsContext } from '../../providers';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;

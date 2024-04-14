@@ -6,9 +6,7 @@ import Dialog from '../dialog/dialog';
 import { Button } from '../button';
 import SubmitComponent from '../submit';
 import './dialog-shared-recipe.scss';
-import useRecipes from '../../hooks/use-recipes';
-import { FirebaseContext } from '../../providers';
-import FoodsContext from '../../providers/foods/foods.context';
+import { FoodsContext, FirebaseContext, useRecipes } from '../../providers';
 
 export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
   const firebase = useContext(FirebaseContext);

@@ -19,8 +19,8 @@ import NutrientDisplay from '../nutrient/nutrient';
 import './recipe-container.scss';
 import { Nutrient } from '../../services/nutrient.constants';
 import { ListItem } from '../list-item/list-item';
-import FoodsContext from '../../providers/foods/foods.context';
 import round from 'lodash/round';
+import { FoodsContext } from '../../providers';
 
 export interface RecipeContainerProps {
   recipe: Recipe;

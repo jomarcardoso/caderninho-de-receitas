@@ -29,7 +29,7 @@ const RecipeRegister: FC<Props> = ({ recipe = RECIPE }) => {
     StorageService.removeCurrentRecipe();
 
     if (!currentRecipe.id) {
-      if (restoreLastRecipe) restoreLastRecipe();
+      restoreLastRecipe?.();
     }
 
     if (setEditing) setEditing(false);

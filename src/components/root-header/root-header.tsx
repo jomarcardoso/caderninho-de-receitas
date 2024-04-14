@@ -4,7 +4,7 @@ import CheffLightSvg from '../../assets/svg/cheff-light.svg';
 import ListLightSvg from '../../assets/svg/list-light.svg';
 import ListDuoSvg from '../../assets/svg/list-duo.svg';
 import './root-header.scss';
-import useNavigation from '../../hooks/use-navigation';
+import { useNavigation } from '../../providers';
 
 export type RootHeaderProps = HTMLProps<HTMLDivElement>;
 

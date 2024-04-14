@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { scrollToEl, scrollSpy, createScrollSpyItem } from 'ovos';
-import useNavigation from './use-navigation';
+import { useNavigation } from '../providers';
 
 // let timeout: NodeJS.Timeout;
 
@@ -21,7 +21,7 @@ const busyScrollInterval = setInterval(() => {
   });
 }, 1000);
 
-const useScroll = (): void => {
+export const useScroll = (): void => {
   const { navigation, goTo } = useNavigation();
 
   useEffect(() => {
@@ -141,5 +141,3 @@ const useScroll = (): void => {
     }, 1000);
   }, [goTo, navigation.stack.length]);
 };
-
-export default useScroll;

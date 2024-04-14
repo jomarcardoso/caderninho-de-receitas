@@ -1,22 +1,16 @@
 import React, { FC, HTMLProps, useContext, useMemo } from 'react';
-import useRecipe from '../../hooks/use-current-recipe';
-import RecipesContext from '../recipes/recipes.context';
-import { RECIPE } from '../../services/recipe';
-import { last } from 'lodash';
 import CurrentRecipeContext from './current-recipe.context';
+import { useRecipe } from './current-recipe.hook';
 
 export const CurrentRecipeProvider: FC<HTMLProps<Element>> = ({ children }) => {
-  const { recipes = [] } = useContext(RecipesContext);
-  const { currentRecipe, setCurrentRecipe, restoreLastRecipe } = useRecipe(
-    last(recipes) || RECIPE,
-  );
+  const { currentRecipe, setCurrentRecipe, restoreLastRecipe } = useRecipe();
   const memoizedCurrentRecipe = useMemo(
     () => ({
       currentRecipe,
       restoreLastRecipe,
       setCurrentRecipe,
     }),
-    [currentRecipe, restoreLastRecipe, setCurrentRecipe, setCurrentRecipe],
+    [currentRecipe, restoreLastRecipe, setCurrentRecipe],
   );
 
   return (

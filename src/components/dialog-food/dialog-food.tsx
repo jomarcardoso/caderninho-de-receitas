@@ -3,7 +3,7 @@ import { Modal } from '@mui/base/Modal';
 import FoodPanel from '../../panels/food/food';
 import { FOOD, Food } from '../../services/food';
 import { HeaderProps } from '../header/header';
-import useNavigation from '../../hooks/use-navigation';
+import { useNavigation } from '../../providers';
 
 export interface DialogFoodProps {
   open: boolean;

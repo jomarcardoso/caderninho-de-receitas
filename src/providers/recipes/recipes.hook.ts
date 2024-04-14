@@ -11,9 +11,9 @@ import {
 } from 'firebase/firestore';
 import remove from 'lodash/remove';
 import { useState, useEffect, useCallback } from 'react';
-import { Food } from '../services/food';
-import { Recipe } from '../services/recipe';
-import type { FirebaseHook } from '../providers/firebase/firebase.hook';
+import { Food } from '../../services/food';
+import { Recipe } from '../../services/recipe';
+import type { FirebaseHook } from '../firebase/firebase.hook';
 
 const RECIPES_LOCAL_STORAGE = 'recipes';
 
@@ -41,7 +41,7 @@ function removeFromDB(id?: number, db?: Firestore) {
   }
 }
 
-export default function useRecipes(
+export function useRecipes(
   foods: Array<Food>,
   firebase: FirebaseHook,
 ): {
