@@ -1,10 +1,12 @@
 import React, { FC, HTMLProps, useContext, useMemo } from 'react';
 import useRecipes from '../../hooks/use-recipes';
-import RecipesContext from '../../contexts/recipes-context';
-import FirebaseContext from '../../contexts/firebase-context';
-import FoodsContext from '../../contexts/foods-context';
+import RecipesContext from './recipes.context';
+import FoodsContext from '../foods/foods.context';
+import { FirebaseContext } from '../firebase';
 
-export const Recipes: FC<HTMLProps<HTMLDivElement>> = ({ children }) => {
+export const RecipesProvider: FC<HTMLProps<HTMLDivElement>> = ({
+  children,
+}) => {
   const firebase = useContext(FirebaseContext);
   const foods = useContext(FoodsContext);
   const { addRecipe, recipes, removeRecipe } = useRecipes(foods, firebase);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Recipe } from '../services/recipe';
-import { FirebaseHook } from './use-firebase';
+import { FirebaseHook } from '../providers/firebase/firebase.hook';
 import { ShareService } from '../services/url/share.service';
 
 export function useSharedRecipe(firebase: FirebaseHook) {
@@ -15,7 +15,7 @@ export function useSharedRecipe(firebase: FirebaseHook) {
     }
   }
 
-  function handleRecipeId(newRecipe: Recipe) {
+  function handleRecipeId(newRecipe: Recipe | null) {
     if (sharedRecipe && !newRecipe) {
       window.location.search = '';
     }

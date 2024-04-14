@@ -12,30 +12,25 @@ import {
   IoShareOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
-import { RECIPE, Recipe } from '../../services/recipe';
+import { RECIPE } from '../../services/recipe';
 import Layout from '../../components/layout/layout';
 import { Food } from '../../services/food';
-import RecipesContext from '../../contexts/recipes-context';
+import RecipesContext from '../../providers/recipes/recipes.context';
 import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';
 import Panel from '../../components/panel/panel';
-import LoadingContext from '../../contexts/loading';
+import LoadingContext from '../../providers/loading/loading.context';
 import EditingContext from '../../contexts/editing-context';
 import { ShareService } from '../../services/url/share.service';
+import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 
 let rendered = 0;
 
 const RecipePanel: FC<{
-  currentRecipe: Recipe;
-  setCurrentRecipe(data: Recipe): void;
   setCurrentFood(food: Food): void;
   setCurrentFoodQuantity(quantity: number): void;
-}> = ({
-  currentRecipe = RECIPE,
-  setCurrentRecipe,
-  setCurrentFood,
-  setCurrentFoodQuantity,
-}) => {
+}> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
+  const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
   const { removeRecipe } = useContext(RecipesContext);
   const [editing, setEditing] = useState(true);
   const { setLoading } = useContext(LoadingContext);
@@ -57,7 +52,7 @@ const RecipePanel: FC<{
   }
 
   const memoizedhandleNewRecipe = useCallback(() => {
-    setCurrentRecipe(RECIPE);
+    setCurrentRecipe?.(RECIPE);
   }, [setCurrentRecipe]);
 
   function handleClickRemove() {
@@ -65,7 +60,7 @@ const RecipePanel: FC<{
       removeRecipe(currentRecipe.id);
     }
 
-    setCurrentRecipe(RECIPE);
+    setCurrentRecipe?.(RECIPE);
   }
 
   function handleEdit() {
@@ -74,12 +69,7 @@ const RecipePanel: FC<{
 
   function renderBody() {
     if (editing) {
-      return (
-        <RecipeRegister
-          recipe={currentRecipe}
-          setCurrentRecipe={setCurrentRecipe}
-        />
-      );
+      return <RecipeRegister recipe={currentRecipe} />;
     }
 
     return (

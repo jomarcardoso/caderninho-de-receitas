@@ -1,6 +1,4 @@
 import React, { FC, HTMLProps, useContext } from 'react';
-import { Modal } from '@mui/base/Modal';
-import FirebaseContext from '../../contexts/firebase-context';
 import { useSharedRecipe } from '../../hooks/use-shared-recipe';
 import RecipeContainer from '../recipe-container/recipe-container';
 import { Recipe } from '../../services/recipe';
@@ -9,12 +7,13 @@ import { Button } from '../button';
 import SubmitComponent from '../submit';
 import './dialog-shared-recipe.scss';
 import useRecipes from '../../hooks/use-recipes';
-import useFoods from '../../hooks/use-food';
+import { FirebaseContext } from '../../providers';
+import FoodsContext from '../../providers/foods/foods.context';
 
 export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
   const firebase = useContext(FirebaseContext);
   const { sharedRecipe, setSharedRecipe } = useSharedRecipe(firebase);
-  const foods = useFoods();
+  const foods = useContext(FoodsContext);
   const { addRecipe } = useRecipes(foods, firebase);
 
   return (

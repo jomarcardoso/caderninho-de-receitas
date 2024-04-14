@@ -1,23 +1,23 @@
 import React, { FC, useContext, useCallback } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { Recipe, RECIPE } from '../../services/recipe';
-import RecipesContext from '../../contexts/recipes-context';
+import RecipesContext from '../../providers/recipes/recipes.context';
 import { RECIPE_STEP } from '../../services/recipe/recipe.types';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import Dialog from '../dialog/dialog';
 import { Button } from '../button';
 import EditingContext from '../../contexts/editing-context';
-import CurrentRecipeContext from '../../contexts/current-recipe';
+import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { StorageService } from '../../storage';
 
 interface Props {
   recipe: Recipe;
-  setCurrentRecipe(data: Recipe): void;
 }
 
-const RecipeRegister: FC<Props> = ({ recipe = RECIPE, setCurrentRecipe }) => {
+const RecipeRegister: FC<Props> = ({ recipe = RECIPE }) => {
   const { addRecipe } = useContext(RecipesContext);
-  const { restoreLastRecipe, currentRecipe } = useContext(CurrentRecipeContext);
+  const { restoreLastRecipe, currentRecipe, setCurrentRecipe } =
+    useContext(CurrentRecipeContext);
   const [openedEmptyRecipe, setOpenedEmptyRecipe] = React.useState(false);
   const { setEditing } = useContext(EditingContext);
 
@@ -62,7 +62,7 @@ const RecipeRegister: FC<Props> = ({ recipe = RECIPE, setCurrentRecipe }) => {
 
       const id = addRecipe(newRecipe);
 
-      setCurrentRecipe({
+      setCurrentRecipe?.({
         ...newRecipe,
         id,
       });

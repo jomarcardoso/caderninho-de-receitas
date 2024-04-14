@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect } from 'react';
 import NavigationContext, {
   NavigationContextType,
-} from '../contexts/navigation-context';
+} from '../providers/navigation/navigation.context';
 
 interface UseNavigationReturn {
   goTo(newHash: string): void;

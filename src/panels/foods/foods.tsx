@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
-import FoodsContext from '../../contexts/foods-context';
+import FoodsContext from '../../providers/foods/foods.context';
 import { Food } from '../../services/food';
 import { Button } from '../../components/button';
 import './foods.scss';

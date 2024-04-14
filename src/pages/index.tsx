@@ -1,14 +1,30 @@
 import React, { FC } from 'react';
-import Page, { PageProps } from '../components/page/page';
-import AppPage from '../panels/app/app';
-
+import AppPage, { AppProps } from '../panels/app/app';
+import {
+  CurrentRecipeProvider,
+  FirebaseProvider,
+  FoodsProvider,
+  LoadingProvider,
+  NavigationProvider,
+  RecipesProvider,
+} from '../providers';
 import '../styles/main.scss';
 
-const Index: FC<PageProps> = () => {
+const Index: FC<AppProps> = () => {
   return (
-    <Page>
-      <AppPage />
-    </Page>
+    <FirebaseProvider>
+      <FoodsProvider>
+        <RecipesProvider>
+          <CurrentRecipeProvider>
+            <NavigationProvider>
+              <LoadingProvider>
+                <AppPage />
+              </LoadingProvider>
+            </NavigationProvider>
+          </CurrentRecipeProvider>
+        </RecipesProvider>
+      </FoodsProvider>
+    </FirebaseProvider>
   );
 };
 

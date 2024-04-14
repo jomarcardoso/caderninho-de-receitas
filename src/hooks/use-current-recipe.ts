@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Recipe, RecipeService, RECIPE } from '../services/recipe';
 import { StorageService } from '../storage';
 import { STORAGE_CURRENT_RECIPE } from '../storage/storage.service';
-import { FirebaseHook } from './use-firebase';
+import { FirebaseHook } from '../providers/firebase/firebase.hook';
 import { ShareService } from '../services/url/share.service';
 
 let initialRecipe = RECIPE;

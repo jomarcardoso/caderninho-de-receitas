@@ -1,12 +1,12 @@
 import React, { FC, HTMLProps, useContext, useMemo } from 'react';
 import { IoLogInOutline } from 'react-icons/io5';
 import { IoCloseCircleOutline } from 'react-icons/io5';
-import FirebaseContext from '../../contexts/firebase-context';
 import { generateClasses } from '../../services/dom/classes';
 import { Avatar } from '../avatar/avatar';
 import { Button } from '../button';
 import './user-box.scss';
 import { Chip, Chips } from '../chips/chips';
+import { FirebaseContext } from '../../providers';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 

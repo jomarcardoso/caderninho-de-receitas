@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Recipe } from '../services/recipe';
+import { Recipe } from '../../services/recipe';
 
 const RecipesContext = createContext<{
   recipes: Array<Recipe>;
