@@ -23,9 +23,11 @@ const NotebookTabs: FC<NotebookTabsProps> = ({
   return (
     <nav className={classes} {...props}>
       <ul>
-        {tabs.map(({ children, link = '#', ...tabProps }) => (
+        {tabs.map(({ children, link = '#', ...tabProps }, index) => (
           <li key={String(children)} {...tabProps}>
-            <a href="#">{children}</a>
+            <a href={link} ovo-scrollspy-menu={index}>
+              {children}
+            </a>
           </li>
         ))}
       </ul>

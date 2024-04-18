@@ -79,7 +79,7 @@ const MainPanel: FC = () => {
           paddingLeft: '36px',
         }}
       >
-        <div className="grid">
+        <div className="grid" ovo-scrollspy-content="1" id="minhas-receitas">
           <div className="g-col-12">
             <h1 className="section-title">Minhas receitas</h1>
           </div>
@@ -99,6 +99,12 @@ const MainPanel: FC = () => {
                 adicionar nova receita
               </Button>
             </div>
+          </div>
+        </div>
+
+        <div className="grid" ovo-scrollspy-content="2" id="lista-de-compras">
+          <div className="g-col-12">
+            <h1 className="section-title">Minhas receitas</h1>
           </div>
         </div>
       </div>
