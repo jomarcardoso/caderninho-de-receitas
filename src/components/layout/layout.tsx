@@ -9,6 +9,9 @@ import React, {
 import './layout.scss';
 import Footer, { FooterProps } from '../footer/footer';
 import { generateClasses } from '../../services/dom/classes';
+import NotebookTabs, {
+  NotebookTabsProps,
+} from '../notebook-tabs/notebook-tabs';
 
 export interface LayoutProps extends HTMLProps<HTMLDivElement> {
   showHeader?: boolean;
@@ -16,6 +19,7 @@ export interface LayoutProps extends HTMLProps<HTMLDivElement> {
   footerProps?: FooterProps;
   mainProps?: HTMLProps<HTMLDivElement>;
   footerMenu?: boolean;
+  tabs?: NotebookTabsProps['tabs'];
 }
 
 const Layout: FC<LayoutProps> = forwardRef(
@@ -28,6 +32,7 @@ const Layout: FC<LayoutProps> = forwardRef(
       footerMenu = false,
       mainProps,
       className = '',
+      tabs = [],
       ...props
     },
     ref,
@@ -36,6 +41,7 @@ const Layout: FC<LayoutProps> = forwardRef(
 
     const classes = generateClasses({
       layout: true,
+      'paper-bg': true,
       'layout--footer-menu': footerMenu,
       [className]: className,
     });
@@ -63,6 +69,8 @@ const Layout: FC<LayoutProps> = forwardRef(
           <main className="layout__main" {...mainProps}>
             {children}
           </main>
+
+          <NotebookTabs tabs={tabs} />
 
           {showFooter && (
             <Footer open={open} footerMenu={footerMenu} {...footerProps} />

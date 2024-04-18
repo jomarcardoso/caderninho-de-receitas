@@ -10,6 +10,7 @@ import { ListItem } from '../../components/list-item/list-item';
 import { UserBox } from '../../components/user-box/user-box';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { useScroll } from '../../hooks/use-scroll';
+import NotebookTabs from '../../components/notebook-tabs/notebook-tabs';
 
 /* <div className="main__story-partner">
 <ChefSvg style={{ mixBlendMode: 'multiply' }} />
@@ -59,10 +60,24 @@ const MainPanel: FC = () => {
       footerProps={{
         children: <UserBox />,
       }}
+      tabs={[
+        {
+          children: 'receitas',
+          link: '#minhas-receitas',
+        },
+        {
+          children: 'mercado',
+          link: '#lista-de-compras',
+        },
+      ]}
     >
       <div
         className="container paper-bg"
-        style={{ paddingTop: '40px', paddingBottom: '40px' }}
+        style={{
+          paddingTop: '40px',
+          paddingBottom: '40px',
+          paddingLeft: '36px',
+        }}
       >
         <div className="grid">
           <div className="g-col-12">

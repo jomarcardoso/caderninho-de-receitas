@@ -21,6 +21,7 @@
 
   &::before {
     backdrop-filter: contrast(1.08);
+    box-shadow: var(--shadow-primary-inset);
     content: '';
     display: block;
     height: 100%;
