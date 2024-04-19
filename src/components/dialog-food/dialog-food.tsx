@@ -29,14 +29,12 @@ const DialogFood: FC<DialogFoodProps> = ({
     if (open && window.location.hash !== '#food-modal') {
       goTo('#food-modal');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   useEffect(() => {
     window.addEventListener('popstate', () => {
       if (onClose) onClose();
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -123,7 +123,6 @@ export const useNavigation = (): UseNavigationReturn => {
 
       navigation.setStack(['#main', '#foods']);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

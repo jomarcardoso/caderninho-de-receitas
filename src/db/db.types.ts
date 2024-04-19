@@ -58,7 +58,6 @@ export interface FoodNacionalAttribute {
 
 export interface FoodNacional {
   description: string; // name
-  // eslint-disable-next-line camelcase
   base_unit: 'g' | 'l';
   vitaminC: FoodNacionalAttribute;
   attributes: {
@@ -86,7 +85,6 @@ export interface FoodNacional {
       kcal: number;
     };
     manganese: FoodNacionalAttribute;
-    // eslint-disable-next-line camelcase
     fatty_acids: {
       saturated: FoodNacionalAttribute;
       monounsaturated: FoodNacionalAttribute;

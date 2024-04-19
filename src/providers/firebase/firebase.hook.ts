@@ -13,9 +13,7 @@ import {
 } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, Firestore } from 'firebase/firestore';
-
 import { useCallback, useEffect, useState } from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyDHP6-sAs4qz57wZobWdaeE4DkeugXYR8g',

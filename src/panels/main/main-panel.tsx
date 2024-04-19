@@ -39,10 +39,8 @@ const MainPanel: FC = () => {
 
   function renderItem(recipe: Recipe) {
     return (
-      // eslint-disable-next-line
       <ListItem
         key={recipe.id}
-        // eslint-disable-next-line
         isAction
         isActive={recipe.id === currentRecipe.id}
         tabIndex={0}

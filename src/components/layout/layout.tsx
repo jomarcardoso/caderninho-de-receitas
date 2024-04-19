@@ -66,8 +66,11 @@ const Layout: FC<LayoutProps> = forwardRef(
     );
 
     useEffect(() => {
-      htmxScrollspy();
-    }, []);
+      if (tabs.length) {
+        debugger;
+        htmxScrollspy();
+      }
+    }, [tabs]);
 
     return (
       <div
