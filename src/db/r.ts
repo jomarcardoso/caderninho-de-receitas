@@ -21,6 +21,21 @@ export const rFoodData: Array<FoodData> = [
     type: 'root',
   },
   {
+    ...formatNacional(foodListNacional[531] as unknown as FoodNacional),
+    name: 'Repolho',
+    icon: '/images/food/cabbage.png',
+    image:
+      'https://assets.clevelandclinic.org/transform/871f96ae-a852-4801-8675-683191ce372d/Benefits-Of-Cabbage-589153824-770x533-1_jpg',
+    keys: ['repolho', 'cabeça de repolho'],
+    oneMeasures: [
+      {
+        quantity: 900,
+        type: 'UNITY',
+      },
+    ],
+    type: 'herb',
+  },
+  {
     ...formatMyFood(creamCheese as unknown as FoodMyFoodData),
     name: 'Requeijão',
     icon: '/images/food/cream-cheese.svg',

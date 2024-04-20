@@ -79,6 +79,16 @@ export const lFoodData: Array<FoodData> = [
     type: 'fruit',
   },
   {
+    ...formatNacional(foodListNacional[593] as unknown as FoodNacional),
+    name: 'Linhaça',
+    icon: '/images/food/linseed.svg',
+    image:
+      'https://images.immediate.co.uk/production/volatile/sites/30/2020/02/linseed2-62e1099.jpg?quality=90&resize=556,505',
+    keys: ['semente de linhaça'],
+    unitOfMeasurement: 'gram',
+    type: 'seed',
+  },
+  {
     ...formatMyFood(porkLoin as unknown as FoodMyFoodData),
     name: 'Lombo de porco',
     icon: '/images/food/chop.png',

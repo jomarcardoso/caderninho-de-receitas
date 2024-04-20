@@ -122,9 +122,7 @@ const MainPanel: FC = () => {
               }
             />
 
-            <div>
-              <GrocerySvg style={{ mixBlendMode: 'multiply' }} />
-            </div>
+            <GrocerySvg style={{ mixBlendMode: 'multiply' }} />
           </div>
         </div>
       </div>

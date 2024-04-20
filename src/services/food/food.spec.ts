@@ -50,6 +50,19 @@ const MOCK_CARROT_CAKE: Food = {
   keys: ['bolo de cenoura', 'bolo'],
 };
 
+const MOCK_BEAN: Food = {
+  ...FOOD,
+  name: 'Feijão',
+  keys: ['feijão'],
+};
+
+const MOCK_BEAN_RECIPE: Food = {
+  ...FOOD,
+  recipe: true,
+  name: 'Feijão',
+  keys: ['feijão'],
+};
+
 const MOCK_LEMON_AND_HONEY_SALAD_DRESSING: Food = {
   ...FOOD,
   name: 'Molho de Limão e Mel para Salada',
@@ -86,6 +99,8 @@ const MOCK_FOODS: Array<Food> = [
   MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
   MOCK_HONEY,
   MOCK_SWEET_POTATO_BREAD,
+  MOCK_BEAN_RECIPE,
+  MOCK_BEAN,
 ];
 
 describe('FoodService', () => {
@@ -96,6 +111,22 @@ describe('FoodService', () => {
       const result = getFoodByString({ foods: MOCK_FOODS, text: 'cenoura' });
 
       expect(result).toStrictEqual({ food: MOCK_CARROT, index: 0 });
+    });
+
+    it('should return ingredient if not prefer "recipe"', () => {
+      const result = getFoodByString({ foods: MOCK_FOODS, text: 'feijão' });
+
+      expect(result).toStrictEqual({ food: MOCK_BEAN, index: 0 });
+    });
+
+    it('should return recipe if prefer "recipe"', () => {
+      const result = getFoodByString({
+        foods: MOCK_FOODS,
+        text: 'feijão',
+        preferRecipe: true,
+      });
+
+      expect(result).toStrictEqual({ food: MOCK_BEAN_RECIPE, index: 0 });
     });
 
     it('taxi without the list', () => {

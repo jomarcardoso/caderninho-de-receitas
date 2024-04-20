@@ -88,9 +88,13 @@
     }
 
     &.field--large {
+      .field__box {
+        padding-top: 24px;
+      }
+
       .field__input {
         line-height: 44px;
-        font-size: 28px;
+        font-size: 25px;
         background-image: url("/images/textures/linned-sheet-texture-large.svg");
       }
     }

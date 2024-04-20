@@ -183,6 +183,7 @@ export function format({
   } = FoodService.getFoodByString({
     foods,
     text: recipe.name,
+    preferRecipe: true,
   });
 
   const vitamins: Vitamins = allIngredients.reduce(

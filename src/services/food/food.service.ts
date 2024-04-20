@@ -10,6 +10,7 @@ import { Food, FOOD, FoodData } from './food.types';
 interface GetFoodByStringArgs {
   text: string;
   foods: Array<Food>;
+  preferRecipe?: true;
 }
 
 interface GetFoodByStringReturn {
@@ -19,19 +20,25 @@ interface GetFoodByStringReturn {
 
 type GetFoodByString = (args: GetFoodByStringArgs) => GetFoodByStringReturn;
 
-export const getFoodByString: GetFoodByString = ({ foods = [], text = '' }) => {
+export const getFoodByString: GetFoodByString = ({
+  foods = [],
+  text = '',
+  preferRecipe,
+}) => {
+  const orderedFoods = foods.sort(({ recipe }) =>
+    recipe ? (preferRecipe ? -1 : 1) : preferRecipe ? 1 : -1,
+  );
   const lowerText = text.toLowerCase();
-  // const textWords = lowerText.split(' ');
 
   if (lowerText.startsWith('sal para')) {
     return {
-      food: foods.find((food) => food.name === 'Sal') ?? FOOD,
+      food: orderedFoods.find((food) => food.name === 'Sal') ?? FOOD,
       index: 0,
     };
   }
 
   const foodsFound =
-    foods.filter((foodItem) => {
+    orderedFoods.filter((foodItem) => {
       const lowerFood = foodItem.name.toLowerCase();
 
       if (lowerFood === lowerText) {

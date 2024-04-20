@@ -8,6 +8,7 @@ export const recipes: Array<FoodData> = [
     name: 'Rodelas de abobrinha crocantes com parmesão',
     image:
       'https://panelinha-sitenovo.s3.sa-east-1.amazonaws.com/receita/1632429758157-CP2021-12-05_0474.jpg',
+    recipe: true,
     keys: [
       'rodelas de abobrinha',
       'abobrinha assada',
@@ -18,17 +19,20 @@ export const recipes: Array<FoodData> = [
     name: 'Arroz carreteiro',
     image:
       'https://panelinha-sitenovo.s3.sa-east-1.amazonaws.com/receita/1633350306253-Panelinha_03_09_21_319.jpg',
+    recipe: true,
     keys: ['risoto', 'carreteiro', 'arroz com carne'],
   },
   {
     name: 'Sopa de cenoura com curry',
     image: 'https://cdn.panelinha.com.br/receita/1491332195377-300541.jpg',
+    recipe: true,
     keys: ['sopa de copo', 'sopa de cenoura', 'sopa de curry'],
   },
   {
     name: 'Cuscuz marroquino com filé mignon suíno',
     image:
       'https://cdn.panelinha.com.br/receita/1480557600000-Cuscuz-marroquino-com-file-mignon-suino.jpg',
+    recipe: true,
     keys: [
       'cuscuz marroquino',
       'cuscuz com carne',
@@ -40,18 +44,21 @@ export const recipes: Array<FoodData> = [
     name: 'Geleia de manga e maracujá',
     image:
       'https://cdn.panelinha.com.br/receita/1540583468204-receita-geleiaaaaa.jpg',
+    recipe: true,
     keys: ['geleia de manga', 'geleia de maracujá', 'geleia', 'geléia'],
   },
   {
     name: 'Vinagrete de chuchu com cominho',
     image:
       'https://cdn.panelinha.com.br/receita/1584364750707-vinagrete-de-chuchu.jpg',
+    recipe: true,
     keys: ['vinagrete de chuchu', 'vinagrete', 'vinagrete com cominho'],
   },
   {
     name: 'Brownie cremoso de castanha-do-pará',
     image:
       'https://cdn.panelinha.com.br/receita/1472612400000-Brownie-cremoso-de-castanha-do-para.jpg',
+    recipe: true,
     keys: [
       'brownie',
       'brownie de castanha',
@@ -63,6 +70,7 @@ export const recipes: Array<FoodData> = [
     name: 'Filé de frango grelhado com páprica e erva-doce',
     image:
       'https://cdn.panelinha.com.br/receita/1612811291559-FRANGO-GRELHADO.jpg',
+    recipe: true,
     keys: [
       'filé de frango frango',
       'frango grelhado',
@@ -74,48 +82,56 @@ export const recipes: Array<FoodData> = [
     name: 'Clotted cream',
     image:
       'https://cdn.panelinha.com.br/receita/1632170181467-clotted-cream.jpg',
+    recipe: true,
     keys: ['clotted cream', 'clotted cream caseiro'],
   },
   {
     name: 'Café de prensa',
     image:
       'https://cdn.panelinha.com.br/receita/1544023469159-cafe%CC%81%20prensa.jpg',
+    recipe: true,
     keys: ['café prensado', 'café de prensa', 'café'],
   },
   {
     name: 'Torta de banana',
     image:
       'https://cdn.panelinha.com.br/receita/1597953473440-tortareceita.jpg',
+    recipe: true,
     keys: ['torta', 'torta de banana'],
   },
   {
     name: 'Suco refrescante de melão',
     image:
       'https://cdn.panelinha.com.br/receita/1445306400000-Suco-refrescante-de-melao.jpg',
+    recipe: true,
     keys: ['suco', 'suco de melão', 'suco refrescante'],
   },
   {
     name: 'Sanduíche de atum',
     image:
       'https://cdn.panelinha.com.br/receita/1570025865685-1544637932547-sandui%CC%81che%20pasta.jpg',
+    recipe: true,
     keys: ['sanduíche', 'sanduíche de atum'],
   },
   {
     name: 'Mate com limão',
     image:
       'https://cdn.panelinha.com.br/receita/1511900022715-mate%20receita.jpg',
+    recipe: true,
     keys: ['mate', 'mate com limão', 'chá mate', 'chá mate com limão'],
   },
   {
     name: 'Bolinho de bacalhau com inhame',
     image:
       'https://cdn.panelinha.com.br/receita/1478224800000-Bolinho-de-bacalhau-com-inhame.jpg',
+    recipe: true,
     keys: ['bolinho', 'bolinho de bacalhau', 'bolo de inhame'],
   },
   {
     name: 'Caipirinha de maracujá com gengibre e folhas de mexerica',
     image:
       'https://cdn.panelinha.com.br/receita/1457665200000-Caipirinha-de-maracuja-com-gengibre-e-folhas-de-mexerica.jpg',
+    recipe: true,
     keys: [
       'caipirinha',
       'caipirinha de maracujá',
@@ -128,30 +144,35 @@ export const recipes: Array<FoodData> = [
     name: 'Gim tônica cítrica',
     image:
       'https://cdn.panelinha.com.br/receita/1349060400000-Gim-tonica-citrica.jpg',
+    recipe: true,
     keys: ['gim', 'gim tonica', 'gim tonica cítrica'],
   },
   {
     name: 'Crudités de legumes',
     image:
       'https://cdn.panelinha.com.br/receita/1450058400000-Crudites-de-legumes.jpg',
+    recipe: true,
     keys: ['crudités', 'crudités de legumes', 'crudite', 'crudité de legume'],
   },
   {
     name: 'Dip de feijão branco',
     image:
       'https://cdn.panelinha.com.br/receita/1391652000000-Dip-de-feijao-branco.jpg',
+    recipe: true,
     keys: ['dip', 'dip de feijão', 'dip de feijão branco'],
   },
   {
     name: 'Pão integral com nozes',
     image:
       'https://cdn.panelinha.com.br/receita/1515091594755-pa%CC%83o%20nozes%20receita.jpg',
+    recipe: true,
     keys: ['pão', 'pão integral', 'pão integral com nozes', 'pão com nozes'],
   },
   {
     name: 'Geleia de figo e vinho tinto',
     image:
       'https://cdn.panelinha.com.br/receita/1432609200000-Geleia-de-figo-e-vinho-tinto.jpg',
+    recipe: true,
     keys: [
       'geleia',
       'geleia de figo',
@@ -163,6 +184,7 @@ export const recipes: Array<FoodData> = [
     name: 'Rabanada salgada com queijo',
     image:
       'https://cdn.panelinha.com.br/receita/1432609200000-Rabanada-salgada.jpg',
+    recipe: true,
     keys: [
       'rabanada',
       'rabanada salgada',
@@ -174,6 +196,7 @@ export const recipes: Array<FoodData> = [
     name: 'Salada de frutas com nibs de cacau',
     image:
       'https://cdn.panelinha.com.br/receita/1459998000000-Salada-de-frutas-com-nibs-de-cacau.jpg',
+    recipe: true,
     keys: [
       'salada de frutas',
       'salada de fruta',
@@ -186,17 +209,20 @@ export const recipes: Array<FoodData> = [
   {
     name: 'Cocada de forno',
     image: 'https://cdn.panelinha.com.br/receita/1554380728519-IMG_9235-2.jpg',
+    recipe: true,
     keys: ['cocada', 'cocada de forno'],
   },
   {
     name: 'Feijão-carioca com cominho',
     image: 'https://cdn.panelinha.com.br/receita/1489425336617-301213.jpg',
+    recipe: true,
     keys: ['feijão', 'feijão carioca', 'feijão carioca com cominho'],
   },
   {
     name: 'Carne com batata e cenoura na panela de pressão',
     image:
       'https://cdn.panelinha.com.br/receita/1636135550572-carne-com-batata-pressao.jpg',
+    recipe: true,
     keys: [
       'carne',
       'carne com batata',
@@ -210,6 +236,7 @@ export const recipes: Array<FoodData> = [
     name: 'Pizza de muçarela',
     image:
       'https://cdn.panelinha.com.br/receita/1443495600000-Pizza-de-mucarela-caseira.jpg',
+    recipe: true,
     keys: [
       'pizza',
       'pizza de mozarela',
@@ -229,6 +256,7 @@ export const recipes: Array<FoodData> = [
     name: 'Musse de chocolate',
     image:
       'https://cdn.panelinha.com.br/receita/1427252400000-Musse-de-chocolate-levissima.jpg',
+    recipe: true,
     keys: [
       'mousse',
       'mousse de chocolate',
@@ -241,6 +269,7 @@ export const recipes: Array<FoodData> = [
     name: 'Salada de cebola com pepino e molho de coentro',
     image:
       'https://cdn.panelinha.com.br/receita/1473649200000-Salada-de-cebola-com-pepino-e-molho-de-coentro.jpg',
+    recipe: true,
     keys: [
       'salada',
       'salada de cebola',
@@ -259,6 +288,7 @@ export const recipes: Array<FoodData> = [
     name: 'Gratinado de batata com frango',
     image:
       'https://cdn.panelinha.com.br/receita/1448503200000-Gratinado-de-batata-com-frango.jpg',
+    recipe: true,
     keys: [
       'gratinado',
       'gratinado de batata',
@@ -269,6 +299,7 @@ export const recipes: Array<FoodData> = [
     name: 'Massa caseira com semolina',
     image:
       'https://cdn.panelinha.com.br/receita/1623786205817-massa-caseira.jpg',
+    recipe: true,
     keys: [
       'massa caseira',
       'massa caseira com semolina',
@@ -281,6 +312,7 @@ export const recipes: Array<FoodData> = [
     name: 'Macarrão com legumes assados',
     image:
       'https://cdn.panelinha.com.br/receita/1624481906297-macarra%CC%83o-legumes.jpg',
+    recipe: true,
     keys: [
       'macarrão',
       'macarrão com legumes',
@@ -293,6 +325,7 @@ export const recipes: Array<FoodData> = [
     name: 'Sopa de feijão com macarrão',
     image:
       'https://cdn.panelinha.com.br/receita/1616683531341-sopa-de-feija%CC%83o-com-macarra%CC%83o.jpg',
+    recipe: true,
     keys: [
       'sopa de feijão',
       'sopa de feijão com macarrão',
@@ -302,6 +335,7 @@ export const recipes: Array<FoodData> = [
   {
     name: 'Farofa de milho com cenoura e bacon',
     image: 'https://cdn.panelinha.com.br/receita/1639142039327-farofa.jpg',
+    recipe: true,
     keys: [
       'farofa',
       'farofa de milho',
@@ -318,6 +352,7 @@ export const recipes: Array<FoodData> = [
     image:
       'https://s2.glbimg.com/0BsLY23sXDUg6wyeawk3Ur39CW0=/0x0:1920x1080/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2019/H/m/TB0qseRj2xqTSntdQRPQ/cuscuz.jpg',
     icon: '/images/food/corn-flour.svg',
+    recipe: true,
     keys: ['cuscuz', 'cuscuz nordestino'],
   },
   {
@@ -326,6 +361,7 @@ export const recipes: Array<FoodData> = [
     image:
       'https://t2.rg.ltmcdn.com/pt/images/8/8/0/img_cuscuz_a_paulista_88_600.jpg',
     icon: '/images/food/corn-flour.svg',
+    recipe: true,
     keys: ['cuscuz à paulista', 'cuscuz paulista', 'cuscuz a paulista'],
   },
   {
@@ -334,6 +370,7 @@ export const recipes: Array<FoodData> = [
     image:
       'https://www.comidaereceitas.com.br/wp-content/uploads/2021/02/feijao_tropeiro_mineiro-780x426.jpg',
     icon: '/images/food/bean.svg',
+    recipe: true,
     keys: [
       'feijão tropeiro mineiro',
       'feijão tropeiro',
@@ -348,6 +385,7 @@ export const recipes: Array<FoodData> = [
     image:
       'https://cdn.panelinha.com.br/receita/1588270905274-39_Panelinha_12_02_200635.jpg',
     icon: '/images/food/bean.svg',
+    recipe: true,
     keys: ['feijoada', 'feijoada completa'],
   },
   {
@@ -358,6 +396,7 @@ export const recipes: Array<FoodData> = [
     image:
       'https://cdn.panelinha.com.br/receita/1555347218472-CP-2019-29-01_6544.jpg',
     icon: '/images/food/mashed-potato.png',
+    recipe: true,
     keys: [
       'quibebe',
       'purê de abóbora',
@@ -371,6 +410,7 @@ export const recipes: Array<FoodData> = [
     image:
       'https://t1.rg.ltmcdn.com/pt/images/1/0/9/sarapatel_nordestino_2901_orig.jpg',
     icon: '/images/food/nabe.png',
+    recipe: true,
     keys: ['sarapatel', 'sarapatel nordestino', 'sarapatel tradicional'],
   },
   {
@@ -379,6 +419,7 @@ export const recipes: Array<FoodData> = [
     image:
       'https://t1.rg.ltmcdn.com/pt/images/5/1/9/img_tacaca_paraense_2915_orig.jpg',
     icon: '/images/food/soup.svg',
+    recipe: true,
     keys: ['tacacá', 'tacacá paraense', 'tacacá do norte', 'tacacá do pará'],
   },
   {
@@ -387,12 +428,14 @@ export const recipes: Array<FoodData> = [
     image:
       'https://t2.rg.ltmcdn.com/pt/images/7/1/7/caldo_de_tucupi_2717_600.jpg',
     icon: '/images/food/yellow-sauce.png',
+    recipe: true,
     keys: ['caldo de tucupi', 'tucupi', 'tucupi de mandioca'],
   },
   {
     name: 'Arroz com figo seco e especiarias',
     image:
       'https://cdn.panelinha.com.br/receita/1608244418784-arroz%20com%20figo%20e%20cebola%20blog.jpg',
+    recipe: true,
     keys: [
       'arroz com figo',
       'arroz com figo seco',
@@ -403,6 +446,7 @@ export const recipes: Array<FoodData> = [
     name: 'Salada de feijão branco com salsão',
     image:
       'https://cdn.panelinha.com.br/receita/1636125267265-branco-salsao-limao.jpg',
+    recipe: true,
     keys: [
       'salada de feijão',
       'salada de feijão branco',
@@ -418,6 +462,7 @@ export const recipes: Array<FoodData> = [
     name: 'Homus com cordeiro',
     image: 'https://cdn.panelinha.com.br/receita/1632776457017-homus.jpg',
 
+    recipe: true,
     keys: ['humus com cordeiro', 'homus com cordeiro'],
   },
   {
@@ -425,6 +470,7 @@ export const recipes: Array<FoodData> = [
     image:
       'https://static.clubedaanamariabraga.com.br/wp-content/uploads/2019/03/homus-1024x768.jpg',
 
+    recipe: true,
     keys: ['homus', 'hômus', 'humus', 'pasta de grão de bico'],
   },
   {
@@ -432,12 +478,14 @@ export const recipes: Array<FoodData> = [
     image:
       'https://static.clubedaanamariabraga.com.br/wp-content/uploads/2019/08/pasta-de-alho-caseira.jpg',
 
+    recipe: true,
     keys: ['pasta de alho'],
   },
   {
     name: 'Frango na panela de pressão',
     image:
       'https://www.receiteria.com.br/wp-content/uploads/frango-facil-naa-de-pressao.png',
+    recipe: true,
     keys: [
       'frango na panela',
       'frango na panela de pressão',
