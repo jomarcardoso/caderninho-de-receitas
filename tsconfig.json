@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "target" : "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "module": "ESNext",
     "skipLibCheck": true
   },

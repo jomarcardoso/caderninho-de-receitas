@@ -13,7 +13,7 @@ import { generateClasses } from '../../services/dom/classes';
 import NotebookTabs, {
   NotebookTabsProps,
 } from '../notebook-tabs/notebook-tabs';
-import { htmxScrollspy } from 'ovos';
+import { htmxScrollspy } from 'ovos/scrollspy';
 
 export interface LayoutProps extends HTMLProps<HTMLDivElement> {
   showHeader?: boolean;
@@ -67,7 +67,6 @@ const Layout: FC<LayoutProps> = forwardRef(
 
     useEffect(() => {
       if (tabs.length) {
-        debugger;
         htmxScrollspy();
       }
     }, [tabs]);
@@ -78,7 +77,8 @@ const Layout: FC<LayoutProps> = forwardRef(
         onScroll={handleOpen}
         {...props}
         ref={ref}
-        ovo-scrollspy
+        ovo-scrollspy={tabs.length ? 'true' : null}
+        ovo-scrollspy_method="CLOSEST"
       >
         <div className="layout__content">
           <main className="layout__main" {...mainProps}>

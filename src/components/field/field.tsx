@@ -17,6 +17,7 @@ import {
 } from '@mui/base/TextareaAutosize';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import './field.scss';
+import { generateClasses } from '../../services/dom/classes';
 
 interface Props {
   rootProps?: HTMLProps<HTMLDivElement>;
@@ -26,6 +27,7 @@ interface Props {
   breakline?: boolean;
   hint?: ReactNode;
   onErase?(): void;
+  size?: 'large';
 }
 
 export type FieldProps = (TextareaAutosizeProps | HTMLProps<HTMLInputElement>) &
@@ -39,33 +41,24 @@ const Field: FC<FieldProps> = ({
   rootProps,
   label,
   hint = '',
+  className = '',
+  size,
   ...props
 }) => {
   const { id: inputId } = props;
   const [focused, setFocused] = useState(false);
   const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
-  let classes = 'field';
-
-  if (multiline) {
-    classes = `${classes} field--multiline`;
-  }
-
-  if (focused) {
-    classes = `${classes} field--focused`;
-  }
-
-  if (!label) {
-    classes = `${classes} field--no-label`;
-  }
-
-  if (!onErase) {
-    classes = `${classes} field--no-erasable`;
-  }
-
-  if (!breakline) {
-    classes = `${classes} field--no-breakline`;
-  }
+  const classes = generateClasses({
+    field: true,
+    'field--large': size === 'large',
+    'field--multiline': multiline,
+    'field--focused': focused,
+    'field--no-label': !label,
+    'field--no-erasable': !onErase,
+    'field--no-breakline': !breakline,
+    [className]: className,
+  });
 
   const handleChange = useCallback<
     ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>

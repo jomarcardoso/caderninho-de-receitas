@@ -1,5 +1,5 @@
-import React, { FC, useContext } from 'react';
-import { IoAddCircleOutline } from 'react-icons/io5';
+import React, { ChangeEvent, FC, useContext, useState } from 'react';
+import { IoAddCircleOutline, IoCartOutline } from 'react-icons/io5';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
@@ -10,13 +10,15 @@ import { ListItem } from '../../components/list-item/list-item';
 import { UserBox } from '../../components/user-box/user-box';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { useScroll } from '../../hooks/use-scroll';
-import NotebookTabs from '../../components/notebook-tabs/notebook-tabs';
+import { InteractiveField } from '../../components/interactive-field/interactive-field';
+import GrocerySvg from '../../assets/svg/history/grocery.svg';
 
 /* <div className="main__story-partner">
 <ChefSvg style={{ mixBlendMode: 'multiply' }} />
 </div> */
 
 const MainPanel: FC = () => {
+  const [shoppingList, setShoppingList] = useState('');
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
   const { recipes: savedRecipes = [] } = useContext(RecipesContext);
   const alphabeticalRecipes = savedRecipes.sort((a, b) => {
@@ -100,9 +102,29 @@ const MainPanel: FC = () => {
           </div>
         </div>
 
-        <div className="grid" ovo-scrollspy-content="2" id="lista-de-compras">
+        <div
+          className="grid mt-5 pb-5"
+          ovo-scrollspy-content="2"
+          id="lista-de-compras"
+        >
           <div className="g-col-12">
-            <h1 className="section-title">Minhas receitas</h1>
+            <InteractiveField
+              label={
+                <>
+                  lista de compras
+                  <IoCartOutline />
+                </>
+              }
+              name="shopping-list"
+              value={shoppingList}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setShoppingList(event.target.value)
+              }
+            />
+
+            <div>
+              <GrocerySvg style={{ mixBlendMode: 'multiply' }} />
+            </div>
           </div>
         </div>
       </div>

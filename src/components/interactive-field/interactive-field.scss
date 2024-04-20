@@ -1,0 +1,28 @@
+.interactive-field {
+  position: relative;
+
+  .field__label {
+    font-size: 17px;
+    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .field__input {
+    padding-left: 40px;
+  }
+
+  &__foods {
+    position: absolute;
+    left: 0;
+    top: 58px;
+  }
+
+  &__img {
+    height: 44px;
+    width: 24px;
+    mix-blend-mode: multiply;
+  }
+}

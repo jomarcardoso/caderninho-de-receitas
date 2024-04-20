@@ -86,6 +86,14 @@
       background-image: url("/images/textures/linned-sheet-texture.svg");
       font-size: 21px;
     }
+
+    &.field--large {
+      .field__input {
+        line-height: 44px;
+        font-size: 28px;
+        background-image: url("/images/textures/linned-sheet-texture-large.svg");
+      }
+    }
   }
 
   &--focused {
@@ -100,6 +108,12 @@
     &.field--multiline {
       .field__input {
         background-image: url("/images/textures/linned-sheet-texture-focus.svg");
+      }
+
+      &.field--large {
+        .field__input {
+          background-image: url("/images/textures/linned-sheet-texture-focus-large.svg");
+        }
       }
     }
   }
