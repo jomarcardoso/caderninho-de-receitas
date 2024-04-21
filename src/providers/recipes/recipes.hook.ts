@@ -11,40 +11,34 @@ import {
 } from 'firebase/firestore';
 import remove from 'lodash/remove';
 import { useState, useEffect, useCallback } from 'react';
-import { Food } from '../../services/food';
 import { Recipe } from '../../services/recipe';
 import type { FirebaseHook } from '../firebase/firebase.hook';
 
-const RECIPES_LOCAL_STORAGE = 'recipes';
+const RECIPES_STORAGE = 'recipes';
 
 function saveRecipesInLocalStorage(recipes: Recipe[]) {
   if (typeof window === 'undefined') return;
 
-  localStorage.setItem(RECIPES_LOCAL_STORAGE, JSON.stringify(recipes));
+  localStorage.setItem(RECIPES_STORAGE, JSON.stringify(recipes));
 }
 
 function getRecipesFromLocalStorage(): Recipe[] {
   if (typeof window === 'undefined') return [];
 
-  return (
-    JSON.parse(localStorage.getItem(RECIPES_LOCAL_STORAGE) || 'null') ?? []
-  );
+  return JSON.parse(localStorage.getItem(RECIPES_STORAGE) || 'null') ?? [];
 }
 
 function removeFromDB(id?: number, db?: Firestore) {
   if (db && id) {
     try {
-      deleteDoc(doc(db, 'recipes', String(id)));
+      deleteDoc(doc(db, RECIPES_STORAGE, String(id)));
     } catch (e) {
       console.log('erro ao salvar receita', e);
     }
   }
 }
 
-export function useRecipes(
-  foods: Array<Food>,
-  firebase: FirebaseHook,
-): {
+export function useRecipes(firebase: FirebaseHook): {
   recipes: Array<Recipe>;
   addRecipe(recipe: Recipe): number;
   removeRecipe(id: number): void;
@@ -68,7 +62,7 @@ export function useRecipes(
       delete newRecipe.needSync;
 
       try {
-        await setDoc(doc(db, 'recipes', String(recipe.id)), newRecipe);
+        await setDoc(doc(db, RECIPES_STORAGE, String(recipe.id)), newRecipe);
 
         setRecipes(recipes.map((recipe) => ({ ...recipe, needSync: false })));
       } catch (e) {
@@ -137,11 +131,13 @@ export function useRecipes(
     async (db: Firestore) => {
       const uid = firebase.auth?.currentUser?.uid;
 
+      // try once to wait the uid
       if (!uid) {
-        if (!hasFetched) {
+        if (hasFetched) {
           return;
         }
 
+        //after the first time it will be true and wil not try again
         setHasFetched(true);
 
         setTimeout(() => {
@@ -151,9 +147,10 @@ export function useRecipes(
         return;
       }
 
-      setHasFetched(true);
-
-      const q = query(collection(db, 'recipes'), where('userId', '==', uid));
+      const q = query(
+        collection(db, RECIPES_STORAGE),
+        where('userId', '==', uid),
+      );
 
       try {
         const querySnapshot = await getDocs(q);
@@ -180,11 +177,13 @@ export function useRecipes(
         if (recipesFromStorage.length !== recipes.length) {
           setRecipes(recipesFromStorage);
         }
+
+        setHasFetched(true);
       } catch (error) {
         console.log('erro ao buscar receitas', error);
       }
     },
-    [firebase.user?.uid, foods, recipes],
+    [firebase.user?.uid, recipes],
   );
 
   useEffect(() => {

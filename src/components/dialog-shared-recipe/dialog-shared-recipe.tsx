@@ -12,7 +12,7 @@ export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
   const firebase = useContext(FirebaseContext);
   const { sharedRecipe, setSharedRecipe } = useSharedRecipe(firebase);
   const foods = useContext(FoodsContext);
-  const { addRecipe } = useRecipes(foods, firebase);
+  const { addRecipe } = useRecipes(firebase);
 
   return (
     <Dialog
