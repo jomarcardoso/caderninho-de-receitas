@@ -8,6 +8,7 @@ import {
   LoadingProvider,
   NavigationProvider,
   RecipesProvider,
+  ShoppingListProvider,
 } from '../providers';
 import '../styles/main.scss';
 
@@ -16,15 +17,17 @@ const Index: FC<AppProps> = () => {
     <FirebaseProvider>
       <FoodsProvider>
         <RecipesProvider>
-          <CurrentRecipeProvider>
-            <NavigationProvider>
-              <LoadingProvider>
-                <EditingProvider>
-                  <AppPage />
-                </EditingProvider>
-              </LoadingProvider>
-            </NavigationProvider>
-          </CurrentRecipeProvider>
+          <ShoppingListProvider>
+            <CurrentRecipeProvider>
+              <NavigationProvider>
+                <LoadingProvider>
+                  <EditingProvider>
+                    <AppPage />
+                  </EditingProvider>
+                </LoadingProvider>
+              </NavigationProvider>
+            </CurrentRecipeProvider>
+          </ShoppingListProvider>
         </RecipesProvider>
       </FoodsProvider>
     </FirebaseProvider>

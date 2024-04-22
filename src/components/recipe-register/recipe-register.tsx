@@ -1,7 +1,7 @@
 import React, { FC, useContext, useCallback } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { Recipe, RECIPE } from '../../services/recipe';
-import RecipesContext from '../../providers/recipes/recipes.context';
+import { RecipesContext } from '../../providers/recipes/recipes.context';
 import { RECIPE_STEP } from '../../services/recipe/recipe.types';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import Dialog from '../dialog/dialog';

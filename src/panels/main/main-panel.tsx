@@ -3,7 +3,7 @@ import { IoAddCircleOutline, IoCartOutline } from 'react-icons/io5';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
-import RecipesContext from '../../providers/recipes/recipes.context';
+import { RecipesContext } from '../../providers/recipes/recipes.context';
 import { RECIPE, Recipe } from '../../services/recipe';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';

@@ -3,7 +3,7 @@ import { RECIPE, Recipe } from '../../services/recipe';
 import { STORAGE_CURRENT_RECIPE } from '../../storage/storage.service';
 import { StorageService } from '../../storage';
 import { currentRecipeReducer } from './current-recipe.reducer';
-import RecipesContext from '../recipes/recipes.context';
+import { RecipesContext } from '../recipes/recipes.context';
 import { last } from 'lodash';
 
 let initialRecipe = RECIPE;

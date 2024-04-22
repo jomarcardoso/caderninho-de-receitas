@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  FC,
-  useContext,
-  useMemo,
-} from 'react';
+import React, { FC, useContext } from 'react';
 import Field, { FieldProps } from '../field/field';
 import './interactive-field.scss';
 import Image from '../image/image';
@@ -14,8 +8,6 @@ import { FoodsContext } from '../../providers';
 export const InteractiveField: FC<FieldProps> = ({ ...props }) => {
   const foods = useContext(FoodsContext);
   const { value } = props;
-
-  console.log(String(value).split('\n'));
 
   const ingredients = String(value)
     .split('\n')

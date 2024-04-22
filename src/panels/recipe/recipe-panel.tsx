@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { FC, useCallback, useContext, useEffect } from 'react';
 import {
   IoAddCircleOutline,
   IoCreateOutline,
@@ -15,7 +8,7 @@ import {
 import { RECIPE } from '../../services/recipe';
 import Layout from '../../components/layout/layout';
 import { Food } from '../../services/food';
-import RecipesContext from '../../providers/recipes/recipes.context';
+import { RecipesContext } from '../../providers/recipes/recipes.context';
 import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';
 import Panel from '../../components/panel/panel';

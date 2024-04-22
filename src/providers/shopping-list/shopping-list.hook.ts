@@ -2,11 +2,7 @@ import { User } from 'firebase/auth';
 import { Firestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import { useState, useEffect, useCallback } from 'react';
 import type { FirebaseHook } from '../firebase/firebase.hook';
-
-interface ShoppingListDB {
-  list: string;
-  userId: string;
-}
+import { ShoppingListDB } from './shopping-list.types';
 
 const SHOPPING_LIST_STORAGE = 'shopping_list';
 
@@ -19,7 +15,7 @@ function saveListInLocalStorage(list = '') {
 function getListFromLocalStorage(): string {
   if (typeof window === 'undefined') return '';
 
-  return JSON.parse(localStorage.getItem(SHOPPING_LIST_STORAGE) || '') ?? '';
+  return localStorage.getItem(SHOPPING_LIST_STORAGE) || '';
 }
 
 export function useShoppingList(firebase: FirebaseHook): {

@@ -1,24 +1,17 @@
 import React, { FC, HTMLProps, useContext, useMemo } from 'react';
-import RecipesContext from './recipes.context';
+import { useShoppingList } from './shopping-list.hook';
 import { FirebaseContext } from '../firebase';
-import { useRecipes } from './recipes.hook';
-import { FoodsContext } from '../foods';
+import { ShoppingListContext } from './shopping-list.context';
 
-export const RecipesProvider: FC<HTMLProps<HTMLDivElement>> = ({
+export const ShoppingListProvider: FC<HTMLProps<HTMLDivElement>> = ({
   children,
 }) => {
   const firebase = useContext(FirebaseContext);
-  const foods = useContext(FoodsContext);
-  const { addRecipe, recipes, removeRecipe } = useRecipes(firebase);
-
-  const memoizedRecipes = useMemo(
-    () => ({ addRecipe, recipes, removeRecipe }),
-    [addRecipe, recipes, removeRecipe],
-  );
+  const { shoppingList, updateShoppingList } = useShoppingList(firebase);
 
   return (
-    <RecipesContext.Provider value={memoizedRecipes}>
+    <ShoppingListContext.Provider value={{ shoppingList, updateShoppingList }}>
       {children}
-    </RecipesContext.Provider>
+    </ShoppingListContext.Provider>
   );
 };

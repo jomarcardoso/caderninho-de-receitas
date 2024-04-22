@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { scrollToEl, scrollSpy, createScrollSpyItem } from 'ovos';
 import { useNavigation } from '../providers';
 
-// let timeout: NodeJS.Timeout;
-
 let busyScroll = false;
 
 const busyScrollInterval = setInterval(() => {
