@@ -2,7 +2,7 @@ import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { orangeJuice, parsley, cuminSeed, salt } from './src';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { formatMyFood, formatNacional } from './utils';
 

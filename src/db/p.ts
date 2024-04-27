@@ -1,6 +1,6 @@
 import mergeWith from 'lodash/mergeWith';
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
@@ -17,30 +17,35 @@ import {
   chickenPasty,
 } from './src';
 
+export const SWEET_POTATO_BREAD: FoodData = {
+  name: 'Pão de Batata Doce',
+  icon: '/images/food/bread.png',
+  image:
+    'https://cdn.panelinha.com.br/receita/1544639354405-pa%CC%83o%20de%20batata-doce%20para%20trocar.jpg',
+  keys: [
+    'pão de batata doce',
+    'bolinho de batata',
+    'bolinho de batata doce',
+    'bolinho de batata-doce',
+    'pão de batata-doce',
+  ],
+};
+
+export const BREAD: FoodData = {
+  ...formatMyFood(wheatBread as unknown as FoodMyFoodData),
+  name: 'Pão caseiro',
+  icon: '/images/food/bread.svg',
+  image:
+    'https://images.unsplash.com/photo-1537200275355-4f0c0714f777?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+  unitOfMeasurement: 'gram',
+  keys: ['pão', 'pãozinho', 'pão integral'],
+  type: 'cake',
+  recipe: true,
+};
+
 export const pFoodData: Array<FoodData> = [
-  {
-    ...formatMyFood(wheatBread as unknown as FoodMyFoodData),
-    name: 'Pão caseiro',
-    icon: '/images/food/bread.svg',
-    image:
-      'https://images.unsplash.com/photo-1537200275355-4f0c0714f777?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: 'gram',
-    keys: ['pão', 'pãozinho', 'pão integral'],
-    type: 'cake',
-  },
-  {
-    name: 'Pão de Batata Doce',
-    icon: '/images/food/bread.png',
-    image:
-      'https://cdn.panelinha.com.br/receita/1544639354405-pa%CC%83o%20de%20batata-doce%20para%20trocar.jpg',
-    keys: [
-      'pão de batata doce',
-      'bolinho de batata',
-      'bolinho de batata doce',
-      'bolinho de batata-doce',
-      'pão de batata-doce',
-    ],
-  },
+  BREAD,
+  SWEET_POTATO_BREAD,
   {
     name: 'Pão de Ló',
     image:
@@ -162,7 +167,7 @@ export const pFoodData: Array<FoodData> = [
   },
   {
     ...formatMyFood(pear as unknown as FoodMyFoodData),
-    name: 'Pêra',
+    name: 'Pera',
     gi: 38,
     icon: '/images/food/pear.svg',
     image:
@@ -176,6 +181,7 @@ export const pFoodData: Array<FoodData> = [
       },
     ],
     type: 'fruit',
+    keys: ['pêra', 'pera'],
   },
   {
     name: 'Pernil de cordeiro',

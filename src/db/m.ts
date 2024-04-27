@@ -13,12 +13,54 @@ import {
   tomato,
 } from './src';
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood, formatNacional } from './utils';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import { MINERALS_DATA } from '../services/mineral';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { AMINO_ACIDS } from '../services/amino-acid';
+
+export const HONEY: FoodData = {
+  name: 'Mel',
+  icon: '/images/food/honey.png',
+  image:
+    'https://images.unsplash.com/photo-1573697610008-4c72b4e9508f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=755&q=80',
+  calories: 304,
+  dietaryFiber: 0.2,
+  sugar: 82,
+  carbohydrates: 82,
+  vitamins: {
+    ...VITAMINS_DATA,
+    c: 0.5,
+    b6: 0,
+  },
+  minerals: {
+    ...MINERALS_DATA,
+    iron: 0.4,
+    magnesium: 2,
+    calcium: 6,
+    potassium: 52,
+    sodium: 4,
+  },
+  keys: ['mel', 'mel de abelha'],
+  type: 'liquid',
+};
+
+export const LEMON_AND_HONEY_SALAD_SAUCE: FoodData = {
+  name: 'Molho de Limão e Mel para Salada',
+  icon: '/images/food/sauce.png',
+  image:
+    'https://cdn.panelinha.com.br/receita/1619447331360-molho%2011.07.16.jpg',
+
+  keys: [
+    'molho de limão e mel para salada',
+    'molho de salada',
+    'molho para salada',
+    'molho pra   salada',
+    'molho de limão',
+    'molho de mel',
+  ],
+};
 
 export const mFoodData: Array<FoodData> = [
   {
@@ -169,31 +211,7 @@ export const mFoodData: Array<FoodData> = [
       'https://dcom-prod.imgix.net/files/wp-content/uploads/2017/07/1499888237-frango-grelhado-com-brocolis-e-macarrao-gravatinha_616x462.jpg?w=1280&h=720&crop=focalpoint&fp-x=0.5&fp-y=0.1&fit=crop&auto=compress&q=75',
     keys: ['massa gravatinha', 'gravatinha', 'massa', 'macarrão'],
   },
-  {
-    name: 'Mel',
-    icon: '/images/food/honey.png',
-    image:
-      'https://images.unsplash.com/photo-1573697610008-4c72b4e9508f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=755&q=80',
-    calories: 304,
-    dietaryFiber: 0.2,
-    sugar: 82,
-    carbohydrates: 82,
-    vitamins: {
-      ...VITAMINS_DATA,
-      c: 0.5,
-      b6: 0,
-    },
-    minerals: {
-      ...MINERALS_DATA,
-      iron: 0.4,
-      magnesium: 2,
-      calcium: 6,
-      potassium: 52,
-      sodium: 4,
-    },
-    keys: ['mel', 'mel de abelha'],
-    type: 'liquid',
-  },
+  HONEY,
   {
     ...formatMyFood(tangerine as unknown as FoodMyFoodData),
     name: 'Mexerica',
@@ -256,21 +274,7 @@ export const mFoodData: Array<FoodData> = [
       'mistura pronta',
     ],
   },
-  {
-    name: 'Molho de Limão e Mel para Salada',
-    icon: '/images/food/sauce.png',
-    image:
-      'https://cdn.panelinha.com.br/receita/1619447331360-molho%2011.07.16.jpg',
-
-    keys: [
-      'molho de limão e mel para salada',
-      'molho de salada',
-      'molho para salada',
-      'molho pra   salada',
-      'molho de limão',
-      'molho de mel',
-    ],
-  },
+  LEMON_AND_HONEY_SALAD_SAUCE,
   {
     name: 'Molho de tahine',
     image:

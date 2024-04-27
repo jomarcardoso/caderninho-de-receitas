@@ -1,4 +1,4 @@
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { tomato, thyme } from './src';
 import { formatNacional, formatMyFood } from './utils';

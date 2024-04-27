@@ -1,4 +1,4 @@
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { creamCheese } from './src';
 import { formatNacional, formatMyFood } from './utils';

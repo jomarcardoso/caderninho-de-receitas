@@ -112,7 +112,9 @@ const MainPanel: FC = () => {
               label={
                 <>
                   lista de compras
-                  <IoCartOutline />
+                  <span className="svg-icon">
+                    <IoCartOutline />
+                  </span>
                 </>
               }
               name="shopping-list"

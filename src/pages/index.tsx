@@ -4,7 +4,6 @@ import {
   CurrentRecipeProvider,
   EditingProvider,
   FirebaseProvider,
-  FoodsProvider,
   LoadingProvider,
   NavigationProvider,
   RecipesProvider,
@@ -15,21 +14,19 @@ import '../styles/main.scss';
 const Index: FC<AppProps> = () => {
   return (
     <FirebaseProvider>
-      <FoodsProvider>
-        <RecipesProvider>
-          <ShoppingListProvider>
-            <CurrentRecipeProvider>
-              <NavigationProvider>
-                <LoadingProvider>
-                  <EditingProvider>
-                    <AppPage />
-                  </EditingProvider>
-                </LoadingProvider>
-              </NavigationProvider>
-            </CurrentRecipeProvider>
-          </ShoppingListProvider>
-        </RecipesProvider>
-      </FoodsProvider>
+      <RecipesProvider>
+        <ShoppingListProvider>
+          <CurrentRecipeProvider>
+            <NavigationProvider>
+              <LoadingProvider>
+                <EditingProvider>
+                  <AppPage />
+                </EditingProvider>
+              </LoadingProvider>
+            </NavigationProvider>
+          </CurrentRecipeProvider>
+        </ShoppingListProvider>
+      </RecipesProvider>
     </FirebaseProvider>
   );
 };

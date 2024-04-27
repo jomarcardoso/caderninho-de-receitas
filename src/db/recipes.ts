@@ -1,7 +1,14 @@
 import { formatNacional } from './utils';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { FoodNacional } from './db.types';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
+
+export const BEAN_WITH_CUMIN: FoodData = {
+  name: 'Feijão-carioca com cominho',
+  image: 'https://cdn.panelinha.com.br/receita/1489425336617-301213.jpg',
+  recipe: true,
+  keys: ['feijão', 'feijão carioca', 'feijão carioca com cominho'],
+};
 
 export const recipes: Array<FoodData> = [
   {
@@ -212,12 +219,7 @@ export const recipes: Array<FoodData> = [
     recipe: true,
     keys: ['cocada', 'cocada de forno'],
   },
-  {
-    name: 'Feijão-carioca com cominho',
-    image: 'https://cdn.panelinha.com.br/receita/1489425336617-301213.jpg',
-    recipe: true,
-    keys: ['feijão', 'feijão carioca', 'feijão carioca com cominho'],
-  },
+  BEAN_WITH_CUMIN,
   {
     name: 'Carne com batata e cenoura na panela de pressão',
     image:

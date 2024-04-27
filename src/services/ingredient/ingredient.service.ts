@@ -290,19 +290,8 @@ function measureFromString(text = ''): Measure {
   };
 }
 
-interface IngredientFromStringArgs {
-  foods: Array<Food>;
-  text: string;
-}
-
-function ingredientFromString({
-  text,
-  foods,
-}: IngredientFromStringArgs): Ingredient {
-  const { food } = FoodService.getFoodByString({
-    foods,
-    text,
-  });
+function ingredientFromString(text = ''): Ingredient {
+  const { food } = FoodService.getFoodByString(text);
 
   const measure = measureFromString(text);
 

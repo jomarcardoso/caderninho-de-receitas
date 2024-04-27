@@ -1,5 +1,5 @@
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood, formatNacional } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { pea } from './src';

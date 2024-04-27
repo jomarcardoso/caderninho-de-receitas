@@ -8,10 +8,27 @@ import {
   bakingSoda,
 } from './src';
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
+
+export const SWEET_POTATO: FoodData = {
+  ...formatMyFood(sweetPotato as unknown as FoodMyFoodData),
+  name: 'Batata Doce',
+  icon: '/images/food/sweet-potato.png',
+  image:
+    'https://images.unsplash.com/photo-1584699006710-3ad3b82fce7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+  keys: ['batata doce', 'batata-doce', 'batata doce cozida'],
+  oneMeasures: [
+    {
+      quantity: 240,
+      type: 'UNITY',
+    },
+  ],
+  unitOfMeasurement: 'gram',
+  type: 'root',
+};
 
 export const bFoodData: Array<FoodData> = [
   {
@@ -164,22 +181,7 @@ export const bFoodData: Array<FoodData> = [
     ],
     type: 'root',
   },
-  {
-    ...formatMyFood(sweetPotato as unknown as FoodMyFoodData),
-    name: 'Batata Doce',
-    icon: '/images/food/sweet-potato.png',
-    image:
-      'https://images.unsplash.com/photo-1584699006710-3ad3b82fce7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
-    keys: ['batata doce', 'batata-doce', 'batata doce cozida'],
-    oneMeasures: [
-      {
-        quantity: 240,
-        type: 'UNITY',
-      },
-    ],
-    unitOfMeasurement: 'gram',
-    type: 'root',
-  },
+  SWEET_POTATO,
   {
     ...formatMyFood(eggplant as unknown as FoodMyFoodData),
     name: 'Beringela',

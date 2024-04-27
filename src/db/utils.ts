@@ -1,6 +1,6 @@
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { AMINO_ACIDS } from '../services/amino-acid';
 import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';

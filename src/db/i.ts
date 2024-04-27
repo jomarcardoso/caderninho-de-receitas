@@ -1,5 +1,5 @@
 import foodListNacional from './src/cadastro-nacional/food-list.json';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import { formatMyFood, formatNacional } from './utils';
 import { yogurt } from './src';

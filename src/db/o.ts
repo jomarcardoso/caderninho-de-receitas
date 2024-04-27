@@ -2,7 +2,7 @@ import mergeWith from 'lodash/mergeWith';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { egg as eggData, soybeanOil } from './src';
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 
 export const oFoodData: Array<FoodData> = [

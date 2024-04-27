@@ -9,8 +9,6 @@ export const RecipesProvider: FC<HTMLProps<HTMLDivElement>> = ({
   const firebase = useContext(FirebaseContext);
   const { addRecipe, recipes, removeRecipe } = useRecipes(firebase);
 
-  console.log(recipes);
-
   return (
     <RecipesContext.Provider value={{ addRecipe, recipes, removeRecipe }}>
       {children}

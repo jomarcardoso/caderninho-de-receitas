@@ -7,7 +7,7 @@ import {
 } from 'react-icons/io5';
 import { RECIPE } from '../../services/recipe';
 import Layout from '../../components/layout/layout';
-import { Food } from '../../services/food';
+import type { Food } from '../../services/food';
 import { RecipesContext } from '../../providers/recipes/recipes.context';
 import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';

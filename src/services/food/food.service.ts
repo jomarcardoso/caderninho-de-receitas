@@ -1,30 +1,22 @@
-import {
-  AminoAcidsData,
-  AminoAcids,
-  AMINO_ACIDS,
-} from '../amino-acid/amino-acid.constants';
-import { MineralService } from '../mineral';
-import { VitaminService } from '../vitamin';
-import { Food, FOOD, FoodData } from './food.types';
-
-interface GetFoodByStringArgs {
-  text: string;
-  foods: Array<Food>;
-  preferRecipe?: true;
-}
+import { foods } from '../../db/food';
+import { Food, FOOD } from './food.types';
 
 interface GetFoodByStringReturn {
   food: Food;
   index: number;
 }
 
-type GetFoodByString = (args: GetFoodByStringArgs) => GetFoodByStringReturn;
+type GetFoodByString = (
+  text: string,
+  options?: {
+    preferRecipe?: true;
+  },
+) => GetFoodByStringReturn;
 
-export const getFoodByString: GetFoodByString = ({
-  foods = [],
+export const getFoodByString: GetFoodByString = (
   text = '',
-  preferRecipe,
-}) => {
+  { preferRecipe } = {},
+) => {
   const orderedFoods = foods.sort(({ recipe }) =>
     recipe ? (preferRecipe ? -1 : 1) : preferRecipe ? 1 : -1,
   );
@@ -169,48 +161,3 @@ export const getFoodByString: GetFoodByString = ({
 
   return { food, index };
 };
-
-export function formatAminoAcids(data?: AminoAcidsData): AminoAcids {
-  return Object.keys(AMINO_ACIDS).reduce((object, key) => {
-    const vitaminKey = key as keyof AminoAcids;
-
-    return {
-      ...object,
-      [key]: data?.[vitaminKey] ?? AMINO_ACIDS[vitaminKey],
-    };
-  }, {}) as AminoAcids;
-}
-
-export function format(data?: FoodData): Food {
-  return {
-    acidification: data?.acidification ?? FOOD.acidification,
-    aminoAcids: formatAminoAcids(data?.aminoAcids),
-    calories: data?.calories ?? FOOD.calories,
-    carbohydrates: data?.carbohydrates ?? FOOD.carbohydrates,
-    ashes: data?.ashes ?? FOOD.ashes,
-    description: data?.description ?? FOOD.description,
-    dietaryFiber: data?.dietaryFiber ?? FOOD.dietaryFiber,
-    gi: data?.gi ?? FOOD.gi,
-    gl: data?.gl ?? FOOD.gl,
-    id: data?.id ?? FOOD.id,
-    image: data?.image ?? FOOD.image,
-    icon: data?.icon ?? FOOD.icon,
-    keys: data?.keys ?? FOOD.keys,
-    monounsaturatedFats: data?.monounsaturatedFats ?? FOOD.monounsaturatedFats,
-    polyunsaturatedFats: data?.polyunsaturatedFats ?? FOOD.polyunsaturatedFats,
-    name: data?.name ?? FOOD.name,
-    oneMeasures: data?.oneMeasures ?? FOOD.oneMeasures,
-    proteins: data?.proteins ?? FOOD.proteins,
-    saturedFats: data?.saturedFats ?? FOOD.saturedFats,
-    sugar: data?.sugar ?? FOOD.sugar,
-    totalFat: data?.totalFat ?? FOOD.totalFat,
-    unitOfMeasurement: data?.unitOfMeasurement ?? FOOD.unitOfMeasurement,
-    minerals: MineralService.format(data?.minerals),
-    vitamins: VitaminService.format(data?.vitamins),
-    version: data?.version ?? FOOD.version,
-    rawId: data?.id ?? FOOD.rawId,
-    cholesterol: data?.cholesterol ?? FOOD.cholesterol,
-    recipe: data?.recipe ?? FOOD.recipe,
-    type: data?.type ?? FOOD.type,
-  };
-}

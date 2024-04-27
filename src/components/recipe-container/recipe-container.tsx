@@ -2,7 +2,6 @@ import React, {
   FC,
   ReactElement,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
 } from 'react';
@@ -12,7 +11,7 @@ import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import Ingredients from '../ingredients/ingredients';
 import Preparation from '../preparation/preparation';
 import { RECIPE, Recipe, RecipeService } from '../../services/recipe';
-import { Food } from '../../services/food';
+import type { Food } from '../../services/food';
 import SectionCard from '../section-card/section-card';
 import { AminoAcidService } from '../../services/amino-acid';
 import NutrientDisplay from '../nutrient/nutrient';
@@ -20,27 +19,20 @@ import './recipe-container.scss';
 import { Nutrient } from '../../services/nutrient.constants';
 import { ListItem } from '../list-item/list-item';
 import round from 'lodash/round';
-import { FoodsContext } from '../../providers';
 
 export interface RecipeContainerProps {
   recipe: Recipe;
   setCurrentFood?(food: Food): void;
   setCurrentFoodQuantity?(quantity: number): void;
-  compact?: boolean;
 }
 
 const RecipeContainer: FC<RecipeContainerProps> = ({
   recipe = RECIPE,
   setCurrentFood,
   setCurrentFoodQuantity,
-  compact = false,
 }) => {
-  const foods = useContext(FoodsContext);
   const formattedRecipe = useMemo(() => {
-    return RecipeService.format({
-      foods,
-      recipe,
-    });
+    return RecipeService.format(recipe);
   }, [recipe]);
 
   const hasVitamins = useMemo(

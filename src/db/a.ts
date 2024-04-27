@@ -1,6 +1,6 @@
 import mergeWith from 'lodash/mergeWith';
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import {
@@ -21,6 +21,30 @@ import {
   water,
   coconutWater,
 } from './src';
+
+export const PUMPKIN: FoodData = {
+  ...formatNacional(foodListNacional[63] as unknown as FoodNacional),
+  name: 'Abóbora cabotiá',
+  icon: '/images/food/pumpkin.png',
+  image:
+    'https://s2-casaejardim.glbimg.com/dceQ0PD9qpjhKg9j5SXHyDP7BGc=/0x0:1400x933/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_a0b7e59562ef42049f4e191fe476fe7d/internal_photos/bs/2023/t/w/VYO1UJQJmPzyxE3YbaPQ/receitas-abobora-cabotia-como-fazer-freepik.jpg',
+  keys: [
+    'abóbora',
+    'abobora',
+    'abobra',
+    'jerimum',
+    'abobora cabotian',
+    'abóbora cabotian',
+  ],
+  oneMeasures: [
+    {
+      quantity: 2500,
+      type: 'UNITY',
+    },
+  ],
+  unitOfMeasurement: 'gram',
+  type: 'fruit',
+};
 
 export const aFoodData: Array<FoodData> = [
   {
@@ -57,6 +81,7 @@ export const aFoodData: Array<FoodData> = [
     keys: [],
     type: 'fruit',
   },
+  PUMPKIN,
   {
     ...formatMyFood(zucchini as unknown as FoodMyFoodData),
     name: 'Abobrinha',

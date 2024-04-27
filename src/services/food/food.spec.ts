@@ -1,262 +1,139 @@
 import { FoodService } from '.';
+import { PUMPKIN } from '../../db/a';
+import { SWEET_POTATO } from '../../db/b';
+import { BEAN } from '../../db/beans';
+import { CARROT } from '../../db/c';
+import { HONEY, LEMON_AND_HONEY_SALAD_SAUCE } from '../../db/m';
+import { BREAD, SWEET_POTATO_BREAD } from '../../db/p';
+import { BEAN_WITH_CUMIN } from '../../db/recipes';
+import { carrot } from '../../db/src';
 import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
 import { FOOD, Food } from './food.types';
-
-const MOCK_CARROT: Food = {
-  ...FOOD,
-  name: 'Cenoura',
-  keys: ['cenoura', 'cenoura ralada'],
-};
-
-const MOCK_POTATO: Food = {
-  ...FOOD,
-  name: 'Batata',
-  keys: ['batata', 'batatinha', 'batata inglesa'],
-};
-
-const MOCK_SWEET_POTATO: Food = {
-  ...FOOD,
-  name: 'Batata Doce',
-  keys: ['batata doce', 'batata-doce', 'batata doce cozida'],
-};
-
-const MOCK_WHEAT_BREAD: Food = {
-  ...FOOD,
-  name: 'Pão caseiro',
-  keys: ['pão caseiro', 'pão', 'pãozinho', 'pão integral'],
-};
-
-const MOCK_APPLE: Food = {
-  ...FOOD,
-  name: 'Maçã',
-  keys: ['maçã', 'maçãs'],
-};
-
-const MOCK_JERIMUM: Food = {
-  ...FOOD,
-  name: 'Jerimum',
-  keys: ['jerium', 'abóbora', 'abobora'],
-};
-
-const MOCK_HONEY: Food = {
-  ...FOOD,
-  name: 'Mel',
-  keys: ['mel'],
-};
-
-const MOCK_CARROT_CAKE: Food = {
-  ...FOOD,
-  name: 'Bolo de cenoura',
-  keys: ['bolo de cenoura', 'bolo'],
-};
-
-const MOCK_BEAN: Food = {
-  ...FOOD,
-  name: 'Feijão',
-  keys: ['feijão'],
-};
-
-const MOCK_BEAN_RECIPE: Food = {
-  ...FOOD,
-  recipe: true,
-  name: 'Feijão',
-  keys: ['feijão'],
-};
-
-const MOCK_LEMON_AND_HONEY_SALAD_DRESSING: Food = {
-  ...FOOD,
-  name: 'Molho de Limão e Mel para Salada',
-  keys: [
-    'Molho de Limão e Mel para Salada',
-    'molho de salada',
-    'molho para salada',
-    'molho pra salada',
-    'molho de limão',
-    'molho de mel',
-  ],
-};
-
-const MOCK_SWEET_POTATO_BREAD: Food = {
-  ...FOOD,
-  name: 'Pão de Batata Doce',
-  keys: [
-    'bolinho de batata',
-    'bolinho de batata doce',
-    'bolinho de batata-doce',
-    'pão de batata doce',
-    'pão de batata-doce',
-  ],
-};
-
-const MOCK_FOODS: Array<Food> = [
-  MOCK_SWEET_POTATO,
-  MOCK_POTATO,
-  MOCK_WHEAT_BREAD,
-  MOCK_CARROT,
-  MOCK_APPLE,
-  MOCK_JERIMUM,
-  MOCK_CARROT_CAKE,
-  MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
-  MOCK_HONEY,
-  MOCK_SWEET_POTATO_BREAD,
-  MOCK_BEAN_RECIPE,
-  MOCK_BEAN,
-];
 
 describe('FoodService', () => {
   describe('getFoodByString', () => {
     const { getFoodByString } = FoodService;
 
     it('carrot with carrot on list', () => {
-      const result = getFoodByString({ foods: MOCK_FOODS, text: 'cenoura' });
+      const result = getFoodByString('cenoura');
 
-      expect(result).toStrictEqual({ food: MOCK_CARROT, index: 0 });
+      expect(result).toStrictEqual({ food: carrot, index: 0 });
     });
 
     it('should return ingredient if not prefer "recipe"', () => {
-      const result = getFoodByString({ foods: MOCK_FOODS, text: 'feijão' });
+      const result = getFoodByString('feijão');
 
-      expect(result).toStrictEqual({ food: MOCK_BEAN, index: 0 });
+      expect(result).toStrictEqual({ food: BEAN, index: 0 });
     });
 
     it('should return recipe if prefer "recipe"', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'feijão',
+      const result = getFoodByString('feijão', {
         preferRecipe: true,
       });
 
-      expect(result).toStrictEqual({ food: MOCK_BEAN_RECIPE, index: 0 });
+      expect(result).toStrictEqual({ food: BEAN_WITH_CUMIN, index: 0 });
     });
 
     it('taxi without the list', () => {
-      const result = getFoodByString({ foods: MOCK_FOODS, text: 'taxi' });
+      const result = getFoodByString('taxi');
 
       expect(result).toStrictEqual({ food: FOOD, index: 0 });
     });
 
     it('abóbora on the list of keys', () => {
-      const result = getFoodByString({ foods: MOCK_FOODS, text: 'abóbora' });
+      const result = getFoodByString('abóbora');
 
-      expect(result).toStrictEqual({ food: MOCK_JERIMUM, index: 0 });
+      expect(result).toStrictEqual({ food: PUMPKIN, index: 0 });
     });
 
     it('Abóbora camelcase on the list of keys', () => {
-      const result = getFoodByString({ foods: MOCK_FOODS, text: 'Abóbora' });
+      const result = getFoodByString('Abóbora');
 
-      expect(result).toStrictEqual({ food: MOCK_JERIMUM, index: 0 });
+      expect(result).toStrictEqual({ food: PUMPKIN, index: 0 });
     });
 
     it('exact bolo de cenoura on the list of keys', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'bolo de cenoura',
-      });
+      const result = getFoodByString('bolo de cenoura');
 
-      expect(result).toStrictEqual({ food: MOCK_CARROT_CAKE, index: 0 });
+      expect(result).toStrictEqual({ food: CARROT, index: 0 });
     });
 
     it('cenoura ralada on the list like cenoura', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'cenoura ralada',
-      });
+      const result = getFoodByString('cenoura ralada');
 
-      expect(result).toStrictEqual({ food: MOCK_CARROT, index: 0 });
+      expect(result).toStrictEqual({ food: CARROT, index: 0 });
     });
 
     it('Molho de salada', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'molho de salada',
-      });
+      const result = getFoodByString('molho de salada');
 
       expect(result).toStrictEqual({
-        food: MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
+        food: LEMON_AND_HONEY_SALAD_SAUCE,
         index: 0,
       });
     });
 
     it('Molho de mel e limão', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'Molho de mel e limão',
-      });
+      const result = getFoodByString('Molho de mel e limão');
 
       expect(result).toStrictEqual({
-        food: MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
+        food: LEMON_AND_HONEY_SALAD_SAUCE,
         index: 0,
       });
     });
 
     it('Molho pra salada de mel e limão', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'Molho pra salada de mel e limão',
-      });
+      const result = getFoodByString('Molho pra salada de mel e limão');
 
       expect(result).toStrictEqual({
-        food: MOCK_LEMON_AND_HONEY_SALAD_DRESSING,
+        food: LEMON_AND_HONEY_SALAD_SAUCE,
         index: 0,
       });
     });
 
     it('1 colher (sopa) de mel', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: '1 colher (sopa) de mel',
-      });
+      const result = getFoodByString('1 colher (sopa) de mel');
 
       expect(result).toStrictEqual({
-        food: MOCK_HONEY,
+        food: HONEY,
         index: 19,
       });
     });
 
     it('Pão', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'Pão',
-      });
+      const result = getFoodByString('Pão', { preferRecipe: true });
 
       expect(result).toStrictEqual({
-        food: MOCK_WHEAT_BREAD,
+        food: BREAD,
         index: 0,
       });
     });
 
     it('Pão de batata-doce', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'Pão de batata-doce',
-      });
+      const result = getFoodByString('Pão de batata-doce');
 
       expect(result).toStrictEqual({
-        food: MOCK_SWEET_POTATO_BREAD,
+        food: SWEET_POTATO_BREAD,
         index: 0,
       });
     });
 
     it('batata-doce', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: 'batata-doce',
-      });
+      const result = getFoodByString('batata-doce');
 
       expect(result).toStrictEqual({
-        food: MOCK_SWEET_POTATO,
+        food: SWEET_POTATO,
         index: 0,
       });
     });
 
     it('1 xícara (chá) de batata-doce cozida e amassada (1 batata grande)', () => {
-      const result = getFoodByString({
-        foods: MOCK_FOODS,
-        text: '1 xícara (chá) de batata-doce cozida e amassada (1 batata grande)',
-      });
+      const result = getFoodByString(
+        '1 xícara (chá) de batata-doce cozida e amassada (1 batata grande)',
+      );
 
       expect(result).toStrictEqual({
-        food: MOCK_SWEET_POTATO,
+        food: SWEET_POTATO,
         index: 18,
       });
     });

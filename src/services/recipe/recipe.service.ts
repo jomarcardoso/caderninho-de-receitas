@@ -1,6 +1,6 @@
 import sum from 'lodash/sum';
 import { AminoAcids } from '../amino-acid';
-import { Food, FoodService } from '../food';
+import { FoodService } from '../food';
 import IngredientService from '../ingredient/ingredient.service';
 import { Ingredient } from '../ingredient/ingredient.types';
 import { Minerals, MINERALS } from '../mineral';
@@ -64,15 +64,12 @@ export function calculateAcidification(
   return total / ingredients.length;
 }
 
-export function formatStep(
-  data: RecipeStep,
-  foods: Array<Food>,
-): ProcessedRecipeStep {
+export function formatStep(data: RecipeStep): ProcessedRecipeStep {
   let ingredients: Array<Ingredient> = [];
 
   if (data.ingredients) {
     ingredients = data.ingredients?.split('\n').map((text) => {
-      return IngredientService.ingredientFromString({ text, foods });
+      return IngredientService.ingredientFromString(text);
     });
   }
 
@@ -84,15 +81,9 @@ export function formatStep(
   };
 }
 
-export function format({
-  recipe = RECIPE,
-  foods = [],
-}: {
-  recipe: Recipe;
-  foods: Array<Food>;
-}): ProcessedRecipe {
+export function format(recipe = RECIPE): ProcessedRecipe {
   const steps =
-    recipe?.steps?.map((partData) => formatStep(partData, foods)) ??
+    recipe?.steps?.map((partData) => formatStep(partData)) ??
     PROCESSED_RECIPE.steps;
 
   const allIngredients = steps.flatMap(({ ingredients }) => {
@@ -180,9 +171,7 @@ export function format({
 
   const {
     food: { image = '' },
-  } = FoodService.getFoodByString({
-    foods,
-    text: recipe.name,
+  } = FoodService.getFoodByString(recipe.name, {
     preferRecipe: true,
   });
 

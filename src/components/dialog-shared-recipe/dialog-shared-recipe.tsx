@@ -6,12 +6,11 @@ import Dialog from '../dialog/dialog';
 import { Button } from '../button';
 import SubmitComponent from '../submit';
 import './dialog-shared-recipe.scss';
-import { FoodsContext, FirebaseContext, useRecipes } from '../../providers';
+import { FirebaseContext, useRecipes } from '../../providers';
 
 export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
   const firebase = useContext(FirebaseContext);
   const { sharedRecipe, setSharedRecipe } = useSharedRecipe(firebase);
-  const foods = useContext(FoodsContext);
   const { addRecipe } = useRecipes(firebase);
 
   return (
@@ -52,7 +51,7 @@ export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
       dense
     >
       <div className="dialog">
-        <RecipeContainer compact recipe={sharedRecipe as Recipe} />
+        <RecipeContainer recipe={sharedRecipe as Recipe} />
       </div>
     </Dialog>
   );

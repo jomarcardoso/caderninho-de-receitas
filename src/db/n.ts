@@ -1,5 +1,5 @@
 import { FoodMyFoodData } from './db.types';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood } from './utils';
 import { nut } from './src';
 

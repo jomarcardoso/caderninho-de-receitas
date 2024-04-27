@@ -1,9 +1,8 @@
 import mergeWith from 'lodash/mergeWith';
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood, formatNacional, verifyQuantity } from './utils';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
-
 import {
   coconut as coconutData,
   carrot,
@@ -20,6 +19,24 @@ import {
   chayote,
   onion,
 } from './src';
+
+export const CARROT: FoodData = {
+  ...formatMyFood(carrot as unknown as FoodMyFoodData),
+  name: 'Cenoura',
+  gi: 16,
+  icon: '/images/food/carrot.svg',
+  image:
+    'https://images.unsplash.com/photo-1582515073490-39981397c445?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+  keys: ['cenoura ralada', 'cenouras raladas', 'pedaços de cenoura'],
+  oneMeasures: [
+    {
+      quantity: 61,
+      type: 'UNITY',
+    },
+  ],
+  unitOfMeasurement: 'gram',
+  type: 'root',
+};
 
 export const cFoodData: Array<FoodData> = [
   {
@@ -207,23 +224,7 @@ export const cFoodData: Array<FoodData> = [
     keys: ['cebola em conserva'],
     recipe: true,
   },
-  {
-    ...formatMyFood(carrot as unknown as FoodMyFoodData),
-    name: 'Cenoura',
-    gi: 16,
-    icon: '/images/food/carrot.svg',
-    image:
-      'https://images.unsplash.com/photo-1582515073490-39981397c445?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
-    keys: ['cenoura ralada', 'cenouras raladas', 'pedaços de cenoura'],
-    oneMeasures: [
-      {
-        quantity: 61,
-        type: 'UNITY',
-      },
-    ],
-    unitOfMeasurement: 'gram',
-    type: 'root',
-  },
+  CARROT,
   {
     ...formatMyFood(carrot as unknown as FoodMyFoodData),
     name: 'Cenoura cozida',

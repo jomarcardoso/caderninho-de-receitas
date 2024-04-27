@@ -1,8 +1,34 @@
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 import { formatMyFood, formatNacional } from './utils';
 import { FoodMyFoodData, FoodNacional } from './db.types';
 import foodListNacional from './src/cadastro-nacional/food-list.json';
 import { blackBean, whiteBean } from './src';
+
+export const BEAN: FoodData = {
+  ...formatMyFood(blackBean as unknown as FoodMyFoodData),
+  ...formatNacional(foodListNacional[566] as unknown as FoodNacional),
+  name: 'Feijão preto cozido',
+  gi: 29,
+  icon: '/images/food/bean.svg',
+  image:
+    'https://images.aws.nestle.recipes/resized/a50c044300b75df1169dd0f8e885bad4_feijao-preto-bem-temperado-receitas-nestle_1200_600.jpg',
+  unitOfMeasurement: 'gram',
+  oneMeasures: [
+    {
+      quantity: 172,
+      type: 'CUP',
+    },
+  ],
+  keys: [
+    'feijão',
+    'feijoada',
+    'feijão-preto',
+    'feijão preto',
+    'feijão preto cozido',
+    'feijão-preto cozido',
+  ],
+  version: 'BOILED',
+};
 
 export const beansData: Array<FoodData> = [
   {
@@ -99,31 +125,7 @@ export const beansData: Array<FoodData> = [
     unitOfMeasurement: 'gram',
     version: 'RAW',
   },
-  {
-    ...formatMyFood(blackBean as unknown as FoodMyFoodData),
-    ...formatNacional(foodListNacional[566] as unknown as FoodNacional),
-    name: 'Feijão preto cozido',
-    gi: 29,
-    icon: '/images/food/bean.svg',
-    image:
-      'https://images.aws.nestle.recipes/resized/a50c044300b75df1169dd0f8e885bad4_feijao-preto-bem-temperado-receitas-nestle_1200_600.jpg',
-    unitOfMeasurement: 'gram',
-    oneMeasures: [
-      {
-        quantity: 172,
-        type: 'CUP',
-      },
-    ],
-    keys: [
-      'feijão',
-      'feijoada',
-      'feijão-preto',
-      'feijão preto',
-      'feijão preto cozido',
-      'feijão-preto cozido',
-    ],
-    version: 'BOILED',
-  },
+  BEAN,
   {
     ...formatMyFood(blackBean as unknown as FoodMyFoodData),
     ...formatNacional(foodListNacional[567] as unknown as FoodNacional),

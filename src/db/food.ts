@@ -1,4 +1,4 @@
-import { FoodData, FoodService } from '../services/food';
+import { FoodData } from '../services/food';
 import { recipes } from './recipes';
 import { beansData } from './beans';
 import { aFoodData } from './a';
@@ -24,6 +24,7 @@ import { tFoodData } from './t';
 import { uFoodData } from './u';
 import { vFoodData } from './v';
 import { wFoodData } from './w';
+import { FoodDataService } from '../services/food-data';
 
 export const foodsData: Array<FoodData> = [
   ...aFoodData,
@@ -53,7 +54,9 @@ export const foodsData: Array<FoodData> = [
   ...beansData,
 ];
 
-export const foods = foodsData.map(FoodService.format).map((food, index) => ({
-  ...food,
-  id: index,
-}));
+export const foods = foodsData
+  .map(FoodDataService.format)
+  .map((food, index) => ({
+    ...food,
+    id: index,
+  }));

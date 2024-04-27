@@ -1,3 +1,3 @@
-import { FoodData } from '../services/food';
+import type { FoodData } from '../services/food';
 
 export const xFoodData: Array<FoodData> = [];
