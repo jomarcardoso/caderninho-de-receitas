@@ -12,13 +12,13 @@ import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.
 import { useScroll } from '../../hooks/use-scroll';
 import { InteractiveField } from '../../components/interactive-field/interactive-field';
 import GrocerySvg from '../../assets/svg/history/grocery.svg';
+import { ShoppingListContext } from '../../providers';
 
 /* <div className="main__story-partner">
 <ChefSvg style={{ mixBlendMode: 'multiply' }} />
 </div> */
 
 const MainPanel: FC = () => {
-  const [shoppingList, setShoppingList] = useState('');
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
   const { recipes: savedRecipes = [] } = useContext(RecipesContext);
   const alphabeticalRecipes = savedRecipes.sort((a, b) => {
@@ -32,7 +32,7 @@ const MainPanel: FC = () => {
 
     return 0;
   });
-
+  const { shoppingList } = useContext(ShoppingListContext);
   useScroll();
 
   function handleClickLink(recipe: Recipe) {
@@ -118,10 +118,10 @@ const MainPanel: FC = () => {
                 </>
               }
               name="shopping-list"
-              value={shoppingList}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setShoppingList(event.target.value)
-              }
+              // value={shoppingList.text}
+              // onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              //   setShoppingList(event.target.value)
+              // }
             />
 
             <GrocerySvg style={{ mixBlendMode: 'multiply' }} />

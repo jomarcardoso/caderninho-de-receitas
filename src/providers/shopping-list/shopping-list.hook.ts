@@ -1,25 +1,36 @@
 import { User } from 'firebase/auth';
 import { Firestore, doc, setDoc, getDoc } from 'firebase/firestore';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { FirebaseHook } from '../firebase/firebase.hook';
-import { ShoppingListDB } from './shopping-list.types';
+import { ShoppingList, ShoppingListData } from './shopping-list.types';
+import { ShoppingListService } from './shopping-list.service';
+
+interface ShoppingListDB extends ShoppingListData {
+  userId: string;
+}
 
 const SHOPPING_LIST_STORAGE = 'shopping_list';
 
-function saveListInLocalStorage(list = '') {
+function saveListInLocalStorage(list: ShoppingListData) {
   if (typeof window === 'undefined') return;
 
   localStorage.setItem(SHOPPING_LIST_STORAGE, JSON.stringify(list));
 }
 
-function getListFromLocalStorage(): string {
-  if (typeof window === 'undefined') return '';
+function getListFromLocalStorage(): ShoppingListData {
+  if (typeof window === 'undefined')
+    return {
+      list: '',
+      lastUpdate: 0,
+    };
 
-  return localStorage.getItem(SHOPPING_LIST_STORAGE) || '';
+  return (
+    JSON.parse(localStorage.getItem(SHOPPING_LIST_STORAGE) || 'null') ?? []
+  );
 }
 
 export function useShoppingList(firebase: FirebaseHook): {
-  shoppingList: string;
+  shoppingList: ShoppingList;
   updateShoppingList(list: string): void;
 } {
   const [shoppingList, setShoppingList] = useState(getListFromLocalStorage());
@@ -31,8 +42,9 @@ export function useShoppingList(firebase: FirebaseHook): {
     }
 
     const formattedShoppingList: ShoppingListDB = {
-      list: shoppingList,
+      list: shoppingList.list,
       userId: user.uid,
+      lastUpdate: Date.now(),
     };
 
     try {
@@ -42,10 +54,15 @@ export function useShoppingList(firebase: FirebaseHook): {
     }
   };
 
-  const update = (shoppingList: string, db?: Firestore, user?: User): void => {
+  const update = (list = '', db?: Firestore, user?: User): void => {
     if (typeof window === 'undefined') return;
 
-    saveListInLocalStorage(shoppingList);
+    const lastUpdate = Date.now();
+
+    saveListInLocalStorage({
+      lastUpdate,
+      list,
+    });
     saveOnDB(db, user);
   };
 
@@ -75,10 +92,13 @@ export function useShoppingList(firebase: FirebaseHook): {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          const recipeFromDB = docSnap.data() as ShoppingListDB;
+          const listFromDB = docSnap.data() as ShoppingListData;
 
-          if (recipeFromDB?.list) {
-            setShoppingList(recipeFromDB.list);
+          if (shoppingList.lastUpdate < listFromDB.lastUpdate) {
+            setShoppingList({
+              lastUpdate: listFromDB.lastUpdate,
+              list: listFromDB.list,
+            });
           }
 
           setHasFetched(true);
@@ -90,18 +110,22 @@ export function useShoppingList(firebase: FirebaseHook): {
     [firebase.user?.uid, shoppingList],
   );
 
-  useEffect(() => {
-    if (firebase.db && !hasFetched) {
-      getSavedShoppingList(firebase.db);
-    }
-  }, [firebase, getSavedShoppingList, hasFetched]);
+  // useEffect(() => {
+  //   if (firebase.db && !hasFetched) {
+  //     getSavedShoppingList(firebase.db);
+  //   }
+  // }, [firebase, getSavedShoppingList, hasFetched]);
 
-  useEffect(() => {
-    update(shoppingList, firebase.db, firebase.user);
-  }, [firebase, shoppingList]);
+  // useEffect(() => {
+  //   update(shoppingList.list, firebase.db, firebase.user);
+  // }, [firebase, shoppingList]);
+
+  const formattedhoppingList = useMemo(() => {
+    return ShoppingListService.format(shoppingList.list);
+  }, [shoppingList]);
 
   return {
-    shoppingList,
+    shoppingList: formattedhoppingList,
     updateShoppingList: update,
   };
 }

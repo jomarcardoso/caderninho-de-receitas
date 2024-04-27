@@ -17,13 +17,15 @@ const Index: FC<AppProps> = () => {
       <RecipesProvider>
         <ShoppingListProvider>
           <CurrentRecipeProvider>
-            <NavigationProvider>
-              <LoadingProvider>
-                <EditingProvider>
-                  <AppPage />
-                </EditingProvider>
-              </LoadingProvider>
-            </NavigationProvider>
+            <ShoppingListProvider>
+              <NavigationProvider>
+                <LoadingProvider>
+                  <EditingProvider>
+                    <AppPage />
+                  </EditingProvider>
+                </LoadingProvider>
+              </NavigationProvider>
+            </ShoppingListProvider>
           </CurrentRecipeProvider>
         </ShoppingListProvider>
       </RecipesProvider>

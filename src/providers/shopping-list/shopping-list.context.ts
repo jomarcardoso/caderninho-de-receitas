@@ -1,6 +1,12 @@
 import { createContext } from 'react';
+import { ShoppingList, ShoppingListData } from './shopping-list.types';
 
 export const ShoppingListContext = createContext<{
-  shoppingList: string;
+  shoppingList: ShoppingList;
   updateShoppingList?(list: string): void;
-}>({ shoppingList: '' });
+}>({
+  shoppingList: {
+    list: [],
+    text: '',
+  },
+});

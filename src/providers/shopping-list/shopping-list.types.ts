@@ -1,8 +1,8 @@
 import type { Food } from '../../services/food';
 
-export interface ShoppingListDB {
+export interface ShoppingListData {
   list: string;
-  userId: string;
+  lastUpdate: number;
 }
 
 export interface ShoppingItem {
