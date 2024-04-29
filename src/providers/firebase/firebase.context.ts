@@ -1,10 +1,5 @@
 import { Auth, User, OAuthCredential } from 'firebase/auth';
 import { createContext } from 'react';
+import { FirebaseHook } from './firebase.hook';
 
-export const FirebaseContext = createContext<{
-  auth?: Auth;
-  user?: User;
-  credential?: OAuthCredential;
-  login?(): void;
-  logout?(): void;
-}>({});
+export const FirebaseContext = createContext<FirebaseHook>({});
