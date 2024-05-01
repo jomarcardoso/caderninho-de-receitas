@@ -1,7 +1,8 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import type { Data } from './use-data';
 import { FirebaseContext } from '../providers';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { useIsOnline } from './use-is-online';
 
 const DEFAULT_DATA: Data = {
   lastUpdate: 0,
@@ -10,47 +11,55 @@ const DEFAULT_DATA: Data = {
 
 export const useDB = <T>(
   collection = '',
-  setStorage: (newData: Data<T>) => Data<T> | undefined,
 ): [Data<T>, (newData: Data<T>) => void] => {
   const firebase = useContext(FirebaseContext);
   const [data, setData] = useState<Data<T>>(DEFAULT_DATA as Data<T>);
+  const isOnline = useIsOnline();
+  const { auth, db } = firebase;
+  const uid = auth?.currentUser?.uid;
 
-  /**
-   * if return data, the data here is more recent
-   */
-  const _set = useCallback((newData: Data<T>): Data<T> | undefined => {
+  const _set = useCallback(async (newData: Data<T>) => {
     if (typeof window === 'undefined') {
       return;
     }
 
-    const newestData = setStorage(newData);
+    if (!uid || !db || !isOnline) return;
 
-    if (!firebase.user || !firebase.db) return;
+    try {
+      await setDoc(doc(db, collection, uid), newData);
 
-    if (newestData) {
-      try {
-        setDoc(doc(firebase.db, collection, firebase.user.uid), newestData);
-      } catch (e) {
-        console.log('erro ao salvar lista de compras', e);
-      }
+      setData(newData);
+    } catch (e) {
+      console.log('erro ao salvar lista de compras', e);
+    }
+  }, []);
 
+  const _get = useCallback(async () => {
+    if (!db || !uid || !isOnline) {
       return;
     }
 
-    setDoc(doc(firebase.db, collection, firebase.user.uid), newData);
-  }, []);
+    const docRef = doc(db, collection, uid);
 
+    try {
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const documentData = docSnap.data() as Data<T>;
+
+        setData(documentData);
+      }
+    } catch (error) {
+      console.log('erro ao buscar receitas', error);
+    }
+  }, [db, uid, isOnline]);
+
+  //
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (data) return;
 
-    const item = localStorage.getItem(collection);
-
-    if (!item) return;
-
-    const initialData = JSON.parse(item || 'null') ?? (DEFAULT_DATA as Data<T>);
-
-    setData(initialData);
-  }, []);
+    _get();
+  }, [db, uid, isOnline]);
 
   return [data, _set];
 };

@@ -8,29 +8,22 @@ const DEFAULT_DATA: Data = {
 
 export const useStorage = <T>(
   collection = '',
-): [Data<T>, (newData: Data<T>) => Data<T> | undefined] => {
+): [Data<T>, (newData: Data<T>) => void => {
   const [data, setData] = useState<Data<T>>(DEFAULT_DATA as Data<T>);
 
-  /**
-   * if return data, the data here is more recent
-   */
-  const _set = useCallback((newData: Data<T>): Data<T> | undefined => {
+  const _set = useCallback((newData: Data<T>) => {
     if (typeof window === 'undefined') {
       return;
     }
 
-    if (newData.lastUpdate > data?.lastUpdate) {
-      setData(newData);
-      localStorage.setItem(collection, JSON.stringify(newData));
-
-      return;
-    }
-
-    return data;
+    setData(newData);
+    localStorage.setItem(collection, JSON.stringify(newData));
   }, []);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
+  const _get = useCallback(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
 
     const item = localStorage.getItem(collection);
 
@@ -39,6 +32,12 @@ export const useStorage = <T>(
     const initialData = JSON.parse(item || 'null') ?? (DEFAULT_DATA as Data<T>);
 
     setData(initialData);
+  }, []);
+
+  useEffect(() => {
+    if (data) return;
+
+    _get();
   }, []);
 
   return [data, _set];
