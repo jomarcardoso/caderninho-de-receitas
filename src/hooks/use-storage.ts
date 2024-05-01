@@ -6,38 +6,38 @@ const DEFAULT_DATA: Data = {
   info: null,
 };
 
+function getInitialData<T>(collection = ''): Data<T> {
+  if (typeof window === 'undefined') {
+    return DEFAULT_DATA as Data<T>;
+  }
+
+  const item = localStorage.getItem(collection);
+
+  if (!item) {
+    return DEFAULT_DATA as Data<T>;
+  }
+
+  return JSON.parse(item || 'null') ?? (DEFAULT_DATA as Data<T>);
+}
+
 export const useStorage = <T>(
   collection = '',
-): [Data<T>, (newData: Data<T>) => void => {
-  const [data, setData] = useState<Data<T>>(DEFAULT_DATA as Data<T>);
+): [Data<T>, (newData: Data<T>) => void] => {
+  const [data, setData] = useState<Data<T>>(getInitialData<T>(collection));
 
   const _set = useCallback((newData: Data<T>) => {
     if (typeof window === 'undefined') {
       return;
     }
 
-    setData(newData);
-    localStorage.setItem(collection, JSON.stringify(newData));
-  }, []);
-
-  const _get = useCallback(() => {
-    if (typeof window === 'undefined') {
+    if (newData.lastUpdate < data.lastUpdate) {
       return;
     }
 
-    const item = localStorage.getItem(collection);
+    console.log(newData);
 
-    if (!item) return;
-
-    const initialData = JSON.parse(item || 'null') ?? (DEFAULT_DATA as Data<T>);
-
-    setData(initialData);
-  }, []);
-
-  useEffect(() => {
-    if (data) return;
-
-    _get();
+    setData(newData);
+    localStorage.setItem(collection, JSON.stringify(newData));
   }, []);
 
   return [data, _set];

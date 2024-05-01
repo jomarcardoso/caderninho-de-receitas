@@ -1,16 +1,14 @@
 import React, { FC, HTMLProps, useContext, useMemo } from 'react';
-import { useShoppingList } from './shopping-list.hook';
-import { FirebaseContext } from '../firebase';
 import { ShoppingListContext } from './shopping-list.context';
+import { useData } from '../../hooks/use-data';
 
 export const ShoppingListProvider: FC<HTMLProps<HTMLDivElement>> = ({
   children,
 }) => {
-  const firebase = useContext(FirebaseContext);
-  const { shoppingList, updateShoppingList } = useShoppingList(firebase);
+  const [shoppingList, setShoppingList] = useData<string>('shopping_list', '');
 
   return (
-    <ShoppingListContext.Provider value={{ shoppingList, updateShoppingList }}>
+    <ShoppingListContext.Provider value={{ shoppingList, setShoppingList }}>
       {children}
     </ShoppingListContext.Provider>
   );

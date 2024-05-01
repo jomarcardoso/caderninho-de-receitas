@@ -1,5 +1,5 @@
-import React, { ChangeEvent, FC, useContext, useState } from 'react';
-import { IoAddCircleOutline, IoCartOutline } from 'react-icons/io5';
+import React, { FC, useContext } from 'react';
+import { IoAddCircleOutline } from 'react-icons/io5';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
@@ -10,9 +10,7 @@ import { ListItem } from '../../components/list-item/list-item';
 import { UserBox } from '../../components/user-box/user-box';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { useScroll } from '../../hooks/use-scroll';
-import { InteractiveField } from '../../components/interactive-field/interactive-field';
-import GrocerySvg from '../../assets/svg/history/grocery.svg';
-import { ShoppingListContext } from '../../providers';
+import { ShoppingList } from '../../components/shopping-list';
 
 /* <div className="main__story-partner">
 <ChefSvg style={{ mixBlendMode: 'multiply' }} />
@@ -32,7 +30,6 @@ const MainPanel: FC = () => {
 
     return 0;
   });
-  const { shoppingList } = useContext(ShoppingListContext);
   useScroll();
 
   function handleClickLink(recipe: Recipe) {
@@ -102,31 +99,7 @@ const MainPanel: FC = () => {
           </div>
         </div>
 
-        <div
-          className="grid mt-5 pb-5"
-          ovo-scrollspy-content="2"
-          id="lista-de-compras"
-        >
-          <div className="g-col-12">
-            <InteractiveField
-              label={
-                <>
-                  lista de compras
-                  <span className="svg-icon">
-                    <IoCartOutline />
-                  </span>
-                </>
-              }
-              name="shopping-list"
-              // value={shoppingList.text}
-              // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-              //   setShoppingList(event.target.value)
-              // }
-            />
-
-            <GrocerySvg style={{ mixBlendMode: 'multiply' }} />
-          </div>
-        </div>
+        <ShoppingList />
       </div>
     </Layout>
   );

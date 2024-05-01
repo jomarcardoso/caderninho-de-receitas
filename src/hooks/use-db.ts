@@ -4,9 +4,14 @@ import { FirebaseContext } from '../providers';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useIsOnline } from './use-is-online';
 
-const DEFAULT_DATA: Data = {
+interface DBData<T = null> extends Data<T> {
+  userId: string;
+}
+
+const DEFAULT_DATA: DBData = {
   lastUpdate: 0,
   info: null,
+  userId: '',
 };
 
 export const useDB = <T>(
@@ -14,25 +19,42 @@ export const useDB = <T>(
 ): [Data<T>, (newData: Data<T>) => void] => {
   const firebase = useContext(FirebaseContext);
   const [data, setData] = useState<Data<T>>(DEFAULT_DATA as Data<T>);
+  const [hasFetched, setHasFetched] = useState(false);
   const isOnline = useIsOnline();
   const { auth, db } = firebase;
   const uid = auth?.currentUser?.uid;
 
-  const _set = useCallback(async (newData: Data<T>) => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+  console.log(hasFetched);
 
-    if (!uid || !db || !isOnline) return;
+  const _set = useCallback(
+    async (newData: Data<T>) => {
+      if (typeof window === 'undefined') {
+        return;
+      }
 
-    try {
-      await setDoc(doc(db, collection, uid), newData);
+      console.log(!uid, !db, !isOnline, !hasFetched);
 
-      setData(newData);
-    } catch (e) {
-      console.log('erro ao salvar lista de compras', e);
-    }
-  }, []);
+      if (!uid || !db || !isOnline || !hasFetched) return;
+
+      if (newData.lastUpdate < data.lastUpdate) {
+        return;
+      }
+
+      try {
+        const dbData: DBData<T> = {
+          ...newData,
+          userId: uid,
+        };
+
+        await setDoc(doc(db, collection, uid), dbData);
+
+        setData(newData);
+      } catch (e) {
+        console.log('erro ao salvar lista de compras', e);
+      }
+    },
+    [hasFetched, uid, db, isOnline],
+  );
 
   const _get = useCallback(async () => {
     if (!db || !uid || !isOnline) {
@@ -44,19 +66,29 @@ export const useDB = <T>(
     try {
       const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        const documentData = docSnap.data() as Data<T>;
+      setHasFetched(true);
 
-        setData(documentData);
+      if (docSnap.exists()) {
+        const { info, lastUpdate } = docSnap.data() as DBData<T>;
+
+        setData({
+          info,
+          lastUpdate,
+        });
+
+        return;
       }
+
+      // announce there is no fetched data, after set has fetched to true
+      setData({ ...DEFAULT_DATA });
     } catch (error) {
       console.log('erro ao buscar receitas', error);
     }
-  }, [db, uid, isOnline]);
+  }, [db, uid, isOnline, setHasFetched, setData]);
 
   //
   useEffect(() => {
-    if (data) return;
+    if (data.info) return;
 
     _get();
   }, [db, uid, isOnline]);

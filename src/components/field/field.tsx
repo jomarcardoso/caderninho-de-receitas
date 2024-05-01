@@ -10,6 +10,8 @@ import React, {
   MutableRefObject,
   useMemo,
   useCallback,
+  FocusEventHandler,
+  FocusEvent,
 } from 'react';
 import {
   TextareaAutosize,
@@ -45,7 +47,7 @@ const Field: FC<FieldProps> = ({
   size,
   ...props
 }) => {
-  const { id: inputId } = props;
+  const { id: inputId, onBlur, onFocus } = props;
   const [focused, setFocused] = useState(false);
   const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
@@ -74,14 +76,24 @@ const Field: FC<FieldProps> = ({
     [props],
   );
 
+  const handleFocus = useCallback((event: Event) => {
+    onFocus?.(event as any);
+    setFocused(true);
+  }, []);
+
+  const handleBlur = useCallback((event: Event) => {
+    onBlur?.(event as any);
+    setFocused(false);
+  }, []);
+
   const memoizedInput = useMemo(
     () => (
       <input
         type="text"
         className="field__input"
         {...(props as HTMLProps<HTMLInputElement>)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={handleFocus as any}
+        onBlur={handleBlur as any}
         onChange={handleChange}
         ref={inputRef}
       />
@@ -95,8 +107,8 @@ const Field: FC<FieldProps> = ({
         className="field__input"
         minRows={1}
         {...(props as TextareaAutosizeProps)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={handleFocus as any}
+        onBlur={handleBlur as any}
         onChange={handleChange}
       />
     ),
