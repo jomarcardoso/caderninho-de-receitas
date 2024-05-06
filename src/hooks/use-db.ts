@@ -24,17 +24,18 @@ export const useDB = <T>(
   const { auth, db } = firebase;
   const uid = auth?.currentUser?.uid;
 
-  console.log(hasFetched);
-
   const _set = useCallback(
     async (newData: Data<T>) => {
-      if (typeof window === 'undefined') {
+      if (
+        typeof window === 'undefined' ||
+        !uid ||
+        !db ||
+        !isOnline ||
+        !hasFetched ||
+        newData === data
+      ) {
         return;
       }
-
-      console.log(!uid, !db, !isOnline, !hasFetched);
-
-      if (!uid || !db || !isOnline || !hasFetched) return;
 
       if (newData.lastUpdate < data.lastUpdate) {
         return;

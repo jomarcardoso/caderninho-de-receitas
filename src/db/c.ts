@@ -20,6 +20,16 @@ import {
   onion,
 } from './src';
 
+export const CINNAMON: FoodData = {
+  ...formatMyFood(cinnamon as unknown as FoodMyFoodData),
+  name: 'Canela',
+  icon: '/images/food/cinnamon.png',
+  image:
+    'https://images.unsplash.com/photo-1611256243212-48a03787ea01?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1177&q=80',
+  keys: ['canela', 'casca de canela', 'canela em pó', 'canela em casca'],
+  type: 'powder',
+};
+
 export const CARROT: FoodData = {
   ...formatMyFood(carrot as unknown as FoodMyFoodData),
   name: 'Cenoura',
@@ -101,15 +111,7 @@ export const cFoodData: Array<FoodData> = [
       'https://cdn.panelinha.com.br/receita/1339470000000-Caldo-caseiro-de-legumes.jpg',
     keys: ['caldo de legume', 'caldo de legumes'],
   },
-  {
-    ...formatMyFood(cinnamon as unknown as FoodMyFoodData),
-    name: 'Canela',
-    icon: '/images/food/cinnamon.png',
-    image:
-      'https://images.unsplash.com/photo-1611256243212-48a03787ea01?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1177&q=80',
-    keys: ['canela', 'casca de canela', 'canela em pó', 'canela em casca'],
-    type: 'powder',
-  },
+  CINNAMON,
   {
     ...formatNacional(foodListNacional[189] as unknown as FoodNacional),
     name: 'carambola',
