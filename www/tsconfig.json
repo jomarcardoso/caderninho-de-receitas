@@ -9,8 +9,8 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "target" : "esnext",
-    "moduleResolution": "NodeNext",
-    "module": "ESNext",
+    "moduleResolution": "node",
+    "module": "esnext",
     "skipLibCheck": true
   },
   "include": [

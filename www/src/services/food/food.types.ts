@@ -53,7 +53,7 @@ export type FoodType =
   | 'cheese'
   | 'powder';
 
-export interface Food {
+interface FoodBase {
   id: number;
   name: string;
   description: string;
@@ -71,10 +71,7 @@ export interface Food {
   totalFat: number;
   dietaryFiber: number;
   sugar: number;
-  minerals: Minerals;
-  vitamins: Vitamins;
   gl: number;
-  aminoAcids: AminoAcids;
   unitOfMeasurement: UnitOfMeasurement;
   oneMeasures: Array<Measure>;
   keys: Array<string>;
@@ -85,12 +82,16 @@ export interface Food {
   type: FoodType;
 }
 
-export interface FoodData
-  extends Partial<Omit<Food, 'minerals' | 'vitamins' | 'aminoAcids'>> {
-  minerals?: MineralsData;
-  vitamins?: VitaminsData;
-  aminoAcids?: AminoAcidsData;
+export interface Food extends FoodBase {
+  aminoAcids: AminoAcids;
+  minerals: Minerals;
+  vitamins: Vitamins;
 }
+
+export type FoodData = Partial<FoodBase> &
+  Partial<AminoAcidsData> &
+  Partial<MineralsData> &
+  Partial<VitaminsData>;
 
 export enum FoodVersions {
   RAW = 'cru',
@@ -103,7 +104,9 @@ export enum FoodVersions {
 export type FoodVersion = keyof typeof FoodVersions;
 
 export const FOOD: Food = {
-  aminoAcids: AMINO_ACIDS,
+  aminoAcids: { ...AMINO_ACIDS },
+  minerals: { ...MINERALS },
+  vitamins: { ...VITAMINS },
   id: 0,
   keys: [],
   name: '',
@@ -117,7 +120,6 @@ export const FOOD: Food = {
   gi: 0,
   gl: 0,
   image: '',
-  minerals: MINERALS,
   monounsaturatedFats: 0,
   polyunsaturatedFats: 0,
   oneMeasures: [],
@@ -126,7 +128,6 @@ export const FOOD: Food = {
   totalFat: 0,
   cholesterol: 0,
   unitOfMeasurement: 'gram',
-  vitamins: VITAMINS,
   version: 'RAW',
   rawId: 0,
   recipe: false,
