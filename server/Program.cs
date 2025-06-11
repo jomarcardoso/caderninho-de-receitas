@@ -18,6 +18,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 
+// blazor
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor(); // Blazor Server
+builder.Services.AddScoped<PageTitleService>();
+
+// Add http client
+builder.Services.AddHttpClient("Default", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["BaseAddress"] ?? "https://localhost:7269/");
+});
+builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Default"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,5 +52,12 @@ using (var scope = app.Services.CreateScope())
     // db.Database.Migrate();
     db.Database.EnsureCreated();
 }
+
+app.UseStaticFiles();
+app.UseRouting();
+
+// blazor
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 
 app.Run();

@@ -8,7 +8,7 @@ namespace server
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
 
-        public DbSet<Recipe> recipes { get; set; }
-        public DbSet<Food> foods { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Food> Foods { get; set; }
     }
 }
