@@ -19,28 +19,22 @@ export const SWEET_POTATO: FoodData = {
   icon: '/images/food/sweet-potato.png',
   image:
     'https://images.unsplash.com/photo-1584699006710-3ad3b82fce7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
-  keys: ['batata doce', 'batata-doce', 'batata doce cozida'],
+  keys: 'batata doce, batata-doce, batata doce cozida',
   oneMeasures: [
     {
       quantity: 240,
-      type: 'UNITY',
+      type: 3,
     },
   ],
-  unitOfMeasurement: 'gram',
-  type: 'root',
+  unitOfMeasurement: 0,
+  type: 9,
 };
 
 export const bFoodData: Array<FoodData> = [
   {
     name: 'Babaganouch',
     image: 'https://cdn.panelinha.com.br/receita/958532400000-Babaganouch.jpg',
-    keys: [
-      'babaganouch',
-      'baba ghanoush',
-      'babaganuche',
-      'baba ganoush',
-      'babaganoush',
-    ],
+    keys: 'babaganouch, baba ghanoush, babaganuche, baba ganoush, babaganoush',
   },
   {
     name: 'Banana Mysore',
@@ -51,34 +45,32 @@ export const bFoodData: Array<FoodData> = [
       'https://www.mundoecologia.com.br/wp-content/gallery/banana-my/Banana-Mysore-2.jpg',
     calories: 89,
     carbohydrates: 12,
-    aminoAcids: {
-      tryptophan: 9,
-      threonine: 28,
-      isoleucine: 28,
-      leucine: 68,
-      lysine: 50,
-      methionine: 8,
-      cystine: 9,
-      phenylalanine: 49,
-      tyrosine: 9,
-      valine: 47,
-      histidine: 77,
-      arginine: 49,
-      alanine: 40,
-      asparticAcid: 124,
-      glutamicAcid: 152,
-      glycine: 28,
-      proline: 38,
-      serine: 40,
-      glutamine: 0,
-    },
+    tryptophan: 9,
+    threonine: 28,
+    isoleucine: 28,
+    leucine: 68,
+    lysine: 50,
+    methionine: 8,
+    cystine: 9,
+    phenylalanine: 49,
+    tyrosine: 9,
+    valine: 47,
+    histidine: 77,
+    arginine: 49,
+    alanine: 40,
+    asparticAcid: 124,
+    glutamicAcid: 152,
+    glycine: 28,
+    proline: 38,
+    serine: 40,
+    glutamine: 0,
     oneMeasures: [
       {
-        type: 'UNITY',
+        type: 3,
         quantity: 100,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     ...mergeWith(
@@ -90,39 +82,37 @@ export const bFoodData: Array<FoodData> = [
     icon: '/images/food/banana.svg',
     image:
       'https://cdn.awsli.com.br/600x450/1693/1693441/produto/92535301/9f9c9fa2f7.jpg',
-    keys: ['banana', 'banana nanica', 'bananas', 'bananas nanicax'],
+    keys: 'banana, banana nanica, bananas, bananas nanicax',
     gi: 70,
     gl: 14,
     calories: 89,
     carbohydrates: 28,
-    aminoAcids: {
-      tryptophan: 9,
-      threonine: 28,
-      isoleucine: 28,
-      leucine: 68,
-      lysine: 50,
-      methionine: 8,
-      cystine: 9,
-      phenylalanine: 49,
-      tyrosine: 9,
-      valine: 47,
-      histidine: 77,
-      arginine: 49,
-      alanine: 40,
-      asparticAcid: 124,
-      glutamicAcid: 152,
-      glycine: 28,
-      proline: 38,
-      serine: 40,
-      glutamine: 0,
-    },
+    tryptophan: 9,
+    threonine: 28,
+    isoleucine: 28,
+    leucine: 68,
+    lysine: 50,
+    methionine: 8,
+    cystine: 9,
+    phenylalanine: 49,
+    tyrosine: 9,
+    valine: 47,
+    histidine: 77,
+    arginine: 49,
+    alanine: 40,
+    asparticAcid: 124,
+    glutamicAcid: 152,
+    glycine: 28,
+    proline: 38,
+    serine: 40,
+    glutamine: 0,
     oneMeasures: [
       {
-        type: 'UNITY',
+        type: 3,
         quantity: 110,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     ...formatMyFood(banana as unknown as FoodMyFoodData),
@@ -134,22 +124,22 @@ export const bFoodData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1583485646409-f9feb9af2a67?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     calories: 89,
     carbohydrates: 28,
-    unitOfMeasurement: 'gram',
-    keys: ['banana'],
+    unitOfMeasurement: 0,
+    keys: 'banana',
     oneMeasures: [
       {
         quantity: 70,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     name: 'Banha de porco',
     icon: '/images/food/pork.png',
     image:
       'https://data.gessulli.com.br/file/2019/08/21/H102608-F00000-Q576-2000x0.jpeg',
-    keys: ['banha', 'banha de porco'],
+    keys: 'banha, banha de porco',
     calories: 902,
     totalFat: 95,
     saturedFats: 39,
@@ -162,7 +152,7 @@ export const bFoodData: Array<FoodData> = [
       b6: 0,
       d: 102,
     },
-    type: 'oil',
+    type: 6,
   },
   {
     ...formatMyFood(boiledPotato as unknown as FoodMyFoodData),
@@ -171,15 +161,15 @@ export const bFoodData: Array<FoodData> = [
     icon: '/images/food/potato.svg',
     image:
       'https://images.unsplash.com/photo-1563012678-bdfec255931b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
-    unitOfMeasurement: 'gram',
-    keys: ['batatinha', 'batata inglesa'],
+    unitOfMeasurement: 0,
+    keys: 'batatinha, batata inglesa',
     oneMeasures: [
       {
         quantity: 225,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'root',
+    type: 9,
   },
   SWEET_POTATO,
   {
@@ -188,18 +178,18 @@ export const bFoodData: Array<FoodData> = [
     icon: '/images/food/eggplant.png',
     image:
       'https://images.unsplash.com/photo-1613881553903-4543f5f2cac9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
-    keys: ['berinjela', 'beringela', 'beringela crua'],
+    keys: 'berinjela, beringela, beringela crua',
     oneMeasures: [
       {
         quantity: 170,
-        type: 'UNITY',
+        type: 3,
       },
       {
         quantity: 270,
-        type: 'UNITY_LARGE',
+        type: 5,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     ...formatMyFood(beetroot as unknown as FoodMyFoodData),
@@ -207,14 +197,14 @@ export const bFoodData: Array<FoodData> = [
     icon: '/images/food/beetroot.png',
     image:
       'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
-    keys: ['beterraba', 'beterraba crua'],
+    keys: 'beterraba, beterraba crua',
     oneMeasures: [
       {
         quantity: 140,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'root',
+    type: 9,
   },
   {
     ...formatMyFood(bakingSoda as unknown as FoodMyFoodData),
@@ -222,8 +212,8 @@ export const bFoodData: Array<FoodData> = [
     icon: '/images/food/baking-soda.png',
     image:
       'https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/06/baking-soda-water-and-wooden-spoon-1296x728-1.jpg?h=1528',
-    keys: ['bicarbonato', 'bicarbonato de sódio'],
-    type: 'powder',
+    keys: 'bicarbonato, bicarbonato de sódio',
+    type: 14,
   },
   {
     ...formatNacional(foodListNacional[7] as unknown as FoodNacional),
@@ -231,7 +221,7 @@ export const bFoodData: Array<FoodData> = [
     icon: '/images/food/biscuit.png',
     image:
       'https://3.bp.blogspot.com/-TonRrjPIQss/XAWN49EDjuI/AAAAAAAANqE/oJEtizgTh3Q8nKYzxOUyNfBxPPyxFAaKQCLcBGAs/s1600/biscoito-de-maizena.jpg',
-    keys: ['biscoito de maizena'],
+    keys: 'biscoito de maizena',
   },
   {
     ...formatNacional(foodListNacional[8] as unknown as FoodNacional),
@@ -239,7 +229,7 @@ export const bFoodData: Array<FoodData> = [
     icon: '/images/food/oreo.png',
     image:
       'https://www.mashed.com/img/gallery/oreo-just-hinted-at-a-new-flavor-and-fans-cant-stop-guessing/l-intro-1645649340.jpg',
-    keys: ['biscoito recheado', 'oreo', 'bolacha recheada', 'biscoito oreo'],
+    keys: 'biscoito recheado, oreo, bolacha recheada, biscoito oreo',
   },
   {
     name: 'Bolo de cenoura',
@@ -247,14 +237,14 @@ export const bFoodData: Array<FoodData> = [
     icon: '/images/food/carrot-cake.svg',
     image:
       'https://d1uz88p17r663j.cloudfront.net/original/2b76e99abc4136ccf26008c1c387023f_Bolo-de-cenoura-com-cobertura-de-brigadeiro-receitas-nestle.jpg',
-    unitOfMeasurement: 'gram',
+    unitOfMeasurement: 0,
     recipe: true,
-    keys: ['bolo de cenoura com cobertura', 'bolo de cenoura'],
+    keys: 'bolo de cenoura com cobertura, bolo de cenoura',
   },
   {
     name: 'Bolo de laranja',
     image:
       'https://cdn.panelinha.com.br/receita/1632405810503-bolo-laranja.jpg',
-    keys: ['bolo de laranja'],
+    keys: 'bolo de laranja',
   },
 ];

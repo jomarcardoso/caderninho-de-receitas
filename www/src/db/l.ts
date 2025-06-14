@@ -17,11 +17,11 @@ export const lFoodData: Array<FoodData> = [
     oneMeasures: [
       {
         quantity: 137,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    type: 'fruit',
+    unitOfMeasurement: 0,
+    type: 4,
   },
   {
     ...formatMyFood(coconutMilk as unknown as FoodMyFoodData),
@@ -29,8 +29,8 @@ export const lFoodData: Array<FoodData> = [
     icon: '/images/food/coconut-milk.png',
     image:
       'https://media.istockphoto.com/photos/coconut-vegan-milk-with-halves-of-nuts-over-brown-background-picture-id1304494306?b=1&k=20&m=1304494306&s=170667a&w=0&h=bLfsZbv8t6Oej_GXr3KPy7uLuETt_Yb_w6tNaLtlm3s=',
-    keys: ['leite de coco'],
-    type: 'liquid',
+    keys: 'leite de coco',
+    type: 0,
   },
   {
     ...formatMyFood(milk as unknown as FoodMyFoodData),
@@ -38,9 +38,9 @@ export const lFoodData: Array<FoodData> = [
     icon: '/images/food/milk.svg',
     image:
       'https://images.unsplash.com/photo-1608634960479-c70cf0c3dece?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
-    unitOfMeasurement: 'liter',
-    keys: ['leite', 'leite de vaca'],
-    type: 'liquid',
+    unitOfMeasurement: 1,
+    keys: 'leite, leite de vaca',
+    type: 0,
   },
   {
     ...formatNacional(foodListNacional[576] as unknown as FoodNacional),
@@ -48,9 +48,9 @@ export const lFoodData: Array<FoodData> = [
     icon: '/images/food/lentils.png',
     image:
       'https://d1uz88p17r663j.cloudfront.net/resized/7b01c063de9f3c6a8b7b786f54df253c_lentilhas-vinho-receitas-nestle_1200_600.jpg',
-    keys: ['lentilha', 'lentilhas', 'lentilha cozida', 'lentilhas cozidas'],
-    unitOfMeasurement: 'gram',
-    type: 'seed',
+    keys: 'lentilha, lentilhas, lentilha cozida, lentilhas cozidas',
+    unitOfMeasurement: 0,
+    type: 1,
   },
   {
     ...formatNacional(foodListNacional[577] as unknown as FoodNacional),
@@ -58,25 +58,25 @@ export const lFoodData: Array<FoodData> = [
     icon: '/images/food/lentils.png',
     image:
       'https://www.acasaencantada.com.br/wp-content/uploads/2019/09/lentilha.png',
-    keys: ['lentilha crua', 'farinha de lentilha', 'farinha de lentilhas'],
-    unitOfMeasurement: 'gram',
-    type: 'seed',
+    keys: 'lentilha crua, farinha de lentilha, farinha de lentilhas',
+    unitOfMeasurement: 0,
+    type: 1,
   },
   {
     ...formatMyFood(lemon as unknown as FoodMyFoodData),
     name: 'Limão',
-    keys: ['limão', 'limões'],
+    keys: 'limão, limões',
     icon: '/images/food/lemon.png',
     image:
       'https://minhasaude.proteste.org.br/wp-content/uploads/2020/10/lim%C3%B5es-970x472.jpg',
     oneMeasures: [
       {
         quantity: 170,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    type: 'fruit',
+    unitOfMeasurement: 0,
+    type: 4,
   },
   {
     ...formatNacional(foodListNacional[593] as unknown as FoodNacional),
@@ -84,9 +84,9 @@ export const lFoodData: Array<FoodData> = [
     icon: '/images/food/linseed.svg',
     image:
       'https://images.immediate.co.uk/production/volatile/sites/30/2020/02/linseed2-62e1099.jpg?quality=90&resize=556,505',
-    keys: ['semente de linhaça'],
-    unitOfMeasurement: 'gram',
-    type: 'seed',
+    keys: 'semente de linhaça',
+    unitOfMeasurement: 0,
+    type: 1,
   },
   {
     ...formatMyFood(porkLoin as unknown as FoodMyFoodData),
@@ -94,15 +94,7 @@ export const lFoodData: Array<FoodData> = [
     icon: '/images/food/chop.png',
     image:
       'https://media.istockphoto.com/photos/baked-pork-loin-with-whole-grain-mustard-picture-id693429828?b=1&k=20&m=693429828&s=170667a&w=0&h=LogyIFTqLo69l8rDzTlDGApXotSFYZDUDffvNl7-ZRc=',
-    keys: [
-      'lombo',
-      'lombinho',
-      'lombo de porco',
-      'filé de porco',
-      'lombo suíno',
-      'filé suíno',
-      'filé mignon suíno',
-    ],
-    type: 'meat',
+    keys: 'lombo, lombinho, lombo de porco, filé de porco, lombo suíno, filé suíno, filé mignon suíno',
+    type: 10,
   },
 ];

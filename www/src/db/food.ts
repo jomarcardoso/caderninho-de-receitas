@@ -61,15 +61,15 @@ export const foods = foodsData
     id: index,
   }));
 
-// console.log(JSON.stringify(foodsData));
+console.log(JSON.stringify(foodsData));
 
-const oi = foodsData.reduce((acc, a, i) => {
-  return `\
-${a.oneMeasures?.length ? a.oneMeasures?.map((measure) => `(${i}, ${measure.quantity}, '${measure.type}')\n`) : ''}${acc},
-(${i}, ${typeof a.name === 'string' ? `'${a.name || ''}'` : a.name || 0}, ${typeof a.description === 'string' ? `'${a.description || ''}'` : a.description || 0}, ${typeof a.image === 'string' ? `'${a.image || ''}'` : a.image || 0}, ${typeof a.gi === 'string' ? `'${a.gi || ''}'` : a.gi || 0}, ${typeof a.calories === 'string' ? `'${a.calories || ''}'` : a.calories || 0}, ${typeof a.acidification === 'string' ? `'${a.acidification || ''}'` : a.acidification || 0}, ${typeof a.carbohydrates === 'string' ? `'${a.carbohydrates || ''}'` : a.carbohydrates || 0}, ${typeof a.ashes === 'string' ? `'${a.ashes || ''}'` : a.ashes || 0}, ${typeof a.proteins === 'string' ? `'${a.proteins || ''}'` : a.proteins || 0}, ${typeof a.saturedFats === 'string' ? `'${a.saturedFats || ''}'` : a.saturedFats || 0}, ${typeof a.monounsaturatedFats === 'string' ? `'${a.monounsaturatedFats || ''}'` : a.monounsaturatedFats || 0}, ${typeof a.polyunsaturatedFats === 'string' ? `'${a.polyunsaturatedFats || ''}'` : a.polyunsaturatedFats || 0}, ${typeof a.cholesterol === 'string' ? `'${a.cholesterol || ''}'` : a.cholesterol || 0}, ${typeof a.totalFat === 'string' ? `'${a.totalFat || ''}'` : a.totalFat || 0}, ${typeof a.dietaryFiber === 'string' ? `'${a.dietaryFiber || ''}'` : a.dietaryFiber || 0}, ${typeof a.sugar === 'string' ? `'${a.sugar || ''}'` : a.sugar || 0}, ${typeof a.gl === 'string' ? `'${a.gl || ''}'` : a.gl || 0}, ${typeof a.unitOfMeasurement === 'string' ? `'${a.unitOfMeasurement || ''}'` : a.unitOfMeasurement || 0}, '${(a.keys || []).join(', ')}', ${typeof a.isRecipe === 'string' ? `'${a.isRecipe || ''}'` : a.isRecipe || 0}, ${typeof a.icon === 'string' ? `'${a.icon || ''}'` : a.icon || 0}, ${typeof a.type === 'string' ? `'${a.type || ''}'` : a.type || 0})`;
-}, '');
+// const oi = foodsData.reduce((acc, a, i) => {
+//   return `\
+// ${a.oneMeasures?.length ? a.oneMeasures?.map((measure) => `(${i}, ${measure.quantity}, '${measure.type}')\n`) : ''}${acc},
+// (${i}, ${typeof a.name === 'string' ? `'${a.name || ''}'` : a.name || 0}, ${typeof a.description === 'string' ? `'${a.description || ''}'` : a.description || 0}, ${typeof a.image === 'string' ? `'${a.image || ''}'` : a.image || 0}, ${typeof a.gi === 'string' ? `'${a.gi || ''}'` : a.gi || 0}, ${typeof a.calories === 'string' ? `'${a.calories || ''}'` : a.calories || 0}, ${typeof a.acidification === 'string' ? `'${a.acidification || ''}'` : a.acidification || 0}, ${typeof a.carbohydrates === 'string' ? `'${a.carbohydrates || ''}'` : a.carbohydrates || 0}, ${typeof a.ashes === 'string' ? `'${a.ashes || ''}'` : a.ashes || 0}, ${typeof a.proteins === 'string' ? `'${a.proteins || ''}'` : a.proteins || 0}, ${typeof a.saturedFats === 'string' ? `'${a.saturedFats || ''}'` : a.saturedFats || 0}, ${typeof a.monounsaturatedFats === 'string' ? `'${a.monounsaturatedFats || ''}'` : a.monounsaturatedFats || 0}, ${typeof a.polyunsaturatedFats === 'string' ? `'${a.polyunsaturatedFats || ''}'` : a.polyunsaturatedFats || 0}, ${typeof a.cholesterol === 'string' ? `'${a.cholesterol || ''}'` : a.cholesterol || 0}, ${typeof a.totalFat === 'string' ? `'${a.totalFat || ''}'` : a.totalFat || 0}, ${typeof a.dietaryFiber === 'string' ? `'${a.dietaryFiber || ''}'` : a.dietaryFiber || 0}, ${typeof a.sugar === 'string' ? `'${a.sugar || ''}'` : a.sugar || 0}, ${typeof a.gl === 'string' ? `'${a.gl || ''}'` : a.gl || 0}, ${typeof a.unitOfMeasurement === 'string' ? `'${a.unitOfMeasurement || ''}'` : a.unitOfMeasurement || 0}, '${(a.keys || []).join(', ')}', ${typeof a.isRecipe === 'string' ? `'${a.isRecipe || ''}'` : a.isRecipe || 0}, ${typeof a.icon === 'string' ? `'${a.icon || ''}'` : a.icon || 0}, ${typeof a.type === 'string' ? `'${a.type || ''}'` : a.type || 0})`;
+// }, '');
 
-console.log(JSON.stringify(oi));
+// console.log(JSON.stringify(oi));
 
 // // minerals
 // Calcium

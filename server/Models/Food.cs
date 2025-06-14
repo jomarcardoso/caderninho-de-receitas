@@ -1,98 +1,140 @@
-﻿using server.Models;
-using server.Pages;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace server.Services
+namespace server.Models
 {
-    public static class FoodGenerator
-    {
-        public static Food GenerateFromDescription(string description)
-        {
-            // Essa lógica é fictícia. Vamos apenas preencher alguns campos com base no texto
-            return new Food
-            {
-                Name = description,
-                Description = $"Gerado automaticamente a partir da descrição: \"{description}\"",
-                Gi = 50,
-                Calories = 120,
-                Acidification = 0.2f,
-                Carbohydrates = 25,
-                Ashes = 0.5f,
-                Proteins = 3,
-                SaturedFats = 0.7f,
-                MonounsaturatedFats = 0.9f,
-                PolyunsaturatedFats = 0.5f,
-                Cholesterol = 0,
-                TotalFat = 2.5f,
-                DietaryFiber = 2,
-                Sugar = 14,
-                Gl = 10,
-                UnitOfMeasurement = UnitOfMeasurement.Gram,
-                OneMeasures = new Measure[]
-                {
-                    new Measure { Type = MeasurerValues.Gram, Quantity = 100 }
-                },
-                Keys = "auto-generated",
-                IsRecipe = false,
-                Icon = "🍎",
-                Type = FoodType.Fruit,
+  public enum UnitOfMeasurement
+  {
+    Gram,
+    Liter,
+  }
 
-                // Minerais (valores fictícios)
-                Calcium = 5,
-                Copper = 0.1f,
-                Fluoride = 0.02f,
-                Iron = 0.3f,
-                Magnesium = 2,
-                Manganese = 0.1f,
-                Phosphorus = 4,
-                Potassium = 10,
-                Sodium = 1,
-                Zinc = 0.2f,
-                Selenium = 0.01f,
+  public enum MeasurerValues
+  {
+    Cup,
+    Tablespoon,
+    Teaspoon,
+    Unity,
+    UnitySmall,
+    UnityLarge,
+    Literal,
+    Can,
+    Glass,
+    Breast,
+    Clove,
+    Slice,
+    Bunch
+  }
 
-                // Vitaminas (valores fictícios)
-                A = 100,
-                AlphaCarotene = 5,
-                B1 = 0.05f,
-                B11 = 0.02f,
-                B12 = 0,
-                B2 = 0.03f,
-                B3 = 0.4f,
-                B5 = 0.2f,
-                B6 = 0.07f,
-                B7 = 0.01f,
-                B9 = 0.03f,
-                BetaCarotene = 90,
-                C = 8,
-                Choline = 1.5f,
-                CryptoxanthinCarotene = 0.2f,
-                D = 0,
-                D2 = 0,
-                D3 = 0,
-                E = 1,
-                K = 1,
-                Lycopene = 0.4f,
+  public enum FoodType
+  {
+    Liquid,
+    Seed,
+    Herb,
+    Temper,
+    Fruit,
+    Solid,
+    Oil,
+    Legumen,
+    Flake,
+    Root,
+    Meat,
+    Vegetable,
+    Cake,
+    Cheese,
+    Powder
+  }
 
-                // Aminoácidos (valores fictícios)
-                Alanine = 0.1f,
-                Arginine = 0.2f,
-                AsparticAcid = 0.3f,
-                Cystine = 0.05f,
-                GlutamicAcid = 0.4f,
-                Glutamine = 0.1f,
-                Glycine = 0.1f,
-                Histidine = 0.06f,
-                Isoleucine = 0.07f,
-                Leucine = 0.12f,
-                Lysine = 0.1f,
-                Methionine = 0.05f,
-                Phenylalanine = 0.08f,
-                Proline = 0.09f,
-                Serine = 0.06f,
-                Threonine = 0.07f,
-                Tryptophan = 0.02f,
-                Tyrosine = 0.05f,
-                Valine = 0.09f
-            };
-        }
-    }
+  public class Measure
+  {
+    public int Id { get; set; }
+    public MeasurerValues Type { get; set; }
+    public float Quantity { get; set; }
+  }
+
+  public class Food
+  {
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string Image { get; set; } = string.Empty;
+    public float Gi { get; set; }
+    public float Calories { get; set; }
+    public float Acidification { get; set; }
+    public float Carbohydrates { get; set; }
+    public float Ashes { get; set; }
+    public float Proteins { get; set; }
+    public float SaturedFats { get; set; }
+    public float MonounsaturatedFats { get; set; }
+    public float PolyunsaturatedFats { get; set; }
+    public float Cholesterol { get; set; }
+    public float TotalFat { get; set; }
+    public float DietaryFiber { get; set; }
+    public float Sugar { get; set; }
+    public float Gl { get; set; }
+    public UnitOfMeasurement UnitOfMeasurement { get; set; }
+    public Measure[] OneMeasures { get; set; } = Array.Empty<Measure>();
+    public string Keys { get; set; } = string.Empty;
+    public bool IsRecipe { get; set; }
+    public string Icon { get; set; } = string.Empty;
+    public FoodType Type { get; set; } = FoodType.Solid;
+    [NotMapped]
+    public float Quantity { get; set; } = 100;
+
+    // minerals
+    public float Calcium { get; set; }
+    public float Copper { get; set; }
+    public float Fluoride { get; set; }
+    public float Iron { get; set; }
+    public float Magnesium { get; set; }
+    public float Manganese { get; set; }
+    public float Phosphorus { get; set; }
+    public float Potassium { get; set; }
+    public float Sodium { get; set; }
+    public float Zinc { get; set; }
+    public float Selenium { get; set; }
+
+    // vitamins
+    public float A { get; set; }
+    public float AlphaCarotene { get; set; }
+    public float B1 { get; set; }
+    public float B11 { get; set; }
+    public float B12 { get; set; }
+    public float B2 { get; set; }
+    public float B3 { get; set; }
+    public float B5 { get; set; }
+    public float B6 { get; set; }
+    public float B7 { get; set; }
+    public float B9 { get; set; }
+    public float BetaCarotene { get; set; }
+    public float C { get; set; }
+    public float Choline { get; set; }
+    public float CryptoxanthinCarotene { get; set; }
+    public float D { get; set; }
+    public float D2 { get; set; }
+    public float D3 { get; set; }
+    public float E { get; set; }
+    public float K { get; set; }
+    public float Lycopene { get; set; }
+
+    // amino acids
+    public float Alanine { get; set; }
+    public float Arginine { get; set; }
+    public float AsparticAcid { get; set; }
+    public float Cystine { get; set; }
+    public float GlutamicAcid { get; set; }
+    public float Glutamine { get; set; }
+    public float Glycine { get; set; }
+    public float Histidine { get; set; }
+    public float Isoleucine { get; set; }
+    public float Leucine { get; set; }
+    public float Lysine { get; set; }
+    public float Methionine { get; set; }
+    public float Phenylalanine { get; set; }
+    public float Proline { get; set; }
+    public float Serine { get; set; }
+    public float Threonine { get; set; }
+    public float Tryptophan { get; set; }
+    public float Tyrosine { get; set; }
+    public float Valine { get; set; }
+  }
 }

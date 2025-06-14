@@ -3,7 +3,15 @@ import {
   AminoAcids,
   AMINO_ACIDS,
 } from '../amino-acid/amino-acid.constants';
-import { FOOD, type Food, type FoodData } from '../food/food.types';
+import {
+  FOOD,
+  FoodType,
+  FoodTypes,
+  Measurer,
+  MeasurerValues,
+  type Food,
+  type FoodData,
+} from '../food/food.types';
 import { MineralService } from '../mineral';
 import { VitaminService } from '../vitamin';
 
@@ -22,6 +30,15 @@ export function format(data?: FoodData): Food {
   return {
     ...FOOD,
     ...data,
+    unitOfMeasurement: data?.unitOfMeasurement === 1 ? 'liter' : 'gram',
+    oneMeasures:
+      data?.oneMeasures?.map((oneMeasure) => ({
+        type: (Object.keys(MeasurerValues) as Measurer[])[oneMeasure.type],
+        quantity: oneMeasure.quantity ?? 1,
+      })) ?? [],
+    keys: (data?.keys || '').split(', ') ?? [],
+    type:
+      (Object.values(FoodTypes) as FoodType[])[data?.type || 5] || FOOD.type,
     aminoAcids: {
       ...AMINO_ACIDS,
       alanine: data?.alanine ?? AMINO_ACIDS.alanine,

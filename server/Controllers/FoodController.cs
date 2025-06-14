@@ -1,86 +1,85 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using server;        // For AppDbContext
+using server.Models; // Adjust namespace if your Food model is elsewhere
+using server.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace server.Controllers
 {
+    [ApiController]
     [Route("api/food")]
-    public class FoodController : Controller
+    public class FoodController : ControllerBase
     {
-        // GET: FoodController
-        public ActionResult Index()
+        private readonly AppDbContext _context;
+
+        public FoodController(AppDbContext context)
         {
-            return View();
+            _context = context;
         }
 
-        // GET: FoodController/Details/5
-        public ActionResult Details(int id)
+        // GET: api/food
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Food>>> GetAll()
         {
-            return View();
+            var foods = await _context.Foods.ToListAsync();
+            return Ok(foods);
         }
 
-        // GET: FoodController/Create
-        public ActionResult Create()
+        // GET: api/food/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Food>> GetById(int id)
         {
-            return View();
+            var food = await _context.Foods.FindAsync(id);
+            if (food == null)
+                return NotFound();
+            return Ok(food);
         }
 
-        // POST: FoodController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        // POST: api/food
+        //[HttpPost]
+        //public async Task<ActionResult<Food>> Create([FromBody] string description)
+        //{
+        //    // Simulando serviço de IA (será substituído por ML.NET)
+        //    var food = FoodGenerator.GenerateFromDescription(description);
+
+        //    _context.Foods.Add(food);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction(nameof(GetById), new { id = food.Id }, food);
+        //}
+
+        // POST: api/food
+        [HttpPost()]
+        public async Task<ActionResult<Food>> CreateMany([FromBody] Food[] foods)
         {
-            try
+            foreach (Food food in foods)
             {
-                System.Console.WriteLine("try");
-                return RedirectToAction(nameof(Index));
+                _context.Foods.Add(food);
+                await _context.SaveChangesAsync();
             }
-            catch
-            {
-                System.Console.WriteLine("cat");
-                return View();
-            }
+
+            return Ok();
         }
 
-        // GET: FoodController/Edit/5
-        public ActionResult Edit(int id)
+        // POST: api/food/{id}
+        [HttpPost("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] Food food)
         {
-            return View();
-        }
+            if (id != food.Id)
+                return BadRequest();
 
-        // POST: FoodController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            var existing = await _context.Foods.FindAsync(id);
+            if (existing == null)
+                return NotFound();
 
-        // GET: FoodController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            // Update properties
+            existing.Name = food.Name;
+            // Add other properties as needed
 
-        // POST: FoodController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

@@ -12,20 +12,20 @@ export const oFoodData: Array<FoodData> = [
     icon: '/images/food/oil.svg',
     image:
       'https://img.ibxk.com.br/2020/01/22/22215352968302.jpg?w=1120&h=420&mode=crop&scale=both',
-    unitOfMeasurement: 'liter',
-    keys: ['óleo'],
-    type: 'oil',
+    unitOfMeasurement: 1,
+    keys: 'óleo',
+    type: 6,
   },
   {
     name: 'Orégano',
     icon: '/images/food/oregano.png',
     image:
       'https://www.blog.bioritmo.com.br/wp-content/uploads/2021/11/shutterstock_524219779-1.jpg',
-    unitOfMeasurement: 'gram',
+    unitOfMeasurement: 0,
     oneMeasures: [
       {
         quantity: 2.5,
-        type: 'TABLE_SPOON',
+        type: 1,
       },
     ],
   },
@@ -43,19 +43,13 @@ export const oFoodData: Array<FoodData> = [
     oneMeasures: [
       {
         quantity: 46,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    keys: [
-      'ovos',
-      'ovo',
-      'ovo de galinha',
-      'ovos de galinha',
-      'ovos de frango',
-      'ovo de frango',
-    ],
-    type: 'liquid',
+    unitOfMeasurement: 0,
+    keys: 'ovos, ovo, ovo de galinha, ovos de galinha, ovos de frango, ovo de frango',
+
+    type: 0,
   },
   {
     ...formatNacional(foodListNacional[489] as unknown as FoodNacional),
@@ -63,8 +57,8 @@ export const oFoodData: Array<FoodData> = [
     icon: '/images/food/egg.svg',
     image:
       'https://images.aws.nestle.recipes/resized/8431b78f563804dd482bdc3911f82dc1_ovo-cozido-receitas-nestle_1200_600.jpg',
-    keys: ['ovo cozido', 'ovo cozido de galinha'],
-    type: 'solid',
+    keys: 'ovo cozido, ovo cozido de galinha',
+    type: 5,
   },
   {
     ...formatNacional(foodListNacional[486] as unknown as FoodNacional),
@@ -72,15 +66,15 @@ export const oFoodData: Array<FoodData> = [
     icon: '/images/food/egg.svg',
     image:
       'https://data.gessulli.com.br/file/2016/05/19/H101457-F00000-L189-1200x0.jpeg',
-    keys: ['ovo de codorna', 'ovo de codorna cru'],
-    type: 'liquid',
+    keys: 'ovo de codorna, ovo de codorna cru',
+    type: 0,
   },
   {
     ...formatNacional(foodListNacional[491] as unknown as FoodNacional),
     name: 'Ovo frito',
     icon: '/images/food/egg.svg',
     image: 'https://cdn.panelinha.com.br/receita/1519158375914-ovo%20frito.jpg',
-    keys: ['ovo frito', 'ovos fritos'],
-    type: 'solid',
+    keys: 'ovo frito, ovos fritos',
+    type: 5,
   },
 ];

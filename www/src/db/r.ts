@@ -11,14 +11,14 @@ export const rFoodData: Array<FoodData> = [
     icon: '/images/food/radish.png',
     image:
       'http://vamoscomermelhor.com.br/wp-content/uploads/2014/07/dsc00507-2.jpg',
-    keys: ['rabanete', 'rabanetes', 'rabanete vermelho', 'rabanete cru'],
+    keys: 'rabanete, rabanetes, rabanete vermelho, rabanete cru',
     oneMeasures: [
       {
         quantity: 50,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'root',
+    type: 9,
   },
   {
     ...formatNacional(foodListNacional[531] as unknown as FoodNacional),
@@ -26,14 +26,14 @@ export const rFoodData: Array<FoodData> = [
     icon: '/images/food/cabbage.png',
     image:
       'https://assets.clevelandclinic.org/transform/871f96ae-a852-4801-8675-683191ce372d/Benefits-Of-Cabbage-589153824-770x533-1_jpg',
-    keys: ['repolho', 'cabeça de repolho'],
+    keys: 'repolho, cabeça de repolho',
     oneMeasures: [
       {
         quantity: 900,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'herb',
+    type: 2,
   },
   {
     ...formatMyFood(creamCheese as unknown as FoodMyFoodData),
@@ -41,8 +41,8 @@ export const rFoodData: Array<FoodData> = [
     icon: '/images/food/cream-cheese.svg',
     image:
       'https://images.unsplash.com/photo-1547920303-9befbe3decc7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80',
-    unitOfMeasurement: 'gram',
-    type: 'cheese',
+    unitOfMeasurement: 0,
+    type: 13,
   },
   {
     ...formatNacional(foodListNacional[248] as unknown as FoodNacional),
@@ -50,13 +50,13 @@ export const rFoodData: Array<FoodData> = [
     icon: '/images/food/pomegranate.png',
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Pomegranate.jpg/1200px-Pomegranate.jpg',
-    keys: ['romã', 'romãs'],
+    keys: 'romã, romãs',
     oneMeasures: [
       {
-        type: 'UNITY',
+        type: 3,
         quantity: 100,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
 ];

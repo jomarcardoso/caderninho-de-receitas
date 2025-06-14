@@ -22,13 +22,7 @@ export const SWEET_POTATO_BREAD: FoodData = {
   icon: '/images/food/bread.png',
   image:
     'https://cdn.panelinha.com.br/receita/1544639354405-pa%CC%83o%20de%20batata-doce%20para%20trocar.jpg',
-  keys: [
-    'pão de batata doce',
-    'bolinho de batata',
-    'bolinho de batata doce',
-    'bolinho de batata-doce',
-    'pão de batata-doce',
-  ],
+  keys: 'pão de batata doce, bolinho de batata, bolinho de batata doce, bolinho de batata-doce, pão de batata-doce',
 };
 
 export const BREAD: FoodData = {
@@ -37,9 +31,9 @@ export const BREAD: FoodData = {
   icon: '/images/food/bread.svg',
   image:
     'https://images.unsplash.com/photo-1537200275355-4f0c0714f777?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-  unitOfMeasurement: 'gram',
-  keys: ['pão', 'pãozinho', 'pão integral'],
-  type: 'cake',
+  unitOfMeasurement: 0,
+  keys: 'pão, pãozinho, pão integral',
+  type: 12,
   recipe: true,
 };
 
@@ -50,7 +44,7 @@ export const pFoodData: Array<FoodData> = [
     name: 'Pão de Ló',
     image:
       'https://s2.glbimg.com/WoMudBfzWeMl0GzSwccmbkAOiW4=/0x0:5472x3648/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2021/8/N/inlAOzTDKABlgDpAoqlg/pao-de-lo-1-.jpg',
-    keys: ['pão de ló', 'pão-de-ló'],
+    keys: 'pão de ló, pão-de-ló',
   },
   {
     ...formatMyFood(whiteBread as unknown as FoodMyFoodData),
@@ -65,11 +59,11 @@ export const pFoodData: Array<FoodData> = [
     oneMeasures: [
       {
         quantity: 38,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    type: 'cake',
+    unitOfMeasurement: 0,
+    type: 12,
   },
   {
     ...formatMyFood(paprika as unknown as FoodMyFoodData),
@@ -77,8 +71,8 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/paprika.png',
     image:
       'https://images.unsplash.com/photo-1575319026763-726d092c26c0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
-    keys: ['paprica', 'páprica doce', 'páprica picante'],
-    type: 'powder',
+    keys: 'paprica, páprica doce, páprica picante',
+    type: 14,
   },
   {
     ...formatNacional(foodListNacional[377] as unknown as FoodNacional),
@@ -86,14 +80,8 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/meat-steak.svg',
     image:
       'https://s.cornershopapp.com/product-images/2660452.jpg?versionId=BnVK8BbjHmNiGVF3YvP8nYkZs4fDnYIr',
-    keys: [
-      'patinho',
-      'carne moída',
-      'patinho moído',
-      'carne patinho',
-      'carne de patinho',
-    ],
-    type: 'meat',
+    keys: 'patinho, carne moída, patinho moído, carne patinho, carne de patinho',
+    type: 10,
   },
   {
     ...formatNacional(foodListNacional[378] as unknown as FoodNacional),
@@ -101,15 +89,8 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/meat-steak.svg',
     image:
       'https://www.kitano.com.br/wp-content/uploads/2019/07/SSP_2546-Contra-file%E2%95%A0%C3%BC-na-manteiga-e-alecrim.jpg',
-    keys: [
-      'patinho grelhado',
-      'patinho assado',
-      'carne de patinho grelhado',
-      'carne de patinho assado',
-      'patinho assada',
-      'patinho assado',
-    ],
-    type: 'meat',
+    keys: 'patinho grelhado, patinho assado, carne de patinho grelhado, carne de patinho assado, patinho assada, patinho assado',
+    type: 10,
   },
   {
     ...formatMyFood(chickenPasty as unknown as FoodMyFoodData),
@@ -122,18 +103,7 @@ export const pFoodData: Array<FoodData> = [
   {
     name: 'Pavê de chocolate',
     image: 'https://cdn.panelinha.com.br/receita/1554734130093-_MGL7178.jpg',
-    keys: [
-      'torta de bolacha',
-      'torta de bolacha maria',
-      'torta de biscoito',
-      'torta de biscoito maria',
-      'pavê de bolacha',
-      'pavê de bolacha maria',
-      'pavê de chocolate',
-      'pavê de biscoito',
-      'pavê de biscoito maria',
-      'pavê',
-    ],
+    keys: 'torta de bolacha, torta de bolacha maria, torta de biscoito, torta de biscoito maria, pavê de bolacha, pavê de bolacha maria, pavê de chocolate, pavê de biscoito, pavê de biscoito maria, pavê',
   },
   {
     ...formatMyFood(ham as unknown as FoodMyFoodData),
@@ -141,29 +111,29 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/ham.svg',
     image:
       'https://i2.wp.com/files.agro20.com.br/uploads/2019/11/Peito-de-peru-1.jpg?resize=600%2C338&ssl=1',
-    unitOfMeasurement: 'gram',
+    unitOfMeasurement: 0,
     oneMeasures: [
       {
         quantity: 30,
-        type: 'SLICE',
+        type: 11,
       },
     ],
-    keys: ['peito de peru'],
-    type: 'meat',
+    keys: 'peito de peru',
+    type: 10,
   },
   {
     ...formatNacional(foodListNacional[141] as unknown as FoodNacional),
     name: 'Pepino',
     icon: '/images/food/cucumber.png',
     image: 'https://s1.static.brasilescola.uol.com.br/be/2021/05/pepino.jpg',
-    keys: ['pepino', 'pepinos'],
+    keys: 'pepino, pepinos',
     oneMeasures: [
       {
         quantity: 35,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     ...formatMyFood(pear as unknown as FoodMyFoodData),
@@ -173,36 +143,23 @@ export const pFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1562051725-cc35a65c8227?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     calories: 57,
-    unitOfMeasurement: 'gram',
+    unitOfMeasurement: 0,
     oneMeasures: [
       {
         quantity: 178,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'fruit',
-    keys: ['pêra', 'pera'],
+    type: 4,
+    keys: 'pêra, pera',
   },
   {
     name: 'Pernil de cordeiro',
     icon: '/images/food/ham.svg',
     image:
       'https://www.minervafoods.com/wp-content/uploads/2018/02/pernil_de_cordeiro_cru_-_blog.jpg',
-    keys: [
-      'cordeiro',
-      'carne de cordeiro',
-      'pernil de cordeiro',
-      'pernis de cordeiro',
-      'pernil de cordeiro cru',
-      'pernis de cordeiros cru',
-      'ovelha',
-      'carne de ovelha',
-      'pernil de ovelha',
-      'pernis de ovelha',
-      'pernil de ovelha cru',
-      'pernis de ovelhas cru',
-    ],
-    unitOfMeasurement: 'gram',
+    keys: 'cordeiro, carne de cordeiro, pernil de cordeiro, pernis de cordeiro, pernil de cordeiro cru, pernis de cordeiros cru, ovelha, carne de ovelha, pernil de ovelha, pernis de ovelha, pernil de ovelha cru, pernis de ovelhas cru',
+    unitOfMeasurement: 0,
     calories: 230,
     totalFat: 17.1,
     saturedFats: 7.4,
@@ -239,12 +196,12 @@ export const pFoodData: Array<FoodData> = [
       e: 0.2,
       k: 0,
     },
-    type: 'meat',
+    type: 10,
   },
   {
     name: 'Peru de natal',
     image: 'https://cdn.panelinha.com.br/receita/1167789600000-Peru-assado.jpg',
-    keys: ['peru assado', 'peru de natal'],
+    keys: 'peru assado, peru de natal',
   },
   {
     ...formatMyFood(pepper as unknown as FoodMyFoodData),
@@ -252,7 +209,7 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/pepper.svg',
     image:
       'https://images.unsplash.com/photo-1526179969422-e92255a5f223?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: 'gram',
+    unitOfMeasurement: 0,
   },
   {
     ...formatMyFood(blackPepper as unknown as FoodMyFoodData),
@@ -260,8 +217,8 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/black-pepper.png',
     image:
       'http://premiertemperos.com.br/novo/wp-content/uploads/2020/04/1706-1-1200x675.jpg',
-    keys: ['pimenta do reino', 'pimenta preta', 'pimenta'],
-    type: 'powder',
+    keys: 'pimenta do reino, pimenta preta, pimenta',
+    type: 14,
   },
   {
     ...formatNacional(foodListNacional[144] as unknown as FoodNacional),
@@ -269,14 +226,14 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/paprika.png',
     image:
       'https://agrodomingues.com.br/wp-content/uploads/2020/10/paprika-yellow-vegetables-318208.jpg',
-    keys: ['pimentão amarelo', 'pimentões amarelos', 'pimentões amarelo'],
+    keys: 'pimentão amarelo, pimentões amarelos, pimentões amarelo',
     oneMeasures: [
       {
         quantity: 215,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     ...formatNacional(foodListNacional[145] as unknown as FoodNacional),
@@ -284,14 +241,14 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/paprika.png',
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmkxpDwz0UbKAHT7Yp0Qfo_37-sxuk50wlBw&usqp=CAU',
-    keys: ['pimentão', 'pimentão verde', 'pimentões verdes', 'pimentões'],
+    keys: 'pimentão, pimentão verde, pimentões verdes, pimentões',
     oneMeasures: [
       {
         quantity: 215,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     ...formatNacional(foodListNacional[146] as unknown as FoodNacional),
@@ -299,14 +256,14 @@ export const pFoodData: Array<FoodData> = [
     icon: '/images/food/paprika.png',
     image:
       'https://cdn.awsli.com.br/800x800/998/998380/produto/36868381/1c91e001cd.jpg',
-    keys: ['pimentão vermelho', 'pimentões vermelhos', 'pimentões vermelho'],
+    keys: 'pimentão vermelho, pimentões vermelhos, pimentões vermelho',
     oneMeasures: [
       {
         quantity: 215,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     ...mergeWith(
@@ -324,10 +281,10 @@ export const pFoodData: Array<FoodData> = [
     oneMeasures: [
       {
         quantity: 233,
-        type: 'CUP',
+        type: 0,
       },
     ],
-    unitOfMeasurement: 'gram',
+    unitOfMeasurement: 0,
   },
   {
     ...formatMyFood(ham as unknown as FoodMyFoodData),
@@ -337,15 +294,15 @@ export const pFoodData: Array<FoodData> = [
     image:
       'https://images.unsplash.com/photo-1524438418049-ab2acb7aa48f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     description: 'Presunto, sem capa de gordura',
-    keys: [],
-    unitOfMeasurement: 'gram',
+    keys: '',
+    unitOfMeasurement: 0,
     oneMeasures: [
       {
         quantity: 30,
-        type: 'SLICE',
+        type: 11,
       },
     ],
-    type: 'meat',
+    type: 10,
   },
   {
     name: 'Pudim',
@@ -364,6 +321,6 @@ O Dia Nacional do Pudim é comemorado em 22 de Maio. Porém, não há registros 
 `,
     image:
       'https://cdn.panelinha.com.br/receita/955076400000-Pudim-de-leite.jpg',
-    keys: ['pudim', 'pudim de leite', 'pudim de leite condensado'],
+    keys: 'pudim, pudim de leite, pudim de leite condensado',
   },
 ];

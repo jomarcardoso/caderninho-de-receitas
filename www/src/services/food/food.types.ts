@@ -9,20 +9,20 @@ import { VITAMINS, Vitamins, VitaminsData } from '../vitamin';
 export type UnitOfMeasurement = 'gram' | 'liter';
 
 export const MeasurerValues = {
-  CUP: 'xícara',
-  TABLE_SPOON: 'colhar de sopa',
-  TEA_SPOON: 'colher de chá',
-  UNITY: 'unidade',
-  UNITY_SMALL: 'unidade pequena',
-  UNITY_LARGE: 'unidade grande',
-  LITERAL: '',
-  CAN: 'lata',
-  GLASS: 'vidro',
-  BREAST: 'peito',
-  CLOVE: 'dente',
-  SLICE: 'fatia',
-  BUNCH: 'cacho',
-};
+  CUP: 'xícara', // 0
+  TABLE_SPOON: 'colhar de sopa', // 1
+  TEA_SPOON: 'colher de chá', // 2
+  UNITY: 'unidade', // 3
+  UNITY_SMALL: 'unidade pequena', // 4
+  UNITY_LARGE: 'unidade grande', // 5
+  LITERAL: '', // 6
+  CAN: 'lata', // 7
+  GLASS: 'vidro', // 8
+  BREAST: 'peito', // 9
+  CLOVE: 'dente', // 10
+  SLICE: 'fatia', // 11
+  BUNCH: 'cacho', // 12
+} as const;
 
 export type Measurer = keyof typeof MeasurerValues;
 
@@ -31,27 +31,35 @@ export interface Measure {
   quantity: number;
 }
 
+export interface MeasureData {
+  type: number;
+  quantity: number;
+}
+
 export const MEASURE: Measure = {
   type: 'LITERAL',
   quantity: 0,
 };
 
-export type FoodType =
-  | 'liquid'
-  | 'seed'
-  | 'herb'
-  | 'temper'
-  | 'fruit'
-  | 'solid'
-  | 'oil'
-  | 'legumen'
-  | 'flake'
-  | 'root'
-  | 'meat'
-  | 'vegetable'
-  | 'cake'
-  | 'cheese'
-  | 'powder';
+export const FoodTypes = {
+  LIQUID: 'liquid', // 0
+  SEED: 'seed', // 1
+  HERB: 'herb', // 2
+  TEMPER: 'temper', // 3
+  FRUIT: 'fruit', // 4
+  SOLID: 'solid', // 5
+  OIL: 'oil', // 6
+  LEGUMEN: 'legumen', // 7
+  FLAKE: 'flake', // 8
+  ROOT: 'root', // 9
+  MEAT: 'meat', // 10
+  VEGETABLE: 'vegetable', // 11
+  CAKE: 'cake', // 12
+  CHEESE: 'cheese', // 13
+  POWDER: 'powder', // 14
+} as const;
+
+export type FoodType = (typeof FoodTypes)[keyof typeof FoodTypes];
 
 interface FoodBase {
   id: number;
@@ -72,14 +80,14 @@ interface FoodBase {
   dietaryFiber: number;
   sugar: number;
   gl: number;
-  unitOfMeasurement: UnitOfMeasurement;
-  oneMeasures: Array<Measure>;
   keys: Array<string>;
   version: FoodVersion;
   rawId: number;
   recipe: boolean;
   icon: string;
   type: FoodType;
+  unitOfMeasurement: UnitOfMeasurement;
+  oneMeasures: Array<Measure>;
 }
 
 export interface Food extends FoodBase {
@@ -88,10 +96,18 @@ export interface Food extends FoodBase {
   vitamins: Vitamins;
 }
 
-export type FoodData = Partial<FoodBase> &
-  Partial<AminoAcidsData> &
-  Partial<MineralsData> &
-  Partial<VitaminsData>;
+export interface FoodData
+  extends Partial<
+      Omit<FoodBase, 'unitOfMeasurement' | 'oneMeasures' | 'keys' | 'type'>
+    >,
+    Partial<AminoAcidsData>,
+    Partial<MineralsData>,
+    Partial<VitaminsData> {
+  unitOfMeasurement?: 0 | 1;
+  oneMeasures?: Array<MeasureData>;
+  keys?: string;
+  type?: number;
+}
 
 export enum FoodVersions {
   RAW = 'cru',

@@ -10,14 +10,14 @@ export const kFoodData: Array<FoodData> = [
     icon: '/images/food/kiwi.png',
     image:
       'https://images.unsplash.com/photo-1616684000067-36952fde56ec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80',
-    keys: ['kiwi', 'kiwis', 'groselha chinesa'],
+    keys: 'kiwi, kiwis, groselha chinesa',
     oneMeasures: [
       {
         quantity: 154,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    type: 'fruit',
+    unitOfMeasurement: 0,
+    type: 4,
   },
 ];

@@ -38,8 +38,8 @@ export const HONEY: FoodData = {
   calcium: 6,
   potassium: 52,
   sodium: 4,
-  keys: ['mel', 'mel de abelha'],
-  type: 'liquid',
+  keys: 'mel, mel de abelha',
+  type: 0,
 };
 
 export const LEMON_AND_HONEY_SALAD_SAUCE: FoodData = {
@@ -48,14 +48,7 @@ export const LEMON_AND_HONEY_SALAD_SAUCE: FoodData = {
   image:
     'https://cdn.panelinha.com.br/receita/1619447331360-molho%2011.07.16.jpg',
 
-  keys: [
-    'molho de limão e mel para salada',
-    'molho de salada',
-    'molho para salada',
-    'molho pra   salada',
-    'molho de limão',
-    'molho de mel',
-  ],
+  keys: 'molho de limão e mel para salada, molho de salada, molho para salada, molho pra   salada, molho de limão, molho de mel',
 };
 
 export const mFoodData: Array<FoodData> = [
@@ -64,35 +57,21 @@ export const mFoodData: Array<FoodData> = [
     name: 'Macarrão fusilli',
     icon: '/images/food/screw-pasta.png',
     image: 'https://www.bonde.com.br/img/bondenews/2017/11/img_1_33_1117.jpg',
-    keys: [
-      'massa',
-      'macarrão',
-      'massa parafuso',
-      'massa parafuso de trigo',
-      'macarrão parafuso',
-      'macarrão parafuso de trigo',
-      'macarrão fusilli',
-      'macarrão fusilli de trigo',
-      'massa fusilli',
-      'massa fusilli de trigo',
-      'massa fusili',
-      'massa fusili de trigo',
-      'macarrão fusili',
-      'macarrão fusili de trigo',
-    ],
+    keys: 'massa, macarrão, massa parafuso, massa parafuso de trigo, macarrão parafuso, macarrão parafuso de trigo, macarrão fusilli, macarrão fusilli de trigo, massa fusilli, massa fusilli de trigo, massa fusili, massa fusili de trigo, macarrão fusili, macarrão fusili de trigo',
+
     oneMeasures: [
       {
         quantity: 500,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'solid',
+    type: 5,
   },
   {
     name: 'Massa de pastel',
     image: 'https://i.panelinha.com.br/i1/64-bk-6977-massa-pastel1.webp',
-    type: 'solid',
-    keys: ['massa de'],
+    type: 5,
+    keys: 'massa de',
     recipe: true,
   },
   {
@@ -105,21 +84,21 @@ export const mFoodData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     calories: 52,
     carbohydrates: 14,
-    unitOfMeasurement: 'gram',
+    unitOfMeasurement: 0,
     oneMeasures: [
       {
         quantity: 192,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    type: 'fruit',
+    type: 4,
   },
   {
     ...formatNacional(foodListNacional[542] as unknown as FoodNacional),
     name: 'Maniçoba',
     image:
       'https://i.pinimg.com/originals/aa/69/2b/aa692b1b67df3742efe2cf6e521068b3.jpg',
-    keys: ['maniçoba'],
+    keys: 'maniçoba',
   },
   {
     ...formatMyFood(mango as unknown as FoodMyFoodData),
@@ -127,15 +106,15 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/mango.png',
     image:
       'https://media.istockphoto.com/photos/mangoes-composition-picture-id1272010307?b=1&k=20&m=1272010307&s=170667a&w=0&h=ZjJ85mpjAr__adYT7zqSdYEDi1XvWiqgtVLqNYIDtkw=',
-    keys: ['manga', 'mangas'],
+    keys: 'manga, mangas',
     oneMeasures: [
       {
         quantity: 400,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    type: 'fruit',
+    unitOfMeasurement: 0,
+    type: 4,
   },
   {
     ...formatMyFood(basil as unknown as FoodMyFoodData),
@@ -143,8 +122,8 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/basil.png',
     image:
       'https://images.unsplash.com/photo-1538596313828-41d729090199?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80',
-    keys: ['manjericão'],
-    type: 'herb',
+    keys: 'manjericão',
+    type: 2,
   },
   {
     ...formatMyFood(butter as unknown as FoodMyFoodData),
@@ -152,8 +131,8 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/butter.svg',
     image:
       'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: 'gram',
-    type: 'oil',
+    unitOfMeasurement: 0,
+    type: 6,
   },
   {
     ...formatNacional(foodListNacional[556] as unknown as FoodNacional),
@@ -162,8 +141,8 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/peanut-butter.svg',
     image:
       'https://images.unsplash.com/flagged/photo-1625402535207-953e03369f59?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: 'liter',
-    type: 'oil',
+    unitOfMeasurement: 1,
+    type: 6,
   },
   {
     ...formatMyFood(passionFruit as unknown as FoodMyFoodData),
@@ -171,15 +150,15 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/passion-fruit.png',
     image:
       'https://media.istockphoto.com/photos/fresh-passion-fruit-on-wood-table-in-top-view-flat-lay-for-background-picture-id860079962?b=1&k=20&m=860079962&s=170667a&w=0&h=WjvMtFrnUVnXWtwMt8uDO3MwEyveM-WEOQT-pG_6Npg=',
-    keys: ['maracujá'],
+    keys: 'maracujá',
     oneMeasures: [
       {
         quantity: 44,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    type: 'fruit',
+    unitOfMeasurement: 0,
+    type: 4,
   },
   {
     ...formatMyFood(margarine as unknown as FoodMyFoodData),
@@ -187,8 +166,8 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/margarine.svg',
     image:
       'https://www.saudevitalidade.com/wp-content/uploads/2021/02/pao-com-margarina-cafe-da-manha-1571859727604_v2_1920x1146-800x445.jpg',
-    unitOfMeasurement: 'gram',
-    type: 'oil',
+    unitOfMeasurement: 0,
+    type: 6,
   },
   {
     ...formatNacional(foodListNacional[467] as unknown as FoodNacional),
@@ -196,8 +175,8 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/marshmallows.png',
     image:
       'https://www.oetker.com.br/Recipe/Recipes/oetker.com.br/br-pt/dessert/image-thumb__70800__RecipeDetailsLightBox/maria-mole.jpg',
-    keys: ['maria-mole', 'marshmallow', 'marximelo'],
-    type: 'cake',
+    keys: 'maria-mole, marshmallow, marximelo',
+    type: 12,
   },
   {
     ...formatMyFood(pasta as unknown as FoodMyFoodData),
@@ -205,7 +184,7 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/farfalle.png',
     image:
       'https://dcom-prod.imgix.net/files/wp-content/uploads/2017/07/1499888237-frango-grelhado-com-brocolis-e-macarrao-gravatinha_616x462.jpg?w=1280&h=720&crop=focalpoint&fp-x=0.5&fp-y=0.1&fit=crop&auto=compress&q=75',
-    keys: ['massa gravatinha', 'gravatinha', 'massa', 'macarrão'],
+    keys: 'massa gravatinha, gravatinha, massa, macarrão',
   },
   HONEY,
   {
@@ -214,27 +193,15 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/tangerine.png',
     image:
       'https://images.unsplash.com/photo-1564415900645-30612d54dd0c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=873&q=80',
-    keys: [
-      'mexerica',
-      'tangerina',
-      'bergamota',
-      'vergamota',
-      'laranja-mimosa',
-      'mandarina',
-      'fuxiqueira',
-      'poncã',
-      'manjerica',
-      'laranja-cravo',
-      'mimosa',
-    ],
+    keys: 'mexerica, tangerina, bergamota, vergamota, laranja-mimosa, mandarina, fuxiqueira, poncã, manjerica, laranja-cravo, mimosa',
     oneMeasures: [
       {
         quantity: 135,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    type: 'fruit',
+    unitOfMeasurement: 0,
+    type: 4,
   },
   {
     ...formatMyFood(corn as unknown as FoodMyFoodData),
@@ -242,7 +209,7 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/corn.svg',
     image:
       'https://images.unsplash.com/photo-1601171908052-92d5a595199b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1146&q=80',
-    unitOfMeasurement: 'gram',
+    unitOfMeasurement: 0,
     calories: 98,
     proteins: 3.2,
     totalFat: 2.4,
@@ -251,11 +218,11 @@ export const mFoodData: Array<FoodData> = [
     oneMeasures: [
       {
         quantity: 170,
-        type: 'CAN',
+        type: 7,
       },
     ],
-    keys: ['milho verde'],
-    type: 'seed',
+    keys: 'milho verde',
+    type: 1,
   },
   {
     ...formatNacional(foodListNacional[13] as unknown as FoodNacional),
@@ -263,19 +230,14 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/cake.svg',
     image:
       'https://img.shoppub.io/w=1000,h=1000,q=80,f=auto/beirario/media/uploads/produtos/foto/bb4dcde9240cafile.png',
-    keys: [
-      'mistura para bolo',
-      'mistura pronta para bolo',
-      'mistura de bolo',
-      'mistura pronta',
-    ],
+    keys: 'mistura para bolo, mistura pronta para bolo, mistura de bolo, mistura pronta',
   },
   LEMON_AND_HONEY_SALAD_SAUCE,
   {
     name: 'Molho de tahine',
     image:
       'https://cdn.panelinha.com.br/receita/1409799600000-Molho-de-tahine.jpg',
-    keys: ['molho de tahine'],
+    keys: 'molho de tahine',
   },
   {
     ...formatMyFood(tomato as unknown as FoodMyFoodData),
@@ -283,15 +245,15 @@ export const mFoodData: Array<FoodData> = [
     icon: '/images/food/tomato-sauce.svg',
     image:
       'https://images.unsplash.com/photo-1472476443507-c7a5948772fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80',
-    unitOfMeasurement: 'liter',
-    keys: ['molho de tomate', 'extrato', 'extrato de tomate'],
+    unitOfMeasurement: 1,
+    keys: 'molho de tomate, extrato, extrato de tomate',
     oneMeasures: [
       {
         quantity: 350,
-        type: 'CAN',
+        type: 7,
       },
     ],
-    type: 'liquid',
+    type: 0,
   },
   {
     ...formatMyFood(strawberry as unknown as FoodMyFoodData),
@@ -303,42 +265,35 @@ export const mFoodData: Array<FoodData> = [
       'https://images.unsplash.com/photo-1591271300850-22d6784e0a7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80',
     calories: 0,
     carbohydrates: 6,
-    aminoAcids: AMINO_ACIDS,
     oneMeasures: [
       {
         quantity: 24,
-        type: 'UNITY',
+        type: 3,
       },
     ],
-    unitOfMeasurement: 'gram',
-    type: 'fruit',
-    keys: ['moranguinho'],
+    unitOfMeasurement: 0,
+    type: 4,
+    keys: 'moranguinho',
   },
   {
     name: 'Semente de mostarda',
     icon: '/images/food/mustard-seed.png',
     image:
       'https://media.swncdn.com/via/5884-istockgetty-images-plusrezkrr.jpg',
-    type: 'seed',
-    unitOfMeasurement: 'gram',
+    type: 1,
+    unitOfMeasurement: 0,
     oneMeasures: [
       {
         quantity: 6,
-        type: 'TABLE_SPOON',
+        type: 1,
       },
     ],
-    keys: ['sementes de mostarda', 'mostarda em semente'],
+    keys: 'sementes de mostarda, mostarda em semente',
   },
   {
     name: 'Muhammara',
     image:
       'https://cdn.panelinha.com.br/receita/1608246532491-Muhammara_receita.jpg',
-    keys: [
-      'muhammara',
-      'pasta de pimentão',
-      'pasta de pimentão vermelho',
-      'muhamara',
-      'mhammara',
-    ],
+    keys: 'muhammara, pasta de pimentão, pasta de pimentão vermelho, muhamara, mhammara',
   },
 ];
