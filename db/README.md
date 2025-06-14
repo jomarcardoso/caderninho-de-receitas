@@ -20,3 +20,15 @@ docker run -d \
   -p 5432:5432 \
   postgres
 ```
+
+## Backup
+
+```sh
+docker exec -it caderninho-db pg_dump -U admin caderninho > backup.sql
+```
+
+### Restore
+
+```sh
+docker exec -it caderninho-db psql -U admin caderninho < backup.sql
+```

@@ -72,7 +72,8 @@ namespace server.Models
     public float Sugar { get; set; }
     public float Gl { get; set; }
     public UnitOfMeasurement UnitOfMeasurement { get; set; }
-    public Measure[] OneMeasures { get; set; } = Array.Empty<Measure>();
+    public ICollection<Measure> OneMeasures { get; set; } = [];
+
     public string Keys { get; set; } = string.Empty;
     public bool IsRecipe { get; set; }
     public string Icon { get; set; } = string.Empty;
