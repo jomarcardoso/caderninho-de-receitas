@@ -2,6 +2,7 @@ import React, {
   FC,
   ReactElement,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
 } from 'react';
@@ -19,6 +20,7 @@ import './recipe-container.scss';
 import { Nutrient } from '../../services/nutrient.constants';
 import { ListItem } from '../list-item/list-item';
 import round from 'lodash/round';
+import { FoodsContext } from '../../providers/foods.provider';
 
 export interface RecipeContainerProps {
   recipe: Recipe;
@@ -31,9 +33,10 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   setCurrentFood,
   setCurrentFoodQuantity,
 }) => {
+  const { foods } = useContext(FoodsContext);
   const formattedRecipe = useMemo(() => {
-    return RecipeService.format(recipe);
-  }, [recipe]);
+    return RecipeService.format(foods, recipe);
+  }, [recipe, foods]);
 
   const hasVitamins = useMemo(
     () =>

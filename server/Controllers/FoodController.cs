@@ -38,20 +38,17 @@ namespace server.Controllers
         }
 
         // POST: api/food
-        //[HttpPost]
-        //public async Task<ActionResult<Food>> Create([FromBody] string description)
-        //{
-        //    // Simulando serviço de IA (será substituído por ML.NET)
-        //    var food = FoodGenerator.GenerateFromDescription(description);
+        [HttpPost]
+        public async Task<ActionResult<Food>> Create([FromBody] Food food)
+        {
+            _context.Foods.Add(food);
+            await _context.SaveChangesAsync();
 
-        //    _context.Foods.Add(food);
-        //    await _context.SaveChangesAsync();
+           return CreatedAtAction(nameof(GetById), new { id = food.Id }, food);
+        }
 
-        //    return CreatedAtAction(nameof(GetById), new { id = food.Id }, food);
-        //}
-
-        // POST: api/food
-        [HttpPost()]
+        // POST: api/food/many
+        [HttpPost("many")]
         public async Task<ActionResult<Food>> CreateMany([FromBody] Food[] foods)
         {
             foreach (Food food in foods)

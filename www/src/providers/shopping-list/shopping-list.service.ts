@@ -1,4 +1,4 @@
-import { FOOD, FoodService } from '../../services/food';
+import { Food, FOOD, FoodService } from '../../services/food';
 import { ShoppingItem, ShoppingList } from './shopping-list.types';
 
 /**
@@ -6,14 +6,19 @@ import { ShoppingItem, ShoppingList } from './shopping-list.types';
  * @param shoppingList string extract text and checkboxes
  * @returns the text to textarea and a list
  */
-function format(data: string): ShoppingList {
+function format(foods: Food[] = [], data = ''): ShoppingList {
+  const copyFoods = JSON.parse(JSON.stringify(foods)) as Food[];
   const lines = data.split(/\n/);
   const text = data.replaceAll('- [ ] ', '').replaceAll('- [x] ', '');
+
+  console.log(copyFoods);
 
   const list = lines.map<ShoppingItem>((line) => {
     const text = line.replace('- [ ] ', '').replace('- [x] ', '');
     const checked = line.includes('- [x] ');
-    const food = text.trim() ? FoodService.getFoodByString(text).food : FOOD;
+    const food = text.trim()
+      ? FoodService.getFoodByString(copyFoods, text).food
+      : FOOD;
 
     return {
       checked,

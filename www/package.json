@@ -5,9 +5,9 @@
   "version": "0.10.0",
   "author": "Jomar Cardoso <jomar.cardoso@cwi.com.br>",
   "dependencies": {
-    "@fontsource/cinzel": "5.0.12",
-    "@fontsource/dosis": "5.0.19",
-    "@fontsource/vibur": "5.0.8",
+    "@fontsource/cinzel": "5.2.6",
+    "@fontsource/dosis": "5.2.6",
+    "@fontsource/vibur": "5.2.6",
     "@mui/base": "5.0.0-beta.70",
     "bootstrap": "5.3.6",
     "firebase": "10.11.0",

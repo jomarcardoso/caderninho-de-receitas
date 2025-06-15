@@ -11,20 +11,21 @@ import Field, { FieldProps } from '../field/field';
 import './interactive-field.scss';
 import Image from '../image/image';
 import { Checkbox } from '../checkbox';
-import { ShoppingList } from '../../providers/shopping-list/shopping-list.types';
 import { ShoppingListService } from '../../providers/shopping-list/shopping-list.service';
 import { ShoppingListContext } from '../../providers';
+import { FoodsContext } from '../../providers/foods.provider';
 
 export const InteractiveField: FC<FieldProps> = ({ ...props }) => {
   const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
+  const { foods } = useContext(FoodsContext);
   const initialData = useMemo(() => {
-    return ShoppingListService.format(String(shoppingList));
+    return ShoppingListService.format(foods, String(shoppingList));
   }, [shoppingList]);
 
   const [text, setText] = useState(initialData.text);
   const [checks, setChecks] = useState(initialData.list.map((a) => a.checked));
   const formattedShoppingList = useMemo(() => {
-    return ShoppingListService.format(text);
+    return ShoppingListService.format(foods, text);
   }, [text]);
 
   const save = useCallback(

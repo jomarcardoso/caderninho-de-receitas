@@ -14,7 +14,7 @@ import { Button } from '../../components/button';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import Field from '../../components/field/field';
-import { foods } from '../../db/food';
+import { FoodsContext } from '../../providers/foods.provider';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -31,11 +31,12 @@ const FoodsPanel: FC<Props> = ({
   quantityToShow: externalQuantityToShow = 40,
   currentFood,
 }) => {
+  const { foods } = useContext(FoodsContext);
   const [quantityToShow, setQuantityToShow] = useState(externalQuantityToShow);
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
 
-  let searchedFoods = [...foods];
+  let searchedFoods = JSON.parse(JSON.stringify(foods)) as Food[];
 
   if (search) {
     searchedFoods = [...foods].filter(

@@ -10,24 +10,27 @@ import {
   ShoppingListProvider,
 } from '../providers';
 import '../styles/main.scss';
+import { FoodsProvider } from '../providers/foods.provider';
 
 const Index: FC<AppProps> = () => {
   return (
-    <FirebaseProvider>
-      <RecipesProvider>
-        <ShoppingListProvider>
-          <CurrentRecipeProvider>
-            <NavigationProvider>
-              <LoadingProvider>
-                <EditingProvider>
-                  <AppPage />
-                </EditingProvider>
-              </LoadingProvider>
-            </NavigationProvider>
-          </CurrentRecipeProvider>
-        </ShoppingListProvider>
-      </RecipesProvider>
-    </FirebaseProvider>
+    <LoadingProvider>
+      <FirebaseProvider>
+        <FoodsProvider>
+          <RecipesProvider>
+            <ShoppingListProvider>
+              <CurrentRecipeProvider>
+                <NavigationProvider>
+                  <EditingProvider>
+                    <AppPage />
+                  </EditingProvider>
+                </NavigationProvider>
+              </CurrentRecipeProvider>
+            </ShoppingListProvider>
+          </RecipesProvider>
+        </FoodsProvider>
+      </FirebaseProvider>
+    </LoadingProvider>
   );
 };
 

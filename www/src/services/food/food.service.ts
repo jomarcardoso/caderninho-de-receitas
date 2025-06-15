@@ -1,5 +1,5 @@
-import { foods } from '../../db/food';
-import { Food, FOOD } from './food.types';
+import { FoodDataService } from '../food-data';
+import { Food, FOOD, FoodData } from './food.types';
 
 interface GetFoodByStringReturn {
   food: Food;
@@ -7,6 +7,7 @@ interface GetFoodByStringReturn {
 }
 
 type GetFoodByString = (
+  foods: Food[],
   text: string,
   options?: {
     preferRecipe?: true;
@@ -14,10 +15,13 @@ type GetFoodByString = (
 ) => GetFoodByStringReturn;
 
 export const getFoodByString: GetFoodByString = (
+  foods: Food[] = [],
   text = '',
   { preferRecipe } = {},
 ) => {
-  const orderedFoods = foods.sort(({ recipe }) =>
+  console.log(foods);
+  const copyFoods = JSON.parse(JSON.stringify(foods)) as Food[];
+  const orderedFoods = copyFoods.sort(({ recipe }) =>
     recipe ? (preferRecipe ? -1 : 1) : preferRecipe ? 1 : -1,
   );
   const lowerText = text.toLowerCase();
@@ -161,3 +165,12 @@ export const getFoodByString: GetFoodByString = (
 
   return { food, index };
 };
+
+export async function fetchFood(): Promise<Food[]> {
+  const res = await fetch('http://localhost:5106/api/food');
+  const foodsData: FoodData[] = await res.json();
+
+  console.log(foodsData);
+
+  return foodsData.map(FoodDataService.format);
+}

@@ -290,9 +290,8 @@ function measureFromString(text = ''): Measure {
   };
 }
 
-function ingredientFromString(text = ''): Ingredient {
-  const { food } = FoodService.getFoodByString(text);
-
+function ingredientFromString(foods: Food[] = [], text = ''): Ingredient {
+  const { food } = FoodService.getFoodByString(foods, text);
   const measure = measureFromString(text);
 
   if (!food) return PORTION;
