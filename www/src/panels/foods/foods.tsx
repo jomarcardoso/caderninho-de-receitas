@@ -9,12 +9,15 @@ import React, {
 } from 'react';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
-import type { Food } from '../../services/food';
+import { FOOD, type Food } from '../../services/food';
 import { Button } from '../../components/button';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import Field from '../../components/field/field';
 import { FoodsContext } from '../../providers/foods.provider';
+import { IoAddCircleOutline } from 'react-icons/io5';
+import LoadingSvg from '../../assets/svg/loading.svg';
+import { FoodRegister } from '../../components/food-register/food-register';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -98,11 +101,25 @@ const FoodsPanel: FC<Props> = ({
   }, [searchInput]);
 
   return (
-    <Layout showHeader={false} showFooter={false} className="foods">
+    <Layout
+      showHeader={false}
+      className="foods"
+      footerProps={{
+        items: [
+          {
+            onClick: () => {},
+            icon: <IoAddCircleOutline />,
+            key: 'add',
+          },
+        ],
+      }}
+    >
       <div
         className="paper-bg container"
         style={{ paddingBottom: '40px', paddingTop: '40px' }}
       >
+        <FoodRegister food={FOOD} />
+
         <h1 className="section-title">Lista de alimentos</h1>
 
         <Field
@@ -113,7 +130,11 @@ const FoodsPanel: FC<Props> = ({
           value={searchInput}
         />
 
-        <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
+        {foods.length ? (
+          <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
+        ) : (
+          <LoadingSvg />
+        )}
 
         {orderedFoods.length >= quantityToShow && (
           <div

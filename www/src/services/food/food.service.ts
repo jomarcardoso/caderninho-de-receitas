@@ -19,9 +19,7 @@ export const getFoodByString: GetFoodByString = (
   text = '',
   { preferRecipe } = {},
 ) => {
-  console.log(foods);
-  const copyFoods = JSON.parse(JSON.stringify(foods)) as Food[];
-  const orderedFoods = copyFoods.sort(({ recipe }) =>
+  const orderedFoods = foods.sort(({ recipe }) =>
     recipe ? (preferRecipe ? -1 : 1) : preferRecipe ? 1 : -1,
   );
   const lowerText = text.toLowerCase();
@@ -169,8 +167,6 @@ export const getFoodByString: GetFoodByString = (
 export async function fetchFood(): Promise<Food[]> {
   const res = await fetch('http://localhost:5106/api/food');
   const foodsData: FoodData[] = await res.json();
-
-  console.log(foodsData);
 
   return foodsData.map(FoodDataService.format);
 }

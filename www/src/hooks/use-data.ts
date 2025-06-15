@@ -25,9 +25,7 @@ export const useData = <T>(
   }, []);
 
   useEffect(() => {
-    // console.log('seta a merda da cebola', storage, db);
     if (storage.lastUpdate < db.lastUpdate) {
-      console.log('nesse caso vai definir o localstora, mas com atraso né');
       setStorage(db);
     }
 

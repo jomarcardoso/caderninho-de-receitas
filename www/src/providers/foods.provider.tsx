@@ -25,8 +25,6 @@ export const FoodsProvider: FC<HTMLProps<Element>> = ({ children }) => {
     try {
       const dataFoods = await fetchFood();
 
-      console.log(dataFoods);
-
       setFoods(dataFoods);
       setLoading?.(false);
     } catch (error) {}

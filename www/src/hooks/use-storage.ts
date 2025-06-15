@@ -34,8 +34,6 @@ export const useStorage = <T>(
       return;
     }
 
-    console.log(newData);
-
     setData(newData);
     localStorage.setItem(collection, JSON.stringify(newData));
   }, []);

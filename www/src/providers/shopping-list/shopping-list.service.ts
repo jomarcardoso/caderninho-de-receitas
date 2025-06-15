@@ -7,17 +7,14 @@ import { ShoppingItem, ShoppingList } from './shopping-list.types';
  * @returns the text to textarea and a list
  */
 function format(foods: Food[] = [], data = ''): ShoppingList {
-  const copyFoods = JSON.parse(JSON.stringify(foods)) as Food[];
   const lines = data.split(/\n/);
   const text = data.replaceAll('- [ ] ', '').replaceAll('- [x] ', '');
-
-  console.log(copyFoods);
 
   const list = lines.map<ShoppingItem>((line) => {
     const text = line.replace('- [ ] ', '').replace('- [x] ', '');
     const checked = line.includes('- [x] ');
     const food = text.trim()
-      ? FoodService.getFoodByString(copyFoods, text).food
+      ? FoodService.getFoodByString(foods, text).food
       : FOOD;
 
     return {
@@ -33,13 +30,11 @@ function format(foods: Food[] = [], data = ''): ShoppingList {
   };
 }
 
-function process(text: string): ShoppingItem[] {
+function process(foods: Food[] = [], text: string): ShoppingItem[] {
   const lines = text.split(/\n/);
 
-  console.log('process', text);
-
   return lines.map<ShoppingItem>((text) => {
-    const { food } = FoodService.getFoodByString(text);
+    const { food } = FoodService.getFoodByString(foods, text);
 
     return {
       checked: false,
