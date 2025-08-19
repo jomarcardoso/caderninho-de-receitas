@@ -72,7 +72,7 @@ namespace server.Controllers
                 return NotFound();
 
             // Update properties
-            existing.Name = food.Name;
+            existing.NamePt = food.NamePt;
             // Add other properties as needed
 
             await _context.SaveChangesAsync();

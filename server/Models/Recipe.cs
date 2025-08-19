@@ -7,14 +7,14 @@ namespace server.Models
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Ingredients { get; set; } = string.Empty;
+        public string IngredientsText { get; set; } = string.Empty;
         public string Preparation { get; set; } = string.Empty;
         public string Additional { get; set; } = string.Empty;
         // Optional: You can add a constructor for easier initialization
-        public RecipeStep(string name, string ingredients, string preparation, string additional)
+        public RecipeStep(string name, string ingredientsText, string preparation, string additional)
         {
             Name = name;
-            Ingredients = ingredients;
+            IngredientsText = ingredientsText;
             Preparation = preparation;
             Additional = additional;
         }
