@@ -30,7 +30,6 @@ type VitaminNick =
 
 type VitaminName =
   | ''
-  | 'Biotina'
   | 'Retinol'
   | 'Provitamina A'
   | 'Ácido ascórbico'

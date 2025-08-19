@@ -1,9 +1,11 @@
-import React, { FC, LegacyRef, forwardRef } from 'react';
+import React, { FC, LegacyRef, forwardRef, useState } from 'react';
 import { Food } from '../../services/food';
 import Layout, { LayoutProps } from '../../components/layout/layout';
 import FoodDetailed from '../../components/food-detailed/food-detailed';
 import Header, { HeaderProps } from '../../components/header/header';
 import './food.scss';
+import { FoodRegister } from '../../components/food-register/food-register';
+import { IoCreateOutline } from 'react-icons/io5';
 
 interface Props extends LayoutProps {
   food: Food;
@@ -14,6 +16,9 @@ interface Props extends LayoutProps {
 const FoodPanel: FC<Props> = forwardRef(
   ({ food, quantity = 100, headerProps, ...props }, ref) => {
     const { name = '' } = food;
+    const [edit, setEdit] = useState(false);
+
+    const editTemplate = <FoodRegister food={food} />;
 
     return (
       <div>
@@ -26,13 +31,39 @@ const FoodPanel: FC<Props> = forwardRef(
         <Layout
           ref={ref as LegacyRef<HTMLDivElement>}
           className="food"
-          showFooter={false}
           mainProps={{
             style: { marginTop: 0 },
           }}
           {...props}
+          footerProps={{
+            items: [
+              // {
+              //   onClick: memoizedhandleNewRecipe,
+              //   icon: <IoAddCircleOutline />,
+              //   key: 'add',
+              // },
+              {
+                // hidden: (currentRecipe?.id ?? 0) < 10000,
+                onClick: () => setEdit(true),
+                icon: <IoCreateOutline />,
+                key: 'edit',
+              },
+              // {
+              //   hidden: (currentRecipe?.id ?? 0) < 10000,
+              //   onClick: handleShare,
+              //   icon: <IoShareOutline />,
+              //   key: 'share',
+              // },
+              // {
+              //   hidden: (currentRecipe?.id ?? 0) < 10000,
+              //   onClick: handleClickRemove,
+              //   icon: <IoTrashOutline />,
+              //   key: 'remove',
+              // },
+            ],
+          }}
         >
-          <FoodDetailed food={food} />
+          {edit ? editTemplate : <FoodDetailed food={food} />}
         </Layout>
       </div>
     );

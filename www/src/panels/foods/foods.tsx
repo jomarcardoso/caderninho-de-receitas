@@ -118,7 +118,7 @@ const FoodsPanel: FC<Props> = ({
         className="paper-bg container"
         style={{ paddingBottom: '40px', paddingTop: '40px' }}
       >
-        <FoodRegister food={FOOD} />
+        {/* <FoodRegister food={FOOD} /> */}
 
         <h1 className="section-title">Lista de alimentos</h1>
 
