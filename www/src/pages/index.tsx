@@ -11,6 +11,7 @@ import {
 } from '../providers';
 import '../styles/main.scss';
 import { FoodsProvider } from '../providers/foods.provider';
+import { LanguageProvider } from '../providers/language/language.provider';
 
 const Index: FC<AppProps> = () => {
   return (
@@ -19,13 +20,15 @@ const Index: FC<AppProps> = () => {
         <FoodsProvider>
           <RecipesProvider>
             <ShoppingListProvider>
-              <CurrentRecipeProvider>
-                <NavigationProvider>
-                  <EditingProvider>
-                    <AppPage />
-                  </EditingProvider>
-                </NavigationProvider>
-              </CurrentRecipeProvider>
+              <LanguageProvider>
+                <CurrentRecipeProvider>
+                  <NavigationProvider>
+                    <EditingProvider>
+                      <AppPage />
+                    </EditingProvider>
+                  </NavigationProvider>
+                </CurrentRecipeProvider>
+              </LanguageProvider>
             </ShoppingListProvider>
           </RecipesProvider>
         </FoodsProvider>

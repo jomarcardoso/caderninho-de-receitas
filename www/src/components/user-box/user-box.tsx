@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps, useContext, useMemo } from 'react';
+import React, { FC, HTMLProps, useCallback, useContext, useMemo } from 'react';
 import { IoLogInOutline } from 'react-icons/io5';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { generateClasses } from '../../services/dom/classes';
@@ -7,11 +7,14 @@ import { Button } from '../button';
 import './user-box.scss';
 import { Chip, Chips } from '../chips/chips';
 import { FirebaseContext } from '../../providers';
+import { LanguageContext } from '../../providers/language/language.context';
+import { Language } from '../../services/language/language.types';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 
 export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
   const { user, logout, login } = useContext(FirebaseContext);
+  const { language, setLanguage } = useContext(LanguageContext);
 
   const classes = useMemo(
     () =>
@@ -61,6 +64,17 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     );
   }, []);
 
+  const handleLanguage = useCallback<React.FormEventHandler<HTMLInputElement>>(
+    (event) => {
+      if (!event.currentTarget.checked) {
+        return;
+      }
+
+      setLanguage?.(event.currentTarget.value as Language);
+    },
+    [setLanguage],
+  );
+
   return (
     <>
       <section aria-label="área do usuário" className={classes} {...props}>
@@ -69,14 +83,33 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
         {user?.displayName ? memoLogged : memoUnlogged}
       </section>
 
-      {user?.displayName && (
-        <section aria-label="configurações do aplicativo" className="mt-3">
-          <Chips full name="user-class">
-            <Chip>cozinheiro</Chip>
-            <Chip>nutricionista</Chip>
-          </Chips>
-        </section>
-      )}
+      <section aria-label="configurações do aplicativo">
+        {user?.displayName && (
+          <>
+            <Chips full name="language" className="mt-3">
+              <Chip
+                value="en"
+                checked={language === 'en'}
+                onChange={handleLanguage}
+              >
+                english
+              </Chip>
+              <Chip
+                value="pt"
+                checked={language === 'pt'}
+                onChange={handleLanguage}
+              >
+                portuguese
+              </Chip>
+            </Chips>
+
+            <Chips full name="user-class" className="mt-3">
+              <Chip>cozinheiro</Chip>
+              <Chip>nutricionista</Chip>
+            </Chips>
+          </>
+        )}
+      </section>
     </>
   );
 };
