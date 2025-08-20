@@ -26,14 +26,14 @@ export const getFoodByString: GetFoodByString = (
 
   if (lowerText.startsWith('sal para')) {
     return {
-      food: orderedFoods.find((food) => food.name === 'Sal') ?? FOOD,
+      food: orderedFoods.find((food) => food.name.pt === 'Sal') ?? FOOD,
       index: 0,
     };
   }
 
   const foodsFound =
     orderedFoods.filter((foodItem) => {
-      const lowerFood = foodItem.name.toLowerCase();
+      const lowerFood = foodItem.name.pt.toLowerCase();
 
       if (lowerFood === lowerText) {
         return true;
@@ -53,7 +53,7 @@ export const getFoodByString: GetFoodByString = (
     }) || [];
 
   const exactFood = foodsFound.find((foodFound) => {
-    const lowerFoodFound = foodFound.name.toLowerCase();
+    const lowerFoodFound = foodFound.name.pt.toLowerCase();
 
     return (
       lowerFoodFound === lowerText ||
@@ -103,8 +103,8 @@ export const getFoodByString: GetFoodByString = (
   if (!food.name) {
     food = foodsFound.reduce((previous, current) => {
       const textWords = lowerText.split(' ');
-      const lowerPrevious = previous.name.toLowerCase();
-      const lowerCurrent = current.name.toLowerCase();
+      const lowerPrevious = previous.name.pt.toLowerCase();
+      const lowerCurrent = current.name.pt.toLowerCase();
       const previousWords = lowerPrevious.split(' ');
       const currentWords = lowerCurrent.split(' ');
       let previousWordsMatched = 0;
@@ -129,7 +129,7 @@ export const getFoodByString: GetFoodByString = (
       }
 
       if (previousWordsMatched === currentWordsMatched) {
-        if (previous.name.length <= current.name.length) {
+        if (previous.name.pt.length <= current.name.pt.length) {
           if (previous.name) {
             return previous;
           }
@@ -149,7 +149,7 @@ export const getFoodByString: GetFoodByString = (
     };
   }
 
-  let index = lowerText.indexOf(food.name);
+  let index = lowerText.indexOf(food.name.pt);
 
   food.keys.forEach((key) => {
     if (index !== -1) return;

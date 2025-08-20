@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import Image from '../image/image';
 import { Ingredient } from '../../services/ingredient/ingredient.types';
 import { Food } from '../../services/food';
 import Section, { SectionProps } from '../section/section';
 import { SemanticButton } from '../semantic-button';
+import { LanguageContext } from '../../providers/language/language.context';
 
 interface Props {
   ingredients: Array<Ingredient>;
@@ -19,6 +20,7 @@ const Ingredients: FC<IngredientsProps> = ({
   setCurrentFoodQuantity,
   ...props
 }) => {
+  const { language } = useContext(LanguageContext);
   function handleClick(ingredient: Ingredient) {
     if (setCurrentFood) {
       setCurrentFood(ingredient.food);
@@ -44,7 +46,7 @@ const Ingredients: FC<IngredientsProps> = ({
               <div className="g-col-1">
                 <Image
                   src={ingredient.food.icon || ingredient.food.image}
-                  alt={ingredient.food.name}
+                  alt={ingredient.food.name[language]}
                   transparent
                 />
               </div>

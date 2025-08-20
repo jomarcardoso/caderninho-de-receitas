@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, HTMLProps } from 'react';
+import React, { FC, useState, useEffect, HTMLProps, useContext } from 'react';
 import Panel from '../../components/panel/panel';
 import RecipePanel from '../recipe/recipe-panel';
 import SEO from '../../components/seo';
@@ -9,10 +9,12 @@ import Header from '../../components/root-header/root-header';
 import { FOOD } from '../../services/food';
 import './app.scss';
 import { DialogSharedRecipe } from '../../components/dialog-shared-recipe/dialog-shared-recipe';
+import { LanguageContext } from '../../providers/language/language.context';
 
 export type AppProps = HTMLProps<HTMLDivElement>;
 
 const AppPage: FC<AppProps> = (props) => {
+  const { language } = useContext(LanguageContext);
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
   const [currentFood, setCurrentFood] = useState(FOOD);
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(40);
@@ -26,7 +28,7 @@ const AppPage: FC<AppProps> = (props) => {
       <DialogFood
         food={currentFood}
         onClose={() => setCurrentFood(FOOD)}
-        open={Boolean(currentFood.name)}
+        open={Boolean(currentFood.name[language])}
         quantity={currentFoodQuantity}
       />
       <DialogSharedRecipe />

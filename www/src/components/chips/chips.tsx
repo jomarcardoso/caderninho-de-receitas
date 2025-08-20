@@ -19,28 +19,31 @@ export const Chip: FC<HTMLProps<HTMLInputElement>> = ({
   );
 };
 
-export interface ChipsProps extends HTMLProps<HTMLUListElement> {
+export interface ChipsProps extends HTMLProps<HTMLFieldSetElement> {
   full?: boolean;
   name: string;
+  legend?: string;
 }
 
 export const Chips: FC<ChipsProps> = ({
   children,
-  className = '',
   full,
   name = '',
+  legend = '',
   ...props
 }) => {
   const classes = generateClasses({
     chips: true,
-    [className]: className,
+    'mt-2': true,
     '-full': full,
   });
+
   return (
     <NameContext.Provider value={name}>
-      <ul className={classes} {...props}>
-        {children}
-      </ul>
+      <fieldset {...props}>
+        <legend>{legend}</legend>
+        <ul className={classes}>{children}</ul>
+      </fieldset>
     </NameContext.Provider>
   );
 };

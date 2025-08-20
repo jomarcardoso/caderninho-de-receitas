@@ -18,6 +18,7 @@ import { FoodsContext } from '../../providers/foods.provider';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import LoadingSvg from '../../assets/svg/loading.svg';
 import { FoodRegister } from '../../components/food-register/food-register';
+import { LanguageContext } from '../../providers/language/language.context';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -34,6 +35,7 @@ const FoodsPanel: FC<Props> = ({
   quantityToShow: externalQuantityToShow = 40,
   currentFood,
 }) => {
+  const { language } = useContext(LanguageContext);
   const { foods } = useContext(FoodsContext);
   const [quantityToShow, setQuantityToShow] = useState(externalQuantityToShow);
   const [search, setSearch] = useState('');
@@ -44,8 +46,10 @@ const FoodsPanel: FC<Props> = ({
   if (search) {
     searchedFoods = [...foods].filter(
       (food) =>
-        food.name.toLowerCase().includes(search.toLowerCase()) ||
-        food.description.toLowerCase().includes(search.toLowerCase()) ||
+        food.name[language].toLowerCase().includes(search.toLowerCase()) ||
+        food.description[language]
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
         food.keys.some((key) =>
           key.toLowerCase().includes(search.toLowerCase()),
         ),
@@ -72,14 +76,14 @@ const FoodsPanel: FC<Props> = ({
     return (
       <ListItem
         isActive={food.id === currentFood?.id}
-        key={food.name}
+        key={food.name[language]}
         onClick={() => {
           setCurrentFood(food);
           setCurrentFoodQuantity(100);
         }}
         icon={<Image src={food.icon} alt="" transparent />}
       >
-        {food.name}
+        {food.name[language]}
       </ListItem>
     );
   }

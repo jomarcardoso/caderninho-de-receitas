@@ -14,8 +14,10 @@ import { Checkbox } from '../checkbox';
 import { ShoppingListService } from '../../providers/shopping-list/shopping-list.service';
 import { ShoppingListContext } from '../../providers';
 import { FoodsContext } from '../../providers/foods.provider';
+import { LanguageContext } from '../../providers/language/language.context';
 
 export const InteractiveField: FC<FieldProps> = ({ ...props }) => {
+  const { language } = useContext(LanguageContext);
   const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
   const { foods } = useContext(FoodsContext);
   const initialData = useMemo(() => {
@@ -83,7 +85,7 @@ export const InteractiveField: FC<FieldProps> = ({ ...props }) => {
             line.food.name && (
               <Image
                 src={line.food.icon || line.food.image}
-                alt={line.food.name}
+                alt={line.food.name[language]}
                 transparent
                 className="interactive-field__img"
               />

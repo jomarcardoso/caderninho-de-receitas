@@ -3,6 +3,7 @@ import {
   AminoAcidsData,
   AMINO_ACIDS,
 } from '../amino-acid/amino-acid.constants';
+import { Language } from '../language/language.types';
 import { MINERALS, Minerals, MineralsData } from '../mineral';
 import { VITAMINS, Vitamins, VitaminsData } from '../vitamin';
 
@@ -63,8 +64,8 @@ export type FoodType = (typeof FoodTypes)[keyof typeof FoodTypes];
 
 interface FoodBase {
   id: number;
-  name: string;
-  description: string;
+  name: Record<Language, string>;
+  description: Record<Language, string>;
   image: string;
   gi: number;
   calories: number;
@@ -98,7 +99,15 @@ export interface Food extends FoodBase {
 
 export interface FoodData
   extends Partial<
-      Omit<FoodBase, 'unitOfMeasurement' | 'oneMeasures' | 'keys' | 'type'>
+      Omit<
+        FoodBase,
+        | 'unitOfMeasurement'
+        | 'oneMeasures'
+        | 'keys'
+        | 'type'
+        | 'name'
+        | 'description'
+      >
     >,
     Partial<AminoAcidsData>,
     Partial<MineralsData>,
@@ -107,6 +116,10 @@ export interface FoodData
   oneMeasures?: Array<MeasureData>;
   keys?: string;
   type?: number;
+  name?: string;
+  description?: string;
+  namePt?: string;
+  descriptionPt?: string;
 }
 
 export enum FoodVersions {
@@ -125,12 +138,18 @@ export const FOOD: Food = {
   vitamins: { ...VITAMINS },
   id: 0,
   keys: [],
-  name: '',
+  name: {
+    en: '',
+    pt: '',
+  },
   acidification: 0,
   calories: 0,
   carbohydrates: 0,
   ashes: 0,
-  description: '',
+  description: {
+    en: '',
+    pt: '',
+  },
   dietaryFiber: 0,
   sugar: 0,
   gi: 0,

@@ -30,6 +30,14 @@ export function format(data?: FoodData): Food {
   return {
     ...FOOD,
     ...data,
+    name: {
+      en: data?.name ?? '',
+      pt: data?.namePt ?? '',
+    },
+    description: {
+      en: data?.description ?? '',
+      pt: data?.descriptionPt ?? '',
+    },
     unitOfMeasurement: data?.unitOfMeasurement === 1 ? 'liter' : 'gram',
     oneMeasures:
       data?.oneMeasures?.map((oneMeasure) => ({

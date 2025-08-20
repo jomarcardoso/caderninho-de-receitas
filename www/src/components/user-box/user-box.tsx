@@ -8,7 +8,7 @@ import './user-box.scss';
 import { Chip, Chips } from '../chips/chips';
 import { FirebaseContext } from '../../providers';
 import { LanguageContext } from '../../providers/language/language.context';
-import { Language } from '../../services/language/language.types';
+import { I18N_TEXT, Language } from '../../services/language/language.types';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 
@@ -36,12 +36,12 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
             <span className="svg-icon">
               <IoCloseCircleOutline />
             </span>
-            sair
+            {I18N_TEXT.logout[language]}
           </button>
         )}
       </>
     );
-  }, [user, logout]);
+  }, [user, logout, language]);
 
   const memoUnlogged = useMemo(() => {
     return (
@@ -86,20 +86,25 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
       <section aria-label="configurações do aplicativo">
         {user?.displayName && (
           <>
-            <Chips full name="language" className="mt-3">
+            <Chips
+              full
+              name="language"
+              className="mt-3"
+              legend={I18N_TEXT.language[language]}
+            >
               <Chip
                 value="en"
                 checked={language === 'en'}
                 onChange={handleLanguage}
               >
-                english
+                {I18N_TEXT.english[language]}
               </Chip>
               <Chip
                 value="pt"
                 checked={language === 'pt'}
                 onChange={handleLanguage}
               >
-                portuguese
+                {I18N_TEXT.portuguese[language]}
               </Chip>
             </Chips>
 
