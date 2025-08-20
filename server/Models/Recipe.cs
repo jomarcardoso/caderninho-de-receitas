@@ -1,34 +1,5 @@
-﻿using server.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace server.Models
+﻿namespace server.Models
 {
-    public class Ingredient
-    {
-        public int Id { get; set; }
-        public string Text { get; set; } = string.Empty;
-        // food detected
-        public Food? Food { get; set; } = null;
-        // literal quantity, in liters or grams
-        public double Quantity { get; set; } = 0;
-        // quantity described, cups, spoons...
-        public Measure? Measure { get; set; } = null;
-
-        // it processes the information based on the text
-        public Ingredient(string text)
-        {
-            Text = text;
-        }
-
-        public Ingredient(string text, Food food, double quantity, Measure measure)
-        {
-            Text = text;
-            Food = food;
-            Quantity = quantity;
-            Measure = measure;
-        }
-    }
-
     public class RecipeStep
     {
         public int Id { get; set; }

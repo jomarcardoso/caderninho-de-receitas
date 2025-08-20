@@ -23,8 +23,16 @@ docker run -d \
 
 ## Backup
 
+Backup in SQL
+
 ```sh
 docker exec -it caderninho-db pg_dump -U admin caderninho > backup.sql
+```
+
+Backup in CSV to use for Machine Learning.
+
+```sh
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy \"Foods\" TO STDOUT WITH CSV HEADER" > backup/Foods.csv
 ```
 
 ### Restore
