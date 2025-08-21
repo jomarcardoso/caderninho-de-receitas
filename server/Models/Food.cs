@@ -76,7 +76,7 @@ namespace server.Models
     public UnitOfMeasurement UnitOfMeasurement { get; set; }
     public ICollection<Measure> OneMeasures { get; set; } = [];
 
-    public string Keys { get; set; } = string.Empty;
+    public string KeysPt { get; set; } = string.Empty;
     public bool IsRecipe { get; set; }
     public string Icon { get; set; } = string.Empty;
     public FoodType Type { get; set; } = FoodType.Solid;
