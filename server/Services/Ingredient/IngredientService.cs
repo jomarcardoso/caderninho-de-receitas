@@ -1,37 +1,50 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using System.Text.RegularExpressions;
+using server.Constants;
+using server.Models;
 
 namespace server.Services.Ingredient
 {
+    public record QuantityAndRest(string MeasureText, MeasureType MeasureType, string Rest);
+
     public class IngredientService
     {
-    // private readonly IMemoryCachehe _cache;
+        public QuantityAndRest SplitTextInMeasureAndRest(string text)
+        {
+            foreach (var kv in MeasurePatterns.PatternsPt)
+            {
+                Regex regex = kv.Value;
+                Match match = regex.Match(text);
+                var mesasureMatch = match.Groups["measure"];
 
-    //     public IngredientService(IMemoryCache cache)
-    //     {
-    //         _cache = cache;
-    //     }
+                if (match.Success)
+                {
+                    Console.WriteLine($"Match encontrado: {mesasureMatch.Value} em {mesasureMatch.Index}");
+                    return new QuantityAndRest(
+                        text.Substring(0, mesasureMatch.Index + mesasureMatch.Length).Trim(),
+                        kv.Key,
+                        text.Substring(mesasureMatch.Index + mesasureMatch.Length).Trim()
+                    );
+                }
+            }
 
-    //     public async Task<string> GetDataAsync(string key)
-    //     {
-    //         // tenta pegar do cache
-    //         if (_cache.TryGetValue(key, out string cachedData))
-    //         {
-    //             return cachedData;
-    //         }
+            return new QuantityAndRest("", MeasureType.Literal, text);
+        }
 
-    //         // se não tiver no cache, busca de alguma fonte externa
-    //         string data = await CallExternalApi(key);
+        // public Double QuantityFromMeasureTextAndMeasureType(string measureText, MeasureType measureType)
+        // {
 
-    //         // salva no cache com tempo de expiração
-    //         _cache.Set(key, data, TimeSpan.FromMinutes(5));
+        // }
 
-    //         return data;
-    //     }
+        public DetailedIngredient ingredientFromText(string text)
+        {
+            var (measureText, measureType, restText) = SplitTextInMeasureAndRest(text);
 
-    //     private Task<string> CallExternalApi(string key)
-    //     {
-    //         // simulação de chamada externa
-    //         return Task.FromResult($"Resposta para {key} em {DateTime.Now}");
-    //     }
+            return new DetailedIngredient
+            {
+                Food = new Food(),
+                Measure = new Measure(),
+                Quantity = 0,
+            };
+        }
     }
 }

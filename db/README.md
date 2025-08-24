@@ -26,13 +26,25 @@ docker run -d \
 Backup in SQL
 
 ```sh
-docker exec -it caderninho-db pg_dump -U admin caderninho > backup.sql
+docker exec -it caderninho-db pg_dump -U admin caderninho > backup/full_db.sql
 ```
 
 Backup in CSV to use for Machine Learning.
 
 ```sh
-docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy \"Foods\" TO STDOUT WITH CSV HEADER" > backup/Foods.csv
+# english
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT \"Id\" as id, \"Name\" as name, \"Keys\" as keys, FROM \"Foods\") TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsEn.tsv
+
+# portuguese
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT \"Id\" as id, \"NamePt\" as name, \"KeysPt\" as keys FROM \"Foods\") TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsPt.tsv
+
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (
+    SELECT
+        \"Id\" as id,
+        \"NamePt\" as name,
+        trim(both ' ' from unnest(string_to_array(\"KeysPt\", ','))) as key
+    FROM \"Foods\"
+) TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsPt.tsv
 ```
 
 ### Restore

@@ -1,0 +1,5 @@
+# Server tests
+
+```
+dotnet test
+```

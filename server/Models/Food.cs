@@ -8,11 +8,11 @@ namespace server.Models
     Liter,
   }
 
-  public enum MeasurerValues
+  public enum MeasureType
   {
     Cup,
-    Tablespoon,
-    Teaspoon,
+    Spoon,
+    TeaSpoon,
     Unity,
     UnitySmall,
     UnityLarge,
@@ -22,7 +22,12 @@ namespace server.Models
     Breast,
     Clove,
     Slice,
-    Bunch
+    Bunch,
+    Ml,
+    Liter,
+    Gram,
+    Kilo,
+    Pinch
   }
 
   public enum FoodType
@@ -47,7 +52,7 @@ namespace server.Models
   public class Measure
   {
     public int Id { get; set; }
-    public MeasurerValues Type { get; set; }
+    public MeasureType Type { get; set; }
     public float Quantity { get; set; }
   }
 
