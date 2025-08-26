@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using server;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 // using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,8 +43,51 @@ builder.Services.AddCors(options =>
         });
 });
 
+// login
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    })
+    .AddCookie()
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    });
+
+// builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+// {
+//     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+//     googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+// });
+
+// builder.Services
+//     .AddAuthentication(options =>
+//     {
+//         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//     })
+//     .AddJwtBearer(options =>
+//     {
+//         options.Authority = "https://accounts.google.com";
+//         options.TokenValidationParameters = new TokenValidationParameters
+//         {
+//             ValidateIssuer = true,
+//             ValidIssuer = "https://accounts.google.com",
+//             ValidateAudience = true,
+//             ValidAudience = "<seu-client-id-do-google>",
+//             ValidateLifetime = true
+//         };
+//     });
+
 
 var app = builder.Build();
+
+// auth
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors("AllowSpecificOrigin");
 

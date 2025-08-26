@@ -26,5 +26,6 @@
         public string? Additional { get; set; }
         public List<RecipeStep> steps { get; set; } = new List<RecipeStep>();
         //RecipeCategory category { get; set; }
+        public string OwnerId { get; set; } = string.Empty;
     }
 }
