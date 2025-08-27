@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Server.Models;
+using Server.Services;
 
 namespace Server.Dtos;
 
@@ -69,9 +70,36 @@ public class IngredientDto
     return new QuantityAndRest("", MeasureType.Literal, Text);
   }
 
+  public static double ParseMeasureQuantity(string measureText, MeasureType measureType)
+  {
+    // Aqui você converte "2", "1/2", "meio" etc. em número
+    // Exemplo simples:
+    if (measureText.Contains("meio") || measureText.Contains("1/2"))
+      return 0.5;
+
+    if (double.TryParse(Regex.Match(measureText, @"\d+").Value, out var number))
+      return number;
+
+    return 1; // default
+  }
+
+  public static double ConvertToLiteralQuantity(double quantity, MeasureType measureType)
+  {
+    return measureType switch
+    {
+      MeasureType.Cup => quantity * 200,      // 1 xícara = 200g açúcar (exemplo)
+      MeasureType.Spoon => quantity * 15,    // 1 colher = 15g
+      MeasureType.TeaSpoon => quantity * 5,  // 1 colher de chá = 5g
+      _ => quantity
+    };
+  }
+
   public Ingredient ToEntity()
   {
     var (measureText, measureType, restText) = SplitTextInMeasureAndRest();
+    var food = FoodService.FindFoodByName(restText); // instância do Food
+    var quantity = ParseMeasureQuantity(measureText, measureType);
+    var grams = ConvertToLiteralQuantity(quantity, measureType);
 
     return new Ingredient
     {
