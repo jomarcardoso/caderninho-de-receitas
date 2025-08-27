@@ -6,77 +6,76 @@ using server.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace server.Controllers
+namespace server.Controllers;
+
+[ApiController]
+[Route("api/food")]
+public class FoodController : ControllerBase
 {
-    [ApiController]
-    [Route("api/food")]
-    public class FoodController : ControllerBase
+    private readonly AppDbContext _context;
+
+    public FoodController(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public FoodController(AppDbContext context)
-        {
-            _context = context;
-        }
+    // GET: api/food
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Food>>> GetAll()
+    {
+        var foods = await _context.Foods.ToListAsync();
+        return Ok(foods);
+    }
 
-        // GET: api/food
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Food>>> GetAll()
-        {
-            var foods = await _context.Foods.ToListAsync();
-            return Ok(foods);
-        }
+    // GET: api/food/{id}
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Food>> GetById(int id)
+    {
+        var food = await _context.Foods.FindAsync(id);
+        if (food == null)
+            return NotFound();
+        return Ok(food);
+    }
 
-        // GET: api/food/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Food>> GetById(int id)
-        {
-            var food = await _context.Foods.FindAsync(id);
-            if (food == null)
-                return NotFound();
-            return Ok(food);
-        }
+    // POST: api/food
+    [HttpPost]
+    public async Task<ActionResult<Food>> Create([FromBody] Food food)
+    {
+        _context.Foods.Add(food);
+        await _context.SaveChangesAsync();
 
-        // POST: api/food
-        [HttpPost]
-        public async Task<ActionResult<Food>> Create([FromBody] Food food)
+       return CreatedAtAction(nameof(GetById), new { id = food.Id }, food);
+    }
+
+    // POST: api/food/many
+    [HttpPost("many")]
+    public async Task<ActionResult<Food>> CreateMany([FromBody] Food[] foods)
+    {
+        foreach (Food food in foods)
         {
             _context.Foods.Add(food);
             await _context.SaveChangesAsync();
-
-           return CreatedAtAction(nameof(GetById), new { id = food.Id }, food);
         }
 
-        // POST: api/food/many
-        [HttpPost("many")]
-        public async Task<ActionResult<Food>> CreateMany([FromBody] Food[] foods)
-        {
-            foreach (Food food in foods)
-            {
-                _context.Foods.Add(food);
-                await _context.SaveChangesAsync();
-            }
+        return Ok();
+    }
 
-            return Ok();
-        }
+    // POST: api/food/{id}
+    [HttpPost("{id}")]
+    public async Task<IActionResult> Update(int id, [FromForm] Food food)
+    {
+        if (id != food.Id)
+            return BadRequest();
 
-        // POST: api/food/{id}
-        [HttpPost("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] Food food)
-        {
-            if (id != food.Id)
-                return BadRequest();
+        var existing = await _context.Foods.FindAsync(id);
+        if (existing == null)
+            return NotFound();
 
-            var existing = await _context.Foods.FindAsync(id);
-            if (existing == null)
-                return NotFound();
+        // Update properties
+        existing.NamePt = food.NamePt;
+        // Add other properties as needed
 
-            // Update properties
-            existing.NamePt = food.NamePt;
-            // Add other properties as needed
-
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
+        await _context.SaveChangesAsync();
+        return NoContent();
     }
 }

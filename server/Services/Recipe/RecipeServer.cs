@@ -1,6 +1,5 @@
-﻿namespace server.Services.Recipe
+﻿namespace server.Services.Recipe;
+
+public class RecipeServer
 {
-    public class RecipeServer
-    {
-    }
 }

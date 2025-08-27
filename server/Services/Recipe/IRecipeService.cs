@@ -1,6 +1,5 @@
-﻿namespace server.Services.Recipe
+﻿namespace server.Services.Recipe;
+
+public interface IRecipeService
 {
-    public interface IRecipeService
-    {
-    }
 }

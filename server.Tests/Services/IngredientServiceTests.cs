@@ -2,18 +2,18 @@
 using server.Services.Ingredient;
 using server.Models;
 
-namespace server.Tests.Services
-{
-    [TestFixture]
-    public class IngredientServiceTests
-    {
-        private IngredientService _service;
+namespace server.Tests.Services;
 
-        [SetUp]
-        public void Setup()
-        {
-            _service = new IngredientService();
-        }
+[TestFixture]
+public class IngredientServiceTests
+{
+    private IngredientService _service;
+
+    [SetUp]
+    public void Setup()
+    {
+        _service = new IngredientService();
+    }
 
         [Test]
         // public void SplitTextInMeasureAndRest_FindsQuantityAndRest()
@@ -180,5 +180,4 @@ namespace server.Tests.Services
             Assert.That(result.MeasureType, Is.EqualTo(expectedMeasureType));
             Assert.That(result.Rest, Is.EqualTo(expectedRest));
         }
-    }
 }

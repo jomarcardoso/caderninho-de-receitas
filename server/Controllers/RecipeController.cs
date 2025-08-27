@@ -1,83 +1,64 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace server.Controllers
+using server.Models;
+
+using System.Security.Claims;
+
+namespace server.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+[Authorize] // garante que só usuários logados podem acessar
+public class RecipeController : ControllerBase
 {
-    public class RecipeController : Controller
-    {
-        // GET: RecipeController
-        public ActionResult Index()
-        {
-            return View();
-        }
+  private readonly AppDbContext _context;
 
-        // GET: RecipeController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+  public RecipeController(AppDbContext context)
+  {
+    _context = context;
+  }
 
-        // GET: RecipeController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+  // Helper para pegar o sub (Google UserId)
+  private string GetUserId() =>
+      User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 
-        // POST: RecipeController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+  // POST api/recipes
+  [HttpPost]
+  public async Task<IActionResult> CreateRecipe([FromBody] Recipe recipe)
+  {
+    var userId = GetUserId();
+    recipe.OwnerId = userId;
 
-        // GET: RecipeController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+    _context.Recipes.Add(recipe);
+    await _context.SaveChangesAsync();
 
-        // POST: RecipeController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+    return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
+  }
 
-        // GET: RecipeController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+  // GET api/recipes
+  [HttpGet]
+  public IActionResult GetMyRecipes()
+  {
+    var userId = GetUserId();
+    var myRecipes = _context.Recipes
+        .Where(r => r.OwnerId == userId)
+        .ToList();
 
-        // POST: RecipeController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-    }
+    return Ok(myRecipes);
+  }
+
+  // GET api/recipes/5
+  [HttpGet("{id}")]
+  public IActionResult GetRecipe(int id)
+  {
+    var userId = GetUserId();
+    var recipe = _context.Recipes
+        .FirstOrDefault(r => r.Id == id && r.OwnerId == userId);
+
+    if (recipe == null)
+      return NotFound();
+
+    return Ok(recipe);
+  }
 }

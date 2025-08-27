@@ -1,0 +1,17 @@
+{
+  "FormattingOptions": {
+    "useTabs": false,
+    "tabSize": 2,
+    "indentationSize": 2,
+    "newLine": "\n"
+  },
+  "RoslynExtensionsOptions": {
+    "enableAnalyzersSupport": true,
+    "enableImportCompletion": true,
+    "locationPaths": []
+  },
+  "EntityFrameworkOptions": {
+    "EnableCodeGeneration": true,
+    "UsePluralizer": true
+  }
+}
