@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using server.Constants;
-using server.Models;
+using Server.Constants;
+using Server.Models;
 
-namespace server.Services;
+namespace Server.Services;
 
 public record QuantityAndRest(string MeasureText, MeasureType MeasureType, string Rest);
 
@@ -35,11 +35,11 @@ public class IngredientService
 
   // }
 
-  public DetailedIngredient ingredientFromText(string text)
+  public Ingredient ingredientFromText(string text)
   {
     var (measureText, measureType, restText) = SplitTextInMeasureAndRest(text);
 
-    return new DetailedIngredient
+    return new Ingredient
     {
       Food = new Food(),
       Measure = new Measure(),

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-using server.Models;
+using Server.Models;
 
-namespace server.Services;
+namespace Server.Services;
 
 public class FoodService
 {

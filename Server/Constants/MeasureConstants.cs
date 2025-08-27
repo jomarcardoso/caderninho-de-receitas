@@ -1,7 +1,7 @@
-namespace server.Constants;
+namespace Server.Constants;
 
 using System.Text.RegularExpressions;
-using server.Models;
+using Server.Models;
 
 public record MeasureRegex(MeasureType Type, Regex Pattern);
 

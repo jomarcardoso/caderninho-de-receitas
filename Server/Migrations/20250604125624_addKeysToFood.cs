@@ -2,28 +2,28 @@
 
 #nullable disable
 
-namespace server.Migrations
+namespace Server.Migrations
 {
+  /// <inheritdoc />
+  public partial class addKeysToFood : Migration
+  {
     /// <inheritdoc />
-    public partial class addKeysToFood : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>(
-                name: "keys",
-                table: "foods",
-                type: "text",
-                nullable: false,
-                defaultValue: "");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "keys",
-                table: "foods");
-        }
+      migrationBuilder.AddColumn<string>(
+          name: "keys",
+          table: "foods",
+          type: "text",
+          nullable: false,
+          defaultValue: "");
     }
+
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropColumn(
+          name: "keys",
+          table: "foods");
+    }
+  }
 }

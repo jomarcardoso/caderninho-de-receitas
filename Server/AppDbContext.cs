@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using server.Models;
+using Server.Models;
 
-namespace server;
+namespace Server;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options) { }
+  public AppDbContext(DbContextOptions<AppDbContext> options)
+      : base(options) { }
 
-    public DbSet<Recipe> Recipes { get; set; }
-    public DbSet<Food> Foods { get; set; }
+  public DbSet<Recipe> Recipes { get; set; }
+  public DbSet<Food> Foods { get; set; }
 }

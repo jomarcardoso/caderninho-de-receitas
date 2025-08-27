@@ -83,7 +83,7 @@
     },
     "Schema": "e0 * e1 * e2",
     "MetricName": "MacroAccuracy",
-    "ModelFilePath": "C:\\Users\\anton\\Downloads\\projetos\\caderninho-de-receitas\\server\\MLModel.mlnet"
+    "ModelFilePath": "C:\\Users\\anton\\Downloads\\projetos\\caderninho-de-receitas\\Server\\MLModel.mlnet"
   },
   "Type": "TrainingConfig",
   "Version": 5,

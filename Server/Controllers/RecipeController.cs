@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using server.Models;
+using Server.Models;
 
 using System.Security.Claims;
 
-namespace server.Controllers;
+namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

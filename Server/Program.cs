@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using server;
+using Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 // using System;
@@ -28,33 +28,33 @@ builder.Services.AddScoped<PageTitleService>();
 // Add http client
 builder.Services.AddHttpClient("Default", client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["BaseAddress"] ?? "https://localhost:7269/");
+  client.BaseAddress = new Uri(builder.Configuration["BaseAddress"] ?? "https://localhost:7269/");
 });
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Default"));
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:8000", "https://localhost:8000")
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
+  options.AddPolicy("AllowSpecificOrigin",
+      builder =>
+      {
+        builder.WithOrigins("http://localhost:8000", "https://localhost:8000")
+                 .AllowAnyMethod()
+                 .AllowAnyHeader();
+      });
 });
 
 // login
 builder.Services
     .AddAuthentication(options =>
     {
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+      options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+      options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
     })
     .AddCookie()
     .AddGoogle(googleOptions =>
     {
-        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+      googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+      googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
 
 // builder.Services.AddAuthentication().AddGoogle(googleOptions =>
@@ -94,8 +94,8 @@ app.UseCors("AllowSpecificOrigin");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -107,9 +107,9 @@ app.MapControllers();
 // test DB
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    // db.Database.Migrate();
-    db.Database.EnsureCreated();
+  var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+  // db.Database.Migrate();
+  db.Database.EnsureCreated();
 }
 
 app.UseStaticFiles();

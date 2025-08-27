@@ -2,27 +2,27 @@
 
 #nullable disable
 
-namespace server.Migrations
+namespace Server.Migrations
 {
+  /// <inheritdoc />
+  public partial class renameKeysToPt : Migration
+  {
     /// <inheritdoc />
-    public partial class renameKeysToPt : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.RenameColumn(
-                name: "Keys",
-                table: "Foods",
-                newName: "KeysPt");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.RenameColumn(
-                name: "KeysPt",
-                table: "Foods",
-                newName: "Keys");
-        }
+      migrationBuilder.RenameColumn(
+          name: "Keys",
+          table: "Foods",
+          newName: "KeysPt");
     }
+
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.RenameColumn(
+          name: "KeysPt",
+          table: "Foods",
+          newName: "Keys");
+    }
+  }
 }

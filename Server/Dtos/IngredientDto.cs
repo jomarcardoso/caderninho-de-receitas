@@ -1,16 +1,16 @@
-using server.Models;
+using Server.Models;
 
-namespace server.Dtos;
+namespace Server.Dtos;
 
 public class IngredientDto
 {
   public string Text { get; set; } = string.Empty;
 
-  public Ingredient ToEntity()
-  {
-    return new Ingredient
-    {
-      Text = Text
-    };
-  }
+  // public Ingredient ToEntity()
+  // {
+  //   return new Ingredient
+  //   {
+  //     Text = Text
+  //   };
+  // }
 }

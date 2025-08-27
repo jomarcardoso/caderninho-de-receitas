@@ -4,435 +4,435 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using server;
+using Server;
 
 #nullable disable
 
-namespace server.Migrations
+namespace Server.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20250821093616_renameKeysToPt")]
-    partial class renameKeysToPt
+  [DbContext(typeof(AppDbContext))]
+  [Migration("20250821093616_renameKeysToPt")]
+  partial class renameKeysToPt
+  {
+    /// <inheritdoc />
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+      modelBuilder
+          .HasAnnotation("ProductVersion", "9.0.5")
+          .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+      NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("server.Models.Food", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+      modelBuilder.Entity("Server.Models.Food", b =>
+          {
+            b.Property<int>("Id")
+                      .ValueGeneratedOnAdd()
+                      .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<float>("A")
-                        .HasColumnType("real");
+            b.Property<float>("A")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Acidification")
-                        .HasColumnType("real");
+            b.Property<float>("Acidification")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Alanine")
-                        .HasColumnType("real");
+            b.Property<float>("Alanine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("AlphaCarotene")
-                        .HasColumnType("real");
+            b.Property<float>("AlphaCarotene")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Arginine")
-                        .HasColumnType("real");
+            b.Property<float>("Arginine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Ashes")
-                        .HasColumnType("real");
+            b.Property<float>("Ashes")
+                      .HasColumnType("real");
 
-                    b.Property<float>("AsparticAcid")
-                        .HasColumnType("real");
+            b.Property<float>("AsparticAcid")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B1")
-                        .HasColumnType("real");
+            b.Property<float>("B1")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B11")
-                        .HasColumnType("real");
+            b.Property<float>("B11")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B12")
-                        .HasColumnType("real");
+            b.Property<float>("B12")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B2")
-                        .HasColumnType("real");
+            b.Property<float>("B2")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B3")
-                        .HasColumnType("real");
+            b.Property<float>("B3")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B5")
-                        .HasColumnType("real");
+            b.Property<float>("B5")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B6")
-                        .HasColumnType("real");
+            b.Property<float>("B6")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B7")
-                        .HasColumnType("real");
+            b.Property<float>("B7")
+                      .HasColumnType("real");
 
-                    b.Property<float>("B9")
-                        .HasColumnType("real");
+            b.Property<float>("B9")
+                      .HasColumnType("real");
 
-                    b.Property<float>("BetaCarotene")
-                        .HasColumnType("real");
+            b.Property<float>("BetaCarotene")
+                      .HasColumnType("real");
 
-                    b.Property<float>("C")
-                        .HasColumnType("real");
+            b.Property<float>("C")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Calcium")
-                        .HasColumnType("real");
+            b.Property<float>("Calcium")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Calories")
-                        .HasColumnType("real");
+            b.Property<float>("Calories")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Carbohydrates")
-                        .HasColumnType("real");
+            b.Property<float>("Carbohydrates")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Cholesterol")
-                        .HasColumnType("real");
+            b.Property<float>("Cholesterol")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Choline")
-                        .HasColumnType("real");
+            b.Property<float>("Choline")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Copper")
-                        .HasColumnType("real");
+            b.Property<float>("Copper")
+                      .HasColumnType("real");
 
-                    b.Property<float>("CryptoxanthinCarotene")
-                        .HasColumnType("real");
+            b.Property<float>("CryptoxanthinCarotene")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Cystine")
-                        .HasColumnType("real");
+            b.Property<float>("Cystine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("D")
-                        .HasColumnType("real");
+            b.Property<float>("D")
+                      .HasColumnType("real");
 
-                    b.Property<float>("D2")
-                        .HasColumnType("real");
+            b.Property<float>("D2")
+                      .HasColumnType("real");
 
-                    b.Property<float>("D3")
-                        .HasColumnType("real");
+            b.Property<float>("D3")
+                      .HasColumnType("real");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Description")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<string>("DescriptionPt")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("DescriptionPt")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<float>("DietaryFiber")
-                        .HasColumnType("real");
+            b.Property<float>("DietaryFiber")
+                      .HasColumnType("real");
 
-                    b.Property<float>("E")
-                        .HasColumnType("real");
+            b.Property<float>("E")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Fluoride")
-                        .HasColumnType("real");
+            b.Property<float>("Fluoride")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Gi")
-                        .HasColumnType("real");
+            b.Property<float>("Gi")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Gl")
-                        .HasColumnType("real");
+            b.Property<float>("Gl")
+                      .HasColumnType("real");
 
-                    b.Property<float>("GlutamicAcid")
-                        .HasColumnType("real");
+            b.Property<float>("GlutamicAcid")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Glutamine")
-                        .HasColumnType("real");
+            b.Property<float>("Glutamine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Glycine")
-                        .HasColumnType("real");
+            b.Property<float>("Glycine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Histidine")
-                        .HasColumnType("real");
+            b.Property<float>("Histidine")
+                      .HasColumnType("real");
 
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Icon")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Image")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<float>("Iron")
-                        .HasColumnType("real");
+            b.Property<float>("Iron")
+                      .HasColumnType("real");
 
-                    b.Property<bool>("IsRecipe")
-                        .HasColumnType("boolean");
+            b.Property<bool>("IsRecipe")
+                      .HasColumnType("boolean");
 
-                    b.Property<float>("Isoleucine")
-                        .HasColumnType("real");
+            b.Property<float>("Isoleucine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("K")
-                        .HasColumnType("real");
+            b.Property<float>("K")
+                      .HasColumnType("real");
 
-                    b.Property<string>("KeysPt")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("KeysPt")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<float>("Leucine")
-                        .HasColumnType("real");
+            b.Property<float>("Leucine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Lycopene")
-                        .HasColumnType("real");
+            b.Property<float>("Lycopene")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Lysine")
-                        .HasColumnType("real");
+            b.Property<float>("Lysine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Magnesium")
-                        .HasColumnType("real");
+            b.Property<float>("Magnesium")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Manganese")
-                        .HasColumnType("real");
+            b.Property<float>("Manganese")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Methionine")
-                        .HasColumnType("real");
+            b.Property<float>("Methionine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("MonounsaturatedFats")
-                        .HasColumnType("real");
+            b.Property<float>("MonounsaturatedFats")
+                      .HasColumnType("real");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Name")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<string>("NamePt")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("NamePt")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<float>("Phenylalanine")
-                        .HasColumnType("real");
+            b.Property<float>("Phenylalanine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Phosphorus")
-                        .HasColumnType("real");
+            b.Property<float>("Phosphorus")
+                      .HasColumnType("real");
 
-                    b.Property<float>("PolyunsaturatedFats")
-                        .HasColumnType("real");
+            b.Property<float>("PolyunsaturatedFats")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Potassium")
-                        .HasColumnType("real");
+            b.Property<float>("Potassium")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Proline")
-                        .HasColumnType("real");
+            b.Property<float>("Proline")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Proteins")
-                        .HasColumnType("real");
+            b.Property<float>("Proteins")
+                      .HasColumnType("real");
 
-                    b.Property<float>("SaturedFats")
-                        .HasColumnType("real");
+            b.Property<float>("SaturedFats")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Selenium")
-                        .HasColumnType("real");
+            b.Property<float>("Selenium")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Serine")
-                        .HasColumnType("real");
+            b.Property<float>("Serine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Sodium")
-                        .HasColumnType("real");
+            b.Property<float>("Sodium")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Sugar")
-                        .HasColumnType("real");
+            b.Property<float>("Sugar")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Threonine")
-                        .HasColumnType("real");
+            b.Property<float>("Threonine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("TotalFat")
-                        .HasColumnType("real");
+            b.Property<float>("TotalFat")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Tryptophan")
-                        .HasColumnType("real");
+            b.Property<float>("Tryptophan")
+                      .HasColumnType("real");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+            b.Property<int>("Type")
+                      .HasColumnType("integer");
 
-                    b.Property<float>("Tyrosine")
-                        .HasColumnType("real");
+            b.Property<float>("Tyrosine")
+                      .HasColumnType("real");
 
-                    b.Property<int>("UnitOfMeasurement")
-                        .HasColumnType("integer");
+            b.Property<int>("UnitOfMeasurement")
+                      .HasColumnType("integer");
 
-                    b.Property<float>("Valine")
-                        .HasColumnType("real");
+            b.Property<float>("Valine")
+                      .HasColumnType("real");
 
-                    b.Property<float>("Zinc")
-                        .HasColumnType("real");
+            b.Property<float>("Zinc")
+                      .HasColumnType("real");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.ToTable("Foods");
-                });
+            b.ToTable("Foods");
+          });
 
-            modelBuilder.Entity("server.Models.Ingredient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+      modelBuilder.Entity("Server.Models.Ingredient", b =>
+          {
+            b.Property<int>("Id")
+                      .ValueGeneratedOnAdd()
+                      .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("FoodId")
-                        .HasColumnType("integer");
+            b.Property<int?>("FoodId")
+                      .HasColumnType("integer");
 
-                    b.Property<int?>("MeasureId")
-                        .HasColumnType("integer");
+            b.Property<int?>("MeasureId")
+                      .HasColumnType("integer");
 
-                    b.Property<double>("Quantity")
-                        .HasColumnType("double precision");
+            b.Property<double>("Quantity")
+                      .HasColumnType("double precision");
 
-                    b.Property<int?>("RecipeStepId")
-                        .HasColumnType("integer");
+            b.Property<int?>("RecipeStepId")
+                      .HasColumnType("integer");
 
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Text")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("FoodId");
+            b.HasIndex("FoodId");
 
-                    b.HasIndex("MeasureId");
+            b.HasIndex("MeasureId");
 
-                    b.HasIndex("RecipeStepId");
+            b.HasIndex("RecipeStepId");
 
-                    b.ToTable("Ingredient");
-                });
+            b.ToTable("Ingredient");
+          });
 
-            modelBuilder.Entity("server.Models.Measure", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+      modelBuilder.Entity("Server.Models.Measure", b =>
+          {
+            b.Property<int>("Id")
+                      .ValueGeneratedOnAdd()
+                      .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("FoodId")
-                        .HasColumnType("integer");
+            b.Property<int?>("FoodId")
+                      .HasColumnType("integer");
 
-                    b.Property<float>("Quantity")
-                        .HasColumnType("real");
+            b.Property<float>("Quantity")
+                      .HasColumnType("real");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+            b.Property<int>("Type")
+                      .HasColumnType("integer");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("FoodId");
+            b.HasIndex("FoodId");
 
-                    b.ToTable("Measure");
-                });
+            b.ToTable("Measure");
+          });
 
-            modelBuilder.Entity("server.Models.Recipe", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+      modelBuilder.Entity("Server.Models.Recipe", b =>
+          {
+            b.Property<int>("id")
+                      .ValueGeneratedOnAdd()
+                      .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Additional")
-                        .HasColumnType("text");
+            b.Property<string>("Additional")
+                      .HasColumnType("text");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
+            b.Property<string>("Description")
+                      .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Name")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.HasKey("id");
+            b.HasKey("id");
 
-                    b.ToTable("Recipes");
-                });
+            b.ToTable("Recipes");
+          });
 
-            modelBuilder.Entity("server.Models.RecipeStep", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+      modelBuilder.Entity("Server.Models.RecipeStep", b =>
+          {
+            b.Property<int>("Id")
+                      .ValueGeneratedOnAdd()
+                      .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Additional")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Additional")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<string>("IngredientsText")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("IngredientsText")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Name")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<string>("Preparation")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("Preparation")
+                      .IsRequired()
+                      .HasColumnType("text");
 
-                    b.Property<int?>("Recipeid")
-                        .HasColumnType("integer");
+            b.Property<int?>("Recipeid")
+                      .HasColumnType("integer");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("Recipeid");
+            b.HasIndex("Recipeid");
 
-                    b.ToTable("RecipeStep");
-                });
+            b.ToTable("RecipeStep");
+          });
 
-            modelBuilder.Entity("server.Models.Ingredient", b =>
-                {
-                    b.HasOne("server.Models.Food", "Food")
-                        .WithMany()
-                        .HasForeignKey("FoodId");
+      modelBuilder.Entity("Server.Models.Ingredient", b =>
+          {
+            b.HasOne("Server.Models.Food", "Food")
+                      .WithMany()
+                      .HasForeignKey("FoodId");
 
-                    b.HasOne("server.Models.Measure", "Measure")
-                        .WithMany()
-                        .HasForeignKey("MeasureId");
+            b.HasOne("Server.Models.Measure", "Measure")
+                      .WithMany()
+                      .HasForeignKey("MeasureId");
 
-                    b.HasOne("server.Models.RecipeStep", null)
-                        .WithMany("Ingredients")
-                        .HasForeignKey("RecipeStepId");
+            b.HasOne("Server.Models.RecipeStep", null)
+                      .WithMany("Ingredients")
+                      .HasForeignKey("RecipeStepId");
 
-                    b.Navigation("Food");
+            b.Navigation("Food");
 
-                    b.Navigation("Measure");
-                });
+            b.Navigation("Measure");
+          });
 
-            modelBuilder.Entity("server.Models.Measure", b =>
-                {
-                    b.HasOne("server.Models.Food", null)
-                        .WithMany("OneMeasures")
-                        .HasForeignKey("FoodId");
-                });
+      modelBuilder.Entity("Server.Models.Measure", b =>
+          {
+            b.HasOne("Server.Models.Food", null)
+                      .WithMany("OneMeasures")
+                      .HasForeignKey("FoodId");
+          });
 
-            modelBuilder.Entity("server.Models.RecipeStep", b =>
-                {
-                    b.HasOne("server.Models.Recipe", null)
-                        .WithMany("steps")
-                        .HasForeignKey("Recipeid");
-                });
+      modelBuilder.Entity("Server.Models.RecipeStep", b =>
+          {
+            b.HasOne("Server.Models.Recipe", null)
+                      .WithMany("steps")
+                      .HasForeignKey("Recipeid");
+          });
 
-            modelBuilder.Entity("server.Models.Food", b =>
-                {
-                    b.Navigation("OneMeasures");
-                });
+      modelBuilder.Entity("Server.Models.Food", b =>
+          {
+            b.Navigation("OneMeasures");
+          });
 
-            modelBuilder.Entity("server.Models.Recipe", b =>
-                {
-                    b.Navigation("steps");
-                });
+      modelBuilder.Entity("Server.Models.Recipe", b =>
+          {
+            b.Navigation("steps");
+          });
 
-            modelBuilder.Entity("server.Models.RecipeStep", b =>
-                {
-                    b.Navigation("Ingredients");
-                });
+      modelBuilder.Entity("Server.Models.RecipeStep", b =>
+          {
+            b.Navigation("Ingredients");
+          });
 #pragma warning restore 612, 618
-        }
     }
+  }
 }
