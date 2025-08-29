@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-
 using Server.Models;
 
 namespace Server.Services;
@@ -7,6 +6,7 @@ namespace Server.Services;
 public class FoodService
 {
   private readonly AppDbContext _context;
+  private List<Food> foods = new List<Food>();
 
   public FoodService(AppDbContext context)
   {
@@ -45,5 +45,36 @@ public class FoodService
 
     await _context.SaveChangesAsync();
     return existingFood;
+  }
+
+  private Food? hasExactFoodWithThisName(string name)
+  {
+    return foods.FirstOrDefault(f => f.Name == name);
+  }
+
+  private Food? hasExactKeyWithThisName(string name)
+  {
+    return foods.FirstOrDefault((f) => f.Keys.Split(',').Any((k) => k == name));
+  }
+
+  public async Task<Food> FindFoodByPossibleName(string possibleName)
+  {
+    foods = await _context.Foods.ToListAsync();
+
+    Food? _food = hasExactFoodWithThisName(possibleName);
+
+    if (_food != null)
+    {
+      return _food;
+    }
+
+    _food = hasExactFoodWithThisName(possibleName);
+
+    if (_food != null)
+    {
+      return _food;
+    }
+    // var food = await _context.Foods.FirstOrDefaultAsync(f => f.Name == name);
+    // return food;
   }
 }

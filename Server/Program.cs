@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Server.Services;
 // using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,10 @@ builder.Services.AddSwaggerGen();
 // DB - dependency injection of dbContext in Controllers
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+
+// DB - dependency injection of dbContext in Controllers
+builder.Services.AddScoped<FoodService>();
+builder.Services.AddScoped<IngredientService>();
 
 // blazor
 builder.Services.AddRazorPages();

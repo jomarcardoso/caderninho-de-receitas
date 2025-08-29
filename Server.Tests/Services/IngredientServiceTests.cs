@@ -1,18 +1,26 @@
-﻿using NUnit.Framework;
-using Server.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using Server.Services;
 using Server.Models;
 
-namespace Server.Tests.Dtos;
+namespace Server.Tests.Services;
 
 [TestFixture]
-public class IngredientDtoTests
+public class IngredientServiceTests
 {
-  private IngredientDto dto;
+  private IngredientService service;
 
   [SetUp]
   public void Setup()
   {
-    dto = new IngredientDto();
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+        .UseInMemoryDatabase(databaseName: "TestDb")
+        .Options;
+
+    context = new AppDbContext(options);
+
+    foodService = new FoodService(context);
+    service = new IngredientService(foodService);
   }
 
   [TestCase("feijão cozido", "", MeasureType.Unity, "feijão cozido")]
@@ -152,8 +160,8 @@ public class IngredientDtoTests
   [TestCase("uma pitada de sal", "uma pitada", MeasureType.Pinch, "de sal")]
   public void SplitTextInMeasureAndRest_Parametrized(string input, string expectedMeasure, MeasureType expectedMeasureType, string expectedRest)
   {
-    dto.Text = input;
-    var result = dto.SplitTextInMeasureAndRest();
+    service.Text = input;
+    var result = service.SplitTextInMeasureAndRest();
 
     Assert.That(result.MeasureText, Is.EqualTo(expectedMeasure));
     Assert.That(result.MeasureType, Is.EqualTo(expectedMeasureType));
