@@ -29,7 +29,7 @@ Backup in SQL
 docker exec -it caderninho-db pg_dump -U admin caderninho > backup/full_db.sql
 ```
 
-Backup in CSV to use for Machine Learning.
+Backup in CSV/TSV to use for Machine Learning.
 
 ```sh
 # english
@@ -45,6 +45,12 @@ docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (
         trim(both ' ' from unnest(string_to_array(\"KeysPt\", ','))) as key
     FROM \"Foods\"
 ) TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsPt.tsv
+```
+
+Backup to use to unit tests:
+
+```bash
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT \"Id\" as id, \"NamePt\" as name, \"KeysPt\" as keys FROM \"Foods\") f) TO STDOUT" > backup/FoodsPt.json
 ```
 
 ### Restore

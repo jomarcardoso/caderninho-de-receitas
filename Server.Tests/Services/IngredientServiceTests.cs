@@ -9,6 +9,8 @@ namespace Server.Tests.Services;
 public class IngredientServiceTests
 {
   private IngredientService service;
+  private AppDbContext context = null!;
+  private FoodService foodService;
 
   [SetUp]
   public void Setup()
@@ -18,9 +20,14 @@ public class IngredientServiceTests
         .Options;
 
     context = new AppDbContext(options);
-
     foodService = new FoodService(context);
     service = new IngredientService(foodService);
+  }
+
+  [TearDown]
+  public void TearDown()
+  {
+    context.Dispose();
   }
 
   [TestCase("feijão cozido", "", MeasureType.Unity, "feijão cozido")]

@@ -1,0 +1,901 @@
+[
+  { "id": 1, "name": "Abacate", "keys": "avocado" },
+  { "id": 2, "name": "Abacaxi", "keys": "" },
+  {
+    "id": 3,
+    "name": "Abóbora cabotiá",
+    "keys": "abóbora, abobora, abobra, jerimum, abobora cabotian, abóbora cabotian"
+  },
+  { "id": 4, "name": "Abobrinha", "keys": "abobrinha, abobrinha italiana" },
+  {
+    "id": 5,
+    "name": "Achocolatado em pó",
+    "keys": "achocoltado, achocolatado em pó, nescau"
+  },
+  {
+    "id": 6,
+    "name": "Açúcar branco",
+    "keys": "açúcar, açucar, açúcar refinado, açúcar branco, açucar refinado"
+  },
+  {
+    "id": 7,
+    "name": "Açúcar cristal",
+    "keys": "açúcar cristal, açucar cristal"
+  },
+  {
+    "id": 8,
+    "name": "Açúcar mascavo",
+    "keys": "açúcar escuro, açúcar integral"
+  },
+  { "id": 9, "name": "Água", "keys": "" },
+  {
+    "id": 10,
+    "name": "Água de coco",
+    "keys": "coco, agua de coco, água de coco"
+  },
+  {
+    "id": 11,
+    "name": "Água tônica",
+    "keys": "agua tonica, água tonica, tônica, tonica, água tônica, refrigerante tônico"
+  },
+  { "id": 12, "name": "Aipim", "keys": "mandioca, macacheira, cassava" },
+  {
+    "id": 13,
+    "name": "Alecrim",
+    "keys": "alecrim, ramo de alecrim, ramos de alecrim"
+  },
+  {
+    "id": 14,
+    "name": "Aipo",
+    "keys": "aipo, salsão, salsa em ponto grande, talo de aipo, talo de salsão, talo de salsa em ponto grande"
+  },
+  { "id": 15, "name": "alface", "keys": "" },
+  { "id": 16, "name": "alho", "keys": "" },
+  {
+    "id": 17,
+    "name": "Amêndoa",
+    "keys": "amêndoa, amêndoas, amêndoa com pele, amêndoas com pele"
+  },
+  {
+    "id": 18,
+    "name": "Amêndoa torrada e salgada",
+    "keys": "amêndoa torrada, amêndoas torradas, amêndoa salgada, amêndoas salgadas, amêndoa torrada e salgada, amêndoas torrada e salgada"
+  },
+  { "id": 19, "name": "Amendoim", "keys": "amendoim, amendoins" },
+  { "id": 20, "name": "Amido de milho", "keys": "maizena" },
+  { "id": 21, "name": "Arroz Branco", "keys": "arroz" },
+  {
+    "id": 22,
+    "name": "Arroz integral cozido",
+    "keys": "arroz integral, arroz integral cozido"
+  },
+  {
+    "id": 23,
+    "name": "Arroz integral cru",
+    "keys": "arroz integral cru, farinha de arroz integral"
+  },
+  {
+    "id": 24,
+    "name": "Arroz doce, caramelizado com farofa",
+    "keys": "arroz code, arroz doce caramelizado, arroz doce com farofa, arroz doce caramelizado com fafora"
+  },
+  {
+    "id": 25,
+    "name": "Arroz libanês com frango, coalhada e nozes",
+    "keys": "arroz libanês, arroz libanes, arroz libanês com frango, arroz libanês com frango e coalhada, arroz libanês com frango e nozes"
+  },
+  {
+    "id": 26,
+    "name": "Aveia",
+    "keys": "aveia em flocos, flocos de aveia, aveia em floco"
+  },
+  {
+    "id": 27,
+    "name": "Azeite de oliva",
+    "keys": "azeite, óleo de oliva, azeite de oliva extra virgem"
+  },
+  { "id": 28, "name": "Azeitona", "keys": "azeitona, oliva, azeitonas" },
+  {
+    "id": 29,
+    "name": "Babaganouch",
+    "keys": "babaganouch, baba ghanoush, babaganuche, baba ganoush, babaganoush"
+  },
+  { "id": 30, "name": "Banana Mysore", "keys": "" },
+  {
+    "id": 31,
+    "name": "Banana nanica",
+    "keys": "banana, banana nanica, bananas, bananas nanicax"
+  },
+  { "id": 32, "name": "Banana Prata", "keys": "banana" },
+  { "id": 33, "name": "Banha de porco", "keys": "banha, banha de porco" },
+  { "id": 34, "name": "Batata", "keys": "batatinha, batata inglesa" },
+  {
+    "id": 35,
+    "name": "Batata Doce",
+    "keys": "batata doce, batata-doce, batata doce cozida"
+  },
+  {
+    "id": 36,
+    "name": "Beringela",
+    "keys": "berinjela, beringela, beringela crua"
+  },
+  { "id": 37, "name": "Beterraba", "keys": "beterraba, beterraba crua" },
+  {
+    "id": 38,
+    "name": "Bicarbonato de sódio",
+    "keys": "bicarbonato, bicarbonato de sódio"
+  },
+  { "id": 39, "name": "Biscoito de maizena", "keys": "biscoito de maizena" },
+  {
+    "id": 40,
+    "name": "Biscoito recheado",
+    "keys": "biscoito recheado, oreo, bolacha recheada, biscoito oreo"
+  },
+  {
+    "id": 41,
+    "name": "Bolo de cenoura",
+    "keys": "bolo de cenoura com cobertura, bolo de cenoura"
+  },
+  { "id": 42, "name": "Bolo de laranja", "keys": "bolo de laranja" },
+  { "id": 43, "name": "Cacau em pó", "keys": "cacau, cacau em pó" },
+  {
+    "id": 44,
+    "name": "Cachaça",
+    "keys": "cachaça, aguardente, cachaça de cana, aguardente de cana"
+  },
+  {
+    "id": 45,
+    "name": "Café passado",
+    "keys": "café, café passado, café de infusão, café de infusão 10%, café infusão"
+  },
+  { "id": 179, "name": "Sal", "keys": "" },
+  {
+    "id": 46,
+    "name": "Café moído",
+    "keys": "grão de café, grãos de café, café moído"
+  },
+  { "id": 47, "name": "Caldo de cana", "keys": "caldo de cana" },
+  {
+    "id": 48,
+    "name": "Caldo de Legumes",
+    "keys": "caldo de legume, caldo de legumes"
+  },
+  {
+    "id": 49,
+    "name": "Canela",
+    "keys": "canela, casca de canela, canela em pó, canela em casca"
+  },
+  { "id": 50, "name": "carambola", "keys": "carambola, carambolas" },
+  {
+    "id": 51,
+    "name": "Cardamomo",
+    "keys": "cardamomo, cardamomos, baga de cardamomo"
+  },
+  { "id": 52, "name": "Caril", "keys": "caril, curry" },
+  {
+    "id": 53,
+    "name": "Carne bovina",
+    "keys": "carne, carne de gado, carne moída, bife, acém"
+  },
+  {
+    "id": 54,
+    "name": "Castanha-do-pará",
+    "keys": "castanha, castanha do pará"
+  },
+  {
+    "id": 55,
+    "name": "Cebola",
+    "keys": "cebola palito, cebolas palito, cebolete, cebola para conserva, cebolas para conserva"
+  },
+  {
+    "id": 56,
+    "name": "Cebolinha",
+    "keys": "cebolinha, cebolinho, cebolinha-francesa, cebolinha francesa"
+  },
+  { "id": 57, "name": "Cebolas em conserva", "keys": "cebola em conserva" },
+  {
+    "id": 58,
+    "name": "Cenoura",
+    "keys": "cenoura ralada, cenouras raladas, pedaços de cenoura"
+  },
+  { "id": 59, "name": "Cenoura cozida", "keys": "" },
+  { "id": 60, "name": "Cerveja pilsen", "keys": "cerveja" },
+  {
+    "id": 61,
+    "name": "Chá de erva-doce",
+    "keys": "chá de erva-doce, erva-doce, erva doce, anis-verde, anis verde, pimpinela-branca, pimpinela branca"
+  },
+  {
+    "id": 62,
+    "name": "Chapati",
+    "keys": "chapati, pão ázimo, pão azimo, pão sírio, pão indiano, pãozinho indiano, pãozinho sírio"
+  },
+  {
+    "id": 63,
+    "name": "Chocolate preto 45 - 59%",
+    "keys": "chocolate, achocolatado, chocolate em pó, chocolate ao leite"
+  },
+  { "id": 64, "name": "Chuchu", "keys": "chuchu, chuchu cru" },
+  { "id": 65, "name": "Churrasco", "keys": "churrasco, churrasco de carne" },
+  {
+    "id": 66,
+    "name": "Clara de ovo",
+    "keys": "clara de ovo, clara de ovos, claras de ovo, claras de ovos"
+  },
+  { "id": 67, "name": "Coalhada fresca", "keys": "coalhada, coalhada fresca" },
+  { "id": 68, "name": "Coalhada seca", "keys": "coalhada seca" },
+  { "id": 69, "name": "Coco ralado", "keys": "coco, côco, cocos, côcos" },
+  { "id": 70, "name": "Coentro", "keys": "coentro" },
+  {
+    "id": 71,
+    "name": "Couve-flor",
+    "keys": "couve-flor, couve flor, couves-flor, couves-flores, couve-flores"
+  },
+  {
+    "id": 72,
+    "name": "Cravo da índia",
+    "keys": "cravo, cravos, cravos da índia, cravo-da-índia"
+  },
+  { "id": 73, "name": "Cuca", "keys": "" },
+  { "id": 74, "name": "Ervilha", "keys": "ervilha, ervilhas" },
+  { "id": 90, "name": "Fubá", "keys": "farinha de milho" },
+  { "id": 75, "name": "Esfirra", "keys": "esfirra, esfirras, esfiha, esfihas" },
+  {
+    "id": 76,
+    "name": "Espaguete",
+    "keys": "espaguete, esparguete, macarronete, macarrão com molho"
+  },
+  {
+    "id": 77,
+    "name": "Estrogonofe de Carne",
+    "keys": "strogonofe, estrogonofe"
+  },
+  {
+    "id": 78,
+    "name": "Estrogonofe de Frango",
+    "keys": "strogonofe, estrogonofe"
+  },
+  {
+    "id": 79,
+    "name": "Falafel",
+    "keys": "falafel, falafel de frito, falafel de grão-de-bico, falafel de fava"
+  },
+  { "id": 80, "name": "Farinha de aveia", "keys": "farelo de aveia" },
+  {
+    "id": 81,
+    "name": "Farinha de mandioca",
+    "keys": "farinha de mandioca, farofa"
+  },
+  {
+    "id": 82,
+    "name": "Farinha de rosca",
+    "keys": "farinha de rosca, farinha de pão, farinha de pães, pão ralado, pão seco moído"
+  },
+  { "id": 83, "name": "Farinha de trigo", "keys": "farinha branca, farinha" },
+  { "id": 84, "name": "Fermento", "keys": "" },
+  { "id": 85, "name": "Figo", "keys": "figo, figos, figo cru, figos cru" },
+  {
+    "id": 86,
+    "name": "Figo enlatado em calda",
+    "keys": "figo em calda, figos em calda, figo enlatado, figos enlatados"
+  },
+  {
+    "id": 87,
+    "name": "Folha de Louro",
+    "keys": "folha de louro, folhas de louro, louro"
+  },
+  {
+    "id": 88,
+    "name": "Frango",
+    "keys": "galinha, peito de frango, coxa de frango, frango assado, frango desfiado, frango cozido"
+  },
+  {
+    "id": 89,
+    "name": "Frango assado",
+    "keys": "frango assado, frango assado com farofa, frango recheado, frango assado com recheio, frango recheado assado, frango recheado assado com farofa, frango assado com recheio de farofa"
+  },
+  {
+    "id": 91,
+    "name": "Galinhada",
+    "keys": "risoto de frango, arroz com galinha, arroz com frango"
+  },
+  { "id": 92, "name": "Gelo", "keys": "gelo" },
+  {
+    "id": 93,
+    "name": "Gema de ovo",
+    "keys": "gema, gema de ovo, gemas, gemas de ovo, gema de ovos"
+  },
+  { "id": 94, "name": "Gengibre", "keys": "gengibre, gengibre em pó" },
+  {
+    "id": 95,
+    "name": "Gergelim",
+    "keys": "gergelim, gergelins, semente de gergelim, farinha de gergelim, sésamo, sésamos, semente de sésamo, farinha de sésamo, tahine, taíne, tahin, tahini"
+  },
+  {
+    "id": 96,
+    "name": "Grão-de-bico",
+    "keys": "grão de bico, grãos de bico, grãos-de-bico"
+  },
+  { "id": 97, "name": "Guacamole", "keys": "guacamole" },
+  {
+    "id": 98,
+    "name": "Guandu",
+    "keys": "guandu, grãos de guandu, grão-de-guandu, grãos-de-guandu, ingá, inga, ingás, ingas"
+  },
+  {
+    "id": 99,
+    "name": "Hashweh",
+    "keys": "arroz árabe, hashweh, arroz marroquino, arroz árabe com carne, arroz árabe com carne moída, arroz árabe com especiarias, arroz árabe com carne moída e especiarias"
+  },
+  {
+    "id": 100,
+    "name": "Hortelã",
+    "keys": "hortelã, hortelãs, folha de hortelã, folhas de hortelã"
+  },
+  {
+    "id": 101,
+    "name": "Iogurte natural",
+    "keys": "iogurte natural, iogurt, iogurte, yogurt, yogurte, yogourt, yogourte, iogourte, yoghurt, yoghurte, ioghurte"
+  },
+  {
+    "id": 102,
+    "name": "Isotônico",
+    "keys": "isotônico, isotónica, bebida isotônica, bebida isotónica"
+  },
+  { "id": 103, "name": "Kiwi", "keys": "kiwi, kiwis, groselha chinesa" },
+  { "id": 104, "name": "Laranja", "keys": "" },
+  { "id": 105, "name": "Leite de coco", "keys": "leite de coco" },
+  { "id": 106, "name": "Leite de vaca", "keys": "leite, leite de vaca" },
+  {
+    "id": 107,
+    "name": "Lentilha cozida",
+    "keys": "lentilha, lentilhas, lentilha cozida, lentilhas cozidas"
+  },
+  {
+    "id": 108,
+    "name": "Lentilha crua",
+    "keys": "lentilha crua, farinha de lentilha, farinha de lentilhas"
+  },
+  { "id": 109, "name": "Limão", "keys": "limão, limões" },
+  { "id": 110, "name": "Linhaça", "keys": "semente de linhaça" },
+  {
+    "id": 111,
+    "name": "Lombo de porco",
+    "keys": "lombo, lombinho, lombo de porco, filé de porco, lombo suíno, filé suíno, filé mignon suíno"
+  },
+  {
+    "id": 112,
+    "name": "Macarrão fusilli",
+    "keys": "massa, macarrão, massa parafuso, massa parafuso de trigo, macarrão parafuso, macarrão parafuso de trigo, macarrão fusilli, macarrão fusilli de trigo, massa fusilli, massa fusilli de trigo, massa fusili, massa fusili de trigo, macarrão fusili, macarrão fusili de trigo"
+  },
+  { "id": 113, "name": "Massa de pastel", "keys": "massa de" },
+  { "id": 114, "name": "Maçã Fuji", "keys": "" },
+  { "id": 115, "name": "Maniçoba", "keys": "maniçoba" },
+  { "id": 116, "name": "Manga", "keys": "manga, mangas" },
+  { "id": 117, "name": "Manjericão", "keys": "manjericão" },
+  { "id": 118, "name": "Manteiga", "keys": "" },
+  { "id": 119, "name": "Manteiga de amendoim", "keys": "" },
+  { "id": 120, "name": "Maracujá", "keys": "maracujá" },
+  { "id": 121, "name": "Margarina", "keys": "" },
+  {
+    "id": 122,
+    "name": "Maria mole",
+    "keys": "maria-mole, marshmallow, marximelo"
+  },
+  {
+    "id": 123,
+    "name": "Massa gravatinha",
+    "keys": "massa gravatinha, gravatinha, massa, macarrão"
+  },
+  { "id": 124, "name": "Mel", "keys": "mel, mel de abelha" },
+  {
+    "id": 125,
+    "name": "Mexerica",
+    "keys": "mexerica, tangerina, bergamota, vergamota, laranja-mimosa, mandarina, fuxiqueira, poncã, manjerica, laranja-cravo, mimosa"
+  },
+  { "id": 126, "name": "Milho", "keys": "milho verde" },
+  {
+    "id": 127,
+    "name": "Mistura para bolo",
+    "keys": "mistura para bolo, mistura pronta para bolo, mistura de bolo, mistura pronta"
+  },
+  {
+    "id": 128,
+    "name": "Molho de Limão e Mel para Salada",
+    "keys": "molho de limão e mel para salada, molho de salada, molho para salada, molho pra   salada, molho de limão, molho de mel"
+  },
+  { "id": 129, "name": "Molho de tahine", "keys": "molho de tahine" },
+  {
+    "id": 130,
+    "name": "Molho de tomate",
+    "keys": "molho de tomate, extrato, extrato de tomate"
+  },
+  { "id": 131, "name": "Morango", "keys": "moranguinho" },
+  {
+    "id": 132,
+    "name": "Semente de mostarda",
+    "keys": "sementes de mostarda, mostarda em semente"
+  },
+  {
+    "id": 133,
+    "name": "Muhammara",
+    "keys": "muhammara, pasta de pimentão, pasta de pimentão vermelho, muhamara, mhammara"
+  },
+  { "id": 134, "name": "Noz", "keys": "noz, nozes" },
+  {
+    "id": 135,
+    "name": "Noz-moscada",
+    "keys": "noz-moscada, noz moscada, noz-moscadas, noz moscadas"
+  },
+  { "id": 136, "name": "Óleo de soja", "keys": "óleo" },
+  { "id": 137, "name": "Orégano", "keys": "" },
+  {
+    "id": 138,
+    "name": "Ovo cru",
+    "keys": "ovos, ovo, ovo de galinha, ovos de galinha, ovos de frango, ovo de frango"
+  },
+  {
+    "id": 139,
+    "name": "Ovo cozido",
+    "keys": "ovo cozido, ovo cozido de galinha"
+  },
+  {
+    "id": 140,
+    "name": "Ovo de codorna cru",
+    "keys": "ovo de codorna, ovo de codorna cru"
+  },
+  { "id": 141, "name": "Ovo frito", "keys": "ovo frito, ovos fritos" },
+  { "id": 142, "name": "Pão caseiro", "keys": "pão, pãozinho, pão integral" },
+  {
+    "id": 143,
+    "name": "Pão de Batata Doce",
+    "keys": "pão de batata doce, bolinho de batata, bolinho de batata doce, bolinho de batata-doce, pão de batata-doce"
+  },
+  { "id": 144, "name": "Pão de Ló", "keys": "pão de ló, pão-de-ló" },
+  { "id": 145, "name": "Pão Francês", "keys": "" },
+  {
+    "id": 146,
+    "name": "Páprica",
+    "keys": "paprica, páprica doce, páprica picante"
+  },
+  {
+    "id": 147,
+    "name": "Patinho",
+    "keys": "patinho, carne moída, patinho moído, carne patinho, carne de patinho"
+  },
+  {
+    "id": 148,
+    "name": "Patinho grelhado",
+    "keys": "patinho grelhado, patinho assado, carne de patinho grelhado, carne de patinho assado, patinho assada, patinho assado"
+  },
+  { "id": 149, "name": "pastel", "keys": "" },
+  {
+    "id": 150,
+    "name": "Pavê de chocolate",
+    "keys": "torta de bolacha, torta de bolacha maria, torta de biscoito, torta de biscoito maria, pavê de bolacha, pavê de bolacha maria, pavê de chocolate, pavê de biscoito, pavê de biscoito maria, pavê"
+  },
+  { "id": 151, "name": "Peito de peru defumado", "keys": "peito de peru" },
+  { "id": 152, "name": "Pepino", "keys": "pepino, pepinos" },
+  { "id": 153, "name": "Pera", "keys": "pêra, pera" },
+  {
+    "id": 154,
+    "name": "Pernil de cordeiro",
+    "keys": "cordeiro, carne de cordeiro, pernil de cordeiro, pernis de cordeiro, pernil de cordeiro cru, pernis de cordeiros cru, ovelha, carne de ovelha, pernil de ovelha, pernis de ovelha, pernil de ovelha cru, pernis de ovelhas cru"
+  },
+  { "id": 155, "name": "Peru de natal", "keys": "peru assado, peru de natal" },
+  { "id": 156, "name": "Pimenta", "keys": "" },
+  {
+    "id": 157,
+    "name": "Pimenta do Reino",
+    "keys": "pimenta do reino, pimenta preta, pimenta"
+  },
+  {
+    "id": 158,
+    "name": "Pimentão amarelo",
+    "keys": "pimentão amarelo, pimentões amarelos, pimentões amarelo"
+  },
+  {
+    "id": 159,
+    "name": "Pimentão verde",
+    "keys": "pimentão, pimentão verde, pimentões verdes, pimentões"
+  },
+  {
+    "id": 160,
+    "name": "Pimentão vermelho",
+    "keys": "pimentão vermelho, pimentões vermelhos, pimentões vermelho"
+  },
+  { "id": 161, "name": "Polenta", "keys": "" },
+  { "id": 162, "name": "Presunto", "keys": "" },
+  { "id": 176, "name": "Repolho", "keys": "repolho, cabeça de repolho" },
+  { "id": 177, "name": "Requeijão", "keys": "" },
+  { "id": 178, "name": "Romã", "keys": "romã, romãs" },
+  {
+    "id": 163,
+    "name": "Pudim",
+    "keys": "pudim, pudim de leite, pudim de leite condensado"
+  },
+  { "id": 164, "name": "Queijo Edam", "keys": "queijo edam" },
+  {
+    "id": 165,
+    "name": "Queijo muçarela",
+    "keys": "queijo, queijo muçarela, muçarela, mozarela, mozzarella, queijo mozarela"
+  },
+  {
+    "id": 166,
+    "name": "Queijo minas frescal",
+    "keys": "queijo minas frescal, queijos minas frescal"
+  },
+  { "id": 167, "name": "Queijo minas meia cura", "keys": "queijo minas" },
+  { "id": 168, "name": "Queijo parmesão", "keys": "queijo minas" },
+  { "id": 169, "name": "Queijo parmesão", "keys": "queijo minas" },
+  {
+    "id": 170,
+    "name": "Queijo petit suisse",
+    "keys": "queijo petit suisse, petit suisse, danone, danoninho"
+  },
+  { "id": 171, "name": "Queijo prato", "keys": "queijo prato" },
+  { "id": 172, "name": "Quibe assado", "keys": "quibe assado" },
+  { "id": 173, "name": "Quibe frito", "keys": "quibe frito, quibe" },
+  { "id": 174, "name": "Ricota", "keys": "queijo ricota, ricotta" },
+  {
+    "id": 175,
+    "name": "Rabanete",
+    "keys": "rabanete, rabanetes, rabanete vermelho, rabanete cru"
+  },
+  {
+    "id": 180,
+    "name": "Salada de macarrão com beringela e purê de beterraba",
+    "keys": "salada de beterraba, salada de beringela, salada de beterraba, purê de beterraba"
+  },
+  {
+    "id": 181,
+    "name": "Salpicão de frango",
+    "keys": "salpicão, salpicão de frango"
+  },
+  {
+    "id": 182,
+    "name": "Salsa",
+    "keys": "salsa, folha de salsa, folhas de salsa, folha de salsinha, folhas de salsinha, salsinha, temperinho, temperinho verde, tempero verde"
+  },
+  { "id": 183, "name": "Sanduíche", "keys": "" },
+  {
+    "id": 184,
+    "name": "Semente de cominho",
+    "keys": "cominho, sementes de cominho"
+  },
+  {
+    "id": 185,
+    "name": "Semolina",
+    "keys": "semolina, semolina de trigo, sêmola, sêmola de trigo"
+  },
+  {
+    "id": 186,
+    "name": "Sopa de Couve-flor",
+    "keys": "sopa de couve-flor, sopa de couve flor"
+  },
+  { "id": 187, "name": "Suco de Laranja", "keys": "" },
+  { "id": 188, "name": "Sushi", "keys": "sushi, sushi de salmão, suchi" },
+  {
+    "id": 189,
+    "name": "Tabule",
+    "keys": "tabule, salada de triguinho, salada libanesa, salada de triguinho libanesa"
+  },
+  { "id": 190, "name": "Tomate", "keys": "tomate" },
+  {
+    "id": 191,
+    "name": "Tomilho",
+    "keys": "tomilho, ramo de tomilho, ramos de tomilho"
+  },
+  {
+    "id": 192,
+    "name": "Toucinho",
+    "keys": "toucinho, toucinhos, bacon, bacon em cubos"
+  },
+  { "id": 193, "name": "Urucum", "keys": "falso-açafrão, colorau" },
+  { "id": 194, "name": "Uva", "keys": "uva" },
+  {
+    "id": 195,
+    "name": "Vinagre de vinho tinto",
+    "keys": "vinagre, vinagre de vinho, vinagre de vinho tinto"
+  },
+  {
+    "id": 196,
+    "name": "Rodelas de abobrinha crocantes com parmesão",
+    "keys": "rodelas de abobrinha, abobrinha assada, abobrinha com parmesão"
+  },
+  {
+    "id": 197,
+    "name": "Arroz carreteiro",
+    "keys": "risoto, carreteiro, arroz com carne"
+  },
+  {
+    "id": 198,
+    "name": "Sopa de cenoura com curry",
+    "keys": "sopa de copo, sopa de cenoura, sopa de curry"
+  },
+  {
+    "id": 199,
+    "name": "Cuscuz marroquino com filé mignon suíno",
+    "keys": "cuscuz marroquino, cuscuz com carne, cuscuz marroquino com porco, cuscuz com porco"
+  },
+  {
+    "id": 200,
+    "name": "Geleia de manga e maracujá",
+    "keys": "geleia de manga, geleia de maracujá, geleia, geléia"
+  },
+  {
+    "id": 201,
+    "name": "Vinagrete de chuchu com cominho",
+    "keys": "vinagrete de chuchu, vinagrete, vinagrete com cominho"
+  },
+  {
+    "id": 202,
+    "name": "Brownie cremoso de castanha-do-pará",
+    "keys": "brownie, brownie de castanha, brownie com castanha, brownie cremoso"
+  },
+  {
+    "id": 203,
+    "name": "Filé de frango grelhado com páprica e erva-doce",
+    "keys": "filé de frango frango, frango grelhado, frango grelhado com páprica, frango grelhado com páprica e erva-doce"
+  },
+  {
+    "id": 204,
+    "name": "Clotted cream",
+    "keys": "clotted cream, clotted cream caseiro"
+  },
+  {
+    "id": 205,
+    "name": "Café de prensa",
+    "keys": "café prensado, café de prensa, café"
+  },
+  { "id": 206, "name": "Torta de banana", "keys": "torta, torta de banana" },
+  {
+    "id": 207,
+    "name": "Suco refrescante de melão",
+    "keys": "suco, suco de melão, suco refrescante"
+  },
+  {
+    "id": 208,
+    "name": "Sanduíche de atum",
+    "keys": "sanduíche, sanduíche de atum"
+  },
+  {
+    "id": 209,
+    "name": "Mate com limão",
+    "keys": "mate, mate com limão, chá mate, chá mate com limão"
+  },
+  {
+    "id": 210,
+    "name": "Bolinho de bacalhau com inhame",
+    "keys": "bolinho, bolinho de bacalhau, bolo de inhame"
+  },
+  {
+    "id": 211,
+    "name": "Caipirinha de maracujá com gengibre e folhas de mexerica",
+    "keys": "caipirinha, caipirinha de maracujá, suco de maracujá, caipirinha de maracujá com gengibre, suco de maracujá com gengibre"
+  },
+  {
+    "id": 212,
+    "name": "Gim tônica cítrica",
+    "keys": "gim, gim tonica, gim tonica cítrica"
+  },
+  {
+    "id": 213,
+    "name": "Crudités de legumes",
+    "keys": "crudités, crudités de legumes, crudite, crudité de legume"
+  },
+  {
+    "id": 214,
+    "name": "Dip de feijão branco",
+    "keys": "dip, dip de feijão, dip de feijão branco"
+  },
+  {
+    "id": 215,
+    "name": "Pão integral com nozes",
+    "keys": "pão, pão integral, pão integral com nozes, pão com nozes"
+  },
+  {
+    "id": 216,
+    "name": "Geleia de figo e vinho tinto",
+    "keys": "geleia, geleia de figo, geleia de figo e vinho, geleia com vinho"
+  },
+  {
+    "id": 217,
+    "name": "Rabanada salgada com queijo",
+    "keys": "rabanada, rabanada salgada, rabanada salgada com queijo, rabanada com queijo"
+  },
+  {
+    "id": 218,
+    "name": "Salada de frutas com nibs de cacau",
+    "keys": "salada de frutas, salada de fruta, salada de fruta com chocolate, salada de frutas com chocolate, salada de frutas com cacau, salada de frutas com nibs de cacau"
+  },
+  { "id": 219, "name": "Cocada de forno", "keys": "cocada, cocada de forno" },
+  {
+    "id": 220,
+    "name": "Feijão-carioca com cominho",
+    "keys": "feijão, feijão carioca, feijão carioca com cominho"
+  },
+  {
+    "id": 221,
+    "name": "Carne com batata e cenoura na panela de pressão",
+    "keys": "carne, carne com batata, carne com batata e cenoura, carne com batata e cenoura na panela de pressão, carne de panela, carne na panela de pressão"
+  },
+  {
+    "id": 222,
+    "name": "Pizza de muçarela",
+    "keys": "pizza, pizza de mozarela, pizza de muçarela, pizza de mozzarella, pizza muçarela, pizza mozzarella, pizza mozarela, pizza de queijo muçarela, pizza caseira, pizza caseira de mozarela, pizza caseira de muçarela, pizza caseira de mozzarella"
+  },
+  {
+    "id": 223,
+    "name": "Musse de chocolate",
+    "keys": "mousse, mousse de chocolate, mousse de chocolate levissima, musse de chocolate, musse"
+  },
+  {
+    "id": 224,
+    "name": "Salada de cebola com pepino e molho de coentro",
+    "keys": "salada, salada de cebola, salada de cebolas, salada de cebola com pepino, salada de cebola com pepinos, salada de cebola com pepino e molho de coentro, salada de cebola com pepinos e molho de coentro, salada de cebolas com pepino, salada de cebolas com pepinos, salada de cebolas com pepino e molho de coentro, salada de cebolas com pepinos e molho de coentro"
+  },
+  {
+    "id": 225,
+    "name": "Gratinado de batata com frango",
+    "keys": "gratinado, gratinado de batata, gratinado de batata com frango"
+  },
+  {
+    "id": 226,
+    "name": "Massa caseira com semolina",
+    "keys": "massa caseira, massa caseira com semolina, massa com semolina, massa com sêmola, massa caseira com sêmola"
+  },
+  {
+    "id": 227,
+    "name": "Macarrão com legumes assados",
+    "keys": "macarrão, macarrão com legumes, macarrão com legumes assados, massa com legumes, massa com legumes assados"
+  },
+  {
+    "id": 228,
+    "name": "Sopa de feijão com macarrão",
+    "keys": "sopa de feijão, sopa de feijão com macarrão, sopa de feijão e macarrão"
+  },
+  {
+    "id": 229,
+    "name": "Farofa de milho com cenoura e bacon",
+    "keys": "farofa, farofa de milho, farofa de milho com cenoura, farofa de milho com cenoura e bacon, farofa de milho com bacon, farofa com cenoura, farofa com bacon"
+  },
+  {
+    "id": 230,
+    "name": "Cuscuz nordestino",
+    "keys": "cuscuz, cuscuz nordestino"
+  },
+  {
+    "id": 231,
+    "name": "Cuscuz à paulista",
+    "keys": "cuscuz à paulista, cuscuz paulista, cuscuz a paulista"
+  },
+  {
+    "id": 232,
+    "name": "Feijão tropeiro mineiro",
+    "keys": "feijão tropeiro mineiro, feijão tropeiro, feijão mineiro, feijão com tropeiro com torresmo, feijão tropeiro com couve"
+  },
+  { "id": 233, "name": "Feijoada", "keys": "feijoada, feijoada completa" },
+  {
+    "id": 234,
+    "name": "Quibebe",
+    "keys": "quibebe, purê de abóbora, quibebe de abóbora, quibebe de mandioca"
+  },
+  {
+    "id": 235,
+    "name": "Sarapatel",
+    "keys": "sarapatel, sarapatel nordestino, sarapatel tradicional"
+  },
+  {
+    "id": 236,
+    "name": "Tacacá",
+    "keys": "tacacá, tacacá paraense, tacacá do norte, tacacá do pará"
+  },
+  {
+    "id": 237,
+    "name": "Caldo de tucupi",
+    "keys": "caldo de tucupi, tucupi, tucupi de mandioca"
+  },
+  {
+    "id": 238,
+    "name": "Arroz com figo seco e especiarias",
+    "keys": "arroz com figo, arroz com figo seco, arroz com figo seco e especiarias"
+  },
+  {
+    "id": 239,
+    "name": "Salada de feijão branco com salsão",
+    "keys": "salada de feijão, salada de feijão branco, salada de feijão branco com salsão"
+  },
+  { "id": 240, "name": "Bisteca grelhada", "keys": "" },
+  {
+    "id": 241,
+    "name": "Homus com cordeiro",
+    "keys": "humus com cordeiro, homus com cordeiro"
+  },
+  {
+    "id": 242,
+    "name": "Homus",
+    "keys": "homus, hômus, humus, pasta de grão de bico"
+  },
+  { "id": 243, "name": "Pasta de alho", "keys": "pasta de alho" },
+  {
+    "id": 244,
+    "name": "Frango na panela de pressão",
+    "keys": "frango na panela, frango na panela de pressão, molho de frango, molho de frango com tomate"
+  },
+  {
+    "id": 245,
+    "name": "Feijão carioca cozido",
+    "keys": "feijão-carioca, feijão carioca, feijão carioca cozido, feijão-carioca cozido"
+  },
+  {
+    "id": 246,
+    "name": "Feijão carioca cru",
+    "keys": "farinha de feijão-carioca, farinha de feijão carioca, feijão carioca moído, feijão-carioca moído, feijão carioca cru, feijão-carioca cru"
+  },
+  {
+    "id": 247,
+    "name": "Feijão fradinho cozido",
+    "keys": "feijão-fradinho, feijão fradinho, feijão fradinho cozido, feijão-fradinho cozido"
+  },
+  {
+    "id": 248,
+    "name": "Feijão fradinho cru",
+    "keys": "farinha de feijão-fradinho, farinha de feijão fradinho, feijão fradinho moído, feijão-fradinho moído, feijão fradinho cru, feijão-fradinho cru"
+  },
+  {
+    "id": 249,
+    "name": "Feijão jalo cozido",
+    "keys": "feijão-jalo, feijão jalo, feijão jalo cozido, feijão-jalo cozido"
+  },
+  {
+    "id": 250,
+    "name": "Feijão jalo cru",
+    "keys": "farinha de feijão-jalo, farinha de feijão jalo, feijão jalo moído, feijão-jalo moído, feijão jalo cru, feijão-jalo cru"
+  },
+  {
+    "id": 251,
+    "name": "Feijão preto cozido",
+    "keys": "feijão, feijoada, feijão-preto, feijão preto, feijão preto cozido, feijão-preto cozido"
+  },
+  {
+    "id": 252,
+    "name": "Feijão preto cru",
+    "keys": "feijão cru, feijão-preto cru, farinha de feijão, farinha de feijão-preto, farelo de feijão, farelo de feijão-preto, feijão moído, feijão moído-preto"
+  },
+  {
+    "id": 253,
+    "name": "Feijão rajado cozido",
+    "keys": "feijão-rajado, feijão rajado, feijão rajado cozido, feijão-rajado cozido"
+  },
+  {
+    "id": 254,
+    "name": "Feijão rajado cru",
+    "keys": "farinha de feijão rajado, farinha de feijão-rajado, feijão rajado moído, feijão rajado-moído, feijão rajado cru, feijão-rajado cru"
+  },
+  {
+    "id": 255,
+    "name": "Feijão rosinha cozido",
+    "keys": "feijão-rosinha, feijão rosinha, feijão rosinha cozido, feijão-rosinha cozido"
+  },
+  {
+    "id": 256,
+    "name": "Feijão rosinha cru",
+    "keys": "farinha de feijão rosinha, farinha de feijão-rosinha, feijão rosinha moído, feijão rosinha-moído, feijão rosinha cru, feijão-rosinha cru"
+  },
+  {
+    "id": 257,
+    "name": "Feijão roxo cozido",
+    "keys": "feijão-roxo, feijão roxo, feijão roxo cozido, feijão-roxo cozido"
+  },
+  {
+    "id": 258,
+    "name": "Feijão roxo cru",
+    "keys": "farinha de feijão-roxo, farinha de feijão roxo, feijão roxo moído, feijão-roxo moído, feijão roxo cru, feijão-roxo cru"
+  },
+  {
+    "id": 259,
+    "name": "feijão branco",
+    "keys": "feijão branco, feijão-branco, feijão-branco cozido, feijão-branco-cozido"
+  }
+]
