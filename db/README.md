@@ -50,7 +50,7 @@ docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (
 Backup to use to unit tests:
 
 ```bash
-docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT \"Id\" as id, \"NamePt\" as name, \"KeysPt\" as keys FROM \"Foods\") f) TO STDOUT" > backup/FoodsPt.json
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT \"Id\", \"NamePt\", \"KeysPt\" FROM \"Foods\") f) TO STDOUT" > backup/FoodsPt.json
 ```
 
 ### Restore

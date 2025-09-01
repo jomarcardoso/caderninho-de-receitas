@@ -165,7 +165,7 @@ public class IngredientServiceTests
   [TestCase("3 fatias e 1/2 de pão", "3 fatias e 1/2", MeasureType.Slice, "de pão")]
 
   [TestCase("uma pitada de sal", "uma pitada", MeasureType.Pinch, "de sal")]
-  public void SplitTextInMeasureAndRest_Parametrized(string input, string expectedMeasure, MeasureType expectedMeasureType, string expectedRest)
+  public void SplitTextInMeasureAndRest(string input, string expectedMeasure, MeasureType expectedMeasureType, string expectedRest)
   {
     service.Text = input;
     var result = service.SplitTextInMeasureAndRest();

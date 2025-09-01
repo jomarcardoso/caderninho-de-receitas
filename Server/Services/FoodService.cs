@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
 using Fastenshtein;
+using System.Threading.Tasks;
 
 namespace Server.Services;
 
@@ -31,7 +32,8 @@ public class FoodService
     "congelado", "congelada", "congelados", "congeladas",
     "descongelado", "descongelada", "descongelados", "descongeladas",
     "recheado", "recheada", "recheados", "recheadas",
-    "cru", "crua", "crus", "cruas"
+    "cru", "crua", "crus", "cruas",
+    "peneirado", "peneirada", "peneirados", "peneiradas"
   };
 
   private readonly AppDbContext _context;
@@ -51,7 +53,12 @@ public class FoodService
   // Buscar todos os alimentos
   public async Task<List<Food>> GetAllAsync()
   {
-    return await _context.Foods.ToListAsync();
+    if (foods.Count > 0)
+      return foods;
+
+    foods = await _context.Foods.ToListAsync();
+
+    return foods;
   }
 
   // Salvar um novo Food
@@ -76,24 +83,33 @@ public class FoodService
     return existingFood;
   }
 
-  private Food? hasExactFoodWithThisName(string name)
+  internal async Task<Food?> hasExactFoodWithThisName(string name)
   {
-    return foods.FirstOrDefault(f => string.Equals(f.NamePt, name, StringComparison.OrdinalIgnoreCase));
+    List<Food> _allFoods = await GetAllAsync();
+
+    return _allFoods.FirstOrDefault(f => string.Equals(f.NamePt.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase));
   }
 
-  private Food? hasExactKeyWithThisName(string name)
+  internal async Task<Food?> hasExactKeyWithThisName(string name)
   {
-    return foods.FirstOrDefault((f) => f.KeysPt.Split(',').Any((k) => string.Equals(k, name, StringComparison.OrdinalIgnoreCase)));
+    List<Food> _allFoods = await GetAllAsync();
+
+    return _allFoods.FirstOrDefault((f) => f.KeysPt.Split(", ").Any((k) => string.Equals(k.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase)));
   }
 
-  private static string filterName(string name)
+  internal static string filterName(string name)
   {
-    return FoodModifiers.Aggregate(name, (current, modifier) => current.Replace(modifier, "").Trim());
+    return FoodModifiers.Aggregate(name,
+      (current, modifier) =>
+        StringService.ReplaceEnding(current.Replace(modifier, "").Trim().Replace("  ", " "), " e", "")
+    );
   }
 
-  private Food BestMatch(string name)
+  internal async Task<Food> BestMatch(string name)
   {
-    return foods
+    List<Food> _allFoods = await GetAllAsync();
+
+    return _allFoods
       .OrderBy(food => (food.KeysPt + ", " + food.NamePt).Split(", ").Min(key => new Levenshtein(name).DistanceFrom(key)))
       .First();
   }
@@ -101,14 +117,14 @@ public class FoodService
   public async Task<Food> FindFoodByPossibleName(string possibleName)
   {
     foods = await _context.Foods.ToListAsync();
-    Food? _food = hasExactFoodWithThisName(possibleName);
+    Food? _food = await hasExactFoodWithThisName(possibleName);
 
     if (_food != null)
     {
       return _food;
     }
 
-    _food = hasExactKeyWithThisName(possibleName);
+    _food = await hasExactKeyWithThisName(possibleName);
 
     if (_food != null)
     {
@@ -117,20 +133,20 @@ public class FoodService
 
     string filteredPossibleName = filterName(possibleName);
 
-    _food = hasExactFoodWithThisName(filteredPossibleName);
+    _food = await hasExactFoodWithThisName(filteredPossibleName);
 
     if (_food != null)
     {
       return _food;
     }
 
-    _food = hasExactKeyWithThisName(filteredPossibleName);
+    _food = await hasExactKeyWithThisName(filteredPossibleName);
 
     if (_food != null)
     {
       return _food;
     }
 
-    return BestMatch(filteredPossibleName);
+    return await BestMatch(filteredPossibleName);
   }
 }
