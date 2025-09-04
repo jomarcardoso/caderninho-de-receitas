@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
 using Server.Models;
 using Server.Services;
@@ -13,10 +14,13 @@ namespace Server.Controllers;
 public class RecipeController : ControllerBase
 {
   private readonly AppDbContext _context;
+  private readonly RecipeService recipeService;
 
-  public RecipeController(AppDbContext context)
+
+  public RecipeController(AppDbContext context, RecipeService _recipeService)
   {
     _context = context;
+    recipeService = _recipeService ?? throw new ArgumentNullException(nameof(recipeService));
   }
 
   // Helper para pegar o sub (Google UserId)
@@ -27,15 +31,14 @@ public class RecipeController : ControllerBase
   public async Task<IActionResult> CreateRecipe([FromBody] RecipeDto recipeDto)
   {
     var userId = GetUserId();
-    var recipeService = new RecipeService();
-    var recipe = recipeService.DtoToEntity(recipeDto);
+    Recipe recipe = recipeService.DtoToEntity(recipeDto);
 
     recipe.OwnerId = userId;
 
     _context.Recipes.Add(recipe);
     await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(GetRecipe), new { id = recipeDto.Id }, recipeDto);
+    return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
   }
 
   // GET api/recipes
@@ -52,11 +55,12 @@ public class RecipeController : ControllerBase
 
   // GET api/recipes/5
   [HttpGet("{id}")]
-  public IActionResult GetRecipe(int id)
+  public async Task<IActionResult> GetRecipe(int id)
   {
     var userId = GetUserId();
-    var recipe = _context.Recipes
-        .FirstOrDefault(r => r.Id == id && r.OwnerId == userId);
+
+    Recipe? recipe = await _context.Recipes
+      .FirstOrDefaultAsync(r => r.Id == id && r.OwnerId == userId);
 
     if (recipe == null)
       return NotFound();

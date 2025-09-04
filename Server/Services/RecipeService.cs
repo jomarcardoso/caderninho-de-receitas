@@ -9,11 +9,10 @@ public class RecipeService
   {
     return new Recipe
     {
-      Id = recipeDto.Id,
       Name = recipeDto.Name ?? string.Empty,
       Description = recipeDto.Description,
       Additional = recipeDto.Additional,
-      OwnerId = recipeDto.OwnerId ?? string.Empty
+      // steps = recipeDto.Steps.
     };
   }
 }

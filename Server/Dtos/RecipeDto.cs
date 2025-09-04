@@ -2,17 +2,21 @@ namespace Server.Dtos;
 
 public class RecipeStepDto
 {
-  public string name { get; set; }
-  public string ingredients { get; set; }
-  public string preparation { get; set; }
-  public string additional { get; set; }
+  public string Name { get; set; } = string.Empty;
+  public string Ingredients { get; set; } = string.Empty;
+  public string Preparation { get; set; } = string.Empty;
+  public string Additional { get; set; } = string.Empty;
 }
 
 public class RecipeDto
 {
-  public int id { get; set; }
-  public string name { get; set; }
-  public string description { get; set; }
-  public string additional { get; set; }
-  public List<RecipeStepDto> steps { get; set; }
+  public string Name { get; set; } = string.Empty;
+  public string Description { get; set; } = string.Empty;
+  public string Additional { get; set; } = string.Empty;
+  public List<RecipeStepDto> Steps { get; set; } = new();
+}
+
+public class UpdateRecipeDto : RecipeDto
+{
+  public int Id { get; set; }
 }

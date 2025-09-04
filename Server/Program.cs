@@ -3,16 +3,30 @@ using Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Server.Services;
-// using System;
+using System.Text.Json;
+using Microsoft.AspNetCore.Authentication;
+using Server.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+  .AddJsonOptions(options =>
+  {
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+  });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+  c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+  {
+    Title = "Caderninho de Receitas - API",
+    Version = "v1",
+  });
+});
 
 // builder.Services.AddDbContext<AppDbContext>(options =>
 //     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -24,6 +38,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // DB - dependency injection of dbContext in Controllers
 builder.Services.AddScoped<FoodService>();
 builder.Services.AddScoped<IngredientService>();
+builder.Services.AddScoped<RecipeService>();
 
 // blazor
 builder.Services.AddRazorPages();
@@ -48,19 +63,28 @@ builder.Services.AddCors(options =>
       });
 });
 
-// login
-builder.Services
-    .AddAuthentication(options =>
-    {
-      options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-      options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-    })
-    .AddCookie()
-    .AddGoogle(googleOptions =>
-    {
-      googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-      googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-    });
+if (builder.Environment.IsDevelopment())
+{
+  // fake login
+  builder.Services.AddAuthentication("Test")
+      .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", null);
+}
+else
+{
+  // login
+  builder.Services
+      .AddAuthentication(options =>
+      {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+      })
+      .AddCookie()
+      .AddGoogle(googleOptions =>
+      {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+      });
+}
 
 // builder.Services.AddAuthentication().AddGoogle(googleOptions =>
 // {
@@ -87,14 +111,7 @@ builder.Services
 //         };
 //     });
 
-
 var app = builder.Build();
-
-// auth
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.UseCors("AllowSpecificOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -105,6 +122,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
+app.UseRouting();
+
+app.UseCors("AllowSpecificOrigin");
+
+// auth
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -116,9 +140,6 @@ using (var scope = app.Services.CreateScope())
   // db.Database.Migrate();
   db.Database.EnsureCreated();
 }
-
-app.UseStaticFiles();
-app.UseRouting();
 
 // blazor
 app.MapBlazorHub();
