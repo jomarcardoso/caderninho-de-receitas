@@ -11,4 +11,14 @@ public class StringService
 
     return text;
   }
+
+  public static string ReplaceStarting(string text, string starting, string replacement)
+  {
+    if (text.StartsWith(starting, StringComparison.OrdinalIgnoreCase))
+    {
+      return replacement + text.Substring(starting.Length, text.Length - starting.Length);
+    }
+
+    return text;
+  }
 }

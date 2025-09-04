@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Server.Models;
 
 namespace Server.Services;
@@ -44,7 +45,22 @@ public static class MeasurePatterns
 
 public class IngredientService
 {
-  public string Text = string.Empty;
+  private string _text = string.Empty;
+  public string Text
+  {
+    get => _text;
+    set
+    {
+      if (!string.IsNullOrEmpty(value))
+      {
+        _text = StringService.ReplaceStarting(value, "- ", "").Trim();
+      }
+      else
+      {
+        _text = string.Empty;
+      }
+    }
+  }
   private readonly FoodService foodService;
 
   public IngredientService(FoodService _foodService)
@@ -98,19 +114,23 @@ public class IngredientService
     };
   }
 
-  public Ingredient ToEntity()
+  public async Task<Ingredient> ToEntity()
   {
     var (measureText, measureType, restText) = SplitTextInMeasureAndRest();
-    var food = foodService.FindFoodByPossibleName(restText); // instância do Food
-    // var quantity = ParseMeasureQuantity(measureText, measureType);
-    // var grams = ConvertToLiteralQuantity(quantity, measureType);
+    var food = await foodService.FindFoodByPossibleName(restText); // instância do Food
+    var quantity = ParseMeasureQuantity(measureText, measureType);
+    var grams = ConvertToLiteralQuantity(quantity, measureType);
 
     return new Ingredient
     {
       Text = Text,
-      Food = new Food(),
-      Measure = new Measure(),
-      Quantity = 0,
+      Food = food,
+      Measure = new Measure
+      {
+        Type = measureType,
+        Quantity = quantity,
+      },
+      Quantity = grams,
     };
   }
 }

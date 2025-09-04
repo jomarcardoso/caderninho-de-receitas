@@ -8,14 +8,6 @@ public class RecipeStep
   public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
   public string Preparation { get; set; } = string.Empty;
   public string Additional { get; set; } = string.Empty;
-  // Optional: You can add a constructor for easier initialization
-  public RecipeStep(string name, string ingredientsText, string preparation, string additional)
-  {
-    this.Name = name;
-    this.IngredientsText = ingredientsText;
-    this.Preparation = preparation;
-    this.Additional = additional;
-  }
 }
 
 public class Recipe

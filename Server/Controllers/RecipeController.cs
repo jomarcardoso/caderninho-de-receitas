@@ -31,7 +31,7 @@ public class RecipeController : ControllerBase
   public async Task<IActionResult> CreateRecipe([FromBody] RecipeDto recipeDto)
   {
     var userId = GetUserId();
-    Recipe recipe = recipeService.DtoToEntity(recipeDto);
+    Recipe recipe = await recipeService.DtoToEntity(recipeDto);
 
     recipe.OwnerId = userId;
 
