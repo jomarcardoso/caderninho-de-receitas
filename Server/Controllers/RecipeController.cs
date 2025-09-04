@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Server.Dtos;
 using Server.Models;
-
+using Server.Services;
 using System.Security.Claims;
 
 namespace Server.Controllers;
@@ -23,17 +23,19 @@ public class RecipeController : ControllerBase
   private string GetUserId() =>
       User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 
-  // POST api/recipes
   [HttpPost]
-  public async Task<IActionResult> CreateRecipe([FromBody] Recipe recipe)
+  public async Task<IActionResult> CreateRecipe([FromBody] RecipeDto recipeDto)
   {
     var userId = GetUserId();
+    var recipeService = new RecipeService();
+    var recipe = recipeService.DtoToEntity(recipeDto);
+
     recipe.OwnerId = userId;
 
     _context.Recipes.Add(recipe);
     await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
+    return CreatedAtAction(nameof(GetRecipe), new { id = recipeDto.Id }, recipeDto);
   }
 
   // GET api/recipes

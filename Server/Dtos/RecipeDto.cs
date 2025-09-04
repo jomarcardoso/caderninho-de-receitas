@@ -1,26 +1,18 @@
-using Server.Models;
-
 namespace Server.Dtos;
+
+public class RecipeStepDto
+{
+  public string name { get; set; }
+  public string ingredients { get; set; }
+  public string preparation { get; set; }
+  public string additional { get; set; }
+}
 
 public class RecipeDto
 {
-  public string Title { get; set; }
-  public string Description { get; set; }
-
-  // public Recipe ToEntity(string ownerId)
-  // {
-  //   return new Recipe
-  //   {
-  //     Title = Title.Trim(),
-  //     Description = StripHtml(Description),
-  //     OwnerId = ownerId,
-  //     CreatedAt = DateTime.UtcNow
-  //   };
-  // }
-
-  private string StripHtml(string input)
-  {
-    // limpeza de HTML (exemplo simples)
-    return input.Replace("<", "").Replace(">", "");
-  }
+  public int id { get; set; }
+  public string name { get; set; }
+  public string description { get; set; }
+  public string additional { get; set; }
+  public List<RecipeStepDto> steps { get; set; }
 }
