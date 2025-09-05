@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using Server.Dtos;
 using Server.Models;
+using Server.Models.Food;
 using Server.Services;
 using System.Security.Claims;
 
@@ -14,12 +16,14 @@ namespace Server.Controllers;
 public class RecipeController : ControllerBase
 {
   private readonly AppDbContext _context;
+  private readonly IMapper _mapper;
   private readonly RecipeService recipeService;
 
 
-  public RecipeController(AppDbContext context, RecipeService _recipeService)
+  public RecipeController(AppDbContext context, IMapper mapper, RecipeService _recipeService)
   {
     _context = context;
+    _mapper = mapper;
     recipeService = _recipeService ?? throw new ArgumentNullException(nameof(recipeService));
   }
 
@@ -38,19 +42,38 @@ public class RecipeController : ControllerBase
     _context.Recipes.Add(recipe);
     await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
+    return Ok(await GetMyRecipes());
   }
 
   // GET api/recipes
   [HttpGet]
-  public IActionResult GetMyRecipes()
+  public async Task<IActionResult> GetMyRecipes()
   {
     var userId = GetUserId();
-    var myRecipes = _context.Recipes
-        .Where(r => r.OwnerId == userId)
-        .ToList();
 
-    return Ok(myRecipes);
+    List<Recipe> recipes = await _context.Recipes
+      .Where(r => r.OwnerId == userId)
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .ThenInclude(i => i.Food)
+      .ToListAsync();
+
+    List<RecipeResponseDto> recipeDtos = _mapper.Map<List<RecipeResponseDto>>(recipes);
+
+    var foods = recipes
+      .SelectMany(r => r.Steps)
+      .SelectMany(s => s.Ingredients)
+      .Select(i => i.Food)
+      .DistinctBy(f => f.Id)
+      .ToList();
+
+    var response = new RecipeAndFoodResponseDto
+    {
+      Recipes = recipeDtos,
+      Foods = _mapper.Map<List<Food>>(foods)
+    };
+
+    return Ok(response);
   }
 
   // GET api/recipes/5

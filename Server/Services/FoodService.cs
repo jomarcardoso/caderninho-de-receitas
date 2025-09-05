@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Server.Models;
+using Server.Models.Food;
 using Fastenshtein;
-using System.Threading.Tasks;
 
 namespace Server.Services;
 

@@ -1,3 +1,6 @@
+using Server.Models.Food;
+using Server.Shared;
+
 namespace Server.Dtos;
 
 public class RecipeStepDto
@@ -19,4 +22,14 @@ public class RecipeDto
 public class UpdateRecipeDto : RecipeDto
 {
   public int Id { get; set; }
+}
+
+public class RecipeStepResponseDto : RecipeStepBase<IngredientResponseDto>;
+public class RecipeResponseDto : RecipeBase<RecipeStepResponseDto>;
+
+
+public class RecipeAndFoodResponseDto
+{
+  public List<RecipeResponseDto> Recipes { get; set; } = new();
+  public List<Food> Foods { get; set; } = new();
 }

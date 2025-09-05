@@ -8,6 +8,11 @@ dotnet build
 dotnet run
 ```
 
+## Swagger
+
+- https://localhost:7269/swagger
+- http://localhost:5106/swagger
+
 ## Entity framework
 
 ### Install
@@ -36,3 +41,14 @@ Glossary:
 - **Lookup / Synonym Dictionary:** A table that maps a word to its "official" or normalized version. Example: _"aubergine" → "eggplant", "caster sugar" → "refined sugar"._
 - **Classification:** A type of ML model that chooses the correct category among several options. Example: _"brown rice" → class "WHOLE GRAIN RICE"._
 - **Data Distillation:** A technique where you use a large model (e.g., GPT) to automatically label raw data, and then humans review these annotations to create a clean dataset.
+
+## Architecture
+
+### Partial Normalization
+
+In our API design, we use partial normalization to balance efficiency and usability. Instead of returning fully denormalized data (where each recipe includes full ingredient objects, leading to duplication), or fully normalized data (where the client must perform multiple requests to resolve references), we return a hybrid structure:
+
+- Recipes include ingredient IDs.
+- A separate collection contains the unique food objects used across all recipes.
+
+This approach avoids data duplication, keeps the payload compact, and ensures consistency. At the same time, the client can easily resolve ingredient references locally without making additional API calls.

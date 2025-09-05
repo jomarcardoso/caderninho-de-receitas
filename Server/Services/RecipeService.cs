@@ -40,7 +40,7 @@ public class RecipeService
       Name = recipeDto.Name ?? string.Empty,
       Description = recipeDto.Description,
       Additional = recipeDto.Additional,
-      steps = steps
+      Steps = steps
     };
   }
 }

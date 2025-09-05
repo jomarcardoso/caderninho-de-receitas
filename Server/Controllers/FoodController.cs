@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Server;        // For AppDbContext
-using Server.Models; // Adjust namespace if your Food model is elsewhere
-using Server.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Server.Models.Food;
 
 namespace Server.Controllers;
 

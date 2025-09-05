@@ -111,6 +111,8 @@ else
 //         };
 //     });
 
+builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

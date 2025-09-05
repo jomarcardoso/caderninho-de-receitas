@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Server.Models;
+using Server.Models.Food;
 
 namespace Server;
 

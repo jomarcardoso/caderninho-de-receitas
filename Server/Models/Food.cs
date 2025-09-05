@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Server.Models;
+namespace Server.Models.Food;
 
 public enum UnitOfMeasurement
 {
