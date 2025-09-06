@@ -12,4 +12,8 @@ public class IngredientBase<TFood>
   public double Quantity { get; set; } = 0;
   // quantity described, cups, spoons...
   public required Measure Measure { get; set; }
+  public NutritionalInformation NutritionalInformation { get; set; } = new();
+  public Minerals Minerals { get; set; } = new();
+  public Vitamins Vitamins { get; set; } = new();
+  public AminoAcids AminoAcids { get; set; } = new();
 }

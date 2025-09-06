@@ -356,7 +356,7 @@ function ingredientFromString(foods: Food[] = [], text = ''): Ingredient {
     proteins,
     aminoAcids,
     measure,
-    description: text,
+    text: text,
     vitamins,
     minerals,
   };

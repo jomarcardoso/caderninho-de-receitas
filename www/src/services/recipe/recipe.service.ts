@@ -81,7 +81,7 @@ export function formatStep(
   }
 
   return {
-    name: data?.name ?? PROCESSED_RECIPE_STEP.name,
+    name: data?.title ?? PROCESSED_RECIPE_STEP.name,
     ingredients: ingredients ?? PROCESSED_RECIPE_STEP.ingredients,
     preparation: data?.preparation ?? PROCESSED_RECIPE_STEP.preparation,
     additional: data?.additional ?? PROCESSED_RECIPE_STEP.additional,
@@ -182,7 +182,7 @@ export function format(foods: Food[], recipe = RECIPE): ProcessedRecipe {
 
   const {
     food: { image = '' },
-  } = FoodService.getFoodByString(foods, recipe.name, {
+  } = FoodService.getFoodByString(foods, recipe.title, {
     preferRecipe: true,
   });
 
@@ -340,7 +340,7 @@ export function format(foods: Food[], recipe = RECIPE): ProcessedRecipe {
     id: recipe?.id ?? Math.round(Math.random() * 1000),
     steps,
     calories: calculateCalories(allIngredients),
-    name: recipe.name,
+    title: recipe.title,
     description: recipe?.description ?? '',
     additional: recipe?.additional ?? '',
     image,
@@ -362,18 +362,18 @@ export function format(foods: Food[], recipe = RECIPE): ProcessedRecipe {
 
 function stepToText(step: RecipeStep): string {
   return `\
-Ingredientes ${step.name}
+Ingredientes ${step.title}
 
 ${step.ingredients}
 
-Modo de preparo ${step.name}
+Modo de preparo ${step.title}
 
-${step.name}`;
+${step.title}`;
 }
 
 export function formatToText(recipe: Recipe): string {
   return `\
-*${recipe.name.toUpperCase()}*
+*${recipe.title.toUpperCase()}*
 
 ${recipe.description}
 
@@ -398,4 +398,11 @@ export async function getRecipeByIdFromDB(
   }
 
   return null;
+}
+
+export async function fetchRecipes(): Promise<RecipesAndFoods[]> {
+  const res = await fetch('http://localhost:5106/api/food');
+  const foodsData: FoodData[] = await res.json();
+
+  return foodsData.map(FoodDataService.format);
 }

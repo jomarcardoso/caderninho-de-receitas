@@ -2,6 +2,7 @@ import * as RecipeServices from './recipe.service';
 
 export const RecipeService = RecipeServices;
 
-export { PROCESSED_RECIPE, RECIPE } from './recipe.types';
-
-export type { ProcessedRecipe, Recipe, SetRecipe } from './recipe.types';
+export * from './recipe.dto';
+export * from './recipe.model';
+export * from './recipe.response';
+export * from './recipe.types';

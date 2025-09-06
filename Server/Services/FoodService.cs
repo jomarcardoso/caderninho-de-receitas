@@ -76,7 +76,7 @@ public class FoodService
     if (existingFood == null) return null;
 
     existingFood.Name = food.Name;
-    existingFood.Calories = food.Calories;
+    // existingFood.Calories = food.Calories;
     // Atualize outras propriedades necessárias
 
     await _context.SaveChangesAsync();

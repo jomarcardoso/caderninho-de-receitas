@@ -24,7 +24,7 @@ export const useRecipe = (): {
   const { recipes = [] } = useContext(RecipesContext);
   const lastRegisteredRecipe = last(recipes) || RECIPE;
 
-  if (!initialRecipe.name) {
+  if (!initialRecipe.title) {
     initialRecipe = lastRegisteredRecipe;
   }
 

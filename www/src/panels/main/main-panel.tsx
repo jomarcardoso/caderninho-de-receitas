@@ -20,11 +20,11 @@ const MainPanel: FC = () => {
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
   const { recipes: savedRecipes = [] } = useContext(RecipesContext);
   const alphabeticalRecipes = savedRecipes.sort((a, b) => {
-    if (a.name < b.name) {
+    if (a.title < b.title) {
       return -1;
     }
 
-    if (a.name > b.name) {
+    if (a.title > b.title) {
       return 1;
     }
 
@@ -45,7 +45,7 @@ const MainPanel: FC = () => {
         tabIndex={0}
         onClick={() => handleClickLink(recipe)}
       >
-        {capitalize(recipe.name)}
+        {capitalize(recipe.title)}
       </ListItem>
     );
   }

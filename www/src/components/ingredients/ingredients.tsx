@@ -38,7 +38,7 @@ const Ingredients: FC<IngredientsProps> = ({
           <SemanticButton
             key={`${ingredient.food.id}-${
               ingredient.quantity
-            }-${ingredient.description.replace(/\s/g, '-')}`}
+            }-${ingredient.text.replace(/\s/g, '-')}`}
             className="list-item -no-gutters -no-border"
             onClick={() => handleClick(ingredient)}
           >
@@ -52,7 +52,7 @@ const Ingredients: FC<IngredientsProps> = ({
               </div>
 
               <div className="g-col-9">
-                <p>{ingredient.description}</p>
+                <p>{ingredient.text}</p>
               </div>
             </div>
           </SemanticButton>

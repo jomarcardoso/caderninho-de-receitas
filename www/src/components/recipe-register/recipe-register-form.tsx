@@ -85,7 +85,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
               <Field
                 label={`nome da etapa ${index + 1} (opcional)`}
                 name={`steps.${index}.name`}
-                value={step.name}
+                value={step.title}
                 onChange={handleChange}
                 onBlur={formikHandleBlur}
                 hint={
@@ -108,7 +108,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
               {memoizedRenderInputIngredient(
                 index,
                 step.ingredients,
-                step.name,
+                step.title,
               )}
             </div>
 
@@ -116,7 +116,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
               <Field
                 multiline
                 minRows="4"
-                label={`Modo de preparo${step.name ? ` - ${step.name}` : ''}`}
+                label={`Modo de preparo${step.title ? ` - ${step.title}` : ''}`}
                 name={`steps.${index}.preparation`}
                 value={step.preparation}
                 onChange={handleChange}
@@ -129,7 +129,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 multiline
                 name={`steps.${index}.additional`}
                 label={`Informações adicionais${
-                  step.name ? ` - ${step.name}` : ''
+                  step.title ? ` - ${step.title}` : ''
                 }`}
                 value={step.additional}
                 onChange={handleChange}

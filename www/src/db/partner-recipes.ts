@@ -3,7 +3,7 @@ import { Recipe } from '../services/recipe';
 export const recipes: Array<Recipe> = [
   {
     id: 1,
-    name: 'Salada de macarrão com beringela e purê de beterraba (Panelinha)',
+    title: 'Salada de macarrão com beringela e purê de beterraba (Panelinha)',
     category: 'salada',
     description:
       'Ideal pra quem não tem onde esquentar a marmita, essa salada é completa: aquela fominha logo às duas da tarde não vai aparecer! O purê de beterraba, com iogurte e zatar, funciona como molho e a berinjela assada dá um toque tostado.',
@@ -19,7 +19,7 @@ export const recipes: Array<Recipe> = [
 1 colher (chá) de zatar
 azeite a gosto
 sal a gosto`,
-        name: '',
+        title: '',
         preparation: `\
 1. Preaqueça o forno a 200 ºC (temperatura média). Separe uma assadeira grande.
 
@@ -44,10 +44,10 @@ sal a gosto`,
   {
     id: 2,
     category: 'sobremesa',
-    name: 'Arroz doce, caramelizado com farofa',
+    title: 'Arroz doce, caramelizado com farofa',
     steps: [
       {
-        name: 'arroz doce',
+        title: 'arroz doce',
         ingredients: `\
 1 xícara de Arroz Branco Premium Fritz & Frida lavado e escorrido
 1 xícara de açúcar (para o caramelo)
@@ -66,7 +66,7 @@ Canela Moída Fritz & Frida a gosto
         additional: '',
       },
       {
-        name: 'farofa doce',
+        title: 'farofa doce',
         ingredients: `\
 3 xícaras de Amendoim Cru Sem Casca Fritz & Frida
 4 colheres (sopa) de açúcar
@@ -84,7 +84,7 @@ Canela Moída Fritz & Frida a gosto
   },
   {
     category: 'aperitivo',
-    name: 'Rodelas de abobrinha crocantes com parmesão',
+    title: 'Rodelas de abobrinha crocantes com parmesão',
     steps: [
       {
         ingredients: `\
@@ -94,7 +94,7 @@ Canela Moída Fritz & Frida a gosto
 azeite a gosto
 ¼ de colher (chá) de páprica doce
 sal e pimenta-do-reino moída na hora a gosto`,
-        name: 'abobrinha',
+        title: 'abobrinha',
         preparation: `\
 Preaqueça o forno a 220 ºC (temperatura alta). Unte uma assadeira grande com 1 colher (sopa) de azeite (caso as rodelas de abobrinha não caibam numa só assadeira, utilize 2 ou prepare a receita em duas levas).
 
@@ -121,7 +121,7 @@ Retire as abobrinhas do forno e sirva a seguir com a tapenade.`,
 raspas de 1 limão
 2 ramos de manjericão
 1 pitada de sal`,
-        name: 'tapenade',
+        title: 'tapenade',
         preparation:
           'No copo do mini-processador, coloque as azeitonas, o azeite, as raspas de limão e uma pitada de sal. Bata até triturar bem as azeitonas. Junte as folhas de manjericão e bata apenas para incorporar.',
         additional: '',
@@ -134,7 +134,7 @@ raspas de 1 limão
   },
   {
     id: 4,
-    name: 'Arroz carreteiro (Panelinha)',
+    title: 'Arroz carreteiro (Panelinha)',
     description:
       'Quem sabe das coisas já vai separando sobras durante o churrasco para o carreteiro do dia seguinte. A receita é uma fórmula: considere 1 xícara de sobras para 1 xícara de arroz. Pode usar a combinação de cortes que quiser: vale picanha, linguiça, maminha… Sirva com vinagrete e farofa.',
     category: 'comida',
@@ -153,7 +153,7 @@ raspas de 1 limão
 ½ colher (chá) de sal
 pimenta-do-reino moída na hora a gosto
 folhas de salsinha a gosto para servir`,
-        name: 'Arroz',
+        title: 'Arroz',
         preparation: `\
 Corte as carnes em cubos de 1 cm – caso o corte escolhido tenha uma camada grossa de gordura, descarte. Nessa receita, usamos picanha e linguiça, mas você pode fazer diferentes combinações com o que tiver sobrado o churrasco.
 
@@ -180,7 +180,7 @@ Desligue o fogo e mantenha a panela tampada por 5 minutos antes de servir para q
 25 g de manteiga
 1 pimenta dedo-de-moça
 sal a gosto`,
-        name: 'Farofa tostada',
+        title: 'Farofa tostada',
         preparation: `\
 Lave, seque e corte a pimenta dedo-de-moça ao meio no sentido do comprimento, descarte as sementes e fatie fino cada metade. Dica: para evitar acidentes com dedos apimentados nos olhos, passe óleo ou azeite nas mãos depois de cortar as pimentas — a capsaicina, substância responsável pelo ardor, é lipossolúvel. Depois, lave as mãos com sabonete para tirar o óleo.
 
@@ -192,13 +192,13 @@ Leve uma frigideira média com a manteiga ao fogo médio. Assim que derreter, ju
   },
   {
     id: 5,
-    name: 'Sopa de cenoura com curry',
+    title: 'Sopa de cenoura com curry',
     category: 'comida',
     description:
       'Nesta receita, o caldo de frango faz toda a diferença (e ainda sobra para outras preparacões). Junto com o leite de coco e o curry, deixa a cenoura com gosto renovado!',
     steps: [
       {
-        name: 'caldo',
+        title: 'caldo',
         ingredients: `\
 1 peito de frango com osso e sem a pele
 2 cenouras
@@ -219,7 +219,7 @@ Com uma pinça, retire o peito de frango e reserve na geladeira para outra prepa
         additional: '',
       },
       {
-        name: 'sopa',
+        title: 'sopa',
         ingredients: `\
 1 xícara (chá) do caldo de frango reservado
 1 cenoura cozida (do caldo)
@@ -240,12 +240,12 @@ Tempere com o sal e o curry e bata apenas para misturar. Sirva a seguir ainda qu
   {
     id: 6,
     category: 'comida',
-    name: 'Cuscuz marroquino com filé mignon suíno',
+    title: 'Cuscuz marroquino com filé mignon suíno',
     description:
       'Este prato é ótimo para servir no verão e um bom jeito de comer carne fria. O molho de geleia caseira garante um sabor agridoce ao preparo e as ervas frescas fazem a vez da salada.',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
 1 peça de filé mignon suíno (cerca de 650 g)
 1 ½ xícara (chá) de cuscuz marroquino
@@ -281,13 +281,13 @@ Assim que estiver assado, retire do forno e transfira o filé mignon suíno para
   },
   {
     id: 7,
-    name: 'Geleia de manga e maracujá',
+    title: 'Geleia de manga e maracujá',
     description:
       'Tem fruta madura dando sopa? Geleia nelas! E geleia caseira, claro, sem conservantes e com aquele gostinho de cozinha do interior. Nesta receita, o maracujá (azedo, de sabor mais forte e rico em pectina) é combinado com a manga (mais doce e carnuda).',
     category: 'sobremesa',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
     2 mangas maduras
 3 maracujás
@@ -309,13 +309,13 @@ Com uma concha, transfira a geleia ainda quente para potes de vidro esterilizado
   },
   {
     id: 8,
-    name: 'Vinagrete de chuchu com cominho',
+    title: 'Vinagrete de chuchu com cominho',
     description:
       'Bem crocante e cortado em cubinhos bem pequenos, o chuchu surpreende nesse vinagrete. Ele absorve o sabor do cominho e rende um molho incrível para usar no sanduíche, colocar no pastel, servir com tortas.',
     category: 'salada',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
 1 chuchu grande
 ½ cebola roxa
@@ -341,13 +341,13 @@ Escorra a cebola e adicione ao chuchu. Tempere com o azeite, o caldo de limão, 
   },
   {
     id: 9,
-    name: 'Brownie cremoso de castanha-do-pará',
+    title: 'Brownie cremoso de castanha-do-pará',
     description:
       'O mundo se divide entre pessoas que gostam de brownie fofo ou brownie denso-cremoso. Esta receita é para quem gosta da segunda opção. As castanhas dão crocância à sobremesa, que é servida com frutas e creme batido – um espetáculo.',
     category: 'sobremesa',
     steps: [
       {
-        name: 'brownie',
+        title: 'brownie',
         ingredients: `\
 200 g de chocolate amargo (55% de cacau)
 200 g de manteiga
@@ -373,7 +373,7 @@ Retire do forno e deixe amornar. Leve para a geladeira para firmar por pelo meno
         additional: '',
       },
       {
-        name: 'para servir',
+        title: 'para servir',
         ingredients: `\
 1 carambola
 7 morangos
@@ -396,13 +396,13 @@ Desenforme o brownie e descarte o papel da lateral. Cubra com um prato e vire de
   },
   {
     id: 10,
-    name: 'Filé de frango grelhado com páprica e erva-doce',
+    title: 'Filé de frango grelhado com páprica e erva-doce',
     description:
       'Para não ressecar, o frango toma um banho de banheira num soro mágico, que além da suculência, também garante um sabor diferente, graças à páprica e à erva-doce. Frango grelhado seco e sem graça, nunca mais!',
     category: 'comida',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
 2 filés de peito de frango (cerca de 200g cada)
 1 colher (chá) de sementes de erva-doce
@@ -430,13 +430,13 @@ Deixe os filés de frango terminarem de cozinhar em fogo baixo por mais 3 minuto
   },
   {
     id: 11,
-    name: 'Clotted cream caseiro',
+    title: 'Clotted cream caseiro',
     description:
       'Produto típico inglês, parece uma variação do requeijão e é servido tradicionalmente com scones e geleia. Esta é uma versão prática, feita no micro-ondas. Mas para ficar no ponto precisa descansar na geladeira de um dia para o outro.',
     category: 'aperitivo',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: '500 ml de creme de leite fresco 35% de gordura',
         preparation: `\
 Coloque o creme de leite num refratário quadrado de 22 cm, ou outro recipiente que possa ir ao micro-ondas e que seja largo o suficiente para que o creme fique com uma altura de cerca de 2,5 cm de altura  (marinex de vidro quadrado 22 cm, capacidade 3 litros). É importante utilizar um refratário mesmo, de base larga, e não uma tigela, para que o creme tenha uma superfície maior e assim a água possa evaporar mais rápido e o creme coagular de maneira uniforme.
@@ -468,13 +468,13 @@ Na hora de servir, retire da geladeira e, com uma colher, transfira o creme para
   },
   {
     id: 12,
-    name: 'Café de prensa',
+    title: 'Café de prensa',
     description:
       'Método favorito da Rita para preparar café, a prensa francesa é uma jarra com um êmbolo e um filtro. O pó precisa ser moído especialmente para ela – você pode comprar assim em cafeterias ou ter um moedor de uso exclusivo do café. O esforço compensa.',
     category: 'aperitivo',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
 6 colheres (sopa) de café moído para prensa francesa
 300 ml de água filtrada`,
@@ -492,13 +492,13 @@ Regue com um pouco mais da água, mexa o café com uma colher e apenas então de
   },
   {
     id: 13,
-    name: 'Torta de banana',
+    title: 'Torta de banana',
     description:
       'O açúcar mascavo dá um gostinho especial – mais complexo – a essa torta clássica e com gosto de comida-conforto. Uma pitada de canela faz dupla imbatível com a banana-nanica.',
     category: 'sobremesa',
     steps: [
       {
-        name: 'Para a massa',
+        title: 'Para a massa',
         ingredients: `\
 1 ½ xícara (chá) de farinha de trigo
 100 g de manteiga gelada em cubos
@@ -513,7 +513,7 @@ Junte o ovo, a gema e amasse até formar uma massa lisa e bem macia. Modele uma 
         additional: '',
       },
       {
-        name: 'Para o recheio',
+        title: 'Para o recheio',
         ingredients: `\
 6 bananas nanicas maduras
 ½ xícara (chá) de açúcar mascavo
@@ -532,7 +532,7 @@ Transfira o recheio para uma tigela e mantenha em temperatura ambiente para amor
         additional: '',
       },
       {
-        name: 'Para a assar',
+        title: 'Para a assar',
         ingredients: `\
 1 ovo
 1 colher (chá) de água
@@ -562,13 +562,13 @@ Com a ponta de uma faquinha, faça 4 cortes em cruz no centro da torta – eles 
       'Para congelar: Depois de assada, deixe a torta esfriar completamente. Embale bem com filme, assim a torta não absorve a umidade do congelador, nem pega gosto de outras comidas, e leve ao freezer. Na hora de descongelar, preaqueça o forno a 180 ºC (temperatura média), desembale e transfira a torta para uma assadeira. Leve direto ao forno (ainda congelada), o tempo varia de forno para forno, o mais importante é verificar se o centro do recheio descongelou e está aquecido. A torta tem validade de 3 meses congelada.',
   },
   {
-    name: 'Carne com batata e cenoura na panela de pressão',
+    title: 'Carne com batata e cenoura na panela de pressão',
     description:
       'Um ensopado bem caseiro, cheio de sabor e muito prático! É só preparar o refogado na própria panela elétrica de pressão, adicionar a carne (não precisa nem dourar) e programar a panela para cozinhar. Ao fim do cozimento, adicione os legumes e, depois de 5 minutos, tudo pronto: carne bem macia com batatas e cenouras cozidas, sem bagunça na cozinha nem medo da panela de pressão. É difícil de acreditar, mas você pode ver com seus próprios olhos na versão em vídeo da receita.',
     category: 'comida',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
 1 kg de acém
 400 g de batata bolinha
@@ -614,7 +614,7 @@ Após os 5 minutos, a panela vai desligar sozinha e manter o ensopado aquecido. 
     additional: '',
   },
   {
-    name: 'Arroz árabe com carne moída e especiarias (HASHWEH)',
+    title: 'Arroz árabe com carne moída e especiarias (HASHWEH)',
     description:
       'Você não vai nem reconhecer o básico arroz com carne moída. O segredo está na cebola caramelizada e nas especiarias que se juntam à dupla para trazer muito mais sabor.',
     additional: `\
@@ -624,7 +624,7 @@ Serve: 4 porções`,
     category: 'comida',
     steps: [
       {
-        name: 'para saladinha de tomate',
+        title: 'para saladinha de tomate',
         ingredients: `\
 3 tomates maduros
 ¼ de xícara (chá) de castanha-de-caju torrada sem sal picada fino
@@ -637,7 +637,7 @@ Lave, seque e corte os tomates ao meio; descarte as sementes e corte cada metade
         additional: '',
       },
       {
-        name: 'para o arroz',
+        title: 'para o arroz',
         ingredients: `\
 1 xícara (chá) de arroz
 2 xícaras (chá) de água
@@ -674,7 +674,7 @@ Solte os grãos de arroz com um garfo e acrescente ao refogado de carne, mexa po
     lastUpdate: 1657158241946,
   },
   {
-    name: 'Arroz libanês com frango, coalhada e nozes',
+    title: 'Arroz libanês com frango, coalhada e nozes',
     description:
       'Um prato único, que vale por uma refeição completa, e que serve a família toda. Coalhada e nozes não podem faltar!',
     additional: `\
@@ -684,7 +684,7 @@ Serve: Até 6 porções`,
     category: 'comida',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
 2 xícaras (chá) de arroz
 1 xícara (chá) de lentilha
@@ -721,7 +721,7 @@ sal a gosto`,
         additional: '',
       },
       {
-        name: 'para servir',
+        title: 'para servir',
         ingredients: `\
 1 xícara (chá) de coalhada seca (cerca de 200 g)
 ½ xícara (chá) de nozes
@@ -737,7 +737,7 @@ azeite a gosto`,
     lastUpdate: 1657158241946,
   },
   {
-    name: 'Chapati',
+    title: 'Chapati',
     description:
       'Também conhecido como pão ázimo, o chapati é uma daquelas receitas que sobrevivem ao tempo. O pãozinho indiano, um dos mais antigos do mundo, é uma maravilha: não leva fermento e é feito na chapa!',
     additional: `\
@@ -747,7 +747,7 @@ Serve: 10 pãezinhos`,
     category: 'pão',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
 1 xícara (chá) de farinha de trigo
 ½ colher (chá) de sal
@@ -777,7 +777,7 @@ Pode congelar: se não quiser fazer todos os discos, congele a massa restante, j
     lastUpdate: 1657158241946,
   },
   {
-    name: 'Tabule',
+    title: 'Tabule',
     description:
       'Tabule é um prato tradicional da culinária árabe, cheio de frescor e alguns segredinhos: o trigo não deve ficar muito tempo de molho para não empapar, e a salsinha deve ir para a receita lavada e bem sequinha.',
     additional: `\
@@ -787,7 +787,7 @@ Serve: 3 porções`,
     category: 'salada',
     steps: [
       {
-        name: '',
+        title: '',
         ingredients: `\
 ½ xícara (chá) de trigo fino (para quibe)
 2 tomates maduros

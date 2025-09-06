@@ -8,5 +8,8 @@ public class RecipeBase<TRecipeStep>
   public string? Additional { get; set; }
   public List<TRecipeStep> Steps { get; set; } = new List<TRecipeStep>();
   //RecipeCategory category { get; set; }
-  public string OwnerId { get; set; } = string.Empty;
+  public NutritionalInformation NutritionalInformation { get; set; } = new();
+  public Minerals Minerals { get; set; } = new();
+  public Vitamins Vitamins { get; set; } = new();
+  public AminoAcids AminoAcids { get; set; } = new();
 }

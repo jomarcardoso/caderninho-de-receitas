@@ -1,6 +1,6 @@
 import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
-import { Ingredient } from '../ingredient/ingredient.types';
 import { MINERALS, Minerals } from '../mineral';
+import { NutritionalInformation } from '../nutritional-information';
 import { VITAMINS, Vitamins } from '../vitamin';
 
 export type RecipeCategory =
@@ -26,50 +26,25 @@ export const recipeCategoryList: Array<RecipeCategory> = [
   'sobremesa',
 ];
 
-export interface RecipeStep {
-  name: string;
-  ingredients: string;
-  preparation: string;
-  additional: string;
-}
-
-export interface Recipe {
+export interface RecipeBase<TRecipeStep> {
   id?: number;
-  name: string;
+  title: string;
   description?: string;
   additional?: string;
-  steps: Array<RecipeStep>;
-  category: RecipeCategory | '';
+  image: string;
+  steps: TRecipeStep;
+  // category: RecipeCategory | '';
   lastUpdate: number;
   needSync?: boolean;
   userId?: number;
-}
-
-export interface ProcessedRecipeStep {
-  name: string;
-  ingredients: Array<Ingredient>;
-  preparation: string;
-  additional: string;
-}
-
-export interface ProcessedRecipe extends Omit<Recipe, 'steps'> {
-  image: string;
-  calories: number;
-  gi: number;
-  gl: number;
-  carbohydrates: number;
-  totalFat: number;
-  dietaryFiber: number;
-  proteins: number;
-  acidification: number;
-  aminoAcids: AminoAcids;
-  steps: Array<ProcessedRecipeStep>;
-  vitamins: Vitamins;
+  nutritionalInformation: NutritionalInformation;
   minerals: Minerals;
+  vitamins: Vitamins;
+  aminoAcids: AminoAcids;
 }
 
 export const RECIPE_STEP: RecipeStep = {
-  name: '',
+  title: '',
   ingredients: '',
   preparation: '',
   additional: '',
@@ -77,7 +52,7 @@ export const RECIPE_STEP: RecipeStep = {
 
 export const RECIPE: Recipe = {
   id: 0,
-  name: '',
+  title: '',
   description: '',
   additional: '',
   category: '',
@@ -85,33 +60,10 @@ export const RECIPE: Recipe = {
   lastUpdate: Date.now(),
 };
 
-export const PROCESSED_RECIPE_STEP: ProcessedRecipeStep = {
-  name: '',
-  ingredients: [],
-  preparation: '',
-  additional: '',
-};
-
-export const PROCESSED_RECIPE: ProcessedRecipe = {
-  calories: 0,
-  description: '',
-  additional: '',
-  image: '',
-  name: '',
-  id: 0,
-  steps: [],
-  gi: 0,
-  acidification: 0,
-  gl: 0,
-  carbohydrates: 0,
-  totalFat: 0,
-  dietaryFiber: 0,
-  proteins: 0,
-  aminoAcids: AMINO_ACIDS,
-  vitamins: VITAMINS,
-  minerals: MINERALS,
-  category: '',
-  lastUpdate: 0,
-};
-
 export type SetRecipe = (recipe: Recipe) => number;
+
+// public class RecipeAndFoodResponseDto
+// {
+//   public List<RecipeResponseDto> Recipes { get; set; } = new();
+//   public List<Food> Foods { get; set; } = new();
+// }

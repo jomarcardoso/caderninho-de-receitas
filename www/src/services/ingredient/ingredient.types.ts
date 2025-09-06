@@ -1,20 +1,17 @@
 import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
-import { Food, Measure } from '../food';
+import { Measure } from '../food';
 import { FOOD } from '../food/food.types';
 import { MINERALS, Minerals } from '../mineral';
+import { NutritionalInformation } from '../nutritional-information';
 import { VITAMINS, Vitamins } from '../vitamin';
 
-export interface Ingredient {
-  food: Food;
+export interface IngredientBase<TFood> {
+  text: string;
+  food: TFood;
   quantity: number;
-  calories: number;
-  carbohydrates: number;
-  totalFat: number;
-  dietaryFiber: number;
-  proteins: number;
-  aminoAcids: AminoAcids;
   measure: Measure;
-  description: string;
+  nutritionalInformation: NutritionalInformation;
+  aminoAcids: AminoAcids;
   vitamins: Vitamins;
   minerals: Minerals;
 }
@@ -32,7 +29,7 @@ export const PORTION: Ingredient = {
     type: 'LITERAL',
   },
   quantity: 0,
-  description: '',
+  text: '',
   vitamins: VITAMINS,
   minerals: MINERALS,
 };

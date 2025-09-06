@@ -34,8 +34,8 @@ public class RecipeService
 
       steps.Add(new RecipeStep
       {
-        Name = stepDto.Name,
-        IngredientsText = stepDto.Ingredients,
+        Title = stepDto.Name,
+        Description = stepDto.Ingredients,
         Preparation = stepDto.Preparation,
         Additional = stepDto.Additional,
         Ingredients = ingredients

@@ -52,7 +52,7 @@ const RecipeRegister: FC<Props> = ({ recipe = RECIPE }) => {
 
       const newRecipe: Recipe = {
         steps: stepsData,
-        name,
+        title: name,
         description,
         id: recipe?.id ?? 0,
         category,
@@ -74,7 +74,7 @@ const RecipeRegister: FC<Props> = ({ recipe = RECIPE }) => {
     <>
       <Formik
         initialValues={{
-          name: recipe?.name ?? '',
+          name: recipe?.title ?? '',
           description: recipe?.description ?? '',
           additional: recipe?.additional ?? '',
           category: recipe?.category ?? '',

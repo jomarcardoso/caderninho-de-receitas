@@ -87,7 +87,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
   return (
     <div className="recipe-container">
-      {formattedRecipe.name && (
+      {formattedRecipe.title && (
         <div
           data-ovo-sticky-header
           style={{
@@ -102,9 +102,11 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             <div className="container">
               <h1
                 className="h2"
-                style={{ fontSize: formattedRecipe.name.length > 30 ? 17 : 19 }}
+                style={{
+                  fontSize: formattedRecipe.title.length > 30 ? 17 : 19,
+                }}
               >
-                {formattedRecipe.name}
+                {formattedRecipe.title}
               </h1>
             </div>
           </div>
