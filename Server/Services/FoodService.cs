@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Server.Models.Food;
 using Fastenshtein;
+using Server.Models;
 
 namespace Server.Services;
 
@@ -147,5 +148,15 @@ public class FoodService
     }
 
     return await BestMatch(filteredPossibleName);
+  }
+
+  public static List<Food> GetFoodsFromRecipes(List<Recipe> recipes)
+  {
+    return recipes
+      .SelectMany(r => r.Steps)
+      .SelectMany(s => s.Ingredients)
+      .Select(i => i.Food)
+      .DistinctBy(f => f.Id)
+      .ToList();
   }
 }

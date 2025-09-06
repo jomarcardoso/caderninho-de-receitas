@@ -35,43 +35,47 @@ public class RecipeController : ControllerBase
   public async Task<IActionResult> CreateRecipe([FromBody] RecipeDto recipeDto)
   {
     var userId = GetUserId();
-    Recipe recipe = await recipeService.DtoToEntity(recipeDto);
 
+    // Converte DTO para Entity
+    Recipe recipe = await recipeService.DtoToEntity(recipeDto);
     recipe.OwnerId = userId;
 
     _context.Recipes.Add(recipe);
     await _context.SaveChangesAsync();
 
-    return Ok(await GetMyRecipes());
+    // Retorna todas as receitas do usuário
+    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    return Ok(response);
   }
+
+  [HttpPost("many")]
+  public async Task<IActionResult> CreateRecipes([FromBody] List<RecipeDto> recipesDto)
+  {
+    var userId = GetUserId();
+    var recipesToAdd = new List<Recipe>();
+
+    foreach (var dto in recipesDto)
+    {
+      Recipe recipe = await recipeService.DtoToEntity(dto);
+      recipe.OwnerId = userId;
+      recipesToAdd.Add(recipe);
+    }
+
+    _context.Recipes.AddRange(recipesToAdd);
+    await _context.SaveChangesAsync();
+
+    // Retorna todas as receitas do usuário, incluindo as novas
+    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    return Ok(response);
+  }
+
 
   // GET api/recipes
   [HttpGet]
   public async Task<IActionResult> GetMyRecipes()
   {
     var userId = GetUserId();
-
-    List<Recipe> recipes = await _context.Recipes
-      .Where(r => r.OwnerId == userId)
-      .Include(r => r.Steps)
-      .ThenInclude(s => s.Ingredients)
-      .ThenInclude(i => i.Food)
-      .ToListAsync();
-
-    List<RecipeResponseDto> recipeDtos = _mapper.Map<List<RecipeResponseDto>>(recipes);
-
-    var foods = recipes
-      .SelectMany(r => r.Steps)
-      .SelectMany(s => s.Ingredients)
-      .Select(i => i.Food)
-      .DistinctBy(f => f.Id)
-      .ToList();
-
-    var response = new RecipeAndFoodResponseDto
-    {
-      Recipes = recipeDtos,
-      Foods = _mapper.Map<List<Food>>(foods)
-    };
+    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
 
     return Ok(response);
   }

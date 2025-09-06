@@ -1,15 +1,22 @@
-﻿using Server.Dtos;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Server.Dtos;
 using Server.Models;
+using Server.Models.Food;
 
 namespace Server.Services;
 
 public class RecipeService
 {
+  private readonly AppDbContext _context;
+  private readonly IMapper _mapper;
   private readonly IngredientService ingredientService;
 
-  public RecipeService(IngredientService _ingredientService)
+  public RecipeService(IngredientService _ingredientService, IMapper mapper, AppDbContext context)
   {
     ingredientService = _ingredientService ?? throw new ArgumentNullException(nameof(ingredientService));
+    _mapper = mapper;
+    _context = context;
   }
   public async Task<Recipe> DtoToEntity(RecipeDto recipeDto)
   {
@@ -41,6 +48,31 @@ public class RecipeService
       Description = recipeDto.Description,
       Additional = recipeDto.Additional,
       Steps = steps
+    };
+  }
+
+  public async Task<List<Recipe>> GetAllRecipesByUserId(string userId)
+  {
+    List<Recipe> recipes = await _context.Recipes
+      .Where(r => r.OwnerId == userId)
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .ThenInclude(i => i.Food)
+      .ToListAsync();
+
+    return recipes;
+  }
+
+  public async Task<RecipeAndFoodResponseDto> GetRecipesAndFoodsByUserId(string userId)
+  {
+    List<Recipe> recipes = await GetAllRecipesByUserId(userId);
+    List<RecipeResponseDto> recipeDtos = _mapper.Map<List<RecipeResponseDto>>(recipes);
+    List<Food> foods = FoodService.GetFoodsFromRecipes(recipes);
+
+    return new RecipeAndFoodResponseDto
+    {
+      Recipes = recipeDtos,
+      Foods = _mapper.Map<List<Food>>(foods)
     };
   }
 }
