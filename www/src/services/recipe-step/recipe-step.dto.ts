@@ -1,6 +1,3 @@
-export interface RecipeStepDto {
-  name: string;
-  ingredients: string;
-  preparation: string;
-  additional: string;
-}
+import { RecipeStepBase } from './recipe-step.types';
+
+export type RecipeStepDto = RecipeStepBase<string>;

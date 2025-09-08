@@ -1,23 +1,8 @@
-import { Food, Measure } from '../food';
+import { Food } from '../food';
 import { RecipeStepResponseDto } from '../recipe-step';
+import { RecipeBase } from './recipe.types';
 
-// Ingredient com referência numérica (FoodId)
-export interface IngredientResponseDto {
-  id: number;
-  text: string;
-  food: number; // FoodId
-  quantity: number;
-  measure: Measure;
-}
-
-export interface RecipeResponseDto {
-  id: number;
-  name: string;
-  description?: string;
-  additional?: string;
-  steps: RecipeStepResponseDto[];
-  ownerId: string;
-}
+export type RecipeResponseDto = RecipeBase<RecipeStepResponseDto>;
 
 // Wrapper com recipes + foods
 export interface RecipeAndFoodResponseDto {

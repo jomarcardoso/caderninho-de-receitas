@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Server.Models;
-using Server.Models.Food;
+using Server.Shared;
 
 namespace Server.Services;
 
@@ -121,16 +121,15 @@ public class IngredientService
     var quantity = ParseMeasureQuantity(measureText, measureType);
     var grams = ConvertToLiteralQuantity(quantity, measureType);
 
-    return new Ingredient
-    {
-      Text = Text,
-      Food = food,
-      Measure = new Measure
+    return new Ingredient(
+      Text,
+      food,
+      grams,
+      new Measure
       {
         Type = measureType,
         Quantity = quantity,
-      },
-      Quantity = grams,
-    };
+      }
+    );
   }
 }

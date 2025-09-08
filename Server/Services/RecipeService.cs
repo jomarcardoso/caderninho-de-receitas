@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
 using Server.Models;
-using Server.Models.Food;
 
 namespace Server.Services;
 
@@ -22,9 +21,10 @@ public class RecipeService
   {
     var steps = new List<RecipeStep>();
 
-    foreach (var stepDto in recipeDto.Steps)
+    foreach (RecipeStepDto stepDto in recipeDto.Steps)
     {
       var ingredients = new List<Ingredient>();
+
       foreach (var text in stepDto.Ingredients.Split("\n"))
       {
         ingredientService.Text = text;
@@ -32,23 +32,21 @@ public class RecipeService
         ingredients.Add(ingredient);
       }
 
-      steps.Add(new RecipeStep
-      {
-        Title = stepDto.Name,
-        Description = stepDto.Ingredients,
-        Preparation = stepDto.Preparation,
-        Additional = stepDto.Additional,
-        Ingredients = ingredients
-      });
+      steps.Add(new RecipeStep(
+        stepDto.Title,
+        stepDto.Preparation,
+        stepDto.Additional,
+        ingredients
+      ));
     }
 
-    return new Recipe
-    {
-      Name = recipeDto.Name ?? string.Empty,
-      Description = recipeDto.Description,
-      Additional = recipeDto.Additional,
-      Steps = steps
-    };
+    return new Recipe(
+      recipeDto.Id,
+      recipeDto.Name ?? string.Empty,
+      recipeDto.Description,
+      recipeDto.Additional,
+      steps
+    );
   }
 
   public async Task<List<Recipe>> GetAllRecipesByUserId(string userId)

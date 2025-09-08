@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Server.Models.Food;
+using Server.Models;
 
 namespace Server.Controllers;
 

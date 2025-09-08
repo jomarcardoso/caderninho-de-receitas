@@ -1,10 +1,4 @@
 import { IngredientResponseDto } from '../recipe/recipe.response';
+import { RecipeStepBase } from './recipe-step.types';
 
-export interface RecipeStepResponseDto {
-  id: number;
-  name: string;
-  ingredientsText: string;
-  ingredients: IngredientResponseDto[];
-  preparation: string;
-  additional: string;
-}
+export type RecipeStepResponseDto = RecipeStepBase<IngredientResponseDto>;

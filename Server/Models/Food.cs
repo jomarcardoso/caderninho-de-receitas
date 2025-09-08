@@ -1,34 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Server.Shared;
+﻿using Server.Shared;
 
-namespace Server.Models.Food;
+namespace Server.Models;
 
 public enum UnitOfMeasurement
 {
   Gram,
   Liter,
-}
-
-public enum MeasureType
-{
-  Cup,
-  Spoon,
-  TeaSpoon,
-  Unity,
-  UnitySmall,
-  UnityLarge,
-  Literal,
-  Can,
-  Glass,
-  Breast,
-  Clove,
-  Slice,
-  Bunch,
-  Ml,
-  Liter,
-  Gram,
-  Kilo,
-  Pinch
 }
 
 public enum FoodType
@@ -50,14 +27,7 @@ public enum FoodType
   Powder
 }
 
-public class Measure
-{
-  public int Id { get; set; }
-  public MeasureType Type { get; set; }
-  public double Quantity { get; set; }
-}
-
-public class Food
+public class Food : Nutrients
 {
   public int Id { get; set; }
   public string Name { get; set; } = string.Empty;
@@ -73,8 +43,6 @@ public class Food
   public bool IsRecipe { get; set; }
   public string Icon { get; set; } = string.Empty;
   public FoodType Type { get; set; } = FoodType.Solid;
-  [NotMapped]
-  public double Quantity { get; set; } = 100;
   public NutritionalInformation NutritionalInformation { get; set; } = new();
   public Minerals Minerals { get; set; } = new();
   public Vitamins Vitamins { get; set; } = new();

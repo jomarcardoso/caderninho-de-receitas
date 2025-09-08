@@ -26,16 +26,18 @@ export const recipeCategoryList: Array<RecipeCategory> = [
   'sobremesa',
 ];
 
-export interface RecipeBase<TRecipeStep> {
+export interface RecipeContract<TRecipeStep> {
   id?: number;
-  title: string;
+  name: string;
   description?: string;
   additional?: string;
-  image: string;
   steps: TRecipeStep;
   // category: RecipeCategory | '';
   lastUpdate: number;
   needSync?: boolean;
+}
+
+export interface RecipeBase<TRecipeStep> extends RecipeContract<TRecipeStep> {
   userId?: number;
   nutritionalInformation: NutritionalInformation;
   minerals: Minerals;
@@ -43,27 +45,4 @@ export interface RecipeBase<TRecipeStep> {
   aminoAcids: AminoAcids;
 }
 
-export const RECIPE_STEP: RecipeStep = {
-  title: '',
-  ingredients: '',
-  preparation: '',
-  additional: '',
-};
-
-export const RECIPE: Recipe = {
-  id: 0,
-  title: '',
-  description: '',
-  additional: '',
-  category: '',
-  steps: [],
-  lastUpdate: Date.now(),
-};
-
-export type SetRecipe = (recipe: Recipe) => number;
-
-// public class RecipeAndFoodResponseDto
-// {
-//   public List<RecipeResponseDto> Recipes { get; set; } = new();
-//   public List<Food> Foods { get; set; } = new();
-// }
+export type SetRecipe = (recipe: RecipeBase) => number;

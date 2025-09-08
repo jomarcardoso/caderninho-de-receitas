@@ -1,11 +1,4 @@
-export interface RecipeDto {
-  name: string;
-  description: string;
-  additional: string;
-  steps: RecipeStepDto[];
-}
+import { RecipeStepDto } from '../recipe-step';
+import { RecipeContract } from './recipe.types';
 
-// Para updates
-export interface UpdateRecipeDto extends RecipeDto {
-  id: number;
-}
+export type RecipeDto = RecipeContract<RecipeStepDto>;

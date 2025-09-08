@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Server.Models;
-using Server.Models.Food;
 
 namespace Server;
 
@@ -34,7 +33,16 @@ public class AppDbContext : DbContext
       entity.OwnsOne(i => i.Minerals);
     });
 
-    // Ingredient
+    // RecipeStep
+    modelBuilder.Entity<RecipeStep>(entity =>
+    {
+      entity.OwnsOne(i => i.NutritionalInformation);
+      entity.OwnsOne(i => i.AminoAcids);
+      entity.OwnsOne(i => i.Vitamins);
+      entity.OwnsOne(i => i.Minerals);
+    });
+
+    // Recipe
     modelBuilder.Entity<Recipe>(entity =>
     {
       entity.OwnsOne(i => i.NutritionalInformation);
