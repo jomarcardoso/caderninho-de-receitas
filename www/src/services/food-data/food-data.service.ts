@@ -7,7 +7,7 @@ import {
   FOOD,
   FoodType,
   FoodTypes,
-  Measurer,
+  MeasureType,
   MeasurerValues,
   type Food,
   type FoodData,
@@ -41,7 +41,7 @@ export function format(data?: FoodData): Food {
     unitOfMeasurement: data?.unitOfMeasurement === 1 ? 'liter' : 'gram',
     oneMeasures:
       data?.oneMeasures?.map((oneMeasure) => ({
-        type: (Object.keys(MeasurerValues) as Measurer[])[oneMeasure.type],
+        type: (Object.keys(MeasurerValues) as MeasureType[])[oneMeasure.type],
         quantity: oneMeasure.quantity ?? 1,
       })) ?? [],
     keys: (data?.keys || '').split(', ') ?? [],

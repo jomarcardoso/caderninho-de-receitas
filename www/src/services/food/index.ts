@@ -8,7 +8,7 @@ export type {
   Food,
   FoodData,
   Measure,
-  Measurer,
+  MeasureType as Measurer,
   FoodVersions,
   FoodVersion,
   UnitOfMeasurement,

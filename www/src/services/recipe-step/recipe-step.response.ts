@@ -1,4 +1,4 @@
-import { IngredientResponseDto } from '../recipe/recipe.response';
+import { IngredientResponse } from '../ingredient/ingredient.reponse';
 import { RecipeStepBase } from './recipe-step.types';
 
-export type RecipeStepResponseDto = RecipeStepBase<IngredientResponseDto>;
+export type RecipeStepResponseDto = RecipeStepBase<IngredientResponse>;

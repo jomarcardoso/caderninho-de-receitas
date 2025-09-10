@@ -2,18 +2,15 @@ import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
 import { Measure } from '../food';
 import { FOOD } from '../food/food.types';
 import { MINERALS, Minerals } from '../mineral';
+import { Nutrients } from '../nutrients';
 import { NutritionalInformation } from '../nutritional-information';
 import { VITAMINS, Vitamins } from '../vitamin';
 
-export interface IngredientBase<TFood> {
+export interface IngredientBase<TFood> extends Nutrients {
   text: string;
   food: TFood;
   quantity: number;
   measure: Measure;
-  nutritionalInformation: NutritionalInformation;
-  aminoAcids: AminoAcids;
-  vitamins: Vitamins;
-  minerals: Minerals;
 }
 
 export const PORTION: Ingredient = {

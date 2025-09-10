@@ -1,11 +1,12 @@
 import { Food } from '../food';
+import { MeasureTypeResponse } from '../measure/mesure.response';
 import { RecipeStepResponseDto } from '../recipe-step';
 import { RecipeBase } from './recipe.types';
 
-export type RecipeResponseDto = RecipeBase<RecipeStepResponseDto>;
+export type RecipeResponse = RecipeBase<RecipeStepResponseDto>;
 
-// Wrapper com recipes + foods
-export interface RecipeAndFoodResponseDto {
-  recipes: RecipeResponseDto[];
+export interface RecipeAndFoodResponse {
+  recipes: RecipeResponse[];
   foods: Food[];
+  measureTypes: MeasureTypeResponse[];
 }

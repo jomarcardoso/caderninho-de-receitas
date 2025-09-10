@@ -25,10 +25,10 @@ export const MeasurerValues = {
   BUNCH: 'cacho', // 12
 } as const;
 
-export type Measurer = keyof typeof MeasurerValues;
+export type MeasureType = keyof typeof MeasurerValues;
 
 export interface Measure {
-  type: Measurer;
+  type: MeasureType;
   quantity: number;
 }
 
