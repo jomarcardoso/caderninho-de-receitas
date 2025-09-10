@@ -51,7 +51,7 @@ public class RecipeService
 
   public async Task<List<Recipe>> GetAllRecipesByUserId(string userId)
   {
-    List<Recipe> recipes = await _context.Recipes
+    List<Recipe> recipes = await _context.Recipe
       .Where(r => r.OwnerId == userId)
       .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)
@@ -72,5 +72,12 @@ public class RecipeService
       Recipes = recipeDtos,
       Foods = _mapper.Map<List<Food>>(foods)
     };
+  }
+
+  public async Task DeleteStepsAsync(Recipe recipe)
+  {
+    recipe.Steps.Clear();
+
+    await _context.SaveChangesAsync();
   }
 }

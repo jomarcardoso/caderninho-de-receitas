@@ -21,10 +21,3 @@ public enum MeasureType
   Kilo,
   Pinch
 }
-
-public class Measure
-{
-  public int Id { get; set; }
-  public MeasureType Type { get; set; }
-  public double Quantity { get; set; }
-}

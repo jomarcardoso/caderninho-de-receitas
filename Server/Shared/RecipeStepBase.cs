@@ -18,7 +18,7 @@ public abstract class RecipeStepContract<TRecipeIngredient>
   }
 }
 
-public abstract class RecipeStepBase<TRecipeIngredient> : RecipeStepContract<TRecipeIngredient>, Nutrients
+public abstract class RecipeStepBase<TRecipeIngredient> : RecipeStepContract<TRecipeIngredient>, INutrients
 {
   public NutritionalInformation NutritionalInformation { get; set; } = new();
   public Minerals Minerals { get; set; } = new();

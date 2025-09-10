@@ -1,13 +1,14 @@
 namespace Server.Shared;
 
-public abstract class IngredientBase<TFood> : Nutrients
+public abstract class IngredientBase<TFood> : INutrients
 {
   public string Text { get; set; } = string.Empty;
   public TFood Food { get; set; }
   // literal quantity, in liters or grams
   public double Quantity { get; set; } = 0;
   // quantity described, cups, spoons...
-  public Measure Measure { get; set; }
+  public MeasureType MeasureType { get; set; } = MeasureType.Unity;
+  public double MeasureQuantity { get; set; } = 0;
   public NutritionalInformation NutritionalInformation { get; set; } = new();
   public Minerals Minerals { get; set; } = new();
   public Vitamins Vitamins { get; set; } = new();
@@ -19,7 +20,8 @@ public abstract class IngredientBase<TFood> : Nutrients
     string text,
     TFood food,
     double quantity,
-    Measure measure,
+    MeasureType measureType,
+    double measureQuantity,
     NutritionalInformation nutritionalInformation,
     Minerals minerals,
     Vitamins vitamins,
@@ -29,7 +31,8 @@ public abstract class IngredientBase<TFood> : Nutrients
     Text = text;
     Food = food;
     Quantity = quantity;
-    Measure = measure;
+    MeasureType = measureType;
+    MeasureQuantity = measureQuantity;
     NutritionalInformation = nutritionalInformation;
     Minerals = minerals;
     Vitamins = vitamins;

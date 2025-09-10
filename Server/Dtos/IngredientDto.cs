@@ -2,4 +2,4 @@ using Server.Shared;
 
 namespace Server.Dtos;
 
-public class IngredientResponseDto : IngredientBase<int> { }
+public class IngredientResponse : IngredientBase<int> { }

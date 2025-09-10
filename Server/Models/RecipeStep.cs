@@ -1,11 +1,11 @@
+using Microsoft.EntityFrameworkCore;
 using Server.Shared;
 
 namespace Server.Models;
 
+[Owned]
 public class RecipeStep : RecipeStepBase<List<Ingredient>>
 {
-  public int Id { get; set; }
-
   public RecipeStep() { }
 
   public RecipeStep(string title, string preparation, string additional, List<Ingredient> ingredients)

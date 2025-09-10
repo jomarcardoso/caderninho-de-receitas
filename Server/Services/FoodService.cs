@@ -46,7 +46,7 @@ public class FoodService
   // Buscar um Food pelo ID
   public async Task<Food?> GetByIdAsync(int id)
   {
-    return await _context.Foods.FindAsync(id);
+    return await _context.Food.FindAsync(id);
   }
 
   // Buscar todos os alimentos
@@ -55,7 +55,7 @@ public class FoodService
     if (foods.Count > 0)
       return foods;
 
-    foods = await _context.Foods.ToListAsync();
+    foods = await _context.Food.ToListAsync();
 
     return foods;
   }
@@ -63,7 +63,7 @@ public class FoodService
   // Salvar um novo Food
   public async Task<Food> AddAsync(Food food)
   {
-    _context.Foods.Add(food);
+    _context.Food.Add(food);
     await _context.SaveChangesAsync();
     return food;
   }
@@ -71,7 +71,7 @@ public class FoodService
   // Atualizar um Food existente
   public async Task<Food?> UpdateAsync(Food food)
   {
-    var existingFood = await _context.Foods.FindAsync(food.Id);
+    var existingFood = await _context.Food.FindAsync(food.Id);
     if (existingFood == null) return null;
 
     existingFood.Name = food.Name;
@@ -115,7 +115,7 @@ public class FoodService
 
   public async Task<Food> FindFoodByPossibleName(string possibleName)
   {
-    foods = await _context.Foods.ToListAsync();
+    foods = await _context.Food.ToListAsync();
     Food? _food = await hasExactFoodWithThisName(possibleName);
 
     if (_food != null)

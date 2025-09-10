@@ -19,7 +19,7 @@ public class FoodController : ControllerBase
   [HttpGet]
   public async Task<ActionResult<IEnumerable<Food>>> GetAll()
   {
-    var foods = await _context.Foods.ToListAsync();
+    var foods = await _context.Food.ToListAsync();
     return Ok(foods);
   }
 
@@ -27,7 +27,7 @@ public class FoodController : ControllerBase
   [HttpGet("{id}")]
   public async Task<ActionResult<Food>> GetById(int id)
   {
-    var food = await _context.Foods.FindAsync(id);
+    var food = await _context.Food.FindAsync(id);
     if (food == null)
       return NotFound();
     return Ok(food);
@@ -37,7 +37,7 @@ public class FoodController : ControllerBase
   [HttpPost]
   public async Task<ActionResult<Food>> Create([FromBody] Food food)
   {
-    _context.Foods.Add(food);
+    _context.Food.Add(food);
     await _context.SaveChangesAsync();
 
     return CreatedAtAction(nameof(GetById), new { id = food.Id }, food);
@@ -49,7 +49,7 @@ public class FoodController : ControllerBase
   {
     foreach (Food food in foods)
     {
-      _context.Foods.Add(food);
+      _context.Food.Add(food);
       await _context.SaveChangesAsync();
     }
 
@@ -63,7 +63,7 @@ public class FoodController : ControllerBase
     if (id != food.Id)
       return BadRequest();
 
-    var existing = await _context.Foods.FindAsync(id);
+    var existing = await _context.Food.FindAsync(id);
     if (existing == null)
       return NotFound();
 

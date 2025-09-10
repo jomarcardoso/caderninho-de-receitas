@@ -1,6 +1,6 @@
 namespace Server.Shared;
 
-public interface Nutrients
+public interface INutrients
 {
   public NutritionalInformation NutritionalInformation { get; set; }
   public Minerals Minerals { get; set; }

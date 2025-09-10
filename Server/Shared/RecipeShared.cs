@@ -9,7 +9,7 @@ public abstract class RecipeContract<TRecipeStep>
   public List<TRecipeStep> Steps { get; set; } = new List<TRecipeStep>();
 }
 
-public abstract class RecipeBase<TRecipeStep> : RecipeContract<TRecipeStep>, Nutrients
+public abstract class RecipeBase<TRecipeStep> : RecipeContract<TRecipeStep>, INutrients
 {
   //RecipeCategory category { get; set; }
   public NutritionalInformation NutritionalInformation { get; set; } = new();

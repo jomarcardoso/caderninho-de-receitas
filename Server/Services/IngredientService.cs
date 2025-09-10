@@ -125,11 +125,8 @@ public class IngredientService
       Text,
       food,
       grams,
-      new Measure
-      {
-        Type = measureType,
-        Quantity = quantity,
-      }
+      measureType,
+      quantity
     );
   }
 }

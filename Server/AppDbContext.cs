@@ -8,8 +8,8 @@ public class AppDbContext : DbContext
   public AppDbContext(DbContextOptions<AppDbContext> options)
       : base(options) { }
 
-  public DbSet<Recipe> Recipes { get; set; }
-  public DbSet<Food> Foods { get; set; }
+  public DbSet<Recipe> Recipe { get; set; }
+  public DbSet<Food> Food { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -22,33 +22,33 @@ public class AppDbContext : DbContext
       entity.OwnsOne(f => f.AminoAcids);
       entity.OwnsOne(f => f.Vitamins);
       entity.OwnsOne(f => f.Minerals);
-    });
 
-    // Ingredient
-    modelBuilder.Entity<Ingredient>(entity =>
-    {
-      entity.OwnsOne(i => i.NutritionalInformation);
-      entity.OwnsOne(i => i.AminoAcids);
-      entity.OwnsOne(i => i.Vitamins);
-      entity.OwnsOne(i => i.Minerals);
-    });
-
-    // RecipeStep
-    modelBuilder.Entity<RecipeStep>(entity =>
-    {
-      entity.OwnsOne(i => i.NutritionalInformation);
-      entity.OwnsOne(i => i.AminoAcids);
-      entity.OwnsOne(i => i.Vitamins);
-      entity.OwnsOne(i => i.Minerals);
+      entity.OwnsMany(f => f.Measures);
     });
 
     // Recipe
     modelBuilder.Entity<Recipe>(entity =>
     {
-      entity.OwnsOne(i => i.NutritionalInformation);
-      entity.OwnsOne(i => i.AminoAcids);
-      entity.OwnsOne(i => i.Vitamins);
-      entity.OwnsOne(i => i.Minerals);
+      entity.OwnsMany(r => r.Steps, step =>
+      {
+        step.OwnsMany(s => s.Ingredients, ingredient =>
+        {
+          ingredient.OwnsOne(i => i.AminoAcids);
+          ingredient.OwnsOne(i => i.NutritionalInformation);
+          ingredient.OwnsOne(i => i.Vitamins);
+          ingredient.OwnsOne(i => i.Minerals);
+        });
+
+        step.OwnsOne(s => s.NutritionalInformation);
+        step.OwnsOne(s => s.AminoAcids);
+        step.OwnsOne(s => s.Vitamins);
+        step.OwnsOne(s => s.Minerals);
+      });
+
+      entity.OwnsOne(r => r.NutritionalInformation);
+      entity.OwnsOne(r => r.AminoAcids);
+      entity.OwnsOne(r => r.Vitamins);
+      entity.OwnsOne(r => r.Minerals);
     });
   }
 }

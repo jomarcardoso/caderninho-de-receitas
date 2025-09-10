@@ -35,14 +35,12 @@ public class RecipeController : ControllerBase
   {
     var userId = GetUserId();
 
-    // Converte DTO para Entity
     Recipe recipe = await recipeService.DtoToEntity(recipeDto);
     recipe.OwnerId = userId;
 
-    _context.Recipes.Add(recipe);
+    _context.Recipe.Add(recipe);
     await _context.SaveChangesAsync();
 
-    // Retorna todas as receitas do usuário
     RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
   }
@@ -53,14 +51,14 @@ public class RecipeController : ControllerBase
     var userId = GetUserId();
     var recipesToAdd = new List<Recipe>();
 
-    foreach (var dto in recipesDto)
+    foreach (RecipeDto dto in recipesDto)
     {
       Recipe recipe = await recipeService.DtoToEntity(dto);
       recipe.OwnerId = userId;
       recipesToAdd.Add(recipe);
     }
 
-    _context.Recipes.AddRange(recipesToAdd);
+    _context.Recipe.AddRange(recipesToAdd);
     await _context.SaveChangesAsync();
 
     // Retorna todas as receitas do usuário, incluindo as novas
@@ -68,6 +66,47 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
+  [HttpPut("{id}")]
+  public async Task<IActionResult> UpdateRecipe(int id, [FromBody] RecipeDto recipeDto)
+  {
+    var userId = GetUserId();
+
+    Recipe? recipe = await _context.Recipe
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .FirstOrDefaultAsync(r => r.Id == id && r.OwnerId == userId);
+
+    if (recipe == null)
+      return NotFound();
+
+    await recipeService.DeleteStepsAsync(recipe);
+
+    recipe = await recipeService.DtoToEntity(recipeDto);
+
+    _context.Entry(recipe).State = EntityState.Modified;
+    await _context.SaveChangesAsync();
+
+    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    return Ok(response);
+  }
+
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> DeleteRecipe(int id)
+  {
+    var userId = GetUserId();
+
+    Recipe? recipe = await _context.Recipe
+      .FirstOrDefaultAsync(r => r.Id == id && r.OwnerId == userId);
+
+    if (recipe == null)
+      return NotFound();
+
+    _context.Recipe.Remove(recipe);
+    await _context.SaveChangesAsync();
+
+    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    return Ok(response);
+  }
 
   // GET api/recipes
   [HttpGet]
@@ -85,7 +124,7 @@ public class RecipeController : ControllerBase
   {
     var userId = GetUserId();
 
-    Recipe? recipe = await _context.Recipes
+    Recipe? recipe = await _context.Recipe
       .FirstOrDefaultAsync(r => r.Id == id && r.OwnerId == userId);
 
     if (recipe == null)

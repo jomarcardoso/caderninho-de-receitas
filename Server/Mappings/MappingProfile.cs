@@ -10,10 +10,10 @@ public class MappingProfile : Profile
     CreateMap<Recipe, RecipeResponseDto>().ReverseMap();
 
     // RecipeStep ↔ RecipeStepDto
-    CreateMap<RecipeStep, RecipeStepResponseDto>().ReverseMap();
+    CreateMap<RecipeStep, RecipeStepResponse>().ReverseMap();
 
     // Ingredient ↔ IngredientResponseDto
-    CreateMap<Ingredient, IngredientResponseDto>()
+    CreateMap<Ingredient, IngredientResponse>()
       .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food.Id))
       .ReverseMap()
       .ForPath(src => src.Food.Id, opt => opt.MapFrom(dest => dest.Food));

@@ -27,7 +27,7 @@ public enum FoodType
   Powder
 }
 
-public class Food : Nutrients
+public class Food : INutrients
 {
   public int Id { get; set; }
   public string Name { get; set; } = string.Empty;
@@ -37,7 +37,7 @@ public class Food : Nutrients
   public string Image { get; set; } = string.Empty;
   public double Sugar { get; set; }
   public UnitOfMeasurement UnitOfMeasurement { get; set; }
-  public ICollection<Measure> OneMeasures { get; set; } = [];
+  public List<Measure> Measures { get; set; } = new();
   public string Keys { get; set; } = string.Empty;
   public string KeysPt { get; set; } = string.Empty;
   public bool IsRecipe { get; set; }
