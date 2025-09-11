@@ -22,6 +22,7 @@ public class AppDbContext : DbContext
       entity.OwnsOne(f => f.AminoAcids);
       entity.OwnsOne(f => f.Vitamins);
       entity.OwnsOne(f => f.Minerals);
+      entity.OwnsOne(f => f.Name);
 
       entity.OwnsMany(f => f.Measures);
     });

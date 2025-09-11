@@ -10,9 +10,9 @@ public class Minerals
   public double Manganese { get; set; }
   public double Phosphorus { get; set; }
   public double Potassium { get; set; }
+  public double Selenium { get; set; }
   public double Sodium { get; set; }
   public double Zinc { get; set; }
-  public double Selenium { get; set; }
 
   public Minerals() { }
 

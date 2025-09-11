@@ -2,7 +2,6 @@ namespace Server.Shared;
 
 public class AminoAcids
 {
-  // amino acids
   public double Alanine { get; set; }
   public double Arginine { get; set; }
   public double AsparticAcid { get; set; }

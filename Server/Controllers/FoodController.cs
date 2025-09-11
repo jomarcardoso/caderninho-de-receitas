@@ -68,7 +68,7 @@ public class FoodController : ControllerBase
       return NotFound();
 
     // Update properties
-    existing.NamePt = food.NamePt;
+    existing.Name.Pt = food.Name.Pt;
     // Add other properties as needed
 
     await _context.SaveChangesAsync();

@@ -30,16 +30,12 @@ public enum FoodType
 public class Food : INutrients
 {
   public int Id { get; set; }
-  public string Name { get; set; } = string.Empty;
-  public string NamePt { get; set; } = string.Empty;
-  public string Description { get; set; } = string.Empty;
-  public string DescriptionPt { get; set; } = string.Empty;
+  public LanguageText Name { get; set; } = new LanguageText();
+  public LanguageText Description { get; set; } = new LanguageText();
   public string Image { get; set; } = string.Empty;
-  public double Sugar { get; set; }
   public UnitOfMeasurement UnitOfMeasurement { get; set; }
   public List<Measure> Measures { get; set; } = new();
-  public string Keys { get; set; } = string.Empty;
-  public string KeysPt { get; set; } = string.Empty;
+  public LanguageText Keys { get; set; } = new LanguageText();
   public bool IsRecipe { get; set; }
   public string Icon { get; set; } = string.Empty;
   public FoodType Type { get; set; } = FoodType.Solid;

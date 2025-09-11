@@ -86,14 +86,14 @@ public class FoodService
   {
     List<Food> _allFoods = await GetAllAsync();
 
-    return _allFoods.FirstOrDefault(f => string.Equals(f.NamePt.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase));
+    return _allFoods.FirstOrDefault(f => string.Equals(f.Name.Pt.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase));
   }
 
   internal async Task<Food?> hasExactKeyWithThisName(string name)
   {
     List<Food> _allFoods = await GetAllAsync();
 
-    return _allFoods.FirstOrDefault((f) => f.KeysPt.Split(", ").Any((k) => string.Equals(k.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase)));
+    return _allFoods.FirstOrDefault((f) => f.Keys.Pt.Split(", ").Any((k) => string.Equals(k.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase)));
   }
 
   internal static string filterName(string name)
@@ -109,7 +109,7 @@ public class FoodService
     List<Food> _allFoods = await GetAllAsync();
 
     return _allFoods
-      .OrderBy(food => (food.KeysPt + ", " + food.NamePt).Split(", ").Min(key => new Levenshtein(name).DistanceFrom(key)))
+      .OrderBy(food => (food.Keys.Pt + ", " + food.Name.Pt).Split(", ").Min(key => new Levenshtein(name).DistanceFrom(key)))
       .First();
   }
 
