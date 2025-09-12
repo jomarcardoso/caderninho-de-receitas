@@ -2,7 +2,7 @@ import * as MineralServices from './mineral.service';
 
 export const MineralService = MineralServices;
 
-export { MINERAL, MINERALS, MINERALS_DATA } from './mineral.constants';
+export { MINERAL, MINERALS, MINERALS_DATA } from './mineral.types';
 
 export type {
   Mineral,
@@ -11,4 +11,4 @@ export type {
   MineralNick,
   Minerals,
   MineralsData,
-} from './mineral.constants';
+} from './mineral.types';

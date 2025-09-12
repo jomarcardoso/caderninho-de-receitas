@@ -61,13 +61,13 @@ public class RecipeService
     return recipes;
   }
 
-  public async Task<RecipeAndFoodResponseDto> GetRecipesAndFoodsByUserId(string userId)
+  public async Task<RecipesDto> GetRecipesAndFoodsByUserId(string userId)
   {
     List<Recipe> recipes = await GetAllRecipesByUserId(userId);
     List<RecipeResponseDto> recipeDtos = _mapper.Map<List<RecipeResponseDto>>(recipes);
     List<Food> foods = FoodService.GetFoodsFromRecipes(recipes);
 
-    return new RecipeAndFoodResponseDto
+    return new RecipesDto
     {
       Recipes = recipeDtos,
       Foods = _mapper.Map<List<Food>>(foods)

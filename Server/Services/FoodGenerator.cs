@@ -27,7 +27,7 @@
 //                DietaryFiber = 2,
 //                Sugar = 14,
 //                Gl = 10,
-//                UnitOfMeasurement = UnitOfMeasurement.Gram,
+//                MeasurementUnit = MeasurementUnit.Gram,
 //                OneMeasures = new Measure[]
 //                {
 //                    new Measure { Type = MeasurerValues.Gram, Quantity = 100 }

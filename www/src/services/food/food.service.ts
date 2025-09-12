@@ -1,172 +1,59 @@
-import { FoodDataService } from '../food-data';
-import { Food, FOOD, FoodData } from './food.types';
+import { MeasureTypeResponse } from '../measure/mesure.response';
+import { MeasurementUnitResponse } from '../measurement-unity/measurement-unity.types';
+import { Food } from './food.model';
+import { FoodResponse, FoodsResponse, FoodTypeResponse } from './food.response';
 
-interface GetFoodByStringReturn {
-  food: Food;
-  index: number;
-}
-
-type GetFoodByString = (
-  foods: Food[],
-  text: string,
-  options?: {
-    preferRecipe?: true;
-  },
-) => GetFoodByStringReturn;
-
-export const getFoodByString: GetFoodByString = (
-  foods: Food[] = [],
-  text = '',
-  { preferRecipe } = {},
-) => {
-  const orderedFoods = foods.sort(({ recipe }) =>
-    recipe ? (preferRecipe ? -1 : 1) : preferRecipe ? 1 : -1,
-  );
-  const lowerText = text.toLowerCase();
-
-  if (lowerText.startsWith('sal para')) {
-    return {
-      food: orderedFoods.find((food) => food.name.pt === 'Sal') ?? FOOD,
-      index: 0,
-    };
-  }
-
-  const foodsFound =
-    orderedFoods.filter((foodItem) => {
-      const lowerFood = foodItem.name.pt.toLowerCase();
-
-      if (lowerFood === lowerText) {
-        return true;
-      }
-
-      const foundOnTheName = lowerText.includes(lowerFood);
-
-      if (foundOnTheName) return true;
-
-      const founded = foodItem.keys.find((key) => {
-        const lowerKey = key.toLocaleLowerCase();
-
-        return lowerText.includes(lowerKey);
-      });
-
-      return founded;
-    }) || [];
-
-  const exactFood = foodsFound.find((foodFound) => {
-    const lowerFoodFound = foodFound.name.pt.toLowerCase();
-
-    return (
-      lowerFoodFound === lowerText ||
-      foodFound.keys.some((key) => key.toLowerCase() === lowerText)
-    );
-  });
-
-  if (exactFood) {
-    return {
-      food: exactFood,
-      index: 0,
-    };
-  }
-
-  let { food } = foodsFound.reduce(
-    (previousFood, currentFood) => {
-      const currentCountLetters = currentFood.keys.reduce(
-        (previousKey, currentKey) => {
-          const lowerKey = currentKey.toLowerCase();
-          const keyFound = lowerText.includes(lowerKey);
-
-          if (keyFound) {
-            const keyLength = lowerKey.length;
-
-            if (keyLength > previousKey) {
-              return keyLength;
-            }
-          }
-
-          return previousKey;
-        },
-        0,
-      );
-
-      if (currentCountLetters > previousFood.length) {
-        return {
-          food: currentFood,
-          length: currentCountLetters,
-        };
-      }
-
-      return previousFood;
+export function mapFoodResponseToModel(
+  foodData: FoodResponse,
+  measureTypes: MeasureTypeResponse[],
+  foodTypes: FoodTypeResponse[],
+  measurementUnits: MeasurementUnitResponse[],
+): Food {
+  return {
+    ...foodData,
+    measurementUnit: measurementUnits[foodData.measurementUnit],
+    measures:
+      foodData?.measures?.map((measure) => ({
+        ...measure,
+        text: measureTypes[measure.type].text,
+      })) ?? [],
+    type: foodTypes[foodData.type],
+    aminoAcids: {
+      ...AMINO_ACIDS,
+      alanine: foodData?.alanine ?? AMINO_ACIDS.alanine,
+      arginine: foodData?.arginine ?? AMINO_ACIDS.arginine,
+      asparticAcid: foodData?.asparticAcid ?? AMINO_ACIDS.asparticAcid,
+      cystine: foodData?.cystine ?? AMINO_ACIDS.cystine,
+      glutamicAcid: foodData?.glutamicAcid ?? AMINO_ACIDS.glutamicAcid,
+      glycine: foodData?.glycine ?? AMINO_ACIDS.glycine,
+      histidine: foodData?.histidine ?? AMINO_ACIDS.histidine,
+      isoleucine: foodData?.isoleucine ?? AMINO_ACIDS.isoleucine,
+      leucine: foodData?.leucine ?? AMINO_ACIDS.leucine,
+      lysine: foodData?.lysine ?? AMINO_ACIDS.lysine,
+      methionine: foodData?.methionine ?? AMINO_ACIDS.methionine,
+      phenylalanine: foodData?.phenylalanine ?? AMINO_ACIDS.phenylalanine,
+      proline: foodData?.proline ?? AMINO_ACIDS.proline,
+      serine: foodData?.serine ?? AMINO_ACIDS.serine,
+      threonine: foodData?.threonine ?? AMINO_ACIDS.threonine,
+      tryptophan: foodData?.tryptophan ?? AMINO_ACIDS.tryptophan,
+      tyrosine: foodData?.tyrosine ?? AMINO_ACIDS.tyrosine,
+      valine: foodData?.valine ?? AMINO_ACIDS.valine,
     },
-    { food: FOOD, length: 0 },
-  );
-
-  if (!food.name) {
-    food = foodsFound.reduce((previous, current) => {
-      const textWords = lowerText.split(' ');
-      const lowerPrevious = previous.name.pt.toLowerCase();
-      const lowerCurrent = current.name.pt.toLowerCase();
-      const previousWords = lowerPrevious.split(' ');
-      const currentWords = lowerCurrent.split(' ');
-      let previousWordsMatched = 0;
-      let currentWordsMatched = 0;
-
-      previousWords.forEach((previousWord) => {
-        textWords.forEach((textWord) => {
-          if (previousWord === textWord && textWord !== '')
-            previousWordsMatched += 1;
-        });
-      });
-
-      currentWords.forEach((currentWord) => {
-        textWords.forEach((textWord) => {
-          if (currentWord === textWord && textWord !== '')
-            currentWordsMatched += 1;
-        });
-      });
-
-      if (previousWordsMatched < currentWordsMatched) {
-        return current;
-      }
-
-      if (previousWordsMatched === currentWordsMatched) {
-        if (previous.name.pt.length <= current.name.pt.length) {
-          if (previous.name) {
-            return previous;
-          }
-        }
-
-        return current;
-      }
-
-      return previous;
-    }, FOOD);
-  }
-
-  if (!food.name) {
-    return {
-      food: FOOD,
-      index: 0,
-    };
-  }
-
-  let index = lowerText.indexOf(food.name.pt);
-
-  food.keys.forEach((key) => {
-    if (index !== -1) return;
-
-    if (lowerText.includes(key)) {
-      const lowerKey = key.toLowerCase();
-
-      index = lowerText.indexOf(lowerKey);
-    }
-  });
-
-  return { food, index };
-};
+    minerals: MineralService.format(foodData),
+    vitamins: VitaminService.format(foodData),
+  };
+}
 
 export async function fetchFood(): Promise<Food[]> {
   const res = await fetch('http://localhost:5106/api/food');
-  const foodsData: FoodData[] = await res.json();
+  const data: FoodsResponse = await res.json();
 
-  return foodsData.map(FoodDataService.format);
+  return data.foods.map((food) =>
+    mapFoodResponseToModel(
+      food,
+      data.measureTypes,
+      data.foodTypes,
+      data.measurementUnits,
+    ),
+  );
 }

@@ -2,38 +2,13 @@
 
 namespace Server.Models;
 
-public enum UnitOfMeasurement
-{
-  Gram,
-  Liter,
-}
-
-public enum FoodType
-{
-  Liquid,
-  Seed,
-  Herb,
-  Temper,
-  Fruit,
-  Solid,
-  Oil,
-  Legumen,
-  Flake,
-  Root,
-  Meat,
-  Vegetable,
-  Cake,
-  Cheese,
-  Powder
-}
-
 public class Food : INutrients
 {
   public int Id { get; set; }
   public LanguageText Name { get; set; } = new LanguageText();
   public LanguageText Description { get; set; } = new LanguageText();
   public string Image { get; set; } = string.Empty;
-  public UnitOfMeasurement UnitOfMeasurement { get; set; }
+  public MeasurementUnit MeasurementUnit { get; set; }
   public List<Measure> Measures { get; set; } = new();
   public LanguageText Keys { get; set; } = new LanguageText();
   public bool IsRecipe { get; set; }

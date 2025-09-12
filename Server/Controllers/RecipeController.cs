@@ -41,7 +41,7 @@ public class RecipeController : ControllerBase
     _context.Recipe.Add(recipe);
     await _context.SaveChangesAsync();
 
-    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
   }
 
@@ -62,7 +62,7 @@ public class RecipeController : ControllerBase
     await _context.SaveChangesAsync();
 
     // Retorna todas as receitas do usuário, incluindo as novas
-    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
   }
 
@@ -86,7 +86,7 @@ public class RecipeController : ControllerBase
     _context.Entry(recipe).State = EntityState.Modified;
     await _context.SaveChangesAsync();
 
-    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
   }
 
@@ -104,7 +104,7 @@ public class RecipeController : ControllerBase
     _context.Recipe.Remove(recipe);
     await _context.SaveChangesAsync();
 
-    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
   }
 
@@ -113,7 +113,7 @@ public class RecipeController : ControllerBase
   public async Task<IActionResult> GetMyRecipes()
   {
     var userId = GetUserId();
-    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
 
     return Ok(response);
   }

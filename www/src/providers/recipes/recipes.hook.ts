@@ -1,14 +1,4 @@
 import { User } from 'firebase/auth';
-import {
-  Firestore,
-  doc,
-  setDoc,
-  query,
-  where,
-  getDocs,
-  collection,
-  deleteDoc,
-} from 'firebase/firestore';
 import remove from 'lodash/remove';
 import { useState, useEffect, useCallback } from 'react';
 import { Recipe } from '../../services/recipe';
@@ -28,10 +18,11 @@ function getRecipesFromLocalStorage(): Recipe[] {
   return JSON.parse(localStorage.getItem(RECIPES_STORAGE) || 'null') ?? [];
 }
 
-function removeFromDB(id?: number, db?: Firestore) {
-  if (db && id) {
+function removeFromDB(id?: number) {
+  if (id) {
     try {
-      deleteDoc(doc(db, RECIPES_STORAGE, String(id)));
+      // deleteDoc(doc(db, RECIPES_STORAGE, String(id)));
+      throw new Error('Não implementado');
     } catch (e) {
       console.log('erro ao salvar receita', e);
     }
@@ -46,8 +37,8 @@ export function useRecipes(firebase: FirebaseHook): {
   const [recipes, setRecipes] = useState(getRecipesFromLocalStorage());
   const [hasFetched, setHasFetched] = useState(false);
 
-  const saveAllOnDB = (db?: Firestore, user?: User) => {
-    if (!db || !user) {
+  const saveAllOnDB = (user?: User) => {
+    if (!user) {
       return;
     }
 
@@ -71,7 +62,7 @@ export function useRecipes(firebase: FirebaseHook): {
     });
   };
 
-  const update = (recipes: Recipe[], db?: Firestore, user?: User): void => {
+  const update = (recipes: Recipe[], user?: User): void => {
     if (typeof window === 'undefined') return;
 
     const savedRecipesData = getRecipesFromLocalStorage();
@@ -88,7 +79,7 @@ export function useRecipes(firebase: FirebaseHook): {
       return;
     }
 
-    saveAllOnDB(db, user);
+    saveAllOnDB(user);
   };
 
   /**
@@ -127,64 +118,61 @@ export function useRecipes(firebase: FirebaseHook): {
     setRecipes(newRecipes);
   }
 
-  const getSavedRecipes = useCallback(
-    async (db: Firestore) => {
-      const uid = firebase.auth?.currentUser?.uid;
+  const getSavedRecipes = useCallback(async () => {
+    const uid = firebase.auth?.currentUser?.uid;
 
-      // try once to wait the uid
-      if (!uid) {
-        if (hasFetched) {
-          return;
-        }
-
-        //after the first time it will be true and wil not try again
-        setHasFetched(true);
-
-        setTimeout(() => {
-          getSavedRecipes(db);
-        }, 1000);
-
+    // try once to wait the uid
+    if (!uid) {
+      if (hasFetched) {
         return;
       }
 
-      const q = query(
-        collection(db, RECIPES_STORAGE),
-        where('userId', '==', uid),
-      );
+      //after the first time it will be true and wil not try again
+      setHasFetched(true);
 
-      try {
-        const querySnapshot = await getDocs(q);
-        const recipesFromStorage = [...recipes];
+      setTimeout(() => {
+        getSavedRecipes(db);
+      }, 1000);
 
-        querySnapshot.forEach((doc3) => {
-          const recipeFromDB = doc3.data() as Recipe;
+      return;
+    }
 
-          const storagedRecipe = recipes.find(
-            (storageRecipe) => storageRecipe.id === recipeFromDB.id,
+    const q = query(
+      collection(db, RECIPES_STORAGE),
+      where('userId', '==', uid),
+    );
+
+    try {
+      const querySnapshot = await getDocs(q);
+      const recipesFromStorage = [...recipes];
+
+      querySnapshot.forEach((doc3) => {
+        const recipeFromDB = doc3.data() as Recipe;
+
+        const storagedRecipe = recipes.find(
+          (storageRecipe) => storageRecipe.id === recipeFromDB.id,
+        );
+
+        if (!storagedRecipe) {
+          recipesFromStorage.push(recipeFromDB);
+        } else if (storagedRecipe.lastUpdate < recipeFromDB.lastUpdate) {
+          const index = recipesFromStorage.findIndex(
+            (recipe) => recipe.id === storagedRecipe.id,
           );
 
-          if (!storagedRecipe) {
-            recipesFromStorage.push(recipeFromDB);
-          } else if (storagedRecipe.lastUpdate < recipeFromDB.lastUpdate) {
-            const index = recipesFromStorage.findIndex(
-              (recipe) => recipe.id === storagedRecipe.id,
-            );
-
-            recipesFromStorage[index] = recipeFromDB;
-          }
-        });
-
-        if (recipesFromStorage.length !== recipes.length) {
-          setRecipes(recipesFromStorage);
+          recipesFromStorage[index] = recipeFromDB;
         }
+      });
 
-        setHasFetched(true);
-      } catch (error) {
-        console.log('erro ao buscar receitas', error);
+      if (recipesFromStorage.length !== recipes.length) {
+        setRecipes(recipesFromStorage);
       }
-    },
-    [firebase.user?.uid, recipes],
-  );
+
+      setHasFetched(true);
+    } catch (error) {
+      console.log('erro ao buscar receitas', error);
+    }
+  }, [firebase.user?.uid, recipes]);
 
   useEffect(() => {
     if (firebase.db && !hasFetched) {

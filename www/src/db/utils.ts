@@ -104,7 +104,7 @@ export function formatNacional(food: FoodNacional): FoodData {
     manganese: !isString(food?.attributes?.manganese?.qty)
       ? (food?.attributes?.manganese?.qty ?? 0)
       : 0,
-    unitOfMeasurement: food?.base_unit === 'g' ? 0 : 1,
+    measurementUnit: food?.base_unit === 'g' ? 0 : 1,
   };
 }
 
