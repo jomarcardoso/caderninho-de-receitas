@@ -8,4 +8,5 @@ public class CommonDto
   public List<VitaminResponse> Vitamins { get; set; } = VitaminsData.List;
   public List<AminoAcidResponse> AminoAcids { get; set; } = AminoAcidsData.List;
   public List<MineralResponse> Minerals { get; set; } = MineralsData.List;
+  public List<NutritionalInformationResponse> NutritionalInformation { get; set; } = NutritionalInformationData.List;
 }
