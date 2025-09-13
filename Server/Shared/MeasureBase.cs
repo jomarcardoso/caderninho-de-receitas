@@ -8,17 +8,12 @@ public enum MeasureType
   Unity,
   UnitySmall,
   UnityLarge,
-  Literal,
   Can,
   Glass,
   Breast,
   Clove,
   Slice,
   Bunch,
-  Ml,
-  Liter,
-  Gram,
-  Kilo,
   Pinch
 }
 
@@ -30,17 +25,12 @@ public class MeasureBase
   public double? Unity { get; set; }
   public double? UnitySmall { get; set; }
   public double? UnityLarge { get; set; }
-  public double? Literal { get; set; }
   public double? Can { get; set; }
   public double? Glass { get; set; }
   public double? Breast { get; set; }
   public double? Clove { get; set; }
   public double? Slice { get; set; }
   public double? Bunch { get; set; }
-  public double? Ml { get; set; }
-  public double? Liter { get; set; }
-  public double? Gram { get; set; }
-  public double? Kilo { get; set; }
   public double? Pinch { get; set; }
 
   static MeasureBase()
