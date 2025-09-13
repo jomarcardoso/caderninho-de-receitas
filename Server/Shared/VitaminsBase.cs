@@ -1,6 +1,6 @@
 namespace Server.Shared;
 
-public class Vitamins
+public class VitaminsBase
 {
   public double A { get; set; }
   public double AlphaCarotene { get; set; }
@@ -24,9 +24,9 @@ public class Vitamins
   public double K { get; set; }
   public double Lycopene { get; set; }
 
-  public Vitamins() { }
+  public VitaminsBase() { }
 
-  public Vitamins(Vitamins vitamins, double quantity)
+  public VitaminsBase(VitaminsBase vitamins, double quantity)
   {
     A = vitamins.A * quantity / 100;
     AlphaCarotene = vitamins.AlphaCarotene * quantity / 100;
@@ -51,7 +51,7 @@ public class Vitamins
     Lycopene = vitamins.Lycopene * quantity / 100;
   }
 
-  public Vitamins Add(Vitamins vitamins)
+  public VitaminsBase Add(VitaminsBase vitamins)
   {
     A += vitamins.A;
     AlphaCarotene += vitamins.AlphaCarotene;

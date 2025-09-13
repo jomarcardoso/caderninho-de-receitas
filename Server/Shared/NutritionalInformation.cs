@@ -1,6 +1,6 @@
 namespace Server.Shared;
 
-public class NutritionalInformation
+public class NutritionalInformationBase
 {
   public double Acidification { get; set; } = 0;
   public double Ashes { get; set; } = 0;
@@ -17,9 +17,9 @@ public class NutritionalInformation
   public double Sugar { get; set; }
   public double TotalFat { get; set; } = 0;
 
-  public NutritionalInformation() { }
+  public NutritionalInformationBase() { }
 
-  public NutritionalInformation(NutritionalInformation nutritionalInformation, double quantity)
+  public NutritionalInformationBase(NutritionalInformationBase nutritionalInformation, double quantity)
   {
     Ashes = nutritionalInformation.Ashes * quantity / 100;
     Acidification = nutritionalInformation.Acidification * quantity / 100;
@@ -36,7 +36,7 @@ public class NutritionalInformation
     TotalFat = nutritionalInformation.TotalFat * quantity / 100;
   }
 
-  public NutritionalInformation Add(NutritionalInformation nutritionalInformation)
+  public NutritionalInformationBase Add(NutritionalInformationBase nutritionalInformation)
   {
     Ashes += nutritionalInformation.Ashes;
     Acidification += nutritionalInformation.Acidification;

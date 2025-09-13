@@ -16,10 +16,10 @@ public class Recipe : RecipeBase<RecipeStep>
     Additional = additional;
     Steps = steps;
 
-    NutritionalInformation = new NutritionalInformation();
+    NutritionalInformation = new NutritionalInformationBase();
     Minerals = new Minerals();
-    Vitamins = new Vitamins();
-    AminoAcids = new AminoAcids();
+    Vitamins = new VitaminsBase();
+    AminoAcids = new AminoAcidsBase();
 
     steps.ForEach(s =>
     {

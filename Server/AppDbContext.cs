@@ -18,13 +18,15 @@ public class AppDbContext : DbContext
     // Food
     modelBuilder.Entity<Food>(entity =>
     {
+      entity.OwnsOne(f => f.Name);
+      entity.OwnsOne(f => f.Description);
+      entity.OwnsOne(f => f.Keys);
       entity.OwnsOne(f => f.NutritionalInformation);
       entity.OwnsOne(f => f.AminoAcids);
       entity.OwnsOne(f => f.Vitamins);
       entity.OwnsOne(f => f.Minerals);
       entity.OwnsOne(f => f.Name);
-
-      entity.OwnsMany(f => f.Measures);
+      entity.OwnsOne(f => f.Measures);
     });
 
     // Recipe

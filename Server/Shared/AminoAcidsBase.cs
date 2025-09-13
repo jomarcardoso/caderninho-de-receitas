@@ -1,6 +1,6 @@
 namespace Server.Shared;
 
-public class AminoAcids
+public class AminoAcidsBase
 {
   public double Alanine { get; set; }
   public double Arginine { get; set; }
@@ -22,9 +22,9 @@ public class AminoAcids
   public double Tyrosine { get; set; }
   public double Valine { get; set; }
 
-  public AminoAcids() { }
+  public AminoAcidsBase() { }
 
-  public AminoAcids(AminoAcids aminoAcids, double quantity)
+  public AminoAcidsBase(AminoAcidsBase aminoAcids, double quantity)
   {
     Alanine = aminoAcids.Alanine * quantity / 100;
     Arginine = aminoAcids.Arginine * quantity / 100;
@@ -47,7 +47,7 @@ public class AminoAcids
     Valine = aminoAcids.Valine * quantity / 100;
   }
 
-  public AminoAcids Add(AminoAcids aminoAcids)
+  public AminoAcidsBase Add(AminoAcidsBase aminoAcids)
   {
 
     Alanine += aminoAcids.Alanine;

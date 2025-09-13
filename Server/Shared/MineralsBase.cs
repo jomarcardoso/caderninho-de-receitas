@@ -1,6 +1,6 @@
 namespace Server.Shared;
 
-public class Minerals
+public class MineralsBase
 {
   public double Calcium { get; set; }
   public double Copper { get; set; }
@@ -14,9 +14,9 @@ public class Minerals
   public double Sodium { get; set; }
   public double Zinc { get; set; }
 
-  public Minerals() { }
+  public MineralsBase() { }
 
-  public Minerals(Minerals minerals, double quantity)
+  public MineralsBase(MineralsBase minerals, double quantity)
   {
     Calcium = minerals.Calcium * quantity / 100;
     Copper = minerals.Copper * quantity / 100;
@@ -31,7 +31,7 @@ public class Minerals
     Selenium = minerals.Selenium * quantity / 100;
   }
 
-  public Minerals Add(Minerals minerals)
+  public MineralsBase Add(MineralsBase minerals)
   {
     Calcium += minerals.Calcium;
     Copper += minerals.Copper;

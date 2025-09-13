@@ -11,10 +11,10 @@ public class RecipeStep : RecipeStepBase<List<Ingredient>>
   public RecipeStep(string title, string preparation, string additional, List<Ingredient> ingredients)
     : base(title, preparation, additional, ingredients)
   {
-    NutritionalInformation = new NutritionalInformation();
+    NutritionalInformation = new NutritionalInformationBase();
     Minerals = new Minerals();
-    Vitamins = new Vitamins();
-    AminoAcids = new AminoAcids();
+    Vitamins = new VitaminsBase();
+    AminoAcids = new AminoAcidsBase();
 
     ingredients.ForEach(i =>
     {

@@ -9,11 +9,11 @@ public abstract class RecipeContract<TRecipeStep>
   public List<TRecipeStep> Steps { get; set; } = new List<TRecipeStep>();
 }
 
-public abstract class RecipeBase<TRecipeStep> : RecipeContract<TRecipeStep>, INutrients
+public abstract class RecipeBase<TRecipeStep> : RecipeContract<TRecipeStep>, INutrientsBase
 {
   //RecipeCategory category { get; set; }
-  public NutritionalInformation NutritionalInformation { get; set; } = new();
-  public Minerals Minerals { get; set; } = new();
-  public Vitamins Vitamins { get; set; } = new();
-  public AminoAcids AminoAcids { get; set; } = new();
+  public NutritionalInformationBase NutritionalInformation { get; set; } = new();
+  public MineralsBase Minerals { get; set; } = new();
+  public VitaminsBase Vitamins { get; set; } = new();
+  public AminoAcidsBase AminoAcids { get; set; } = new();
 }

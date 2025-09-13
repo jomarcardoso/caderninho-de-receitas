@@ -17,7 +17,6 @@ public class Ingredient : IngredientBase<Food>
     MeasureQuantity = measureQuantity;
     NutritionalInformation = new NutritionalInformation(food.NutritionalInformation, quantity);
     Minerals = new Minerals(food.Minerals, quantity);
-    Console.WriteLine("vai vita");
     Vitamins = new Vitamins(food.Vitamins, quantity);
     AminoAcids = new AminoAcids(food.AminoAcids, quantity);
   }

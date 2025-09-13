@@ -18,12 +18,12 @@ public abstract class RecipeStepContract<TRecipeIngredient>
   }
 }
 
-public abstract class RecipeStepBase<TRecipeIngredient> : RecipeStepContract<TRecipeIngredient>, INutrients
+public abstract class RecipeStepBase<TRecipeIngredient> : RecipeStepContract<TRecipeIngredient>, INutrientsBase
 {
-  public NutritionalInformation NutritionalInformation { get; set; } = new();
-  public Minerals Minerals { get; set; } = new();
-  public Vitamins Vitamins { get; set; } = new();
-  public AminoAcids AminoAcids { get; set; } = new();
+  public NutritionalInformationBase NutritionalInformation { get; set; } = new();
+  public MineralsBase Minerals { get; set; } = new();
+  public VitaminsBase Vitamins { get; set; } = new();
+  public AminoAcidsBase AminoAcids { get; set; } = new();
 
   public RecipeStepBase() { }
 

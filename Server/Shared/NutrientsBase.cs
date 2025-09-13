@@ -1,9 +1,9 @@
 namespace Server.Shared;
 
-public interface INutrients
+public interface INutrientsBase
 {
-  public NutritionalInformation NutritionalInformation { get; set; }
-  public Minerals Minerals { get; set; }
-  public Vitamins Vitamins { get; set; }
-  public AminoAcids AminoAcids { get; set; }
+  public NutritionalInformationBase NutritionalInformation { get; set; }
+  public MineralsBase Minerals { get; set; }
+  public VitaminsBase Vitamins { get; set; }
+  public AminoAcidsBase AminoAcids { get; set; }
 }

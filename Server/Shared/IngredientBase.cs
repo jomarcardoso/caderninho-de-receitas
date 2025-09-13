@@ -1,6 +1,6 @@
 namespace Server.Shared;
 
-public abstract class IngredientBase<TFood> : INutrients
+public abstract class IngredientBase<TFood> : INutrientsBase
 {
   public string Text { get; set; } = string.Empty;
   public TFood Food { get; set; }
@@ -9,10 +9,10 @@ public abstract class IngredientBase<TFood> : INutrients
   // quantity described, cups, spoons...
   public MeasureType MeasureType { get; set; } = MeasureType.Unity;
   public double MeasureQuantity { get; set; } = 0;
-  public NutritionalInformation NutritionalInformation { get; set; } = new();
-  public Minerals Minerals { get; set; } = new();
-  public Vitamins Vitamins { get; set; } = new();
-  public AminoAcids AminoAcids { get; set; } = new();
+  public NutritionalInformationBase NutritionalInformation { get; set; } = new();
+  public MineralsBase Minerals { get; set; } = new();
+  public VitaminsBase Vitamins { get; set; } = new();
+  public AminoAcidsBase AminoAcids { get; set; } = new();
 
   protected IngredientBase() { }
 
@@ -22,10 +22,10 @@ public abstract class IngredientBase<TFood> : INutrients
     double quantity,
     MeasureType measureType,
     double measureQuantity,
-    NutritionalInformation nutritionalInformation,
-    Minerals minerals,
-    Vitamins vitamins,
-    AminoAcids aminoAcids
+    NutritionalInformationBase nutritionalInformation,
+    MineralsBase minerals,
+    VitaminsBase vitamins,
+    AminoAcidsBase aminoAcids
   )
   {
     Text = text;
