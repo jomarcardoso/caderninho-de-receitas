@@ -1,14 +1,11 @@
 import { CommonResponse } from '../common/common.response';
-import { MeasureResponse } from '../measure/mesure.response';
-import { NutrientsResponse } from '../nutrients/nutrients.response';
-import { FoodBase, FoodTypeBase } from './food.types';
+import { AllNutrientsResponse } from '../nutrient/nutrient.response';
+import { FoodBase } from './food.types';
 
-export type FoodTypeResponse = FoodTypeBase;
-
-export interface FoodResponse extends FoodBase, NutrientsResponse {
+export interface FoodResponse extends FoodBase, AllNutrientsResponse {
   measurementUnit: number;
   type: number;
-  measures: Array<MeasureResponse>;
+  measures: Record<string, number>;
   nutritionalInformation: Record<string, number>;
   minerals: Record<string, number>;
 }

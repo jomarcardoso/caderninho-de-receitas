@@ -1,408 +1,66 @@
-import sum from 'lodash/sum';
-import { AminoAcids } from '../amino-acid';
-import { Food, FoodService } from '../food';
-import IngredientService from '../ingredient/ingredient.service';
-import { Ingredient } from '../ingredient/ingredient.types';
-import { Minerals, MINERALS } from '../mineral';
-import { VITAMINS, Vitamins } from '../vitamin';
-import {
-  ProcessedRecipe,
-  Recipe,
-  ProcessedRecipeStep,
-  RecipeStep,
-  PROCESSED_RECIPE,
-  RECIPE,
-  PROCESSED_RECIPE_STEP,
-} from './recipe.types';
-import { Firestore, doc, getDoc } from 'firebase/firestore';
+import { RecipeResponse, RecipesResponse } from './recipe.response';
+import { CommonResponse } from '../common/common.response';
+import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
+import { Recipe } from './recipe.model';
 
-export function calculateCalories(ingredients: Array<Ingredient> = []): number {
-  return Number(
-    ingredients
-      .reduce((sum, ingredient) => {
-        return sum + ingredient.calories;
-      }, 0)
-      .toFixed(0),
-  );
-}
+// function stepToText(step: RecipeStep): string {
+//   return `\
+// Ingredientes ${step.title}
 
-export function calculateCarbohidrates(
-  ingredients: Array<Ingredient> = [],
-): number {
-  return Number(
-    ingredients
-      .reduce((sum, ingredient) => {
-        return sum + ingredient.carbohydrates;
-      }, 0)
-      .toFixed(0),
-  );
-}
+// ${step.ingredients}
 
-export function calculateGI(ingredients: Array<Ingredient> = []): number {
-  const total = ingredients.reduce((sum, ingredient) => {
-    return sum + ingredient.food.gi;
-  }, 0);
+// Modo de preparo ${step.title}
 
-  return total / ingredients.length;
-}
+// ${step.title}`;
+// }
 
-export function calculateGC(ingredients: Array<Ingredient> = []): number {
-  const total = ingredients.reduce((sum, ingredient) => {
-    return sum + ingredient.food.gl;
-  }, 0);
+// export function formatToText(recipe: Recipe): string {
+//   return `\
+// *${recipe.title.toUpperCase()}*
 
-  return total / ingredients.length;
-}
+// ${recipe.description}
 
-export function calculateAcidification(
-  ingredients: Array<Ingredient> = [],
-): number {
-  const total = ingredients.reduce((sum, ingredient) => {
-    return sum + ingredient.food.acidification;
-  }, 0);
+// ${recipe.steps.map(stepToText)}`;
+// }
 
-  return total / ingredients.length;
-}
-
-export function formatStep(
-  data: RecipeStep,
-  foods: Food[],
-): ProcessedRecipeStep {
-  if (!foods.length) {
-    return PROCESSED_RECIPE_STEP;
-  }
-
-  let ingredients: Array<Ingredient> = [];
-
-  if (data.ingredients) {
-    ingredients = data.ingredients?.split('\n').map((text) => {
-      return IngredientService.ingredientFromString(foods, text);
-    });
-  }
-
+export function mapRecipeResponseToModel(
+  recipeResponse: RecipeResponse,
+  commonResponse: CommonResponse,
+): Recipe {
   return {
-    name: data?.title ?? PROCESSED_RECIPE_STEP.name,
-    ingredients: ingredients ?? PROCESSED_RECIPE_STEP.ingredients,
-    preparation: data?.preparation ?? PROCESSED_RECIPE_STEP.preparation,
-    additional: data?.additional ?? PROCESSED_RECIPE_STEP.additional,
+    ...recipeResponse,
+    ...mapAllNutrientsResponseToModel(recipeResponse, commonResponse),
   };
 }
 
-export function format(foods: Food[], recipe = RECIPE): ProcessedRecipe {
-  if (!foods.length) {
-    return PROCESSED_RECIPE;
-  }
+// export async function fetchRecipeById(id = 0): Promise<Recipe | null> {
+//   if (!id) return null;
 
-  const steps =
-    recipe?.steps?.map((partData) => formatStep(partData, foods)) ??
-    PROCESSED_RECIPE.steps;
+//   try {
+//     const res = await fetch('http://localhost:5106/api/recipe/' + id);
+//     const data: RecipeResponse = await res.json();
 
-  const allIngredients = steps.flatMap(({ ingredients }) => {
-    return ingredients;
-  });
+//     return mapRecipeResponseToModel(data);
+//   } catch (error) {
+//     console.log(error);
+//   }
 
-  const allAminoAcids: AminoAcids = {
-    alanine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.alanine + sum,
-      0,
-    ),
-    arginine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.arginine + sum,
-      0,
-    ),
-    asparticAcid: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.asparticAcid + sum,
-      0,
-    ),
-    cystine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.cystine + sum,
-      0,
-    ),
-    glutamicAcid: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.glutamicAcid + sum,
-      0,
-    ),
-    glutamine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.glutamine + sum,
-      0,
-    ),
-    glycine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.glycine + sum,
-      0,
-    ),
-    histidine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.histidine + sum,
-      0,
-    ),
-    isoleucine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.isoleucine + sum,
-      0,
-    ),
-    leucine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.leucine + sum,
-      0,
-    ),
-    lysine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.lysine + sum,
-      0,
-    ),
-    methionine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.methionine + sum,
-      0,
-    ),
-    phenylalanine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.phenylalanine + sum,
-      0,
-    ),
-    proline: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.proline + sum,
-      0,
-    ),
-    serine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.serine + sum,
-      0,
-    ),
-    threonine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.threonine + sum,
-      0,
-    ),
-    tryptophan: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.tryptophan + sum,
-      0,
-    ),
-    tyrosine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.tyrosine + sum,
-      0,
-    ),
-    valine: allIngredients.reduce(
-      (sum, { aminoAcids }) => aminoAcids.valine + sum,
-      0,
-    ),
-  };
+//   return null;
+// }
 
-  const {
-    food: { image = '' },
-  } = FoodService.getFoodByString(foods, recipe.title, {
-    preferRecipe: true,
-  });
-
-  const vitamins: Vitamins = allIngredients.reduce(
-    (acc, ingredient): Vitamins => ({
-      a: {
-        ...ingredient.vitamins.a,
-        quantity: acc.a.quantity + ingredient.vitamins.a.quantity,
-      },
-      b1: {
-        ...ingredient.vitamins.b1,
-        quantity: acc.b1.quantity + ingredient.vitamins.b1.quantity,
-      },
-      b2: {
-        ...ingredient.vitamins.b2,
-        quantity: acc.b2.quantity + ingredient.vitamins.b2.quantity,
-      },
-      b3: {
-        ...ingredient.vitamins.b3,
-        quantity: acc.b3.quantity + ingredient.vitamins.b3.quantity,
-      },
-      b5: {
-        ...ingredient.vitamins.b5,
-        quantity: acc.b5.quantity + ingredient.vitamins.b5.quantity,
-      },
-      b6: {
-        ...ingredient.vitamins.b6,
-        quantity: acc.b6.quantity + ingredient.vitamins.b6.quantity,
-      },
-      b7: {
-        ...ingredient.vitamins.b7,
-        quantity: acc.b7.quantity + ingredient.vitamins.b7.quantity,
-      },
-      b9: {
-        ...ingredient.vitamins.b9,
-        quantity: acc.b9.quantity + ingredient.vitamins.b9.quantity,
-      },
-      b11: {
-        ...ingredient.vitamins.b11,
-        quantity: acc.b11.quantity + ingredient.vitamins.b11.quantity,
-      },
-      b12: {
-        ...ingredient.vitamins.b12,
-        quantity: acc.b12.quantity + ingredient.vitamins.b12.quantity,
-      },
-      c: {
-        ...ingredient.vitamins.c,
-        quantity: acc.c.quantity + ingredient.vitamins.c.quantity,
-      },
-      d: {
-        ...ingredient.vitamins.d,
-        quantity: acc.d.quantity + ingredient.vitamins.d.quantity,
-      },
-      e: {
-        ...ingredient.vitamins.e,
-        quantity: acc.e.quantity + ingredient.vitamins.e.quantity,
-      },
-      alphaCarotene: {
-        ...ingredient.vitamins.alphaCarotene,
-        quantity:
-          acc.alphaCarotene.quantity +
-          ingredient.vitamins.alphaCarotene.quantity,
-      },
-      betaCarotene: {
-        ...ingredient.vitamins.betaCarotene,
-        quantity:
-          acc.betaCarotene.quantity + ingredient.vitamins.betaCarotene.quantity,
-      },
-      cryptoxanthinCarotene: {
-        ...ingredient.vitamins.cryptoxanthinCarotene,
-        quantity:
-          acc.cryptoxanthinCarotene.quantity +
-          ingredient.vitamins.cryptoxanthinCarotene.quantity,
-      },
-      d2: {
-        ...ingredient.vitamins.d2,
-        quantity: acc.d2.quantity + ingredient.vitamins.d2.quantity,
-      },
-      d3: {
-        ...ingredient.vitamins.d3,
-        quantity: acc.d3.quantity + ingredient.vitamins.d3.quantity,
-      },
-      k: {
-        ...ingredient.vitamins.k,
-        quantity: acc.k.quantity + ingredient.vitamins.k.quantity,
-      },
-      lycopene: {
-        ...ingredient.vitamins.lycopene,
-        quantity: acc.lycopene.quantity + ingredient.vitamins.lycopene.quantity,
-      },
-      choline: {
-        ...ingredient.vitamins.choline,
-        quantity: acc.choline.quantity + ingredient.vitamins.choline.quantity,
-      },
-    }),
-    VITAMINS,
-  );
-
-  const minerals: Minerals = allIngredients.reduce(
-    (acc, ingredient): Minerals => ({
-      calcium: {
-        ...ingredient.minerals.calcium,
-        quantity: acc.calcium.quantity + ingredient.minerals.calcium.quantity,
-      },
-      copper: {
-        ...ingredient.minerals.copper,
-        quantity: acc.copper.quantity + ingredient.minerals.copper.quantity,
-      },
-      iron: {
-        ...ingredient.minerals.iron,
-        quantity: acc.iron.quantity + ingredient.minerals.iron.quantity,
-      },
-      magnesium: {
-        ...ingredient.minerals.magnesium,
-        quantity:
-          acc.magnesium.quantity + ingredient.minerals.magnesium.quantity,
-      },
-      manganese: {
-        ...ingredient.minerals.manganese,
-        quantity:
-          acc.manganese.quantity + ingredient.minerals.manganese.quantity,
-      },
-      phosphorus: {
-        ...ingredient.minerals.phosphorus,
-        quantity:
-          acc.phosphorus.quantity + ingredient.minerals.phosphorus.quantity,
-      },
-      fluoride: {
-        ...ingredient.minerals.fluoride,
-        quantity: acc.fluoride.quantity + ingredient.minerals.fluoride.quantity,
-      },
-      selenium: {
-        ...ingredient.minerals.selenium,
-        quantity: acc.selenium.quantity + ingredient.minerals.selenium.quantity,
-      },
-      sodium: {
-        ...ingredient.minerals.sodium,
-        quantity: acc.sodium.quantity + ingredient.minerals.sodium.quantity,
-      },
-      zinc: {
-        ...ingredient.minerals.zinc,
-        quantity: acc.zinc.quantity + ingredient.minerals.zinc.quantity,
-      },
-      potassium: {
-        ...ingredient.minerals.potassium,
-        quantity:
-          acc.potassium.quantity + ingredient.minerals.potassium.quantity,
-      },
-    }),
-    MINERALS,
-  );
-
-  return {
-    ...recipe,
-    id: recipe?.id ?? Math.round(Math.random() * 1000),
-    steps,
-    calories: calculateCalories(allIngredients),
-    title: recipe.title,
-    description: recipe?.description ?? '',
-    additional: recipe?.additional ?? '',
-    image,
-    gi: calculateGI(allIngredients),
-    acidification: calculateAcidification(allIngredients),
-    gl: calculateGC(allIngredients),
-    carbohydrates: calculateCarbohidrates(allIngredients),
-    aminoAcids: allAminoAcids,
-    category: recipe?.category ?? RECIPE.category,
-    totalFat: sum(allIngredients.map((ingredient) => ingredient.totalFat)),
-    dietaryFiber: sum(
-      allIngredients.map((ingredient) => ingredient.dietaryFiber),
-    ),
-    proteins: sum(allIngredients.map((ingredient) => ingredient.proteins)),
-    vitamins,
-    minerals,
-  };
+export function mapAllRecipesResponseToModel(data: RecipesResponse): Recipe[] {
+  return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
 }
 
-function stepToText(step: RecipeStep): string {
-  return `\
-Ingredientes ${step.title}
-
-${step.ingredients}
-
-Modo de preparo ${step.title}
-
-${step.title}`;
-}
-
-export function formatToText(recipe: Recipe): string {
-  return `\
-*${recipe.title.toUpperCase()}*
-
-${recipe.description}
-
-${recipe.steps.map(stepToText)}`;
-}
-
-export async function getRecipeByIdFromDB(
-  recipeId = 0,
-  db: Firestore,
-): Promise<Recipe | null> {
+export async function fetchRecipes(): Promise<Recipe[]> {
   try {
-    const docRef = doc(db, 'recipes', String(recipeId));
-    const docSnap = await getDoc(docRef);
+    const res = await fetch('http://localhost:5106/api/food');
+    const data: RecipesResponse = await res.json();
 
-    if (docSnap.exists()) {
-      const data = docSnap.data() as Recipe;
-
-      return data;
-    }
+    return mapAllRecipesResponseToModel(data);
   } catch (error) {
     console.log(error);
   }
 
-  return null;
-}
-
-export async function fetchRecipes(): Promise<RecipesAndFoods[]> {
-  const res = await fetch('http://localhost:5106/api/food');
-  const foodsData: FoodData[] = await res.json();
-
-  return foodsData.map(FoodDataService.format);
+  return [];
 }

@@ -1,11 +1,13 @@
+import {
+  LanguageText,
+  LanguageTextAndPlural,
+} from '../language/language.types';
 import { Measure } from '../measure/measure.model';
-import { MeasurementUnit } from '../measurement-unity/measurement-unity.types';
-import { FoodBase, FoodTypeBase } from './food.types';
+import { AllNutrients } from '../nutrient-data/nutrients.types';
+import { FoodBase } from './food.types';
 
-export type FoodType = FoodTypeBase;
-
-export interface Food extends FoodBase {
-  type: FoodType;
-  measurementUnit: MeasurementUnit;
+export interface Food extends FoodBase, AllNutrients {
+  type: LanguageText;
+  measurementUnit: LanguageTextAndPlural;
   measures: Array<Measure>;
 }

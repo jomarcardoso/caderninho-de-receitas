@@ -1,12 +1,6 @@
 import { Language } from '../language/language.types';
-import { Nutrients } from '../nutrients';
 
-export interface FoodTypeBase {
-  type: number;
-  text: Record<Language, string>;
-}
-
-export interface FoodBase extends Nutrients {
+export interface FoodBase {
   id: number;
   name: Record<Language, string>;
   description: Record<Language, string>;

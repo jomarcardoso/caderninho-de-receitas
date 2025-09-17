@@ -1,9 +1,15 @@
-import { FoodTypeResponse } from '../food/food.response';
-import { MeasureTypeResponse } from '../measure/mesure.response';
-import { MeasurementUnitResponse } from '../measurement-unity/measurement-unity.types';
+import {
+  LanguageText,
+  LanguageTextAndPlural,
+} from '../language/language.types';
+import { NutrientDataResponse } from '../nutrient/nutrient.response';
 
 export interface CommonResponse {
-  measureTypes: MeasureTypeResponse[];
-  foodTypes: FoodTypeResponse[];
-  measurementUnits: MeasurementUnitResponse[];
+  measures: Record<string, LanguageTextAndPlural>;
+  foodTypes: Record<string, LanguageText>;
+  measurementUnits: Record<string, LanguageTextAndPlural>;
+  aminoAcids: Record<string, NutrientDataResponse>;
+  minerals: Record<string, NutrientDataResponse>;
+  vitamins: Record<string, NutrientDataResponse>;
+  nutritionalInformation: Record<string, NutrientDataResponse>;
 }

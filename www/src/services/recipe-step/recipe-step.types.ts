@@ -1,5 +1,3 @@
-import { Nutrients } from '../nutrients';
-
 export interface RecipeStepContract<TRecipeIngredient> {
   title: string;
   preparation: string;
@@ -8,4 +6,4 @@ export interface RecipeStepContract<TRecipeIngredient> {
 }
 
 export type RecipeStepBase<TRecipeIngredient> =
-  RecipeStepContract<TRecipeIngredient> & Nutrients;
+  RecipeStepContract<TRecipeIngredient>;

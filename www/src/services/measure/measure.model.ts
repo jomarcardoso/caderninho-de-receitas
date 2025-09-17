@@ -1,3 +1,5 @@
-import { MeasureBase, MeasureTypeBase } from './measure.types';
+import { LanguageTextAndPlural } from '../language/language.types';
 
-export type Measure = MeasureBase & MeasureTypeBase;
+export interface Measure extends LanguageTextAndPlural {
+  quantity: number;
+}

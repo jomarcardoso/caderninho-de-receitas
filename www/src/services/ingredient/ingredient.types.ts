@@ -2,7 +2,7 @@ import { AminoAcids, AMINO_ACIDS } from '../amino-acid';
 import { Measure } from '../food';
 import { FOOD } from '../food/food.types';
 import { MINERALS, Minerals } from '../mineral';
-import { Nutrients } from '../nutrients';
+import { Nutrients } from '../nutrient-data';
 import { NutritionalInformation } from '../nutritional-information';
 import { VITAMINS, Vitamins } from '../vitamin';
 
