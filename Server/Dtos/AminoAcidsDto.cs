@@ -2,38 +2,32 @@ using Server.Shared;
 
 namespace Server.Dtos;
 
-public class AminoAcidResponse
-{
-  public int Index { get; set; }
-  public LanguageTextBase Text { get; set; } = new LanguageTextBase();
-}
-
 public static class AminoAcidsData
 {
-  public static readonly Dictionary<AminoAcidType, AminoAcidResponse> Map = new()
+  public static readonly Dictionary<AminoAcidType, NutrientDataResponse> Map = new()
   {
-    { AminoAcidType.Alanine, new AminoAcidResponse { Index = (int)AminoAcidType.Alanine, Text = new LanguageTextBase { En = "Alanine", Pt = "Alanina" } } },
-    { AminoAcidType.Arginine, new AminoAcidResponse { Index = (int)AminoAcidType.Arginine, Text = new LanguageTextBase { En = "Arginine", Pt = "Arginina" } } },
-    { AminoAcidType.AsparticAcid, new AminoAcidResponse { Index = (int)AminoAcidType.AsparticAcid, Text = new LanguageTextBase { En = "Aspartic Acid", Pt = "Ácido Aspártico" } } },
-    { AminoAcidType.Cystine, new AminoAcidResponse { Index = (int)AminoAcidType.Cystine, Text = new LanguageTextBase { En = "Cystine", Pt = "Cistina" } } },
-    { AminoAcidType.GlutamicAcid, new AminoAcidResponse { Index = (int)AminoAcidType.GlutamicAcid, Text = new LanguageTextBase { En = "Glutamic Acid", Pt = "Ácido Glutâmico" } } },
-    { AminoAcidType.Glutamine, new AminoAcidResponse { Index = (int)AminoAcidType.Glutamine, Text = new LanguageTextBase { En = "Glutamine", Pt = "Glutamina" } } },
-    { AminoAcidType.Glycine, new AminoAcidResponse { Index = (int)AminoAcidType.Glycine, Text = new LanguageTextBase { En = "Glycine", Pt = "Glicina" } } },
-    { AminoAcidType.Histidine, new AminoAcidResponse { Index = (int)AminoAcidType.Histidine, Text = new LanguageTextBase { En = "Histidine", Pt = "Histidina" } } },
-    { AminoAcidType.Isoleucine, new AminoAcidResponse { Index = (int)AminoAcidType.Isoleucine, Text = new LanguageTextBase { En = "Isoleucine", Pt = "Isoleucina" } } },
-    { AminoAcidType.Leucine, new AminoAcidResponse { Index = (int)AminoAcidType.Leucine, Text = new LanguageTextBase { En = "Leucine", Pt = "Leucina" } } },
-    { AminoAcidType.Lysine, new AminoAcidResponse { Index = (int)AminoAcidType.Lysine, Text = new LanguageTextBase { En = "Lysine", Pt = "Lisina" } } },
-    { AminoAcidType.Methionine, new AminoAcidResponse { Index = (int)AminoAcidType.Methionine, Text = new LanguageTextBase { En = "Methionine", Pt = "Metionina" } } },
-    { AminoAcidType.Phenylalanine, new AminoAcidResponse { Index = (int)AminoAcidType.Phenylalanine, Text = new LanguageTextBase { En = "Phenylalanine", Pt = "Fenilalanina" } } },
-    { AminoAcidType.Proline, new AminoAcidResponse { Index = (int)AminoAcidType.Proline, Text = new LanguageTextBase { En = "Proline", Pt = "Prolina" } } },
-    { AminoAcidType.Serine, new AminoAcidResponse { Index = (int)AminoAcidType.Serine, Text = new LanguageTextBase { En = "Serine", Pt = "Serina" } } },
-    { AminoAcidType.Threonine, new AminoAcidResponse { Index = (int)AminoAcidType.Threonine, Text = new LanguageTextBase { En = "Threonine", Pt = "Treonina" } } },
-    { AminoAcidType.Tryptophan, new AminoAcidResponse { Index = (int)AminoAcidType.Tryptophan, Text = new LanguageTextBase { En = "Tryptophan", Pt = "Triptofano" } } },
-    { AminoAcidType.Tyrosine, new AminoAcidResponse { Index = (int)AminoAcidType.Tyrosine, Text = new LanguageTextBase { En = "Tyrosine", Pt = "Tirosina" } } },
-    { AminoAcidType.Valine, new AminoAcidResponse { Index = (int)AminoAcidType.Valine, Text = new LanguageTextBase { En = "Valine", Pt = "Valina" } } }
+    { AminoAcidType.Alanine, new NutrientDataResponse { Index = (int)AminoAcidType.Alanine, Name = new LanguageTextBase { En = "Alanine", Pt = "Alanina" }, ShortName = "Ala", MeasurementUnit = "g" } },
+    { AminoAcidType.Arginine, new NutrientDataResponse { Index = (int)AminoAcidType.Arginine, Name = new LanguageTextBase { En = "Arginine", Pt = "Arginina" }, ShortName = "Arg", MeasurementUnit = "g" } },
+    { AminoAcidType.AsparticAcid, new NutrientDataResponse { Index = (int)AminoAcidType.AsparticAcid, Name = new LanguageTextBase { En = "Aspartic Acid", Pt = "Ácido Aspártico" }, ShortName = "Asp", MeasurementUnit = "g" } },
+    { AminoAcidType.Cystine, new NutrientDataResponse { Index = (int)AminoAcidType.Cystine, Name = new LanguageTextBase { En = "Cystine", Pt = "Cistina" }, ShortName = "Cys", MeasurementUnit = "g" } },
+    { AminoAcidType.GlutamicAcid, new NutrientDataResponse { Index = (int)AminoAcidType.GlutamicAcid, Name = new LanguageTextBase { En = "Glutamic Acid", Pt = "Ácido Glutâmico" }, ShortName = "Glu", MeasurementUnit = "g" } },
+    { AminoAcidType.Glutamine, new NutrientDataResponse { Index = (int)AminoAcidType.Glutamine, Name = new LanguageTextBase { En = "Glutamine", Pt = "Glutamina" }, ShortName = "Gln", MeasurementUnit = "g" } },
+    { AminoAcidType.Glycine, new NutrientDataResponse { Index = (int)AminoAcidType.Glycine, Name = new LanguageTextBase { En = "Glycine", Pt = "Glicina" }, ShortName = "Gly", MeasurementUnit = "g" } },
+    { AminoAcidType.Histidine, new NutrientDataResponse { Index = (int)AminoAcidType.Histidine, Name = new LanguageTextBase { En = "Histidine", Pt = "Histidina" }, ShortName = "His", MeasurementUnit = "g" } },
+    { AminoAcidType.Isoleucine, new NutrientDataResponse { Index = (int)AminoAcidType.Isoleucine, Name = new LanguageTextBase { En = "Isoleucine", Pt = "Isoleucina" }, ShortName = "Ile", MeasurementUnit = "g" } },
+    { AminoAcidType.Leucine, new NutrientDataResponse { Index = (int)AminoAcidType.Leucine, Name = new LanguageTextBase { En = "Leucine", Pt = "Leucina" }, ShortName = "Leu", MeasurementUnit = "g" } },
+    { AminoAcidType.Lysine, new NutrientDataResponse { Index = (int)AminoAcidType.Lysine, Name = new LanguageTextBase { En = "Lysine", Pt = "Lisina" }, ShortName = "Lys", MeasurementUnit = "g" } },
+    { AminoAcidType.Methionine, new NutrientDataResponse { Index = (int)AminoAcidType.Methionine, Name = new LanguageTextBase { En = "Methionine", Pt = "Metionina" }, ShortName = "Met", MeasurementUnit = "g" } },
+    { AminoAcidType.Phenylalanine, new NutrientDataResponse { Index = (int)AminoAcidType.Phenylalanine, Name = new LanguageTextBase { En = "Phenylalanine", Pt = "Fenilalanina" }, ShortName = "Phe", MeasurementUnit = "g" } },
+    { AminoAcidType.Proline, new NutrientDataResponse { Index = (int)AminoAcidType.Proline, Name = new LanguageTextBase { En = "Proline", Pt = "Prolina" }, ShortName = "Pro", MeasurementUnit = "g" } },
+    { AminoAcidType.Serine, new NutrientDataResponse { Index = (int)AminoAcidType.Serine, Name = new LanguageTextBase { En = "Serine", Pt = "Serina" }, ShortName =  "Ser", MeasurementUnit = "g" } },
+    { AminoAcidType.Threonine, new NutrientDataResponse { Index = (int)AminoAcidType.Threonine, Name = new LanguageTextBase { En = "Threonine", Pt = "Treonina" }, ShortName = "Thr", MeasurementUnit = "g" } },
+    { AminoAcidType.Tryptophan, new NutrientDataResponse { Index = (int)AminoAcidType.Tryptophan, Name = new LanguageTextBase { En = "Tryptophan", Pt = "Triptofano" }, ShortName = "Trp", MeasurementUnit = "g" } },
+    { AminoAcidType.Tyrosine, new NutrientDataResponse { Index = (int)AminoAcidType.Tyrosine, Name = new LanguageTextBase { En = "Tyrosine", Pt = "Tirosina" }, ShortName = "Tyr", MeasurementUnit = "g" } },
+    { AminoAcidType.Valine, new NutrientDataResponse { Index = (int)AminoAcidType.Valine, Name = new LanguageTextBase { En = "Valine", Pt = "Valina" }, ShortName = "Val", MeasurementUnit = "g" } }
   };
 
-  public static readonly List<AminoAcidResponse> List = Map.Values
+  public static readonly List<NutrientDataResponse> List = Map.Values
     .OrderBy(m => m.Index)
     .ToList();
 
