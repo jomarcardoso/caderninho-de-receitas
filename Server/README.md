@@ -57,3 +57,8 @@ This approach avoids data duplication, keeps the payload compact, and ensures co
 
 In this project, the backend exposes a list of objects (`MeasureDto`) representing all possible values of the `MeasureType` enum, including translations and indexes.
 The frontend consumes this list and interprets the values without redeclaring the type, ensuring consistency with the backend while avoiding duplication.
+
+## Nutritional information
+
+- FAO/WHO/UNU
+- PDCAAS e DIAAS

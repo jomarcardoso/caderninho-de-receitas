@@ -7,7 +7,7 @@ public class RecipeDto : RecipeContract<RecipeStepDto>;
 
 public class RecipeResponseDto : RecipeBase<RecipeStepResponse>;
 
-public class RecipesDto : FoodsDto
+public class RecipesDto : FoodsResponse
 {
   public List<RecipeResponseDto> Recipes { get; set; } = new();
 }

@@ -22,6 +22,23 @@ public enum MeasureType
   Pinch
 }
 
+public enum FoodMeasureType
+{
+  Cup,
+  Spoon,
+  TeaSpoon,
+  Unity,
+  UnitySmall,
+  UnityLarge,
+  Can,
+  Glass,
+  Breast,
+  Clove,
+  Slice,
+  Bunch,
+  Pinch
+}
+
 public class MeasureBase
 {
   public double? Cup { get; set; }
@@ -40,7 +57,7 @@ public class MeasureBase
 
   static MeasureBase()
   {
-    var enumValues = Enum.GetNames<MeasureType>();
+    var enumValues = Enum.GetNames<FoodMeasureType>();
     var properties = typeof(MeasureBase).GetProperties().Select(p => p.Name).ToHashSet();
     var missing = enumValues.Except(properties).ToList();
     if (missing.Any())

@@ -37,6 +37,7 @@ public class FoodController : ControllerBase
   [HttpPost]
   public async Task<ActionResult<Food>> Create([FromBody] Food food)
   {
+    food.Process();
     _context.Food.Add(food);
     await _context.SaveChangesAsync();
 
@@ -49,6 +50,7 @@ public class FoodController : ControllerBase
   {
     foreach (Food food in foods)
     {
+      food.Process();
       _context.Food.Add(food);
       await _context.SaveChangesAsync();
     }

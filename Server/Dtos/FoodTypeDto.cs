@@ -20,7 +20,8 @@ public static class FoodTypeData
     { FoodType.Vegetable,  new LanguageTextBase { En = "Vegetable", Pt = "Vegetal" } } ,
     { FoodType.Cake,  new LanguageTextBase { En = "Cake", Pt = "Bolo" } } ,
     { FoodType.Cheese,  new LanguageTextBase { En = "Cheese", Pt = "Queijo" } } ,
-    { FoodType.Powder,  new LanguageTextBase { En = "Powder", Pt = "Pó" } }
+    { FoodType.Powder,  new LanguageTextBase { En = "Powder", Pt = "Pó" } },
+    { FoodType.Recipe,  new LanguageTextBase { En = "Recipe", Pt = "Receita" } }
   };
 
   public static readonly List<LanguageTextBase> List = Map.Values

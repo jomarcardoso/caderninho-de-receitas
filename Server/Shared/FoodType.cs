@@ -16,5 +16,6 @@ public enum FoodType
   Vegetable,
   Cake,
   Cheese,
-  Powder
+  Powder,
+  Recipe
 }
