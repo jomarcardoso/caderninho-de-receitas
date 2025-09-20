@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
-import { FOOD, type Food } from '../../services/food';
 import { Button } from '../../components/button';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
@@ -17,8 +16,8 @@ import Field from '../../components/field/field';
 import { FoodsContext } from '../../providers/foods.provider';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import LoadingSvg from '../../assets/svg/loading.svg';
-import { FoodRegister } from '../../components/food-register/food-register';
 import { LanguageContext } from '../../providers/language/language.context';
+import { Food } from '../../services/food/food.model';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -50,9 +49,9 @@ const FoodsPanel: FC<Props> = ({
         food.description[language]
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        food.keys.some((key) =>
-          key.toLowerCase().includes(search.toLowerCase()),
-        ),
+        food.keys
+          .split(', ')
+          .some((key = '') => key.toLowerCase().includes(search.toLowerCase())),
     );
   }
 
@@ -71,7 +70,7 @@ const FoodsPanel: FC<Props> = ({
   const cuttedOrderedFoods = orderedFoods.slice(0, quantityToShow);
 
   function renderFood(food: Food): ReactElement | null {
-    if (food.recipe || !food.icon) return null;
+    if (food.type.en === 'Recipe' || !food.icon) return null;
 
     return (
       <ListItem

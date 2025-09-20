@@ -142,7 +142,9 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
                 })}
               </ul>
 
-              {hasAminoAcids && <AminoAcidsTable aminoAcids={aminoAcids} />}
+              {hasAminoAcids && (
+                <AminoAcidsTable essentialAminoAcids={aminoAcids} />
+              )}
             </div>
 
             {hasVitamins && (

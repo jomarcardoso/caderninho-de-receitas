@@ -1,73 +1,33 @@
-import React, { FC, HTMLProps } from 'react';
-import {
-  AminoAcids,
-  AMINO_ACIDS,
-  TRANSLATED_AMINO_ACIDS,
-} from '../../services/amino-acid';
+import React, { FC, HTMLProps, useCallback, useContext } from 'react';
 import './aminoacids-table.scss';
+import { Nutrient } from '../../services/nutrient/nutrient.model';
+import { LanguageContext } from '../../providers/language/language.context';
 
 interface Props {
-  aminoAcids: AminoAcids;
+  essentialAminoAcids: Nutrient[];
   contrast?: 'light' | 'dark';
 }
 
 export type AminoAcidsTableProps = Props & HTMLProps<HTMLTableElement>;
 
 const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
-  aminoAcids = AMINO_ACIDS,
+  essentialAminoAcids = [],
   contrast,
   className = '',
   ...props
 }) => {
+  const { language } = useContext(LanguageContext);
   let classes = 'aminoacids-table table';
 
   classes += contrast === 'light' ? ' aminoacids-table--on-light' : '';
   classes += className ? ` ${className}` : '';
 
-  const essentialAminoAcids = [
-    {
-      name: TRANSLATED_AMINO_ACIDS.tryptophan,
-      quantity: aminoAcids.tryptophan / 280,
-    },
-    {
-      name: TRANSLATED_AMINO_ACIDS.phenylalanine,
-      quantity: aminoAcids.phenylalanine / 875,
-    },
-    {
-      name: TRANSLATED_AMINO_ACIDS.leucine,
-      quantity: aminoAcids.leucine / 2730,
-    },
-    {
-      name: TRANSLATED_AMINO_ACIDS.valine,
-      quantity: aminoAcids.valine / 1820,
-    },
-    {
-      name: TRANSLATED_AMINO_ACIDS.isoleucine,
-      quantity: aminoAcids.isoleucine / 1400,
-    },
-    {
-      name: TRANSLATED_AMINO_ACIDS.lysine,
-      quantity: aminoAcids.lysine / 2100,
-    },
-    {
-      name: TRANSLATED_AMINO_ACIDS.threonine,
-      quantity: aminoAcids.threonine / 1050,
-    },
-    {
-      name: TRANSLATED_AMINO_ACIDS.methionine,
-      quantity: aminoAcids.methionine / 728,
-    },
-    {
-      name: TRANSLATED_AMINO_ACIDS.histidine,
-      quantity: aminoAcids.histidine / 700,
-    },
-  ];
   const abundantAminoAcidFromIngredient = essentialAminoAcids.reduce(
     (previous, current) => Math.max(previous, current.quantity),
     0,
   );
 
-  function renderRow({ name = '', quantity = 0 }) {
+  const renderRow = useCallback(({ quantity, name }: Nutrient) => {
     const veryLowQuantity = quantity >= abundantAminoAcidFromIngredient / 5;
     const lowQuantity = quantity >= (abundantAminoAcidFromIngredient / 5) * 2;
     const regularQuantity =
@@ -75,8 +35,8 @@ const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
     const highQuantity = quantity >= (abundantAminoAcidFromIngredient / 5) * 4;
 
     return (
-      <tr className="table__tr" key={name}>
-        <td className="table__td">{name}</td>
+      <tr className="table__tr" key={name[language]}>
+        <td className="table__td">{name[language]}</td>
         <td className="table__td aminoacids-table__cell" align="right">
           {veryLowQuantity ? (
             <div className="aminoacids-table__bar aminoacids-table__bar--filled" />
@@ -107,7 +67,7 @@ const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
         </td>
       </tr>
     );
-  }
+  }, []);
 
   return (
     <div

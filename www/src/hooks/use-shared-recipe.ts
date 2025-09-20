@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Recipe } from '../services/recipe';
-import { FirebaseHook } from '../providers/firebase/firebase.hook';
 import { ShareService } from '../services/url/share.service';
 
-export function useSharedRecipe(firebase: FirebaseHook) {
+export function useSharedRecipe() {
   const [sharedRecipe, setSharedRecipe] = useState<Recipe | null>();
   async function getSharedRecipe() {
-    const newSharedRecipe = await ShareService.getRecipeByUrlParams(
-      firebase.db,
-    );
+    const newSharedRecipe = await ShareService.getRecipeByUrlParams();
 
     if (newSharedRecipe) {
       setSharedRecipe(newSharedRecipe as Recipe);

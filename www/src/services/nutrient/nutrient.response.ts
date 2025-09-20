@@ -13,6 +13,8 @@ export interface AllNutrientsResponse {
   minerals: NutrientsResponse;
   vitamins: NutrientsResponse;
   aminoAcids: NutrientsResponse;
+  essentialAminoAcids: NutrientsResponse;
+  aminoAcidsScore: number;
 }
 
 export interface AllNutrientsDataResponse {
@@ -20,4 +22,6 @@ export interface AllNutrientsDataResponse {
   minerals: Record<string, NutrientDataResponse>;
   vitamins: Record<string, NutrientDataResponse>;
   aminoAcids: Record<string, NutrientDataResponse>;
+  essentialAminoAcids: Record<string, NutrientDataResponse>;
+  aminoAcidsScore: number;
 }

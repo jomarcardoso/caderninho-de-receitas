@@ -1,20 +1,19 @@
 import React, { FC, useContext, useCallback } from 'react';
 import { Formik, FormikProps } from 'formik';
-import { Recipe, RECIPE } from '../../services/recipe';
 import { RecipesContext } from '../../providers/recipes/recipes.context';
-import { RECIPE_STEP } from '../../services/recipe/recipe.types';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import Dialog from '../dialog/dialog';
 import { Button } from '../button';
 import { EditingContext } from '../../providers/editing/editing.context';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { StorageService } from '../../storage';
+import { RecipeDto } from '../../services/recipe/recipe.dto';
 
 interface Props {
-  recipe: Recipe;
+  recipe?: RecipeDto;
 }
 
-const RecipeRegister: FC<Props> = ({ recipe = RECIPE }) => {
+const RecipeRegister: FC<Props> = ({ recipe }) => {
   const { addRecipe } = useContext(RecipesContext);
   const { restoreLastRecipe, currentRecipe, setCurrentRecipe } =
     useContext(CurrentRecipeContext);
@@ -40,7 +39,7 @@ const RecipeRegister: FC<Props> = ({ recipe = RECIPE }) => {
       name = '',
       description = '',
       steps: stepsData = [],
-      category = '',
+      // category = '',
     }: RecipeForm): void => {
       if (!addRecipe) return;
 
@@ -50,14 +49,14 @@ const RecipeRegister: FC<Props> = ({ recipe = RECIPE }) => {
         return;
       }
 
-      const newRecipe: Recipe = {
+      const newRecipe: RecipeDto = {
         steps: stepsData,
-        title: name,
+        name,
         description,
         id: recipe?.id ?? 0,
-        category,
-        lastUpdate: Date.now(),
-        needSync: true,
+        // category,
+        // lastUpdate: Date.now(),
+        // needSync: true,
       };
 
       const id = addRecipe(newRecipe);
@@ -74,11 +73,11 @@ const RecipeRegister: FC<Props> = ({ recipe = RECIPE }) => {
     <>
       <Formik
         initialValues={{
-          name: recipe?.title ?? '',
+          name: recipe?.name ?? '',
           description: recipe?.description ?? '',
           additional: recipe?.additional ?? '',
-          category: recipe?.category ?? '',
-          steps: recipe?.steps?.length ? recipe.steps : [RECIPE_STEP],
+          // category: recipe?.category ?? '',
+          steps: recipe?.steps?.length ? recipe.steps : [{}],
           quantitySteps: recipe?.steps?.length || 1,
         }}
         onSubmit={memoizedHandleSubmit}

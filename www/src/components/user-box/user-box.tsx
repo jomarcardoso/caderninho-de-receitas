@@ -6,14 +6,13 @@ import { Avatar } from '../avatar/avatar';
 import { Button } from '../button';
 import './user-box.scss';
 import { Chip, Chips } from '../chips/chips';
-import { FirebaseContext } from '../../providers';
 import { LanguageContext } from '../../providers/language/language.context';
 import { I18N_TEXT, Language } from '../../services/language/language.types';
+import { useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 
 export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
-  const { user, logout, login } = useContext(FirebaseContext);
   const { language, setLanguage } = useContext(LanguageContext);
 
   const classes = useMemo(
@@ -24,6 +23,26 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
       }),
     [className],
   );
+
+  const login = useCallback(() => {
+    useGoogleLogin({
+      onSuccess: async (tokenResponse) => {
+        const idToken = tokenResponse.credential || tokenResponse.id_token;
+
+        // Envia o token para o backend
+        await axios.post('https://localhost:5001/api/auth/google', {
+          idToken,
+        });
+      },
+      onError: (errorResponse) => console.log(errorResponse),
+    });
+
+    useGoogleOneTapLogin({
+      onSuccess: (a) => {
+        a.credential;
+      },
+    });
+  }, []);
 
   const memoLogged = useMemo(() => {
     return (

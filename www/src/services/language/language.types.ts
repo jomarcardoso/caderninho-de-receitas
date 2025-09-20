@@ -1,14 +1,13 @@
 export type Language = 'en' | 'pt';
 
-export interface LanguageText {
-  text: Record<Language, string>;
+export type LanguageText = Record<Language, string>;
+
+export interface LanguageTextAndPlural {
+  text: LanguageText;
+  pluralText: LanguageText;
 }
 
-export interface LanguageTextAndPlural extends LanguageText {
-  pluralText: Record<Language, string>;
-}
-
-export const I18N_TEXT: Record<string, Record<Language, string>> = {
+export const I18N_TEXT: Record<string, LanguageText> = {
   language: {
     en: 'language',
     pt: 'idioma',

@@ -1,20 +1,20 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import { Modal } from '@mui/base/Modal';
 import FoodPanel from '../../panels/food/food';
-import { FOOD, Food } from '../../services/food';
 import { HeaderProps } from '../header/header';
 import { useNavigation } from '../../providers';
+import { Food } from '../../services/food/food.model';
 
 export interface DialogFoodProps {
   open: boolean;
   quantity?: number;
-  food: Food;
+  food?: Food;
   onClose: HeaderProps['onClose'];
 }
 
 const DialogFood: FC<DialogFoodProps> = ({
   open = false,
-  food = FOOD,
+  food,
   quantity = 0,
   onClose,
 }) => {

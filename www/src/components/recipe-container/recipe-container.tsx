@@ -198,7 +198,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           {AminoAcidService.verifyHasAminoAcid(formattedRecipe.aminoAcids) && (
             <AminoAcidsTable
               contrast="light"
-              aminoAcids={formattedRecipe.aminoAcids}
+              essentialAminoAcids={formattedRecipe.aminoAcids}
             />
           )}
         </div>

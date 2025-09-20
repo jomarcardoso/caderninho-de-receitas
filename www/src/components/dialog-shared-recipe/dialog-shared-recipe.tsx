@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps, useContext } from 'react';
+import React, { FC, HTMLProps } from 'react';
 import { useSharedRecipe } from '../../hooks/use-shared-recipe';
 import RecipeContainer from '../recipe-container/recipe-container';
 import { Recipe } from '../../services/recipe';
@@ -6,12 +6,11 @@ import Dialog from '../dialog/dialog';
 import { Button } from '../button';
 import SubmitComponent from '../submit';
 import './dialog-shared-recipe.scss';
-import { FirebaseContext, useRecipes } from '../../providers';
+import { useRecipes } from '../../providers';
 
 export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
-  const firebase = useContext(FirebaseContext);
-  const { sharedRecipe, setSharedRecipe } = useSharedRecipe(firebase);
-  const { addRecipe } = useRecipes(firebase);
+  const { sharedRecipe, setSharedRecipe } = useSharedRecipe();
+  const { addRecipe } = useRecipes();
 
   return (
     <Dialog

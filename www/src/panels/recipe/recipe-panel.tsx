@@ -5,9 +5,7 @@ import {
   IoShareOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
-import { RECIPE } from '../../services/recipe';
 import Layout from '../../components/layout/layout';
-import type { Food } from '../../services/food';
 import { RecipesContext } from '../../providers/recipes/recipes.context';
 import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';
@@ -16,6 +14,7 @@ import LoadingContext from '../../providers/loading/loading.context';
 import { EditingContext } from '../../providers/editing/editing.context';
 import { ShareService } from '../../services/url/share.service';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
+import { Food } from '../../services/food/food.model';
 
 let rendered = 0;
 
@@ -33,6 +32,10 @@ const RecipePanel: FC<{
       setLoading(true);
     }
 
+    if (!currentRecipe) {
+      return;
+    }
+
     await ShareService.shareRecipe(currentRecipe);
 
     if (setLoading) {
@@ -41,15 +44,15 @@ const RecipePanel: FC<{
   }
 
   const memoizedhandleNewRecipe = useCallback(() => {
-    setCurrentRecipe?.(RECIPE);
+    setCurrentRecipe?.(undefined);
   }, [setCurrentRecipe]);
 
   function handleClickRemove() {
-    if (removeRecipe && currentRecipe.id) {
+    if (removeRecipe && currentRecipe?.id) {
       removeRecipe(currentRecipe.id);
     }
 
-    setCurrentRecipe?.(RECIPE);
+    setCurrentRecipe?.(undefined);
   }
 
   function handleEdit() {

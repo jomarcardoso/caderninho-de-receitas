@@ -6,17 +6,17 @@ import FoodsPanel from '../foods/foods';
 import DialogFood from '../../components/dialog-food/dialog-food';
 import MainPanel from '../main/main-panel';
 import Header from '../../components/root-header/root-header';
-import { FOOD } from '../../services/food';
 import './app.scss';
 import { DialogSharedRecipe } from '../../components/dialog-shared-recipe/dialog-shared-recipe';
 import { LanguageContext } from '../../providers/language/language.context';
+import { Food } from '../../services/food/food.model';
 
 export type AppProps = HTMLProps<HTMLDivElement>;
 
 const AppPage: FC<AppProps> = (props) => {
   const { language } = useContext(LanguageContext);
   const [hideLeftPanel, setHideLeftPanel] = useState(true);
-  const [currentFood, setCurrentFood] = useState(FOOD);
+  const [currentFood, setCurrentFood] = useState<Food | undefined>();
   const [currentFoodQuantity, setCurrentFoodQuantity] = useState(40);
 
   useEffect(() => {
@@ -27,8 +27,8 @@ const AppPage: FC<AppProps> = (props) => {
     <>
       <DialogFood
         food={currentFood}
-        onClose={() => setCurrentFood(FOOD)}
-        open={Boolean(currentFood.name[language])}
+        onClose={() => setCurrentFood(undefined)}
+        open={Boolean(currentFood?.name[language])}
         quantity={currentFoodQuantity}
       />
       <DialogSharedRecipe />

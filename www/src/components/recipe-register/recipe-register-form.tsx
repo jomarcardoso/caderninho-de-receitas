@@ -2,29 +2,25 @@ import { Form, FieldArray, FormikProps } from 'formik';
 import React, { FC, useCallback, ChangeEventHandler } from 'react';
 import { IoDuplicateOutline } from 'react-icons/io5';
 import Field from '../field/field';
-import {
-  RecipeCategory,
-  RecipeStep,
-  RECIPE_STEP,
-  Recipe,
-} from '../../services/recipe/recipe.types';
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
 import { Button } from '../button';
 import CookSvg from '../../assets/svg/history/cook.svg';
 import PizzaSvg from '../../assets/svg/history/pizza.svg';
+import { RecipeStepDto } from '../../services/recipe-step';
+import { RecipeDto } from '../../services/recipe/recipe.dto';
 
 export interface RecipeForm {
-  steps: Recipe['steps'];
+  steps: RecipeDto['steps'];
   name: string;
   description: string;
-  category: RecipeCategory | '';
+  // category: RecipeCategory | '';
   quantitySteps: number;
   additional: string;
 }
 
 interface Props {
-  recipe: Recipe;
+  recipe?: RecipeDto;
   onCancel: () => void;
 }
 
@@ -68,13 +64,10 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   );
 
   const memoizedRenderSteps = useCallback(() => {
-    const steps: RecipeStep[] = [];
+    const steps: RecipeStepDto[] = [];
 
     for (let i = 0; i < Number(values.quantitySteps); i += 1) {
-      steps.push({
-        ...RECIPE_STEP,
-        ...values.steps[i],
-      });
+      steps.push(values.steps[i]);
     }
 
     return (
@@ -156,7 +149,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
           <FieldArray name="steps">
             {() => (
               <>
-                {recipe.id ? (
+                {recipe?.id ? (
                   <div className="recipe-register__story-image">
                     <CookSvg style={{ mixBlendMode: 'multiply' }} />
                   </div>
