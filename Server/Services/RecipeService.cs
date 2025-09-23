@@ -25,7 +25,7 @@ public class RecipeService
     {
       var ingredients = new List<Ingredient>();
 
-      foreach (var text in stepDto.Ingredients.Split("\n"))
+      foreach (var text in stepDto.IngredientsText.Split("\n"))
       {
         ingredientService.Text = text;
         var ingredient = await ingredientService.ToEntity();
@@ -36,7 +36,8 @@ public class RecipeService
         stepDto.Title,
         stepDto.Preparation,
         stepDto.Additional,
-        ingredients
+        ingredientsText: stepDto.IngredientsText,
+        ingredients: ingredients
       ));
     }
 

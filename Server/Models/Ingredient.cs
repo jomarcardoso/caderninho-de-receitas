@@ -19,5 +19,6 @@ public class Ingredient : IngredientBase<Food>
     Minerals = new Minerals(food.Minerals, quantity);
     Vitamins = new Vitamins(food.Vitamins, quantity);
     AminoAcids = new AminoAcids(food.AminoAcids, quantity);
+    EssentialAminoAcids = new EssentialAminoAcids(food.EssentialAminoAcids, quantity);
   }
 }

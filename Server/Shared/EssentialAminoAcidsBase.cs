@@ -26,6 +26,18 @@ public class EssentialAminoAcidsBase
     Methionine = aminoAcids.Methionine / 728;
     Histidine = aminoAcids.Histidine / 700;
   }
+  public EssentialAminoAcidsBase(EssentialAminoAcidsBase essentialAminoAcids, double quantity)
+  {
+    Tryptophan = essentialAminoAcids.Tryptophan * quantity;
+    Phenylalanine = essentialAminoAcids.Phenylalanine * quantity;
+    Leucine = essentialAminoAcids.Leucine * quantity;
+    Valine = essentialAminoAcids.Valine * quantity;
+    Isoleucine = essentialAminoAcids.Isoleucine * quantity;
+    Lysine = essentialAminoAcids.Lysine * quantity;
+    Threonine = essentialAminoAcids.Threonine * quantity;
+    Methionine = essentialAminoAcids.Methionine * quantity;
+    Histidine = essentialAminoAcids.Histidine * quantity;
+  }
 
   public double GetScore()
   {

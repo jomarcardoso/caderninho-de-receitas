@@ -6,4 +6,5 @@ public interface INutrientsBase
   public MineralsBase Minerals { get; set; }
   public VitaminsBase Vitamins { get; set; }
   public AminoAcidsBase AminoAcids { get; set; }
+  public EssentialAminoAcidsBase EssentialAminoAcids { get; set; }
 }

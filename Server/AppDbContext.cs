@@ -23,6 +23,7 @@ public class AppDbContext : DbContext
       entity.OwnsOne(f => f.Keys);
       entity.OwnsOne(f => f.NutritionalInformation);
       entity.OwnsOne(f => f.AminoAcids);
+      entity.OwnsOne(f => f.EssentialAminoAcids);
       entity.OwnsOne(f => f.Vitamins);
       entity.OwnsOne(f => f.Minerals);
       entity.OwnsOne(f => f.Name);
@@ -36,20 +37,23 @@ public class AppDbContext : DbContext
       {
         step.OwnsMany(s => s.Ingredients, ingredient =>
         {
-          ingredient.OwnsOne(i => i.AminoAcids);
           ingredient.OwnsOne(i => i.NutritionalInformation);
+          ingredient.OwnsOne(i => i.AminoAcids);
+          ingredient.OwnsOne(i => i.EssentialAminoAcids);
           ingredient.OwnsOne(i => i.Vitamins);
           ingredient.OwnsOne(i => i.Minerals);
         });
 
         step.OwnsOne(s => s.NutritionalInformation);
         step.OwnsOne(s => s.AminoAcids);
+        step.OwnsOne(s => s.EssentialAminoAcids);
         step.OwnsOne(s => s.Vitamins);
         step.OwnsOne(s => s.Minerals);
       });
 
       entity.OwnsOne(r => r.NutritionalInformation);
       entity.OwnsOne(r => r.AminoAcids);
+      entity.OwnsOne(r => r.EssentialAminoAcids);
       entity.OwnsOne(r => r.Vitamins);
       entity.OwnsOne(r => r.Minerals);
     });

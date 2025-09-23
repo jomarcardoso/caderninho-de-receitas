@@ -13,6 +13,7 @@ public abstract class IngredientBase<TFood> : INutrientsBase
   public MineralsBase Minerals { get; set; } = new();
   public VitaminsBase Vitamins { get; set; } = new();
   public AminoAcidsBase AminoAcids { get; set; } = new();
+  public EssentialAminoAcidsBase EssentialAminoAcids { get; set; } = new();
 
   protected IngredientBase() { }
 
@@ -25,7 +26,8 @@ public abstract class IngredientBase<TFood> : INutrientsBase
     NutritionalInformationBase nutritionalInformation,
     MineralsBase minerals,
     VitaminsBase vitamins,
-    AminoAcidsBase aminoAcids
+    AminoAcidsBase aminoAcids,
+    EssentialAminoAcidsBase essentialAminoAcids
   )
   {
     Text = text;
@@ -37,5 +39,6 @@ public abstract class IngredientBase<TFood> : INutrientsBase
     Minerals = minerals;
     Vitamins = vitamins;
     AminoAcids = aminoAcids;
+    EssentialAminoAcids = essentialAminoAcids;
   }
 }

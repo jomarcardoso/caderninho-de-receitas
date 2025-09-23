@@ -16,4 +16,5 @@ public abstract class RecipeBase<TRecipeStep> : RecipeContract<TRecipeStep>, INu
   public MineralsBase Minerals { get; set; } = new();
   public VitaminsBase Vitamins { get; set; } = new();
   public AminoAcidsBase AminoAcids { get; set; } = new();
+  public EssentialAminoAcidsBase EssentialAminoAcids { get; set; } = new();
 }

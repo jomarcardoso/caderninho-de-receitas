@@ -12,4 +12,9 @@ public class EssentialAminoAcids : EssentialAminoAcidsBase
       : base(aminoAcids)
   {
   }
+
+  public EssentialAminoAcids(EssentialAminoAcids essentialAminoAcids, double quantity)
+      : base(essentialAminoAcids, quantity)
+  {
+  }
 }
