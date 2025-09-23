@@ -1,10 +1,8 @@
-import { NutrientBase as NutrientDataBase } from './nutrient.types';
+import { NutrientDataResponse } from '../nutrient-data/nutrient-data.response';
 
 export type NutrientResponse = number;
 
 export type NutrientsResponse = Record<string, NutrientResponse>;
-
-export type NutrientDataResponse = NutrientDataBase;
 
 export type NutrientsDataResponse = Record<string, NutrientDataResponse>;
 

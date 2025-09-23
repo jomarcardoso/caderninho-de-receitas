@@ -1,7 +1,7 @@
-import {
-  NutrientDataResponse,
-  NutrientsResponse,
-} from '../nutrient/nutrient.response';
+import { NutrientsResponse } from '../nutrient/nutrient.response';
+import { NutrientBase } from '../nutrient/nutrient.types';
+
+export type NutrientDataResponse = NutrientBase;
 
 export interface AllNutrientsResponse {
   nutritionalInformation: NutrientsResponse;

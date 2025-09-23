@@ -1,5 +1,5 @@
 import { Language } from '../services/language/language.types';
-import { Recipe, RECIPE } from '../services/recipe';
+import { RecipeDto } from '../services/recipe/recipe.dto';
 
 export interface GlobalObject {
   isSharedUrl: boolean;
@@ -33,15 +33,15 @@ export function removeCurrentRecipe(): void {
   localStorage.removeItem(STORAGE_CURRENT_RECIPE);
 }
 
-export function setCurrentRecipe(recipe: Recipe): void {
+export function setCurrentRecipe(recipe: RecipeDto): void {
   localStorage.setItem(STORAGE_CURRENT_RECIPE, JSON.stringify(recipe));
 }
 
-export function getCurrentRecipe(): Recipe {
+export function getCurrentRecipe(): RecipeDto | undefined {
   const recipe = localStorage.getItem(STORAGE_CURRENT_RECIPE);
 
   if (!recipe) {
-    return RECIPE;
+    return;
   }
 
   return JSON.parse(recipe);

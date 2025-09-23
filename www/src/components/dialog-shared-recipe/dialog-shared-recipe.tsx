@@ -6,11 +6,11 @@ import Dialog from '../dialog/dialog';
 import { Button } from '../button';
 import SubmitComponent from '../submit';
 import './dialog-shared-recipe.scss';
-import { useRecipes } from '../../providers';
+import { useData } from '../../providers';
 
 export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
   const { sharedRecipe, setSharedRecipe } = useSharedRecipe();
-  const { addRecipe } = useRecipes();
+  const { saveRecipe: addRecipe } = useData();
 
   return (
     <Dialog

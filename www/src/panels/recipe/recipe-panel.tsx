@@ -6,7 +6,7 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import Layout from '../../components/layout/layout';
-import { RecipesContext } from '../../providers/recipes/recipes.context';
+import { DataContext } from '../../providers/data/recipes.context';
 import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';
 import Panel from '../../components/panel/panel';
@@ -23,7 +23,7 @@ const RecipePanel: FC<{
   setCurrentFoodQuantity(quantity: number): void;
 }> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
-  const { removeRecipe } = useContext(RecipesContext);
+  const { removeRecipe } = useContext(DataContext);
   const { setLoading } = useContext(LoadingContext);
   const { editing, setEditing } = useContext(EditingContext);
 

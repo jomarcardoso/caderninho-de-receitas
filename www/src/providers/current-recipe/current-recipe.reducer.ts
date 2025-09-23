@@ -1,9 +1,9 @@
 import { Reducer } from 'react';
-import { RECIPE, Recipe } from '../../services/recipe';
+import { Recipe } from '../../services/recipe/recipe.model';
 
 interface State {
-  recipe: Recipe;
-  lastRecipe: Recipe;
+  recipe?: Recipe;
+  lastRecipe?: Recipe;
 }
 
 interface Action {
@@ -15,14 +15,14 @@ export const currentRecipeReducer: Reducer<State, Action> = (state, action) => {
   if (action.type === 'set') {
     if (action.value && action.value.id) {
       return {
-        lastRecipe: action.value || RECIPE,
-        recipe: action.value || RECIPE,
+        lastRecipe: action.value,
+        recipe: action.value,
       };
     }
 
     return {
       ...state,
-      recipe: action.value || RECIPE,
+      recipe: action.value,
     };
   }
 

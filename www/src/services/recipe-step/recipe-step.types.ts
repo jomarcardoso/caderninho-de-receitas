@@ -1,9 +1,10 @@
-export interface RecipeStepContract<TRecipeIngredient> {
+export interface RecipeStepContract {
   title: string;
   preparation: string;
   additional: string;
-  ingredients: TRecipeIngredient;
+  ingredientsText: string;
 }
 
-export type RecipeStepBase<TRecipeIngredient> =
-  RecipeStepContract<TRecipeIngredient>;
+export interface RecipeStepBase<TRecipeIngredient> extends RecipeStepContract {
+  ingredients: TRecipeIngredient[];
+}

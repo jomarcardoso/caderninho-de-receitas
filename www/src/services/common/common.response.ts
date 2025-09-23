@@ -2,7 +2,7 @@ import {
   LanguageText,
   LanguageTextAndPlural,
 } from '../language/language.types';
-import { NutrientDataResponse } from '../nutrient/nutrient.response';
+import { NutrientDataResponse } from '../nutrient-data/nutrient-data.response';
 
 export interface CommonResponse {
   measures: Record<string, LanguageTextAndPlural>;

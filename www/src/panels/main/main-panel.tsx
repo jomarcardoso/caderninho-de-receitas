@@ -3,14 +3,14 @@ import { IoAddCircleOutline } from 'react-icons/io5';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
-import { RecipesContext } from '../../providers/recipes/recipes.context';
-import { RECIPE, Recipe } from '../../services/recipe';
+import { DataContext } from '../../providers/data/recipes.context';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import { UserBox } from '../../components/user-box/user-box';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { useScroll } from '../../hooks/use-scroll';
 import { ShoppingList } from '../../components/shopping-list';
+import { Recipe } from '../../services/recipe/recipe.model';
 
 /* <div className="main__story-partner">
 <ChefSvg style={{ mixBlendMode: 'multiply' }} />
@@ -18,7 +18,7 @@ import { ShoppingList } from '../../components/shopping-list';
 
 const MainPanel: FC = () => {
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
-  const { recipes: savedRecipes = [] } = useContext(RecipesContext);
+  const { data: savedRecipes = [] } = useContext(DataContext);
   const alphabeticalRecipes = savedRecipes.sort((a, b) => {
     if (a.title < b.title) {
       return -1;
@@ -45,7 +45,7 @@ const MainPanel: FC = () => {
         tabIndex={0}
         onClick={() => handleClickLink(recipe)}
       >
-        {capitalize(recipe.title)}
+        {capitalize(recipe.name)}
       </ListItem>
     );
   }
@@ -90,7 +90,7 @@ const MainPanel: FC = () => {
               <Button
                 variant="secondary"
                 contrast="light"
-                onClick={() => setCurrentRecipe?.(RECIPE)}
+                onClick={() => setCurrentRecipe?.(undefined)}
               >
                 <IoAddCircleOutline />
                 adicionar nova receita

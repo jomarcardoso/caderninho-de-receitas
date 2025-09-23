@@ -1,3 +1,3 @@
-import { RecipeStepBase } from './recipe-step.types';
+import { RecipeStepContract } from './recipe-step.types';
 
-export type RecipeStepDto = RecipeStepBase<string>;
+export type RecipeStepDto = RecipeStepContract;

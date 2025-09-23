@@ -1,3 +1,4 @@
+import { CommonData } from '../common/common.model';
 import {
   LanguageText,
   LanguageTextAndPlural,
@@ -10,4 +11,8 @@ export interface Food extends FoodBase, AllNutrients {
   type: LanguageText;
   measurementUnit: LanguageTextAndPlural;
   measures: Array<Measure>;
+}
+
+export interface FoodsData extends CommonData {
+  foods: Food[];
 }

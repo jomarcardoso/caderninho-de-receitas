@@ -161,7 +161,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 <div className="container">
                   <div className="grid columns-1 g-6">
                     <div>
-                      {!recipe.id ? (
+                      {!recipe?.id ? (
                         <p>
                           Você está criando uma nova receita. Preencha os campos
                           abaixo e pressione o botão salvar receita para criá-la

@@ -1,7 +1,10 @@
-import { RecipeResponse, RecipesResponse } from './recipe.response';
+import { RecipeResponse, RecipesDataResponse } from './recipe.response';
 import { CommonResponse } from '../common/common.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
-import { Recipe } from './recipe.model';
+import { Recipe, RecipesData } from './recipe.model';
+import { RecipeDto } from './recipe.dto';
+import { mapAllFoodsResponseToModel } from '../food/food.service';
+import { RECIPES_DATA } from './recipe.data';
 
 // function stepToText(step: RecipeStep): string {
 //   return `\
@@ -48,19 +51,74 @@ export function mapRecipeResponseToModel(
 //   return null;
 // }
 
-export function mapAllRecipesResponseToModel(data: RecipesResponse): Recipe[] {
+export function mapAllRecipesResponseToModel(
+  data: RecipesDataResponse,
+): Recipe[] {
   return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
 }
 
-export async function fetchRecipes(): Promise<Recipe[]> {
+export function mapRecipesDataResponseToModel(
+  data: RecipesDataResponse,
+): RecipesData {
+  return {
+    recipes: mapAllRecipesResponseToModel(data),
+    foods: mapAllFoodsResponseToModel(data),
+    measures: Object.values(data.measures),
+    foodTypes: Object.values(data.foodTypes),
+    measurementUnits: Object.values(data.measurementUnits),
+    vitamins: Object.values(data.vitamins),
+    aminoAcids: Object.values(data.aminoAcids),
+    minerals: Object.values(data.minerals),
+    nutritionalInformation: Object.values(data.nutritionalInformation),
+  };
+  // return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
+}
+
+export async function fetchRecipes(): Promise<RecipesData> {
   try {
     const res = await fetch('http://localhost:5106/api/food');
-    const data: RecipesResponse = await res.json();
+    const data: RecipesDataResponse = await res.json();
 
-    return mapAllRecipesResponseToModel(data);
+    return mapRecipesDataResponseToModel(data);
   } catch (error) {
     console.log(error);
   }
 
-  return [];
+  return RECIPES_DATA;
+}
+
+export async function saveRecipe(recipe: RecipeDto): Promise<RecipesData> {
+  try {
+    const res = await fetch('http://localhost:5106/api/recipe', {
+      method: recipe.id ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(recipe),
+    });
+    const data: RecipesDataResponse = await res.json();
+
+    return mapRecipesDataResponseToModel(data);
+  } catch (error) {
+    console.log(error);
+  }
+
+  return RECIPES_DATA;
+}
+
+export async function removeRecipeById(id = 0): Promise<RecipesData> {
+  if (!id) return RECIPES_DATA;
+
+  try {
+    const res = await fetch('http://localhost:5106/api/recipe', {
+      method: 'DELETE',
+    });
+    const data: RecipesDataResponse = await res.json();
+
+    return mapRecipesDataResponseToModel(data);
+  } catch (error) {
+    console.log(error);
+  }
+
+  return RECIPES_DATA;
 }

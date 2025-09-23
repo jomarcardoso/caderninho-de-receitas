@@ -1,6 +1,6 @@
 import React, { FC, useContext, useCallback } from 'react';
 import { Formik, FormikProps } from 'formik';
-import { RecipesContext } from '../../providers/recipes/recipes.context';
+import { DataContext } from '../../providers/data/recipes.context';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import Dialog from '../dialog/dialog';
 import { Button } from '../button';
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const RecipeRegister: FC<Props> = ({ recipe }) => {
-  const { addRecipe } = useContext(RecipesContext);
+  const { saveRecipe: addRecipe } = useContext(DataContext);
   const { restoreLastRecipe, currentRecipe, setCurrentRecipe } =
     useContext(CurrentRecipeContext);
   const [openedEmptyRecipe, setOpenedEmptyRecipe] = React.useState(false);
@@ -55,8 +55,6 @@ const RecipeRegister: FC<Props> = ({ recipe }) => {
         description,
         id: recipe?.id ?? 0,
         // category,
-        // lastUpdate: Date.now(),
-        // needSync: true,
       };
 
       const id = addRecipe(newRecipe);

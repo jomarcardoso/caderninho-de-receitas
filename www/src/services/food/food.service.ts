@@ -1,7 +1,7 @@
 import { CommonResponse } from '../common/common.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import { Food } from './food.model';
-import { FoodResponse, FoodsResponse } from './food.response';
+import { FoodResponse, FoodsDataResponse } from './food.response';
 
 export function mapFoodResponseToModel(
   foodResponse: FoodResponse,
@@ -26,14 +26,14 @@ export function mapFoodResponseToModel(
   };
 }
 
-export function mapAllFoodsResponseToModel(data: FoodsResponse): Food[] {
+export function mapAllFoodsResponseToModel(data: FoodsDataResponse): Food[] {
   return data.foods.map((food) => mapFoodResponseToModel(food, data));
 }
 
 export async function fetchFood(): Promise<Food[]> {
   try {
     const res = await fetch('http://localhost:5106/api/food');
-    const data: FoodsResponse = await res.json();
+    const data: FoodsDataResponse = await res.json();
 
     return mapAllFoodsResponseToModel(data);
   } catch (error) {

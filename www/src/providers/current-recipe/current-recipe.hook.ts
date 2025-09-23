@@ -1,12 +1,12 @@
-import { useContext, useEffect, useReducer, useState } from 'react';
-import { RECIPE, Recipe } from '../../services/recipe';
+import { useContext, useEffect, useReducer } from 'react';
 import { STORAGE_CURRENT_RECIPE } from '../../storage/storage.service';
 import { StorageService } from '../../storage';
 import { currentRecipeReducer } from './current-recipe.reducer';
-import { RecipesContext } from '../recipes/recipes.context';
+import { DataContext } from '../data/recipes.context';
 import { last } from 'lodash';
+import { Recipe } from '../../services/recipe/recipe.model';
 
-let initialRecipe = RECIPE;
+let initialRecipe: Recipe | undefined = undefined;
 
 if (typeof window !== 'undefined') {
   const editingRecipeJson = localStorage.getItem(STORAGE_CURRENT_RECIPE);
@@ -21,10 +21,10 @@ export const useRecipe = (): {
   setCurrentRecipe: React.Dispatch<React.SetStateAction<Recipe>>;
   restoreLastRecipe(): void;
 } => {
-  const { recipes = [] } = useContext(RecipesContext);
-  const lastRegisteredRecipe = last(recipes) || RECIPE;
+  const { data: recipes = [] } = useContext(DataContext);
+  const lastRegisteredRecipe = last(recipes);
 
-  if (!initialRecipe.title) {
+  if (!initialRecipe?.name) {
     initialRecipe = lastRegisteredRecipe;
   }
 

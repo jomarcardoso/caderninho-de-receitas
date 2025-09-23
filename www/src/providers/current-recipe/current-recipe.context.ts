@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import { Recipe } from '../../services/recipe';
+import { Recipe } from '../../services/recipe/recipe.model';
 
 const CurrentRecipeContext = createContext<{
   currentRecipe?: Recipe;
