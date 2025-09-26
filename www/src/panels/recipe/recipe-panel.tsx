@@ -6,7 +6,7 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import Layout from '../../components/layout/layout';
-import { DataContext } from '../../providers/data/recipes.context';
+import { DataContext } from '../../providers/data/data.context';
 import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';
 import Panel from '../../components/panel/panel';
@@ -74,7 +74,7 @@ const RecipePanel: FC<{
   }
 
   useEffect(() => {
-    if (!currentRecipe.id) {
+    if (!currentRecipe?.id) {
       setEditing?.(true);
     } else {
       setEditing?.(false);

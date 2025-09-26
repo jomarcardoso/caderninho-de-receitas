@@ -1,10 +1,10 @@
 import React, { FC, useContext } from 'react';
 import Image from '../image/image';
-import { Ingredient } from '../../services/ingredient/ingredient.types';
-import { Food } from '../../services/food';
 import Section, { SectionProps } from '../section/section';
 import { SemanticButton } from '../semantic-button';
 import { LanguageContext } from '../../providers/language/language.context';
+import { Ingredient } from '../../services/ingredient/ingredient.model';
+import { Food } from '../../services/food/food.model';
 
 interface Props {
   ingredients: Array<Ingredient>;
@@ -30,6 +30,8 @@ const Ingredients: FC<IngredientsProps> = ({
       setCurrentFoodQuantity(ingredient.quantity);
     }
   }
+
+  console.log(ingredients);
 
   return (
     <Section title="Ingredientes" onBgWhite {...props}>

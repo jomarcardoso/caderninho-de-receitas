@@ -1,4 +1,7 @@
+import { CommonData } from '../common/common.model';
 import { CommonResponse } from '../common/common.response';
+import { NutrientData } from '../nutrient-data/nutrient-data.model';
+import { NutrientDataResponse } from '../nutrient-data/nutrient-data.response';
 import { AllNutrients, Nutrient } from './nutrient.model';
 import {
   AllNutrientsResponse,
@@ -8,7 +11,7 @@ import {
 
 export function mapNutrientResponseToModel(
   nutrientsResponse: NutrientsResponse,
-  nutrientsData: NutrientsDataResponse,
+  nutrientsData: Record<string, NutrientDataResponse>,
 ): Nutrient[] {
   return Object.entries(nutrientsResponse).map(([key, quantity]) => ({
     quantity,
@@ -40,5 +43,10 @@ export function mapAllNutrientsResponseToModel(
       allNutrientsResponse.aminoAcids,
       aminoAcids,
     ),
+    essentialAminoAcids: mapNutrientResponseToModel(
+      allNutrientsResponse.essentialAminoAcids,
+      aminoAcids,
+    ),
+    aminoAcidsScore: allNutrientsResponse.aminoAcidsScore,
   };
 }

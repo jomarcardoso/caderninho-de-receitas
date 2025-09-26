@@ -1,15 +1,14 @@
 import React, { FC, HTMLProps, useCallback } from 'react';
-import { Food, FoodData } from '../../services/food';
 import Field from '../field/field';
 import { FormikProps } from 'formik';
-import { Vitamin, VITAMINS } from '../../services/vitamin';
+import { Food } from '../../services/food/food.model';
 
 export interface FoodRegisterFormProps {
   food: Food;
 }
 
 export const FoodRegisterForm: FC<
-  FormikProps<FoodData> & FoodRegisterFormProps
+  FormikProps<FoodDto> & FoodRegisterFormProps
 > = ({ values, handleChange, handleBlur }) => {
   const renderInput = useCallback(
     (

@@ -100,7 +100,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
             <div>
               {memoizedRenderInputIngredient(
                 index,
-                step.ingredients,
+                step.ingredientsText,
                 step.title,
               )}
             </div>

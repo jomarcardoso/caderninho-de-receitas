@@ -3,36 +3,53 @@ import { CommonResponse } from '../common/common.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import { Recipe, RecipesData } from './recipe.model';
 import { RecipeDto } from './recipe.dto';
-import { mapAllFoodsResponseToModel } from '../food/food.service';
+import {
+  mapFoodResponseToModel,
+  mapFoodsDataResponseToModel,
+} from '../food/food.service';
 import { RECIPES_DATA } from './recipe.data';
+import { RecipeStepDto } from '../recipe-step';
+import { mapCommonResponseToModel } from '../common/common.service';
+import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
 
-// function stepToText(step: RecipeStep): string {
-//   return `\
-// Ingredientes ${step.title}
+function stepToText(step: RecipeStepDto): string {
+  return `\
+Ingredientes ${step.title}
 
-// ${step.ingredients}
+${step.ingredientsText}
 
-// Modo de preparo ${step.title}
+Modo de preparo ${step.title}
 
-// ${step.title}`;
-// }
+${step.title}`;
+}
 
-// export function formatToText(recipe: Recipe): string {
-//   return `\
-// *${recipe.title.toUpperCase()}*
+export function recipeDtoToText(recipe: RecipeDto): string {
+  return `\
+*${recipe.name.toUpperCase()}*
 
-// ${recipe.description}
+${recipe.description}
 
-// ${recipe.steps.map(stepToText)}`;
-// }
+${recipe.steps.map(stepToText)}`;
+}
 
 export function mapRecipeResponseToModel(
   recipeResponse: RecipeResponse,
-  commonResponse: CommonResponse,
+  dataResponse: RecipesDataResponse,
 ): Recipe {
   return {
     ...recipeResponse,
-    ...mapAllNutrientsResponseToModel(recipeResponse, commonResponse),
+    ...mapAllNutrientsResponseToModel(recipeResponse, dataResponse),
+    steps: recipeResponse.steps.map((stepResponse) => ({
+      ...stepResponse,
+      ...mapAllNutrientsResponseToModel(stepResponse, dataResponse),
+      ingredients: stepResponse.ingredients.map((ingredient) =>
+        mapIngredientResponseToModel(
+          ingredient,
+          mapFoodsDataResponseToModel(dataResponse),
+          dataResponse,
+        ),
+      ),
+    })),
   };
 }
 
@@ -54,29 +71,40 @@ export function mapRecipeResponseToModel(
 export function mapAllRecipesResponseToModel(
   data: RecipesDataResponse,
 ): Recipe[] {
+  console.log(data);
+
   return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
 }
 
 export function mapRecipesDataResponseToModel(
   data: RecipesDataResponse,
 ): RecipesData {
+  const foodsData = mapFoodsDataResponseToModel(data);
+
   return {
+    ...foodsData,
     recipes: mapAllRecipesResponseToModel(data),
-    foods: mapAllFoodsResponseToModel(data),
-    measures: Object.values(data.measures),
-    foodTypes: Object.values(data.foodTypes),
-    measurementUnits: Object.values(data.measurementUnits),
-    vitamins: Object.values(data.vitamins),
-    aminoAcids: Object.values(data.aminoAcids),
-    minerals: Object.values(data.minerals),
-    nutritionalInformation: Object.values(data.nutritionalInformation),
   };
   // return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
 }
 
+// export async function fetchRecipeById(id = 0): Promise<Recipe | null> {
+//   if (!id) return null;
+
+//   try {
+//     const res = await fetch('http://localhost:5106/api/recipe/' + id);
+//     const data: RecipeResponse = await res.json();
+//     const recipe = mapRecipeResponseToModel(data, {
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   return null;
+// }
+
 export async function fetchRecipes(): Promise<RecipesData> {
   try {
-    const res = await fetch('http://localhost:5106/api/food');
+    const res = await fetch('http://localhost:5106/api/recipe');
     const data: RecipesDataResponse = await res.json();
 
     return mapRecipesDataResponseToModel(data);

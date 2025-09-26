@@ -3,21 +3,20 @@ import {
   LanguageText,
   LanguageTextAndPlural,
 } from '../language/language.types';
-import { NutrientData } from '../nutrient-data/nutrient-data.model';
+import {
+  AllNutrientsData,
+  NutrientData,
+} from '../nutrient-data/nutrient-data.model';
 import { AllNutrients } from '../nutrient/nutrient.model';
 import { RecipeStep } from '../recipe-step';
 import { RecipeBase } from './recipe.types';
 
-export type Recipe = RecipeBase<RecipeStep[]> & AllNutrients;
+export type Recipe = RecipeBase<RecipeStep> & AllNutrients;
 
-export interface RecipesData {
+export interface RecipesData extends AllNutrientsData {
   recipes: Recipe[];
   foods: Food[];
   measures: LanguageTextAndPlural[];
   foodTypes: LanguageText[];
   measurementUnits: LanguageTextAndPlural[];
-  vitamins: NutrientData[];
-  aminoAcids: NutrientData[];
-  minerals: NutrientData[];
-  nutritionalInformation: NutrientData[];
 }

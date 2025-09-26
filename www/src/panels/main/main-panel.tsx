@@ -3,13 +3,13 @@ import { IoAddCircleOutline } from 'react-icons/io5';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
 import { Button } from '../../components/button';
-import { DataContext } from '../../providers/data/recipes.context';
+import { DataContext } from '../../providers/data/data.context';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
-import { UserBox } from '../../components/user-box/user-box';
+// import { UserBox } from '../../components/user-box/user-box';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { useScroll } from '../../hooks/use-scroll';
-import { ShoppingList } from '../../components/shopping-list';
+// import { ShoppingList } from '../../components/shopping-list';
 import { Recipe } from '../../services/recipe/recipe.model';
 
 /* <div className="main__story-partner">
@@ -18,13 +18,14 @@ import { Recipe } from '../../services/recipe/recipe.model';
 
 const MainPanel: FC = () => {
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
-  const { data: savedRecipes = [] } = useContext(DataContext);
-  const alphabeticalRecipes = savedRecipes.sort((a, b) => {
-    if (a.title < b.title) {
+  const { data } = useContext(DataContext);
+  const { recipes = [] } = data || {};
+  const alphabeticalRecipes = recipes.sort((a, b) => {
+    if (a.name < b.name) {
       return -1;
     }
 
-    if (a.title > b.title) {
+    if (a.name > b.name) {
       return 1;
     }
 
@@ -41,7 +42,7 @@ const MainPanel: FC = () => {
       <ListItem
         key={recipe.id}
         isAction
-        isActive={recipe.id === currentRecipe.id}
+        isActive={recipe.id === currentRecipe?.id}
         tabIndex={0}
         onClick={() => handleClickLink(recipe)}
       >
@@ -54,9 +55,11 @@ const MainPanel: FC = () => {
     <Layout
       footerMenu
       showHeader={false}
-      footerProps={{
-        children: <UserBox />,
-      }}
+      footerProps={
+        {
+          // children: <UserBox />,
+        }
+      }
       tabs={[
         {
           children: 'receitas',
@@ -99,7 +102,7 @@ const MainPanel: FC = () => {
           </div>
         </div>
 
-        <ShoppingList />
+        {/* <ShoppingList /> */}
       </div>
     </Layout>
   );

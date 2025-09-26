@@ -13,11 +13,11 @@ import { Button } from '../../components/button';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import Field from '../../components/field/field';
-import { FoodsContext } from '../../providers/foods.provider';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import LoadingSvg from '../../assets/svg/loading.svg';
 import { LanguageContext } from '../../providers/language/language.context';
 import { Food } from '../../services/food/food.model';
+import { DataContext } from '../../providers';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -35,7 +35,9 @@ const FoodsPanel: FC<Props> = ({
   currentFood,
 }) => {
   const { language } = useContext(LanguageContext);
-  const { foods } = useContext(FoodsContext);
+  const {
+    data: { foods },
+  } = useContext(DataContext);
   const [quantityToShow, setQuantityToShow] = useState(externalQuantityToShow);
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
@@ -49,7 +51,7 @@ const FoodsPanel: FC<Props> = ({
         food.description[language]
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        food.keys
+        food.keys[language]
           .split(', ')
           .some((key = '') => key.toLowerCase().includes(search.toLowerCase())),
     );

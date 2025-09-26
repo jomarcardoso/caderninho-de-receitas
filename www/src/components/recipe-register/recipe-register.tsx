@@ -1,6 +1,6 @@
 import React, { FC, useContext, useCallback } from 'react';
 import { Formik, FormikProps } from 'formik';
-import { DataContext } from '../../providers/data/recipes.context';
+import { DataContext } from '../../providers/data/data.context';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
 import Dialog from '../dialog/dialog';
 import { Button } from '../button';
@@ -27,12 +27,12 @@ const RecipeRegister: FC<Props> = ({ recipe }) => {
   const handleCancel = useCallback(() => {
     StorageService.removeCurrentRecipe();
 
-    if (!currentRecipe.id) {
+    if (!currentRecipe?.id) {
       restoreLastRecipe?.();
     }
 
     if (setEditing) setEditing(false);
-  }, [currentRecipe.id, restoreLastRecipe, setEditing]);
+  }, [currentRecipe?.id, restoreLastRecipe, setEditing]);
 
   const memoizedHandleSubmit = useCallback(
     ({
@@ -57,11 +57,11 @@ const RecipeRegister: FC<Props> = ({ recipe }) => {
         // category,
       };
 
-      const id = addRecipe(newRecipe);
+      // const id = addRecipe(newRecipe);
 
       setCurrentRecipe?.({
         ...newRecipe,
-        id,
+        // id,
       });
     },
     [recipe?.id, addRecipe, setCurrentRecipe],

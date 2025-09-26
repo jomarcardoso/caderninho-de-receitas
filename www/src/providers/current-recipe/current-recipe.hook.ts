@@ -1,36 +1,38 @@
-import { useContext, useEffect, useReducer } from 'react';
+import { useContext, useEffect, useMemo, useReducer } from 'react';
 import { STORAGE_CURRENT_RECIPE } from '../../storage/storage.service';
 import { StorageService } from '../../storage';
 import { currentRecipeReducer } from './current-recipe.reducer';
-import { DataContext } from '../data/recipes.context';
+import { DataContext } from '../data/data.context';
 import { last } from 'lodash';
 import { Recipe } from '../../services/recipe/recipe.model';
+import type { CurrentRecipeContextProps } from './current-recipe.context';
 
-let initialRecipe: Recipe | undefined = undefined;
+let initialRecipeId = 0;
 
 if (typeof window !== 'undefined') {
-  const editingRecipeJson = localStorage.getItem(STORAGE_CURRENT_RECIPE);
+  const editingRecipeId = localStorage.getItem(STORAGE_CURRENT_RECIPE);
 
-  if (editingRecipeJson) {
-    initialRecipe = JSON.parse(editingRecipeJson) as Recipe;
+  if (editingRecipeId) {
+    initialRecipeId = Number(editingRecipeId);
   }
 }
 
-export const useRecipe = (): {
-  currentRecipe: Recipe;
-  setCurrentRecipe: React.Dispatch<React.SetStateAction<Recipe>>;
-  restoreLastRecipe(): void;
-} => {
-  const { data: recipes = [] } = useContext(DataContext);
+export const useRecipe = (): CurrentRecipeContextProps => {
+  const {
+    data: { recipes },
+  } = useContext(DataContext);
   const lastRegisteredRecipe = last(recipes);
+  const currentRecipe = useMemo(() => {
+    if (!initialRecipeId) {
+      return lastRegisteredRecipe;
+    }
 
-  if (!initialRecipe?.name) {
-    initialRecipe = lastRegisteredRecipe;
-  }
+    return recipes.find((r) => r.id === initialRecipeId);
+  }, [recipes]);
 
   const [state, dispatch] = useReducer(currentRecipeReducer, {
-    recipe: initialRecipe,
-    lastRecipe: initialRecipe,
+    recipe: currentRecipe,
+    lastRecipe: lastRegisteredRecipe,
   });
 
   function restoreLastRecipe() {
@@ -47,7 +49,9 @@ export const useRecipe = (): {
   }
 
   useEffect(() => {
-    StorageService.setCurrentRecipe(state.recipe);
+    if (state.recipe) {
+      StorageService.setCurrentRecipe(state.recipe);
+    }
   }, [state.recipe]);
 
   return {

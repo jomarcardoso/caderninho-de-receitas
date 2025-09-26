@@ -5,8 +5,8 @@ import {
   EditingProvider,
   LoadingProvider,
   NavigationProvider,
-  RecipesProvider,
-  ShoppingListProvider,
+  DataProvider,
+  // ShoppingListProvider,
 } from '../providers';
 import '../styles/main.scss';
 import { LanguageProvider } from '../providers/language/language.provider';
@@ -16,19 +16,19 @@ const Index: FC<AppProps> = () => {
   return (
     <LoadingProvider>
       <GoogleOAuthProvider clientId="909303160702-r0lcfepjlhupmljhbadu9dvem7hcda2j.apps.googleusercontent.com">
-        <RecipesProvider>
-          <ShoppingListProvider>
-            <LanguageProvider>
-              <CurrentRecipeProvider>
-                <NavigationProvider>
-                  <EditingProvider>
-                    <AppPage />
-                  </EditingProvider>
-                </NavigationProvider>
-              </CurrentRecipeProvider>
-            </LanguageProvider>
-          </ShoppingListProvider>
-        </RecipesProvider>
+        <DataProvider>
+          {/* <ShoppingListProvider> */}
+          <LanguageProvider>
+            <CurrentRecipeProvider>
+              <NavigationProvider>
+                <EditingProvider>
+                  <AppPage />
+                </EditingProvider>
+              </NavigationProvider>
+            </CurrentRecipeProvider>
+          </LanguageProvider>
+          {/* </ShoppingListProvider> */}
+        </DataProvider>
       </GoogleOAuthProvider>
     </LoadingProvider>
   );

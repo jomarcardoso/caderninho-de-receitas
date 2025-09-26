@@ -8,6 +8,8 @@ export interface AllNutrientsResponse {
   minerals: NutrientsResponse;
   vitamins: NutrientsResponse;
   aminoAcids: NutrientsResponse;
+  essentialAminoAcids: NutrientsResponse;
+  aminoAcidsScore: number;
 }
 
 export interface AllNutrientsDataResponse {

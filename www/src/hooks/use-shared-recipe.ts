@@ -1,31 +1,31 @@
-import { useEffect, useState } from 'react';
-import { Recipe } from '../services/recipe';
-import { ShareService } from '../services/url/share.service';
+// import { useEffect, useState } from 'react';
+// import { ShareService } from '../services/url/share.service';
+// import { RecipeDto } from '../services/recipe/recipe.dto';
 
-export function useSharedRecipe() {
-  const [sharedRecipe, setSharedRecipe] = useState<Recipe | null>();
-  async function getSharedRecipe() {
-    const newSharedRecipe = await ShareService.getRecipeByUrlParams();
+// export function useSharedRecipe() {
+//   const [sharedRecipe, setSharedRecipe] = useState<RecipeDto | null>();
+//   async function getSharedRecipe() {
+//     const newSharedRecipe = await ShareService.getRecipeByUrlParams();
 
-    if (newSharedRecipe) {
-      setSharedRecipe(newSharedRecipe as Recipe);
-    }
-  }
+//     if (newSharedRecipe) {
+//       setSharedRecipe(newSharedRecipe as RecipeDto);
+//     }
+//   }
 
-  function handleRecipeId(newRecipe: Recipe | null) {
-    if (sharedRecipe && !newRecipe) {
-      window.location.search = '';
-    }
+//   function handleRecipeId(newRecipe: Recipe | null) {
+//     if (sharedRecipe && !newRecipe) {
+//       window.location.search = '';
+//     }
 
-    setSharedRecipe(newRecipe);
-  }
+//     setSharedRecipe(newRecipe);
+//   }
 
-  useEffect(() => {
-    getSharedRecipe();
-  }, [firebase?.db]);
+//   useEffect(() => {
+//     getSharedRecipe();
+//   }, []);
 
-  return {
-    sharedRecipe,
-    setSharedRecipe: handleRecipeId,
-  };
-}
+//   return {
+//     sharedRecipe,
+//     setSharedRecipe: handleRecipeId,
+//   };
+// }

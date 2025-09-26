@@ -3,12 +3,13 @@ export interface RecipeContract<TRecipeStep> {
   name: string;
   description?: string;
   additional?: string;
-  steps: TRecipeStep;
+  steps: TRecipeStep[];
   // category: RecipeCategory | '';
 }
 
 export interface RecipeBase<TRecipeStep> extends RecipeContract<TRecipeStep> {
   userId?: number;
+  image?: string;
 }
 
 // export type SetRecipe = (recipe: RecipeBase) => number;

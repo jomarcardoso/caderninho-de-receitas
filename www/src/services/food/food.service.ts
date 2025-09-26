@@ -1,11 +1,12 @@
-import { CommonResponse } from '../common/common.response';
+import { CommonData } from '../common/common.model';
+import { mapCommonResponseToModel } from '../common/common.service';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
-import { Food } from './food.model';
+import { Food, FoodsData } from './food.model';
 import { FoodResponse, FoodsDataResponse } from './food.response';
 
 export function mapFoodResponseToModel(
   foodResponse: FoodResponse,
-  commonResponse: CommonResponse,
+  commonResponse: FoodsDataResponse,
 ): Food {
   return {
     ...foodResponse,
@@ -26,19 +27,32 @@ export function mapFoodResponseToModel(
   };
 }
 
-export function mapAllFoodsResponseToModel(data: FoodsDataResponse): Food[] {
-  return data.foods.map((food) => mapFoodResponseToModel(food, data));
+// export function mapAllFoodsResponseToModel(data: FoodsDataResponse): Food[] {
+//   return data.foods.map((food) => mapFoodResponseToModel(food, data));
+// }
+
+export function mapFoodsDataResponseToModel(
+  foodsDataResponse: FoodsDataResponse,
+): FoodsData {
+  const commonData = mapCommonResponseToModel(foodsDataResponse);
+
+  return {
+    ...commonData,
+    foods: foodsDataResponse.foods.map((food) =>
+      mapFoodResponseToModel(food, foodsDataResponse),
+    ),
+  };
 }
 
-export async function fetchFood(): Promise<Food[]> {
-  try {
-    const res = await fetch('http://localhost:5106/api/food');
-    const data: FoodsDataResponse = await res.json();
+// export async function fetchFoods(): Promise<Food[]> {
+//   try {
+//     const res = await fetch('http://localhost:5106/api/food');
+//     const data: FoodsDataResponse = await res.json();
 
-    return mapAllFoodsResponseToModel(data);
-  } catch (error) {
-    console.log(error);
-  }
+//     return mapAllFoodsResponseToModel(data);
+//   } catch (error) {
+//     console.log(error);
+//   }
 
-  return [];
-}
+//   return [];
+// }

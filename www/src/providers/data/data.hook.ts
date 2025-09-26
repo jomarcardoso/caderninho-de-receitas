@@ -5,7 +5,7 @@ import {
   saveRecipe as saveRecipeService,
 } from '../../services/recipe/recipe.service';
 import { RecipeDto } from '../../services/recipe/recipe.dto';
-import { DataContextProps } from './recipes.context';
+import { DataContextProps } from './data.context';
 import { RECIPES_DATA } from '../../services/recipe/recipe.data';
 import LoadingContext from '../loading/loading.context';
 

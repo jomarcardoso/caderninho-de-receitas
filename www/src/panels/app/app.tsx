@@ -7,7 +7,7 @@ import DialogFood from '../../components/dialog-food/dialog-food';
 import MainPanel from '../main/main-panel';
 import Header from '../../components/root-header/root-header';
 import './app.scss';
-import { DialogSharedRecipe } from '../../components/dialog-shared-recipe/dialog-shared-recipe';
+// import { DialogSharedRecipe } from '../../components/dialog-shared-recipe/dialog-shared-recipe';
 import { LanguageContext } from '../../providers/language/language.context';
 import { Food } from '../../services/food/food.model';
 
@@ -31,7 +31,7 @@ const AppPage: FC<AppProps> = (props) => {
         open={Boolean(currentFood?.name[language])}
         quantity={currentFoodQuantity}
       />
-      <DialogSharedRecipe />
+      {/* <DialogSharedRecipe /> */}
       <Header />
       <div className="app-page__body" id="root-content" {...props}>
         <Panel

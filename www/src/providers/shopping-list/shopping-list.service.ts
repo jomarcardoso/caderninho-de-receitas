@@ -1,4 +1,4 @@
-import { Food, FOOD, FoodService } from '../../services/food';
+import { Food } from '../../services/food/food.model';
 import { ShoppingItem, ShoppingList } from './shopping-list.types';
 
 /**

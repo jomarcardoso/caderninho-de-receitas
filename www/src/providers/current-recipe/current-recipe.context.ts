@@ -1,10 +1,14 @@
 import React, { createContext } from 'react';
-import { Recipe } from '../../services/recipe/recipe.model';
+import { RecipeDto } from '../../services/recipe/recipe.dto';
 
-const CurrentRecipeContext = createContext<{
-  currentRecipe?: Recipe;
-  setCurrentRecipe?: React.Dispatch<React.SetStateAction<Recipe | undefined>>;
+export interface CurrentRecipeContextProps {
+  currentRecipe?: RecipeDto;
+  setCurrentRecipe?: React.Dispatch<
+    React.SetStateAction<RecipeDto | undefined>
+  >;
   restoreLastRecipe?: () => void;
-}>({});
+}
+
+const CurrentRecipeContext = createContext<CurrentRecipeContextProps>({});
 
 export default CurrentRecipeContext;

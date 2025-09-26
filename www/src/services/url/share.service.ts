@@ -1,47 +1,47 @@
-import { Firestore } from 'firebase/firestore';
-import { RECIPE, Recipe, RecipeService } from '../recipe';
+import { RecipeDto } from '../recipe/recipe.dto';
+import { recipeDtoToText } from '../recipe/recipe.service';
 
 const RECIPE_PARAM = 'recipeId';
 
-function shareRecipe(recipe: Recipe): Promise<void> {
+function shareRecipe(recipe: RecipeDto): Promise<void> {
   const url = `${window.location.origin}?${RECIPE_PARAM}=${recipe.id}`;
-  const title = recipe.title || 'Receita';
+  const title = recipe.name || 'Receita';
 
   if (!navigator.share) return Promise.resolve();
 
   return navigator.share({
     title,
-    text: RecipeService.formatToText(recipe),
+    text: recipeDtoToText(recipe),
     url,
   });
 }
 
-async function getRecipeByUrlParams(db?: Firestore): Promise<Recipe | null> {
-  if (typeof window === 'undefined' || !db) {
-    return null;
-  }
+// async function getRecipeByUrlParams(): Promise<RecipeDto | null> {
+//   if (typeof window === 'undefined') {
+//     return null;
+//   }
 
-  const params = window.location.search;
+//   const params = window.location.search;
 
-  if (!params) {
-    return null;
-  }
+//   if (!params) {
+//     return null;
+//   }
 
-  const recipeId = Number(new URLSearchParams(params).get(RECIPE_PARAM) ?? 0);
+//   const recipeId = Number(new URLSearchParams(params).get(RECIPE_PARAM) ?? 0);
 
-  if (!recipeId) {
-    return null;
-  }
+//   if (!recipeId) {
+//     return null;
+//   }
 
-  const recipe = await RecipeService.getRecipeByIdFromDB(recipeId, db);
+//   const recipe = await fetchRecipeById(recipeId);
 
-  delete recipe?.userId;
-  delete recipe?.id;
+//   delete recipe?.userId;
+//   delete recipe?.id;
 
-  return recipe;
-}
+//   return recipe;
+// }
 
 export const ShareService = {
   shareRecipe,
-  getRecipeByUrlParams,
+  // getRecipeByUrlParams,
 };
