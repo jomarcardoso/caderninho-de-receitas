@@ -1,17 +1,22 @@
 import { RecipeDto } from '../recipe/recipe.dto';
-import { recipeDtoToText } from '../recipe/recipe.service';
+import { Recipe } from '../recipe/recipe.model';
+import {
+  mapRecipeModelToDto,
+  recipeDtoToText,
+} from '../recipe/recipe.service';
 
 const RECIPE_PARAM = 'recipeId';
 
-function shareRecipe(recipe: RecipeDto): Promise<void> {
-  const url = `${window.location.origin}?${RECIPE_PARAM}=${recipe.id}`;
-  const title = recipe.name || 'Receita';
+function shareRecipe(recipe: Recipe | RecipeDto): Promise<void> {
+  const recipeDto = mapRecipeModelToDto(recipe);
+  const url = `${window.location.origin}?${RECIPE_PARAM}=${recipeDto.id}`;
+  const title = recipeDto.name || 'Receita';
 
   if (!navigator.share) return Promise.resolve();
 
   return navigator.share({
     title,
-    text: recipeDtoToText(recipe),
+    text: recipeDtoToText(recipeDto),
     url,
   });
 }

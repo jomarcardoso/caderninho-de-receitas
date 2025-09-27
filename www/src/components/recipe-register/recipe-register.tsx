@@ -1,4 +1,4 @@
-import React, { FC, useContext, useCallback } from 'react';
+import React, { FC, useContext, useCallback, useState, useEffect } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { DataContext } from '../../providers/data/data.context';
 import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
@@ -10,14 +10,15 @@ import { StorageService } from '../../storage';
 import { RecipeDto } from '../../services/recipe/recipe.dto';
 
 interface Props {
-  recipe?: RecipeDto;
+  recipeToEdit?: RecipeDto;
 }
 
-const RecipeRegister: FC<Props> = ({ recipe }) => {
+const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
+  const [recipe, setRecipe] = useState<RecipeDto | undefined>(recipeToEdit);
   const { saveRecipe: addRecipe } = useContext(DataContext);
   const { restoreLastRecipe, currentRecipe, setCurrentRecipe } =
     useContext(CurrentRecipeContext);
-  const [openedEmptyRecipe, setOpenedEmptyRecipe] = React.useState(false);
+  const [openedEmptyRecipe, setOpenedEmptyRecipe] = useState(false);
   const { setEditing } = useContext(EditingContext);
 
   const handleCloseEmptyAlert = useCallback(() => {
@@ -66,6 +67,12 @@ const RecipeRegister: FC<Props> = ({ recipe }) => {
     },
     [recipe?.id, addRecipe, setCurrentRecipe],
   );
+
+  useEffect(() => {
+    if (recipeToEdit) {
+      setRecipe(recipeToEdit);
+    }
+  }, [recipeToEdit]);
 
   return (
     <>

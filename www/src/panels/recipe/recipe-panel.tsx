@@ -61,7 +61,7 @@ const RecipePanel: FC<{
 
   function renderBody() {
     if (editing) {
-      return <RecipeRegister recipe={currentRecipe} />;
+      return <RecipeRegister recipeToEdit={currentRecipe} />;
     }
 
     return (

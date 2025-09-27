@@ -32,6 +32,41 @@ ${recipe.description}
 ${recipe.steps.map(stepToText)}`;
 }
 
+type RecipeStepLike = Pick<
+  RecipeStepDto,
+  'title' | 'preparation' | 'additional' | 'ingredientsText'
+>;
+
+type RecipeLike = Pick<
+  RecipeDto,
+  'id' | 'name' | 'description' | 'additional' | 'steps'
+> & {
+  steps?: RecipeStepLike[];
+};
+
+function mapRecipeStepModelToDto(step: RecipeStepLike): RecipeStepDto {
+  return {
+    title: step.title ?? '',
+    preparation: step.preparation ?? '',
+    additional: step.additional ?? '',
+    ingredientsText: step.ingredientsText ?? '',
+  };
+}
+
+export function mapRecipeModelToDto(recipe: RecipeLike): RecipeDto {
+  return {
+    id: recipe.id,
+    name: recipe.name ?? '',
+    description: recipe.description ?? '',
+    additional: recipe.additional ?? '',
+    steps: recipe.steps?.map(mapRecipeStepModelToDto) ?? [],
+  };
+}
+
+export function mapRecipesModelToDto(recipes: RecipeLike[]): RecipeDto[] {
+  return recipes.map(mapRecipeModelToDto);
+}
+
 export function mapRecipeResponseToModel(
   recipeResponse: RecipeResponse,
   dataResponse: RecipesDataResponse,

@@ -7,7 +7,7 @@ import { Button } from '../button';
 import './user-box.scss';
 import { Chip, Chips } from '../chips/chips';
 import { LanguageContext } from '../../providers/language/language.context';
-import { I18N_TEXT, Language } from '../../services/language/language.types';
+import { Language } from '../../services/language/language.types';
 import { useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
