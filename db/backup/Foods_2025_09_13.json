@@ -30,7 +30,6 @@
       "en": "",
       "pt": "avocado"
     },
-    "isRecipe": false,
     "icon": "/images/food/avocado.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -138,7 +137,6 @@
       "en": "",
       "pt": ""
     },
-    "isRecipe": false,
     "icon": "/images/food/pineapple.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -246,7 +244,6 @@
       "en": "",
       "pt": "abóbora, abobora, abobra, jerimum, abobora cabotian, abóbora cabotian"
     },
-    "isRecipe": false,
     "icon": "/images/food/pumpkin.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -354,7 +351,6 @@
       "en": "",
       "pt": "abobrinha, abobrinha italiana"
     },
-    "isRecipe": false,
     "icon": "/images/food/zucchini.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -462,7 +458,6 @@
       "en": "",
       "pt": "achocoltado, achocolatado em pó, nescau"
     },
-    "isRecipe": false,
     "icon": "/images/food/cocoa.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -570,7 +565,6 @@
       "en": "",
       "pt": "açúcar, açucar, açúcar refinado, açúcar branco, açucar refinado"
     },
-    "isRecipe": false,
     "icon": "/images/food/sugar.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -678,7 +672,6 @@
       "en": "",
       "pt": "açúcar cristal, açucar cristal"
     },
-    "isRecipe": false,
     "icon": "/images/food/sugar.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -786,7 +779,6 @@
       "en": "",
       "pt": "açúcar escuro, açúcar integral"
     },
-    "isRecipe": false,
     "icon": "/images/food/sugar.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -894,7 +886,6 @@
       "en": "",
       "pt": ""
     },
-    "isRecipe": false,
     "icon": "/images/food/water.svg",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -1002,7 +993,6 @@
       "en": "",
       "pt": "coco, agua de coco, água de coco"
     },
-    "isRecipe": false,
     "icon": "/images/food/coconut-water.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -1110,7 +1100,6 @@
       "en": "",
       "pt": "agua tonica, água tonica, tônica, tonica, água tônica, refrigerante tônico"
     },
-    "isRecipe": false,
     "icon": "/images/food/baking-soda.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -1218,7 +1207,6 @@
       "en": "",
       "pt": "mandioca, macacheira, cassava"
     },
-    "isRecipe": false,
     "icon": "/images/food/cassava.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -1326,7 +1314,6 @@
       "en": "",
       "pt": "alecrim, ramo de alecrim, ramos de alecrim"
     },
-    "isRecipe": false,
     "icon": "/images/food/rosemary.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -1434,7 +1421,6 @@
       "en": "",
       "pt": "aipo, salsão, salsa em ponto grande, talo de aipo, talo de salsão, talo de salsa em ponto grande"
     },
-    "isRecipe": false,
     "icon": "/images/food/celery.png",
     "type": "Legumen",
     "nutritionalInformation": {
@@ -1542,7 +1528,6 @@
       "en": "",
       "pt": ""
     },
-    "isRecipe": false,
     "icon": "/images/food/lettuce.svg",
     "type": "Herb",
     "nutritionalInformation": {
@@ -1650,7 +1635,6 @@
       "en": "",
       "pt": ""
     },
-    "isRecipe": false,
     "icon": "/images/food/garlic.svg",
     "type": "Legumen",
     "nutritionalInformation": {
@@ -1758,7 +1742,6 @@
       "en": "",
       "pt": "amêndoa, amêndoas, amêndoa com pele, amêndoas com pele"
     },
-    "isRecipe": false,
     "icon": "/images/food/almond.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -1866,7 +1849,6 @@
       "en": "",
       "pt": "amêndoa torrada, amêndoas torradas, amêndoa salgada, amêndoas salgadas, amêndoa torrada e salgada, amêndoas torrada e salgada"
     },
-    "isRecipe": false,
     "icon": "/images/food/almond.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -1974,7 +1956,6 @@
       "en": "",
       "pt": "amendoim, amendoins"
     },
-    "isRecipe": false,
     "icon": "/images/food/peanut.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -2082,7 +2063,6 @@
       "en": "",
       "pt": "maizena"
     },
-    "isRecipe": false,
     "icon": "/images/food/corn-flour.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -2190,7 +2170,6 @@
       "en": "",
       "pt": "arroz"
     },
-    "isRecipe": false,
     "icon": "/images/food/rice.svg",
     "type": "Seed",
     "nutritionalInformation": {
@@ -2298,7 +2277,6 @@
       "en": "",
       "pt": "arroz integral, arroz integral cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/rice.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -2406,7 +2384,6 @@
       "en": "",
       "pt": "arroz integral cru, farinha de arroz integral"
     },
-    "isRecipe": false,
     "icon": "/images/food/rice.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -2514,7 +2491,6 @@
       "en": "",
       "pt": "arroz code, arroz doce caramelizado, arroz doce com farofa, arroz doce caramelizado com fafora"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -2622,7 +2598,6 @@
       "en": "",
       "pt": "arroz libanês, arroz libanes, arroz libanês com frango, arroz libanês com frango e coalhada, arroz libanês com frango e nozes"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -2730,7 +2705,6 @@
       "en": "",
       "pt": "aveia em flocos, flocos de aveia, aveia em floco"
     },
-    "isRecipe": false,
     "icon": "/images/food/oats.svg",
     "type": "Flake",
     "nutritionalInformation": {
@@ -2838,7 +2812,6 @@
       "en": "",
       "pt": "azeite, óleo de oliva, azeite de oliva extra virgem"
     },
-    "isRecipe": false,
     "icon": "/images/food/olive-oil.svg",
     "type": "Oil",
     "nutritionalInformation": {
@@ -2946,7 +2919,6 @@
       "en": "",
       "pt": "azeitona, oliva, azeitonas"
     },
-    "isRecipe": false,
     "icon": "/images/food/olive.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -3054,7 +3026,6 @@
       "en": "",
       "pt": "babaganouch, baba ghanoush, babaganuche, baba ganoush, babaganoush"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -3162,7 +3133,6 @@
       "en": "",
       "pt": ""
     },
-    "isRecipe": false,
     "icon": "/images/food/banana.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -3270,7 +3240,6 @@
       "en": "",
       "pt": "banana, banana nanica, bananas, bananas nanicax"
     },
-    "isRecipe": false,
     "icon": "/images/food/banana.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -3379,7 +3348,6 @@
       "en": "",
       "pt": "banana"
     },
-    "isRecipe": false,
     "icon": "/images/food/banana.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -3488,7 +3456,6 @@
       "en": "",
       "pt": "banha, banha de porco"
     },
-    "isRecipe": false,
     "icon": "/images/food/pork.png",
     "type": "Oil",
     "nutritionalInformation": {
@@ -3597,7 +3564,6 @@
       "en": "",
       "pt": "batatinha, batata inglesa"
     },
-    "isRecipe": false,
     "icon": "/images/food/potato.svg",
     "type": "Root",
     "nutritionalInformation": {
@@ -3706,7 +3672,6 @@
       "en": "",
       "pt": "batata doce, batata-doce, batata doce cozida"
     },
-    "isRecipe": false,
     "icon": "/images/food/sweet-potato.png",
     "type": "Root",
     "nutritionalInformation": {
@@ -3815,7 +3780,6 @@
       "en": "",
       "pt": "berinjela, beringela, beringela crua"
     },
-    "isRecipe": false,
     "icon": "/images/food/eggplant.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -3923,7 +3887,6 @@
       "en": "",
       "pt": "beterraba, beterraba crua"
     },
-    "isRecipe": false,
     "icon": "/images/food/beetroot.png",
     "type": "Root",
     "nutritionalInformation": {
@@ -4031,7 +3994,6 @@
       "en": "",
       "pt": "bicarbonato, bicarbonato de sódio"
     },
-    "isRecipe": false,
     "icon": "/images/food/baking-soda.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -4139,7 +4101,6 @@
       "en": "",
       "pt": "biscoito de maizena"
     },
-    "isRecipe": false,
     "icon": "/images/food/biscuit.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -4247,7 +4208,6 @@
       "en": "",
       "pt": "biscoito recheado, oreo, bolacha recheada, biscoito oreo"
     },
-    "isRecipe": false,
     "icon": "/images/food/oreo.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -4355,7 +4315,6 @@
       "en": "",
       "pt": "bolo de cenoura com cobertura, bolo de cenoura"
     },
-    "isRecipe": false,
     "icon": "/images/food/carrot-cake.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -4463,7 +4422,6 @@
       "en": "",
       "pt": "bolo de laranja"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -4571,7 +4529,6 @@
       "en": "",
       "pt": "cacau, cacau em pó"
     },
-    "isRecipe": false,
     "icon": "/images/food/cocoa.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -4679,7 +4636,6 @@
       "en": "",
       "pt": "cachaça, aguardente, cachaça de cana, aguardente de cana"
     },
-    "isRecipe": false,
     "icon": "/images/food/liquor.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -4787,7 +4743,6 @@
       "en": "",
       "pt": "café, café passado, café de infusão, café de infusão 10%, café infusão"
     },
-    "isRecipe": false,
     "icon": "/images/food/coffee.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -4895,7 +4850,6 @@
       "en": "",
       "pt": ""
     },
-    "isRecipe": false,
     "icon": "/images/food/salt.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -5003,7 +4957,6 @@
       "en": "",
       "pt": "grão de café, grãos de café, café moído"
     },
-    "isRecipe": false,
     "icon": "/images/food/coffee.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -5111,7 +5064,6 @@
       "en": "",
       "pt": "caldo de cana"
     },
-    "isRecipe": false,
     "icon": "/images/food/lemon-juice.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -5219,7 +5171,6 @@
       "en": "",
       "pt": "caldo de legume, caldo de legumes"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -5327,7 +5278,6 @@
       "en": "",
       "pt": "canela, casca de canela, canela em pó, canela em casca"
     },
-    "isRecipe": false,
     "icon": "/images/food/cinnamon.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -5435,7 +5385,6 @@
       "en": "",
       "pt": "carambola, carambolas"
     },
-    "isRecipe": false,
     "icon": "/images/food/star-fruit.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -5543,7 +5492,6 @@
       "en": "",
       "pt": "cardamomo, cardamomos, baga de cardamomo"
     },
-    "isRecipe": false,
     "icon": "/images/food/cardamom.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -5651,7 +5599,6 @@
       "en": "",
       "pt": "caril, curry"
     },
-    "isRecipe": false,
     "icon": "/images/food/curry.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -5759,7 +5706,6 @@
       "en": "",
       "pt": "carne, carne de gado, carne moída, bife, acém"
     },
-    "isRecipe": false,
     "icon": "/images/food/beef.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -5867,7 +5813,6 @@
       "en": "",
       "pt": "castanha, castanha do pará"
     },
-    "isRecipe": false,
     "icon": "/images/food/brazil-nut.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -5975,7 +5920,6 @@
       "en": "",
       "pt": "cebola palito, cebolas palito, cebolete, cebola para conserva, cebolas para conserva"
     },
-    "isRecipe": false,
     "icon": "/images/food/onion.svg",
     "type": "Vegetable",
     "nutritionalInformation": {
@@ -6083,7 +6027,6 @@
       "en": "Green onion, scallion",
       "pt": "cebolinha, cebolinho, cebolinha-francesa, cebolinha francesa"
     },
-    "isRecipe": false,
     "icon": "/images/food/chive.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -6191,7 +6134,6 @@
       "en": "",
       "pt": "cebola em conserva"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -6299,7 +6241,6 @@
       "en": "",
       "pt": "cenoura ralada, cenouras raladas, pedaços de cenoura"
     },
-    "isRecipe": false,
     "icon": "/images/food/carrot.svg",
     "type": "Root",
     "nutritionalInformation": {
@@ -6407,7 +6348,6 @@
       "en": "",
       "pt": ""
     },
-    "isRecipe": false,
     "icon": "/images/food/carrot.svg",
     "type": "Root",
     "nutritionalInformation": {
@@ -6515,7 +6455,6 @@
       "en": "",
       "pt": "cerveja"
     },
-    "isRecipe": false,
     "icon": "/images/food/beer.svg",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -6623,7 +6562,6 @@
       "en": "",
       "pt": "chá de erva-doce, erva-doce, erva doce, anis-verde, anis verde, pimpinela-branca, pimpinela branca"
     },
-    "isRecipe": false,
     "icon": "/images/food/anise.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -6731,7 +6669,6 @@
       "en": "roti, ndian flatbread, chapatti",
       "pt": "chapati, pão ázimo, pão azimo, pão sírio, pão indiano, pãozinho indiano, pãozinho sírio"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -6839,7 +6776,6 @@
       "en": "",
       "pt": "chocolate, achocolatado, chocolate em pó, chocolate ao leite"
     },
-    "isRecipe": false,
     "icon": "/images/food/chocolate.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -6947,7 +6883,6 @@
       "en": "",
       "pt": "chuchu, chuchu cru"
     },
-    "isRecipe": false,
     "icon": "/images/food/chayote.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -7055,7 +6990,6 @@
       "en": "",
       "pt": "churrasco, churrasco de carne"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -7163,7 +7097,6 @@
       "en": "egg white, egg whites",
       "pt": "clara de ovo, clara de ovos, claras de ovo, claras de ovos"
     },
-    "isRecipe": false,
     "icon": "/images/food/egg.svg",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -7271,7 +7204,6 @@
       "en": "fresh yogurt, curd",
       "pt": "coalhada, coalhada fresca"
     },
-    "isRecipe": false,
     "icon": "/images/food/yogurt.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -7379,7 +7311,6 @@
       "en": "dried yogurt, yogurt powder",
       "pt": "coalhada seca"
     },
-    "isRecipe": false,
     "icon": "/images/food/yogurt.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -7487,7 +7418,6 @@
       "en": "grated coconut, desiccated coconut",
       "pt": "coco, côco, cocos, côcos"
     },
-    "isRecipe": false,
     "icon": "/images/food/coconut.svg",
     "type": "Flake",
     "nutritionalInformation": {
@@ -7595,7 +7525,6 @@
       "en": "coriander, cilantro",
       "pt": "coentro"
     },
-    "isRecipe": false,
     "icon": "/images/food/coriander.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -7703,7 +7632,6 @@
       "en": "cauliflower",
       "pt": "couve-flor, couve flor, couves-flor, couves-flores, couve-flores"
     },
-    "isRecipe": false,
     "icon": "/images/food/cauliflower.png",
     "type": "Legumen",
     "nutritionalInformation": {
@@ -7811,7 +7739,6 @@
       "en": "clove",
       "pt": "cravo, cravos, cravos da índia, cravo-da-índia"
     },
-    "isRecipe": false,
     "icon": "/images/food/clove.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -7919,7 +7846,6 @@
       "en": "cuca, streusel bread",
       "pt": "cuca, cuca de banana, cuca alemã"
     },
-    "isRecipe": false,
     "icon": "/images/food/bread.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -8027,7 +7953,6 @@
       "en": "pea, peas",
       "pt": "ervilha, ervilhas"
     },
-    "isRecipe": false,
     "icon": "/images/food/pea.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -8135,7 +8060,6 @@
       "en": "sfiha, sfiha pie, arabian pie",
       "pt": "esfirra, esfirras, esfiha, esfihas"
     },
-    "isRecipe": false,
     "icon": "/images/food/pie.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -8243,7 +8167,6 @@
       "en": "spaghetti, pasta, spaghetti pasta, spaghetti with sauce",
       "pt": "espaguete, esparguete, macarronete, macarrão com molho"
     },
-    "isRecipe": false,
     "icon": "/images/food/spaghetti.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -8351,7 +8274,6 @@
       "en": "beef stroganoff, stroganoff",
       "pt": "strogonofe, estrogonofe"
     },
-    "isRecipe": false,
     "icon": "/images/food/stroganoff.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -8459,7 +8381,6 @@
       "en": "chicken stroganoff, stroganoff",
       "pt": "strogonofe, estrogonofe"
     },
-    "isRecipe": false,
     "icon": "/images/food/stroganoff.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -8567,7 +8488,6 @@
       "en": "falafel, chickpea fritter",
       "pt": "falafel, falafel de frito, falafel de grão-de-bico, falafel de fava"
     },
-    "isRecipe": false,
     "icon": "/images/food/falafel.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -8675,7 +8595,6 @@
       "en": "oat flour, oat meal flour",
       "pt": "farelo de aveia"
     },
-    "isRecipe": false,
     "icon": "/images/food/oat-flour.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -8783,7 +8702,6 @@
       "en": "cassava flour, manioc flour",
       "pt": "farinha de mandioca, farofa"
     },
-    "isRecipe": false,
     "icon": "/images/food/cassava-flour.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -8891,7 +8809,6 @@
       "en": "breadcrumbs, bread flour, ground bread",
       "pt": "farinha de rosca, farinha de pão, pão ralado, pão seco moído"
     },
-    "isRecipe": false,
     "icon": "/images/food/wheat-flour.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -8999,7 +8916,6 @@
       "en": "wheat flour, all-purpose flour, refined flour",
       "pt": "farinha branca, farinha, trigo"
     },
-    "isRecipe": false,
     "icon": "/images/food/wheat-flour.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -9107,7 +9023,6 @@
       "en": "yeast, dry yeast, baking yeast",
       "pt": "fermento, fermento biológico, fermento seco"
     },
-    "isRecipe": false,
     "icon": "/images/food/yeast.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -9215,7 +9130,6 @@
       "en": "fig, fresh fig",
       "pt": "figo, figos, figo cru, figos cru"
     },
-    "isRecipe": false,
     "icon": "/images/food/fig.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -9323,7 +9237,6 @@
       "en": "canned fig, fig in syrup",
       "pt": "figo em calda, figos em calda, figo enlatado, figos enlatados"
     },
-    "isRecipe": false,
     "icon": "/images/food/fig.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -9431,7 +9344,6 @@
       "en": "bay leaf, leaves, laurel",
       "pt": "folha de louro, folhas de louro, louro"
     },
-    "isRecipe": false,
     "icon": "/images/food/leaf.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -9539,7 +9451,6 @@
       "en": "chicken, chicken breast, chicken thigh, roasted chicken, shredded chicken, cooked chicken",
       "pt": "galinha, peito de frango, coxa de frango, frango assado, frango desfiado, frango cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/chicken.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -9647,7 +9558,6 @@
       "en": "",
       "pt": "frango assado, frango assado com farofa, frango recheado, frango assado com recheio, frango recheado assado, frango recheado assado com farofa, frango assado com recheio de farofa"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -9755,7 +9665,6 @@
       "en": "cornmeal, maize flour",
       "pt": "fubá, farinha de milho"
     },
-    "isRecipe": false,
     "icon": "/images/food/corn-flour.svg",
     "type": "Powder",
     "nutritionalInformation": {
@@ -9863,7 +9772,6 @@
       "en": "",
       "pt": "risoto de frango, arroz com galinha, arroz com frango"
     },
-    "isRecipe": false,
     "icon": "/images/food/rice.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -9971,7 +9879,6 @@
       "en": "ice, ice cube",
       "pt": "gelo, cubo de gelo"
     },
-    "isRecipe": false,
     "icon": "/images/food/ice.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -10079,7 +9986,6 @@
       "en": "yolk, egg yolk",
       "pt": "gema, gema de ovo, gemas, gemas de ovo, gema de ovos"
     },
-    "isRecipe": false,
     "icon": "/images/food/egg-yolk.png",
     "type": "Oil",
     "nutritionalInformation": {
@@ -10187,7 +10093,6 @@
       "en": "ginger, ginger powder, ground ginger, fresh ginger",
       "pt": "gengibre, gengibre em pó, gengibre ralado, gengibre fresco"
     },
-    "isRecipe": false,
     "icon": "/images/food/ginger.png",
     "type": "Root",
     "nutritionalInformation": {
@@ -10295,7 +10200,6 @@
       "en": "sesame, sesame seeds, sesame flour, tahini, tahin",
       "pt": "gergelim, gergelins, semente de gergelim, farinha de gergelim, sésamo, sésamos, semente de sésamo, farinha de sésamo, tahine, taíne, tahin, tahini"
     },
-    "isRecipe": false,
     "icon": "/images/food/sesame.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -10403,7 +10307,6 @@
       "en": "chickpea, garbanzo bean, garbanzo",
       "pt": "grão de bico, grãos de bico, grãos-de-bico"
     },
-    "isRecipe": false,
     "icon": "/images/food/chickpea.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -10511,9 +10414,8 @@
       "en": "guacamole, avocado dip, mexican dip",
       "pt": "guacamole, pasta de abacate, molho mexicano"
     },
-    "isRecipe": true,
     "icon": "/images/food/guacamole.png",
-    "type": "Solid",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 1.5,
@@ -10619,7 +10521,6 @@
       "en": "pigeon pea, red gram, tropical green pea, cajanus cajan",
       "pt": "guandu, grãos de guandu, grão-de-guandu, feijão-guandu, ingá, ingás, ervilha-de-pombo"
     },
-    "isRecipe": false,
     "icon": "/images/food/peas.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -10727,9 +10628,8 @@
       "en": "hashweh, arabic rice, spiced rice with beef, middle eastern rice, lebanese rice with meat",
       "pt": "arroz árabe, hashweh, arroz marroquino, arroz árabe com carne, arroz árabe com carne moída, arroz árabe com especiarias, arroz árabe com carne moída e especiarias"
     },
-    "isRecipe": true,
     "icon": "",
-    "type": "Solid",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 1.5,
@@ -10835,7 +10735,6 @@
       "en": "mint, spearmint, peppermint, fresh mint leaves, mint herb",
       "pt": "hortelã, hortelãs, folha de hortelã, folhas de hortelã, hortelã fresca, hortelã-pimenta"
     },
-    "isRecipe": false,
     "icon": "/images/food/mint.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -10943,7 +10842,6 @@
       "en": "plain yogurt, natural yogurt, yoghurt, yoghourt, unsweetened yogurt",
       "pt": "iogurte natural, iogurt, iogurte, yogurt, yogurte, yogourt, yogourte, iogourte, yoghurt, yoghurte, ioghurte"
     },
-    "isRecipe": false,
     "icon": "/images/food/yoghurt.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -11051,7 +10949,6 @@
       "en": "",
       "pt": "isotônico, isotónica, bebida isotônica, bebida isotónica"
     },
-    "isRecipe": false,
     "icon": "/images/food/ricotta.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -11159,7 +11056,6 @@
       "en": "kiwi, kiwis, chinese gooseberry",
       "pt": "kiwi, kiwis, groselha chinesa"
     },
-    "isRecipe": false,
     "icon": "/images/food/kiwi.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -11267,7 +11163,6 @@
       "en": "orange, oranges, citrus fruit",
       "pt": "laranja, laranjas, fruta cítrica"
     },
-    "isRecipe": false,
     "icon": "/images/food/orange.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -11375,7 +11270,6 @@
       "en": "coconut milk",
       "pt": "leite de coco"
     },
-    "isRecipe": false,
     "icon": "/images/food/coconut-milk.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -11483,7 +11377,6 @@
       "en": "cow milk, milk",
       "pt": "leite, leite de vaca"
     },
-    "isRecipe": false,
     "icon": "/images/food/milk.svg",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -11591,7 +11484,6 @@
       "en": "lentils, cooked lentils",
       "pt": "lentilha, lentilhas, lentilha cozida, lentilhas cozidas"
     },
-    "isRecipe": false,
     "icon": "/images/food/lentils.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -11699,7 +11591,6 @@
       "en": "raw lentils, lentil flour",
       "pt": "lentilha crua, farinha de lentilha, farinha de lentilhas"
     },
-    "isRecipe": false,
     "icon": "/images/food/lentils.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -11808,7 +11699,6 @@
       "en": "lemon, lemons",
       "pt": "limão, limões"
     },
-    "isRecipe": false,
     "icon": "/images/food/lemon.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -11916,7 +11806,6 @@
       "en": "flaxseed, linseed",
       "pt": "semente de linhaça"
     },
-    "isRecipe": false,
     "icon": "/images/food/linseed.svg",
     "type": "Seed",
     "nutritionalInformation": {
@@ -12025,7 +11914,6 @@
       "en": "pork loin, pork fillet, lean pork, pork tenderloin",
       "pt": "lombo, lombinho, lombo de porco, filé de porco, lombo suíno, filé suíno, filé mignon suíno"
     },
-    "isRecipe": false,
     "icon": "/images/food/chop.png",
     "type": "Meat",
     "nutritionalInformation": {
@@ -12133,7 +12021,6 @@
       "en": "fusilli, spiral pasta, wheat pasta",
       "pt": "massa, macarrão, massa parafuso, massa parafuso de trigo, macarrão parafuso, macarrão parafuso de trigo, macarrão fusilli, macarrão fusilli de trigo, massa fusilli, massa fusilli de trigo, massa fusili, massa fusili de trigo, macarrão fusili, macarrão fusili de trigo"
     },
-    "isRecipe": false,
     "icon": "/images/food/screw-pasta.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -12242,7 +12129,6 @@
       "en": "pastry dough, pastel dough, thin dough sheets",
       "pt": "massa de pastel, massa para pastel"
     },
-    "isRecipe": false,
     "icon": "/images/food/pastry.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -12350,7 +12236,6 @@
       "en": "fuji apple, apple, crisp apple",
       "pt": "maçã fuji, maçã, maçã crocante"
     },
-    "isRecipe": false,
     "icon": "/images/food/apple.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -12459,7 +12344,6 @@
       "en": "",
       "pt": "maniçoba"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -12568,7 +12452,6 @@
       "en": "mango, tropical fruit",
       "pt": "manga, mangas"
     },
-    "isRecipe": false,
     "icon": "/images/food/mango.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -12676,7 +12559,6 @@
       "en": "basil, aromatic herb",
       "pt": "manjericão"
     },
-    "isRecipe": false,
     "icon": "/images/food/basil.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -12785,7 +12667,6 @@
       "en": "butter, dairy, spread",
       "pt": "manteiga"
     },
-    "isRecipe": false,
     "icon": "/images/food/butter.svg",
     "type": "Oil",
     "nutritionalInformation": {
@@ -12893,7 +12774,6 @@
       "en": "peanut butter, spread, protein",
       "pt": "pasta de amendoim, manteiga de amendoim"
     },
-    "isRecipe": false,
     "icon": "/images/food/peanut-butter.svg",
     "type": "Oil",
     "nutritionalInformation": {
@@ -13002,7 +12882,6 @@
       "en": "passion fruit, juice, tropical",
       "pt": "maracujá"
     },
-    "isRecipe": false,
     "icon": "/images/food/passion-fruit.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -13110,7 +12989,6 @@
       "en": "margarine, spread, oil",
       "pt": "margarina"
     },
-    "isRecipe": false,
     "icon": "/images/food/margarine.svg",
     "type": "Oil",
     "nutritionalInformation": {
@@ -13219,7 +13097,6 @@
       "en": "",
       "pt": "maria-mole, marshmallow, marximelo"
     },
-    "isRecipe": false,
     "icon": "/images/food/marshmallows.png",
     "type": "Cake",
     "nutritionalInformation": {
@@ -13327,7 +13204,6 @@
       "en": "",
       "pt": "massa gravatinha, gravatinha, massa, macarrão"
     },
-    "isRecipe": false,
     "icon": "/images/food/farfalle.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -13436,7 +13312,6 @@
       "en": "honey, sweetener, bee",
       "pt": "mel, mel de abelha"
     },
-    "isRecipe": false,
     "icon": "/images/food/honey.png",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -13544,7 +13419,6 @@
       "en": "mandarin, tangerine, citrus, fruit",
       "pt": "mexerica, tangerina, bergamota, vergamota, laranja-mimosa, mandarina, fuxiqueira, poncã, manjerica, laranja-cravo, mimosa"
     },
-    "isRecipe": false,
     "icon": "/images/food/tangerine.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -13653,7 +13527,6 @@
       "en": "corn, maize, kernel, vegetable",
       "pt": "milho, milho verde"
     },
-    "isRecipe": false,
     "icon": "/images/food/corn.svg",
     "type": "Seed",
     "nutritionalInformation": {
@@ -13762,7 +13635,6 @@
       "en": "",
       "pt": "mistura para bolo, mistura pronta para bolo, mistura de bolo, mistura pronta"
     },
-    "isRecipe": false,
     "icon": "/images/food/cake.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -13870,7 +13742,6 @@
       "en": "",
       "pt": "molho de limão e mel para salada, molho de salada, molho para salada, molho pra   salada, molho de limão, molho de mel"
     },
-    "isRecipe": false,
     "icon": "/images/food/sauce.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -13979,7 +13850,6 @@
       "en": "",
       "pt": "molho de tahine"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -14088,7 +13958,6 @@
       "en": "tomato sauce, tomato paste, ketchup, sauce",
       "pt": "molho de tomate, extrato, extrato de tomate"
     },
-    "isRecipe": false,
     "icon": "/images/food/tomato-sauce.svg",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -14196,7 +14065,6 @@
       "en": "strawberry, berry, fruit",
       "pt": "morango, moranguinho"
     },
-    "isRecipe": false,
     "icon": "/images/food/strawberry.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -14305,7 +14173,6 @@
       "en": "mustard seed, spice, condiment",
       "pt": "sementes de mostarda, mostarda em semente"
     },
-    "isRecipe": false,
     "icon": "/images/food/mustard-seed.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -14356,7 +14223,6 @@
       "en": "muhammara, red pepper dip, walnut dip",
       "pt": "muhammara, pasta de pimentão, pasta de pimentão vermelho, muhamara, mhammara"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -14408,7 +14274,6 @@
       "en": "walnut, nuts, healthy fats",
       "pt": "noz, nozes"
     },
-    "isRecipe": false,
     "icon": "/images/food/walnut.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -14516,7 +14381,6 @@
       "en": "nutmeg, spice, seasoning",
       "pt": "noz-moscada, noz moscada, noz-moscadas, noz moscadas"
     },
-    "isRecipe": false,
     "icon": "/images/food/seasoning.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -14625,7 +14489,6 @@
       "en": "soybean oil, soy oil, vegetable oil",
       "pt": "óleo de soja, óleo vegetal, óleo"
     },
-    "isRecipe": false,
     "icon": "/images/food/oil.svg",
     "type": "Oil",
     "nutritionalInformation": {
@@ -14733,7 +14596,6 @@
       "en": "oregano, origanum",
       "pt": "orégano, origanum"
     },
-    "isRecipe": false,
     "icon": "/images/food/oregano.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -14842,7 +14704,6 @@
       "en": "egg, chicken egg, raw egg",
       "pt": "ovos, ovo, ovo de galinha, ovos de galinha, ovos de frango, ovo de frango"
     },
-    "isRecipe": false,
     "icon": "/images/food/egg.svg",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -14950,7 +14811,6 @@
       "en": "egg, chicken egg, boiled egg",
       "pt": "ovo cozido, ovo cozido de galinha"
     },
-    "isRecipe": false,
     "icon": "/images/food/egg.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -15059,7 +14919,6 @@
       "en": "quail egg, raw quail egg",
       "pt": "ovo de codorna, ovo de codorna cru"
     },
-    "isRecipe": false,
     "icon": "/images/food/egg.svg",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -15167,7 +15026,6 @@
       "en": "fried egg, pan fried egg",
       "pt": "ovo frito, ovos fritos"
     },
-    "isRecipe": false,
     "icon": "/images/food/egg.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -15268,7 +15126,6 @@
       "en": "bread, homemade bread, loaf",
       "pt": "pão, pãozinho, pão caseiro, pão integral"
     },
-    "isRecipe": false,
     "icon": "/images/food/bread.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -15368,7 +15225,6 @@
       "en": "sweet potato bread, bread, loaf, potato roll",
       "pt": "pão de batata doce, pão de batata-doce, bolinho de batata, bolinho de batata-doce"
     },
-    "isRecipe": false,
     "icon": "/images/food/bread.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -15469,7 +15325,6 @@
       "en": "sponge cake, egg cake, fluffy cake",
       "pt": "pão de ló, bolo de ovos, bolo fofo"
     },
-    "isRecipe": false,
     "icon": "/images/food/cake.svg",
     "type": "Cake",
     "nutritionalInformation": {
@@ -15569,7 +15424,6 @@
       "en": "french bread, bread roll, baguette roll",
       "pt": "pão francês, pãozinho, cacetinho, filão, carioquinha"
     },
-    "isRecipe": false,
     "icon": "/images/food/bread-roll.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -15672,13 +15526,12 @@
       "clove": null,
       "slice": null,
       "bunch": null,
-      "pinch": "2 g"
+      "pinch": 2
     },
     "keys": {
       "en": "paprika, sweet paprika, hot paprika, smoked paprika",
       "pt": "paprica, páprica doce, páprica picante, páprica defumada"
     },
-    "isRecipe": false,
     "icon": "/images/food/paprika.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -15771,14 +15624,14 @@
       "cup": null,
       "spoon": null,
       "teaSpoon": null,
-      "unity": "100 g",
+      "unity": 100,
       "unitySmall": null,
       "unityLarge": null,
       "can": null,
       "glass": null,
       "breast": null,
       "clove": null,
-      "slice": "30 g",
+      "slice": 30,
       "bunch": null,
       "pinch": null
     },
@@ -15786,7 +15639,6 @@
       "en": "beef knuckle, ground beef, lean beef",
       "pt": "patinho, carne moída, patinho moído, carne patinho, carne de patinho"
     },
-    "isRecipe": false,
     "icon": "/images/food/meat-steak.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -15895,7 +15747,6 @@
       "en": "grilled beef, round steak, grilled meat, roasted beef",
       "pt": "patinho grelhado, carne de patinho, bife de patinho, carne assada de patinho"
     },
-    "isRecipe": false,
     "icon": "/images/food/meat-steak.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -15988,9 +15839,9 @@
       "cup": null,
       "spoon": null,
       "teaSpoon": null,
-      "unity": "80",
-      "unitySmall": "60",
-      "unityLarge": "100",
+      "unity": 80,
+      "unitySmall": 60,
+      "unityLarge": 100,
       "can": null,
       "glass": null,
       "breast": null,
@@ -16003,7 +15854,6 @@
       "en": "pasty, fried pastry, chicken pasty, brazilian snack",
       "pt": "pastel, pastel de frango, pastel frito, pastel brasileiro"
     },
-    "isRecipe": false,
     "icon": "/images/food/pasty.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -16097,14 +15947,14 @@
       "cup": null,
       "spoon": null,
       "teaSpoon": null,
-      "unity": "100",
-      "unitySmall": "80",
-      "unityLarge": "120",
+      "unity": 100,
+      "unitySmall": 80,
+      "unityLarge": 120,
       "can": null,
-      "glass": "200",
+      "glass": 200,
       "breast": null,
       "clove": null,
-      "slice": "90",
+      "slice": 90,
       "bunch": null,
       "pinch": null
     },
@@ -16112,9 +15962,8 @@
       "en": "chocolate trifle, chocolate dessert, layered chocolate cake, pavê",
       "pt": "torta de bolacha, torta de biscoito, pavê de bolacha, pavê de chocolate, pavê de biscoito, pavê"
     },
-    "isRecipe": true,
     "icon": "/images/food/cake.svg",
-    "type": "Sweet",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 1,
@@ -16205,9 +16054,9 @@
       "cup": null,
       "spoon": null,
       "teaSpoon": null,
-      "unity": "40",
-      "unitySmall": "30",
-      "unityLarge": "60",
+      "unity": 40,
+      "unitySmall": 30,
+      "unityLarge": 60,
       "can": null,
       "glass": null,
       "breast": "250",
@@ -16220,7 +16069,6 @@
       "en": "turkey breast, smoked turkey, deli meat, cold cuts",
       "pt": "peito de peru, peito de peru defumado, frios, fatiado de peru"
     },
-    "isRecipe": false,
     "icon": "/images/food/ham.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -16329,7 +16177,6 @@
       "en": "cucumber, pickling cucumber, gherkin",
       "pt": "pepino, pepino comum, pepino japonês"
     },
-    "isRecipe": false,
     "icon": "/images/food/cucumber.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -16438,7 +16285,6 @@
       "en": "pear, Bartlett pear, Anjou pear, Asian pear",
       "pt": "pêra, pera, pêra portuguesa, pêra asiática"
     },
-    "isRecipe": false,
     "icon": "/images/food/pear.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -16547,7 +16393,6 @@
       "en": "lamb, lamb leg, lamb meat, sheep, sheep leg",
       "pt": "cordeiro, carne de cordeiro, pernil de cordeiro, pernil de cordeiro cru, ovelha, carne de ovelha, pernil de ovelha, pernil de ovelha cru"
     },
-    "isRecipe": false,
     "icon": "/images/food/ham.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -16655,7 +16500,6 @@
       "en": "roast turkey, christmas turkey, thanksgiving turkey",
       "pt": "peru assado, peru de natal, peru de fim de ano, peru de festa"
     },
-    "isRecipe": false,
     "icon": "/images/food/turkey.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -16764,7 +16608,6 @@
       "en": "chili, chili pepper, hot pepper, red pepper, fresh chili",
       "pt": "pimenta, pimenta vermelha, pimenta fresca, pimenta ardida, pimenta malagueta"
     },
-    "isRecipe": false,
     "icon": "/images/food/pepper.svg",
     "type": "Vegetable",
     "nutritionalInformation": {
@@ -16872,7 +16715,6 @@
       "en": "black pepper, ground pepper, pepper spice",
       "pt": "pimenta do reino, pimenta preta, pimenta em pó"
     },
-    "isRecipe": false,
     "icon": "/images/food/black-pepper.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -16981,7 +16823,6 @@
       "en": "yellow pepper, bell pepper, capsicum",
       "pt": "pimentão amarelo, pimentões amarelos, capsicum"
     },
-    "isRecipe": false,
     "icon": "/images/food/paprika.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -17089,7 +16930,6 @@
       "en": "green pepper, bell pepper, capsicum",
       "pt": "pimentão verde, pimentões, capsicum"
     },
-    "isRecipe": false,
     "icon": "/images/food/paprika.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -17197,7 +17037,6 @@
       "en": "red pepper, bell pepper, capsicum",
       "pt": "pimentão vermelho, pimentões vermelhos, capsicum"
     },
-    "isRecipe": false,
     "icon": "/images/food/paprika.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -17306,7 +17145,6 @@
       "en": "polenta, cornmeal porridge, italian corn dish",
       "pt": "polenta, fubá, prato italiano, angu"
     },
-    "isRecipe": false,
     "icon": "/images/food/polenta.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -17414,7 +17252,6 @@
       "en": "ham, pork ham, sliced ham",
       "pt": "presunto, carne suína, fatiado"
     },
-    "isRecipe": false,
     "icon": "/images/food/ham.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -17523,7 +17360,6 @@
       "en": "cabbage, green cabbage, red cabbage, white cabbage",
       "pt": "repolho, repolho verde, repolho roxo, repolho branco"
     },
-    "isRecipe": false,
     "icon": "/images/food/cabbage.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -17631,7 +17467,6 @@
       "en": "cream cheese, requeijão, spread cheese",
       "pt": "requeijão, cream cheese, queijo cremoso, queijo de passar"
     },
-    "isRecipe": false,
     "icon": "/images/food/cream-cheese.svg",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -17740,7 +17575,6 @@
       "en": "pomegranate, pomegranates",
       "pt": "romã, romãs"
     },
-    "isRecipe": false,
     "icon": "/images/food/pomegranate.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -17848,7 +17682,6 @@
       "en": "pudding, flan, milk pudding",
       "pt": "pudim, pudim de leite, pudim de leite condensado"
     },
-    "isRecipe": false,
     "icon": "/images/food/pudding.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -17957,7 +17790,6 @@
       "en": "edam cheese, cheese, dutch cheese",
       "pt": "queijo edam, queijo, queijo holandês"
     },
-    "isRecipe": false,
     "icon": "/images/food/cheese.svg",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -18065,7 +17897,6 @@
       "en": "radish, red radish, raw radish",
       "pt": "rabanete, rabanetes, rabanete vermelho, rabanete cru"
     },
-    "isRecipe": false,
     "icon": "/images/food/radish.png",
     "type": "Root",
     "nutritionalInformation": {
@@ -18174,7 +18005,6 @@
       "en": "mozzarella, mozzarella cheese, cheese",
       "pt": "queijo, queijo muçarela, muçarela, mozarela, mozzarella, queijo mozarela"
     },
-    "isRecipe": false,
     "icon": "/images/food/cheese.svg",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -18282,7 +18112,6 @@
       "en": "minas cheese, frescal cheese, brazilian cheese",
       "pt": "queijo minas frescal, queijos minas frescal"
     },
-    "isRecipe": false,
     "icon": "/images/food/cheese.svg",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -18385,7 +18214,6 @@
       "en": "minas cheese, meia cura cheese, brazilian cheese",
       "pt": "queijo minas, queijo meia cura, queijo minas meia cura"
     },
-    "isRecipe": false,
     "icon": "/images/food/cheese.svg",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -18485,7 +18313,6 @@
       "en": "parmesan, parmigiano reggiano, italian cheese",
       "pt": "queijo parmesão, parmesão, queijo italiano"
     },
-    "isRecipe": false,
     "icon": "/images/food/cheese.svg",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -18594,9 +18421,8 @@
       "en": "vegetarian kibbeh, pumpkin kibbeh, meatless kibbeh",
       "pt": "quibe vegetariano, quibe de abóbora, quibe sem carne"
     },
-    "isRecipe": true,
     "icon": "/images/food/quibe.png",
-    "type": "Solid",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 2.1,
@@ -18703,7 +18529,6 @@
       "en": "petit suisse, yogurt cheese, creamy cheese",
       "pt": "queijo petit suisse, petit suisse, danone, danoninho"
     },
-    "isRecipe": false,
     "icon": "/images/food/yoghurt.png",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -18811,7 +18636,6 @@
       "en": "prato cheese, brazilian cheese, yellow cheese",
       "pt": "queijo prato, queijo amarelo"
     },
-    "isRecipe": false,
     "icon": "/images/food/cheese.svg",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -18920,9 +18744,8 @@
       "en": "baked kibbeh, kibbe, kibbeh bil sanieh",
       "pt": "quibe assado, kibe assado, quibe de forno"
     },
-    "isRecipe": true,
     "icon": "/images/food/cake.svg",
-    "type": "Solid",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 3.01,
@@ -19028,9 +18851,8 @@
       "en": "fried kibbeh, kibbe, kibbeh maklieh",
       "pt": "quibe frito, kibe, quibe"
     },
-    "isRecipe": true,
     "icon": "/images/food/quibe.png",
-    "type": "Solid",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 0.3,
@@ -19137,7 +18959,6 @@
       "en": "ricotta cheese",
       "pt": "queijo ricota, ricotta"
     },
-    "isRecipe": false,
     "icon": "/images/food/ricotta.png",
     "type": "Cheese",
     "nutritionalInformation": {
@@ -19245,9 +19066,8 @@
       "en": "pasta salad, beet salad, eggplant salad",
       "pt": "salada de macarrão, salada de beterraba, salada de berinjela"
     },
-    "isRecipe": true,
     "icon": "/images/food/salad.png",
-    "type": "Solid",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 1.3,
@@ -19354,7 +19174,6 @@
       "en": "",
       "pt": "salpicão, salpicão de frango"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -19462,7 +19281,6 @@
       "en": "",
       "pt": "salsa, folha de salsa, folhas de salsa, folha de salsinha, folhas de salsinha, salsinha, temperinho, temperinho verde, tempero verde"
     },
-    "isRecipe": false,
     "icon": "/images/food/parsley.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -19571,7 +19389,6 @@
       "en": "sandwich, bread with filling, sub",
       "pt": "sanduíche, pão com recheio, lanche"
     },
-    "isRecipe": false,
     "icon": "/images/food/sandwich.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -19679,7 +19496,6 @@
       "en": "cumin seed, jeera, spice",
       "pt": "cominho, sementes de cominho, jeera, especiaria"
     },
-    "isRecipe": false,
     "icon": "/images/food/cumin-seed.png",
     "type": "Seed",
     "nutritionalInformation": {
@@ -19788,7 +19604,6 @@
       "en": "semolina, wheat semolina, durum semolina",
       "pt": "semolina, semolina de trigo, sêmola, sêmola de trigo"
     },
-    "isRecipe": false,
     "icon": "/images/food/couscous.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -19896,7 +19711,6 @@
       "en": "cauliflower soup, creamy cauliflower soup",
       "pt": "sopa de couve-flor, sopa cremosa de couve-flor"
     },
-    "isRecipe": false,
     "icon": "/images/food/soup.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -20005,7 +19819,6 @@
       "en": "orange juice, fresh orange juice",
       "pt": "suco de laranja, suco natural de laranja"
     },
-    "isRecipe": false,
     "icon": "/images/food/orange-juice.svg",
     "type": "Liquid",
     "nutritionalInformation": {
@@ -20113,7 +19926,6 @@
       "en": "sushi, salmon sushi, nigiri, maki",
       "pt": "sushi, sushi de salmão, suchi, nigiri, maki"
     },
-    "isRecipe": false,
     "icon": "/images/food/sushi.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -20222,9 +20034,8 @@
       "en": "tabbouleh, middle eastern salad, bulgur salad, parsley salad",
       "pt": "tabule, salada de trigo, salada libanesa, salada de triguinho, tabbouleh"
     },
-    "isRecipe": true,
     "icon": "/images/food/tabbouleh.svg",
-    "type": "Salad",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 0,
@@ -20330,7 +20141,6 @@
       "en": "tomato, fresh tomato, red tomato, salad tomato",
       "pt": "tomate, tomate vermelho, tomate fresco, salada de tomate"
     },
-    "isRecipe": false,
     "icon": "/images/food/tomato.svg",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -20439,7 +20249,6 @@
       "en": "thyme, thyme sprig, thyme bunch",
       "pt": "tomilho, ramo de tomilho, ramos de tomilho"
     },
-    "isRecipe": false,
     "icon": "/images/food/thyme.png",
     "type": "Herb",
     "nutritionalInformation": {
@@ -20547,7 +20356,6 @@
       "en": "pork fatback, bacon, lard, pork belly",
       "pt": "toucinho, toucinhos, bacon, bacon em cubos"
     },
-    "isRecipe": false,
     "icon": "/images/food/ham.svg",
     "type": "Meat",
     "nutritionalInformation": {
@@ -20656,7 +20464,6 @@
       "en": "annatto, achiote, natural dye, seasoning",
       "pt": "urucum, colorau, falso-açafrão, condimento"
     },
-    "isRecipe": false,
     "icon": "/images/food/seasoning.png",
     "type": "Powder",
     "nutritionalInformation": {
@@ -20764,7 +20571,6 @@
       "en": "grape, grapes, bunch of grapes",
       "pt": "uva, uvas, cacho de uva"
     },
-    "isRecipe": false,
     "icon": "/images/food/grape.png",
     "type": "Fruit",
     "nutritionalInformation": {
@@ -20873,9 +20679,8 @@
       "en": "red wine vinegar, vinegar",
       "pt": "vinagre de vinho tinto, vinagre"
     },
-    "isRecipe": false,
     "icon": "/images/food/vinegar.png",
-    "type": "Condiment",
+    "type": "Liquid",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 0,
@@ -20982,7 +20787,6 @@
       "en": "",
       "pt": "rodelas de abobrinha, abobrinha assada, abobrinha com parmesão"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -21091,9 +20895,8 @@
       "en": "carreteiro rice, Brazilian rice with meat, rice with dried beef",
       "pt": "risoto, carreteiro, arroz com carne, arroz com charque"
     },
-    "isRecipe": true,
     "icon": "/images/food/rice_meat.png",
-    "type": "Dish",
+    "type": "Recipe",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 1,
@@ -21200,7 +21003,6 @@
       "en": "",
       "pt": "sopa de copo, sopa de cenoura, sopa de curry"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -21308,7 +21110,6 @@
       "en": "",
       "pt": "cuscuz marroquino, cuscuz com carne, cuscuz marroquino com porco, cuscuz com porco"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -21416,7 +21217,6 @@
       "en": "",
       "pt": ""
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -21524,7 +21324,6 @@
       "en": "",
       "pt": "geleia de manga, geleia de maracujá, geleia, geléia"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -21632,7 +21431,6 @@
       "en": "",
       "pt": "vinagrete de chuchu, vinagrete, vinagrete com cominho"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -21740,7 +21538,6 @@
       "en": "",
       "pt": "brownie, brownie de castanha, brownie com castanha, brownie cremoso"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -21848,7 +21645,6 @@
       "en": "",
       "pt": "filé de frango frango, frango grelhado, frango grelhado com páprica, frango grelhado com páprica e erva-doce"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -21956,7 +21752,6 @@
       "en": "",
       "pt": "clotted cream, clotted cream caseiro"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22064,7 +21859,6 @@
       "en": "",
       "pt": "café prensado, café de prensa, café"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22172,7 +21966,6 @@
       "en": "",
       "pt": "torta, torta de banana"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22280,7 +22073,6 @@
       "en": "",
       "pt": "suco, suco de melão, suco refrescante"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22388,7 +22180,6 @@
       "en": "",
       "pt": "sanduíche, sanduíche de atum"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22496,7 +22287,6 @@
       "en": "",
       "pt": "mate, mate com limão, chá mate, chá mate com limão"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22604,7 +22394,6 @@
       "en": "",
       "pt": "bolinho, bolinho de bacalhau, bolo de inhame"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22712,7 +22501,6 @@
       "en": "",
       "pt": "caipirinha, caipirinha de maracujá, suco de maracujá, caipirinha de maracujá com gengibre, suco de maracujá com gengibre"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22820,7 +22608,6 @@
       "en": "",
       "pt": "gim, gim tonica, gim tonica cítrica"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -22928,7 +22715,6 @@
       "en": "",
       "pt": "crudités, crudités de legumes, crudite, crudité de legume"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23036,7 +22822,6 @@
       "en": "",
       "pt": "dip, dip de feijão, dip de feijão branco"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23144,7 +22929,6 @@
       "en": "",
       "pt": "pão, pão integral, pão integral com nozes, pão com nozes"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23252,7 +23036,6 @@
       "en": "",
       "pt": "geleia, geleia de figo, geleia de figo e vinho, geleia com vinho"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23360,7 +23143,6 @@
       "en": "",
       "pt": "rabanada, rabanada salgada, rabanada salgada com queijo, rabanada com queijo"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23468,7 +23250,6 @@
       "en": "",
       "pt": "salada de frutas, salada de fruta, salada de fruta com chocolate, salada de frutas com chocolate, salada de frutas com cacau, salada de frutas com nibs de cacau"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23576,7 +23357,6 @@
       "en": "",
       "pt": "cocada, cocada de forno"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23684,7 +23464,6 @@
       "en": "",
       "pt": "feijão, feijão carioca, feijão carioca com cominho"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23792,7 +23571,6 @@
       "en": "",
       "pt": "carne, carne com batata, carne com batata e cenoura, carne com batata e cenoura na panela de pressão, carne de panela, carne na panela de pressão"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -23901,7 +23679,6 @@
       "en": "",
       "pt": "pizza, pizza de mozarela, pizza de muçarela, pizza de mozzarella, pizza muçarela, pizza mozzarella, pizza mozarela, pizza de queijo muçarela, pizza caseira, pizza caseira de mozarela, pizza caseira de muçarela, pizza caseira de mozzarella"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24010,7 +23787,6 @@
       "en": "",
       "pt": "mousse, mousse de chocolate, mousse de chocolate levissima, musse de chocolate, musse"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24118,7 +23894,6 @@
       "en": "",
       "pt": "salada, salada de cebola, salada de cebolas, salada de cebola com pepino, salada de cebola com pepinos, salada de cebola com pepino e molho de coentro, salada de cebola com pepinos e molho de coentro, salada de cebolas com pepino, salada de cebolas com pepinos, salada de cebolas com pepino e molho de coentro, salada de cebolas com pepinos e molho de coentro"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24226,7 +24001,6 @@
       "en": "",
       "pt": "gratinado, gratinado de batata, gratinado de batata com frango"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24334,7 +24108,6 @@
       "en": "",
       "pt": "massa caseira, massa caseira com semolina, massa com semolina, massa com sêmola, massa caseira com sêmola"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24442,7 +24215,6 @@
       "en": "",
       "pt": "macarrão, macarrão com legumes, macarrão com legumes assados, massa com legumes, massa com legumes assados"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24550,7 +24322,6 @@
       "en": "",
       "pt": "sopa de feijão, sopa de feijão com macarrão, sopa de feijão e macarrão"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24658,7 +24429,6 @@
       "en": "",
       "pt": "farofa, farofa de milho, farofa de milho com cenoura, farofa de milho com cenoura e bacon, farofa de milho com bacon, farofa com cenoura, farofa com bacon"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24766,7 +24536,6 @@
       "en": "",
       "pt": "cuscuz, cuscuz nordestino"
     },
-    "isRecipe": false,
     "icon": "/images/food/corn-flour.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24874,7 +24643,6 @@
       "en": "",
       "pt": "cuscuz à paulista, cuscuz paulista, cuscuz a paulista"
     },
-    "isRecipe": false,
     "icon": "/images/food/corn-flour.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -24982,7 +24750,6 @@
       "en": "",
       "pt": "feijão tropeiro mineiro, feijão tropeiro, feijão mineiro, feijão com tropeiro com torresmo, feijão tropeiro com couve"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25090,7 +24857,6 @@
       "en": "",
       "pt": "feijoada, feijoada completa"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25198,7 +24964,6 @@
       "en": "",
       "pt": "quibebe, purê de abóbora, quibebe de abóbora, quibebe de mandioca"
     },
-    "isRecipe": false,
     "icon": "/images/food/mashed-potato.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25306,7 +25071,6 @@
       "en": "",
       "pt": "sarapatel, sarapatel nordestino, sarapatel tradicional"
     },
-    "isRecipe": false,
     "icon": "/images/food/nabe.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25414,7 +25178,6 @@
       "en": "",
       "pt": "tacacá, tacacá paraense, tacacá do norte, tacacá do pará"
     },
-    "isRecipe": false,
     "icon": "/images/food/soup.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25522,7 +25285,6 @@
       "en": "",
       "pt": "caldo de tucupi, tucupi, tucupi de mandioca"
     },
-    "isRecipe": false,
     "icon": "/images/food/yellow-sauce.png",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25630,7 +25392,6 @@
       "en": "",
       "pt": "arroz com figo, arroz com figo seco, arroz com figo seco e especiarias"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25738,7 +25499,6 @@
       "en": "",
       "pt": "salada de feijão, salada de feijão branco, salada de feijão branco com salsão"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25846,7 +25606,6 @@
       "en": "",
       "pt": "humus com cordeiro, homus com cordeiro"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -25954,7 +25713,6 @@
       "en": "",
       "pt": "homus, hômus, humus, pasta de grão de bico"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -26062,7 +25820,6 @@
       "en": "",
       "pt": "pasta de alho"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -26170,7 +25927,6 @@
       "en": "",
       "pt": "frango na panela, frango na panela de pressão, molho de frango, molho de frango com tomate"
     },
-    "isRecipe": false,
     "icon": "",
     "type": "Solid",
     "nutritionalInformation": {
@@ -26279,9 +26035,8 @@
       "en": "cooked pinto beans, beans, carioca beans",
       "pt": "feijão-carioca, feijão carioca, feijão carioca cozido, feijão-carioca cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
-    "type": "Legume",
+    "type": "Solid",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 0.74,
@@ -26387,9 +26142,8 @@
       "en": "raw pinto beans, dry beans, carioca beans",
       "pt": "feijão carioca cru, feijão-carioca cru, feijão carioca moído, feijão-carioca moído"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
-    "type": "Legume",
+    "type": "Solid",
     "nutritionalInformation": {
       "acidification": 0,
       "ashes": 3.54,
@@ -26496,7 +26250,6 @@
       "en": "cooked black-eyed peas, cowpeas cooked, boiled black-eyed beans",
       "pt": "feijão-fradinho cozido, feijão fradinho cozido, feijão-de-corda cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "conversion": {
@@ -26592,7 +26345,6 @@
       "en": "raw black-eyed peas, raw cowpeas, uncooked black-eyed beans",
       "pt": "feijão fradinho cru, feijão-fradinho cru, feijão-de-corda cru, farinha de feijão fradinho, feijão fradinho moído"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "conversion": {
@@ -26689,7 +26441,6 @@
       "en": "cooked jalo beans, jalo beans boiled, cooked yellow beans",
       "pt": "feijão jalo cozido, feijão-jalo cozido, feijão amarelo cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "conversion": {
@@ -26785,7 +26536,6 @@
       "en": "raw jalo beans, uncooked jalo beans, yellow raw beans",
       "pt": "feijão jalo cru, feijão-jalo cru, feijão amarelo cru, farinha de feijão jalo, feijão jalo moído"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "conversion": {
@@ -26882,7 +26632,6 @@
       "en": "black beans, cooked beans, boiled beans, feijoada",
       "pt": "feijão, feijoada, feijão-preto, feijão preto, feijão preto cozido, feijão-preto cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -26990,7 +26739,6 @@
       "en": "black beans, raw beans, dried beans, ground beans, bean flour",
       "pt": "feijão cru, feijão-preto cru, farinha de feijão, farinha de feijão-preto, farelo de feijão, farelo de feijão-preto, feijão moído, feijão moído-preto"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -27099,7 +26847,6 @@
       "en": "pinto bean, cooked pinto bean, bean",
       "pt": "feijão-rajado, feijão rajado, feijão rajado cozido, feijão-rajado cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -27207,7 +26954,6 @@
       "en": "raw pinto bean, dry pinto bean, bean flour",
       "pt": "farinha de feijão rajado, farinha de feijão-rajado, feijão rajado moído, feijão rajado-moído, feijão rajado cru, feijão-rajado cru"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -27316,7 +27062,6 @@
       "en": "rosinha beans, cooked beans, pink beans, common beans",
       "pt": "feijão-rosinha, feijão rosinha, feijão rosinha cozido, feijão-rosinha cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -27424,7 +27169,6 @@
       "en": "raw beans, rosinha beans, pink beans, dry beans",
       "pt": "farinha de feijão rosinha, farinha de feijão-rosinha, feijão rosinha moído, feijão rosinha-moído, feijão rosinha cru, feijão-rosinha cru"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
@@ -27505,325 +27249,263 @@
   {
     "id": 257,
     "name": {
-      "en": "",
+      "en": "Cooked Red Kidney Beans",
       "pt": "Feijão roxo cozido"
     },
     "description": {
-      "en": "",
-      "pt": ""
+      "en": "Cooked red kidney beans are a variety of Phaseolus vulgaris, rich in protein, fiber, vitamins, and minerals. They are an excellent plant-based protein source and contribute to balanced nutrition.",
+      "pt": "O feijão roxo cozido é uma variedade de Phaseolus vulgaris, rico em proteínas, fibras, vitaminas e minerais. É uma excelente fonte de proteína vegetal e contribui para uma alimentação equilibrada."
     },
     "image": "https://www.receiteria.com.br/wp-content/uploads/receitas-com-feijao-vermelho-0.jpg",
     "measurementUnit": "Gram",
     "measures": {
-      "cup": null,
-      "spoon": null,
-      "teaSpoon": null,
-      "unity": null,
-      "unitySmall": null,
-      "unityLarge": null,
-      "can": null,
-      "glass": null,
-      "breast": null,
-      "clove": null,
-      "slice": null,
-      "bunch": null,
-      "pinch": null
+      "100": 100
     },
     "keys": {
-      "en": "",
+      "en": "red kidney beans, cooked beans, boiled beans, red beans",
       "pt": "feijão-roxo, feijão roxo, feijão roxo cozido, feijão-roxo cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
       "acidification": 0,
-      "ashes": 0.846666693687439,
-      "calories": 76.89337921142578,
-      "carbohydrates": 12.908166885375977,
+      "ashes": 0.85,
+      "calories": 76.9,
+      "carbohydrates": 12.9,
       "cholesterol": 0,
-      "dietaryFiber": 11.514333724975586,
-      "gi": 0,
-      "gl": 0,
-      "monounsaturatedFats": 0.10000000149011612,
-      "polyunsaturatedFats": 0.30000001192092896,
-      "proteins": 5.7208333015441895,
-      "saturedFats": 0.10000000149011612,
-      "sugar": 0,
-      "totalFat": 0.5383333563804626
+      "dietaryFiber": 11.5,
+      "gi": 35,
+      "gl": 3,
+      "monounsaturatedFats": 0.1,
+      "polyunsaturatedFats": 0.3,
+      "proteins": 5.7,
+      "saturedFats": 0.1,
+      "sugar": 0.3,
+      "totalFat": 0.5
     },
     "minerals": {
-      "calcium": 22.531999588012695,
-      "copper": 0.22466666996479034,
+      "calcium": 23,
+      "copper": 0.22,
       "fluoride": 0,
-      "iron": 1.4110000133514404,
-      "magnesium": 34.39266586303711,
-      "manganese": 0.32100000977516174,
-      "phosphorus": 106.32499694824219,
-      "potassium": 268.0863342285156,
-      "selenium": 0,
-      "sodium": 1.4570000171661377,
-      "zinc": 1.00600004196167
+      "iron": 1.4,
+      "magnesium": 34,
+      "manganese": 0.32,
+      "phosphorus": 106,
+      "potassium": 268,
+      "selenium": 1.2,
+      "sodium": 1.5,
+      "zinc": 1.0
     },
     "vitamins": {
       "a": 0,
-      "alphaCarotene": 0,
-      "b1": 0.14666666090488434,
-      "b11": 0,
+      "b1": 0.15,
+      "b2": 0.06,
+      "b3": 0.5,
+      "b5": 0.2,
+      "b6": 0.03,
+      "b7": 0.001,
+      "b9": 129,
       "b12": 0,
-      "b2": 0,
-      "b3": 0,
-      "b5": 0,
-      "b6": 0.029999999329447746,
-      "b7": 0,
-      "b9": 0,
-      "betaCarotene": 0,
-      "c": 0,
-      "choline": 0,
-      "cryptoxanthinCarotene": 0,
+      "c": 1.2,
       "d": 0,
-      "d2": 0,
-      "d3": 0,
-      "e": 0,
-      "k": 0,
-      "lycopene": 0
+      "e": 0.1,
+      "k": 3.2,
+      "choline": 20
     },
     "aminoAcids": {
-      "alanine": 0,
-      "arginine": 0,
-      "asparticAcid": 0,
-      "cystine": 0,
-      "glutamicAcid": 0,
-      "glutamine": 0,
-      "glycine": 0,
-      "histidine": 0,
-      "isoleucine": 0,
-      "leucine": 0,
-      "lysine": 0,
-      "methionine": 0,
-      "phenylalanine": 0,
-      "proline": 0,
-      "serine": 0,
-      "threonine": 0,
-      "tryptophan": 0,
-      "tyrosine": 0,
-      "valine": 0
+      "alanine": 0.22,
+      "arginine": 0.38,
+      "asparticAcid": 0.73,
+      "cystine": 0.06,
+      "glutamicAcid": 0.92,
+      "glycine": 0.2,
+      "histidine": 0.16,
+      "isoleucine": 0.2,
+      "leucine": 0.37,
+      "lysine": 0.34,
+      "methionine": 0.05,
+      "phenylalanine": 0.24,
+      "proline": 0.21,
+      "serine": 0.23,
+      "threonine": 0.18,
+      "tryptophan": 0.04,
+      "tyrosine": 0.16,
+      "valine": 0.24
     }
   },
   {
     "id": 258,
     "name": {
-      "en": "",
+      "en": "Raw Red Kidney Beans",
       "pt": "Feijão roxo cru"
     },
     "description": {
-      "en": "",
-      "pt": ""
+      "en": "Raw red kidney beans are a dry form of Phaseolus vulgaris, very rich in proteins, complex carbohydrates, minerals, and fiber. They require proper cooking to remove natural antinutritional factors.",
+      "pt": "O feijão roxo cru é a forma seca do Phaseolus vulgaris, muito rico em proteínas, carboidratos complexos, minerais e fibras. Necessita de cozimento adequado para eliminar fatores antinutricionais naturais."
     },
     "image": "https://www.mercadaonatural.com.br/resizer/view/600/600/true/false/14305.jpg",
     "measurementUnit": "Gram",
     "measures": {
-      "cup": null,
-      "spoon": null,
-      "teaSpoon": null,
-      "unity": null,
-      "unitySmall": null,
-      "unityLarge": null,
-      "can": null,
-      "glass": null,
-      "breast": null,
-      "clove": null,
-      "slice": null,
-      "bunch": null,
-      "pinch": null
+      "100": 100
     },
     "keys": {
-      "en": "",
+      "en": "red kidney beans, raw beans, dry beans, red beans flour, ground beans",
       "pt": "farinha de feijão-roxo, farinha de feijão roxo, feijão roxo moído, feijão-roxo moído, feijão roxo cru, feijão-roxo cru"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
       "acidification": 0,
-      "ashes": 3.9733333587646484,
-      "calories": 331.41497802734375,
-      "carbohydrates": 59.98666763305664,
+      "ashes": 3.97,
+      "calories": 331,
+      "carbohydrates": 60.0,
       "cholesterol": 0,
-      "dietaryFiber": 33.84333419799805,
-      "gi": 0,
-      "gl": 0,
-      "monounsaturatedFats": 0.20000000298023224,
-      "polyunsaturatedFats": 0.800000011920929,
-      "proteins": 22.16666603088379,
-      "saturedFats": 0.30000001192092896,
-      "sugar": 0,
-      "totalFat": 1.2366666793823242
+      "dietaryFiber": 33.8,
+      "gi": 30,
+      "gl": 7,
+      "monounsaturatedFats": 0.2,
+      "polyunsaturatedFats": 0.8,
+      "proteins": 22.2,
+      "saturedFats": 0.3,
+      "sugar": 2.1,
+      "totalFat": 1.2
     },
     "minerals": {
-      "calcium": 120.4576644897461,
-      "copper": 1.037333369255066,
+      "calcium": 120,
+      "copper": 1.04,
       "fluoride": 0,
-      "iron": 6.917333126068115,
-      "magnesium": 161.93533325195312,
-      "manganese": 1.340666651725769,
-      "phosphorus": 393.6983337402344,
-      "potassium": 1221.39697265625,
-      "selenium": 0,
-      "sodium": 9.75766658782959,
-      "zinc": 3.2929999828338623
+      "iron": 6.9,
+      "magnesium": 162,
+      "manganese": 1.34,
+      "phosphorus": 394,
+      "potassium": 1221,
+      "selenium": 3.2,
+      "sodium": 9.8,
+      "zinc": 3.3
     },
     "vitamins": {
       "a": 0,
-      "alphaCarotene": 0,
-      "b1": 0.2633333206176758,
-      "b11": 0,
+      "b1": 0.26,
+      "b2": 0.07,
+      "b3": 2.1,
+      "b5": 0.9,
+      "b6": 0.08,
+      "b7": 0.002,
+      "b9": 394,
       "b12": 0,
-      "b2": 0,
-      "b3": 0,
-      "b5": 0,
-      "b6": 0.07999999821186066,
-      "b7": 0,
-      "b9": 0,
-      "betaCarotene": 0,
-      "c": 0,
-      "choline": 0,
-      "cryptoxanthinCarotene": 0,
+      "c": 4.5,
       "d": 0,
-      "d2": 0,
-      "d3": 0,
-      "e": 0,
-      "k": 0,
-      "lycopene": 0
+      "e": 0.4,
+      "k": 5.6,
+      "choline": 40
     },
     "aminoAcids": {
-      "alanine": 0,
-      "arginine": 0,
-      "asparticAcid": 0,
-      "cystine": 0,
-      "glutamicAcid": 0,
-      "glutamine": 0,
-      "glycine": 0,
-      "histidine": 0,
-      "isoleucine": 0,
-      "leucine": 0,
-      "lysine": 0,
-      "methionine": 0,
-      "phenylalanine": 0,
-      "proline": 0,
-      "serine": 0,
-      "threonine": 0,
-      "tryptophan": 0,
-      "tyrosine": 0,
-      "valine": 0
+      "alanine": 0.78,
+      "arginine": 1.28,
+      "asparticAcid": 2.66,
+      "cystine": 0.16,
+      "glutamicAcid": 3.85,
+      "glycine": 0.72,
+      "histidine": 0.54,
+      "isoleucine": 0.8,
+      "leucine": 1.55,
+      "lysine": 1.32,
+      "methionine": 0.17,
+      "phenylalanine": 0.94,
+      "proline": 0.78,
+      "serine": 0.85,
+      "threonine": 0.71,
+      "tryptophan": 0.17,
+      "tyrosine": 0.62,
+      "valine": 0.97
     }
   },
+
   {
     "id": 259,
     "name": {
-      "en": "",
-      "pt": "feijão branco"
+      "en": "Cooked White Beans",
+      "pt": "Feijão branco cozido"
     },
     "description": {
-      "en": "",
-      "pt": ""
+      "en": "Cooked white beans (Phaseolus vulgaris) are a versatile legume, rich in protein, complex carbohydrates, and fiber. They are also a good source of minerals such as iron, magnesium, and potassium, supporting balanced nutrition.",
+      "pt": "O feijão branco cozido (Phaseolus vulgaris) é uma leguminosa versátil, rica em proteínas, carboidratos complexos e fibras. Também é uma boa fonte de minerais como ferro, magnésio e potássio, contribuindo para uma alimentação equilibrada."
     },
     "image": "https://www.sabornamesa.com.br/media/k2/items/cache/8fff24d59ce766ab65e090a401680032_XL.jpg",
     "measurementUnit": "Gram",
     "measures": {
-      "cup": null,
-      "spoon": null,
-      "teaSpoon": null,
-      "unity": null,
-      "unitySmall": null,
-      "unityLarge": null,
-      "can": null,
-      "glass": null,
-      "breast": null,
-      "clove": null,
-      "slice": null,
-      "bunch": null,
-      "pinch": null
+      "100": 100
     },
     "keys": {
-      "en": "",
-      "pt": "feijão branco, feijão-branco, feijão-branco cozido, feijão-branco-cozido"
+      "en": "white beans, cooked beans, boiled beans",
+      "pt": "feijão branco, feijão-branco, feijão branco cozido, feijão-branco cozido"
     },
-    "isRecipe": false,
     "icon": "/images/food/bean.svg",
     "type": "Solid",
     "nutritionalInformation": {
       "acidification": 0,
-      "ashes": 0,
+      "ashes": 1.0,
       "calories": 142,
-      "carbohydrates": 25.809999465942383,
+      "carbohydrates": 25.8,
       "cholesterol": 0,
-      "dietaryFiber": 0,
-      "gi": 0,
-      "gl": 0,
-      "monounsaturatedFats": 0,
-      "polyunsaturatedFats": 0,
-      "proteins": 8.970000267028809,
-      "saturedFats": 0.16599999368190765,
-      "sugar": 0,
-      "totalFat": 0.6399999856948853
+      "dietaryFiber": 10.4,
+      "gi": 31,
+      "gl": 8,
+      "monounsaturatedFats": 0.1,
+      "polyunsaturatedFats": 0.3,
+      "proteins": 9.0,
+      "saturedFats": 0.17,
+      "sugar": 0.6,
+      "totalFat": 0.64
     },
     "minerals": {
       "calcium": 73,
-      "copper": 0.14900000393390656,
+      "copper": 0.15,
       "fluoride": 0,
-      "iron": 2.8399999141693115,
+      "iron": 2.8,
       "magnesium": 68,
-      "manganese": 0.5099999904632568,
+      "manganese": 0.51,
       "phosphorus": 169,
       "potassium": 463,
-      "selenium": 0,
+      "selenium": 2.0,
       "sodium": 2,
-      "zinc": 1.090000033378601
+      "zinc": 1.1
     },
     "vitamins": {
       "a": 0,
-      "alphaCarotene": 0,
-      "b1": 0,
-      "b11": 0,
+      "b1": 0.2,
+      "b2": 0.06,
+      "b3": 0.27,
+      "b5": 0.3,
+      "b6": 0.13,
+      "b7": 0.001,
+      "b9": 140,
       "b12": 0,
-      "b2": 0.05900000035762787,
-      "b3": 0.2720000147819519,
-      "b5": 0,
-      "b6": 0.12700000405311584,
-      "b7": 0,
-      "b9": 0,
-      "betaCarotene": 0,
-      "c": 0,
-      "choline": 0,
-      "cryptoxanthinCarotene": 0,
+      "c": 1.5,
       "d": 0,
-      "d2": 0,
-      "d3": 0,
-      "e": 0,
-      "k": 0,
-      "lycopene": 0
+      "e": 0.1,
+      "k": 3.0,
+      "choline": 27
     },
     "aminoAcids": {
-      "alanine": 376,
-      "arginine": 555,
-      "asparticAcid": 1085,
-      "cystine": 98,
-      "glutamicAcid": 1368,
-      "glutamine": 0,
-      "glycine": 350,
-      "histidine": 250,
-      "isoleucine": 396,
-      "leucine": 716,
-      "lysine": 616,
-      "methionine": 135,
-      "phenylalanine": 485,
-      "proline": 380,
-      "serine": 488,
-      "threonine": 377,
-      "tryptophan": 106,
-      "tyrosine": 253,
-      "valine": 469
+      "alanine": 0.38,
+      "arginine": 0.56,
+      "asparticAcid": 1.09,
+      "cystine": 0.1,
+      "glutamicAcid": 1.37,
+      "glycine": 0.35,
+      "histidine": 0.25,
+      "isoleucine": 0.4,
+      "leucine": 0.72,
+      "lysine": 0.62,
+      "methionine": 0.14,
+      "phenylalanine": 0.49,
+      "proline": 0.38,
+      "serine": 0.49,
+      "threonine": 0.38,
+      "tryptophan": 0.11,
+      "tyrosine": 0.25,
+      "valine": 0.47
     }
   }
 ]
