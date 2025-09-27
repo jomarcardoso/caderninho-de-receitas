@@ -9,6 +9,7 @@ import Header from '../../components/root-header/root-header';
 import './app.scss';
 // import { DialogSharedRecipe } from '../../components/dialog-shared-recipe/dialog-shared-recipe';
 import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 import { Food } from '../../services/food/food.model';
 
 export type AppProps = HTMLProps<HTMLDivElement>;
@@ -54,9 +55,10 @@ const AppPage: FC<AppProps> = (props) => {
         />
       </div>
 
-      <SEO title="Caderninho de Receitas" />
+      <SEO title={translate('appTitle', language)} lang={language} />
     </>
   );
 };
 
 export default AppPage;
+

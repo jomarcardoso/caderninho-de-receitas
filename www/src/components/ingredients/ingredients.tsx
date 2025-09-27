@@ -3,6 +3,7 @@ import Image from '../image/image';
 import Section, { SectionProps } from '../section/section';
 import { SemanticButton } from '../semantic-button';
 import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 import { Ingredient } from '../../services/ingredient/ingredient.model';
 import { Food } from '../../services/food/food.model';
 
@@ -34,7 +35,7 @@ const Ingredients: FC<IngredientsProps> = ({
   console.log(ingredients);
 
   return (
-    <Section title="Ingredientes" onBgWhite {...props}>
+    <Section title={translate('ingredientsTitle', language)} onBgWhite {...props}>
       <div className="list">
         {ingredients.map((ingredient) => (
           <SemanticButton
@@ -65,3 +66,5 @@ const Ingredients: FC<IngredientsProps> = ({
 };
 
 export default Ingredients;
+
+

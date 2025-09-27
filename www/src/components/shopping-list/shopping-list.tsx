@@ -1,9 +1,13 @@
 import GrocerySvg from '../../assets/svg/history/grocery.svg';
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { IoCartOutline } from 'react-icons/io5';
 import { InteractiveField } from '../interactive-field/interactive-field';
+import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 export const ShoppingList: FC = () => {
+  const { language } = useContext(LanguageContext);
+
   return (
     <div
       className="grid mt-5 pb-5"
@@ -14,7 +18,7 @@ export const ShoppingList: FC = () => {
         <InteractiveField
           label={
             <>
-              lista de compras
+              {translate('shoppingListLabel', language)}
               <span className="svg-icon">
                 <IoCartOutline />
               </span>

@@ -11,12 +11,15 @@ import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.
 import { useScroll } from '../../hooks/use-scroll';
 // import { ShoppingList } from '../../components/shopping-list';
 import { Recipe } from '../../services/recipe/recipe.model';
+import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 /* <div className="main__story-partner">
 <ChefSvg style={{ mixBlendMode: 'multiply' }} />
 </div> */
 
 const MainPanel: FC = () => {
+  const { language } = useContext(LanguageContext);
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
   const { data } = useContext(DataContext);
   const { recipes = [] } = data || {};
@@ -62,11 +65,11 @@ const MainPanel: FC = () => {
       }
       tabs={[
         {
-          children: 'receitas',
+          children: translate('recipesTab', language),
           link: '#minhas-receitas',
         },
         {
-          children: 'mercado',
+          children: translate('marketTab', language),
           link: '#lista-de-compras',
         },
       ]}
@@ -81,7 +84,9 @@ const MainPanel: FC = () => {
       >
         <div className="grid" ovo-scrollspy-content="1" id="minhas-receitas">
           <div className="g-col-12">
-            <h1 className="section-title">Minhas receitas</h1>
+            <h1 className="section-title">
+              {translate('myRecipesHeading', language)}
+            </h1>
           </div>
 
           <div className="g-col-12">
@@ -96,7 +101,7 @@ const MainPanel: FC = () => {
                 onClick={() => setCurrentRecipe?.(undefined)}
               >
                 <IoAddCircleOutline />
-                adicionar nova receita
+                {translate('addNewRecipe', language)}
               </Button>
             </div>
           </div>

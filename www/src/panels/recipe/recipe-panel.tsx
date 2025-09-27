@@ -10,6 +10,7 @@ import { DataContext } from '../../providers/data/data.context';
 import RecipeRegister from '../../components/recipe-register/recipe-register';
 import RecipeContainer from '../../components/recipe-container/recipe-container';
 import Panel from '../../components/panel/panel';
+import { LanguageContext } from '../../providers/language/language.context';
 import LoadingContext from '../../providers/loading/loading.context';
 import { EditingContext } from '../../providers/editing/editing.context';
 import { ShareService } from '../../services/url/share.service';
@@ -23,6 +24,7 @@ const RecipePanel: FC<{
   setCurrentFoodQuantity(quantity: number): void;
 }> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
   const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
+  const { language } = useContext(LanguageContext);
   const { removeRecipe } = useContext(DataContext);
   const { setLoading } = useContext(LoadingContext);
   const { editing, setEditing } = useContext(EditingContext);
@@ -36,7 +38,7 @@ const RecipePanel: FC<{
       return;
     }
 
-    await ShareService.shareRecipe(currentRecipe);
+    await ShareService.shareRecipe(currentRecipe, language);
 
     if (setLoading) {
       setLoading(false);
@@ -149,3 +151,4 @@ const RecipePanel: FC<{
 };
 
 export default RecipePanel;
+

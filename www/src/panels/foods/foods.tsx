@@ -16,6 +16,7 @@ import Field from '../../components/field/field';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import LoadingSvg from '../../assets/svg/loading.svg';
 import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 import { Food } from '../../services/food/food.model';
 import { DataContext } from '../../providers';
 
@@ -125,10 +126,10 @@ const FoodsPanel: FC<Props> = ({
       >
         {/* <FoodRegister food={FOOD} /> */}
 
-        <h1 className="section-title">Lista de alimentos</h1>
+        <h1 className="section-title">{translate('foodListHeading', language)}</h1>
 
         <Field
-          placeholder="buscar"
+          placeholder={translate('searchPlaceholder', language)}
           onChange={handleChangeFilter}
           breakline={false}
           onErase={() => setSearchInput('')}
@@ -151,7 +152,7 @@ const FoodsPanel: FC<Props> = ({
             }}
           >
             <Button variant="secondary" onClick={handleShowMore}>
-              mostrar mais
+              {translate('showMore', language)}
             </Button>
           </div>
         )}
@@ -161,3 +162,5 @@ const FoodsPanel: FC<Props> = ({
 };
 
 export default FoodsPanel;
+
+

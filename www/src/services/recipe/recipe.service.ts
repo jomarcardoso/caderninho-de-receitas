@@ -3,6 +3,8 @@ import { CommonResponse } from '../common/common.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import { Recipe, RecipesData } from './recipe.model';
 import { RecipeDto } from './recipe.dto';
+import { translate } from '../language/language.service';
+import { Language } from '../language/language.types';
 import {
   mapFoodResponseToModel,
   mapFoodsDataResponseToModel,
@@ -12,24 +14,34 @@ import { RecipeStepDto } from '../recipe-step';
 import { mapCommonResponseToModel } from '../common/common.service';
 import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
 
-function stepToText(step: RecipeStepDto): string {
+function stepToText(step: RecipeStepDto, language: Language): string {
+  const suffix = step.title ? ` ${step.title}` : '';
+  const ingredientsHeading = translate('recipeStepIngredientsHeading', language, { suffix });
+  const preparationHeading = translate('recipeStepPreparationHeading', language, { suffix });
+
   return `\
-Ingredientes ${step.title}
+${ingredientsHeading}
 
 ${step.ingredientsText}
 
-Modo de preparo ${step.title}
+${preparationHeading}
 
 ${step.title}`;
 }
 
-export function recipeDtoToText(recipe: RecipeDto): string {
+export function recipeDtoToText(recipe: RecipeDto, language: Language = 'pt'): string {
+  const upperName = recipe.name.toUpperCase();
+  const stepsText = recipe.steps
+    .map((step) => stepToText(step, language))
+    .join('\n\n');
+
   return `\
-*${recipe.name.toUpperCase()}*
+*${upperName}*
 
 ${recipe.description}
 
-${recipe.steps.map(stepToText)}`;
+${stepsText}`;
+
 }
 
 type RecipeStepLike = Pick<

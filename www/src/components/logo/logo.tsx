@@ -1,6 +1,8 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useContext } from 'react';
 import './logo.scss';
 import { generateClasses } from '../../services/dom/classes';
+import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 const Logo: FC<{ active?: boolean; contrast?: boolean }> = ({
   active = false,
@@ -13,11 +15,12 @@ const Logo: FC<{ active?: boolean; contrast?: boolean }> = ({
       'logo--contrast': contrast,
     });
   }, [active, contrast]);
+  const { language } = useContext(LanguageContext);
 
   return (
     <strong className={classes}>
-      <div className="logo__text-small">caderninho</div>
-      <div className="logo__text-large">DE RECEITAS</div>
+      <div className="logo__text-small">{translate('logoSmall', language)}</div>
+      <div className="logo__text-large">{translate('logoLarge', language)}</div>
     </strong>
   );
 };

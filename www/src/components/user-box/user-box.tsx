@@ -9,6 +9,7 @@ import { Chip, Chips } from '../chips/chips';
 import { LanguageContext } from '../../providers/language/language.context';
 import { Language } from '../../services/language/language.types';
 import { useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
+import { translate } from '../../services/language/language.service';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 
@@ -55,7 +56,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
             <span className="svg-icon">
               <IoCloseCircleOutline />
             </span>
-            {I18N_TEXT.logout[language]}
+            {translate('logout', language)}
           </button>
         )}
       </>
@@ -65,10 +66,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
   const memoUnlogged = useMemo(() => {
     return (
       <>
-        <p className="mb-3">
-          Você não está conectado, é importante fazer login para nunca perder
-          suas receitas.
-        </p>
+        <p className="mb-3">{translate('userNotLoggedMessage', language)}</p>
 
         <Button
           className="ms-auto"
@@ -77,11 +75,11 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
           onClick={login}
         >
           <IoLogInOutline />
-          login
+          {translate('login', language)}
         </Button>
       </>
     );
-  }, []);
+  }, [language, login]);
 
   const handleLanguage = useCallback<React.FormEventHandler<HTMLInputElement>>(
     (event) => {
@@ -96,40 +94,40 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
 
   return (
     <>
-      <section aria-label="área do usuário" className={classes} {...props}>
+      <section aria-label={translate('userAreaAria', language)} className={classes} {...props}>
         <Avatar src={user?.photoURL as string} />
 
         {user?.displayName ? memoLogged : memoUnlogged}
       </section>
 
-      <section aria-label="configurações do aplicativo">
+      <section aria-label={translate('appSettingsAria', language)}>
         {user?.displayName && (
           <>
             <Chips
               full
               name="language"
               className="mt-3"
-              legend={I18N_TEXT.language[language]}
+              legend={translate('language', language)}
             >
               <Chip
                 value="en"
                 checked={language === 'en'}
                 onChange={handleLanguage}
               >
-                {I18N_TEXT.english[language]}
+                {translate('english', language)}
               </Chip>
               <Chip
                 value="pt"
                 checked={language === 'pt'}
                 onChange={handleLanguage}
               >
-                {I18N_TEXT.portuguese[language]}
+                {translate('portuguese', language)}
               </Chip>
             </Chips>
 
             <Chips full name="user-class" className="mt-3">
-              <Chip>cozinheiro</Chip>
-              <Chip>nutricionista</Chip>
+              <Chip>{translate('cookChip', language)}</Chip>
+              <Chip>{translate('nutritionistChip', language)}</Chip>
             </Chips>
           </>
         )}

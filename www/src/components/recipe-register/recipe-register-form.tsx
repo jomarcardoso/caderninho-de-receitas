@@ -1,5 +1,5 @@
 import { Form, FieldArray, FormikProps } from 'formik';
-import React, { FC, useCallback, ChangeEventHandler } from 'react';
+import React, { FC, useCallback, ChangeEventHandler, useContext } from 'react';
 import { IoDuplicateOutline } from 'react-icons/io5';
 import Field from '../field/field';
 import SubmitComponent from '../submit';
@@ -9,6 +9,8 @@ import CookSvg from '../../assets/svg/history/cook.svg';
 import PizzaSvg from '../../assets/svg/history/pizza.svg';
 import { RecipeStepDto } from '../../services/recipe-step';
 import { RecipeDto } from '../../services/recipe/recipe.dto';
+import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 export interface RecipeForm {
   steps: RecipeDto['steps'];
@@ -24,6 +26,8 @@ interface Props {
   onCancel: () => void;
 }
 
+const BULLET = '-';
+
 const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   values,
   onCancel,
@@ -32,20 +36,30 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   setFieldValue,
   recipe,
 }) => {
+  const { language } = useContext(LanguageContext);
+
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredients = '', stepName = '') => {
-      const ingredientList = ingredients.split('\n');
-      const value = `• ${ingredientList.join('\n• ')}`;
-      const label = `Ingredientes${stepName ? ` - ${stepName}` : ''}`;
+      const normalizedIngredients = ingredients.trim();
+      const ingredientList = normalizedIngredients
+        ? normalizedIngredients.split('\n').map((line) => line.trim())
+        : [];
+      const bulletValue = ingredientList.length
+        ? `${BULLET} ${ingredientList.join(`\n${BULLET} `)}`
+        : '';
+      const suffix = stepName ? ` - ${stepName}` : '';
+      const label = translate('ingredientsLabelWithStep', language, { suffix });
 
       const handleChangeIngredient: ChangeEventHandler<HTMLTextAreaElement> = (
         event,
       ) => {
-        const valueBackSpace = event.target.value.replace(/\n•(?! )/g, '');
-        const valueClean = valueBackSpace.replace(/• /g, '');
-        const valueCompletelyClean = valueClean.replace(/•/g, '');
+        const cleanedValue = event.target.value
+          .split('\n')
+          .map((line) => line.replace(new RegExp(`^${BULLET} ?`), '').trim())
+          .filter((line) => line.length)
+          .join('\n');
 
-        setFieldValue(`steps.${index}.ingredients`, valueCompletelyClean);
+        setFieldValue(`steps.${index}.ingredients`, cleanedValue);
       };
 
       return (
@@ -54,13 +68,13 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
           label={label}
           minRows="4"
           name={`steps.${index}.ingredient`}
-          value={value}
+          value={bulletValue}
           onChange={handleChangeIngredient}
           onBlur={formikHandleBlur}
         />
       );
     },
-    [formikHandleBlur, setFieldValue],
+    [formikHandleBlur, language, setFieldValue],
   );
 
   const memoizedRenderSteps = useCallback(() => {
@@ -72,71 +86,76 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
 
     return (
       <>
-        {steps.map((step, index) => (
-          <>
-            <div>
-              <Field
-                label={`nome da etapa ${index + 1} (opcional)`}
-                name={`steps.${index}.name`}
-                value={step.title}
-                onChange={handleChange}
-                onBlur={formikHandleBlur}
-                hint={
-                  <details>
-                    <summary>
-                      massa, cobertura, etc. <u>Saber mais.</u>
-                    </summary>
-                    Você não precisa preencher esse campo se a sua receita não
-                    possui mais do que uma etapa ou camada. Por exemplo uma
-                    salada pode ser feita com todos os ingredientes juntos e em
-                    um único processo, porém um bolo pode ter várias partes, a
-                    massa, o recheio e a cobertura, então é necessário
-                    diferenciar cada uma delas.
-                  </details>
-                }
-              />
-            </div>
+        {steps.map((step = {} as RecipeStepDto, index) => {
+          const suffix = step.title ? ` - ${step.title}` : '';
 
-            <div>
-              {memoizedRenderInputIngredient(
-                index,
-                step.ingredientsText,
-                step.title,
-              )}
-            </div>
+          return (
+            <React.Fragment key={`${step.title ?? 'step'}-${index}`}>
+              <div>
+                <Field
+                  label={translate('stepNameLabel', language, {
+                    index: index + 1,
+                  })}
+                  name={`steps.${index}.name`}
+                  value={step.title}
+                  onChange={handleChange}
+                  onBlur={formikHandleBlur}
+                  hint={
+                    <details>
+                      <summary
+                        dangerouslySetInnerHTML={{
+                          __html: translate('stepHintSummary', language),
+                        }}
+                      />
+                      <p>{translate('stepHintBody', language)}</p>
+                    </details>
+                  }
+                />
+              </div>
 
-            <div>
-              <Field
-                multiline
-                minRows="4"
-                label={`Modo de preparo${step.title ? ` - ${step.title}` : ''}`}
-                name={`steps.${index}.preparation`}
-                value={step.preparation}
-                onChange={handleChange}
-                onBlur={formikHandleBlur}
-              />
-            </div>
+              <div>
+                {memoizedRenderInputIngredient(
+                  index,
+                  step.ingredientsText,
+                  step.title,
+                )}
+              </div>
 
-            <div>
-              <Field
-                multiline
-                name={`steps.${index}.additional`}
-                label={`Informações adicionais${
-                  step.title ? ` - ${step.title}` : ''
-                }`}
-                value={step.additional}
-                onChange={handleChange}
-                onBlur={formikHandleBlur}
-                minRows={2}
-              />
-            </div>
-          </>
-        ))}
+              <div>
+                <Field
+                  multiline
+                  minRows="4"
+                  label={translate('preparationLabelWithStep', language, {
+                    suffix,
+                  })}
+                  name={`steps.${index}.preparation`}
+                  value={step.preparation}
+                  onChange={handleChange}
+                  onBlur={formikHandleBlur}
+                />
+              </div>
+
+              <div>
+                <Field
+                  multiline
+                  name={`steps.${index}.additional`}
+                  label={translate('additionalInformationLabelWithStep', language, {
+                    suffix,
+                  })}
+                  value={step.additional}
+                  onChange={handleChange}
+                  onBlur={formikHandleBlur}
+                />
+              </div>
+            </React.Fragment>
+          );
+        })}
       </>
     );
   }, [
     formikHandleBlur,
     handleChange,
+    language,
     memoizedRenderInputIngredient,
     values.quantitySteps,
     values.steps,
@@ -162,23 +181,15 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                   <div className="grid columns-1 g-6">
                     <div>
                       {!recipe?.id ? (
-                        <p>
-                          Você está criando uma nova receita. Preencha os campos
-                          abaixo e pressione o botão salvar receita para criá-la
-                          e adicioná-la ao seu caderninho de receitas.
-                        </p>
+                        <p>{translate('creatingRecipeMessage', language)}</p>
                       ) : (
-                        <p>
-                          Você está editando uma receita já existente. Preencha
-                          os campos abaixo e pressione o botão salvar receita
-                          para atualizá-la.
-                        </p>
+                        <p>{translate('editingRecipeMessage', language)}</p>
                       )}
                     </div>
 
                     <div>
                       <Field
-                        label="nome da receita"
+                        label={translate('recipeNameLabel', language)}
                         name="name"
                         value={values.name}
                         onChange={handleChange}
@@ -190,7 +201,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                       <Field
                         multiline
                         name="description"
-                        label="descrição"
+                        label={translate('descriptionLabel', language)}
                         value={values.description}
                         onChange={handleChange}
                         onBlur={formikHandleBlur}
@@ -202,7 +213,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                       <Field
                         multiline
                         name="additional"
-                        label="informações adicionais"
+                        label={translate('additionalInformationLabel', language)}
                         value={values.additional}
                         onChange={handleChange}
                         onBlur={formikHandleBlur}
@@ -228,7 +239,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                           }
                         >
                           <IoDuplicateOutline />
-                          adicionar outra etapa
+                          {translate('addAnotherStep', language)}
                         </Button>
                       </div>
                     </div>
@@ -243,12 +254,12 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
         <div className="grid g-0">
           <div className="g-col-4">
             <Button fullWidth variant="secondary" onClick={onCancel}>
-              cancelar
+              {translate('cancel', language)}
             </Button>
           </div>
 
           <div className="g-col-8">
-            <SubmitComponent>salvar receita</SubmitComponent>
+            <SubmitComponent>{translate('saveRecipe', language)}</SubmitComponent>
           </div>
         </div>
       </div>

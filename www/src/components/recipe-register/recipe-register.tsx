@@ -8,6 +8,8 @@ import { EditingContext } from '../../providers/editing/editing.context';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { StorageService } from '../../storage';
 import { RecipeDto } from '../../services/recipe/recipe.dto';
+import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 interface Props {
   recipeToEdit?: RecipeDto;
@@ -20,6 +22,7 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
     useContext(CurrentRecipeContext);
   const [openedEmptyRecipe, setOpenedEmptyRecipe] = useState(false);
   const { setEditing } = useContext(EditingContext);
+  const { language } = useContext(LanguageContext);
 
   const handleCloseEmptyAlert = useCallback(() => {
     setOpenedEmptyRecipe(false);
@@ -97,20 +100,19 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
       </Formik>
       <Dialog
         open={openedEmptyRecipe}
-        title="erro ao cadastrar uma nova receita"
+        title={translate('recipeDialogErrorTitle', language)}
         actions={
           <>
             <Button variant="secondary" onClick={handleCancel}>
-              cancelar
+              {translate('cancel', language)}
             </Button>
             <Button onClick={handleCloseEmptyAlert} autoFocus>
-              continuar
+              {translate('continue', language)}
             </Button>
           </>
         }
       >
-        A receita precisa ter um nome. Deseja cancelar o cadastro ou preencher o
-        nome e continuar?
+        {translate('recipeDialogErrorMessage', language)}
       </Dialog>
     </>
   );

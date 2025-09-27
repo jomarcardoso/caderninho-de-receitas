@@ -1,5 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import Section, { SectionProps } from '../section/section';
+import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 export interface PreparationProps extends SectionProps {
   preparation: string;
@@ -7,16 +9,18 @@ export interface PreparationProps extends SectionProps {
 }
 
 const Preparation: FC<PreparationProps> = ({
-  title = 'Modo de preparo',
+  title,
   preparation = '',
   ...props
 }) => {
   if (!preparation) return null;
 
+  const { language } = useContext(LanguageContext);
+  const sectionTitle = title ?? translate('preparationTitle', language);
   const preparationList = preparation.split(/\n\s/);
 
   return (
-    <Section title={title} onBgWhite {...props}>
+    <Section title={sectionTitle} onBgWhite {...props}>
       <div className="grid g-2 columns-1">
         {preparationList.map((preparationLine) => (
           <div key={preparationLine}>{preparationLine}</div>

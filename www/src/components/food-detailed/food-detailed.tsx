@@ -7,6 +7,7 @@ import round from 'lodash/round';
 import { Food } from '../../services/food/food.model';
 import { Nutrient } from '../../services/nutrient/nutrient.model';
 import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 interface FoodDetailedProps extends HTMLProps<HTMLDivElement> {
   food: Food;
@@ -73,7 +74,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
             {vitamins.length && (
               <div className="grid g-2 columns-1">
-                <h2 className="h2">Vitaminas</h2>
+                <h2 className="h2">{translate('vitamins', language)}</h2>
 
                 <ul className="list">
                   {Object.values(vitamins).map(renderNutrient)}
@@ -83,7 +84,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
             {minerals.length && (
               <div className="grid g-2 columns-1">
-                <h2 className="h2">Minerais</h2>
+                <h2 className="h2">{translate('minerals', language)}</h2>
 
                 <ul className="list">
                   {Object.values(minerals).map(renderNutrient)}
@@ -92,7 +93,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
             )}
           </div>
         ) : (
-          <p>Não há informações nutricionais deste alimento.</p>
+          <p>{translate('noNutritionalInformation', language)}</p>
         )}
       </div>
     </div>

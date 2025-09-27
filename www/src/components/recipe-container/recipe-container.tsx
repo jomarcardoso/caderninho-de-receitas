@@ -21,6 +21,7 @@ import { Recipe } from '../../services/recipe/recipe.model';
 import { DataContext } from '../../providers';
 import { Nutrient } from '../../services/nutrient/nutrient.model';
 import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 export interface RecipeContainerProps {
   recipe?: Recipe;
@@ -137,7 +138,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           {recipe?.additional && <div>{recipe.additional}</div>}
 
           <div className="grid columns-1 g-3">
-            <h2 className="h2">Informações nutricionais</h2>
+            <h2 className="h2">{translate('nutritionalInformation', language)}</h2>
 
             <ul>
               {recipe?.nutritionalInformation?.map(
@@ -148,7 +149,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
           {recipe?.vitamins?.length && (
             <div className="grid columns-1 g-3">
-              <h3 className="section-title">Vitaminas</h3>
+              <h3 className="section-title">{translate('vitamins', language)}</h3>
 
               <ul className="list">{recipe?.vitamins.map(renderNutrient)}</ul>
             </div>
@@ -156,7 +157,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
           {recipe?.minerals?.length && (
             <div className="grid columns-1 g-3">
-              <h3 className="section-title">Minerais</h3>
+              <h3 className="section-title">{translate('minerals', language)}</h3>
 
               <ul className="list">{recipe?.minerals.map(renderNutrient)}</ul>
             </div>
@@ -175,3 +176,6 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 };
 
 export default RecipeContainer;
+
+
+

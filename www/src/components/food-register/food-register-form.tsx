@@ -1,7 +1,9 @@
-import React, { FC, HTMLProps, useCallback } from 'react';
+import React, { FC, HTMLProps, useCallback, useContext } from 'react';
 import Field from '../field/field';
 import { FormikProps } from 'formik';
 import { Food } from '../../services/food/food.model';
+import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 export interface FoodRegisterFormProps {
   food: Food;
@@ -10,6 +12,8 @@ export interface FoodRegisterFormProps {
 export const FoodRegisterForm: FC<
   FormikProps<FoodDto> & FoodRegisterFormProps
 > = ({ values, handleChange, handleBlur }) => {
+  const { language } = useContext(LanguageContext);
+
   const renderInput = useCallback(
     (
       label = '',
@@ -30,45 +34,45 @@ export const FoodRegisterForm: FC<
         type={type}
       />
     ),
-    [values],
+    [handleBlur, handleChange, values],
   );
 
   return (
     <div>
-      {renderInput('nome do alimento', 'name', true)}
-      {renderInput('descrição', 'description', true, true)}
-      {renderInput('índice glicêmico', 'gi')}
-      {renderInput('calorias', 'calories')}
-      {renderInput('carboidratos', 'carbohydrates')}
-      {renderInput('proteínas', 'proteins')}
-      {renderInput('gorduras totais', 'totalFat')}
-      {renderInput('gordura saturada', 'saturedFats')}
+      {renderInput(translate('foodFormFoodName', language), 'name', true)}
+      {renderInput(translate('descriptionLabel', language), 'description', true, true)}
+      {renderInput(translate('foodFormGlycemicIndex', language), 'gi')}
+      {renderInput(translate('foodFormCalories', language), 'calories')}
+      {renderInput(translate('foodFormCarbohydrates', language), 'carbohydrates')}
+      {renderInput(translate('foodFormProteins', language), 'proteins')}
+      {renderInput(translate('foodFormTotalFat', language), 'totalFat')}
+      {renderInput(translate('foodFormSaturatedFat', language), 'saturedFats')}
 
-      {renderInput('triptofano', 'tryptophan')}
-      {renderInput('fenilanina', 'phenylalanine')}
-      {renderInput('leucina', 'leucine')}
-      {renderInput('valina', 'valine')}
-      {renderInput('isoleucina', 'isoleucine')}
-      {renderInput('lisina', 'lysine')}
-      {renderInput('treonina', 'threonine')}
-      {renderInput('metionina', 'methionine')}
-      {renderInput('histidina', 'histidine')}
+      {renderInput(translate('foodFormTryptophan', language), 'tryptophan')}
+      {renderInput(translate('foodFormPhenylalanine', language), 'phenylalanine')}
+      {renderInput(translate('foodFormLeucine', language), 'leucine')}
+      {renderInput(translate('foodFormValine', language), 'valine')}
+      {renderInput(translate('foodFormIsoleucine', language), 'isoleucine')}
+      {renderInput(translate('foodFormLysine', language), 'lysine')}
+      {renderInput(translate('foodFormThreonine', language), 'threonine')}
+      {renderInput(translate('foodFormMethionine', language), 'methionine')}
+      {renderInput(translate('foodFormHistidine', language), 'histidine')}
 
       {Object.entries(VITAMINS).map(([key, vitamin]) =>
         renderInput(vitamin.name, key as keyof FoodData),
       )}
 
-      {renderInput('calcium', 'calcium')}
-      {renderInput('cobre', 'copper')}
-      {renderInput('ferro', 'iron')}
-      {renderInput('manganês', 'manganese')}
-      {renderInput('magnésio', 'magnesium')}
-      {renderInput('fósforo', 'phosphorus')}
-      {renderInput('sódio', 'sodium')}
-      {renderInput('potássio', 'potassium')}
-      {renderInput('zinco', 'zinc')}
-      {renderInput('flúor', 'fluoride')}
-      {renderInput('selênio', 'selenium')}
+      {renderInput(translate('foodFormCalcium', language), 'calcium')}
+      {renderInput(translate('foodFormCopper', language), 'copper')}
+      {renderInput(translate('foodFormIron', language), 'iron')}
+      {renderInput(translate('foodFormManganese', language), 'manganese')}
+      {renderInput(translate('foodFormMagnesium', language), 'magnesium')}
+      {renderInput(translate('foodFormPhosphorus', language), 'phosphorus')}
+      {renderInput(translate('foodFormSodium', language), 'sodium')}
+      {renderInput(translate('foodFormPotassium', language), 'potassium')}
+      {renderInput(translate('foodFormZinc', language), 'zinc')}
+      {renderInput(translate('foodFormFluoride', language), 'fluoride')}
+      {renderInput(translate('foodFormSelenium', language), 'selenium')}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import './food.scss';
 // import { FoodRegister } from '../../components/food-register/food-register';
 import { IoCreateOutline } from 'react-icons/io5';
 import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 import { Food } from '../../services/food/food.model';
 
 interface Props extends LayoutProps {
@@ -20,7 +21,7 @@ const FoodPanel: FC<Props> = forwardRef(
     const name = food?.name[language] ?? '';
     const [edit, setEdit] = useState(false);
     // const editTemplate = <FoodRegister food={food} />;
-    const editTemplate = <div>Em breve...</div>;
+    const editTemplate = <div>{translate('comingSoon', language)}</div>;
 
     return (
       <div>
@@ -73,3 +74,4 @@ const FoodPanel: FC<Props> = forwardRef(
 );
 
 export default FoodPanel;
+

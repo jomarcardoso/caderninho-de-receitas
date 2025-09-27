@@ -2,6 +2,7 @@ import React, { FC, HTMLProps, useCallback, useContext } from 'react';
 import './aminoacids-table.scss';
 import { Nutrient } from '../../services/nutrient/nutrient.model';
 import { LanguageContext } from '../../providers/language/language.context';
+import { translate } from '../../services/language/language.service';
 
 interface Props {
   essentialAminoAcids: Nutrient[];
@@ -76,10 +77,10 @@ const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
       }`}
     >
       <table className={classes} {...props}>
-        <caption className="table__caption">Tabela de aminoácidos</caption>
+        <caption className="table__caption">{translate('aminoAcidsTableTitle', language)}</caption>
         <thead>
           <tr className="table__tr">
-            <th className="table__th aminoacids-table__name">Alimento</th>
+            <th className="table__th aminoacids-table__name">{translate('aminoAcidsFoodColumn', language)}</th>
             <th align="center" className="table__th">
               1
             </th>
