@@ -11,6 +11,7 @@ public abstract class RecipeContract<TRecipeStep>
 
 public abstract class RecipeBase<TRecipeStep> : RecipeContract<TRecipeStep>, INutrientsBase
 {
+  public string Image { get; set; } = string.Empty;
   //RecipeCategory category { get; set; }
   public NutritionalInformationBase NutritionalInformation { get; set; } = new();
   public MineralsBase Minerals { get; set; } = new();
