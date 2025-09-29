@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Server</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>67c1a526-1428-438c-95b8-23dfef68f2f5</UserSecretsId>

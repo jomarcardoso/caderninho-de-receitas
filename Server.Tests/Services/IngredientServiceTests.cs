@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Server.Services;
 using Server.Models;
+using Server.Shared;
 
 namespace Server.Tests.Services;
 

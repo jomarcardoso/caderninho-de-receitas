@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Server.Models;
 using Server.Shared;
 
@@ -232,12 +232,11 @@ public record QuantityAndRest(string MeasureText, MeasureType MeasureType, strin
 //   };
 // }
 
-
 public static class MeasurePatterns
 {
-  private const string NumberWords = @"(\d*|um[a]?|dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze)";
+  private const string NumberWords = @"(\d+(?:[.,]\d+)?|um[a]?|dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze)";
   private const string PartialWords = @"(mei(o|a)|1/2|metade|um terço|1/3|dois terços|2/3|um quarto|1/4|três quartos|3/4)";
-  private const string Quantity = $"({NumberWords}|{PartialWords})";
+  private const string Quantity = $@"({NumberWords}(?:\s+{PartialWords})?(?:\s+e\s+{PartialWords})?|{PartialWords})";
   private const string PartialEnd = $@"( e {PartialWords})?";
   private const string Cup = @"((?:xícara|xicara)s?|xíc\.?)";
   private const string Spoon = @"((?:colher(?:es)?(?: de sopa)?|c\.s\.?)s?)";
@@ -253,9 +252,13 @@ public static class MeasurePatterns
 
   public static readonly Dictionary<MeasureType, Regex> PatternsPt = new()
     {
-        { MeasureType.Cup, new Regex($@"\b(?<measure>{Quantity}{Cup}{PartialEnd})\b", RegexOptions.IgnoreCase) },
-        { MeasureType.TeaSpoon, new Regex($@"\b(?<measure>{Quantity}{TeaSpoon}{PartialEnd})\b", RegexOptions.IgnoreCase) },
-        { MeasureType.Spoon, new Regex($@"\b(?<measure>{Quantity}{Spoon}{PartialEnd})\b", RegexOptions.IgnoreCase) },
+        { MeasureType.Cup, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Cup}{PartialEnd})\b", RegexOptions.IgnoreCase) },
+        { MeasureType.TeaSpoon, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{TeaSpoon}{PartialEnd})\b", RegexOptions.IgnoreCase) },
+        { MeasureType.Spoon, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Spoon}{PartialEnd})\b", RegexOptions.IgnoreCase) },
+        { MeasureType.Ml, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Ml}{PartialEnd})\b", RegexOptions.IgnoreCase) },
+        { MeasureType.Liter, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Liter}{PartialEnd})\b", RegexOptions.IgnoreCase) },
+        { MeasureType.Gram, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Gram}{PartialEnd})\b", RegexOptions.IgnoreCase) },
+        { MeasureType.Kilo, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Kilo}{PartialEnd})\b", RegexOptions.IgnoreCase) },
         { MeasureType.Can, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Can}{PartialEnd})\b", RegexOptions.IgnoreCase) },
         { MeasureType.Glass, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Glass}{PartialEnd})\b", RegexOptions.IgnoreCase) },
         { MeasureType.Slice, new Regex($@"\b(?<measure>{Quantity}{PartialEnd}\s?{Slice}{PartialEnd})\b", RegexOptions.IgnoreCase) },
@@ -299,7 +302,6 @@ public class IngredientService
 
       if (match.Success)
       {
-        Console.WriteLine($"Match encontrado: {mesasureMatch.Value} em {mesasureMatch.Index}");
         return new QuantityAndRest(
             Text.Substring(0, mesasureMatch.Index + mesasureMatch.Length).Trim(),
             kv.Key,
@@ -308,7 +310,7 @@ public class IngredientService
       }
     }
 
-    return new QuantityAndRest("", MeasureType.Literal, Text);
+    return new QuantityAndRest("", MeasureType.Unity, Text);
   }
 
   public static double ParseMeasureQuantity(string measureText, MeasureType measureType)

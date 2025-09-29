@@ -4,6 +4,7 @@ using System.Text.Json;
 using Server.Services;
 using Server.Models;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Server.Tests.Services;
 
@@ -12,6 +13,7 @@ public class FoodServiceTests
 {
   private AppDbContext context = null!;
   private FoodService service;
+  private sealed record FoodFixture(int Id, string NamePt, string KeysPt);
 
   [OneTimeSetUp]
   public void GlobalSetup()
@@ -21,8 +23,13 @@ public class FoodServiceTests
       throw new FileNotFoundException($"Arquivo não encontrado: {path}");
 
     var json = File.ReadAllText(path);
-    var foods =
-    JsonSerializer.Deserialize<List<Food>>(json) ?? new List<Food>();
+    var fixtures = JsonSerializer.Deserialize<List<FoodFixture>>(json) ?? new List<FoodFixture>();
+    var foods = fixtures.Select(fixture => new Food
+    {
+      Id = fixture.Id,
+      Name = new LanguageText { Pt = fixture.NamePt ?? string.Empty },
+      Keys = new LanguageText { Pt = fixture.KeysPt ?? string.Empty }
+    }).ToList();
 
     var options = new DbContextOptionsBuilder<AppDbContext>()
         .UseInMemoryDatabase(databaseName: "TestDb")
@@ -30,7 +37,7 @@ public class FoodServiceTests
 
     context = new AppDbContext(options);
 
-    context.Foods.AddRange(foods);
+    context.Food.AddRange(foods);
     context.SaveChanges();
 
     service = new FoodService(context);
@@ -49,7 +56,8 @@ public class FoodServiceTests
   {
     var foodResult = await service.hasExactFoodWithThisName(name);
 
-    Assert.That(foodResult.NamePt, Is.EqualTo(expectedName));
+    Assert.That(foodResult, Is.Not.Null);
+    Assert.That(foodResult!.Name.Pt, Is.EqualTo(expectedName));
   }
 
   [TestCase("Chocolate", "Chocolate preto 45 - 59%")]
@@ -61,7 +69,8 @@ public class FoodServiceTests
   {
     var foodResult = await service.hasExactKeyWithThisName(name);
 
-    Assert.That(foodResult.NamePt, Is.EqualTo(expectedName));
+    Assert.That(foodResult, Is.Not.Null);
+    Assert.That(foodResult!.Name.Pt, Is.EqualTo(expectedName));
   }
 
   [TestCase("Farinha de trigo peneirada", "Farinha de trigo")]
@@ -83,7 +92,8 @@ public class FoodServiceTests
   {
     var foodResult = await service.BestMatch(name);
 
-    Assert.That(foodResult.NamePt, Is.EqualTo(expectedName));
+    Assert.That(foodResult, Is.Not.Null);
+    Assert.That(foodResult!.Name.Pt, Is.EqualTo(expectedName));
   }
 
   [TestCase("Chocolate preto 45 - 59%", "Chocolate preto 45 - 59%")]
@@ -101,8 +111,17 @@ public class FoodServiceTests
   [TestCase("tocinho", "Toucinho")]
   public async Task FindFoodByPossibleName(string name, string expectedName)
   {
-    var foodResult = await service.BestMatch(name);
+    var foodResult = await service.FindFoodByPossibleName(name);
 
-    Assert.That(foodResult.NamePt, Is.EqualTo(expectedName));
+    Assert.That(foodResult, Is.Not.Null);
+    Assert.That(foodResult!.Name.Pt, Is.EqualTo(expectedName));
   }
 }
+
+
+
+
+
+
+
+
