@@ -1,4 +1,7 @@
 using System.Text.RegularExpressions;
+using System.Text;
+using System.Globalization;
+using System.Linq;
 using Server.Models;
 using Server.Shared;
 
@@ -240,7 +243,7 @@ public static class MeasurePatterns
   private const string PartialEnd = $@"( e {PartialWords})?";
   private const string Cup = @"((?:xícara|xicara)s?|xíc\.?)";
   private const string Spoon = @"((?:colher(?:es)?(?: de sopa)?|c\.s\.?)s?)";
-  private const string TeaSpoon = @"((?:colher(?:es)?(?:inhas?| de chá| pequenas?)|c\.c\.?)s?)";
+  private const string TeaSpoon = @"((?:colher(?:es)?(?:inhas?| de ch(?:á|a|Ã¡)| pequenas?)|c\.c\.?)s?)";
   private const string Ml = @"(?:ml|mililitros?)";
   private const string Liter = @"(?:l|litros?)";
   private const string Gram = @"(?:gr?|gramas?)";
@@ -313,19 +316,151 @@ public class IngredientService
     return new QuantityAndRest("", MeasureType.Unity, Text);
   }
 
-  public static double ParseMeasureQuantity(string measureText, MeasureType measureType)
+  public static double ParseMeasureQuantity(string? measureText)
   {
-    // Aqui você converte "2", "1/2", "meio" etc. em número
-    // Exemplo simples:
-    if (measureText.Contains("meio") || measureText.Contains("1/2"))
-      return 0.5;
+    if (string.IsNullOrWhiteSpace(measureText))
+    {
+      return 1;
+    }
 
-    if (double.TryParse(Regex.Match(measureText, @"\d+").Value, out var number))
-      return number;
+    static string NormalizeToken(string value)
+    {
+      if (string.IsNullOrWhiteSpace(value))
+      {
+        return string.Empty;
+      }
 
-    return 1; // default
+      var normalizedForm = value.Trim().Normalize(NormalizationForm.FormD);
+      var filtered = normalizedForm
+        .Where(ch => CharUnicodeInfo.GetUnicodeCategory(ch) != UnicodeCategory.NonSpacingMark)
+        .ToArray();
+
+      return new string(filtered).ToLowerInvariant();
+    }
+
+    var normalizedText = measureText.ToLowerInvariant().Replace(',', '.');
+
+    double total = 0;
+
+    void ConsumeMatches(string pattern, Func<Match, double> valueSelector)
+    {
+      foreach (Match match in Regex.Matches(normalizedText, pattern, RegexOptions.CultureInvariant))
+      {
+        total += valueSelector(match);
+      }
+
+      normalizedText = Regex.Replace(normalizedText, pattern, " ", RegexOptions.CultureInvariant);
+    }
+
+    ConsumeMatches(@"\d+\.\d+", match => double.Parse(match.Value, CultureInfo.InvariantCulture));
+    ConsumeMatches(@"(\d+)\s+(\d+)/(\d+)", match =>
+    {
+      var whole = double.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+      var numerator = double.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
+      var denominator = double.Parse(match.Groups[3].Value, CultureInfo.InvariantCulture);
+
+      return whole + numerator / denominator;
+    });
+    ConsumeMatches(@"\d+/\d+", match =>
+    {
+      var parts = match.Value.Split('/');
+      var numerator = double.Parse(parts[0], CultureInfo.InvariantCulture);
+      var denominator = double.Parse(parts[1], CultureInfo.InvariantCulture);
+      return numerator / denominator;
+    });
+    ConsumeMatches(@"\d+", match => double.Parse(match.Value, CultureInfo.InvariantCulture));
+
+    var measurementWordsPattern = @"\b(?:xícaras?|xicaras?|xicara|xíc\.?|colheres?|colher(?:es)?(?: de (?:sopa|chá))?|colher(?:inhas?|inha)?|c\.s\.?|c\.c\.?|ml|mililitros?|l|litros?|gramas?|grama|gr|g|kg|kilo(?:grama)?s?|latas?|lata|copos?|copo|fatias?|fatia|pitadas?|pitada|unidades?|unidade)\b";
+    normalizedText = Regex.Replace(normalizedText, measurementWordsPattern, " ", RegexOptions.CultureInvariant);
+    normalizedText = Regex.Replace(normalizedText, @"\b(?:de|do|da|dos|das|para|por|com)\b", " ", RegexOptions.CultureInvariant);
+
+    var tokens = Regex.Split(normalizedText, @"[\s\-]+", RegexOptions.CultureInvariant)
+      .Where(token => !string.IsNullOrWhiteSpace(token))
+      .ToList();
+
+    Dictionary<string, double> BuildLookup(Dictionary<string, double> source)
+      => source
+        .GroupBy(pair => NormalizeToken(pair.Key))
+        .ToDictionary(group => group.Key, group => group.First().Value);
+
+    var numberWords = BuildLookup(new Dictionary<string, double>
+    {
+      ["um"] = 1,
+      ["uma"] = 1,
+      ["dois"] = 2,
+      ["duas"] = 2,
+      ["três"] = 3,
+      ["tres"] = 3,
+      ["quatro"] = 4,
+      ["cinco"] = 5,
+      ["seis"] = 6,
+      ["sete"] = 7,
+      ["oito"] = 8,
+      ["nove"] = 9,
+      ["dez"] = 10,
+      ["onze"] = 11,
+      ["doze"] = 12,
+    });
+
+    var singlePartials = BuildLookup(new Dictionary<string, double>
+    {
+      ["meio"] = 0.5,
+      ["meia"] = 0.5,
+      ["metade"] = 0.5,
+    });
+
+    var multiPartials = BuildLookup(new Dictionary<string, double>
+    {
+      ["um terço"] = 1.0 / 3,
+      ["um terco"] = 1.0 / 3,
+      ["dois terços"] = 2.0 / 3,
+      ["dois tercos"] = 2.0 / 3,
+      ["um quarto"] = 0.25,
+      ["três quartos"] = 3.0 / 4,
+      ["tres quartos"] = 3.0 / 4,
+    });
+
+    for (var i = 0; i < tokens.Count; i++)
+    {
+      var normalizedToken = NormalizeToken(tokens[i]);
+
+      if (string.IsNullOrEmpty(normalizedToken) || normalizedToken == "e" || normalizedToken == "&")
+      {
+        continue;
+      }
+
+      if (i + 1 < tokens.Count)
+      {
+        var nextNormalized = NormalizeToken(tokens[i + 1]);
+        var pairKey = $"{normalizedToken} {nextNormalized}";
+        if (multiPartials.TryGetValue(pairKey, out var pairValue))
+        {
+          total += pairValue;
+          i += 1;
+          continue;
+        }
+      }
+
+      if (singlePartials.TryGetValue(normalizedToken, out var partialValue))
+      {
+        total += partialValue;
+        continue;
+      }
+
+      if (numberWords.TryGetValue(normalizedToken, out var numberValue))
+      {
+        total += numberValue;
+        continue;
+      }
+
+      if (double.TryParse(normalizedToken, NumberStyles.Float, CultureInfo.InvariantCulture, out var numericValue))
+      {
+        total += numericValue;
+      }
+    }
+
+    return total > 0 ? total : 1;
   }
-
   public static double ConvertToLiteralQuantity(double quantity, MeasureType measureType)
   {
     return measureType switch
@@ -408,7 +543,7 @@ public class IngredientService
   {
     var (measureText, measureType, restText) = SplitTextInMeasureAndRest();
     var food = await foodService.FindFoodByPossibleName(restText); // instância do Food
-    var quantity = ParseMeasureQuantity(measureText, measureType);
+    var quantity = ParseMeasureQuantity(measureText);
     var grams = ConvertToLiteralQuantity(quantity, measureType);
 
     return new Ingredient(

@@ -175,4 +175,29 @@ public class IngredientServiceTests
     Assert.That(result.MeasureType, Is.EqualTo(expectedMeasureType));
     Assert.That(result.Rest, Is.EqualTo(expectedRest));
   }
+  [TestCase("1 xícara", 1d)]
+  [TestCase("6 1/2 xícaras", 6.5d)]
+  [TestCase("quatro e meia xícaras", 4.5d)]
+  [TestCase("duas colheres e meia", 2.5d)]
+  [TestCase("3 colheres e dois terços", 3.6666666667d)]
+  [TestCase("1/2 xícara", 0.5d)]
+  [TestCase("meia colher", 0.5d)]
+  [TestCase("um terço de xícara", 0.3333333333d)]
+  [TestCase("dois terços de xícara", 0.6666666667d)]
+  [TestCase("3/4 xícara", 0.75d)]
+  [TestCase("200 gramas", 200d)]
+  [TestCase("1g", 1d)]
+  [TestCase("3 kilos e meio", 3.5d)]
+  [TestCase("0,5 litro", 0.5d)]
+  [TestCase("", 1d)]
+  [TestCase(null, 1d)]
+  public void ParseMeasureQuantity_ParsesExpectedValue(string? measureText, double expected)
+  {
+    var result = IngredientService.ParseMeasureQuantity(measureText);
+
+    Assert.That(result, Is.EqualTo(expected).Within(0.0001));
+  }
 }
+
+
+
