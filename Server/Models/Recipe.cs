@@ -2,16 +2,28 @@
 
 namespace Server.Models;
 
-public class Recipe : RecipeBase<RecipeStep>
+public class Recipe : RecipeBase<RecipeStep, Food>
 {
   public string OwnerId { get; set; } = string.Empty;
+  new public LanguageText Name { get; set; } = new LanguageText();
+  new public LanguageText Keys { get; set; } = new LanguageText();
 
   public Recipe() : base() { }
 
-  public Recipe(int? id, string name, string? description, string? additional, List<RecipeStep> steps)
+  public Recipe(
+    int? id,
+    LanguageText name,
+    LanguageText keys,
+    Food food,
+    string? description,
+    string? additional,
+    List<RecipeStep> steps
+  )
   {
     Id = id ?? 0;
     Name = name;
+    Keys = keys;
+    Food = food;
     Description = description;
     Additional = additional;
     Steps = steps;
@@ -30,8 +42,16 @@ public class Recipe : RecipeBase<RecipeStep>
     });
   }
 
-  public Recipe(int? id, string name, string? description, string? additional, List<RecipeStep> steps, string? ownerId)
-    : this(id, name, description, additional, steps)
+  public Recipe(
+    int? id,
+    LanguageText name,
+    LanguageText keys,
+    Food food,
+    string? description,
+    string? additional,
+    List<RecipeStep> steps,
+    string? ownerId
+  ) : this(id, name, keys, food, description, additional, steps)
   {
     OwnerId = ownerId ?? string.Empty;
   }

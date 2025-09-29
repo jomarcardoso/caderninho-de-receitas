@@ -10,16 +10,24 @@ public class RecipeService
   private readonly AppDbContext _context;
   private readonly IMapper _mapper;
   private readonly IngredientService ingredientService;
+  private readonly FoodService foodService;
 
-  public RecipeService(IngredientService _ingredientService, IMapper mapper, AppDbContext context)
+  public RecipeService(
+    IngredientService _ingredientService,
+    FoodService _foodService,
+    IMapper mapper,
+    AppDbContext context
+  )
   {
     ingredientService = _ingredientService ?? throw new ArgumentNullException(nameof(ingredientService));
+    foodService = _foodService ?? throw new ArgumentNullException(nameof(foodService));
     _mapper = mapper;
     _context = context;
   }
   public async Task<Recipe> DtoToEntity(RecipeDto recipeDto)
   {
     var steps = new List<RecipeStep>();
+    var food = await foodService.FindFoodByPossibleName(recipeDto.Name.Pt);
 
     foreach (RecipeStepDto stepDto in recipeDto.Steps)
     {
@@ -43,7 +51,17 @@ public class RecipeService
 
     return new Recipe(
       recipeDto.Id,
-      recipeDto.Name ?? string.Empty,
+      new LanguageText()
+      {
+        Pt = recipeDto.Name.Pt,
+        En = recipeDto.Name.En,
+      },
+      new LanguageText()
+      {
+        Pt = recipeDto.Keys.Pt,
+        En = recipeDto.Keys.En,
+      },
+      food,
       recipeDto.Description,
       recipeDto.Additional,
       steps

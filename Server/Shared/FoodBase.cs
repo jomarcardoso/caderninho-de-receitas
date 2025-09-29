@@ -1,6 +1,6 @@
 namespace Server.Shared;
 
-public class FoodBase
+public class FoodBase : ISearchable
 {
   public int Id { get; set; }
   public LanguageTextBase Name { get; set; } = new LanguageTextBase();

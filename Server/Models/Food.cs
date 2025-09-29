@@ -5,9 +5,9 @@ namespace Server.Models;
 public class Food : FoodBase, INutrients
 {
   new public LanguageText Name { get; set; } = new LanguageText();
+  new public LanguageText Keys { get; set; } = new LanguageText();
   new public LanguageText Description { get; set; } = new LanguageText();
   new public Measure Measures { get; set; } = new();
-  new public LanguageText Keys { get; set; } = new LanguageText();
   new public NutritionalInformation NutritionalInformation { get; set; } = new();
   new public Minerals Minerals { get; set; } = new();
   new public Vitamins Vitamins { get; set; } = new();
