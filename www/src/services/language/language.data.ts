@@ -1,4 +1,4 @@
-import { LanguageText } from './language.types';
+﻿import { LanguageText } from './language.types';
 
 export const I18N_TEXT = {
   language: {
@@ -131,7 +131,7 @@ export const I18N_TEXT = {
   },
   stepHintBody: {
     en: 'You do not need to fill this field if your recipe does not have more than one step or layer. For example, a salad can be made with all ingredients together in a single process, but a cake can have multiple parts - batter, filling, and frosting - so it is necessary to differentiate each one.',
-    pt: 'Você não precisa preencher esse campo se a sua receita não possui mais do que uma etapa ou camada. Por exemplo, uma salada pode ser feita com todos os ingredientes juntos e em um único processo, porÃ©m um bolo pode ter várias partes - massa, recheio e cobertura - então Ã© necessário diferenciar cada uma delas.',
+    pt: 'Você não precisa preencher esse campo se a sua receita não possui mais do que uma etapa ou camada. Por exemplo, uma salada pode ser feita com todos os ingredientes juntos e em um único processo, porém um bolo pode ter várias partes - massa, recheio e cobertura - então é necessário diferenciar cada uma delas.',
   },
   creatingRecipeMessage: {
     en: 'You are creating a new recipe. Fill in the fields below and press the save recipe button to create it and add it to your recipe notebook.',
@@ -159,7 +159,7 @@ export const I18N_TEXT = {
   },
   userNotLoggedMessage: {
     en: 'You are not logged in; it is important to sign in so you never lose your recipes.',
-    pt: 'Você não está conectado, Ã© importante fazer login para nunca perder suas receitas.',
+    pt: 'Você não está conectado, é importante fazer login para nunca perder suas receitas.',
   },
   userAreaAria: {
     en: 'user area',
@@ -287,7 +287,7 @@ export const I18N_TEXT = {
   },
   foodFormMagnesium: {
     en: 'magnesium',
-    pt: 'magnÃ©sio',
+    pt: 'magnésio',
   },
   foodFormPhosphorus: {
     en: 'phosphorus',
@@ -322,3 +322,4 @@ export const I18N_TEXT = {
     pt: 'Modo de preparo{suffix}',
   },
 } satisfies Record<string, LanguageText>;
+
