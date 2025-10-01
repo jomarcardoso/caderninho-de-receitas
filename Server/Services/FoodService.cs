@@ -76,7 +76,6 @@ public class FoodService
 
     existingFood.Name = food.Name;
     // existingFood.Calories = food.Calories;
-    // Atualize outras propriedades necessárias
 
     await _context.SaveChangesAsync();
     return existingFood;
@@ -151,11 +150,18 @@ public class FoodService
 
   public static List<Food> GetFoodsFromRecipes(List<Recipe> recipes)
   {
-    return recipes
+    var foodsFromSteps = recipes
       .SelectMany(r => r.Steps)
       .SelectMany(s => s.Ingredients)
-      .Select(i => i.Food)
-      .DistinctBy(f => f.Id)
-      .ToList();
+      .Select(i => i.Food);
+
+    var recipeFoods = recipes
+      .Select(r => r.Food);
+
+    return foodsFromSteps
+      .Concat(recipeFoods)
+      .Where(f => f is not null)
+      .DistinctBy(f => f!.Id)
+      .ToList()!;
   }
 }

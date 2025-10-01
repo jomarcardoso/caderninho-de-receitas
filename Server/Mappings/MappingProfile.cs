@@ -9,7 +9,7 @@ public class MappingProfile : Profile
   {
     // Recipe → RecipeDto
     CreateMap<Recipe, RecipeResponseDto>()
-      .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food.Id));
+      .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food != null ? src.Food.Id : 0));
 
     // RecipeStep → RecipeStepDto
     CreateMap<RecipeStep, RecipeStepResponse>().ReverseMap();
@@ -46,3 +46,8 @@ public class MappingProfile : Profile
     //   .ForMember(dest => dest.MeasurementUnit, opt => opt.MapFrom(src => NutrientData.GetMeasurementUnit(src)));
   }
 }
+
+
+
+
+

@@ -25,6 +25,7 @@ public class RecipeService
     _mapper = mapper;
     _context = context;
   }
+
   public async Task<Recipe> DtoToEntity(RecipeDto recipeDto)
   {
     var steps = new List<RecipeStep>();
@@ -65,6 +66,7 @@ public class RecipeService
   {
     List<Recipe> recipes = await _context.Recipe
       .Where(r => r.OwnerId == userId)
+      .Include(r => r.Food)
       .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
@@ -103,11 +105,3 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 }
-
-
-
-
-
-
-
-
