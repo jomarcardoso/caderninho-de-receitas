@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 namespace Server.Shared;
 
 public class EssentialAminoAcidsBase
@@ -37,6 +38,21 @@ public class EssentialAminoAcidsBase
     Threonine = essentialAminoAcids.Threonine * quantity;
     Methionine = essentialAminoAcids.Methionine * quantity;
     Histidine = essentialAminoAcids.Histidine * quantity;
+  }
+
+  public EssentialAminoAcidsBase Add(EssentialAminoAcidsBase essentialAminoAcids)
+  {
+    Histidine += essentialAminoAcids.Histidine;
+    Isoleucine += essentialAminoAcids.Isoleucine;
+    Leucine += essentialAminoAcids.Leucine;
+    Lysine += essentialAminoAcids.Lysine;
+    Methionine += essentialAminoAcids.Methionine;
+    Phenylalanine += essentialAminoAcids.Phenylalanine;
+    Threonine += essentialAminoAcids.Threonine;
+    Tryptophan += essentialAminoAcids.Tryptophan;
+    Valine += essentialAminoAcids.Valine;
+
+    return this;
   }
 
   public double GetScore()

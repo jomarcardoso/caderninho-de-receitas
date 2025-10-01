@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
 using Server.Models;
+using Server.Shared;
 using System.Linq;
 
 namespace Server.Services;
@@ -68,6 +69,8 @@ public class RecipeService
     {
       recipe.Steps.Add(step);
     }
+
+    RecalculateRecipeNutrition(recipe);
   }
 
   private async Task<List<RecipeStep>> BuildStepsAsync(RecipeDto recipeDto)
@@ -105,6 +108,24 @@ public class RecipeService
 
     return steps;
   }
+  private static void RecalculateRecipeNutrition(Recipe recipe)
+  {
+    recipe.NutritionalInformation = new NutritionalInformationBase();
+    recipe.Minerals = new MineralsBase();
+    recipe.Vitamins = new VitaminsBase();
+    recipe.AminoAcids = new AminoAcidsBase();
+    recipe.EssentialAminoAcids = new EssentialAminoAcidsBase();
+
+    foreach (var step in recipe.Steps)
+    {
+      recipe.NutritionalInformation.Add(step.NutritionalInformation);
+      recipe.Minerals.Add(step.Minerals);
+      recipe.Vitamins.Add(step.Vitamins);
+      recipe.AminoAcids.Add(step.AminoAcids);
+      recipe.EssentialAminoAcids.Add(step.EssentialAminoAcids);
+    }
+  }
+
   public async Task<List<Recipe>> GetAllRecipesByUserId(string userId)
   {
     List<Recipe> recipes = await _context.Recipe

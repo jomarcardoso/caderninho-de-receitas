@@ -1,4 +1,4 @@
-﻿using Server.Shared;
+using Server.Shared;
 
 namespace Server.Models;
 
@@ -30,6 +30,7 @@ public class Recipe : RecipeBase<RecipeStep, Food>
     Minerals = new MineralsBase();
     Vitamins = new VitaminsBase();
     AminoAcids = new AminoAcidsBase();
+    EssentialAminoAcids = new EssentialAminoAcidsBase();
 
     steps.ForEach(s =>
     {
@@ -37,6 +38,7 @@ public class Recipe : RecipeBase<RecipeStep, Food>
       Minerals.Add(s.Minerals);
       Vitamins.Add(s.Vitamins);
       AminoAcids.Add(s.AminoAcids);
+      EssentialAminoAcids.Add(s.EssentialAminoAcids);
     });
   }
 

@@ -16,6 +16,7 @@ public class RecipeStep : RecipeStepBase<Ingredient>
     Minerals = new MineralsBase();
     Vitamins = new VitaminsBase();
     AminoAcids = new AminoAcidsBase();
+    EssentialAminoAcids = new EssentialAminoAcidsBase();
 
     Ingredients = ingredients ?? new List<Ingredient>();
 
@@ -25,6 +26,8 @@ public class RecipeStep : RecipeStepBase<Ingredient>
       Minerals.Add(ingredient.Minerals);
       Vitamins.Add(ingredient.Vitamins);
       AminoAcids.Add(ingredient.AminoAcids);
+      EssentialAminoAcids.Add(ingredient.EssentialAminoAcids);
     }
   }
 }
+
