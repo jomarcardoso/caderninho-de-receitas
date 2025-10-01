@@ -92,8 +92,7 @@ public class RecipeService
       var fallbackFoods = await foodService.GetAllAsync();
 
       foods = fallbackFoods
-        .OrderBy(f => f.Name?.Pt ?? string.Empty)
-        .ThenBy(f => f.Id)
+        .OrderBy(_ => System.Random.Shared.NextDouble())
         .Take(30)
         .ToList();
     }
@@ -112,4 +111,10 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 }
+
+
+
+
+
+
 
