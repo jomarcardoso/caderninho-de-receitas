@@ -16,6 +16,7 @@ import { EditingContext } from '../../providers/editing/editing.context';
 import { ShareService } from '../../services/url/share.service';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { Food } from '../../services/food/food.model';
+import { mapRecipeModelToDto } from '../../services/recipe/recipe.service';
 
 let rendered = 0;
 
@@ -28,6 +29,7 @@ const RecipePanel: FC<{
   const { removeRecipe } = useContext(DataContext);
   const { setLoading } = useContext(LoadingContext);
   const { editing, setEditing } = useContext(EditingContext);
+  const currentRecipeDto = currentRecipe && mapRecipeModelToDto(currentRecipe);
 
   async function handleShare() {
     if (setLoading) {
@@ -63,7 +65,7 @@ const RecipePanel: FC<{
 
   function renderBody() {
     if (editing) {
-      return <RecipeRegister recipeToEdit={currentRecipe} />;
+      return <RecipeRegister recipeToEdit={currentRecipeDto} />;
     }
 
     return (
@@ -151,4 +153,3 @@ const RecipePanel: FC<{
 };
 
 export default RecipePanel;
-

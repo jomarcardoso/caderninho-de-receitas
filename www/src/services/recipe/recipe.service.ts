@@ -1,4 +1,4 @@
-import { RecipeResponse, RecipesDataResponse } from './recipe.response';
+﻿import { RecipeResponse, RecipesDataResponse } from './recipe.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import { Recipe, RecipesData } from './recipe.model';
 import { RecipeDto } from './recipe.dto';
@@ -12,6 +12,7 @@ import { RECIPES_DATA } from './recipe.data';
 import { RecipeStepDto } from '../recipe-step';
 import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
 import { FOOD } from '../food/food.model';
+import { mapRecipeStepModelToDto } from '../recipe-step/recipe-step.service';
 
 function stepToText(step: RecipeStepDto, language: Language): string {
   const suffix = step.title ? ` ${step.title}` : '';
@@ -53,18 +54,13 @@ ${recipe.description}
 ${stepsText}`;
 }
 
-function mapRecipeStepModelToDto(step: RecipeStepDto): RecipeStepDto {
+export function mapRecipeModelToDto(recipe: Recipe): RecipeDto {
   return {
-    title: step.title ?? '',
-    preparation: step.preparation ?? '',
-    additional: step.additional ?? '',
-    ingredientsText: step.ingredientsText ?? '',
-  };
-}
-
-export function mapRecipeModelToDto(recipe: RecipeDto): RecipeDto {
-  return {
-    ...recipe,
+    id: recipe.id ?? 0,
+    language: recipe.language ?? 'en',
+    name: recipe.name ?? '',
+    additional: recipe.additional ?? '',
+    description: recipe.description ?? '',
     steps: recipe.steps?.map(mapRecipeStepModelToDto) ?? [],
   };
 }
@@ -153,6 +149,10 @@ export function mapRecipesDataResponseToModel(
 export async function fetchRecipes(): Promise<RecipesData> {
   try {
     const res = await fetch('http://localhost:5106/api/recipe');
+    if (!res.ok) {
+      throw new Error('Failed to save recipe');
+    }
+
     const data: RecipesDataResponse = await res.json();
 
     return mapRecipesDataResponseToModel(data);
@@ -165,13 +165,20 @@ export async function fetchRecipes(): Promise<RecipesData> {
 
 export async function saveRecipe(recipe: RecipeDto): Promise<RecipesData> {
   try {
-    const res = await fetch('http://localhost:5106/api/recipe', {
+    const url = recipe.id
+      ? `http://localhost:5106/api/recipe/${recipe.id}`
+      : 'http://localhost:5106/api/recipe';
+    const res = await fetch(url, {
       method: recipe.id ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(recipe),
     });
+    if (!res.ok) {
+      throw new Error('Failed to save recipe');
+    }
+
     const data: RecipesDataResponse = await res.json();
 
     return mapRecipesDataResponseToModel(data);
@@ -189,6 +196,10 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
     const res = await fetch('http://localhost:5106/api/recipe', {
       method: 'DELETE',
     });
+    if (!res.ok) {
+      throw new Error('Failed to save recipe');
+    }
+
     const data: RecipesDataResponse = await res.json();
 
     return mapRecipesDataResponseToModel(data);

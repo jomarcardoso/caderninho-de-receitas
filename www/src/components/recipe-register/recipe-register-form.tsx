@@ -139,9 +139,13 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                 <Field
                   multiline
                   name={`steps.${index}.additional`}
-                  label={translate('additionalInformationLabelWithStep', language, {
-                    suffix,
-                  })}
+                  label={translate(
+                    'additionalInformationLabelWithStep',
+                    language,
+                    {
+                      suffix,
+                    },
+                  )}
                   value={step.additional}
                   onChange={handleChange}
                   onBlur={formikHandleBlur}
@@ -213,7 +217,10 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                       <Field
                         multiline
                         name="additional"
-                        label={translate('additionalInformationLabel', language)}
+                        label={translate(
+                          'additionalInformationLabel',
+                          language,
+                        )}
                         value={values.additional}
                         onChange={handleChange}
                         onBlur={formikHandleBlur}
@@ -259,7 +266,9 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
           </div>
 
           <div className="g-col-8">
-            <SubmitComponent>{translate('saveRecipe', language)}</SubmitComponent>
+            <SubmitComponent>
+              {translate('saveRecipe', language)}
+            </SubmitComponent>
           </div>
         </div>
       </div>

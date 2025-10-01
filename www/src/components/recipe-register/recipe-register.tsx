@@ -16,7 +16,7 @@ interface Props {
 }
 
 const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
-  const [recipe, setRecipe] = useState<RecipeDto | undefined>(recipeToEdit);
+  const [recipe, setRecipe] = useState(recipeToEdit);
   const { saveRecipe } = useContext(DataContext);
   const { restoreLastRecipe, currentRecipe, setCurrentRecipe } =
     useContext(CurrentRecipeContext);
@@ -42,6 +42,7 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
     ({
       name = '',
       description = '',
+      additional = '',
       steps: stepsData = [],
       // category = '',
     }: RecipeForm): void => {
@@ -52,12 +53,13 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
 
         return;
       }
-      console.log(2);
 
       const newRecipe: RecipeDto = {
         steps: stepsData,
         name,
         description,
+        additional,
+        language,
         id: recipe?.id ?? 0,
         // category,
       };
