@@ -11,7 +11,9 @@ import { AllNutrients } from '../nutrient/nutrient.model';
 import { RecipeStep } from '../recipe-step';
 import { RecipeBase } from './recipe.types';
 
-export type Recipe = RecipeBase<RecipeStep> & AllNutrients;
+export interface Recipe extends RecipeBase<RecipeStep>, AllNutrients {
+  food: Food;
+}
 
 export interface RecipesData extends AllNutrientsData {
   recipes: Recipe[];

@@ -3,8 +3,11 @@ import { AllNutrientsResponse } from '../nutrient/nutrient.response';
 import { RecipeStepResponse } from '../recipe-step';
 import { RecipeBase } from './recipe.types';
 
-export type RecipeResponse = RecipeBase<RecipeStepResponse> &
-  AllNutrientsResponse;
+export interface RecipeResponse
+  extends RecipeBase<RecipeStepResponse>,
+    AllNutrientsResponse {
+  food: number;
+}
 
 export interface RecipesDataResponse extends FoodsDataResponse {
   recipes: RecipeResponse[];

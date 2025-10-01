@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Server.Shared;
 
 namespace Server.Models;
@@ -12,7 +12,7 @@ public class RecipeStep : RecipeStepBase<Ingredient>
     : base(title, preparation, additional, ingredientsText)
   {
     NutritionalInformation = new NutritionalInformationBase();
-    Minerals = new Minerals();
+    Minerals = new MineralsBase();
     Vitamins = new VitaminsBase();
     AminoAcids = new AminoAcidsBase();
 

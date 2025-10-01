@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Server.Models;
 using Server.Dtos;
 using Server.Shared;
@@ -7,22 +7,23 @@ public class MappingProfile : Profile
 {
   public MappingProfile()
   {
-    // Recipe ↔ RecipeDto
-    CreateMap<Recipe, RecipeResponseDto>().ReverseMap();
+    // Recipe → RecipeDto
+    CreateMap<Recipe, RecipeResponseDto>()
+      .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food.Id));
 
-    // RecipeStep ↔ RecipeStepDto
+    // RecipeStep → RecipeStepDto
     CreateMap<RecipeStep, RecipeStepResponse>().ReverseMap();
 
-    // Ingredient ↔ IngredientResponseDto
+    // Ingredient → IngredientResponseDto
     CreateMap<Ingredient, IngredientResponse>()
       .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food.Id))
       .ReverseMap()
       .ForPath(src => src.Food.Id, opt => opt.MapFrom(dest => dest.Food));
 
-    // Food ↔ FoodDto
+    // Food → FoodDto
     // CreateMap<Food, FoodDto>().ReverseMap();
 
-    // Measure ↔ MeasureDto (se tiver)
+    // Measure → MeasureDto (se tiver)
     // CreateMap<Measure, MeasureDto>().ReverseMap();
 
     // Nutrient mappings

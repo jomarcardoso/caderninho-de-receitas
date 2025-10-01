@@ -104,7 +104,11 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         </div>
       )}
       <div style={{ marginBottom: '24px' }}>
-        <Image src={recipe?.image} alt="" aspectRatio={1.25} />
+        <Image
+          src={recipe?.image || recipe?.food.image}
+          alt=""
+          aspectRatio={1.25}
+        />
       </div>
       <div className="recipe-container__body container">
         <div className="grid columns-1 g-6">
@@ -138,7 +142,9 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
           {recipe?.additional && <div>{recipe.additional}</div>}
 
           <div className="grid columns-1 g-3">
-            <h2 className="h2">{translate('nutritionalInformation', language)}</h2>
+            <h2 className="h2">
+              {translate('nutritionalInformation', language)}
+            </h2>
 
             <ul>
               {recipe?.nutritionalInformation?.map(
@@ -149,7 +155,9 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
           {recipe?.vitamins?.length && (
             <div className="grid columns-1 g-3">
-              <h3 className="section-title">{translate('vitamins', language)}</h3>
+              <h3 className="section-title">
+                {translate('vitamins', language)}
+              </h3>
 
               <ul className="list">{recipe?.vitamins.map(renderNutrient)}</ul>
             </div>
@@ -157,7 +165,9 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 
           {recipe?.minerals?.length && (
             <div className="grid columns-1 g-3">
-              <h3 className="section-title">{translate('minerals', language)}</h3>
+              <h3 className="section-title">
+                {translate('minerals', language)}
+              </h3>
 
               <ul className="list">{recipe?.minerals.map(renderNutrient)}</ul>
             </div>
@@ -176,6 +186,3 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 };
 
 export default RecipeContainer;
-
-
-

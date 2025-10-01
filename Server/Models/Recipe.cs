@@ -27,7 +27,7 @@ public class Recipe : RecipeBase<RecipeStep, Food>
     Steps = steps;
 
     NutritionalInformation = new NutritionalInformationBase();
-    Minerals = new Minerals();
+    Minerals = new MineralsBase();
     Vitamins = new VitaminsBase();
     AminoAcids = new AminoAcidsBase();
 
