@@ -39,8 +39,8 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   const { language } = useContext(LanguageContext);
 
   const memoizedRenderInputIngredient = useCallback(
-    (index = 0, ingredients = '', stepName = '') => {
-      const normalizedIngredients = ingredients.trim();
+    (index = 0, ingredientsText = '', stepName = '') => {
+      const normalizedIngredients = ingredientsText.trim();
       const ingredientList = normalizedIngredients
         ? normalizedIngredients.split('\n').map((line) => line.trim())
         : [];
@@ -59,7 +59,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
           .filter((line) => line.length)
           .join('\n');
 
-        setFieldValue(`steps.${index}.ingredients`, cleanedValue);
+        setFieldValue(`steps.${index}.ingredientsText`, cleanedValue);
       };
 
       return (
@@ -67,7 +67,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
           multiline
           label={label}
           minRows="4"
-          name={`steps.${index}.ingredient`}
+          name={`steps.${index}.ingredientsText`}
           value={bulletValue}
           onChange={handleChangeIngredient}
           onBlur={formikHandleBlur}

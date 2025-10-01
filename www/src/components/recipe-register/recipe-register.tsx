@@ -39,13 +39,13 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
   }, [currentRecipe?.id, restoreLastRecipe, setEditing]);
 
   const memoizedHandleSubmit = useCallback(
-    ({
+    async ({
       name = '',
       description = '',
       additional = '',
       steps: stepsData = [],
       // category = '',
-    }: RecipeForm): void => {
+    }: RecipeForm): Promise<void> => {
       if (!saveRecipe) return;
 
       if (!name) {
@@ -64,16 +64,36 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
         // category,
       };
 
-      // const id = addRecipe(newRecipe);
+      const updatedData = await saveRecipe(newRecipe);
 
-      // setCurrentRecipe?.({
-      //   ...newRecipe,
-      //   // id,
-      // });
+      if (!updatedData?.recipes.length) {
+        return;
+      }
 
-      saveRecipe(newRecipe);
+      let savedRecipe =
+        newRecipe.id > 0
+          ? updatedData.recipes.find((item) => item.id === newRecipe.id)
+          : undefined;
+
+      if (!savedRecipe) {
+        savedRecipe = updatedData.recipes.reduce(
+          (latest, item) => (item.id > latest.id ? item : latest),
+          updatedData.recipes[0],
+        );
+      }
+
+      if (savedRecipe) {
+        setCurrentRecipe?.(savedRecipe);
+        setEditing?.(false);
+      }
     },
-    [recipe?.id, saveRecipe, setCurrentRecipe],
+    [
+      language,
+      recipe?.id,
+      saveRecipe,
+      setCurrentRecipe,
+      setEditing,
+    ],
   );
 
   useEffect(() => {

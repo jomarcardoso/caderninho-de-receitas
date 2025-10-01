@@ -14,7 +14,7 @@ export function useData(): DataContextProps {
   const [data, setData] = useState(RECIPES_DATA);
 
   /**
-   * @returns id
+   * @returns Updated recipes dataset
    */
   async function saveRecipe(recipe: RecipeDto) {
     const newData = await saveRecipeService(recipe);
@@ -22,6 +22,8 @@ export function useData(): DataContextProps {
     if (newData.recipes.length) {
       setData(newData);
     }
+
+    return newData;
   }
 
   async function removeRecipe(id = 0) {
