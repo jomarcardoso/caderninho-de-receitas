@@ -52,6 +52,7 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
 
         return;
       }
+      console.log(2);
 
       const newRecipe: RecipeDto = {
         steps: stepsData,
@@ -63,10 +64,12 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
 
       // const id = addRecipe(newRecipe);
 
-      setCurrentRecipe?.({
-        ...newRecipe,
-        // id,
-      });
+      // setCurrentRecipe?.({
+      //   ...newRecipe,
+      //   // id,
+      // });
+
+      saveRecipe(newRecipe);
     },
     [recipe?.id, saveRecipe, setCurrentRecipe],
   );

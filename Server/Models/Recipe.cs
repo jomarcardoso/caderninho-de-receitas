@@ -5,15 +5,13 @@ namespace Server.Models;
 public class Recipe : RecipeBase<RecipeStep, Food>
 {
   public string OwnerId { get; set; } = string.Empty;
-  new public LanguageText Name { get; set; } = new LanguageText();
-  new public LanguageText Keys { get; set; } = new LanguageText();
 
   public Recipe() : base() { }
 
   public Recipe(
     int? id,
-    LanguageText name,
-    LanguageText keys,
+    string name,
+    string keys,
     Food food,
     string? description,
     string? additional,
@@ -44,8 +42,8 @@ public class Recipe : RecipeBase<RecipeStep, Food>
 
   public Recipe(
     int? id,
-    LanguageText name,
-    LanguageText keys,
+    string name,
+    string keys,
     Food food,
     string? description,
     string? additional,

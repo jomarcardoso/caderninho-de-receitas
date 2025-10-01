@@ -28,13 +28,13 @@ public class RecipeService
   public async Task<Recipe> DtoToEntity(RecipeDto recipeDto)
   {
     var steps = new List<RecipeStep>();
-    var food = await foodService.FindFoodByPossibleName(recipeDto.Name.Pt);
+    var food = await foodService.FindFoodByPossibleName(recipeDto.Name);
 
     foreach (RecipeStepDto stepDto in recipeDto.Steps)
     {
       var ingredients = new List<Ingredient>();
 
-      foreach (var text in stepDto.IngredientsText.Split("\n"))
+      foreach (var text in (stepDto.IngredientsText ?? string.Empty).Split("\n", StringSplitOptions.RemoveEmptyEntries))
       {
         ingredientService.Text = text;
         var ingredient = await ingredientService.ToEntity();
@@ -45,23 +45,15 @@ public class RecipeService
         stepDto.Title,
         stepDto.Preparation,
         stepDto.Additional,
-        ingredientsText: stepDto.IngredientsText,
+        ingredientsText: stepDto.IngredientsText ?? string.Empty,
         ingredients: ingredients
       ));
     }
 
     return new Recipe(
       recipeDto.Id,
-      new LanguageText()
-      {
-        Pt = recipeDto.Name.Pt,
-        En = recipeDto.Name.En,
-      },
-      new LanguageText()
-      {
-        Pt = recipeDto.Keys.Pt,
-        En = recipeDto.Keys.En,
-      },
+      recipeDto.Name,
+      recipeDto.Keys,
       food,
       recipeDto.Description,
       recipeDto.Additional,
@@ -111,6 +103,7 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 }
+
 
 
 

@@ -1,13 +1,14 @@
 namespace Server.Shared;
 
-public abstract class RecipeContract<TRecipeStep> : ISearchable
+public abstract class RecipeContract<TRecipeStep>
 {
   public int Id { get; set; }
-  public LanguageTextBase Name { get; set; } = new LanguageTextBase();
-  public LanguageTextBase Keys { get; set; } = new LanguageTextBase();
+  public string Name { get; set; } = string.Empty;
+  public string Keys { get; set; } = string.Empty;
   public string? Description { get; set; }
   public string? Additional { get; set; }
   public List<TRecipeStep> Steps { get; set; } = new List<TRecipeStep>();
+  public Language Language = Language.En;
 }
 
 public abstract class RecipeBase<TRecipeStep, TFood> : RecipeContract<TRecipeStep>, INutrientsBase

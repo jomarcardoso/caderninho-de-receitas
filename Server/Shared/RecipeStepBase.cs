@@ -1,20 +1,20 @@
-namespace Server.Shared;
+﻿namespace Server.Shared;
 
 public abstract class RecipeStepContract
 {
   public string Title { get; set; } = string.Empty;
   public string Preparation { get; set; } = string.Empty;
   public string Additional { get; set; } = string.Empty;
-  public string IngredientsText { get; set; }
+  public string? IngredientsText { get; set; } = string.Empty;
 
   public RecipeStepContract() { }
 
-  public RecipeStepContract(string title, string preparation, string additional, string ingredientsText)
+  public RecipeStepContract(string title, string preparation, string additional, string? ingredientsText)
   {
     Title = title;
     Preparation = preparation;
     Additional = additional;
-    IngredientsText = ingredientsText;
+    IngredientsText = ingredientsText ?? string.Empty;
   }
 }
 
@@ -29,6 +29,6 @@ public abstract class RecipeStepBase<TRecipeIngredient> : RecipeStepContract, IN
 
   public RecipeStepBase() { }
 
-  public RecipeStepBase(string title, string preparation, string additional, string ingredientsText)
+  public RecipeStepBase(string title, string preparation, string additional, string? ingredientsText)
     : base(title, preparation, additional, ingredientsText) { }
 }

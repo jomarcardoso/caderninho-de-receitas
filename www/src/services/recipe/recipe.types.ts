@@ -1,9 +1,12 @@
+import { Language } from '../language/language.types';
+
 export interface RecipeContract<TRecipeStep> {
   id?: number;
   name: string;
   description?: string;
   additional?: string;
   steps: TRecipeStep[];
+  language: Language;
   // category: RecipeCategory | '';
 }
 

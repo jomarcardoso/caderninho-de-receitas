@@ -183,7 +183,7 @@ export async function saveRecipe(recipe: RecipeDto): Promise<RecipesData> {
 
     return mapRecipesDataResponseToModel(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
   return RECIPES_DATA;

@@ -1,5 +1,11 @@
 namespace Server.Shared;
 
+public enum Language
+{
+  En,
+  Pt
+}
+
 public class LanguageTextBase
 {
   public string En { get; set; } = string.Empty;
