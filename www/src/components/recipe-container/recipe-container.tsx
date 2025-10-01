@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
 } from 'react';
 import { StickyHeader } from 'ovos';
 import Image from '../image/image';
@@ -15,13 +14,12 @@ import SectionCard from '../section-card/section-card';
 import NutrientDisplay from '../nutrient/nutrient';
 import './recipe-container.scss';
 import { ListItem } from '../list-item/list-item';
-import round from 'lodash/round';
 import { Food } from '../../services/food/food.model';
 import { Recipe } from '../../services/recipe/recipe.model';
-import { DataContext } from '../../providers';
 import { Nutrient } from '../../services/nutrient/nutrient.model';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from '../../services/language/language.service';
+import { formatNumber, roundToMaximumDecimals } from '../../services/number';
 
 export interface RecipeContainerProps {
   recipe?: Recipe;
@@ -35,11 +33,6 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   setCurrentFoodQuantity,
 }) => {
   const { language } = useContext(LanguageContext);
-  const {
-    data: { foods },
-  } = useContext(DataContext);
-
-  console.log(recipe);
 
   const renderNutrient = useCallback(
     (nutrient: Nutrient): ReactElement | null => {
@@ -58,13 +51,19 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
     ({ name, quantity, measurementUnit }: Nutrient) => {
       if (!quantity) return null;
 
+      const roundedQuantity = roundToMaximumDecimals(quantity);
+      const formattedQuantity = formatNumber(
+        roundedQuantity ?? quantity,
+        language,
+      );
+
       return (
         <ListItem noGutters noBorder>
           <div className="w-100 d-flex gap-1 justify-content-between">
             <div>{name[language]}</div>
 
             <div>
-              {String(quantity).replace('.', ',')}
+              {formattedQuantity}
               {measurementUnit}
             </div>
           </div>

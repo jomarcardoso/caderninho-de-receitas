@@ -1,16 +1,23 @@
-import React, { FC } from 'react';
-import round from 'lodash/round';
+import React, { FC, useContext } from 'react';
+import { formatNumber, roundToMaximumDecimals } from '../../services/number';
 import { Nutrient } from '../../services/nutrient/nutrient.model';
+import { LanguageContext } from '../../providers/language/language.context';
 
 const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({ nutrient }) => {
   if (!nutrient.quantity) return null;
+
+  const { language } = useContext(LanguageContext);
+  const roundedQuantity = roundToMaximumDecimals(nutrient.quantity);
+  const formattedQuantity = formatNumber(roundedQuantity ?? nutrient.quantity, language);
+
+  if (!formattedQuantity) return null;
 
   return (
     <div className="d-flex gap-1 justify-content-between">
       <div>{nutrient.shortName}</div>
 
       <p style={{ whiteSpace: 'nowrap' }}>
-        {String(round(nutrient.quantity, 2)).replace('.', ',')}
+        {formattedQuantity}
         {nutrient.measurementUnit}
       </p>
     </div>
