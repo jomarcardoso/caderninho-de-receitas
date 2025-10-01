@@ -17,11 +17,14 @@ export function useData(): DataContextProps {
    * @returns Updated recipes dataset
    */
   async function saveRecipe(recipe: RecipeDto) {
+    setLoading?.(true);
     const newData = await saveRecipeService(recipe);
 
     if (newData.recipes.length) {
       setData(newData);
     }
+
+    setLoading?.(false);
 
     return newData;
   }

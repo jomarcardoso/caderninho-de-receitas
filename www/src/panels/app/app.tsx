@@ -4,6 +4,7 @@ import RecipePanel from '../recipe/recipe-panel';
 import SEO from '../../components/seo';
 import FoodsPanel from '../foods/foods-panel';
 import DialogFood from '../../components/dialog-food/dialog-food';
+import LoadingOverlay from '../../components/loading-overlay/loading-overlay';
 import MainPanel from '../main/main-panel';
 import Header from '../../components/root-header/root-header';
 import './app.scss';
@@ -26,6 +27,7 @@ const AppPage: FC<AppProps> = (props) => {
 
   return (
     <>
+      <LoadingOverlay />
       <DialogFood
         food={currentFood}
         onClose={() => setCurrentFood(undefined)}
@@ -61,3 +63,4 @@ const AppPage: FC<AppProps> = (props) => {
 };
 
 export default AppPage;
+
