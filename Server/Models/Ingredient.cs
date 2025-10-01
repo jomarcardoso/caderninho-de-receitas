@@ -15,10 +15,10 @@ public class Ingredient : IngredientBase<Food>
     Quantity = quantity;
     MeasureType = measureType;
     MeasureQuantity = measureQuantity;
-    NutritionalInformation = new NutritionalInformation(food.NutritionalInformation, quantity);
-    Minerals = new Minerals(food.Minerals, quantity);
-    Vitamins = new Vitamins(food.Vitamins, quantity);
-    AminoAcids = new AminoAcids(food.AminoAcids, quantity);
-    EssentialAminoAcids = new EssentialAminoAcids(food.EssentialAminoAcids, quantity);
+    NutritionalInformation = new NutritionalInformationBase(food.NutritionalInformation, quantity);
+    Minerals = new MineralsBase(food.Minerals, quantity);
+    Vitamins = new VitaminsBase(food.Vitamins, quantity);
+    AminoAcids = new AminoAcidsBase(food.AminoAcids, quantity);
+    EssentialAminoAcids = new EssentialAminoAcidsBase(food.EssentialAminoAcids, quantity);
   }
 }

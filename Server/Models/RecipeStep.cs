@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Server.Shared;
 
 namespace Server.Models;
@@ -16,12 +17,14 @@ public class RecipeStep : RecipeStepBase<Ingredient>
     Vitamins = new VitaminsBase();
     AminoAcids = new AminoAcidsBase();
 
-    ingredients.ForEach(i =>
+    Ingredients = ingredients ?? new List<Ingredient>();
+
+    foreach (var ingredient in Ingredients)
     {
-      NutritionalInformation.Add(i.NutritionalInformation);
-      Minerals.Add(i.Minerals);
-      Vitamins.Add(i.Vitamins);
-      AminoAcids.Add(i.AminoAcids);
-    });
+      NutritionalInformation.Add(ingredient.NutritionalInformation);
+      Minerals.Add(ingredient.Minerals);
+      Vitamins.Add(ingredient.Vitamins);
+      AminoAcids.Add(ingredient.AminoAcids);
+    }
   }
 }

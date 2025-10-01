@@ -77,10 +77,19 @@ public class RecipeService
     foreach (RecipeStepDto stepDto in recipeDto.Steps)
     {
       var ingredients = new List<Ingredient>();
+      var lines = (stepDto.IngredientsText ?? string.Empty)
+        .Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-      foreach (var text in (stepDto.IngredientsText ?? string.Empty).Split("\n", StringSplitOptions.RemoveEmptyEntries))
+      foreach (var line in lines)
       {
-        ingredientService.Text = text;
+        var normalizedText = line.Trim();
+
+        if (string.IsNullOrWhiteSpace(normalizedText))
+        {
+          continue;
+        }
+
+        ingredientService.Text = normalizedText;
         var ingredient = await ingredientService.ToEntity();
         ingredients.Add(ingredient);
       }
