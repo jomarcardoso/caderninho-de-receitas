@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Fastenshtein;
 using Server.Models;
+using System.Text.RegularExpressions;
 
 namespace Server.Services;
 
@@ -8,6 +9,9 @@ public class FoodService
 {
   public static List<string> FoodModifiers = new List<string>
   {
+    "a gosto", "à gosto",
+    "para servir", "a gosto para servir", "a gosto para servir (opcional)",
+    "(opcional)",
     "picado", "picada", "picados", "picadas",
     "ralado", "ralada", "ralados", "raladas",
     "cozido", "cozida", "cozidos", "cozidas",
@@ -95,9 +99,23 @@ public class FoodService
     return _allFoods.FirstOrDefault((f) => f.Keys.Pt.Split(", ").Any((k) => string.Equals(k.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase)));
   }
 
+  internal static string filterPrefix(string foodText)
+  {
+    if (string.IsNullOrWhiteSpace(foodText))
+      return string.Empty;
+
+    // normaliza espaחos extras
+    foodText = foodText.Trim();
+
+    // regex para remover "de", "da", "do", "dos", "das", "of" no inםcio
+    return Regex.Replace(foodText, @"^(de|da|do|dos|das|of)\s+", "", RegexOptions.IgnoreCase).Trim();
+  }
+
   internal static string filterName(string name)
   {
-    return FoodModifiers.Aggregate(name,
+    var noPrefixName = filterPrefix(name);
+
+    return FoodModifiers.Aggregate(noPrefixName,
       (current, modifier) =>
         StringService.ReplaceEnding(current.Replace(modifier, "").Trim().Replace("  ", " "), " e", "")
     );
