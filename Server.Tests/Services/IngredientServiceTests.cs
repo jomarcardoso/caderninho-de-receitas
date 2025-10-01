@@ -45,6 +45,8 @@ public class IngredientServiceTests
   [TestCase("duas xícaras e meia de feijão", "duas xícaras e meia", MeasureType.Cup, "de feijão")]
   [TestCase("3 xícaras e dois terços de feijão", "3 xícaras e dois terços", MeasureType.Cup, "de feijão")]
 
+  [TestCase("1⅓ de xícara (chá) de grão-de-bico", "1⅓ de xícara (chá)", MeasureType.Cup, "de grão-de-bico")]
+
   [TestCase("1 colher de arroz", "1 colher", MeasureType.Spoon, "de arroz")]
   [TestCase("6 1/2 colheres de farinha", "6 1/2 colheres", MeasureType.Spoon, "de farinha")]
   [TestCase("60 1/3 colheres de feijão", "60 1/3 colheres", MeasureType.Spoon, "de feijão")]

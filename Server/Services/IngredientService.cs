@@ -1,4 +1,4 @@
-ï»¿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -15,13 +15,13 @@ public static class MeasurePatterns
 {
   private const RegexOptions PatternOptions = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled;
 
-  private const string NumberWordsPt = @"(\d+(?:[.,]\d+)?|um[a]?|dois|duas|trÃªs|quatro|cinco|seis|sete|oito|nove|dez|onze|doze)";
-  private const string PartialWordsPt = @"(mei(o|a)|1/2|metade|um terÃ§o|1/3|dois terÃ§os|2/3|um quarto|1/4|trÃªs quartos|3/4)";
+  private const string NumberWordsPt = @"(\d+(?:[.,]\d+)?(?:[\u00BC-\u00BE\u2150-\u215E\u2189])?|[\u00BC-\u00BE\u2150-\u215E\u2189]|um[a]?|dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze)";
+  private const string PartialWordsPt = @"(mei(o|a)|1/2|metade|um terço|1/3|dois terços|2/3|um quarto|1/4|três quartos|3/4)";
   private const string QuantityPt = $@"({NumberWordsPt}(?:\s+{PartialWordsPt})?(?:\s+e\s+{PartialWordsPt})?|{PartialWordsPt})";
   private const string PartialEndPt = $@"( e {PartialWordsPt})?";
-  private const string CupPt = @"((?:xÃ­cara|xicara)s?|xÃ­c\.?)";
+  private const string CupPt = @"((?:xícara|xicara)s?|xíc\.?)";
   private const string SpoonPt = @"((?:colher(?:es)?(?: de sopa)?|c\.s\.?)s?)";
-  private const string TeaSpoonPt = @"((?:colher(?:es)?(?:inhas?| de ch(?:Ã¡|a)| pequenas?)|c\.c\.?)s?)";
+  private const string TeaSpoonPt = @"((?:colher(?:es)?(?:inhas?| de ch(?:á|a)| pequenas?)|c\.c\.?)s?)";
   private const string MlPt = @"(?:ml|mililitros?)";
   private const string LiterPt = @"(?:l|litros?)";
   private const string GramPt = @"(?:gr?|gramas?)";
@@ -34,11 +34,14 @@ public static class MeasurePatterns
   private const string ClovePt = @"dentes?";
   private const string BunchPt = @"cachos?";
 
+  private const string PrepositionPt = @"(?:\s*(?:de|do|da|dos|das)\s+)?";
+  private const string UnitParenOptPt = @"(?:\s*\([^)]*\))?";
+
   public static readonly Dictionary<MeasureType, Regex> PatternsPt = new()
   {
-    { MeasureType.Cup, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{CupPt}{PartialEndPt})\b", PatternOptions) },
-    { MeasureType.TeaSpoon, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{TeaSpoonPt}{PartialEndPt})\b", PatternOptions) },
-    { MeasureType.Spoon, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{SpoonPt}{PartialEndPt})\b", PatternOptions) },
+    { MeasureType.Cup, new Regex($@"(?<!\S)(?<measure>{QuantityPt}{PartialEndPt}\s*{PrepositionPt}{CupPt}{UnitParenOptPt}{PartialEndPt})(?=\s|$)", PatternOptions) },
+    { MeasureType.TeaSpoon, new Regex($@"(?<!\S)(?<measure>{QuantityPt}{PartialEndPt}\s*{PrepositionPt}{TeaSpoonPt}{UnitParenOptPt}{PartialEndPt})(?=\s|$)", PatternOptions) },
+    { MeasureType.Spoon, new Regex($@"(?<!\S)(?<measure>{QuantityPt}{PartialEndPt}\s*{PrepositionPt}{SpoonPt}{UnitParenOptPt}{PartialEndPt})(?=\s|$)", PatternOptions) },
     { MeasureType.Ml, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{MlPt}{PartialEndPt})\b", PatternOptions) },
     { MeasureType.Liter, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{LiterPt}{PartialEndPt})\b", PatternOptions) },
     { MeasureType.Gram, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{GramPt}{PartialEndPt})\b", PatternOptions) },
@@ -53,7 +56,7 @@ public static class MeasurePatterns
     { MeasureType.Unity, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt})\b", PatternOptions) },
   };
 
-  private const string NumberWordsEn = @"(\d+(?:[.,]\d+)?|an?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)";
+  private const string NumberWordsEn = @"(\d+(?:[.,]\d+|[\u00BC-\u00BE\u2150-\u215E\u2189])?|[\u00BC-\u00BE\u2150-\u215E\u2189]|an?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)";
   private const string PartialWordsEn = @"(half|1/2|one half|a half|two thirds|2/3|one third|a third|three quarters|3/4|one quarter|a quarter|quarter|third)";
   private const string QuantityEn = $@"({NumberWordsEn}(?:\s+{PartialWordsEn})?(?:\s+and\s+{PartialWordsEn})?|{PartialWordsEn})";
   private const string PartialEndEn = $@"(?:\s+and\s+{PartialWordsEn})?";
@@ -73,11 +76,14 @@ public static class MeasurePatterns
   private const string CloveEn = @"(?:clove(?:s)?)";
   private const string BunchEn = @"(?:bunch(?:es)?)";
 
+  private const string PrepositionEn = @"(?:\s*of)?";
+  private const string UnitParenOptEn = @"(?:\s*\([^)]*\))?";
+
   public static readonly Dictionary<MeasureType, Regex> PatternsEn = new()
   {
-    { MeasureType.Cup, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}{OptionalArticleEn}\s?{CupEn}{PartialEndEn})\b", PatternOptions) },
-    { MeasureType.TeaSpoon, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}{OptionalArticleEn}\s?{TeaSpoonEn}{PartialEndEn})\b", PatternOptions) },
-    { MeasureType.Spoon, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}{OptionalArticleEn}\s?{SpoonEn}{PartialEndEn})\b", PatternOptions) },
+    { MeasureType.Cup, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}{OptionalArticleEn}\s*{PrepositionEn}\s*{CupEn}{UnitParenOptEn}{PartialEndEn})\b", PatternOptions) },
+    { MeasureType.TeaSpoon, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}{OptionalArticleEn}\s*{PrepositionEn}\s*{TeaSpoonEn}{UnitParenOptEn}{PartialEndEn})\b", PatternOptions) },
+    { MeasureType.Spoon, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}{OptionalArticleEn}\s*{PrepositionEn}\s*{SpoonEn}{UnitParenOptEn}{PartialEndEn})\b", PatternOptions) },
     { MeasureType.Ml, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}\s?{MlEn}{PartialEndEn})\b", PatternOptions) },
     { MeasureType.Liter, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}\s?{LiterEn}{PartialEndEn})\b", PatternOptions) },
     { MeasureType.Gram, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}\s?{GramEn}{PartialEndEn})\b", PatternOptions) },
@@ -146,6 +152,28 @@ public class IngredientService
     "com"
   };
 
+  private static readonly IReadOnlyDictionary<char, string> FractionCharacterReplacements = new Dictionary<char, string>
+  {
+    ['¼'] = "1/4",   // U+00BC
+    ['½'] = "1/2",   // U+00BD
+    ['¾'] = "3/4",   // U+00BE
+    ['?'] = "1/7",   // U+2150
+    ['?'] = "1/9",   // U+2151
+    ['?'] = "1/10",  // U+2152
+    ['?'] = "1/3",   // U+2153
+    ['?'] = "2/3",   // U+2154
+    ['?'] = "1/5",   // U+2155
+    ['?'] = "2/5",   // U+2156
+    ['?'] = "3/5",   // U+2157
+    ['?'] = "4/5",   // U+2158
+    ['?'] = "1/6",   // U+2159
+    ['?'] = "5/6",   // U+215A
+    ['?'] = "1/8",   // U+215B
+    ['?'] = "3/8",   // U+215C
+    ['?'] = "5/8",   // U+215D
+    ['?'] = "7/8"    // U+215E
+  };
+
   private string _text = string.Empty;
   public string Text
   {
@@ -178,16 +206,22 @@ public class IngredientService
       return literal;
     }
 
+    var normalizedText = ReplaceFractionCharacters(Text);
+
     foreach (var kv in MeasurePatterns.OrderedPatterns)
     {
       var regex = kv.Value;
-      Match match = regex.Match(Text);
+      Match match = regex.Match(normalizedText);
       Group measureMatch = match.Groups["measure"];
 
       if (match.Success && !string.IsNullOrWhiteSpace(measureMatch.Value))
       {
-        var measureText = Text.Substring(0, measureMatch.Index + measureMatch.Length).Trim();
-        var rest = Text.Substring(measureMatch.Index + measureMatch.Length).Trim();
+        // usa o valor do grupo, não substring do Text original
+        var measureText = measureMatch.Value.Trim();
+
+        // calcula resto a partir do texto original
+        var rest = Text.Substring(Math.Min(Text.Length, match.Index + match.Length)).Trim();
+
         var result = new QuantityAndRest(measureText, kv.Key, rest);
         return AdjustMeasureTypeByDescriptors(result, Text);
       }
@@ -196,6 +230,7 @@ public class IngredientService
     var fallback = new QuantityAndRest(string.Empty, MeasureType.Unity, Text);
     return AdjustMeasureTypeByDescriptors(fallback, Text);
   }
+
 
   private static QuantityAndRest? TryResolveLiteralMeasure(string text)
   {
@@ -272,6 +307,42 @@ public class IngredientService
     return false;
   }
 
+  private static string ReplaceFractionCharacters(string value)
+  {
+    if (string.IsNullOrWhiteSpace(value))
+    {
+      return string.Empty;
+    }
+
+    var builder = new StringBuilder(value.Length + 8);
+
+    for (var i = 0; i < value.Length; i++)
+    {
+      var current = value[i];
+
+      if (FractionCharacterReplacements.TryGetValue(current, out var replacement))
+      {
+        if (builder.Length > 0 && !char.IsWhiteSpace(builder[builder.Length - 1]))
+        {
+          builder.Append(' ');
+        }
+
+        builder.Append(replacement);
+
+        if (i + 1 < value.Length && !char.IsWhiteSpace(value[i + 1]))
+        {
+          builder.Append(' ');
+        }
+      }
+      else
+      {
+        builder.Append(current);
+      }
+    }
+
+    return Regex.Replace(builder.ToString(), @"\s+", " ").Trim();
+  }
+
   public static double ParseMeasureQuantity(string? measureText)
   {
     if (string.IsNullOrWhiteSpace(measureText))
@@ -279,7 +350,7 @@ public class IngredientService
       return 1;
     }
 
-    var normalizedText = measureText.ToLowerInvariant().Replace(',', '.');
+    var normalizedText = ReplaceFractionCharacters(measureText).ToLowerInvariant().Replace(',', '.');
 
     double total = 0;
 
@@ -311,7 +382,7 @@ public class IngredientService
     });
     ConsumeMatches(@"\d+", match => double.Parse(match.Value, CultureInfo.InvariantCulture));
 
-    var measurementWordsPattern = @"\b(?:xÃ­caras?|xicaras?|xicara|xÃ­c\.?|colheres?|colher(?:es)?(?: de (?:sopa|chÃ¡))?|colher(?:inhas?|inha)?|c\.s\.?|c\.c\.?|ml|mililitros?|l|litros?|gramas?|grama|gr|g|kg|kilo(?:grama)?s?|latas?|lata|copos?|copo|fatias?|fatia|pitadas?|pitada|unidades?|unidade|cups?|cup|c(?:up)?\.?|tablespoons?|tablespoon|tbsp\.?|tb\.?|tbs\.?|teaspoons?|teaspoon|tsp\.?|millilit(?:er|re)s?|lit(?:er|re)s?|grams?|gram|kilograms?|kilogrammes?|kilos?|pinches?|pinch|cans?|can|tins?|glass(?:es)?|slice(?:s)?|clove(?:s)?|breast(?:s)?|bunch(?:es)?|units?|unit)\b";
+    var measurementWordsPattern = @"\b(?:xícaras?|xicaras?|xicara|xíc\.?|colheres?|colher(?:es)?(?: de (?:sopa|chá))?|colher(?:inhas?|inha)?|c\.s\.?|c\.c\.?|ml|mililitros?|l|litros?|gramas?|grama|gr|g|kg|kilo(?:grama)?s?|latas?|lata|copos?|copo|fatias?|fatia|pitadas?|pitada|unidades?|unidade|cups?|cup|c(?:up)?\.?|tablespoons?|tablespoon|tbsp\.?|tb\.?|tbs\.?|teaspoons?|teaspoon|tsp\.?|millilit(?:er|re)s?|lit(?:er|re)s?|grams?|gram|kilograms?|kilogrammes?|kilos?|pinches?|pinch|cans?|can|tins?|glass(?:es)?|slice(?:s)?|clove(?:s)?|breast(?:s)?|bunch(?:es)?|units?|unit)\b";
     normalizedText = Regex.Replace(normalizedText, measurementWordsPattern, " ", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
     normalizedText = Regex.Replace(normalizedText, @"\b(?:de|do|da|dos|das|para|por|com|of|the|for|with|per|each)\b", " ", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
@@ -325,7 +396,7 @@ public class IngredientService
       ["uma"] = 1,
       ["dois"] = 2,
       ["duas"] = 2,
-      ["trÃªs"] = 3,
+      ["três"] = 3,
       ["tres"] = 3,
       ["quatro"] = 4,
       ["cinco"] = 5,
@@ -366,12 +437,12 @@ public class IngredientService
 
     var multiPartials = BuildLookup(new Dictionary<string, double>
     {
-      ["um terÃ§o"] = 1.0 / 3,
+      ["um terço"] = 1.0 / 3,
       ["um terco"] = 1.0 / 3,
-      ["dois terÃ§os"] = 2.0 / 3,
+      ["dois terços"] = 2.0 / 3,
       ["dois tercos"] = 2.0 / 3,
       ["um quarto"] = 0.25,
-      ["trÃªs quartos"] = 3.0 / 4,
+      ["três quartos"] = 3.0 / 4,
       ["tres quartos"] = 3.0 / 4,
       ["one third"] = 1.0 / 3,
       ["a third"] = 1.0 / 3,
@@ -457,9 +528,9 @@ public class IngredientService
   {
     return measureType switch
     {
-      MeasureType.Cup => quantity * 200,      // 1 xÃ­cara = 200g aÃ§Ãºcar (exemplo)
+      MeasureType.Cup => quantity * 200,      // 1 xícara = 200g açúcar (exemplo)
       MeasureType.Spoon => quantity * 15,    // 1 colher = 15g
-      MeasureType.TeaSpoon => quantity * 5,  // 1 colher de chÃ¡ = 5g
+      MeasureType.TeaSpoon => quantity * 5,  // 1 colher de chá = 5g
       _ => quantity
     };
   }
@@ -480,6 +551,3 @@ public class IngredientService
     );
   }
 }
-
-
-
