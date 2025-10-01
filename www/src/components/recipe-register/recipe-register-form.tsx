@@ -7,17 +7,27 @@ import './recipe-register.scss';
 import { Button } from '../button';
 import CookSvg from '../../assets/svg/history/cook.svg';
 import PizzaSvg from '../../assets/svg/history/pizza.svg';
-import { RecipeStepDto } from '../../services/recipe-step';
+import { RECIPE_STEP_DTO, RecipeStepDto } from '../../services/recipe-step';
 import { RecipeDto } from '../../services/recipe/recipe.dto';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from '../../services/language/language.service';
+import { generateId } from '../../services/string.service';
+
+interface RecipeStepDtoWithKeyId extends RecipeStepDto {
+  keyId: string;
+}
+
+export const RECIPE_STEP_DTO_WITH_KEY_ID: RecipeStepDtoWithKeyId = {
+  ...RECIPE_STEP_DTO,
+  keyId: generateId(),
+};
 
 export interface RecipeForm {
-  steps: RecipeDto['steps'];
+  steps: RecipeStepDtoWithKeyId[];
   name: string;
   description: string;
   // category: RecipeCategory | '';
-  quantitySteps: number;
+  // quantitySteps: number;
   additional: string;
 }
 
@@ -39,7 +49,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   const { language } = useContext(LanguageContext);
 
   const memoizedRenderInputIngredient = useCallback(
-    (index = 0, ingredientsText = '', stepName = '') => {
+    (index = 0, ingredientsText = '', stepTitle = '') => {
       const normalizedIngredients = ingredientsText.trim();
       const ingredientList = normalizedIngredients
         ? normalizedIngredients.split('\n').map((line) => line.trim())
@@ -47,7 +57,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
       const bulletValue = ingredientList.length
         ? `${BULLET} ${ingredientList.join(`\n${BULLET} `)}`
         : '';
-      const suffix = stepName ? ` - ${stepName}` : '';
+      const suffix = stepTitle ? ` - ${stepTitle}` : '';
       const label = translate('ingredientsLabelWithStep', language, { suffix });
 
       const handleChangeIngredient: ChangeEventHandler<HTMLTextAreaElement> = (
@@ -78,25 +88,19 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   );
 
   const memoizedRenderSteps = useCallback(() => {
-    const steps: RecipeStepDto[] = [];
-
-    for (let i = 0; i < Number(values.quantitySteps); i += 1) {
-      steps.push(values.steps[i]);
-    }
-
     return (
       <>
-        {steps.map((step = {} as RecipeStepDto, index) => {
+        {values.steps.map((step = RECIPE_STEP_DTO_WITH_KEY_ID, index) => {
           const suffix = step.title ? ` - ${step.title}` : '';
 
           return (
-            <React.Fragment key={`${step.title ?? 'step'}-${index}`}>
+            <React.Fragment key={step.keyId}>
               <div>
                 <Field
                   label={translate('stepNameLabel', language, {
                     index: index + 1,
                   })}
-                  name={`steps.${index}.name`}
+                  name={`steps.${index}.title`}
                   value={step.title}
                   onChange={handleChange}
                   onBlur={formikHandleBlur}
@@ -161,7 +165,6 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
     handleChange,
     language,
     memoizedRenderInputIngredient,
-    values.quantitySteps,
     values.steps,
   ]);
 
@@ -239,10 +242,10 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                           variant="secondary"
                           contrast="light"
                           onClick={() =>
-                            setFieldValue(
-                              'quantitySteps',
-                              values.quantitySteps + 1,
-                            )
+                            setFieldValue('steps', [
+                              ...values.steps,
+                              RECIPE_STEP_DTO_WITH_KEY_ID,
+                            ])
                           }
                         >
                           <IoDuplicateOutline />

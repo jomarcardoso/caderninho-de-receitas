@@ -1,7 +1,10 @@
 import React, { FC, useContext, useCallback, useState, useEffect } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { DataContext } from '../../providers/data/data.context';
-import RecipeRegisterForm, { RecipeForm } from './recipe-register-form';
+import RecipeRegisterForm, {
+  RECIPE_STEP_DTO_WITH_KEY_ID,
+  RecipeForm,
+} from './recipe-register-form';
 import Dialog from '../dialog/dialog';
 import { Button } from '../button';
 import { EditingContext } from '../../providers/editing/editing.context';
@@ -10,6 +13,7 @@ import { StorageService } from '../../storage';
 import { RecipeDto } from '../../services/recipe/recipe.dto';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from '../../services/language/language.service';
+import { generateId } from '../../services/string.service';
 
 interface Props {
   recipeToEdit?: RecipeDto;
@@ -87,13 +91,7 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
         setEditing?.(false);
       }
     },
-    [
-      language,
-      recipe?.id,
-      saveRecipe,
-      setCurrentRecipe,
-      setEditing,
-    ],
+    [language, recipe?.id, saveRecipe, setCurrentRecipe, setEditing],
   );
 
   useEffect(() => {
@@ -110,8 +108,10 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
           description: recipe?.description ?? '',
           additional: recipe?.additional ?? '',
           // category: recipe?.category ?? '',
-          steps: recipe?.steps?.length ? recipe.steps : [{}],
-          quantitySteps: recipe?.steps?.length || 1,
+          steps: recipe?.steps?.length
+            ? recipe.steps.map((s) => ({ keyId: generateId(), ...s }))
+            : [RECIPE_STEP_DTO_WITH_KEY_ID],
+          // quantitySteps: recipe?.steps?.length || 1,
         }}
         onSubmit={memoizedHandleSubmit}
       >
