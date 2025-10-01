@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
 using Server.Models;
@@ -28,8 +28,51 @@ public class RecipeService
 
   public async Task<Recipe> DtoToEntity(RecipeDto recipeDto)
   {
-    var steps = new List<RecipeStep>();
+    var steps = await BuildStepsAsync(recipeDto);
     var food = await foodService.FindFoodByPossibleName(recipeDto.Name);
+
+    return new Recipe(
+      recipeDto.Id,
+      recipeDto.Name,
+      recipeDto.Keys,
+      food,
+      recipeDto.Description,
+      recipeDto.Additional,
+      steps
+    );
+  }
+
+  public async Task UpdateEntityFromDto(Recipe recipe, RecipeDto recipeDto)
+  {
+    if (recipe is null)
+    {
+      throw new ArgumentNullException(nameof(recipe));
+    }
+
+    if (recipeDto is null)
+    {
+      throw new ArgumentNullException(nameof(recipeDto));
+    }
+
+    recipe.Name = recipeDto.Name;
+    recipe.Keys = recipeDto.Keys;
+    recipe.Description = recipeDto.Description;
+    recipe.Additional = recipeDto.Additional;
+    recipe.Language = recipeDto.Language;
+    recipe.Food = await foodService.FindFoodByPossibleName(recipeDto.Name);
+
+    var steps = await BuildStepsAsync(recipeDto);
+
+    recipe.Steps.Clear();
+    foreach (var step in steps)
+    {
+      recipe.Steps.Add(step);
+    }
+  }
+
+  private async Task<List<RecipeStep>> BuildStepsAsync(RecipeDto recipeDto)
+  {
+    var steps = new List<RecipeStep>();
 
     foreach (RecipeStepDto stepDto in recipeDto.Steps)
     {
@@ -51,17 +94,8 @@ public class RecipeService
       ));
     }
 
-    return new Recipe(
-      recipeDto.Id,
-      recipeDto.Name,
-      recipeDto.Keys,
-      food,
-      recipeDto.Description,
-      recipeDto.Additional,
-      steps
-    );
+    return steps;
   }
-
   public async Task<List<Recipe>> GetAllRecipesByUserId(string userId)
   {
     List<Recipe> recipes = await _context.Recipe

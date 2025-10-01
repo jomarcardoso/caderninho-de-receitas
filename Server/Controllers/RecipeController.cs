@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
@@ -79,11 +79,9 @@ public class RecipeController : ControllerBase
     if (recipe == null)
       return NotFound();
 
-    await recipeService.DeleteStepsAsync(recipe);
+    await recipeService.UpdateEntityFromDto(recipe, recipeDto);
+    recipe.OwnerId = userId;
 
-    recipe = await recipeService.DtoToEntity(recipeDto);
-
-    _context.Entry(recipe).State = EntityState.Modified;
     await _context.SaveChangesAsync();
 
     RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
