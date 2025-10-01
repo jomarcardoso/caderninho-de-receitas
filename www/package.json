@@ -5,6 +5,10 @@
   "version": "0.10.0",
   "author": "Jomar Cardoso <jomar.cardoso@cwi.com.br>",
   "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/cli": "^6.2.1",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/ios": "^7.4.3",
     "@fontsource/cinzel": "5.2.6",
     "@fontsource/dosis": "5.2.6",
     "@fontsource/vibur": "5.2.6",
@@ -54,6 +58,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
+    "build:app": "rm -rf android && rm -rf ios && npx cap copy && npx cap add android && npx cap add ios",
     "deploy": "npm run clean && rm -rf public && npm run test && npm run tsc && npm run build && npm run deploy:firebase",
     "deploy:surge": "surge ./public caderninho-de-receitas.surge.sh",
     "deploy:firebase": "firebase deploy",

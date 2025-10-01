@@ -60,6 +60,8 @@ typings/
 # gatsby files
 .cache/
 public
+android
+ios
 src/db/food.json
 types
 storybook-static
