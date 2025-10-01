@@ -6,7 +6,7 @@ import { Button } from '../../components/button';
 import { DataContext } from '../../providers/data/data.context';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';
-// import { UserBox } from '../../components/user-box/user-box';
+import { UserBox } from '../../components/user-box/user-box';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { useScroll } from '../../hooks/use-scroll';
 // import { ShoppingList } from '../../components/shopping-list';
@@ -58,11 +58,9 @@ const MainPanel: FC = () => {
     <Layout
       footerMenu
       showHeader={false}
-      footerProps={
-        {
-          // children: <UserBox />,
-        }
-      }
+      footerProps={{
+        children: <UserBox />,
+      }}
       tabs={[
         {
           children: translate('recipesTab', language),

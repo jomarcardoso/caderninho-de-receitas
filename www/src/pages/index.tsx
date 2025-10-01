@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+﻿import React, { FC } from 'react';
 import AppPage, { AppProps } from '../panels/app/app';
 import {
   CurrentRecipeProvider,
@@ -11,11 +11,12 @@ import {
 import '../styles/main.scss';
 import { LanguageProvider } from '../providers/language/language.provider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GOOGLE_CLIENT_ID } from '../config/google';
 
 const Index: FC<AppProps> = () => {
   return (
     <LoadingProvider>
-      <GoogleOAuthProvider clientId="909303160702-r0lcfepjlhupmljhbadu9dvem7hcda2j.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
         <DataProvider>
           {/* <ShoppingListProvider> */}
           <LanguageProvider>
@@ -35,3 +36,4 @@ const Index: FC<AppProps> = () => {
 };
 
 export default Index;
+
