@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, HTMLProps, useContext } from 'react';
 import Panel from '../../components/panel/panel';
 import RecipePanel from '../recipe/recipe-panel';
 import SEO from '../../components/seo';
-import FoodsPanel from '../foods/foods';
+import FoodsPanel from '../foods/foods-panel';
 import DialogFood from '../../components/dialog-food/dialog-food';
 import MainPanel from '../main/main-panel';
 import Header from '../../components/root-header/root-header';
@@ -61,4 +61,3 @@ const AppPage: FC<AppProps> = (props) => {
 };
 
 export default AppPage;
-

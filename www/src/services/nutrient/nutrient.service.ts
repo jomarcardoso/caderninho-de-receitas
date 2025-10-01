@@ -1,13 +1,7 @@
-import { CommonData } from '../common/common.model';
 import { CommonResponse } from '../common/common.response';
-import { NutrientData } from '../nutrient-data/nutrient-data.model';
 import { NutrientDataResponse } from '../nutrient-data/nutrient-data.response';
 import { AllNutrients, Nutrient } from './nutrient.model';
-import {
-  AllNutrientsResponse,
-  NutrientsDataResponse,
-  NutrientsResponse,
-} from './nutrient.response';
+import { AllNutrientsResponse, NutrientsResponse } from './nutrient.response';
 
 export function mapNutrientResponseToModel(
   nutrientsResponse: NutrientsResponse,

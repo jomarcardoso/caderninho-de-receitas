@@ -43,6 +43,8 @@ const FoodsPanel: FC<Props> = ({
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
 
+  console.log(foods);
+
   let searchedFoods = JSON.parse(JSON.stringify(foods)) as Food[];
 
   if (search) {
@@ -126,7 +128,9 @@ const FoodsPanel: FC<Props> = ({
       >
         {/* <FoodRegister food={FOOD} /> */}
 
-        <h1 className="section-title">{translate('foodListHeading', language)}</h1>
+        <h1 className="section-title">
+          {translate('foodListHeading', language)}
+        </h1>
 
         <Field
           placeholder={translate('searchPlaceholder', language)}
@@ -162,5 +166,3 @@ const FoodsPanel: FC<Props> = ({
 };
 
 export default FoodsPanel;
-
-

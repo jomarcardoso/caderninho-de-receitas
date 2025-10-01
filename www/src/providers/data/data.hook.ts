@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext, useMemo } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import {
   fetchRecipes,
   removeRecipeById,
@@ -12,7 +12,6 @@ import LoadingContext from '../loading/loading.context';
 export function useData(): DataContextProps {
   const { setLoading } = useContext(LoadingContext);
   const [data, setData] = useState(RECIPES_DATA);
-  const memoizedData = useMemo(() => ({ data, setData }), [data]);
 
   /**
    * @returns id
@@ -36,7 +35,7 @@ export function useData(): DataContextProps {
   const getData = useCallback(async () => {
     const newData = await fetchRecipes();
 
-    if (newData.recipes.length) {
+    if (newData.recipes) {
       setData(newData);
     }
 
@@ -49,7 +48,7 @@ export function useData(): DataContextProps {
   }, []);
 
   return {
-    data: memoizedData.data,
+    data: data,
     removeRecipe,
     saveRecipe,
   };

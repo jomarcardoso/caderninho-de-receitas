@@ -16,8 +16,16 @@ import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
 
 function stepToText(step: RecipeStepDto, language: Language): string {
   const suffix = step.title ? ` ${step.title}` : '';
-  const ingredientsHeading = translate('recipeStepIngredientsHeading', language, { suffix });
-  const preparationHeading = translate('recipeStepPreparationHeading', language, { suffix });
+  const ingredientsHeading = translate(
+    'recipeStepIngredientsHeading',
+    language,
+    { suffix },
+  );
+  const preparationHeading = translate(
+    'recipeStepPreparationHeading',
+    language,
+    { suffix },
+  );
 
   return `\
 ${ingredientsHeading}
@@ -29,7 +37,10 @@ ${preparationHeading}
 ${step.title}`;
 }
 
-export function recipeDtoToText(recipe: RecipeDto, language: Language = 'pt'): string {
+export function recipeDtoToText(
+  recipe: RecipeDto,
+  language: Language = 'pt',
+): string {
   const upperName = recipe.name.toUpperCase();
   const stepsText = recipe.steps
     .map((step) => stepToText(step, language))
@@ -41,7 +52,6 @@ export function recipeDtoToText(recipe: RecipeDto, language: Language = 'pt'): s
 ${recipe.description}
 
 ${stepsText}`;
-
 }
 
 type RecipeStepLike = Pick<
@@ -118,8 +128,6 @@ export function mapRecipeResponseToModel(
 export function mapAllRecipesResponseToModel(
   data: RecipesDataResponse,
 ): Recipe[] {
-  console.log(data);
-
   return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
 }
 
@@ -156,7 +164,7 @@ export async function fetchRecipes(): Promise<RecipesData> {
 
     return mapRecipesDataResponseToModel(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
   return RECIPES_DATA;
