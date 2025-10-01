@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
 using Server.Models;
+using System.Linq;
 
 namespace Server.Services;
 
@@ -86,6 +87,17 @@ public class RecipeService
     List<RecipeResponseDto> recipeDtos = _mapper.Map<List<RecipeResponseDto>>(recipes);
     List<Food> foods = FoodService.GetFoodsFromRecipes(recipes);
 
+    if (foods.Count == 0)
+    {
+      var fallbackFoods = await foodService.GetAllAsync();
+
+      foods = fallbackFoods
+        .OrderBy(f => f.Name?.Pt ?? string.Empty)
+        .ThenBy(f => f.Id)
+        .Take(30)
+        .ToList();
+    }
+
     return new RecipesDto
     {
       Recipes = recipeDtos,
@@ -100,3 +112,4 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 }
+
