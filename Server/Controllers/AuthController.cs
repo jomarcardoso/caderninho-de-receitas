@@ -1,42 +1,48 @@
-// using Google.Apis.Auth;
-// using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Server.Dtos.Auth;
+using Server.Services.Auth;
 
-// namespace SeuProjeto.Controllers;
+namespace Server.Controllers;
 
-// [ApiController]
-// [Route("api/[controller]")]
-// public class AuthController : ControllerBase
-// {
-//   [HttpPost("google")]
-//   public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginRequest request)
-//   {
-//     try
-//     {
-//       var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken, new GoogleJsonWebSignature.ValidationSettings
-//       {
-//         Audience = new[] { "SEU_CLIENT_ID.apps.googleusercontent.com" } // importante validar o clientId!
-//       });
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
+{
+  private readonly GoogleAuthService googleAuthService;
 
-//       // Aqui você já tem os dados do usuário validados
-//       var user = new
-//       {
-//         payload.Name,
-//         payload.Email,
-//         payload.Picture,
-//         payload.Subject // ID único do Google
-//       };
+  public AuthController(GoogleAuthService googleAuthService)
+  {
+    this.googleAuthService = googleAuthService;
+  }
 
-//       // 👉 Aqui você pode criar um JWT da sua aplicação e devolver pro front
-//       return Ok(user);
-//     }
-//     catch (Exception ex)
-//     {
-//       return Unauthorized(new { error = ex.Message });
-//     }
-//   }
-// }
+  [HttpPost("google")]
+  [ProducesResponseType(typeof(GoogleLoginResponseDto), StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+  public async Task<IActionResult> GoogleLogin(
+    [FromBody] GoogleLoginRequestDto request,
+    CancellationToken cancellationToken)
+  {
+    if (!ModelState.IsValid)
+    {
+      return Unauthorized(new { error = "Invalid token" });
+    }
 
-// public class GoogleLoginRequest
-// {
-//   public string IdToken { get; set; }
-// }
+    var user = await googleAuthService.ValidateAsync(request.IdToken, cancellationToken);
+    if (user is null)
+    {
+      return Unauthorized(new { error = "Invalid token" });
+    }
+
+    var response = new GoogleLoginResponseDto
+    {
+      DisplayName = user.Name,
+      Email = user.Email,
+      Picture = user.Picture,
+      GoogleId = user.GoogleId,
+      EmailVerified = user.EmailVerified,
+    };
+
+    return Ok(response);
+  }
+}
