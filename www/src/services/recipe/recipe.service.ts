@@ -1,5 +1,4 @@
 import { RecipeResponse, RecipesDataResponse } from './recipe.response';
-import { CommonResponse } from '../common/common.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import { Recipe, RecipesData } from './recipe.model';
 import { RecipeDto } from './recipe.dto';
@@ -11,8 +10,8 @@ import {
 } from '../food/food.service';
 import { RECIPES_DATA } from './recipe.data';
 import { RecipeStepDto } from '../recipe-step';
-import { mapCommonResponseToModel } from '../common/common.service';
 import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
+import { FOOD } from '../food/food.model';
 
 function stepToText(step: RecipeStepDto, language: Language): string {
   const suffix = step.title ? ` ${step.title}` : '';
@@ -54,19 +53,7 @@ ${recipe.description}
 ${stepsText}`;
 }
 
-type RecipeStepLike = Pick<
-  RecipeStepDto,
-  'title' | 'preparation' | 'additional' | 'ingredientsText'
->;
-
-type RecipeLike = Pick<
-  RecipeDto,
-  'id' | 'name' | 'description' | 'additional' | 'steps'
-> & {
-  steps?: RecipeStepLike[];
-};
-
-function mapRecipeStepModelToDto(step: RecipeStepLike): RecipeStepDto {
+function mapRecipeStepModelToDto(step: RecipeStepDto): RecipeStepDto {
   return {
     title: step.title ?? '',
     preparation: step.preparation ?? '',
@@ -75,17 +62,14 @@ function mapRecipeStepModelToDto(step: RecipeStepLike): RecipeStepDto {
   };
 }
 
-export function mapRecipeModelToDto(recipe: RecipeLike): RecipeDto {
+export function mapRecipeModelToDto(recipe: RecipeDto): RecipeDto {
   return {
-    id: recipe.id,
-    name: recipe.name ?? '',
-    description: recipe.description ?? '',
-    additional: recipe.additional ?? '',
+    ...recipe,
     steps: recipe.steps?.map(mapRecipeStepModelToDto) ?? [],
   };
 }
 
-export function mapRecipesModelToDto(recipes: RecipeLike[]): RecipeDto[] {
+export function mapRecipesModelToDto(recipes: RecipeDto[]): RecipeDto[] {
   return recipes.map(mapRecipeModelToDto);
 }
 
@@ -93,9 +77,18 @@ export function mapRecipeResponseToModel(
   recipeResponse: RecipeResponse,
   dataResponse: RecipesDataResponse,
 ): Recipe {
+  const foodResponse = dataResponse.foods.find(
+    (food) => food.id === recipeResponse.food,
+  );
+
+  const food = foodResponse
+    ? mapFoodResponseToModel(foodResponse, dataResponse)
+    : FOOD;
+
   return {
     ...recipeResponse,
     ...mapAllNutrientsResponseToModel(recipeResponse, dataResponse),
+    food,
     steps: recipeResponse.steps.map((stepResponse) => ({
       ...stepResponse,
       ...mapAllNutrientsResponseToModel(stepResponse, dataResponse),

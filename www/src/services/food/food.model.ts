@@ -1,4 +1,4 @@
-import { CommonData } from '../common/common.model';
+﻿import { CommonData } from '../common/common.model';
 import {
   LanguageText,
   LanguageTextAndPlural,
@@ -16,3 +16,30 @@ export interface Food extends FoodBase, AllNutrients {
 export interface FoodsData extends CommonData {
   foods: Food[];
 }
+
+const EMPTY_LANGUAGE_TEXT: LanguageText = { en: '', pt: '' };
+
+const EMPTY_MEASUREMENT_UNIT: LanguageTextAndPlural = {
+  text: { ...EMPTY_LANGUAGE_TEXT },
+  pluralText: { ...EMPTY_LANGUAGE_TEXT },
+};
+
+export const FOOD: Food = {
+  id: 0,
+  name: { ...EMPTY_LANGUAGE_TEXT },
+  description: { ...EMPTY_LANGUAGE_TEXT },
+  image: '',
+  keys: { ...EMPTY_LANGUAGE_TEXT },
+  isRecipe: false,
+  icon: '',
+  type: { ...EMPTY_LANGUAGE_TEXT },
+  measurementUnit: {
+    text: { ...EMPTY_MEASUREMENT_UNIT.text },
+    pluralText: { ...EMPTY_MEASUREMENT_UNIT.pluralText },
+  },
+  measures: [],
+  nutritionalInformation: [],
+  minerals: [],
+  vitamins: [],
+  aminoAcids: [],
+};

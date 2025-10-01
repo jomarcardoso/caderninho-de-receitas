@@ -39,6 +39,8 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
     data: { foods },
   } = useContext(DataContext);
 
+  console.log(recipe);
+
   const renderNutrient = useCallback(
     (nutrient: Nutrient): ReactElement | null => {
       if (!nutrient.quantity) return null;
