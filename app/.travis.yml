@@ -1,0 +1,18 @@
+if: branch = master
+language: node_js
+node_js:
+  - 16
+before_script:
+  - yarn
+script:
+  - yarn build
+  - yarn lint
+  - yarn test
+  - yarn tsc
+deploy:
+  provider: surge
+  project: ./public
+  domain: cadertinho-de-receitas.surge.sh
+  skip_cleanup: true
+  on:
+    branch: master

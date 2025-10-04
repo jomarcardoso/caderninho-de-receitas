@@ -1,0 +1,25 @@
+.aminoacids-table {
+  &__name {
+    width: 84px
+  }
+
+  &__cell {
+    padding: 8px 0;
+  }
+
+  &__bar {
+    min-height: 20px;
+    mix-blend-mode: multiply;
+
+    &--filled {
+      background-color: var(--color-primary-main);
+      border-right: 2px solid var(--color-primary-dark);
+    }
+  }
+
+  &--on-light {
+    .aminoacids-table__bar--filled {
+      background-color: var(--color-primary-light);
+    }
+  }
+}

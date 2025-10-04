@@ -1,0 +1,42 @@
+.checkbox {
+  color: var(--color-primary-light);
+  mix-blend-mode: multiply;
+  position: relative;
+  display: inline-flex;
+  line-height: 1;
+  height: 44px;
+  width: 44px;
+  align-items: center;
+  justify-content: center;
+
+  .svg-icon {
+    pointer-events: none;
+  }
+
+  .checked-icon {
+    display: none;
+
+    [stroke-linecap="round"] {
+      color: var(--color-dark-strong);
+    }
+  }
+
+  input {
+    appearance: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+
+    &:checked {
+      ~ .checked-icon {
+        display: block;
+      }
+
+      ~ .not-checked-icon {
+        display: none;
+      }
+    }
+  }
+}

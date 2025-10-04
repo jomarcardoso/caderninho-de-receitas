@@ -1,0 +1,67 @@
+.columns-1 {
+  --bs-columns: 1;
+}
+
+.columns-9 {
+  --bs-columns: 9;
+}
+
+.columns-10 {
+  --bs-columns: 10;
+}
+
+.columns-14 {
+  --bs-columns: 14;
+}
+
+.columns-16 {
+  --bs-columns: 16;
+}
+
+.g-col-13 {
+  grid-column: auto/span 13;
+}
+
+.g-col-14 {
+  grid-column: auto/span 14;
+}
+
+.g-col-15 {
+  grid-column: auto/span 15;
+}
+
+.g-col-16 {
+  grid-column: auto/span 16;
+}
+
+.g-0 {
+  --bs-gap: 0;
+}
+
+.g-1 {
+  --bs-gap: 4px;
+}
+
+.g-2 {
+  --bs-gap: 8px;
+}
+
+.g-3 {
+  --bs-gap: 12px;
+}
+
+.g-4 {
+  --bs-gap: 16px;
+}
+
+.g-5 {
+  --bs-gap: 24px;
+}
+
+.g-6 {
+  --bs-gap: 32px;
+}
+
+.g-7 {
+  --bs-gap: 40px;
+}

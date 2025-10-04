@@ -1,0 +1,31 @@
+.recipe-register {
+  &__wrapper {
+    padding-bottom: 2rem;
+  }
+
+  &__story-image {
+    margin-bottom: -52px;
+  }
+
+  &__submit {
+    overflow: hidden;
+    position: sticky;
+    bottom: 0;
+    border-top-left-radius: var(--border-radius-secondary);
+    border-top-right-radius: var(--border-radius-secondary);
+    box-shadow: var(--shadow-primary);
+
+    .button {
+      border-radius: 0;
+      height: 44px;
+    }
+  }
+
+  &__add-step {
+    margin: 0 auto;
+  }
+
+  .layout__main {
+    margin-bottom: 0;
+  }
+}
