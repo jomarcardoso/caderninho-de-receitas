@@ -1,0 +1,20 @@
+.app-page {
+  &__body {
+    display: flex;
+    width: 100vw;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    height: calc(100dvh - var(--header-height));
+    overflow-x: scroll;
+  }
+}
+
+.page {
+  border-bottom-left-radius: var(--border-radius-secondary);
+  border-bottom-right-radius: var(--border-radius-secondary);
+  box-shadow: var(--shadow-primary);
+}
+
+.desktop-content {
+  position: relative;
+}
