@@ -1,4 +1,4 @@
-import { type FC, type HTMLProps, useContext, useMemo } from 'react';
+import { type FC, type HTMLProps, useMemo } from 'react';
 import CurrentRecipeContext from './current-recipe.context';
 import { useRecipe } from './current-recipe.hook';
 

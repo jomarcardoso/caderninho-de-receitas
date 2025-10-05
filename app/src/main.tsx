@@ -21,13 +21,13 @@ const Root = () => (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <DataProvider>
         <LanguageProvider>
-          <CurrentRecipeProvider>
-            <NavigationProvider>
+          <NavigationProvider>
+            <CurrentRecipeProvider>
               <EditingProvider>
                 <App />
               </EditingProvider>
-            </NavigationProvider>
-          </CurrentRecipeProvider>
+            </CurrentRecipeProvider>
+          </NavigationProvider>
         </LanguageProvider>
       </DataProvider>
     </GoogleOAuthProvider>

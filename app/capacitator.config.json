@@ -1,6 +1,0 @@
-{
-  "appId": "com.receptabook.app",
-  "appName": "MeuApp",
-  "webDir": "public",
-  "bundledWebRuntime": false
-}
