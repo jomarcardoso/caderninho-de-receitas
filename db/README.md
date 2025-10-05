@@ -60,13 +60,13 @@ docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (
         FROM \"Measure\" m
         WHERE m.\"FoodId\" = f.\"Id\"
       ) AS \"Measure\"
-    FROM \"Foods\" f
+    FROM \"Food\" f
   ) AS food_with_measures
 ) TO STDOUT" > backup/FoodsFull.json
 
 
 # foods
-docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT * FROM \"Foods\") f) TO STDOUT" > backup/Foods.json
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT * FROM \"Food\") f) TO STDOUT" > backup/Foods.json
 
 # measures
 docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT * FROM \"Measure\") f) TO STDOUT" > backup/Measures.json
@@ -76,24 +76,24 @@ Backup in CSV/TSV to use for Machine Learning.
 
 ```sh
 # english
-docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT \"Id\" as id, \"Name\" as name, \"Keys\" as keys, FROM \"Foods\") TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsEn.tsv
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT \"Id\" as id, _En as name, \"Keys\" as keys, FROM \"Food\") TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsEn.tsv
 
 # portuguese
-docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT \"Id\" as id, \"NamePt\" as name, \"KeysPt\" as keys FROM \"Foods\") TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsPt.tsv
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT \"Id\" as id, \"Name_Pt\" as name, \"KeysPt\" as keys FROM \"Food\") TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsPt.tsv
 
 docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (
     SELECT
         \"Id\" as id,
-        \"NamePt\" as name,
+        \"Name_Pt\" as name,
         trim(both ' ' from unnest(string_to_array(\"KeysPt\", ','))) as key
-    FROM \"Foods\"
+    FROM \"Food\"
 ) TO STDOUT WITH DELIMITER E'\t' CSV HEADER" > backup/FoodsPt.tsv
 ```
 
 Backup to use to unit tests:
 
 ```bash
-docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT \"Id\", \"NamePt\", \"KeysPt\" FROM \"Foods\") f) TO STDOUT" > backup/FoodsPt.json
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT \"Id\", \"Name_En\", \"Name_Pt\", \"Keys_En\", \"Keys_Pt\" FROM \"Food\") f) TO STDOUT" > mocks/Foods.json
 ```
 
 ### Restore
