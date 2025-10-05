@@ -1,6 +1,8 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Fastenshtein;
 using Server.Models;
+using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Server.Services;
@@ -11,7 +13,7 @@ public class FoodService
   {
     "a gosto", "à gosto",
     "para servir", "a gosto para servir", "a gosto para servir (opcional)",
-    "(opcional)",
+    "(opcional)", "opcional",
     "picado", "picada", "picados", "picadas",
     "ralado", "ralada", "ralados", "raladas",
     "cozido", "cozida", "cozidos", "cozidas",
@@ -36,8 +38,25 @@ public class FoodService
     "descongelado", "descongelada", "descongelados", "descongeladas",
     "recheado", "recheada", "recheados", "recheadas",
     "cru", "crua", "crus", "cruas",
-    "peneirado", "peneirada", "peneirados", "peneiradas"
+    "peneirado", "peneirada", "peneirados", "peneiradas",
+    "to taste", "for serving", "for garnish", "for topping",
+    "to taste for serving", "to taste for serving (optional)",
+    "chopped", "finely chopped", "roughly chopped",
+    "diced", "sliced", "thinly sliced", "thickly sliced",
+    "minced", "grated", "shredded",
+    "cooked", "boiled", "baked", "roasted",
+    "fried", "grilled", "seared", "broiled",
+    "beaten", "whisked",
+    "drained", "rinsed",
+    "dry", "hydrated",
+    "frozen", "thawed",
+    "stuffed", "filled",
+    "raw", "whole",
+    "cubed", "mashed",
+    "seasoned"
   };
+
+  private static readonly char[] KeySeparators = new[] { ',', ';' };
 
   private readonly AppDbContext _context;
   private List<Food> foods = new List<Food>();
@@ -45,6 +64,44 @@ public class FoodService
   public FoodService(AppDbContext context)
   {
     _context = context;
+  }
+
+  private static IEnumerable<string> GetLanguageValues(LanguageText? text)
+  {
+    if (text is null)
+      yield break;
+
+    if (!string.IsNullOrWhiteSpace(text.Pt))
+      yield return text.Pt.Trim();
+
+    if (!string.IsNullOrWhiteSpace(text.En))
+      yield return text.En.Trim();
+  }
+
+  private static IEnumerable<string> GetKeyValues(LanguageText? text)
+  {
+    return GetLanguageValues(text)
+      .SelectMany(value => value.Split(KeySeparators, StringSplitOptions.RemoveEmptyEntries))
+      .Select(key => key.Trim())
+      .Where(key => !string.IsNullOrWhiteSpace(key));
+  }
+
+  private static List<string> GetSearchableValues(Food food)
+  {
+    var values = new List<string>();
+
+    values.AddRange(GetLanguageValues(food.Name));
+    values.AddRange(GetKeyValues(food.Keys));
+
+    if (values.Count == 0)
+    {
+      var fallback = food.Name?.Pt ?? food.Name?.En ?? string.Empty;
+
+      if (!string.IsNullOrWhiteSpace(fallback))
+        values.Add(fallback.Trim());
+    }
+
+    return values;
   }
 
   // Buscar um Food pelo ID
@@ -87,16 +144,28 @@ public class FoodService
 
   internal async Task<Food?> hasExactFoodWithThisName(string name)
   {
-    List<Food> _allFoods = await GetAllAsync();
+    if (string.IsNullOrWhiteSpace(name))
+      return null;
 
-    return _allFoods.FirstOrDefault(f => string.Equals(f.Name.Pt.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase));
+    List<Food> _allFoods = await GetAllAsync();
+    var trimmedName = name.Trim();
+
+    return _allFoods.FirstOrDefault(f =>
+      GetLanguageValues(f.Name).Any(value =>
+        string.Equals(value, trimmedName, StringComparison.OrdinalIgnoreCase)));
   }
 
   internal async Task<Food?> hasExactKeyWithThisName(string name)
   {
-    List<Food> _allFoods = await GetAllAsync();
+    if (string.IsNullOrWhiteSpace(name))
+      return null;
 
-    return _allFoods.FirstOrDefault((f) => f.Keys.Pt.Split(", ").Any((k) => string.Equals(k.Trim(), name.Trim(), StringComparison.OrdinalIgnoreCase)));
+    List<Food> _allFoods = await GetAllAsync();
+    var trimmedName = name.Trim();
+
+    return _allFoods.FirstOrDefault(f =>
+      GetKeyValues(f.Keys).Any(key =>
+        string.Equals(key, trimmedName, StringComparison.OrdinalIgnoreCase)));
   }
 
   internal static string filterPrefix(string foodText)
@@ -104,29 +173,39 @@ public class FoodService
     if (string.IsNullOrWhiteSpace(foodText))
       return string.Empty;
 
-    // normaliza espaחos extras
     foodText = foodText.Trim();
 
-    // regex para remover "de", "da", "do", "dos", "das", "of" no inםcio
-    return Regex.Replace(foodText, @"^(de|da|do|dos|das|of)\s+", "", RegexOptions.IgnoreCase).Trim();
+    return Regex.Replace(foodText, @"^(de|da|do|dos|das|of|the)\s+", "", RegexOptions.IgnoreCase).Trim();
   }
 
   internal static string filterName(string name)
   {
     var noPrefixName = filterPrefix(name);
 
-    return FoodModifiers.Aggregate(noPrefixName,
-      (current, modifier) =>
-        StringService.ReplaceEnding(current.Replace(modifier, "").Trim().Replace("  ", " "), " e", "")
-    );
+    var normalized = FoodModifiers.Aggregate(noPrefixName,
+      (current, modifier) => current.Replace(modifier, string.Empty).Trim().Replace("  ", " "));
+
+    normalized = StringService.ReplaceEnding(normalized, " e", string.Empty);
+    normalized = StringService.ReplaceEnding(normalized, " and", string.Empty);
+
+    return normalized.Trim();
   }
 
   internal async Task<Food> BestMatch(string name)
   {
     List<Food> _allFoods = await GetAllAsync();
+    var trimmedName = name.Trim();
+    var levenshtein = new Levenshtein(trimmedName);
 
     return _allFoods
-      .OrderBy(food => (food.Keys.Pt + ", " + food.Name.Pt).Split(", ").Min(key => new Levenshtein(name).DistanceFrom(key)))
+      .OrderBy(food =>
+      {
+        var candidates = GetSearchableValues(food);
+
+        return candidates.Count == 0
+          ? levenshtein.DistanceFrom(string.Empty)
+          : candidates.Min(candidate => levenshtein.DistanceFrom(candidate));
+      })
       .First();
   }
 
@@ -183,3 +262,4 @@ public class FoodService
       .ToList()!;
   }
 }
+

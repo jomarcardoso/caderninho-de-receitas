@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Server.Services;
 using Server.Models;
 using System.Threading.Tasks;
@@ -13,12 +15,30 @@ public class FoodServiceTests
 {
   private AppDbContext context = null!;
   private FoodService service;
-  private sealed record FoodFixture(int Id, string NamePt, string KeysPt);
+  private sealed record FoodFixture(
+    int Id,
+    [property: JsonPropertyName("Name_Pt")] string? NamePt,
+    [property: JsonPropertyName("Keys_Pt")] string? KeysPt,
+    [property: JsonPropertyName("Name_En")] string? NameEn,
+    [property: JsonPropertyName("Keys_En")] string? KeysEn
+  );
+
+  private static void AssertFoodHasName(Food? food, string expectedName)
+  {
+    Assert.That(food, Is.Not.Null);
+
+    var names = new[] { food!.Name.Pt, food.Name.En }
+      .Where(n => !string.IsNullOrWhiteSpace(n))
+      .Select(n => n.Trim())
+      .ToList();
+
+    Assert.That(names, Does.Contain(expectedName.Trim()).IgnoreCase);
+  }
 
   [OneTimeSetUp]
   public void GlobalSetup()
   {
-    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "FoodsPt.json");
+    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
     if (!File.Exists(path))
       throw new FileNotFoundException($"Arquivo não encontrado: {path}");
 
@@ -27,8 +47,16 @@ public class FoodServiceTests
     var foods = fixtures.Select(fixture => new Food
     {
       Id = fixture.Id,
-      Name = new LanguageText { Pt = fixture.NamePt ?? string.Empty },
-      Keys = new LanguageText { Pt = fixture.KeysPt ?? string.Empty }
+      Name = new LanguageText
+      {
+        Pt = fixture.NamePt ?? string.Empty,
+        En = fixture.NameEn ?? string.Empty
+      },
+      Keys = new LanguageText
+      {
+        Pt = fixture.KeysPt ?? string.Empty,
+        En = fixture.KeysEn ?? string.Empty
+      }
     }).ToList();
 
     var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -50,17 +78,18 @@ public class FoodServiceTests
   }
 
   [TestCase("Chocolate preto 45 - 59%", "Chocolate preto 45 - 59%")]
+  [TestCase("Cooked black beans", "Cooked black beans")]
   [TestCase("farinha de mandioca", "Farinha de mandioca")]
   [TestCase("farinha de rosca ", "Farinha de rosca")]
   public async Task hasExactFoodWithThisName(string name, string expectedName)
   {
     var foodResult = await service.hasExactFoodWithThisName(name);
 
-    Assert.That(foodResult, Is.Not.Null);
-    Assert.That(foodResult!.Name.Pt, Is.EqualTo(expectedName));
+    AssertFoodHasName(foodResult, expectedName);
   }
 
   [TestCase("Chocolate", "Chocolate preto 45 - 59%")]
+  [TestCase("black beans", "Cooked black beans")]
   [TestCase("achocolatado", "Chocolate preto 45 - 59%")]
   [TestCase("chocolate em pó", "Chocolate preto 45 - 59%")]
   [TestCase("chocolate ao leite", "Chocolate preto 45 - 59%")]
@@ -69,8 +98,7 @@ public class FoodServiceTests
   {
     var foodResult = await service.hasExactKeyWithThisName(name);
 
-    Assert.That(foodResult, Is.Not.Null);
-    Assert.That(foodResult!.Name.Pt, Is.EqualTo(expectedName));
+    AssertFoodHasName(foodResult, expectedName);
   }
 
   [TestCase("Farinha de trigo peneirada", "Farinha de trigo")]
@@ -88,18 +116,20 @@ public class FoodServiceTests
   [TestCase("iorgute", "Iogurte natural")]
   [TestCase("lentrilha", "Lentilha cozida")]
   [TestCase("tocinho", "Toucinho")]
+  [TestCase("coked black beans", "Cooked black beans")]
   public async Task BestMatch(string name, string expectedName)
   {
     var foodResult = await service.BestMatch(name);
 
-    Assert.That(foodResult, Is.Not.Null);
-    Assert.That(foodResult!.Name.Pt, Is.EqualTo(expectedName));
+    AssertFoodHasName(foodResult, expectedName);
   }
 
   [TestCase("Chocolate preto 45 - 59%", "Chocolate preto 45 - 59%")]
+  [TestCase("Cooked black beans", "Cooked black beans")]
   [TestCase("farinha de mandioca", "Farinha de mandioca")]
   [TestCase("farinha de rosca ", "Farinha de rosca")]
   [TestCase("Chocolate", "Chocolate preto 45 - 59%")]
+  [TestCase("black beans", "Cooked black beans")]
   [TestCase("achocolatado", "Chocolate preto 45 - 59%")]
   [TestCase("chocolate em pó", "Chocolate preto 45 - 59%")]
   [TestCase("chocolate ao leite", "Chocolate preto 45 - 59%")]
@@ -109,19 +139,11 @@ public class FoodServiceTests
   [TestCase("iorgute", "Iogurte natural")]
   [TestCase("lentrilha", "Lentilha cozida")]
   [TestCase("tocinho", "Toucinho")]
+  [TestCase("coked black beans", "Cooked black beans")]
   public async Task FindFoodByPossibleName(string name, string expectedName)
   {
     var foodResult = await service.FindFoodByPossibleName(name);
 
-    Assert.That(foodResult, Is.Not.Null);
-    Assert.That(foodResult!.Name.Pt, Is.EqualTo(expectedName));
+    AssertFoodHasName(foodResult, expectedName);
   }
 }
-
-
-
-
-
-
-
-

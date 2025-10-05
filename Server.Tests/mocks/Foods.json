@@ -1,0 +1,1797 @@
+[
+  {
+    "Id": 1,
+    "Name_En": "",
+    "Name_Pt": "Abacate",
+    "Keys_En": "",
+    "Keys_Pt": "avocado"
+  },
+  {
+    "Id": 2,
+    "Name_En": "",
+    "Name_Pt": "Abacaxi",
+    "Keys_En": "",
+    "Keys_Pt": ""
+  },
+  {
+    "Id": 3,
+    "Name_En": "",
+    "Name_Pt": "Abóbora cabotiá",
+    "Keys_En": "",
+    "Keys_Pt": "abóbora, abobora, abobra, jerimum, abobora cabotian, abóbora cabotian"
+  },
+  {
+    "Id": 4,
+    "Name_En": "",
+    "Name_Pt": "Abobrinha",
+    "Keys_En": "",
+    "Keys_Pt": "abobrinha, abobrinha italiana"
+  },
+  {
+    "Id": 5,
+    "Name_En": "",
+    "Name_Pt": "Achocolatado em pó",
+    "Keys_En": "",
+    "Keys_Pt": "achocoltado, achocolatado em pó, nescau"
+  },
+  {
+    "Id": 6,
+    "Name_En": "",
+    "Name_Pt": "Açúcar branco",
+    "Keys_En": "",
+    "Keys_Pt": "açúcar, açucar, açúcar refinado, açúcar branco, açucar refinado"
+  },
+  {
+    "Id": 7,
+    "Name_En": "",
+    "Name_Pt": "Açúcar cristal",
+    "Keys_En": "",
+    "Keys_Pt": "açúcar cristal, açucar cristal"
+  },
+  {
+    "Id": 8,
+    "Name_En": "",
+    "Name_Pt": "Açúcar mascavo",
+    "Keys_En": "",
+    "Keys_Pt": "açúcar escuro, açúcar integral"
+  },
+  {
+    "Id": 60,
+    "Name_En": "",
+    "Name_Pt": "Cerveja pilsen",
+    "Keys_En": "",
+    "Keys_Pt": "cerveja"
+  },
+  { "Id": 9, "Name_En": "", "Name_Pt": "Água", "Keys_En": "", "Keys_Pt": "" },
+  {
+    "Id": 10,
+    "Name_En": "",
+    "Name_Pt": "Água de coco",
+    "Keys_En": "",
+    "Keys_Pt": "coco, agua de coco, água de coco"
+  },
+  {
+    "Id": 11,
+    "Name_En": "",
+    "Name_Pt": "Água tônica",
+    "Keys_En": "",
+    "Keys_Pt": "agua tonica, água tonica, tônica, tonica, água tônica, refrigerante tônico"
+  },
+  {
+    "Id": 12,
+    "Name_En": "",
+    "Name_Pt": "Aipim",
+    "Keys_En": "",
+    "Keys_Pt": "mandioca, macacheira, cassava"
+  },
+  {
+    "Id": 13,
+    "Name_En": "",
+    "Name_Pt": "Alecrim",
+    "Keys_En": "",
+    "Keys_Pt": "alecrim, ramo de alecrim, ramos de alecrim"
+  },
+  {
+    "Id": 14,
+    "Name_En": "",
+    "Name_Pt": "Aipo",
+    "Keys_En": "",
+    "Keys_Pt": "aipo, salsão, salsa em ponto grande, talo de aipo, talo de salsão, talo de salsa em ponto grande"
+  },
+  {
+    "Id": 15,
+    "Name_En": "",
+    "Name_Pt": "alface",
+    "Keys_En": "",
+    "Keys_Pt": ""
+  },
+  { "Id": 16, "Name_En": "", "Name_Pt": "alho", "Keys_En": "", "Keys_Pt": "" },
+  {
+    "Id": 17,
+    "Name_En": "",
+    "Name_Pt": "Amêndoa",
+    "Keys_En": "",
+    "Keys_Pt": "amêndoa, amêndoas, amêndoa com pele, amêndoas com pele"
+  },
+  {
+    "Id": 18,
+    "Name_En": "",
+    "Name_Pt": "Amêndoa torrada e salgada",
+    "Keys_En": "",
+    "Keys_Pt": "amêndoa torrada, amêndoas torradas, amêndoa salgada, amêndoas salgadas, amêndoa torrada e salgada, amêndoas torrada e salgada"
+  },
+  {
+    "Id": 19,
+    "Name_En": "",
+    "Name_Pt": "Amendoim",
+    "Keys_En": "",
+    "Keys_Pt": "amendoim, amendoins"
+  },
+  {
+    "Id": 20,
+    "Name_En": "",
+    "Name_Pt": "Amido de milho",
+    "Keys_En": "",
+    "Keys_Pt": "maizena"
+  },
+  {
+    "Id": 21,
+    "Name_En": "",
+    "Name_Pt": "Arroz Branco",
+    "Keys_En": "",
+    "Keys_Pt": "arroz"
+  },
+  {
+    "Id": 22,
+    "Name_En": "",
+    "Name_Pt": "Arroz integral cozido",
+    "Keys_En": "",
+    "Keys_Pt": "arroz integral, arroz integral cozido"
+  },
+  {
+    "Id": 23,
+    "Name_En": "",
+    "Name_Pt": "Arroz integral cru",
+    "Keys_En": "",
+    "Keys_Pt": "arroz integral cru, farinha de arroz integral"
+  },
+  {
+    "Id": 24,
+    "Name_En": "",
+    "Name_Pt": "Arroz doce, caramelizado com farofa",
+    "Keys_En": "",
+    "Keys_Pt": "arroz code, arroz doce caramelizado, arroz doce com farofa, arroz doce caramelizado com fafora"
+  },
+  {
+    "Id": 25,
+    "Name_En": "",
+    "Name_Pt": "Arroz libanês com frango, coalhada e nozes",
+    "Keys_En": "",
+    "Keys_Pt": "arroz libanês, arroz libanes, arroz libanês com frango, arroz libanês com frango e coalhada, arroz libanês com frango e nozes"
+  },
+  {
+    "Id": 26,
+    "Name_En": "",
+    "Name_Pt": "Aveia",
+    "Keys_En": "",
+    "Keys_Pt": "aveia em flocos, flocos de aveia, aveia em floco"
+  },
+  {
+    "Id": 27,
+    "Name_En": "",
+    "Name_Pt": "Azeite de oliva",
+    "Keys_En": "",
+    "Keys_Pt": "azeite, óleo de oliva, azeite de oliva extra virgem"
+  },
+  {
+    "Id": 28,
+    "Name_En": "",
+    "Name_Pt": "Azeitona",
+    "Keys_En": "",
+    "Keys_Pt": "azeitona, oliva, azeitonas"
+  },
+  {
+    "Id": 30,
+    "Name_En": "",
+    "Name_Pt": "Banana Mysore",
+    "Keys_En": "",
+    "Keys_Pt": ""
+  },
+  {
+    "Id": 31,
+    "Name_En": "",
+    "Name_Pt": "Banana nanica",
+    "Keys_En": "",
+    "Keys_Pt": "banana, banana nanica, bananas, bananas nanicax"
+  },
+  {
+    "Id": 32,
+    "Name_En": "",
+    "Name_Pt": "Banana Prata",
+    "Keys_En": "",
+    "Keys_Pt": "banana"
+  },
+  {
+    "Id": 33,
+    "Name_En": "",
+    "Name_Pt": "Banha de porco",
+    "Keys_En": "",
+    "Keys_Pt": "banha, banha de porco"
+  },
+  {
+    "Id": 34,
+    "Name_En": "",
+    "Name_Pt": "Batata",
+    "Keys_En": "",
+    "Keys_Pt": "batatinha, batata inglesa"
+  },
+  {
+    "Id": 35,
+    "Name_En": "",
+    "Name_Pt": "Batata Doce",
+    "Keys_En": "",
+    "Keys_Pt": "batata doce, batata-doce, batata doce cozida"
+  },
+  {
+    "Id": 36,
+    "Name_En": "",
+    "Name_Pt": "Beringela",
+    "Keys_En": "",
+    "Keys_Pt": "berinjela, beringela, beringela crua"
+  },
+  {
+    "Id": 37,
+    "Name_En": "",
+    "Name_Pt": "Beterraba",
+    "Keys_En": "",
+    "Keys_Pt": "beterraba, beterraba crua"
+  },
+  {
+    "Id": 38,
+    "Name_En": "",
+    "Name_Pt": "Bicarbonato de sódio",
+    "Keys_En": "",
+    "Keys_Pt": "bicarbonato, bicarbonato de sódio"
+  },
+  {
+    "Id": 39,
+    "Name_En": "",
+    "Name_Pt": "Biscoito de maizena",
+    "Keys_En": "",
+    "Keys_Pt": "biscoito de maizena"
+  },
+  {
+    "Id": 40,
+    "Name_En": "",
+    "Name_Pt": "Biscoito recheado",
+    "Keys_En": "",
+    "Keys_Pt": "biscoito recheado, oreo, bolacha recheada, biscoito oreo"
+  },
+  {
+    "Id": 41,
+    "Name_En": "",
+    "Name_Pt": "Bolo de cenoura",
+    "Keys_En": "",
+    "Keys_Pt": "bolo de cenoura com cobertura, bolo de cenoura"
+  },
+  {
+    "Id": 42,
+    "Name_En": "",
+    "Name_Pt": "Bolo de laranja",
+    "Keys_En": "",
+    "Keys_Pt": "bolo de laranja"
+  },
+  {
+    "Id": 43,
+    "Name_En": "",
+    "Name_Pt": "Cacau em pó",
+    "Keys_En": "",
+    "Keys_Pt": "cacau, cacau em pó"
+  },
+  {
+    "Id": 44,
+    "Name_En": "",
+    "Name_Pt": "Cachaça",
+    "Keys_En": "",
+    "Keys_Pt": "cachaça, aguardente, cachaça de cana, aguardente de cana"
+  },
+  {
+    "Id": 45,
+    "Name_En": "",
+    "Name_Pt": "Café passado",
+    "Keys_En": "",
+    "Keys_Pt": "café, café passado, café de infusão, café de infusão 10%, café infusão"
+  },
+  { "Id": 179, "Name_En": "", "Name_Pt": "Sal", "Keys_En": "", "Keys_Pt": "" },
+  {
+    "Id": 46,
+    "Name_En": "",
+    "Name_Pt": "Café moído",
+    "Keys_En": "",
+    "Keys_Pt": "grão de café, grãos de café, café moído"
+  },
+  {
+    "Id": 47,
+    "Name_En": "",
+    "Name_Pt": "Caldo de cana",
+    "Keys_En": "",
+    "Keys_Pt": "caldo de cana"
+  },
+  {
+    "Id": 48,
+    "Name_En": "",
+    "Name_Pt": "Caldo de Legumes",
+    "Keys_En": "",
+    "Keys_Pt": "caldo de legume, caldo de legumes"
+  },
+  {
+    "Id": 49,
+    "Name_En": "",
+    "Name_Pt": "Canela",
+    "Keys_En": "",
+    "Keys_Pt": "canela, casca de canela, canela em pó, canela em casca"
+  },
+  {
+    "Id": 50,
+    "Name_En": "",
+    "Name_Pt": "carambola",
+    "Keys_En": "",
+    "Keys_Pt": "carambola, carambolas"
+  },
+  {
+    "Id": 59,
+    "Name_En": "",
+    "Name_Pt": "Cenoura cozida",
+    "Keys_En": "",
+    "Keys_Pt": ""
+  },
+  {
+    "Id": 51,
+    "Name_En": "",
+    "Name_Pt": "Cardamomo",
+    "Keys_En": "",
+    "Keys_Pt": "cardamomo, cardamomos, baga de cardamomo"
+  },
+  {
+    "Id": 52,
+    "Name_En": "",
+    "Name_Pt": "Caril",
+    "Keys_En": "",
+    "Keys_Pt": "caril, curry"
+  },
+  {
+    "Id": 53,
+    "Name_En": "",
+    "Name_Pt": "Carne bovina",
+    "Keys_En": "",
+    "Keys_Pt": "carne, carne de gado, carne moída, bife, acém"
+  },
+  {
+    "Id": 54,
+    "Name_En": "",
+    "Name_Pt": "Castanha-do-pará",
+    "Keys_En": "",
+    "Keys_Pt": "castanha, castanha do pará"
+  },
+  {
+    "Id": 55,
+    "Name_En": "",
+    "Name_Pt": "Cebola",
+    "Keys_En": "",
+    "Keys_Pt": "cebola palito, cebolas palito, cebolete, cebola para conserva, cebolas para conserva"
+  },
+  {
+    "Id": 56,
+    "Name_En": "Spring Onion",
+    "Name_Pt": "Cebolinha",
+    "Keys_En": "Green onion, scallion",
+    "Keys_Pt": "cebolinha, cebolinho, cebolinha-francesa, cebolinha francesa"
+  },
+  {
+    "Id": 57,
+    "Name_En": "",
+    "Name_Pt": "Cebolas em conserva",
+    "Keys_En": "",
+    "Keys_Pt": "cebola em conserva"
+  },
+  {
+    "Id": 58,
+    "Name_En": "",
+    "Name_Pt": "Cenoura",
+    "Keys_En": "",
+    "Keys_Pt": "cenoura ralada, cenouras raladas, pedaços de cenoura"
+  },
+  {
+    "Id": 61,
+    "Name_En": "",
+    "Name_Pt": "Chá de erva-doce",
+    "Keys_En": "",
+    "Keys_Pt": "chá de erva-doce, erva-doce, erva doce, anis-verde, anis verde, pimpinela-branca, pimpinela branca"
+  },
+  {
+    "Id": 62,
+    "Name_En": "Chapatti",
+    "Name_Pt": "Chapati",
+    "Keys_En": "roti, ndian flatbread, chapatti",
+    "Keys_Pt": "chapati, pão ázimo, pão azimo, pão sírio, pão indiano, pãozinho indiano, pãozinho sírio"
+  },
+  {
+    "Id": 63,
+    "Name_En": "",
+    "Name_Pt": "Chocolate preto 45 - 59%",
+    "Keys_En": "",
+    "Keys_Pt": "chocolate, achocolatado, chocolate em pó, chocolate ao leite"
+  },
+  {
+    "Id": 64,
+    "Name_En": "",
+    "Name_Pt": "Chuchu",
+    "Keys_En": "",
+    "Keys_Pt": "chuchu, chuchu cru"
+  },
+  {
+    "Id": 65,
+    "Name_En": "",
+    "Name_Pt": "Churrasco",
+    "Keys_En": "",
+    "Keys_Pt": "churrasco, churrasco de carne"
+  },
+  {
+    "Id": 66,
+    "Name_En": "Egg White",
+    "Name_Pt": "Clara de ovo",
+    "Keys_En": "egg white, egg whites",
+    "Keys_Pt": "clara de ovo, clara de ovos, claras de ovo, claras de ovos"
+  },
+  {
+    "Id": 67,
+    "Name_En": "Fresh Yogurt",
+    "Name_Pt": "Coalhada fresca",
+    "Keys_En": "fresh yogurt, curd",
+    "Keys_Pt": "coalhada, coalhada fresca"
+  },
+  {
+    "Id": 68,
+    "Name_En": "Dried Yogurt",
+    "Name_Pt": "Coalhada seca",
+    "Keys_En": "dried yogurt, yogurt powder",
+    "Keys_Pt": "coalhada seca"
+  },
+  {
+    "Id": 69,
+    "Name_En": "Grated Coconut",
+    "Name_Pt": "Coco ralado",
+    "Keys_En": "grated coconut, desiccated coconut",
+    "Keys_Pt": "coco, côco, cocos, côcos"
+  },
+  {
+    "Id": 70,
+    "Name_En": "Coriander",
+    "Name_Pt": "Coentro",
+    "Keys_En": "coriander, cilantro",
+    "Keys_Pt": "coentro"
+  },
+  {
+    "Id": 71,
+    "Name_En": "Cauliflower",
+    "Name_Pt": "Couve-flor",
+    "Keys_En": "cauliflower",
+    "Keys_Pt": "couve-flor, couve flor, couves-flor, couves-flores, couve-flores"
+  },
+  {
+    "Id": 72,
+    "Name_En": "Clove",
+    "Name_Pt": "Cravo da índia",
+    "Keys_En": "clove",
+    "Keys_Pt": "cravo, cravos, cravos da índia, cravo-da-índia"
+  },
+  {
+    "Id": 73,
+    "Name_En": "Cuca",
+    "Name_Pt": "Cuca",
+    "Keys_En": "cuca, streusel bread",
+    "Keys_Pt": "cuca, cuca de banana, cuca alemã"
+  },
+  {
+    "Id": 74,
+    "Name_En": "Pea",
+    "Name_Pt": "Ervilha",
+    "Keys_En": "pea, peas",
+    "Keys_Pt": "ervilha, ervilhas"
+  },
+  {
+    "Id": 75,
+    "Name_En": "Sfiha",
+    "Name_Pt": "Esfirra",
+    "Keys_En": "sfiha, sfiha pie, arabian pie",
+    "Keys_Pt": "esfirra, esfirras, esfiha, esfihas"
+  },
+  {
+    "Id": 76,
+    "Name_En": "Spaghetti",
+    "Name_Pt": "Espaguete",
+    "Keys_En": "spaghetti, pasta, spaghetti pasta, spaghetti with sauce",
+    "Keys_Pt": "espaguete, esparguete, macarronete, macarrão com molho"
+  },
+  {
+    "Id": 77,
+    "Name_En": "Beef Stroganoff",
+    "Name_Pt": "Estrogonofe de Carne",
+    "Keys_En": "beef stroganoff, stroganoff",
+    "Keys_Pt": "strogonofe, estrogonofe"
+  },
+  {
+    "Id": 78,
+    "Name_En": "Chicken Stroganoff",
+    "Name_Pt": "Estrogonofe de Frango",
+    "Keys_En": "chicken stroganoff, stroganoff",
+    "Keys_Pt": "strogonofe, estrogonofe"
+  },
+  {
+    "Id": 79,
+    "Name_En": "Falafel",
+    "Name_Pt": "Falafel",
+    "Keys_En": "falafel, chickpea fritter",
+    "Keys_Pt": "falafel, falafel de frito, falafel de grão-de-bico, falafel de fava"
+  },
+  {
+    "Id": 80,
+    "Name_En": "Oat Flour",
+    "Name_Pt": "Farinha de Aveia",
+    "Keys_En": "oat flour, oat meal flour",
+    "Keys_Pt": "farelo de aveia"
+  },
+  {
+    "Id": 81,
+    "Name_En": "Cassava Flour",
+    "Name_Pt": "Farinha de Mandioca",
+    "Keys_En": "cassava flour, manioc flour",
+    "Keys_Pt": "farinha de mandioca, farofa"
+  },
+  {
+    "Id": 82,
+    "Name_En": "Breadcrumbs",
+    "Name_Pt": "Farinha de Rosca",
+    "Keys_En": "breadcrumbs, bread flour, ground bread",
+    "Keys_Pt": "farinha de rosca, farinha de pão, pão ralado, pão seco moído"
+  },
+  {
+    "Id": 83,
+    "Name_En": "Wheat Flour",
+    "Name_Pt": "Farinha de trigo",
+    "Keys_En": "wheat flour, all-purpose flour, refined flour",
+    "Keys_Pt": "farinha branca, farinha, trigo"
+  },
+  {
+    "Id": 84,
+    "Name_En": "Yeast",
+    "Name_Pt": "Fermento",
+    "Keys_En": "yeast, dry yeast, baking yeast",
+    "Keys_Pt": "fermento, fermento biológico, fermento seco"
+  },
+  {
+    "Id": 85,
+    "Name_En": "Fig",
+    "Name_Pt": "Figo",
+    "Keys_En": "fig, fresh fig",
+    "Keys_Pt": "figo, figos, figo cru, figos cru"
+  },
+  {
+    "Id": 86,
+    "Name_En": "Canned Fig in Syrup",
+    "Name_Pt": "Figo enlatado em calda",
+    "Keys_En": "canned fig, fig in syrup",
+    "Keys_Pt": "figo em calda, figos em calda, figo enlatado, figos enlatados"
+  },
+  {
+    "Id": 87,
+    "Name_En": "Bay Leaf",
+    "Name_Pt": "Folha de Louro",
+    "Keys_En": "bay leaf, leaves, laurel",
+    "Keys_Pt": "folha de louro, folhas de louro, louro"
+  },
+  {
+    "Id": 88,
+    "Name_En": "Chicken",
+    "Name_Pt": "Frango",
+    "Keys_En": "chicken, chicken breast, chicken thigh, roasted chicken, shredded chicken, cooked chicken",
+    "Keys_Pt": "galinha, peito de frango, coxa de frango, frango assado, frango desfiado, frango cozido"
+  },
+  {
+    "Id": 89,
+    "Name_En": "",
+    "Name_Pt": "Frango assado",
+    "Keys_En": "",
+    "Keys_Pt": "frango assado, frango assado com farofa, frango recheado, frango assado com recheio, frango recheado assado, frango recheado assado com farofa, frango assado com recheio de farofa"
+  },
+  {
+    "Id": 90,
+    "Name_En": "Cornmeal",
+    "Name_Pt": "Fubá",
+    "Keys_En": "cornmeal, maize flour",
+    "Keys_Pt": "fubá, farinha de milho"
+  },
+  {
+    "Id": 91,
+    "Name_En": "",
+    "Name_Pt": "Galinhada",
+    "Keys_En": "",
+    "Keys_Pt": "risoto de frango, arroz com galinha, arroz com frango"
+  },
+  {
+    "Id": 92,
+    "Name_En": "Ice",
+    "Name_Pt": "Gelo",
+    "Keys_En": "ice, ice cube",
+    "Keys_Pt": "gelo, cubo de gelo"
+  },
+  {
+    "Id": 93,
+    "Name_En": "Egg yolk",
+    "Name_Pt": "Gema de ovo",
+    "Keys_En": "yolk, egg yolk",
+    "Keys_Pt": "gema, gema de ovo, gemas, gemas de ovo, gema de ovos"
+  },
+  {
+    "Id": 94,
+    "Name_En": "Ginger",
+    "Name_Pt": "Gengibre",
+    "Keys_En": "ginger, ginger powder, ground ginger, fresh ginger",
+    "Keys_Pt": "gengibre, gengibre em pó, gengibre ralado, gengibre fresco"
+  },
+  {
+    "Id": 101,
+    "Name_En": "Plain Yogurt",
+    "Name_Pt": "Iogurte natural",
+    "Keys_En": "plain yogurt, natural yogurt, yoghurt, yoghourt, unsweetened yogurt",
+    "Keys_Pt": "iogurte natural, iogurt, iogurte, yogurt, yogurte, yogourt, yogourte, iogourte, yoghurt, yoghurte, ioghurte"
+  },
+  {
+    "Id": 95,
+    "Name_En": "Sesame",
+    "Name_Pt": "Gergelim",
+    "Keys_En": "sesame, sesame seeds, sesame flour, tahini, tahin",
+    "Keys_Pt": "gergelim, gergelins, semente de gergelim, farinha de gergelim, sésamo, sésamos, semente de sésamo, farinha de sésamo, tahine, taíne, tahin, tahini"
+  },
+  {
+    "Id": 96,
+    "Name_En": "Chickpea",
+    "Name_Pt": "Grão-de-bico",
+    "Keys_En": "chickpea, garbanzo bean, garbanzo",
+    "Keys_Pt": "grão de bico, grãos de bico, grãos-de-bico"
+  },
+  {
+    "Id": 97,
+    "Name_En": "Guacamole",
+    "Name_Pt": "Guacamole",
+    "Keys_En": "guacamole, avocado dip, mexican dip",
+    "Keys_Pt": "guacamole, pasta de abacate, molho mexicano"
+  },
+  {
+    "Id": 98,
+    "Name_En": "Pigeon pea",
+    "Name_Pt": "Guandu",
+    "Keys_En": "pigeon pea, red gram, tropical green pea, cajanus cajan",
+    "Keys_Pt": "guandu, grãos de guandu, grão-de-guandu, feijão-guandu, ingá, ingás, ervilha-de-pombo"
+  },
+  {
+    "Id": 99,
+    "Name_En": "Hashweh",
+    "Name_Pt": "Hashweh",
+    "Keys_En": "hashweh, arabic rice, spiced rice with beef, middle eastern rice, lebanese rice with meat",
+    "Keys_Pt": "arroz árabe, hashweh, arroz marroquino, arroz árabe com carne, arroz árabe com carne moída, arroz árabe com especiarias, arroz árabe com carne moída e especiarias"
+  },
+  {
+    "Id": 100,
+    "Name_En": "Mint",
+    "Name_Pt": "Hortelã",
+    "Keys_En": "mint, spearmint, peppermint, fresh mint leaves, mint herb",
+    "Keys_Pt": "hortelã, hortelãs, folha de hortelã, folhas de hortelã, hortelã fresca, hortelã-pimenta"
+  },
+  {
+    "Id": 102,
+    "Name_En": "",
+    "Name_Pt": "Isotônico",
+    "Keys_En": "",
+    "Keys_Pt": "isotônico, isotónica, bebida isotônica, bebida isotónica"
+  },
+  {
+    "Id": 103,
+    "Name_En": "Kiwi",
+    "Name_Pt": "Kiwi",
+    "Keys_En": "kiwi, kiwis, chinese gooseberry",
+    "Keys_Pt": "kiwi, kiwis, groselha chinesa"
+  },
+  {
+    "Id": 104,
+    "Name_En": "Orange",
+    "Name_Pt": "Laranja",
+    "Keys_En": "orange, oranges, citrus fruit",
+    "Keys_Pt": "laranja, laranjas, fruta cítrica"
+  },
+  {
+    "Id": 105,
+    "Name_En": "Coconut Milk",
+    "Name_Pt": "Leite de coco",
+    "Keys_En": "coconut milk",
+    "Keys_Pt": "leite de coco"
+  },
+  {
+    "Id": 106,
+    "Name_En": "Cow Milk",
+    "Name_Pt": "Leite de vaca",
+    "Keys_En": "cow milk, milk",
+    "Keys_Pt": "leite, leite de vaca"
+  },
+  {
+    "Id": 107,
+    "Name_En": "Cooked Lentils",
+    "Name_Pt": "Lentilha cozida",
+    "Keys_En": "lentils, cooked lentils",
+    "Keys_Pt": "lentilha, lentilhas, lentilha cozida, lentilhas cozidas"
+  },
+  {
+    "Id": 108,
+    "Name_En": "Raw Lentils",
+    "Name_Pt": "Lentilha crua",
+    "Keys_En": "raw lentils, lentil flour",
+    "Keys_Pt": "lentilha crua, farinha de lentilha, farinha de lentilhas"
+  },
+  {
+    "Id": 109,
+    "Name_En": "Lemon",
+    "Name_Pt": "Limão",
+    "Keys_En": "lemon, lemons",
+    "Keys_Pt": "limão, limões"
+  },
+  {
+    "Id": 110,
+    "Name_En": "Flaxseed",
+    "Name_Pt": "Linhaça",
+    "Keys_En": "flaxseed, linseed",
+    "Keys_Pt": "semente de linhaça"
+  },
+  {
+    "Id": 111,
+    "Name_En": "Pork Loin",
+    "Name_Pt": "Lombo de porco",
+    "Keys_En": "pork loin, pork fillet, lean pork, pork tenderloin",
+    "Keys_Pt": "lombo, lombinho, lombo de porco, filé de porco, lombo suíno, filé suíno, filé mignon suíno"
+  },
+  {
+    "Id": 112,
+    "Name_En": "Fusilli Pasta",
+    "Name_Pt": "Macarrão fusilli",
+    "Keys_En": "fusilli, spiral pasta, wheat pasta",
+    "Keys_Pt": "massa, macarrão, massa parafuso, massa parafuso de trigo, macarrão parafuso, macarrão parafuso de trigo, macarrão fusilli, macarrão fusilli de trigo, massa fusilli, massa fusilli de trigo, massa fusili, massa fusili de trigo, macarrão fusili, macarrão fusili de trigo"
+  },
+  {
+    "Id": 113,
+    "Name_En": "Pastry Dough",
+    "Name_Pt": "Massa de pastel",
+    "Keys_En": "pastry dough, pastel dough, thin dough sheets",
+    "Keys_Pt": "massa de pastel, massa para pastel"
+  },
+  {
+    "Id": 114,
+    "Name_En": "Fuji Apple",
+    "Name_Pt": "Maçã Fuji",
+    "Keys_En": "fuji apple, apple, crisp apple",
+    "Keys_Pt": "maçã fuji, maçã, maçã crocante"
+  },
+  {
+    "Id": 115,
+    "Name_En": "",
+    "Name_Pt": "Maniçoba",
+    "Keys_En": "",
+    "Keys_Pt": "maniçoba"
+  },
+  {
+    "Id": 116,
+    "Name_En": "Mango",
+    "Name_Pt": "Manga",
+    "Keys_En": "mango, tropical fruit",
+    "Keys_Pt": "manga, mangas"
+  },
+  {
+    "Id": 117,
+    "Name_En": "Basil",
+    "Name_Pt": "Manjericão",
+    "Keys_En": "basil, aromatic herb",
+    "Keys_Pt": "manjericão"
+  },
+  {
+    "Id": 118,
+    "Name_En": "Butter",
+    "Name_Pt": "Manteiga",
+    "Keys_En": "butter, dairy, spread",
+    "Keys_Pt": "manteiga"
+  },
+  {
+    "Id": 119,
+    "Name_En": "Peanut Butter",
+    "Name_Pt": "Pasta de Amendoim",
+    "Keys_En": "peanut butter, spread, protein",
+    "Keys_Pt": "pasta de amendoim, manteiga de amendoim"
+  },
+  {
+    "Id": 120,
+    "Name_En": "Passion Fruit",
+    "Name_Pt": "Maracujá",
+    "Keys_En": "passion fruit, juice, tropical",
+    "Keys_Pt": "maracujá"
+  },
+  {
+    "Id": 121,
+    "Name_En": "Margarine",
+    "Name_Pt": "Margarina",
+    "Keys_En": "margarine, spread, oil",
+    "Keys_Pt": "margarina"
+  },
+  {
+    "Id": 122,
+    "Name_En": "",
+    "Name_Pt": "Maria mole",
+    "Keys_En": "",
+    "Keys_Pt": "maria-mole, marshmallow, marximelo"
+  },
+  {
+    "Id": 123,
+    "Name_En": "",
+    "Name_Pt": "Massa gravatinha",
+    "Keys_En": "",
+    "Keys_Pt": "massa gravatinha, gravatinha, massa, macarrão"
+  },
+  {
+    "Id": 124,
+    "Name_En": "Honey",
+    "Name_Pt": "Mel",
+    "Keys_En": "honey, sweetener, bee",
+    "Keys_Pt": "mel, mel de abelha"
+  },
+  {
+    "Id": 125,
+    "Name_En": "Mandarin",
+    "Name_Pt": "Mexerica",
+    "Keys_En": "mandarin, tangerine, citrus, fruit",
+    "Keys_Pt": "mexerica, tangerina, bergamota, vergamota, laranja-mimosa, mandarina, fuxiqueira, poncã, manjerica, laranja-cravo, mimosa"
+  },
+  {
+    "Id": 126,
+    "Name_En": "Corn",
+    "Name_Pt": "Milho",
+    "Keys_En": "corn, maize, kernel, vegetable",
+    "Keys_Pt": "milho, milho verde"
+  },
+  {
+    "Id": 127,
+    "Name_En": "",
+    "Name_Pt": "Mistura para bolo",
+    "Keys_En": "",
+    "Keys_Pt": "mistura para bolo, mistura pronta para bolo, mistura de bolo, mistura pronta"
+  },
+  {
+    "Id": 128,
+    "Name_En": "",
+    "Name_Pt": "Molho de Limão e Mel para Salada",
+    "Keys_En": "",
+    "Keys_Pt": "molho de limão e mel para salada, molho de salada, molho para salada, molho pra   salada, molho de limão, molho de mel"
+  },
+  {
+    "Id": 129,
+    "Name_En": "",
+    "Name_Pt": "Molho de tahine",
+    "Keys_En": "",
+    "Keys_Pt": "molho de tahine"
+  },
+  {
+    "Id": 200,
+    "Name_En": "",
+    "Name_Pt": "Geleia de manga e maracujá",
+    "Keys_En": "",
+    "Keys_Pt": "geleia de manga, geleia de maracujá, geleia, geléia"
+  },
+  {
+    "Id": 130,
+    "Name_En": "Tomato Sauce",
+    "Name_Pt": "Molho de tomate",
+    "Keys_En": "tomato sauce, tomato paste, ketchup, sauce",
+    "Keys_Pt": "molho de tomate, extrato, extrato de tomate"
+  },
+  {
+    "Id": 131,
+    "Name_En": "Strawberry",
+    "Name_Pt": "Morango",
+    "Keys_En": "strawberry, berry, fruit",
+    "Keys_Pt": "morango, moranguinho"
+  },
+  {
+    "Id": 132,
+    "Name_En": "Mustard Seed",
+    "Name_Pt": "Semente de mostarda",
+    "Keys_En": "mustard seed, spice, condiment",
+    "Keys_Pt": "sementes de mostarda, mostarda em semente"
+  },
+  {
+    "Id": 133,
+    "Name_En": "Muhammara",
+    "Name_Pt": "Muhammara",
+    "Keys_En": "muhammara, red pepper dip, walnut dip",
+    "Keys_Pt": "muhammara, pasta de pimentão, pasta de pimentão vermelho, muhamara, mhammara"
+  },
+  {
+    "Id": 134,
+    "Name_En": "Walnut",
+    "Name_Pt": "Noz",
+    "Keys_En": "walnut, nuts, healthy fats",
+    "Keys_Pt": "noz, nozes"
+  },
+  {
+    "Id": 135,
+    "Name_En": "Nutmeg",
+    "Name_Pt": "Noz-moscada",
+    "Keys_En": "nutmeg, spice, seasoning",
+    "Keys_Pt": "noz-moscada, noz moscada, noz-moscadas, noz moscadas"
+  },
+  {
+    "Id": 136,
+    "Name_En": "Soybean oil",
+    "Name_Pt": "Óleo de soja",
+    "Keys_En": "soybean oil, soy oil, vegetable oil",
+    "Keys_Pt": "óleo de soja, óleo vegetal, óleo"
+  },
+  {
+    "Id": 137,
+    "Name_En": "Oregano",
+    "Name_Pt": "Orégano",
+    "Keys_En": "oregano, origanum",
+    "Keys_Pt": "orégano, origanum"
+  },
+  {
+    "Id": 138,
+    "Name_En": "Raw egg",
+    "Name_Pt": "Ovo cru",
+    "Keys_En": "egg, chicken egg, raw egg",
+    "Keys_Pt": "ovos, ovo, ovo de galinha, ovos de galinha, ovos de frango, ovo de frango"
+  },
+  {
+    "Id": 139,
+    "Name_En": "Boiled egg",
+    "Name_Pt": "Ovo cozido",
+    "Keys_En": "egg, chicken egg, boiled egg",
+    "Keys_Pt": "ovo cozido, ovo cozido de galinha"
+  },
+  {
+    "Id": 140,
+    "Name_En": "Raw quail egg",
+    "Name_Pt": "Ovo de codorna cru",
+    "Keys_En": "quail egg, raw quail egg",
+    "Keys_Pt": "ovo de codorna, ovo de codorna cru"
+  },
+  {
+    "Id": 141,
+    "Name_En": "Fried egg",
+    "Name_Pt": "Ovo frito",
+    "Keys_En": "fried egg, pan fried egg",
+    "Keys_Pt": "ovo frito, ovos fritos"
+  },
+  {
+    "Id": 142,
+    "Name_En": "Homemade Bread",
+    "Name_Pt": "Pão caseiro",
+    "Keys_En": "bread, homemade bread, loaf",
+    "Keys_Pt": "pão, pãozinho, pão caseiro, pão integral"
+  },
+  {
+    "Id": 143,
+    "Name_En": "Sweet Potato Bread",
+    "Name_Pt": "Pão de Batata Doce",
+    "Keys_En": "sweet potato bread, bread, loaf, potato roll",
+    "Keys_Pt": "pão de batata doce, pão de batata-doce, bolinho de batata, bolinho de batata-doce"
+  },
+  {
+    "Id": 144,
+    "Name_En": "Sponge Cake",
+    "Name_Pt": "Pão de Ló",
+    "Keys_En": "sponge cake, egg cake, fluffy cake",
+    "Keys_Pt": "pão de ló, bolo de ovos, bolo fofo"
+  },
+  {
+    "Id": 145,
+    "Name_En": "French Bread",
+    "Name_Pt": "Pão Francês",
+    "Keys_En": "french bread, bread roll, baguette roll",
+    "Keys_Pt": "pão francês, pãozinho, cacetinho, filão, carioquinha"
+  },
+  {
+    "Id": 146,
+    "Name_En": "Paprika",
+    "Name_Pt": "Páprica",
+    "Keys_En": "paprika, sweet paprika, hot paprika, smoked paprika",
+    "Keys_Pt": "paprica, páprica doce, páprica picante, páprica defumada"
+  },
+  {
+    "Id": 147,
+    "Name_En": "Beef Knuckle",
+    "Name_Pt": "Patinho",
+    "Keys_En": "beef knuckle, ground beef, lean beef",
+    "Keys_Pt": "patinho, carne moída, patinho moído, carne patinho, carne de patinho"
+  },
+  {
+    "Id": 148,
+    "Name_En": "Grilled beef (round steak)",
+    "Name_Pt": "Patinho grelhado",
+    "Keys_En": "grilled beef, round steak, grilled meat, roasted beef",
+    "Keys_Pt": "patinho grelhado, carne de patinho, bife de patinho, carne assada de patinho"
+  },
+  {
+    "Id": 149,
+    "Name_En": "Chicken pasty (fried)",
+    "Name_Pt": "Pastel de frango (frito)",
+    "Keys_En": "pasty, fried pastry, chicken pasty, brazilian snack",
+    "Keys_Pt": "pastel, pastel de frango, pastel frito, pastel brasileiro"
+  },
+  {
+    "Id": 150,
+    "Name_En": "Chocolate trifle (Brazilian pavê)",
+    "Name_Pt": "Pavê de chocolate",
+    "Keys_En": "chocolate trifle, chocolate dessert, layered chocolate cake, pavê",
+    "Keys_Pt": "torta de bolacha, torta de biscoito, pavê de bolacha, pavê de chocolate, pavê de biscoito, pavê"
+  },
+  {
+    "Id": 151,
+    "Name_En": "Smoked turkey breast",
+    "Name_Pt": "Peito de peru defumado",
+    "Keys_En": "turkey breast, smoked turkey, deli meat, cold cuts",
+    "Keys_Pt": "peito de peru, peito de peru defumado, frios, fatiado de peru"
+  },
+  {
+    "Id": 152,
+    "Name_En": "Cucumber",
+    "Name_Pt": "Pepino",
+    "Keys_En": "cucumber, pickling cucumber, gherkin",
+    "Keys_Pt": "pepino, pepino comum, pepino japonês"
+  },
+  {
+    "Id": 153,
+    "Name_En": "Pear",
+    "Name_Pt": "Pera",
+    "Keys_En": "pear, Bartlett pear, Anjou pear, Asian pear",
+    "Keys_Pt": "pêra, pera, pêra portuguesa, pêra asiática"
+  },
+  {
+    "Id": 154,
+    "Name_En": "Lamb leg",
+    "Name_Pt": "Pernil de cordeiro",
+    "Keys_En": "lamb, lamb leg, lamb meat, sheep, sheep leg",
+    "Keys_Pt": "cordeiro, carne de cordeiro, pernil de cordeiro, pernil de cordeiro cru, ovelha, carne de ovelha, pernil de ovelha, pernil de ovelha cru"
+  },
+  {
+    "Id": 155,
+    "Name_En": "Roast turkey",
+    "Name_Pt": "Peru de natal",
+    "Keys_En": "roast turkey, christmas turkey, thanksgiving turkey",
+    "Keys_Pt": "peru assado, peru de natal, peru de fim de ano, peru de festa"
+  },
+  {
+    "Id": 156,
+    "Name_En": "Chili pepper",
+    "Name_Pt": "Pimenta",
+    "Keys_En": "chili, chili pepper, hot pepper, red pepper, fresh chili",
+    "Keys_Pt": "pimenta, pimenta vermelha, pimenta fresca, pimenta ardida, pimenta malagueta"
+  },
+  {
+    "Id": 157,
+    "Name_En": "Black pepper",
+    "Name_Pt": "Pimenta do Reino",
+    "Keys_En": "black pepper, ground pepper, pepper spice",
+    "Keys_Pt": "pimenta do reino, pimenta preta, pimenta em pó"
+  },
+  {
+    "Id": 158,
+    "Name_En": "Yellow Bell Pepper",
+    "Name_Pt": "Pimentão amarelo",
+    "Keys_En": "yellow pepper, bell pepper, capsicum",
+    "Keys_Pt": "pimentão amarelo, pimentões amarelos, capsicum"
+  },
+  {
+    "Id": 159,
+    "Name_En": "Green Bell Pepper",
+    "Name_Pt": "Pimentão verde",
+    "Keys_En": "green pepper, bell pepper, capsicum",
+    "Keys_Pt": "pimentão verde, pimentões, capsicum"
+  },
+  {
+    "Id": 160,
+    "Name_En": "Red Bell Pepper",
+    "Name_Pt": "Pimentão vermelho",
+    "Keys_En": "red pepper, bell pepper, capsicum",
+    "Keys_Pt": "pimentão vermelho, pimentões vermelhos, capsicum"
+  },
+  {
+    "Id": 161,
+    "Name_En": "Polenta",
+    "Name_Pt": "Polenta",
+    "Keys_En": "polenta, cornmeal porridge, italian corn dish",
+    "Keys_Pt": "polenta, fubá, prato italiano, angu"
+  },
+  {
+    "Id": 162,
+    "Name_En": "Ham",
+    "Name_Pt": "Presunto",
+    "Keys_En": "ham, pork ham, sliced ham",
+    "Keys_Pt": "presunto, carne suína, fatiado"
+  },
+  {
+    "Id": 176,
+    "Name_En": "Cabbage",
+    "Name_Pt": "Repolho",
+    "Keys_En": "cabbage, green cabbage, red cabbage, white cabbage",
+    "Keys_Pt": "repolho, repolho verde, repolho roxo, repolho branco"
+  },
+  {
+    "Id": 177,
+    "Name_En": "Cream Cheese (Requeijão)",
+    "Name_Pt": "Requeijão",
+    "Keys_En": "cream cheese, requeijão, spread cheese",
+    "Keys_Pt": "requeijão, cream cheese, queijo cremoso, queijo de passar"
+  },
+  {
+    "Id": 178,
+    "Name_En": "Pomegranate",
+    "Name_Pt": "Romã",
+    "Keys_En": "pomegranate, pomegranates",
+    "Keys_Pt": "romã, romãs"
+  },
+  {
+    "Id": 163,
+    "Name_En": "Flan (Pudding)",
+    "Name_Pt": "Pudim",
+    "Keys_En": "pudding, flan, milk pudding",
+    "Keys_Pt": "pudim, pudim de leite, pudim de leite condensado"
+  },
+  {
+    "Id": 164,
+    "Name_En": "Edam Cheese",
+    "Name_Pt": "Queijo Edam",
+    "Keys_En": "edam cheese, cheese, dutch cheese",
+    "Keys_Pt": "queijo edam, queijo, queijo holandês"
+  },
+  {
+    "Id": 175,
+    "Name_En": "Radish",
+    "Name_Pt": "Rabanete",
+    "Keys_En": "radish, red radish, raw radish",
+    "Keys_Pt": "rabanete, rabanetes, rabanete vermelho, rabanete cru"
+  },
+  {
+    "Id": 165,
+    "Name_En": "Mozzarella cheese",
+    "Name_Pt": "Queijo muçarela",
+    "Keys_En": "mozzarella, mozzarella cheese, cheese",
+    "Keys_Pt": "queijo, queijo muçarela, muçarela, mozarela, mozzarella, queijo mozarela"
+  },
+  {
+    "Id": 166,
+    "Name_En": "Minas Frescal cheese",
+    "Name_Pt": "Queijo minas frescal",
+    "Keys_En": "minas cheese, frescal cheese, brazilian cheese",
+    "Keys_Pt": "queijo minas frescal, queijos minas frescal"
+  },
+  {
+    "Id": 167,
+    "Name_En": "Minas Cheese (Meia Cura)",
+    "Name_Pt": "Queijo minas meia cura",
+    "Keys_En": "minas cheese, meia cura cheese, brazilian cheese",
+    "Keys_Pt": "queijo minas, queijo meia cura, queijo minas meia cura"
+  },
+  {
+    "Id": 168,
+    "Name_En": "Parmesan Cheese",
+    "Name_Pt": "Queijo parmesão",
+    "Keys_En": "parmesan, parmigiano reggiano, italian cheese",
+    "Keys_Pt": "queijo parmesão, parmesão, queijo italiano"
+  },
+  {
+    "Id": 169,
+    "Name_En": "Vegetarian Kibbeh",
+    "Name_Pt": "Quibe vegetariano",
+    "Keys_En": "vegetarian kibbeh, pumpkin kibbeh, meatless kibbeh",
+    "Keys_Pt": "quibe vegetariano, quibe de abóbora, quibe sem carne"
+  },
+  {
+    "Id": 170,
+    "Name_En": "Petit Suisse Cheese",
+    "Name_Pt": "Queijo petit suisse",
+    "Keys_En": "petit suisse, yogurt cheese, creamy cheese",
+    "Keys_Pt": "queijo petit suisse, petit suisse, danone, danoninho"
+  },
+  {
+    "Id": 171,
+    "Name_En": "Prato Cheese",
+    "Name_Pt": "Queijo prato",
+    "Keys_En": "prato cheese, brazilian cheese, yellow cheese",
+    "Keys_Pt": "queijo prato, queijo amarelo"
+  },
+  {
+    "Id": 172,
+    "Name_En": "Baked Kibbeh",
+    "Name_Pt": "Quibe assado",
+    "Keys_En": "baked kibbeh, kibbe, kibbeh bil sanieh",
+    "Keys_Pt": "quibe assado, kibe assado, quibe de forno"
+  },
+  {
+    "Id": 173,
+    "Name_En": "Fried Kibbeh",
+    "Name_Pt": "Quibe frito",
+    "Keys_En": "fried kibbeh, kibbe, kibbeh maklieh",
+    "Keys_Pt": "quibe frito, kibe, quibe"
+  },
+  {
+    "Id": 174,
+    "Name_En": "Ricotta",
+    "Name_Pt": "Ricota",
+    "Keys_En": "ricotta cheese",
+    "Keys_Pt": "queijo ricota, ricotta"
+  },
+  {
+    "Id": 180,
+    "Name_En": "Pasta salad with eggplant and beet puree",
+    "Name_Pt": "Salada de macarrão com berinjela e purê de beterraba",
+    "Keys_En": "pasta salad, beet salad, eggplant salad",
+    "Keys_Pt": "salada de macarrão, salada de beterraba, salada de berinjela"
+  },
+  {
+    "Id": 181,
+    "Name_En": "",
+    "Name_Pt": "Salpicão de frango",
+    "Keys_En": "",
+    "Keys_Pt": "salpicão, salpicão de frango"
+  },
+  {
+    "Id": 182,
+    "Name_En": "",
+    "Name_Pt": "Salsa",
+    "Keys_En": "",
+    "Keys_Pt": "salsa, folha de salsa, folhas de salsa, folha de salsinha, folhas de salsinha, salsinha, temperinho, temperinho verde, tempero verde"
+  },
+  {
+    "Id": 183,
+    "Name_En": "Sandwich",
+    "Name_Pt": "Sanduíche",
+    "Keys_En": "sandwich, bread with filling, sub",
+    "Keys_Pt": "sanduíche, pão com recheio, lanche"
+  },
+  {
+    "Id": 184,
+    "Name_En": "Cumin Seed",
+    "Name_Pt": "Semente de cominho",
+    "Keys_En": "cumin seed, jeera, spice",
+    "Keys_Pt": "cominho, sementes de cominho, jeera, especiaria"
+  },
+  {
+    "Id": 185,
+    "Name_En": "Semolina",
+    "Name_Pt": "Semolina",
+    "Keys_En": "semolina, wheat semolina, durum semolina",
+    "Keys_Pt": "semolina, semolina de trigo, sêmola, sêmola de trigo"
+  },
+  {
+    "Id": 186,
+    "Name_En": "Cauliflower Soup",
+    "Name_Pt": "Sopa de Couve-flor",
+    "Keys_En": "cauliflower soup, creamy cauliflower soup",
+    "Keys_Pt": "sopa de couve-flor, sopa cremosa de couve-flor"
+  },
+  {
+    "Id": 187,
+    "Name_En": "Orange Juice",
+    "Name_Pt": "Suco de Laranja",
+    "Keys_En": "orange juice, fresh orange juice",
+    "Keys_Pt": "suco de laranja, suco natural de laranja"
+  },
+  {
+    "Id": 201,
+    "Name_En": "",
+    "Name_Pt": "Vinagrete de chuchu com cominho",
+    "Keys_En": "",
+    "Keys_Pt": "vinagrete de chuchu, vinagrete, vinagrete com cominho"
+  },
+  {
+    "Id": 188,
+    "Name_En": "Sushi",
+    "Name_Pt": "Sushi",
+    "Keys_En": "sushi, salmon sushi, nigiri, maki",
+    "Keys_Pt": "sushi, sushi de salmão, suchi, nigiri, maki"
+  },
+  {
+    "Id": 189,
+    "Name_En": "Tabbouleh",
+    "Name_Pt": "Tabule",
+    "Keys_En": "tabbouleh, middle eastern salad, bulgur salad, parsley salad",
+    "Keys_Pt": "tabule, salada de trigo, salada libanesa, salada de triguinho, tabbouleh"
+  },
+  {
+    "Id": 190,
+    "Name_En": "Tomato",
+    "Name_Pt": "Tomate",
+    "Keys_En": "tomato, fresh tomato, red tomato, salad tomato",
+    "Keys_Pt": "tomate, tomate vermelho, tomate fresco, salada de tomate"
+  },
+  {
+    "Id": 191,
+    "Name_En": "Thyme",
+    "Name_Pt": "Tomilho",
+    "Keys_En": "thyme, thyme sprig, thyme bunch",
+    "Keys_Pt": "tomilho, ramo de tomilho, ramos de tomilho"
+  },
+  {
+    "Id": 192,
+    "Name_En": "Pork fatback (Bacon/Toucinho)",
+    "Name_Pt": "Toucinho",
+    "Keys_En": "pork fatback, bacon, lard, pork belly",
+    "Keys_Pt": "toucinho, toucinhos, bacon, bacon em cubos"
+  },
+  {
+    "Id": 193,
+    "Name_En": "Annatto",
+    "Name_Pt": "Urucum",
+    "Keys_En": "annatto, achiote, natural dye, seasoning",
+    "Keys_Pt": "urucum, colorau, falso-açafrão, condimento"
+  },
+  {
+    "Id": 194,
+    "Name_En": "Grape",
+    "Name_Pt": "Uva",
+    "Keys_En": "grape, grapes, bunch of grapes",
+    "Keys_Pt": "uva, uvas, cacho de uva"
+  },
+  {
+    "Id": 195,
+    "Name_En": "Red Wine Vinegar",
+    "Name_Pt": "Vinagre de vinho tinto",
+    "Keys_En": "red wine vinegar, vinegar",
+    "Keys_Pt": "vinagre de vinho tinto, vinagre"
+  },
+  {
+    "Id": 196,
+    "Name_En": "",
+    "Name_Pt": "Rodelas de abobrinha crocantes com parmesão",
+    "Keys_En": "",
+    "Keys_Pt": "rodelas de abobrinha, abobrinha assada, abobrinha com parmesão"
+  },
+  {
+    "Id": 197,
+    "Name_En": "Arroz Carreteiro (Rice with Dried Beef)",
+    "Name_Pt": "Arroz carreteiro",
+    "Keys_En": "carreteiro rice, Brazilian rice with meat, rice with dried beef",
+    "Keys_Pt": "risoto, carreteiro, arroz com carne, arroz com charque"
+  },
+  {
+    "Id": 198,
+    "Name_En": "",
+    "Name_Pt": "Sopa de cenoura com curry",
+    "Keys_En": "",
+    "Keys_Pt": "sopa de copo, sopa de cenoura, sopa de curry"
+  },
+  {
+    "Id": 199,
+    "Name_En": "",
+    "Name_Pt": "Cuscuz marroquino com filé mignon suíno",
+    "Keys_En": "",
+    "Keys_Pt": "cuscuz marroquino, cuscuz com carne, cuscuz marroquino com porco, cuscuz com porco"
+  },
+  {
+    "Id": 240,
+    "Name_En": "",
+    "Name_Pt": "Bisteca grelhada",
+    "Keys_En": "",
+    "Keys_Pt": ""
+  },
+  {
+    "Id": 202,
+    "Name_En": "",
+    "Name_Pt": "Brownie cremoso de castanha-do-pará",
+    "Keys_En": "",
+    "Keys_Pt": "brownie, brownie de castanha, brownie com castanha, brownie cremoso"
+  },
+  {
+    "Id": 203,
+    "Name_En": "",
+    "Name_Pt": "Filé de frango grelhado com páprica e erva-doce",
+    "Keys_En": "",
+    "Keys_Pt": "filé de frango frango, frango grelhado, frango grelhado com páprica, frango grelhado com páprica e erva-doce"
+  },
+  {
+    "Id": 204,
+    "Name_En": "",
+    "Name_Pt": "Clotted cream",
+    "Keys_En": "",
+    "Keys_Pt": "clotted cream, clotted cream caseiro"
+  },
+  {
+    "Id": 205,
+    "Name_En": "",
+    "Name_Pt": "Café de prensa",
+    "Keys_En": "",
+    "Keys_Pt": "café prensado, café de prensa, café"
+  },
+  {
+    "Id": 206,
+    "Name_En": "",
+    "Name_Pt": "Torta de banana",
+    "Keys_En": "",
+    "Keys_Pt": "torta, torta de banana"
+  },
+  {
+    "Id": 207,
+    "Name_En": "",
+    "Name_Pt": "Suco refrescante de melão",
+    "Keys_En": "",
+    "Keys_Pt": "suco, suco de melão, suco refrescante"
+  },
+  {
+    "Id": 208,
+    "Name_En": "",
+    "Name_Pt": "Sanduíche de atum",
+    "Keys_En": "",
+    "Keys_Pt": "sanduíche, sanduíche de atum"
+  },
+  {
+    "Id": 209,
+    "Name_En": "",
+    "Name_Pt": "Mate com limão",
+    "Keys_En": "",
+    "Keys_Pt": "mate, mate com limão, chá mate, chá mate com limão"
+  },
+  {
+    "Id": 210,
+    "Name_En": "",
+    "Name_Pt": "Bolinho de bacalhau com inhame",
+    "Keys_En": "",
+    "Keys_Pt": "bolinho, bolinho de bacalhau, bolo de inhame"
+  },
+  {
+    "Id": 211,
+    "Name_En": "",
+    "Name_Pt": "Caipirinha de maracujá com gengibre e folhas de mexerica",
+    "Keys_En": "",
+    "Keys_Pt": "caipirinha, caipirinha de maracujá, suco de maracujá, caipirinha de maracujá com gengibre, suco de maracujá com gengibre"
+  },
+  {
+    "Id": 212,
+    "Name_En": "",
+    "Name_Pt": "Gim tônica cítrica",
+    "Keys_En": "",
+    "Keys_Pt": "gim, gim tonica, gim tonica cítrica"
+  },
+  {
+    "Id": 213,
+    "Name_En": "",
+    "Name_Pt": "Crudités de legumes",
+    "Keys_En": "",
+    "Keys_Pt": "crudités, crudités de legumes, crudite, crudité de legume"
+  },
+  {
+    "Id": 214,
+    "Name_En": "",
+    "Name_Pt": "Dip de feijão branco",
+    "Keys_En": "",
+    "Keys_Pt": "dip, dip de feijão, dip de feijão branco"
+  },
+  {
+    "Id": 215,
+    "Name_En": "",
+    "Name_Pt": "Pão integral com nozes",
+    "Keys_En": "",
+    "Keys_Pt": "pão, pão integral, pão integral com nozes, pão com nozes"
+  },
+  {
+    "Id": 216,
+    "Name_En": "",
+    "Name_Pt": "Geleia de figo e vinho tinto",
+    "Keys_En": "",
+    "Keys_Pt": "geleia, geleia de figo, geleia de figo e vinho, geleia com vinho"
+  },
+  {
+    "Id": 217,
+    "Name_En": "",
+    "Name_Pt": "Rabanada salgada com queijo",
+    "Keys_En": "",
+    "Keys_Pt": "rabanada, rabanada salgada, rabanada salgada com queijo, rabanada com queijo"
+  },
+  {
+    "Id": 218,
+    "Name_En": "",
+    "Name_Pt": "Salada de frutas com nibs de cacau",
+    "Keys_En": "",
+    "Keys_Pt": "salada de frutas, salada de fruta, salada de fruta com chocolate, salada de frutas com chocolate, salada de frutas com cacau, salada de frutas com nibs de cacau"
+  },
+  {
+    "Id": 219,
+    "Name_En": "",
+    "Name_Pt": "Cocada de forno",
+    "Keys_En": "",
+    "Keys_Pt": "cocada, cocada de forno"
+  },
+  {
+    "Id": 220,
+    "Name_En": "",
+    "Name_Pt": "Feijão-carioca com cominho",
+    "Keys_En": "",
+    "Keys_Pt": "feijão, feijão carioca, feijão carioca com cominho"
+  },
+  {
+    "Id": 221,
+    "Name_En": "",
+    "Name_Pt": "Carne com batata e cenoura na panela de pressão",
+    "Keys_En": "",
+    "Keys_Pt": "carne, carne com batata, carne com batata e cenoura, carne com batata e cenoura na panela de pressão, carne de panela, carne na panela de pressão"
+  },
+  {
+    "Id": 222,
+    "Name_En": "",
+    "Name_Pt": "Pizza de muçarela",
+    "Keys_En": "",
+    "Keys_Pt": "pizza, pizza de mozarela, pizza de muçarela, pizza de mozzarella, pizza muçarela, pizza mozzarella, pizza mozarela, pizza de queijo muçarela, pizza caseira, pizza caseira de mozarela, pizza caseira de muçarela, pizza caseira de mozzarella"
+  },
+  {
+    "Id": 223,
+    "Name_En": "",
+    "Name_Pt": "Musse de chocolate",
+    "Keys_En": "",
+    "Keys_Pt": "mousse, mousse de chocolate, mousse de chocolate levissima, musse de chocolate, musse"
+  },
+  {
+    "Id": 224,
+    "Name_En": "",
+    "Name_Pt": "Salada de cebola com pepino e molho de coentro",
+    "Keys_En": "",
+    "Keys_Pt": "salada, salada de cebola, salada de cebolas, salada de cebola com pepino, salada de cebola com pepinos, salada de cebola com pepino e molho de coentro, salada de cebola com pepinos e molho de coentro, salada de cebolas com pepino, salada de cebolas com pepinos, salada de cebolas com pepino e molho de coentro, salada de cebolas com pepinos e molho de coentro"
+  },
+  {
+    "Id": 225,
+    "Name_En": "",
+    "Name_Pt": "Gratinado de batata com frango",
+    "Keys_En": "",
+    "Keys_Pt": "gratinado, gratinado de batata, gratinado de batata com frango"
+  },
+  {
+    "Id": 226,
+    "Name_En": "",
+    "Name_Pt": "Massa caseira com semolina",
+    "Keys_En": "",
+    "Keys_Pt": "massa caseira, massa caseira com semolina, massa com semolina, massa com sêmola, massa caseira com sêmola"
+  },
+  {
+    "Id": 227,
+    "Name_En": "",
+    "Name_Pt": "Macarrão com legumes assados",
+    "Keys_En": "",
+    "Keys_Pt": "macarrão, macarrão com legumes, macarrão com legumes assados, massa com legumes, massa com legumes assados"
+  },
+  {
+    "Id": 228,
+    "Name_En": "",
+    "Name_Pt": "Sopa de feijão com macarrão",
+    "Keys_En": "",
+    "Keys_Pt": "sopa de feijão, sopa de feijão com macarrão, sopa de feijão e macarrão"
+  },
+  {
+    "Id": 229,
+    "Name_En": "",
+    "Name_Pt": "Farofa de milho com cenoura e bacon",
+    "Keys_En": "",
+    "Keys_Pt": "farofa, farofa de milho, farofa de milho com cenoura, farofa de milho com cenoura e bacon, farofa de milho com bacon, farofa com cenoura, farofa com bacon"
+  },
+  {
+    "Id": 230,
+    "Name_En": "",
+    "Name_Pt": "Cuscuz nordestino",
+    "Keys_En": "",
+    "Keys_Pt": "cuscuz, cuscuz nordestino"
+  },
+  {
+    "Id": 231,
+    "Name_En": "",
+    "Name_Pt": "Cuscuz à paulista",
+    "Keys_En": "",
+    "Keys_Pt": "cuscuz à paulista, cuscuz paulista, cuscuz a paulista"
+  },
+  {
+    "Id": 232,
+    "Name_En": "",
+    "Name_Pt": "Feijão tropeiro mineiro",
+    "Keys_En": "",
+    "Keys_Pt": "feijão tropeiro mineiro, feijão tropeiro, feijão mineiro, feijão com tropeiro com torresmo, feijão tropeiro com couve"
+  },
+  {
+    "Id": 233,
+    "Name_En": "",
+    "Name_Pt": "Feijoada",
+    "Keys_En": "",
+    "Keys_Pt": "feijoada, feijoada completa"
+  },
+  {
+    "Id": 234,
+    "Name_En": "",
+    "Name_Pt": "Quibebe",
+    "Keys_En": "",
+    "Keys_Pt": "quibebe, purê de abóbora, quibebe de abóbora, quibebe de mandioca"
+  },
+  {
+    "Id": 235,
+    "Name_En": "",
+    "Name_Pt": "Sarapatel",
+    "Keys_En": "",
+    "Keys_Pt": "sarapatel, sarapatel nordestino, sarapatel tradicional"
+  },
+  {
+    "Id": 236,
+    "Name_En": "",
+    "Name_Pt": "Tacacá",
+    "Keys_En": "",
+    "Keys_Pt": "tacacá, tacacá paraense, tacacá do norte, tacacá do pará"
+  },
+  {
+    "Id": 237,
+    "Name_En": "",
+    "Name_Pt": "Caldo de tucupi",
+    "Keys_En": "",
+    "Keys_Pt": "caldo de tucupi, tucupi, tucupi de mandioca"
+  },
+  {
+    "Id": 238,
+    "Name_En": "",
+    "Name_Pt": "Arroz com figo seco e especiarias",
+    "Keys_En": "",
+    "Keys_Pt": "arroz com figo, arroz com figo seco, arroz com figo seco e especiarias"
+  },
+  {
+    "Id": 239,
+    "Name_En": "",
+    "Name_Pt": "Salada de feijão branco com salsão",
+    "Keys_En": "",
+    "Keys_Pt": "salada de feijão, salada de feijão branco, salada de feijão branco com salsão"
+  },
+  {
+    "Id": 241,
+    "Name_En": "",
+    "Name_Pt": "Homus com cordeiro",
+    "Keys_En": "",
+    "Keys_Pt": "humus com cordeiro, homus com cordeiro"
+  },
+  {
+    "Id": 243,
+    "Name_En": "",
+    "Name_Pt": "Pasta de alho",
+    "Keys_En": "",
+    "Keys_Pt": "pasta de alho"
+  },
+  {
+    "Id": 244,
+    "Name_En": "",
+    "Name_Pt": "Frango na panela de pressão",
+    "Keys_En": "",
+    "Keys_Pt": "frango na panela, frango na panela de pressão, molho de frango, molho de frango com tomate"
+  },
+  {
+    "Id": 245,
+    "Name_En": "Cooked Pinto Beans",
+    "Name_Pt": "Feijão carioca cozido",
+    "Keys_En": "cooked pinto beans, beans, carioca beans",
+    "Keys_Pt": "feijão-carioca, feijão carioca, feijão carioca cozido, feijão-carioca cozido"
+  },
+  {
+    "Id": 242,
+    "Name_En": "",
+    "Name_Pt": "Homus",
+    "Keys_En": "",
+    "Keys_Pt": "homus, hômus, humus, pasta de grão de bico"
+  },
+  {
+    "Id": 246,
+    "Name_En": "Raw Pinto Beans",
+    "Name_Pt": "Feijão carioca cru",
+    "Keys_En": "raw pinto beans, dry beans, carioca beans",
+    "Keys_Pt": "feijão carioca cru, feijão-carioca cru, feijão carioca moído, feijão-carioca moído"
+  },
+  {
+    "Id": 247,
+    "Name_En": "Cooked black-eyed peas",
+    "Name_Pt": "Feijão fradinho cozido",
+    "Keys_En": "cooked black-eyed peas, cowpeas cooked, boiled black-eyed beans",
+    "Keys_Pt": "feijão-fradinho cozido, feijão fradinho cozido, feijão-de-corda cozido"
+  },
+  {
+    "Id": 248,
+    "Name_En": "Raw black-eyed peas",
+    "Name_Pt": "Feijão fradinho cru",
+    "Keys_En": "raw black-eyed peas, raw cowpeas, uncooked black-eyed beans",
+    "Keys_Pt": "feijão fradinho cru, feijão-fradinho cru, feijão-de-corda cru, farinha de feijão fradinho, feijão fradinho moído"
+  },
+  {
+    "Id": 249,
+    "Name_En": "Cooked jalo beans",
+    "Name_Pt": "Feijão jalo cozido",
+    "Keys_En": "cooked jalo beans, jalo beans boiled, cooked yellow beans",
+    "Keys_Pt": "feijão jalo cozido, feijão-jalo cozido, feijão amarelo cozido"
+  },
+  {
+    "Id": 250,
+    "Name_En": "Raw jalo beans",
+    "Name_Pt": "Feijão jalo cru",
+    "Keys_En": "raw jalo beans, uncooked jalo beans, yellow raw beans",
+    "Keys_Pt": "feijão jalo cru, feijão-jalo cru, feijão amarelo cru, farinha de feijão jalo, feijão jalo moído"
+  },
+  {
+    "Id": 251,
+    "Name_En": "Cooked black beans",
+    "Name_Pt": "Feijão preto cozido",
+    "Keys_En": "black beans, cooked beans, boiled beans, feijoada",
+    "Keys_Pt": "feijão, feijoada, feijão-preto, feijão preto, feijão preto cozido, feijão-preto cozido"
+  },
+  {
+    "Id": 252,
+    "Name_En": "Raw black beans",
+    "Name_Pt": "Feijão preto cru",
+    "Keys_En": "black beans, raw beans, dried beans, ground beans, bean flour",
+    "Keys_Pt": "feijão cru, feijão-preto cru, farinha de feijão, farinha de feijão-preto, farelo de feijão, farelo de feijão-preto, feijão moído, feijão moído-preto"
+  },
+  {
+    "Id": 253,
+    "Name_En": "Cooked Pinto Bean",
+    "Name_Pt": "Feijão rajado cozido",
+    "Keys_En": "pinto bean, cooked pinto bean, bean",
+    "Keys_Pt": "feijão-rajado, feijão rajado, feijão rajado cozido, feijão-rajado cozido"
+  },
+  {
+    "Id": 254,
+    "Name_En": "Raw Pinto Bean",
+    "Name_Pt": "Feijão rajado cru",
+    "Keys_En": "raw pinto bean, dry pinto bean, bean flour",
+    "Keys_Pt": "farinha de feijão rajado, farinha de feijão-rajado, feijão rajado moído, feijão rajado-moído, feijão rajado cru, feijão-rajado cru"
+  },
+  {
+    "Id": 255,
+    "Name_En": "Cooked rosinha beans",
+    "Name_Pt": "Feijão rosinha cozido",
+    "Keys_En": "rosinha beans, cooked beans, pink beans, common beans",
+    "Keys_Pt": "feijão-rosinha, feijão rosinha, feijão rosinha cozido, feijão-rosinha cozido"
+  },
+  {
+    "Id": 256,
+    "Name_En": "Raw rosinha beans",
+    "Name_Pt": "Feijão rosinha cru",
+    "Keys_En": "raw beans, rosinha beans, pink beans, dry beans",
+    "Keys_Pt": "farinha de feijão rosinha, farinha de feijão-rosinha, feijão rosinha moído, feijão rosinha-moído, feijão rosinha cru, feijão-rosinha cru"
+  },
+  {
+    "Id": 257,
+    "Name_En": "Cooked Red Kidney Beans",
+    "Name_Pt": "Feijão roxo cozido",
+    "Keys_En": "red kidney beans, cooked beans, boiled beans, red beans",
+    "Keys_Pt": "feijão-roxo, feijão roxo, feijão roxo cozido, feijão-roxo cozido"
+  },
+  {
+    "Id": 258,
+    "Name_En": "Raw Red Kidney Beans",
+    "Name_Pt": "Feijão roxo cru",
+    "Keys_En": "red kidney beans, raw beans, dry beans, red beans flour, ground beans",
+    "Keys_Pt": "farinha de feijão-roxo, farinha de feijão roxo, feijão roxo moído, feijão-roxo moído, feijão roxo cru, feijão-roxo cru"
+  },
+  {
+    "Id": 259,
+    "Name_En": "Cooked White Beans",
+    "Name_Pt": "Feijão branco cozido",
+    "Keys_En": "white beans, cooked beans, boiled beans",
+    "Keys_Pt": "feijão branco, feijão-branco, feijão branco cozido, feijão-branco cozido"
+  },
+  {
+    "Id": 29,
+    "Name_En": "",
+    "Name_Pt": "Babaganouch",
+    "Keys_En": "",
+    "Keys_Pt": "babaganouch, baba ghanoush, babaganuche, baba ganoush, babaganoush"
+  }
+]
