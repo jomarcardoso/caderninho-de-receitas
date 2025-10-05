@@ -1,7 +1,7 @@
-@forward "buttons";
-@forward "paper";
-@forward "table";
-@forward "modal";
+@forward 'buttons';
+@forward 'paper';
+@forward 'table';
+@forward 'modal';
 
 .svg-icon {
   user-select: none;
@@ -19,7 +19,7 @@
 }
 
 .paper-bg {
-  background-image: url("/images/textures/paper-texture.png");
+  background-image: url('../../images/textures/paper-texture.png');
   position: relative;
 
   &::before {

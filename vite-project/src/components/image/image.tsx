@@ -1,4 +1,4 @@
-import { type FC, ImgHTMLAttributes, ReactElement, useEffect } from 'react';
+import { type FC, type ImgHTMLAttributes, type ReactElement, useEffect, useState } from 'react';
 import './image.scss';
 
 interface Props {
@@ -17,7 +17,7 @@ const Image: FC<ImageProps> = ({
   ...props
 }): ReactElement => {
   const paddingBottom = `${100 - (aspectRatio * 100 - 100)}%`;
-  const [stagedSrc, setStagedSrc] = React.useState<string>(src);
+  const [stagedSrc, setStagedSrc] = useState<string>(src);
 
   useEffect(() => {
     setStagedSrc('');

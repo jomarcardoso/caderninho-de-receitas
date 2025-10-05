@@ -65,7 +65,7 @@ export function mapRecipeModelToDto(recipe: Recipe): RecipeDto {
   };
 }
 
-export function mapRecipesModelToDto(recipes: RecipeDto[]): RecipeDto[] {
+export function mapRecipesModelToDto(recipes: Recipe[]): RecipeDto[] {
   return recipes.map(mapRecipeModelToDto);
 }
 

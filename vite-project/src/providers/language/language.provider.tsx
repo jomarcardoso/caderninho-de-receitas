@@ -4,7 +4,7 @@ import { STORAGE_LANGUAGE } from '../../storage/storage.service';
 import { StorageService } from '../../storage';
 import { type Language } from '../../services/language/language.types';
 
-let initialLanguage: Language = 'en';
+let initialLanguage: Language = 'pt';
 
 if (typeof window !== 'undefined') {
   const languageLanguageJson = localStorage.getItem(STORAGE_LANGUAGE);

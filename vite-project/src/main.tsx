@@ -1,7 +1,10 @@
 ﻿import ReactDOM from 'react-dom/client';
+import './styles/main.scss';
 import { App } from './app';
 import { GOOGLE_CLIENT_ID } from './config/google';
-import './styles/main.scss';
+import '@fontsource/dosis';
+import '@fontsource/cinzel';
+import '@fontsource/vibur';
 
 import {
   CurrentRecipeProvider,

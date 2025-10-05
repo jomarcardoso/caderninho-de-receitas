@@ -10,6 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/ios": "^7.4.3",
+    "@fontsource/cinzel": "^5.2.8",
+    "@fontsource/dosis": "^5.2.8",
+    "@fontsource/vibur": "^5.2.8",
     "@mui/base": "^5.0.0-beta.70",
     "@react-oauth/google": "^0.12.2",
     "bootstrap": "^5.3.8",

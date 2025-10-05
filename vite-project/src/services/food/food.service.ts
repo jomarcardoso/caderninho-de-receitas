@@ -10,6 +10,7 @@ export function mapFoodResponseToModel(
   return {
     ...foodResponse,
     ...mapAllNutrientsResponseToModel(foodResponse, commonResponse),
+    image: `images/food/${foodResponse}`,
     measurementUnit: {
       text: commonResponse.measurementUnits[foodResponse.measurementUnit].text,
       pluralText:
