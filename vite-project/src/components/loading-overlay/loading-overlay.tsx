@@ -1,5 +1,5 @@
 import { type FC, useContext } from 'react';
-import LoadingSvg from '../../assets/svg/loading.svg?react';
+import LoadingSvg from 'images/svg/loading.svg?react';
 import LoadingContext from '../../providers/loading/loading.context';
 import './loading-overlay.scss';
 

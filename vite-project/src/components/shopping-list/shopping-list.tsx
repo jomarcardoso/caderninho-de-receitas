@@ -1,4 +1,4 @@
-import GrocerySvg from '../../assets/svg/history/grocery.svg?react';
+import GrocerySvg from 'images/svg/history/grocery.svg?react';
 import { type FC, useContext } from 'react';
 import { IoCartOutline } from 'react-icons/io5';
 import { InteractiveField } from '../interactive-field/interactive-field';

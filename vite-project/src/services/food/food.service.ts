@@ -1,4 +1,4 @@
-import { mapCommonResponseToModel } from '../common/common.service';
+﻿import { mapCommonResponseToModel } from '../common/common.service';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import type { Food, FoodsData } from './food.model';
 import type { FoodResponse, FoodsDataResponse } from './food.response';
@@ -10,7 +10,7 @@ export function mapFoodResponseToModel(
   return {
     ...foodResponse,
     ...mapAllNutrientsResponseToModel(foodResponse, commonResponse),
-    image: `images/food/${foodResponse}`,
+    icon: `/images/food/${foodResponse.icon}`,
     measurementUnit: {
       text: commonResponse.measurementUnits[foodResponse.measurementUnit].text,
       pluralText:

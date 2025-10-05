@@ -10,8 +10,8 @@ import { IoDuplicateOutline } from 'react-icons/io5';
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
 import { Button } from '../button';
-import CookSvg from '../../assets/svg/history/cook.svg?react';
-import PizzaSvg from '../../assets/svg/history/pizza.svg?react';
+import CookSvg from 'images/svg/history/cook.svg?react';
+import PizzaSvg from 'images/svg/history/pizza.svg?react';
 import {
   RECIPE_STEP_DTO,
   type RecipeStepDto,

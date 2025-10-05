@@ -13,7 +13,7 @@ import { Button } from '../../components/button';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import { IoAddCircleOutline } from 'react-icons/io5';
-import LoadingSvg from '../../assets/svg/loading.svg?react';
+import LoadingSvg from 'images/svg/loading.svg?react';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from '../../services/language/language.service';
 import type { Food } from '../../services/food/food.model';

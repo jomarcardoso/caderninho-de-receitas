@@ -1,8 +1,8 @@
 import { type FC, type HTMLProps, useMemo } from 'react';
 import Logo from '../logo/logo';
-import CheffLightSvg from '../../assets/svg/cheff-light.svg?react';
-import ListLightSvg from '../../assets/svg/list-light.svg?react';
-import ListDuoSvg from '../../assets/svg/list-duo.svg?react';
+import CheffLightSvg from 'images/svg/cheff-light.svg?react';
+import ListLightSvg from 'images/svg/list-light.svg?react';
+import ListDuoSvg from 'images/svg/list-duo.svg?react';
 import './root-header.scss';
 import { useNavigation } from '../../providers';
 
