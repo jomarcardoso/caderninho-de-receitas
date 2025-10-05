@@ -182,9 +182,10 @@ public class FoodService
   {
     var noPrefixName = filterPrefix(name);
 
-    var normalized = FoodModifiers.Aggregate(noPrefixName,
-      (current, modifier) => current.Replace(modifier, string.Empty).Trim().Replace("  ", " "));
-
+    var normalized = FoodModifiers
+      .OrderByDescending(modifier => modifier.Length)
+      .Aggregate(noPrefixName,
+        (current, modifier) => current.Replace(modifier, string.Empty).Trim().Replace("  ", " "));
     normalized = StringService.ReplaceEnding(normalized, " e", string.Empty);
     normalized = StringService.ReplaceEnding(normalized, " and", string.Empty);
 
@@ -224,6 +225,25 @@ public class FoodService
     if (_food != null)
     {
       return _food;
+    }
+
+    var prefixFilteredName = filterPrefix(possibleName);
+
+    if (!string.Equals(prefixFilteredName, possibleName, StringComparison.OrdinalIgnoreCase))
+    {
+      _food = await hasExactFoodWithThisName(prefixFilteredName);
+
+      if (_food != null)
+      {
+        return _food;
+      }
+
+      _food = await hasExactKeyWithThisName(prefixFilteredName);
+
+      if (_food != null)
+      {
+        return _food;
+      }
     }
 
     string filteredPossibleName = filterName(possibleName);
