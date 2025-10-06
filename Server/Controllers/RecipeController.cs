@@ -126,6 +126,17 @@ public class RecipeController : ControllerBase
     if (recipe == null)
       return NotFound();
 
+    if (recipe.CopiedFromRecipeId > 0)
+    {
+      Recipe? originalRecipe = await _context.Recipe
+        .FirstOrDefaultAsync(r => r.Id == recipe.CopiedFromRecipeId);
+
+      if (originalRecipe != null && originalRecipe.SavedByOthersCount > 0)
+      {
+        originalRecipe.SavedByOthersCount -= 1;
+      }
+    }
+
     _context.Recipe.Remove(recipe);
     await _context.SaveChangesAsync();
 
