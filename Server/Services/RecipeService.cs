@@ -43,6 +43,78 @@ public class RecipeService
     );
   }
 
+  public async Task<Recipe?> FindRecipeWithDetailsById(int recipeId)
+  {
+    return await _context.Recipe
+      .Include(r => r.Food)
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .ThenInclude(i => i.Food)
+      .FirstOrDefaultAsync(r => r.Id == recipeId);
+  }
+
+  public Recipe CloneRecipeForUser(Recipe source, string ownerId)
+  {
+    if (source is null)
+    {
+      throw new ArgumentNullException(nameof(source));
+    }
+
+    if (string.IsNullOrWhiteSpace(ownerId))
+    {
+      throw new ArgumentException("Owner id must be provided.", nameof(ownerId));
+    }
+
+    var food = source.Food ?? throw new InvalidOperationException("Recipe must have a food to be cloned.");
+
+    var clonedSteps = (source.Steps ?? new List<RecipeStep>())
+      .Select(CloneStep)
+      .ToList();
+
+    var clone = new Recipe(
+      null,
+      source.Name,
+      source.Keys,
+      food,
+      source.Description,
+      source.Additional,
+      clonedSteps,
+      ownerId
+    )
+    {
+      Image = source.Image,
+      Language = source.Language
+    };
+
+    return clone;
+  }
+
+  private static RecipeStep CloneStep(RecipeStep step)
+  {
+    if (step is null)
+    {
+      throw new ArgumentNullException(nameof(step));
+    }
+
+    var clonedIngredients = (step.Ingredients ?? new List<Ingredient>())
+      .Select(ingredient => new Ingredient(
+        ingredient.Text,
+        ingredient.Food,
+        ingredient.Quantity,
+        ingredient.MeasureType,
+        ingredient.MeasureQuantity
+      ))
+      .ToList();
+
+    return new RecipeStep(
+      step.Title ?? string.Empty,
+      step.Preparation ?? string.Empty,
+      step.Additional ?? string.Empty,
+      step.IngredientsText ?? string.Empty,
+      clonedIngredients
+    );
+  }
+
   public async Task UpdateEntityFromDto(Recipe recipe, RecipeDto recipeDto)
   {
     if (recipe is null)

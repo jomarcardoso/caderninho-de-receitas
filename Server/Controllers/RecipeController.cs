@@ -45,6 +45,34 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
+  [HttpPost("{id}/save")]
+  public async Task<IActionResult> SaveRecipeFromAnotherUser(int id)
+  {
+    var userId = GetUserId();
+
+    Recipe? sourceRecipe = await recipeService.FindRecipeWithDetailsById(id);
+
+    if (sourceRecipe == null)
+    {
+      return NotFound();
+    }
+
+    if (sourceRecipe.OwnerId == userId)
+    {
+      return BadRequest("Não é possível adicionar uma receita que já pertence a você.");
+    }
+
+    Recipe clonedRecipe = recipeService.CloneRecipeForUser(sourceRecipe, userId);
+
+    _context.Recipe.Add(clonedRecipe);
+    sourceRecipe.SavedByOthersCount += 1;
+
+    await _context.SaveChangesAsync();
+
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    return Ok(response);
+  }
+
   [HttpPost("many")]
   public async Task<IActionResult> CreateRecipes([FromBody] List<RecipeDto> recipesDto)
   {
