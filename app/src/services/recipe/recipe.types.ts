@@ -13,6 +13,7 @@ export interface RecipeContract<TRecipeStep> {
 export interface RecipeBase<TRecipeStep> extends RecipeContract<TRecipeStep> {
   userId?: number;
   image?: string;
+  savedByOthersCount?: number;
 }
 
 // export type SetRecipe = (recipe: RecipeBase) => number;
