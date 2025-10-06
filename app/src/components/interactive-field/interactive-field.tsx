@@ -10,7 +10,7 @@ import {
 import { Field, FieldProps } from 'notebook-layout';
 import './interactive-field.scss';
 import Image from '../image/image';
-import { Checkbox } from '../checkbox';
+import { Checkbox } from 'notebook-layout';
 import { ShoppingListService } from '../../providers/shopping-list/shopping-list.service';
 import { ShoppingListContext } from '../../providers';
 import { FoodsContext } from '../../providers/foods.provider';
