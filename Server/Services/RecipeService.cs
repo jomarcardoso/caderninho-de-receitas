@@ -229,6 +229,28 @@ public class RecipeService
       .Take(quantity)
       .ToListAsync();
   }
+  public async Task<List<Recipe>> SearchRecipesByTextAsync(string searchText, int quantity)
+  {
+    if (string.IsNullOrWhiteSpace(searchText) || quantity <= 0)
+    {
+      return new List<Recipe>();
+    }
+
+    string pattern = $"%{searchText.Trim()}%";
+
+    quantity = Math.Min(quantity, 64);
+
+    return await _context.Recipe
+      .AsNoTracking()
+      .Include(r => r.Food)
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .ThenInclude(i => i.Food)
+      .Where(r => EF.Functions.Like(r.Name, pattern) || EF.Functions.Like(r.Keys, pattern))
+      .OrderBy(r => r.Id)
+      .Take(quantity)
+      .ToListAsync();
+  }
   public async Task<RecipesDto> GetRecipesAndFoodsByUserId(string userId)
   {
     List<Recipe> recipes = await GetAllRecipesByUserId(userId);

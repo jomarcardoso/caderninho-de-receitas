@@ -151,6 +151,29 @@ public class RecipeController : ControllerBase
 
     return Ok(response);
   }
+  [HttpGet("search")]
+  public async Task<IActionResult> SearchRecipes([FromQuery] string text, [FromQuery] int quantity = 10)
+  {
+    if (string.IsNullOrWhiteSpace(text))
+    {
+      return BadRequest("Search text must be provided.");
+    }
+
+    if (quantity < 1)
+    {
+      return BadRequest("Quantity must be greater than zero.");
+    }
+
+    if (quantity > 64)
+    {
+      return BadRequest("Quantity must not exceed 64.");
+    }
+
+    List<Recipe> recipes = await recipeService.SearchRecipesByTextAsync(text, quantity);
+    List<RecipeResponseDto> response = _mapper.Map<List<RecipeResponseDto>>(recipes);
+
+    return Ok(response);
+  }
   // GET api/recipes
   [HttpGet]
   public async Task<IActionResult> GetMyRecipes()
@@ -160,7 +183,6 @@ public class RecipeController : ControllerBase
 
     return Ok(response);
   }
-
   // GET api/recipes/5
   [HttpGet("{id}")]
   public async Task<IActionResult> GetRecipe(int id)
