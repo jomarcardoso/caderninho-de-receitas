@@ -83,7 +83,8 @@ public class RecipeService
     )
     {
       Image = source.Image,
-      Language = source.Language
+      Language = source.Language,
+      CopiedFromRecipeId = source.Id
     };
 
     return clone;

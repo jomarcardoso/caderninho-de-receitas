@@ -5,6 +5,7 @@ namespace Server.Models;
 public class Recipe : RecipeBase<RecipeStep, Food>
 {
   public string OwnerId { get; set; } = string.Empty;
+  public int CopiedFromRecipeId { get; set; } = 0;
 
   public Recipe() : base() { }
 
