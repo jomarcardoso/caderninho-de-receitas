@@ -157,11 +157,14 @@ public class RecipeController : ControllerBase
       return BadRequest("Quantity must not exceed 64.");
     }
 
-    List<Recipe> recipes = await recipeService.GetMostCopiedRecipesAsync(quantity);
+    var userId = GetUserId();
+
+    List<Recipe> recipes = await recipeService.GetMostCopiedRecipesAsync(quantity, userId);
     List<RecipeResponseDto> response = _mapper.Map<List<RecipeResponseDto>>(recipes);
 
     return Ok(response);
   }
+
   [HttpGet("search")]
   public async Task<IActionResult> SearchRecipes([FromQuery] string text, [FromQuery] int quantity = 10)
   {
@@ -180,11 +183,14 @@ public class RecipeController : ControllerBase
       return BadRequest("Quantity must not exceed 64.");
     }
 
-    List<Recipe> recipes = await recipeService.SearchRecipesByTextAsync(text, quantity);
+    var userId = GetUserId();
+
+    List<Recipe> recipes = await recipeService.SearchRecipesByTextAsync(text, quantity, userId);
     List<RecipeResponseDto> response = _mapper.Map<List<RecipeResponseDto>>(recipes);
 
     return Ok(response);
   }
+
   // GET api/recipes
   [HttpGet]
   public async Task<IActionResult> GetMyRecipes()
@@ -194,6 +200,7 @@ public class RecipeController : ControllerBase
 
     return Ok(response);
   }
+
   // GET api/recipes/5
   [HttpGet("{id}")]
   public async Task<IActionResult> GetRecipe(int id)
@@ -201,11 +208,17 @@ public class RecipeController : ControllerBase
     var userId = GetUserId();
 
     Recipe? recipe = await _context.Recipe
-      .FirstOrDefaultAsync(r => r.Id == id && r.OwnerId == userId);
+      .FirstOrDefaultAsync(r => r.Id == id);
 
     if (recipe == null)
       return NotFound();
 
+    if (recipe.OwnerId != userId && !recipe.IsPublic)
+    {
+      return NotFound();
+    }
+
     return Ok(recipe);
   }
 }
+

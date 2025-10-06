@@ -84,7 +84,8 @@ public class RecipeService
     {
       Image = source.Image,
       Language = source.Language,
-      CopiedFromRecipeId = source.Id
+      CopiedFromRecipeId = source.Id,
+      IsPublic = source.IsPublic
     };
 
     return clone;
@@ -212,7 +213,7 @@ public class RecipeService
     return recipes;
   }
 
-  public async Task<List<Recipe>> GetMostCopiedRecipesAsync(int quantity)
+  public async Task<List<Recipe>> GetMostCopiedRecipesAsync(int quantity, string? userId = null)
   {
     if (quantity <= 0)
     {
@@ -225,12 +226,14 @@ public class RecipeService
       .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
+      .Where(r => r.IsPublic || (userId != null && r.OwnerId == userId))
       .OrderByDescending(r => r.SavedByOthersCount)
       .ThenBy(r => r.Id)
       .Take(quantity)
       .ToListAsync();
   }
-  public async Task<List<Recipe>> SearchRecipesByTextAsync(string searchText, int quantity)
+
+  public async Task<List<Recipe>> SearchRecipesByTextAsync(string searchText, int quantity, string? userId = null)
   {
     if (string.IsNullOrWhiteSpace(searchText) || quantity <= 0)
     {
@@ -247,11 +250,13 @@ public class RecipeService
       .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .Where(r => EF.Functions.Like(r.Name, pattern) || EF.Functions.Like(r.Keys, pattern))
+      .Where(r => (EF.Functions.Like(r.Name, pattern) || EF.Functions.Like(r.Keys, pattern))
+        && (r.IsPublic || (userId != null && r.OwnerId == userId)))
       .OrderBy(r => r.Id)
       .Take(quantity)
       .ToListAsync();
   }
+
   public async Task<RecipesDto> GetRecipesAndFoodsByUserId(string userId)
   {
     List<Recipe> recipes = await GetAllRecipesByUserId(userId);
