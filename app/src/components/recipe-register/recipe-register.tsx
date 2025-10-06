@@ -6,7 +6,7 @@ import RecipeRegisterForm, {
   type RecipeForm,
 } from './recipe-register-form';
 import Dialog from '../dialog/dialog';
-import { Button } from '../button';
+import { Button } from 'notebook-layout';
 import { EditingContext } from '../../providers/editing/editing.context';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { StorageService } from '../../storage';

@@ -1,4 +1,4 @@
-﻿import {
+import {
   type FC,
   type HTMLProps,
   useCallback,
@@ -14,7 +14,7 @@ import {
 import { IoLogInOutline, IoCloseCircleOutline } from 'react-icons/io5';
 import { generateClasses } from '../../services/dom/classes';
 import { Avatar } from '../avatar/avatar';
-import { Button } from '../button';
+import { Button } from 'notebook-layout';
 import './user-box.scss';
 import { Chip, Chips } from '../chips/chips';
 import { LanguageContext } from '../../providers/language/language.context';
@@ -123,7 +123,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
   const resolveLoginErrorMessage = useCallback(
     () =>
       language === 'pt'
-        ? 'NÃƒÂ£o foi possÃƒÂ­vel conectar com o Google. Tente novamente mais tarde.'
+        ? 'NÃ£o foi possÃ­vel conectar com o Google. Tente novamente mais tarde.'
         : 'Could not sign in with Google. Please try again later.',
     [language],
   );

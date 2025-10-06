@@ -3,7 +3,7 @@ import { useSharedRecipe } from '../../hooks/use-shared-recipe';
 import RecipeContainer from '../recipe-container/recipe-container';
 import type { Recipe } from '../../services/recipe';
 import Dialog from '../dialog/dialog';
-import { Button } from '../button';
+import { Button } from 'notebook-layout';
 import SubmitComponent from '../submit';
 import './dialog-shared-recipe.scss';
 import { useData } from '../../providers';

@@ -9,7 +9,7 @@ import '@fontsource/vibur';
 import {
   CurrentRecipeProvider,
   EditingProvider,
-  LoadingProvider,
+   LoadingProvider,
   NavigationProvider,
   DataProvider,
 } from './providers';

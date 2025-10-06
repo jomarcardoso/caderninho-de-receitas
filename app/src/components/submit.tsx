@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 import { IoSaveOutline } from 'react-icons/io5';
-import { Button } from './button';
+import { Button } from 'notebook-layout';
 
 const SubmitComponent: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,

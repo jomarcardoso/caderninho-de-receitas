@@ -2,7 +2,7 @@ import { type FC, useContext } from 'react';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import capitalize from 'lodash/capitalize';
 import Layout from '../../components/layout/layout';
-import { Button } from '../../components/button';
+import { Button } from 'notebook-layout';
 import { DataContext } from '../../providers/data/data.context';
 import './main-panel.scss';
 import { ListItem } from '../../components/list-item/list-item';

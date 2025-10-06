@@ -1,9 +1,9 @@
 module.exports = {
-  trailingComma: 'all',
-  arrowParens: 'always',
+  semi: true,
   singleQuote: true,
-  endOfLine: 'auto',
   printWidth: 80,
   tabWidth: 2,
-  parser: 'typescript',
+  trailingComma: 'all',
+  bracketSpacing: true,
+  arrowParens: 'always',
 };

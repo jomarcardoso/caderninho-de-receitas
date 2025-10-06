@@ -9,7 +9,7 @@ import {
 } from 'react';
 import Image from '../../components/image/image';
 import Layout from '../../components/layout/layout';
-import { Button } from '../../components/button';
+import { Button } from 'notebook-layout';
 import './foods.scss';
 import { ListItem } from '../../components/list-item/list-item';
 import { IoAddCircleOutline } from 'react-icons/io5';
