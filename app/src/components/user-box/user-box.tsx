@@ -13,7 +13,7 @@ import {
 } from '@react-oauth/google';
 import { IoLogInOutline, IoCloseCircleOutline } from 'react-icons/io5';
 import { generateClasses } from '../../services/dom/classes';
-import { Avatar } from '../avatar/avatar';
+import { Avatar } from 'notebook-layout';
 import { Button } from 'notebook-layout';
 import './user-box.scss';
 import { Chip, Chips } from '../chips/chips';
