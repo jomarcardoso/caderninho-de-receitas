@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Server.Services;
 using Server.Models;
+using Server.Shared;
 
 namespace Server.Tests.Services;
 
@@ -43,6 +44,8 @@ public class IngredientServiceTests
   [TestCase("duas xícaras de feijão", "duas xícaras", MeasureType.Cup, "de feijão")]
   [TestCase("duas xícaras e meia de feijão", "duas xícaras e meia", MeasureType.Cup, "de feijão")]
   [TestCase("3 xícaras e dois terços de feijão", "3 xícaras e dois terços", MeasureType.Cup, "de feijão")]
+
+  [TestCase("1⅓ de xícara (chá) de grão-de-bico", "1⅓ de xícara (chá)", MeasureType.Cup, "de grão-de-bico")]
 
   [TestCase("1 colher de arroz", "1 colher", MeasureType.Spoon, "de arroz")]
   [TestCase("6 1/2 colheres de farinha", "6 1/2 colheres", MeasureType.Spoon, "de farinha")]
@@ -103,7 +106,6 @@ public class IngredientServiceTests
   [TestCase("duas colherinhas de feijão", "duas colherinhas", MeasureType.TeaSpoon, "de feijão")]
   [TestCase("duas colherinhas e meia de feijão", "duas colherinhas e meia", MeasureType.TeaSpoon, "de feijão")]
   [TestCase("3 colherinhas e dois terços de feijão", "3 colherinhas e dois terços", MeasureType.TeaSpoon, "de feijão")]
-
   [TestCase("1 abacate", "1", MeasureType.Unity, "abacate")]
   [TestCase("1 e meio abacate", "1 e meio", MeasureType.Unity, "abacate")]
   // TODO
@@ -165,6 +167,19 @@ public class IngredientServiceTests
   [TestCase("3 fatias e 1/2 de pão", "3 fatias e 1/2", MeasureType.Slice, "de pão")]
 
   [TestCase("uma pitada de sal", "uma pitada", MeasureType.Pinch, "de sal")]
+  [TestCase("1 cup of rice", "1 cup", MeasureType.Cup, "of rice")]
+  [TestCase("two tablespoons of sugar", "two tablespoons", MeasureType.Spoon, "of sugar")]
+  [TestCase("3 tsp of salt", "3 tsp", MeasureType.TeaSpoon, "of salt")]
+  [TestCase("half a cup of milk", "half a cup", MeasureType.Cup, "of milk")]
+  [TestCase("a pinch of pepper", "a pinch", MeasureType.Pinch, "of pepper")]
+  [TestCase("2 cloves of garlic", "2 cloves", MeasureType.Clove, "of garlic")]
+  [TestCase("1 can of tomatoes", "1 can", MeasureType.Can, "of tomatoes")]
+  [TestCase("3 slices of bread", "3 slices", MeasureType.Slice, "of bread")]
+  [TestCase("1 glass of water", "1 glass", MeasureType.Glass, "of water")]
+  [TestCase("large apple", "", MeasureType.UnityLarge, "large apple")]
+  [TestCase("small chili pepper", "", MeasureType.UnitySmall, "small chili pepper")]
+  [TestCase("Salt to taste", "to taste", MeasureType.Literal, "Salt")]
+  [TestCase("Bay leaves (for each pot)", "(for each pot)", MeasureType.Literal, "Bay leaves")]
   public void SplitTextInMeasureAndRest(string input, string expectedMeasure, MeasureType expectedMeasureType, string expectedRest)
   {
     service.Text = input;
@@ -173,5 +188,34 @@ public class IngredientServiceTests
     Assert.That(result.MeasureText, Is.EqualTo(expectedMeasure));
     Assert.That(result.MeasureType, Is.EqualTo(expectedMeasureType));
     Assert.That(result.Rest, Is.EqualTo(expectedRest));
+  }
+
+  [TestCase("1 xícara", 1d)]
+  [TestCase("6 1/2 xícaras", 6.5d)]
+  [TestCase("quatro e meia xícaras", 4.5d)]
+  [TestCase("duas colheres e meia", 2.5d)]
+  [TestCase("3 colheres e dois terços", 3.6666666667d)]
+  [TestCase("1/2 xícara", 0.5d)]
+  [TestCase("meia colher", 0.5d)]
+  [TestCase("um terço de xícara", 0.3333333333d)]
+  [TestCase("dois terços de xícara", 0.6666666667d)]
+  [TestCase("3/4 xícara", 0.75d)]
+  [TestCase("200 gramas", 200d)]
+  [TestCase("1g", 1d)]
+  [TestCase("3 kilos e meio", 3.5d)]
+  [TestCase("0,5 litro", 0.5d)]
+  [TestCase("", 1d)]
+  [TestCase(null, 1d)]
+  [TestCase("one and a half cups", 1.5d)]
+  [TestCase("half cup", 0.5d)]
+  [TestCase("three quarters cup", 0.75d)]
+  [TestCase("two thirds cup", 0.6666666667d)]
+  [TestCase("a couple of cups", 2d)]
+  [TestCase("1.5 cups", 1.5d)]
+  public void ParseMeasureQuantity_ParsesExpectedValue(string? measureText, double expected)
+  {
+    var result = IngredientService.ParseMeasureQuantity(measureText);
+
+    Assert.That(result, Is.EqualTo(expected).Within(0.0001));
   }
 }

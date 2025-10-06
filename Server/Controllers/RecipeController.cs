@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Server.Dtos;
 using Server.Models;
-using Server.Models.Food;
 using Server.Services;
 using System.Security.Claims;
 
@@ -36,15 +35,41 @@ public class RecipeController : ControllerBase
   {
     var userId = GetUserId();
 
-    // Converte DTO para Entity
     Recipe recipe = await recipeService.DtoToEntity(recipeDto);
     recipe.OwnerId = userId;
 
-    _context.Recipes.Add(recipe);
+    _context.Recipe.Add(recipe);
     await _context.SaveChangesAsync();
 
-    // Retorna todas as receitas do usuário
-    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    return Ok(response);
+  }
+
+  [HttpPost("{id}/save")]
+  public async Task<IActionResult> SaveRecipeFromAnotherUser(int id)
+  {
+    var userId = GetUserId();
+
+    Recipe? sourceRecipe = await recipeService.FindRecipeWithDetailsById(id);
+
+    if (sourceRecipe == null)
+    {
+      return NotFound();
+    }
+
+    if (sourceRecipe.OwnerId == userId)
+    {
+      return BadRequest("Não é possível adicionar uma receita que já pertence a você.");
+    }
+
+    Recipe clonedRecipe = recipeService.CloneRecipeForUser(sourceRecipe, userId);
+
+    _context.Recipe.Add(clonedRecipe);
+    sourceRecipe.SavedByOthersCount += 1;
+
+    await _context.SaveChangesAsync();
+
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
   }
 
@@ -54,28 +79,67 @@ public class RecipeController : ControllerBase
     var userId = GetUserId();
     var recipesToAdd = new List<Recipe>();
 
-    foreach (var dto in recipesDto)
+    foreach (RecipeDto dto in recipesDto)
     {
       Recipe recipe = await recipeService.DtoToEntity(dto);
       recipe.OwnerId = userId;
       recipesToAdd.Add(recipe);
     }
 
-    _context.Recipes.AddRange(recipesToAdd);
+    _context.Recipe.AddRange(recipesToAdd);
     await _context.SaveChangesAsync();
 
     // Retorna todas as receitas do usuário, incluindo as novas
-    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
   }
 
+  [HttpPut("{id}")]
+  public async Task<IActionResult> UpdateRecipe(int id, [FromBody] RecipeDto recipeDto)
+  {
+    var userId = GetUserId();
+
+    Recipe? recipe = await _context.Recipe
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .FirstOrDefaultAsync(r => r.Id == id && r.OwnerId == userId);
+
+    if (recipe == null)
+      return NotFound();
+
+    await recipeService.UpdateEntityFromDto(recipe, recipeDto);
+    recipe.OwnerId = userId;
+
+    await _context.SaveChangesAsync();
+
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    return Ok(response);
+  }
+
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> DeleteRecipe(int id)
+  {
+    var userId = GetUserId();
+
+    Recipe? recipe = await _context.Recipe
+      .FirstOrDefaultAsync(r => r.Id == id && r.OwnerId == userId);
+
+    if (recipe == null)
+      return NotFound();
+
+    _context.Recipe.Remove(recipe);
+    await _context.SaveChangesAsync();
+
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    return Ok(response);
+  }
 
   // GET api/recipes
   [HttpGet]
   public async Task<IActionResult> GetMyRecipes()
   {
     var userId = GetUserId();
-    RecipeAndFoodResponseDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
 
     return Ok(response);
   }
@@ -86,7 +150,7 @@ public class RecipeController : ControllerBase
   {
     var userId = GetUserId();
 
-    Recipe? recipe = await _context.Recipes
+    Recipe? recipe = await _context.Recipe
       .FirstOrDefaultAsync(r => r.Id == id && r.OwnerId == userId);
 
     if (recipe == null)

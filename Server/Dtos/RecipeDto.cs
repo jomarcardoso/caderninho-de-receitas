@@ -1,35 +1,12 @@
-using Server.Models.Food;
 using Server.Shared;
 
 namespace Server.Dtos;
 
-public class RecipeStepDto
-{
-  public string Name { get; set; } = string.Empty;
-  public string Ingredients { get; set; } = string.Empty;
-  public string Preparation { get; set; } = string.Empty;
-  public string Additional { get; set; } = string.Empty;
-}
+public class RecipeDto : RecipeContract<RecipeStepDto>;
 
-public class RecipeDto
-{
-  public string Name { get; set; } = string.Empty;
-  public string Description { get; set; } = string.Empty;
-  public string Additional { get; set; } = string.Empty;
-  public List<RecipeStepDto> Steps { get; set; } = new();
-}
+public class RecipeResponseDto : RecipeBase<RecipeStepResponse, int>;
 
-public class UpdateRecipeDto : RecipeDto
-{
-  public int Id { get; set; }
-}
-
-public class RecipeStepResponseDto : RecipeStepBase<IngredientResponseDto>;
-public class RecipeResponseDto : RecipeBase<RecipeStepResponseDto>;
-
-
-public class RecipeAndFoodResponseDto
+public class RecipesDto : FoodsResponse
 {
   public List<RecipeResponseDto> Recipes { get; set; } = new();
-  public List<Food> Foods { get; set; } = new();
 }

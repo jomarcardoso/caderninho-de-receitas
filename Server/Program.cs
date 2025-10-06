@@ -1,11 +1,13 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Server.Services;
+using Server.Services.Auth;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Server.Auth;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddControllers()
   .AddJsonOptions(options =>
   {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
   });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -39,6 +42,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<FoodService>();
 builder.Services.AddScoped<IngredientService>();
 builder.Services.AddScoped<RecipeService>();
+builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenValidator>();
+builder.Services.AddScoped<GoogleAuthService>();
 
 // blazor
 builder.Services.AddRazorPages();
@@ -57,7 +62,7 @@ builder.Services.AddCors(options =>
   options.AddPolicy("AllowSpecificOrigin",
       builder =>
       {
-        builder.WithOrigins("http://localhost:8000", "https://localhost:8000")
+        builder.WithOrigins("http://localhost:5173", "https://localhost:5173")
                  .AllowAnyMethod()
                  .AllowAnyHeader();
       });
@@ -148,3 +153,4 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+

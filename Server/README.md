@@ -52,3 +52,13 @@ In our API design, we use partial normalization to balance efficiency and usabil
 - A separate collection contains the unique food objects used across all recipes.
 
 This approach avoids data duplication, keeps the payload compact, and ensures consistency. At the same time, the client can easily resolve ingredient references locally without making additional API calls.
+
+### Backend-driven type values
+
+In this project, the backend exposes a list of objects (`MeasureDto`) representing all possible values of the `MeasureType` enum, including translations and indexes.
+The frontend consumes this list and interprets the values without redeclaring the type, ensuring consistency with the backend while avoiding duplication.
+
+## Nutritional information
+
+- FAO/WHO/UNU
+- PDCAAS e DIAAS

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <CodePage>65001</CodePage>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -26,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="mocks\FoodsPt.json">
+    <None Update="mocks\Foods.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
