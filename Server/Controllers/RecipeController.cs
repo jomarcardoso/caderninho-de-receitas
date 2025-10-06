@@ -18,7 +18,6 @@ public class RecipeController : ControllerBase
   private readonly IMapper _mapper;
   private readonly RecipeService recipeService;
 
-
   public RecipeController(AppDbContext context, IMapper mapper, RecipeService _recipeService)
   {
     _context = context;
@@ -134,6 +133,24 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
+  [HttpGet("most-copied")]
+  public async Task<IActionResult> GetMostCopiedRecipes([FromQuery] int quantity)
+  {
+    if (quantity < 1)
+    {
+      return BadRequest("Quantity must be greater than zero.");
+    }
+
+    if (quantity > 64)
+    {
+      return BadRequest("Quantity must not exceed 64.");
+    }
+
+    List<Recipe> recipes = await recipeService.GetMostCopiedRecipesAsync(quantity);
+    List<RecipeResponseDto> response = _mapper.Map<List<RecipeResponseDto>>(recipes);
+
+    return Ok(response);
+  }
   // GET api/recipes
   [HttpGet]
   public async Task<IActionResult> GetMyRecipes()

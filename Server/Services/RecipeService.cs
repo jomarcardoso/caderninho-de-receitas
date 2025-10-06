@@ -211,6 +211,24 @@ public class RecipeService
     return recipes;
   }
 
+  public async Task<List<Recipe>> GetMostCopiedRecipesAsync(int quantity)
+  {
+    if (quantity <= 0)
+    {
+      return new List<Recipe>();
+    }
+
+    return await _context.Recipe
+      .AsNoTracking()
+      .Include(r => r.Food)
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .ThenInclude(i => i.Food)
+      .OrderByDescending(r => r.SavedByOthersCount)
+      .ThenBy(r => r.Id)
+      .Take(quantity)
+      .ToListAsync();
+  }
   public async Task<RecipesDto> GetRecipesAndFoodsByUserId(string userId)
   {
     List<Recipe> recipes = await GetAllRecipesByUserId(userId);
