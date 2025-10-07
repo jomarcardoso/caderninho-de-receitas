@@ -220,13 +220,15 @@ public class RecipeService
       return new List<Recipe>();
     }
 
+    bool includePrivate = !string.IsNullOrWhiteSpace(userId);
+
     return await _context.Recipe
       .AsNoTracking()
       .Include(r => r.Food)
       .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .Where(r => r.IsPublic || (userId != null && r.OwnerId == userId))
+      .Where(r => r.IsPublic || (includePrivate && r.OwnerId == userId))
       .OrderByDescending(r => r.SavedByOthersCount)
       .ThenBy(r => r.Id)
       .Take(quantity)
@@ -240,6 +242,8 @@ public class RecipeService
       return new List<Recipe>();
     }
 
+    bool includePrivate = !string.IsNullOrWhiteSpace(userId);
+
     string pattern = $"%{searchText.Trim()}%";
 
     quantity = Math.Min(quantity, 64);
@@ -251,10 +255,44 @@ public class RecipeService
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
       .Where(r => (EF.Functions.Like(r.Name, pattern) || EF.Functions.Like(r.Keys, pattern))
-        && (r.IsPublic || (userId != null && r.OwnerId == userId)))
+        && (r.IsPublic || (includePrivate && r.OwnerId == userId)))
       .OrderBy(r => r.Id)
       .Take(quantity)
       .ToListAsync();
+  }
+
+  public async Task<int> ClaimRecipesAsync(string temporaryOwnerId, string newOwnerId)
+  {
+    if (string.IsNullOrWhiteSpace(temporaryOwnerId))
+    {
+      throw new ArgumentException("Temporary owner id must be provided.", nameof(temporaryOwnerId));
+    }
+
+    if (string.IsNullOrWhiteSpace(newOwnerId))
+    {
+      throw new ArgumentException("New owner id must be provided.", nameof(newOwnerId));
+    }
+
+    temporaryOwnerId = temporaryOwnerId.Trim();
+    newOwnerId = newOwnerId.Trim();
+
+    List<Recipe> recipes = await _context.Recipe
+      .Where(r => r.OwnerId == temporaryOwnerId)
+      .ToListAsync();
+
+    if (recipes.Count == 0)
+    {
+      return 0;
+    }
+
+    foreach (Recipe recipe in recipes)
+    {
+      recipe.OwnerId = newOwnerId;
+    }
+
+    await _context.SaveChangesAsync();
+
+    return recipes.Count;
   }
 
   public async Task<RecipesDto> GetRecipesAndFoodsByUserId(string userId)
@@ -287,3 +325,4 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 }
+
