@@ -1,4 +1,4 @@
-ï»¿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
@@ -6,31 +6,35 @@ using Server.Dtos;
 using Server.Models;
 using Server.Services;
 using Server.Serialization;
+using Server.PreProcessing;
 using System.Security.Claims;
 
 namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize] // garante que sÃ³ usuÃ¡rios logados podem acessar
+[Authorize] // garante que só usuários logados podem acessar
 public class RecipeController : ControllerBase
 {
   private readonly AppDbContext _context;
   private readonly IMapper _mapper;
   private readonly RecipeService recipeService;
   private readonly PlainTextRecipeParser plainTextRecipeParser;
+  private readonly PlainTextRecipePreProcessor plainTextRecipePreProcessor;
   private const string TemporaryOwnerHeaderName = "X-Temporary-Owner";
 
   public RecipeController(
     AppDbContext context,
     IMapper mapper,
     RecipeService recipeService,
-    PlainTextRecipeParser plainTextRecipeParser)
+    PlainTextRecipeParser plainTextRecipeParser,
+    PlainTextRecipePreProcessor plainTextRecipePreProcessor)
   {
     _context = context;
     _mapper = mapper;
     this.recipeService = recipeService ?? throw new ArgumentNullException(nameof(recipeService));
     this.plainTextRecipeParser = plainTextRecipeParser ?? throw new ArgumentNullException(nameof(plainTextRecipeParser));
+    this.plainTextRecipePreProcessor = plainTextRecipePreProcessor ?? throw new ArgumentNullException(nameof(plainTextRecipePreProcessor));
   }
 
   // Helper para pegar o sub (Google UserId)
@@ -64,7 +68,7 @@ public class RecipeController : ControllerBase
 
     if (sourceRecipe.OwnerId == userId)
     {
-      return BadRequest("NÃ£o Ã© possÃ­vel adicionar uma receita que jÃ¡ pertence a vocÃª.");
+      return BadRequest("Não é possível adicionar uma receita que já pertence a você.");
     }
 
     Recipe clonedRecipe = recipeService.CloneRecipeForUser(sourceRecipe, userId);
@@ -208,6 +212,30 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
+  [HttpPost("plain-text/preprocess")]
+  [AllowAnonymous]
+  public IActionResult PreprocessPlainTextRecipe([FromBody] PlainTextRecipePreProcessRequest request)
+  {
+    if (request is null || string.IsNullOrWhiteSpace(request.Content))
+    {
+      return BadRequest("Recipe content must be provided.");
+    }
+
+    string structured;
+    try
+    {
+      structured = plainTextRecipePreProcessor.Normalize(request.Content);
+    }
+    catch (PlainTextRecipePreProcessorException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+
+    return Ok(new PlainTextRecipePreProcessResponse
+    {
+      StructuredContent = structured
+    });
+  }
   [HttpPost("plain-text")]
   [AllowAnonymous]
   public async Task<IActionResult> CreateRecipeFromPlainText(
@@ -337,4 +365,6 @@ public class ClaimOwnerRequest
 {
   public string TemporaryOwnerId { get; set; } = string.Empty;
 }
+
+
 
