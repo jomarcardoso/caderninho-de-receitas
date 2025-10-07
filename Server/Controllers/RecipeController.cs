@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+ï»¿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
@@ -7,13 +7,15 @@ using Server.Models;
 using Server.Services;
 using Server.Serialization;
 using Server.PreProcessing;
+using Server.Shared;
 using System.Security.Claims;
+using System.IO;
 
 namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize] // garante que só usuários logados podem acessar
+[Authorize] // garante que sï¿½ usuï¿½rios logados podem acessar
 public class RecipeController : ControllerBase
 {
   private readonly AppDbContext _context;
@@ -21,6 +23,7 @@ public class RecipeController : ControllerBase
   private readonly RecipeService recipeService;
   private readonly PlainTextRecipeParser plainTextRecipeParser;
   private readonly PlainTextRecipePreProcessor plainTextRecipePreProcessor;
+  private readonly RecipeImageOcrService recipeImageOcrService;
   private const string TemporaryOwnerHeaderName = "X-Temporary-Owner";
 
   public RecipeController(
@@ -28,13 +31,15 @@ public class RecipeController : ControllerBase
     IMapper mapper,
     RecipeService recipeService,
     PlainTextRecipeParser plainTextRecipeParser,
-    PlainTextRecipePreProcessor plainTextRecipePreProcessor)
+    PlainTextRecipePreProcessor plainTextRecipePreProcessor,
+    RecipeImageOcrService recipeImageOcrService)
   {
     _context = context;
     _mapper = mapper;
     this.recipeService = recipeService ?? throw new ArgumentNullException(nameof(recipeService));
     this.plainTextRecipeParser = plainTextRecipeParser ?? throw new ArgumentNullException(nameof(plainTextRecipeParser));
     this.plainTextRecipePreProcessor = plainTextRecipePreProcessor ?? throw new ArgumentNullException(nameof(plainTextRecipePreProcessor));
+    this.recipeImageOcrService = recipeImageOcrService ?? throw new ArgumentNullException(nameof(recipeImageOcrService));
   }
 
   // Helper para pegar o sub (Google UserId)
@@ -68,7 +73,7 @@ public class RecipeController : ControllerBase
 
     if (sourceRecipe.OwnerId == userId)
     {
-      return BadRequest("Não é possível adicionar uma receita que já pertence a você.");
+      return BadRequest("Nï¿½o ï¿½ possï¿½vel adicionar uma receita que jï¿½ pertence a vocï¿½.");
     }
 
     Recipe clonedRecipe = recipeService.CloneRecipeForUser(sourceRecipe, userId);
@@ -236,6 +241,61 @@ public class RecipeController : ControllerBase
       StructuredContent = structured
     });
   }
+  [HttpPost("plain-text/from-image")]
+  [AllowAnonymous]
+  public async Task<IActionResult> CreateRecipeFromImage(
+  [FromForm] RecipeImageRequest request,
+  [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
+  {
+    if (request is null || request.Image is null || request.Image.Length == 0)
+    {
+      return BadRequest("A recipe image must be provided.");
+    }
+
+    string ocrText;
+    try
+    {
+      using Stream imageStream = request.Image.OpenReadStream();
+      ocrText = await recipeImageOcrService.ExtractTextAsync(imageStream, request.Language, HttpContext.RequestAborted);
+    }
+    catch (RecipeImageOcrException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+
+    if (string.IsNullOrWhiteSpace(ocrText))
+    {
+      return BadRequest("No text could be extracted from the provided image.");
+    }
+
+    string structured;
+    try
+    {
+      structured = plainTextRecipePreProcessor.Normalize(ocrText);
+    }
+    catch (PlainTextRecipePreProcessorException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+
+    RecipeDto recipeDto;
+    try
+    {
+      recipeDto = plainTextRecipeParser.Parse(structured);
+    }
+    catch (PlainTextRecipeParserException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+
+    var language = TryMapLanguage(request.Language);
+    if (language.HasValue)
+    {
+      recipeDto.Language = language.Value;
+    }
+
+    return await CreateRecipeInternalAsync(recipeDto, temporaryOwnerId, request.IsPublic);
+  }
   [HttpPost("plain-text")]
   [AllowAnonymous]
   public async Task<IActionResult> CreateRecipeFromPlainText(
@@ -315,6 +375,25 @@ public class RecipeController : ControllerBase
     return Ok(recipe);
   }
 
+  private static Language? TryMapLanguage(string? value)
+  {
+    if (string.IsNullOrWhiteSpace(value))
+    {
+      return null;
+    }
+
+    if (Enum.TryParse<Language>(value, true, out var parsed))
+    {
+      return parsed;
+    }
+
+    return value.ToLowerInvariant() switch
+    {
+      "en" or "eng" or "english" => Language.En,
+      "pt" or "por" or "pt-br" or "portuguese" => Language.Pt,
+      _ => null
+    };
+  }
   private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string? temporaryOwnerId, bool? isPublic)
   {
     if (!TryResolveOwnerId(temporaryOwnerId, out string ownerId, out IActionResult? errorResult))
@@ -365,6 +444,3 @@ public class ClaimOwnerRequest
 {
   public string TemporaryOwnerId { get; set; } = string.Empty;
 }
-
-
-

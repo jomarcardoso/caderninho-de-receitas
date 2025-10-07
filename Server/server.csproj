@@ -23,6 +23,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+    <PackageReference Include="TesseractOCR" Version="5.5.1" />
     <PackageReference Include="TorchSharp-cpu" Version="0.101.5" />
     <PackageReference Include="Google.Apis.Auth" Version="1.70.0" />
   </ItemGroup>

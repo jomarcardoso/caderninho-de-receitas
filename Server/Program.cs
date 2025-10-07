@@ -46,6 +46,7 @@ builder.Services.AddScoped<IngredientService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<PlainTextRecipeParser>();
 builder.Services.AddScoped<PlainTextRecipePreProcessor>();
+builder.Services.AddSingleton<RecipeImageOcrService>();
 builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenValidator>();
 builder.Services.AddScoped<GoogleAuthService>();
 
@@ -157,6 +158,7 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
 
 
 
