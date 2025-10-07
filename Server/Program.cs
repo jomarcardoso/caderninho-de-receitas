@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Server.Services;
 using Server.Services.Auth;
+using Server.Serialization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Server.Auth;
@@ -42,6 +43,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<FoodService>();
 builder.Services.AddScoped<IngredientService>();
 builder.Services.AddScoped<RecipeService>();
+builder.Services.AddScoped<PlainTextRecipeParser>();
 builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenValidator>();
 builder.Services.AddScoped<GoogleAuthService>();
 
@@ -153,4 +155,7 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
+
+
 

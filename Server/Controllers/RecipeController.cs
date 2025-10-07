@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Server.Dtos;
 using Server.Models;
 using Server.Services;
+using Server.Serialization;
 using System.Security.Claims;
 
 namespace Server.Controllers;
@@ -17,13 +18,19 @@ public class RecipeController : ControllerBase
   private readonly AppDbContext _context;
   private readonly IMapper _mapper;
   private readonly RecipeService recipeService;
+  private readonly PlainTextRecipeParser plainTextRecipeParser;
   private const string TemporaryOwnerHeaderName = "X-Temporary-Owner";
 
-  public RecipeController(AppDbContext context, IMapper mapper, RecipeService _recipeService)
+  public RecipeController(
+    AppDbContext context,
+    IMapper mapper,
+    RecipeService recipeService,
+    PlainTextRecipeParser plainTextRecipeParser)
   {
     _context = context;
     _mapper = mapper;
-    recipeService = _recipeService ?? throw new ArgumentNullException(nameof(recipeService));
+    this.recipeService = recipeService ?? throw new ArgumentNullException(nameof(recipeService));
+    this.plainTextRecipeParser = plainTextRecipeParser ?? throw new ArgumentNullException(nameof(plainTextRecipeParser));
   }
 
   // Helper para pegar o sub (Google UserId)
@@ -36,26 +43,12 @@ public class RecipeController : ControllerBase
     [FromBody] RecipeDto recipeDto,
     [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
   {
-    string userId = GetUserId();
-
-    if (string.IsNullOrWhiteSpace(userId))
+    if (recipeDto is null)
     {
-      if (string.IsNullOrWhiteSpace(temporaryOwnerId))
-      {
-        return BadRequest("Temporary owner id must be provided when no authenticated user is available.");
-      }
-
-      userId = temporaryOwnerId.Trim();
+      return BadRequest("Recipe payload must be provided.");
     }
 
-    Recipe recipe = await recipeService.DtoToEntity(recipeDto);
-    recipe.OwnerId = userId;
-
-    _context.Recipe.Add(recipe);
-    await _context.SaveChangesAsync();
-
-    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
-    return Ok(response);
+    return await CreateRecipeInternalAsync(recipeDto, temporaryOwnerId, null);
   }
   [HttpPost("{id}/save")]
   public async Task<IActionResult> SaveRecipeFromAnotherUser(int id)
@@ -91,16 +84,14 @@ public class RecipeController : ControllerBase
     [FromBody] List<RecipeDto> recipesDto,
     [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
   {
-    string userId = GetUserId();
-
-    if (string.IsNullOrWhiteSpace(userId))
+    if (recipesDto is null || recipesDto.Count == 0)
     {
-      if (string.IsNullOrWhiteSpace(temporaryOwnerId))
-      {
-        return BadRequest("Temporary owner id must be provided when no authenticated user is available.");
-      }
+      return BadRequest("At least one recipe must be provided.");
+    }
 
-      userId = temporaryOwnerId.Trim();
+    if (!TryResolveOwnerId(temporaryOwnerId, out var ownerId, out var errorResult))
+    {
+      return errorResult!;
     }
 
     var recipesToAdd = new List<Recipe>();
@@ -108,7 +99,7 @@ public class RecipeController : ControllerBase
     foreach (RecipeDto dto in recipesDto)
     {
       Recipe recipe = await recipeService.DtoToEntity(dto);
-      recipe.OwnerId = userId;
+      recipe.OwnerId = ownerId;
       recipesToAdd.Add(recipe);
     }
 
@@ -116,7 +107,7 @@ public class RecipeController : ControllerBase
     await _context.SaveChangesAsync();
 
     // Retorna todas as receitas do usuario, incluindo as novas
-    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
     return Ok(response);
   }
   [HttpPut("{id}")]
@@ -217,6 +208,30 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
+  [HttpPost("plain-text")]
+  [AllowAnonymous]
+  public async Task<IActionResult> CreateRecipeFromPlainText(
+    [FromBody] PlainTextRecipeRequest request,
+    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
+  {
+    if (request is null || string.IsNullOrWhiteSpace(request.Content))
+    {
+      return BadRequest("Recipe content must be provided.");
+    }
+
+    RecipeDto recipeDto;
+    try
+    {
+      recipeDto = plainTextRecipeParser.Parse(request.Content);
+    }
+    catch (PlainTextRecipeParserException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+
+    return await CreateRecipeInternalAsync(recipeDto, temporaryOwnerId, request.IsPublic);
+  }
+
   [HttpPost("claim-owner")]
   public async Task<IActionResult> ClaimRecipesOwnership([FromBody] ClaimOwnerRequest request)
   {
@@ -241,6 +256,7 @@ public class RecipeController : ControllerBase
 
     return Ok(new { updated = updatedCount });
   }
+
   // GET api/recipes
   [HttpGet]
   public async Task<IActionResult> GetMyRecipes()
@@ -270,11 +286,55 @@ public class RecipeController : ControllerBase
 
     return Ok(recipe);
   }
+
+  private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string? temporaryOwnerId, bool? isPublic)
+  {
+    if (!TryResolveOwnerId(temporaryOwnerId, out string ownerId, out IActionResult? errorResult))
+    {
+      return errorResult!;
+    }
+
+    Recipe recipe = await recipeService.DtoToEntity(recipeDto);
+    recipe.OwnerId = ownerId;
+
+    if (isPublic.HasValue)
+    {
+      recipe.IsPublic = isPublic.Value;
+    }
+
+    _context.Recipe.Add(recipe);
+    await _context.SaveChangesAsync();
+
+    RecipesDto response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
+    return Ok(response);
+  }
+
+  private bool TryResolveOwnerId(string? temporaryOwnerId, out string ownerId, out IActionResult? errorResult)
+  {
+    string userId = GetUserId();
+
+    if (!string.IsNullOrWhiteSpace(userId))
+    {
+      ownerId = userId.Trim();
+      errorResult = null;
+      return true;
+    }
+
+    if (!string.IsNullOrWhiteSpace(temporaryOwnerId))
+    {
+      ownerId = temporaryOwnerId.Trim();
+      errorResult = null;
+      return true;
+    }
+
+    ownerId = string.Empty;
+    errorResult = BadRequest("Temporary owner id must be provided for anonymous requests.");
+    return false;
+  }
 }
 
 public class ClaimOwnerRequest
 {
   public string TemporaryOwnerId { get; set; } = string.Empty;
 }
-
 
