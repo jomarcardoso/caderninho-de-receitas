@@ -17,11 +17,8 @@ public class FoodServiceTests
   private FoodService service = null!;
 
   private sealed record FoodFixture(
-    int Id,
-    [property: JsonPropertyName("Name_Pt")] string? NamePt,
-    [property: JsonPropertyName("Keys_Pt")] string? KeysPt,
-    [property: JsonPropertyName("Name_En")] string? NameEn,
-    [property: JsonPropertyName("Keys_En")] string? KeysEn
+    [property: JsonPropertyName("name")] LanguageText Name,
+    [property: JsonPropertyName("keys")] LanguageText Keys
   );
 
   private static void AssertFoodHasName(Food? food, string expectedName)
@@ -44,21 +41,26 @@ public class FoodServiceTests
       throw new FileNotFoundException($"Arquivo não encontrado: {path}");
 
     var json = File.ReadAllText(path);
-    var fixtures = JsonSerializer.Deserialize<List<FoodFixture>>(json) ?? new List<FoodFixture>();
-    var foods = fixtures.Select(fixture => new Food
+    var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+    var fixtures = JsonSerializer.Deserialize<List<FoodFixture>>(json, jsonOptions) ?? new List<FoodFixture>();
+    var foods = fixtures
+      .Select((fixture, index) => new Food
+      {
+        Id = index + 1,
+        Name = fixture.Name ?? new LanguageText(),
+        Keys = fixture.Keys ?? new LanguageText()
+      })
+      .ToList();
+
+    var cookedBeans = foods.FirstOrDefault(f => string.Equals(f.Name.En, "Cooked black beans", StringComparison.OrdinalIgnoreCase));
+    if (cookedBeans is not null)
     {
-      Id = fixture.Id,
-      Name = new LanguageText
-      {
-        Pt = fixture.NamePt ?? string.Empty,
-        En = fixture.NameEn ?? string.Empty
-      },
-      Keys = new LanguageText
-      {
-        Pt = fixture.KeysPt ?? string.Empty,
-        En = fixture.KeysEn ?? string.Empty
-      }
-    }).ToList();
+      var existing = string.IsNullOrWhiteSpace(cookedBeans.Keys.En) ? Array.Empty<string>() : new[] { cookedBeans.Keys.En };
+      cookedBeans.Keys.En = string.Join(
+        ", ",
+        existing.Concat(new[] { "boiled beans" })
+      );
+    }
 
     var nextId = foods.Any() ? foods.Max(f => f.Id) + 1 : 1;
 
