@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
+    "dev:webpack": "cross-env NEXT_DISABLE_TURBOPACK=1 next dev",
     "build": "next build --turbopack",
     "start": "next start"
   },
@@ -17,6 +18,7 @@
     "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^19",
-    "@types/react-dom": "^19"
+    "@types/react-dom": "^19",
+    "cross-env": "^7.0.3"
   }
 }

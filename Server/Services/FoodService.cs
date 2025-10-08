@@ -22,6 +22,7 @@ public class FoodService
     "fatiado", "fatiada", "fatiados", "fatiadas",
     "moído", "moída", "moídos", "moídas",
     "inteiro", "inteira", "inteiros", "inteiras",
+    "pelado", "pelados",
     "em cubo", "em cubos",
     "em rodela", "em rodelas",
     "amassado", "amassada", "amassados", "amassadas",
@@ -185,7 +186,12 @@ public class FoodService
     var normalized = FoodModifiers
       .OrderByDescending(modifier => modifier.Length)
       .Aggregate(noPrefixName,
-        (current, modifier) => current.Replace(modifier, string.Empty).Trim().Replace("  ", " "));
+        (current, modifier) => current
+          .Replace(modifier, string.Empty)
+          // do a second if the food has more than one modifier
+          .Replace(modifier, string.Empty)
+          .Trim()
+          .Replace("  ", " "));
     normalized = StringService.ReplaceEnding(normalized, " e", string.Empty);
     normalized = StringService.ReplaceEnding(normalized, " and", string.Empty);
 

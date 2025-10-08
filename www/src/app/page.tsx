@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 import type { Metadata } from "next";
 import type { RecipeDto } from "@common/services/recipe";
 import type { RecipeStepDto } from "@common/services/recipe-step";
+import { fetchMostCopiedRecipes } from "@common/services/recipe";
 import type { Language } from "@common/services/language/language.types";
 
 const API_BASE_URL = process.env.RECIPES_API_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -64,49 +65,8 @@ interface ApiRecipeResponse {
 }
 
 async function fetchRecipes(): Promise<RecipeDto[]> {
-  if (!API_BASE_URL) {
-    return FALLBACK_RECIPES;
-  }
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL.replace(/\/$/, "")}/api/Recipe/most-copied?quantity=6`,
-      {
-        next: { revalidate: 300 },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status}`);
-    }
-
-    const data = (await response.json()) as ApiRecipeResponse[];
-
-    if (!Array.isArray(data) || data.length === 0) {
-      return FALLBACK_RECIPES;
-    }
-
-    return data.map<RecipeDto>((recipe, index) => ({
-      id: recipe.id ?? index,
-      name: recipe.name ?? "Receita sem título",
-      description: recipe.description ?? "",
-      additional: recipe.additional ?? "",
-      language: (recipe.language?.toLowerCase() ?? "pt") as Language,
-      steps:
-        recipe.steps?.map<RecipeStepDto>((step) => ({
-          title: step.title ?? "",
-          preparation: step.preparation ?? "",
-          additional: step.additional ?? "",
-          ingredientsText: step.ingredientsText ?? "",
-        })) ?? [],
-    }));
-  } catch (error) {
-    console.error("Failed to load recipes", error);
-    return FALLBACK_RECIPES;
-  }
+  const mostCopied = await fetchMostCopiedRecipes(6, API_BASE_URL);
+  return mostCopied.length ? mostCopied : FALLBACK_RECIPES;
 }
 
 export const metadata: Metadata = {

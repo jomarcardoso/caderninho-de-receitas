@@ -171,6 +171,7 @@ public class RecipeController : ControllerBase
   }
 
   [HttpGet("most-copied")]
+  [AllowAnonymous]
   public async Task<IActionResult> GetMostCopiedRecipes([FromQuery] int quantity)
   {
     if (quantity < 1)

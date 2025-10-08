@@ -13,6 +13,16 @@ import { type RecipeStepDto } from '../recipe-step';
 import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
 import { FOOD } from '../food/food.model';
 import { mapRecipeStepModelToDto } from '../recipe-step/recipe-step.service';
+import type { RecipeStepDto } from '../recipe-step';
+
+interface ApiRecipeResponse {
+  id?: number;
+  name?: string;
+  description?: string;
+  additional?: string;
+  language?: string;
+  steps?: RecipeStepDto[];
+}
 
 function stepToText(step: RecipeStepDto, language: Language): string {
   const suffix = step.title ? ` ${step.title}` : '';
@@ -161,6 +171,53 @@ export async function fetchRecipes(): Promise<RecipesData> {
   }
 
   return RECIPES_DATA;
+}
+
+/**
+ * Fetches the most copied public recipes from the API and maps them to RecipeDto.
+ * Does not depend on Foods/Common dictionaries, suitable for lightweight homepage lists.
+ */
+export async function fetchMostCopiedRecipes(
+  quantity = 6,
+  baseUrl?: string,
+): Promise<RecipeDto[]> {
+  const apiBase = (baseUrl ?? '').replace(/\/$/, '') || 'http://localhost:5106';
+
+  try {
+    const res = await fetch(`${apiBase}/api/Recipe/most-copied?quantity=${quantity}`, {
+      headers: { 'Content-Type': 'application/json' },
+      // Let callers decide caching; most environments can layer cache outside
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch most-copied: ${res.status}`);
+    }
+
+    const data = (await res.json()) as ApiRecipeResponse[];
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return [];
+    }
+
+    return data.map<RecipeDto>((recipe, index) => ({
+      id: recipe.id ?? index,
+      name: recipe.name ?? '',
+      description: recipe.description ?? '',
+      additional: recipe.additional ?? '',
+      language: (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
+      steps:
+        recipe.steps?.map<RecipeStepDto>((step) => ({
+          title: step.title ?? '',
+          preparation: step.preparation ?? '',
+          additional: step.additional ?? '',
+          ingredientsText: step.ingredientsText ?? '',
+        })) ?? [],
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+
+  return [];
 }
 
 export async function saveRecipe(recipe: RecipeDto): Promise<RecipesData> {
