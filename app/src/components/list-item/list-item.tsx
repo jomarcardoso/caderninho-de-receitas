@@ -1,7 +1,7 @@
 import { type FC, type HTMLProps, type ReactNode, useMemo } from 'react';
 import { IoChevronForward } from 'react-icons/io5';
 import './list-item.scss';
-import { generateClasses } from '../../services/dom/classes';
+import { generateClasses } from 'services/dom/classes';
 import { SemanticButton, type SemanticButtonProps } from '../semantic-button';
 
 interface Props {
@@ -62,3 +62,4 @@ export const ListItem: FC<ListItemProps> = ({
     </li>
   );
 };
+

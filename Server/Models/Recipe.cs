@@ -6,7 +6,6 @@ public class Recipe : RecipeBase<RecipeStep, Food>
 {
   public string OwnerId { get; set; } = string.Empty;
   public int CopiedFromRecipeId { get; set; } = 0;
-  public bool IsPublic { get; set; } = true;
 
   public Recipe() : base() { }
 

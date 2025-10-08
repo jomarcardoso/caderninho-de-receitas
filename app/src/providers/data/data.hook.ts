@@ -3,10 +3,10 @@ import {
   fetchRecipes,
   removeRecipeById,
   saveRecipe as saveRecipeService,
-} from '../../services/recipe/recipe.service';
-import type { RecipeDto } from '../../services/recipe/recipe.dto';
+} from 'services/recipe/recipe.service';
+import type { RecipeDto } from 'services/recipe/recipe.dto';
 import type { DataContextProps } from './data.context';
-import { RECIPES_DATA } from '../../services/recipe/recipe.data';
+import { RECIPES_DATA } from 'services/recipe/recipe.data';
 import LoadingContext from '../loading/loading.context';
 
 export function useData(): DataContextProps {
@@ -58,3 +58,4 @@ export function useData(): DataContextProps {
     saveRecipe,
   };
 }
+

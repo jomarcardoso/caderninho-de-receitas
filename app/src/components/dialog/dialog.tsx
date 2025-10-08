@@ -1,7 +1,7 @@
 import { type FC, type HTMLProps, type ReactNode } from 'react';
 import { Modal, type ModalProps } from '@mui/base/Modal';
 import { FocusTrap } from '@mui/base';
-import { generateClasses } from '../../services/dom/classes';
+import { generateClasses } from 'services/dom/classes';
 
 export interface AlertEmptyRecipeProps extends Omit<ModalProps, 'children'> {
   titleProps?: HTMLProps<HTMLHeadingElement>;
@@ -74,3 +74,4 @@ const Dialog: FC<AlertEmptyRecipeProps> = ({
 };
 
 export default Dialog;
+

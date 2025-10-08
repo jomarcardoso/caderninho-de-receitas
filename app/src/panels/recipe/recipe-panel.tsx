@@ -13,10 +13,10 @@ import { Panel } from '../../components/panel/panel';
 import { LanguageContext } from '../../providers/language/language.context';
 import LoadingContext from '../../providers/loading/loading.context';
 import { EditingContext } from '../../providers/editing/editing.context';
-import { ShareService } from '../../services/url/share.service';
+import { ShareService } from 'services/url/share.service';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
-import type { Food } from '../../services/food/food.model';
-import { mapRecipeModelToDto } from '../../services/recipe/recipe.service';
+import type { Food } from 'services/food/food.model';
+import { mapRecipeModelToDto } from 'services/recipe/recipe.service';
 
 let rendered = 0;
 
@@ -153,3 +153,4 @@ const RecipePanel: FC<{
 };
 
 export default RecipePanel;
+

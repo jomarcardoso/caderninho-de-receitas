@@ -10,10 +10,10 @@ import { Button } from 'notebook-layout';
 import { EditingContext } from '../../providers/editing/editing.context';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { StorageService } from '../../storage';
-import type { RecipeDto } from '../../services/recipe/recipe.dto';
+import type { RecipeDto } from 'services/recipe/recipe.dto';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
-import { generateId } from '../../services/string.service';
+import { translate } from 'services/language/language.service';
+import { generateId } from 'services/string.service';
 
 interface Props {
   recipeToEdit?: RecipeDto;
@@ -144,3 +144,4 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
 };
 
 export default RecipeRegister;
+

@@ -1,6 +1,6 @@
 import { type FC, useContext } from 'react';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
+import { translate } from 'services/language/language.service';
 import { Section, type SectionProps } from 'notebook-layout';
 
 export interface PreparationProps extends SectionProps {
@@ -31,3 +31,4 @@ const Preparation: FC<PreparationProps> = ({
 };
 
 export default Preparation;
+

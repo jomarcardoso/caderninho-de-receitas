@@ -1,4 +1,4 @@
-namespace Server.PreProcessing;
+﻿namespace Server.PreProcessing;
 
 public class RecipeImageOcrException : Exception
 {
@@ -10,3 +10,4 @@ public class RecipeImageOcrException : Exception
   {
   }
 }
+

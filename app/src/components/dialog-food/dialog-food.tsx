@@ -3,7 +3,7 @@ import { Modal } from '@mui/base/Modal';
 import FoodPanel from '../../panels/food/food';
 import type { HeaderProps } from '../header/header';
 import { useNavigation } from '../../providers';
-import type { Food } from '../../services/food/food.model';
+import type { Food } from 'services/food/food.model';
 
 export interface DialogFoodProps {
   open: boolean;
@@ -50,3 +50,4 @@ const DialogFood: FC<DialogFoodProps> = ({
 };
 
 export default DialogFood;
+

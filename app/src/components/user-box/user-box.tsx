@@ -12,19 +12,19 @@ import {
   useGoogleOneTapLogin,
 } from '@react-oauth/google';
 import { IoLogInOutline, IoCloseCircleOutline } from 'react-icons/io5';
-import { generateClasses } from '../../services/dom/classes';
+import { generateClasses } from 'services/dom/classes';
 import { Avatar } from 'notebook-layout';
 import { Button } from 'notebook-layout';
 import './user-box.scss';
 import { Chip, Chips } from '../chips/chips';
 import { LanguageContext } from '../../providers/language/language.context';
-import { type Language } from '../../services/language/language.types';
-import { translate } from '../../services/language/language.service';
+import { type Language } from 'services/language/language.types';
+import { translate } from 'services/language/language.service';
 import { GOOGLE_CLIENT_ID } from '../../config/google';
 import {
   authenticateWithGoogle,
   type GoogleLoginResponse,
-} from '../../services/auth/auth.service';
+} from 'services/auth/auth.service';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 
@@ -342,3 +342,4 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     </>
   );
 };
+

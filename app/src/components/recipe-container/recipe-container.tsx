@@ -13,12 +13,12 @@ import Preparation from '../preparation/preparation';
 import NutrientDisplay from '../nutrient/nutrient';
 import './recipe-container.scss';
 import { ListItem } from '../list-item/list-item';
-import type { Food } from '../../services/food/food.model';
-import { type Recipe } from '../../services/recipe/recipe.model';
-import { type Nutrient } from '../../services/nutrient/nutrient.model';
+import type { Food } from 'services/food/food.model';
+import { type Recipe } from 'services/recipe/recipe.model';
+import { type Nutrient } from 'services/nutrient/nutrient.model';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
-import { formatNumber, roundToMaximumDecimals } from '../../services/number';
+import { translate } from 'services/language/language.service';
+import { formatNumber, roundToMaximumDecimals } from 'services/number';
 import { SectionCard } from 'notebook-layout';
 
 export interface RecipeContainerProps {
@@ -187,3 +187,4 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
 };
 
 export default RecipeContainer;
+

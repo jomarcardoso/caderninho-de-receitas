@@ -1,8 +1,8 @@
 import { type FC, type HTMLProps, useCallback, useContext } from 'react';
 import './aminoacids-table.scss';
-import type { Nutrient } from '../../services/nutrient/nutrient.model';
+import type { Nutrient } from 'services/nutrient/nutrient.model';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
+import { translate } from 'services/language/language.service';
 
 interface Props {
   essentialAminoAcids: Nutrient[];
@@ -106,3 +106,4 @@ const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
 };
 
 export default AminoAcidsTable;
+

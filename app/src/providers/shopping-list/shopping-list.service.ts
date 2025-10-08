@@ -1,4 +1,4 @@
-import type { Food } from '../../services/food/food.model';
+import type { Food } from 'services/food/food.model';
 import { ShoppingItem, ShoppingList } from './shopping-list.types';
 
 /**
@@ -69,3 +69,4 @@ export const ShoppingListService = {
   unformat,
   unprocess,
 };
+

@@ -1,95 +1,167 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import styles from "./page.module.css";
+import type { Metadata } from "next";
+import type { RecipeDto } from "@common/services/recipe";
+import type { RecipeStepDto } from "@common/services/recipe-step";
+import type { Language } from "@common/services/language/language.types";
 
-export default function Home() {
+const API_BASE_URL = process.env.RECIPES_API_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
+
+const FALLBACK_RECIPES: RecipeDto[] = [
+  {
+    id: 1,
+    language: "pt" satisfies Language,
+    name: "Bolo de Cenoura macio",
+    description:
+      "Clássico bolo de cenoura com cobertura de chocolate, perfeito para acompanhar o café da tarde.",
+    additional: "Rende uma forma média.",
+    steps: [
+      {
+        title: "Ingredientes",
+        preparation:
+          "Bata no liquidificador a cenoura, os ovos e o óleo até obter um creme homogêneo.",
+        additional: "Dica: use cenouras pequenas para um sabor mais adocicado.",
+        ingredientsText:
+          "3 cenouras médias raladas\n3 ovos\n1 xícara de óleo\n2 xícaras de açúcar\n2 e 1/2 xícaras de farinha de trigo\n1 colher de sopa de fermento",
+      },
+      {
+        title: "Cobertura",
+        preparation:
+          "Leve ao fogo a manteiga, o chocolate em pó, o leite e o açúcar, mexendo até engrossar. Cubra o bolo ainda morno.",
+        additional: "Finalize com granulado ou raspas de chocolate.",
+        ingredientsText:
+          "2 colheres de sopa de manteiga\n5 colheres de sopa de chocolate em pó\n1 xícara de açúcar\n1/2 xícara de leite",
+      },
+    ],
+  },
+  {
+    id: 2,
+    language: "pt" satisfies Language,
+    name: "Salada fresca de grão-de-bico",
+    description:
+      "Salada nutritiva com grão-de-bico, legumes e molho cítrico para refeições rápidas.",
+    additional: "Ideal para levar na marmita.",
+    steps: [
+      {
+        title: "Preparo",
+        preparation:
+          "Misture o grão-de-bico cozido com tomate, pepino, cebola roxa e salsinha. Tempere com azeite, limão, sal e pimenta-do-reino.",
+        additional: "Sirva gelada para realçar os sabores.",
+        ingredientsText:
+          "2 xícaras de grão-de-bico cozido\n1 tomate em cubos\n1/2 pepino em cubos\n1/2 cebola roxa fatiada\nSalsinha picada\nSuco de 1 limão\nAzeite, sal e pimenta a gosto",
+      },
+    ],
+  },
+];
+
+interface ApiRecipeResponse {
+  id?: number;
+  name?: string;
+  description?: string;
+  additional?: string;
+  language?: string;
+  steps?: RecipeStepDto[];
+}
+
+async function fetchRecipes(): Promise<RecipeDto[]> {
+  if (!API_BASE_URL) {
+    return FALLBACK_RECIPES;
+  }
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL.replace(/\/$/, "")}/api/Recipe/most-copied?quantity=6`,
+      {
+        next: { revalidate: 300 },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const data = (await response.json()) as ApiRecipeResponse[];
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return FALLBACK_RECIPES;
+    }
+
+    return data.map<RecipeDto>((recipe, index) => ({
+      id: recipe.id ?? index,
+      name: recipe.name ?? "Receita sem título",
+      description: recipe.description ?? "",
+      additional: recipe.additional ?? "",
+      language: (recipe.language?.toLowerCase() ?? "pt") as Language,
+      steps:
+        recipe.steps?.map<RecipeStepDto>((step) => ({
+          title: step.title ?? "",
+          preparation: step.preparation ?? "",
+          additional: step.additional ?? "",
+          ingredientsText: step.ingredientsText ?? "",
+        })) ?? [],
+    }));
+  } catch (error) {
+    console.error("Failed to load recipes", error);
+    return FALLBACK_RECIPES;
+  }
+}
+
+export const metadata: Metadata = {
+  title: "Caderninho de Receitas",
+  description:
+    "Descubra receitas práticas e deliciosas para o dia a dia. Tudo organizado no seu caderninho digital.",
+};
+
+export default async function Home() {
+  const recipes = await fetchRecipes();
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
+      <header className={styles.hero}>
         <Image
           className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
+          src="/vercel.svg"
+          alt="Caderninho de Receitas"
+          width={72}
+          height={72}
           priority
         />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <h1>Caderninho de Receitas</h1>
+        <p>
+          Uma seleção de receitas preparadas com carinho para inspirar o seu próximo prato. Tudo pronto para ser
+          compartilhado.
+        </p>
+      </header>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <section className={styles.grid}>
+        {recipes.map((recipe) => (
+          <article key={recipe.id} className={styles.card}>
+            <h2>{recipe.name}</h2>
+            {recipe.description && <p className={styles.description}>{recipe.description}</p>}
+
+            {recipe.steps.length > 0 && (
+              <div className={styles.steps}>
+                <h3>Modo de preparo</h3>
+                <ol>
+                  {recipe.steps.map((step, index) => (
+                    <li key={index}>
+                      {step.title && <strong>{step.title}</strong>}
+                      {step.ingredientsText && (
+                        <pre className={styles.ingredients}>{step.ingredientsText}</pre>
+                      )}
+                      <p>{step.preparation}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+          </article>
+        ))}
+      </section>
     </div>
   );
 }
+

@@ -8,7 +8,7 @@ import {
 } from 'react';
 import './layout.scss';
 import Footer, { type FooterProps } from '../footer/footer';
-import { generateClasses } from '../../services/dom/classes';
+import { generateClasses } from 'services/dom/classes';
 import NotebookTabs, {
   type NotebookTabsProps,
 } from '../notebook-tabs/notebook-tabs';
@@ -96,3 +96,4 @@ const Layout: FC<LayoutProps> = forwardRef(
 );
 
 export default Layout;
+

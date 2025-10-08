@@ -1,7 +1,7 @@
-import { BEAN } from '../../db/beans';
-import { CINNAMON } from '../../db/c';
-import { FOOD } from '../../services/food';
-import { FoodDataService } from '../../services/food-data';
+import { BEAN } from 'db/beans';
+import { CINNAMON } from 'db/c';
+import { FOOD } from 'services/food';
+import { FoodDataService } from 'services/food-data';
 import { ShoppingListService } from './shopping-list.service';
 import { ShoppingList } from './shopping-list.types';
 
@@ -198,3 +198,5 @@ describe('ShoppingListService', () => {
     } as ShoppingList);
   });
 });
+
+

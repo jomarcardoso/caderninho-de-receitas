@@ -1,6 +1,6 @@
 import { useMemo, type FC, type HTMLProps, type ReactNode } from 'react';
 import './footer.scss';
-import { generateClasses } from '../../services/dom/classes';
+import { generateClasses } from 'services/dom/classes';
 import { SemanticButton } from '../semantic-button';
 import type { SemanticButtonProps } from '../semantic-button';
 
@@ -55,3 +55,4 @@ const Footer: FC<FooterProps> = ({
 };
 
 export default Footer;
+

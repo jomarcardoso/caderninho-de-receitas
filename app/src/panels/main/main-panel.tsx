@@ -10,9 +10,9 @@ import { UserBox } from '../../components/user-box/user-box';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import { useScroll } from '../../hooks/use-scroll';
 // import { ShoppingList } from '../../components/shopping-list';
-import type { Recipe } from '../../services/recipe/recipe.model';
+import type { Recipe } from 'services/recipe/recipe.model';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
+import { translate } from 'services/language/language.service';
 
 /* <div className="main__story-partner">
 <ChefSvg style={{ mixBlendMode: 'multiply' }} />
@@ -112,3 +112,4 @@ const MainPanel: FC = () => {
 };
 
 export default MainPanel;
+

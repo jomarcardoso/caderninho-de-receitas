@@ -15,11 +15,11 @@ import PizzaSvg from 'images/svg/history/pizza.svg?react';
 import {
   RECIPE_STEP_DTO,
   type RecipeStepDto,
-} from '../../services/recipe-step';
-import type { RecipeDto } from '../../services/recipe/recipe.dto';
+} from 'services/recipe-step';
+import type { RecipeDto } from 'services/recipe/recipe.dto';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
-import { generateId } from '../../services/string.service';
+import { translate } from 'services/language/language.service';
+import { generateId } from 'services/string.service';
 import { Field } from 'notebook-layout';
 
 interface RecipeStepDtoWithKeyId extends RecipeStepDto {
@@ -289,3 +289,4 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
 };
 
 export default RecipeRegisterForm;
+

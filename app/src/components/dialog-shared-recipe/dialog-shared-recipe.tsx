@@ -1,14 +1,14 @@
 import { type FC, type HTMLProps, useContext } from 'react';
 import { useSharedRecipe } from '../../hooks/use-shared-recipe';
 import RecipeContainer from '../recipe-container/recipe-container';
-import type { Recipe } from '../../services/recipe';
+import type { Recipe } from 'services/recipe';
 import Dialog from '../dialog/dialog';
 import { Button } from 'notebook-layout';
 import SubmitComponent from '../submit';
 import './dialog-shared-recipe.scss';
 import { useData } from '../../providers';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
+import { translate } from 'services/language/language.service';
 
 export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
   const { sharedRecipe, setSharedRecipe } = useSharedRecipe();
@@ -57,3 +57,4 @@ export const DialogSharedRecipe: FC<HTMLProps<HTMLDivElement>> = () => {
     </Dialog>
   );
 };
+

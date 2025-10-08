@@ -1,6 +1,6 @@
 // import { useEffect, useState } from 'react';
-// import { ShareService } from '../services/url/share.service';
-// import { RecipeDto } from '../services/recipe/recipe.dto';
+// import { ShareService } from 'services/url/share.service';
+// import { RecipeDto } from 'services/recipe/recipe.dto';
 
 // export function useSharedRecipe() {
 //   const [sharedRecipe, setSharedRecipe] = useState<RecipeDto | null>();
@@ -29,3 +29,4 @@
 //     setSharedRecipe: handleRecipeId,
 //   };
 // }
+

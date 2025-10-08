@@ -1,6 +1,6 @@
 import { type FC, type HTMLProps } from 'react';
 import './notebook-tabs.scss';
-import { generateClasses } from '../../services/dom/classes';
+import { generateClasses } from 'services/dom/classes';
 
 interface NotebookTabProps extends HTMLProps<HTMLLIElement> {
   link?: string;
@@ -36,3 +36,4 @@ const NotebookTabs: FC<NotebookTabsProps> = ({
 };
 
 export default NotebookTabs;
+

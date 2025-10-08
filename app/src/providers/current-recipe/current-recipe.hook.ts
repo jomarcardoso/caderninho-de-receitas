@@ -4,7 +4,7 @@ import { StorageService } from '../../storage';
 import { currentRecipeReducer } from './current-recipe.reducer';
 import { DataContext } from '../data/data.context';
 import { last } from 'lodash';
-import type { Recipe } from '../../services/recipe/recipe.model';
+import type { Recipe } from 'services/recipe/recipe.model';
 import type { CurrentRecipeContextProps } from './current-recipe.context';
 
 let initialRecipeId = 0;
@@ -60,3 +60,4 @@ export const useRecipe = (): CurrentRecipeContextProps => {
     restoreLastRecipe,
   };
 };
+

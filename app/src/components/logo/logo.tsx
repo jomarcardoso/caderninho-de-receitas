@@ -1,8 +1,8 @@
 import { type FC, useMemo, useContext } from 'react';
 import './logo.scss';
-import { generateClasses } from '../../services/dom/classes';
+import { generateClasses } from 'services/dom/classes';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
+import { translate } from 'services/language/language.service';
 
 const Logo: FC<{ active?: boolean; contrast?: boolean }> = ({
   active = false,
@@ -26,3 +26,4 @@ const Logo: FC<{ active?: boolean; contrast?: boolean }> = ({
 };
 
 export default Logo;
+

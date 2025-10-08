@@ -1,10 +1,10 @@
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
-import type { FoodData } from '../services/food';
+import type { FoodData } from 'services/food';
 import { FoodMyFoodData, FoodNacional } from './db.types';
-import { AMINO_ACIDS } from '../services/amino-acid';
-import { VITAMINS_DATA } from '../services/vitamin/vitamin.constants';
-import { MINERALS_DATA } from '../services/mineral';
+import { AMINO_ACIDS } from 'services/amino-acid';
+import { VITAMINS_DATA } from 'services/vitamin/vitamin.constants';
+import { MINERALS_DATA } from 'services/mineral';
 
 export function verifyQuantity<T>(objValue: T, srcValue: T): T {
   if (isNumber(objValue)) {
@@ -159,3 +159,4 @@ export function formatMyFood(food: FoodMyFoodData): FoodData {
     zinc: food.ZN || 0,
   };
 }
+

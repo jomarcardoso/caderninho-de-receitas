@@ -2,9 +2,9 @@ import { type FC, useContext } from 'react';
 import Image from '../image/image';
 import { SemanticButton } from '../semantic-button';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
-import type { Ingredient } from '../../services/ingredient/ingredient.model';
-import type { Food } from '../../services/food/food.model';
+import { translate } from 'services/language/language.service';
+import type { Ingredient } from 'services/ingredient/ingredient.model';
+import type { Food } from 'services/food/food.model';
 import { Section, type SectionProps } from 'notebook-layout';
 
 interface Props {
@@ -70,3 +70,4 @@ const Ingredients: FC<IngredientsProps> = ({
 };
 
 export default Ingredients;
+

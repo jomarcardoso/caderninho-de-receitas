@@ -4,10 +4,10 @@ import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
 import NutrientDisplay from '../nutrient/nutrient';
 import { ListItem } from '../list-item/list-item';
 import round from 'lodash/round';
-import type { Food } from '../../services/food/food.model';
-import type { Nutrient } from '../../services/nutrient/nutrient.model';
+import type { Food } from 'services/food/food.model';
+import type { Nutrient } from 'services/nutrient/nutrient.model';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
+import { translate } from 'services/language/language.service';
 
 interface FoodDetailedProps extends HTMLProps<HTMLDivElement> {
   food: Food;
@@ -101,3 +101,4 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 };
 
 export default FoodDetailed;
+

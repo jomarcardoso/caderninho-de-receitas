@@ -10,8 +10,8 @@ import Header from './components/root-header/root-header';
 import './app.scss';
 // import { DialogSharedRecipe } from '../../components/dialog-shared-recipe/dialog-shared-recipe';
 import { LanguageContext } from './providers/language/language.context';
-import { translate } from './services/language/language.service';
-import type { Food } from './services/food/food.model';
+import { translate } from 'services/language/language.service';
+import type { Food } from 'services/food/food.model';
 
 export type AppProps = HTMLProps<HTMLDivElement>;
 
@@ -59,3 +59,4 @@ export const App: FC<AppProps> = (props) => {
     </>
   );
 };
+

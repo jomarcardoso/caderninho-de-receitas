@@ -6,7 +6,7 @@ import {
   useId,
 } from 'react';
 import './chips.scss';
-import { generateClasses } from '../../services/dom/classes';
+import { generateClasses } from 'services/dom/classes';
 
 const NameContext = createContext<string>('');
 
@@ -53,3 +53,4 @@ export const Chips: FC<ChipsProps> = ({
     </NameContext.Provider>
   );
 };
+

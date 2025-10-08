@@ -1,4 +1,4 @@
-import type { Food } from '../../services/food/food.model';
+import type { Food } from 'services/food/food.model';
 
 export interface ShoppingListData {
   list: string;
@@ -15,3 +15,4 @@ export interface ShoppingList {
   text: string;
   list: ShoppingItem[];
 }
+

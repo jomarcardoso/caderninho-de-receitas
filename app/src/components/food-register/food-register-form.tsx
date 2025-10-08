@@ -1,8 +1,8 @@
 import { type FC, type HTMLProps, useCallback, useContext } from 'react';
 import type { FormikProps } from 'formik';
-import type { Food } from '../../services/food/food.model';
+import type { Food } from 'services/food/food.model';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
+import { translate } from 'services/language/language.service';
 import { Field } from 'notebook-layout';
 
 export interface FoodRegisterFormProps {
@@ -87,3 +87,4 @@ export const FoodRegisterForm: FC<
     </div>
   );
 };
+

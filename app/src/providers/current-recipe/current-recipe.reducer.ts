@@ -1,5 +1,5 @@
 import type { Reducer } from 'react';
-import type { Recipe } from '../../services/recipe/recipe.model';
+import type { Recipe } from 'services/recipe/recipe.model';
 
 interface State {
   recipe?: Recipe;
@@ -35,3 +35,4 @@ export const currentRecipeReducer: Reducer<State, Action> = (state, action) => {
 
   return state;
 };
+

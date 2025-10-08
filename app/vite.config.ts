@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+﻿import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
@@ -35,6 +35,19 @@ export default defineConfig({
   resolve: {
     alias: {
       images: path.resolve(__dirname, 'src/assets/images'),
+      services: path.resolve(__dirname, '../common/src/services'),
+      db: path.resolve(__dirname, '../common/src/db'),
+      '@common': path.resolve(__dirname, '../common/src'),
+    },
+  },
+  server: {
+    fs: {
+      // Explicitly allow both the app root and the shared `common` folder on Windows
+      allow: [
+        path.resolve(__dirname),
+        path.resolve(__dirname, '../common'),
+      ],
     },
   },
 });
+

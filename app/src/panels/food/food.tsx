@@ -12,8 +12,8 @@ import './food.scss';
 // import { FoodRegister } from '../../components/food-register/food-register';
 import { IoCreateOutline } from 'react-icons/io5';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
-import type { Food } from '../../services/food/food.model';
+import { translate } from 'services/language/language.service';
+import type { Food } from 'services/food/food.model';
 
 interface Props extends LayoutProps {
   food?: Food;
@@ -80,3 +80,4 @@ const FoodPanel: FC<Props> = forwardRef(
 );
 
 export default FoodPanel;
+

@@ -3,7 +3,7 @@ import { type FC, useContext } from 'react';
 import { IoCartOutline } from 'react-icons/io5';
 import { InteractiveField } from '../interactive-field/interactive-field';
 import { LanguageContext } from '../../providers/language/language.context';
-import { translate } from '../../services/language/language.service';
+import { translate } from 'services/language/language.service';
 
 export const ShoppingList: FC = () => {
   const { language } = useContext(LanguageContext);
@@ -36,3 +36,4 @@ export const ShoppingList: FC = () => {
     </div>
   );
 };
+

@@ -1,7 +1,7 @@
 import { useContext, type FC } from 'react';
-import { formatNumber, roundToMaximumDecimals } from '../../services/number';
+import { formatNumber, roundToMaximumDecimals } from 'services/number';
 import { LanguageContext } from '../../providers/language/language.context';
-import type { Nutrient } from '../../services/nutrient/nutrient.model';
+import type { Nutrient } from 'services/nutrient/nutrient.model';
 
 const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({ nutrient }) => {
   if (!nutrient.quantity) return null;
@@ -28,3 +28,4 @@ const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({ nutrient }) => {
 };
 
 export default NutrientDisplay;
+

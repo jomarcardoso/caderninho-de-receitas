@@ -193,7 +193,7 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
   if (!id) return RECIPES_DATA;
 
   try {
-    const res = await fetch('http://localhost:5106/api/recipe', {
+    const res = await fetch(`http://localhost:5106/api/recipe/${id}`, {
       method: 'DELETE',
     });
     if (!res.ok) {

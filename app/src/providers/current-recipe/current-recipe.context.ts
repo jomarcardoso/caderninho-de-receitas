@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import type { Recipe } from '../../services/recipe/recipe.model';
+import type { Recipe } from 'services/recipe/recipe.model';
 
 export interface CurrentRecipeContextProps {
   currentRecipe?: Recipe;
@@ -10,3 +10,4 @@ export interface CurrentRecipeContextProps {
 const CurrentRecipeContext = createContext<CurrentRecipeContextProps>({});
 
 export default CurrentRecipeContext;
+

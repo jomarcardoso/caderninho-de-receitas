@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -139,7 +139,7 @@ public class RecipeImageOcrService : IDisposable
     {
       string trimmed = token.Trim();
 
-      if (aliases.TryGetValue(trimmed, out var mapped) && !string.IsNullOrWhiteSpace(mapped))
+      if (aliases.TryGetValue(trimmed, out string mapped) && !string.IsNullOrWhiteSpace(mapped))
       {
         trimmed = mapped;
       }
@@ -220,6 +220,9 @@ private static Dictionary<string, string> GetLanguageAliases()
     disposed = true;
   }
 }
+
+
+
 
 
 

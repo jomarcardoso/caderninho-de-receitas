@@ -2,7 +2,7 @@ import { type FC, type HTMLProps, useEffect, useState } from 'react';
 import { LanguageContext } from './language.context';
 import { STORAGE_LANGUAGE } from '../../storage/storage.service';
 import { StorageService } from '../../storage';
-import { type Language } from '../../services/language/language.types';
+import { type Language } from 'services/language/language.types';
 
 let initialLanguage: Language = 'pt';
 
@@ -29,3 +29,4 @@ export const LanguageProvider: FC<HTMLProps<Element>> = ({ children }) => {
     </LanguageContext.Provider>
   );
 };
+

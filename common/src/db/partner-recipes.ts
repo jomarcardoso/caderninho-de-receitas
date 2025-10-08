@@ -1,4 +1,4 @@
-import type { Recipe } from '../services/recipe';
+import type { Recipe } from 'services/recipe';
 
 export const recipes: Array<Recipe> = [
   {
@@ -815,3 +815,4 @@ Numa tigela coloque a cebola, o tomate, a salsinha e a hortelã picados. Tempere
     lastUpdate: 1657158241946,
   },
 ];
+

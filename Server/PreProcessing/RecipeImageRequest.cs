@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace Server.PreProcessing;
 
@@ -8,3 +8,4 @@ public class RecipeImageRequest
   public string? Language { get; set; }
   public bool? IsPublic { get; set; }
 }
+

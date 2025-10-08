@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import type { RecipesData } from '../../services/recipe/recipe.model';
-import type { RecipeDto } from '../../services/recipe/recipe.dto';
-import { RECIPES_DATA } from '../../services/recipe/recipe.data';
+import type { RecipesData } from 'services/recipe/recipe.model';
+import type { RecipeDto } from 'services/recipe/recipe.dto';
+import { RECIPES_DATA } from 'services/recipe/recipe.data';
 
 export interface DataContextProps {
   data: RecipesData;
@@ -12,3 +12,4 @@ export interface DataContextProps {
 export const DataContext = createContext<DataContextProps>({
   data: RECIPES_DATA,
 });
+

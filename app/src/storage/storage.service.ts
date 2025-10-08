@@ -1,7 +1,7 @@
-import { type Language } from '../services/language/language.types';
-import type { RecipeDto } from '../services/recipe/recipe.dto';
-import type { Recipe } from '../services/recipe/recipe.model';
-import { mapRecipeModelToDto } from '../services/recipe/recipe.service';
+import { type Language } from 'services/language/language.types';
+import type { RecipeDto } from 'services/recipe/recipe.dto';
+import type { Recipe } from 'services/recipe/recipe.model';
+import { mapRecipeModelToDto } from 'services/recipe/recipe.service';
 
 export interface GlobalObject {
   isSharedUrl: boolean;
@@ -50,3 +50,4 @@ export function getCurrentRecipe(): RecipeDto | undefined {
 
   return JSON.parse(recipe);
 }
+
