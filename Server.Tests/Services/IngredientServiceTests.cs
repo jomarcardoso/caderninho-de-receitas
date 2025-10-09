@@ -273,10 +273,12 @@ public class IngredientServiceTests
   [TestCase("2 dentes de alho", MeasureType.Clove, 2d, 6d)]
   [TestCase("2 xícaras (chá) de água", MeasureType.Cup, 2d, 480d)]
   [TestCase("4 xícaras (chá) de água", MeasureType.Cup, 4d, 960d)]
+  [TestCase("⅓ de xícara (chá) de queijo parmesão ralado fino", MeasureType.Cup, 1d / 3d, 100d / 3d)]
   [TestCase("6 colheres (sopa) de tahine (pasta de gergelim)", MeasureType.Spoon, 6d, 54d)]
   [TestCase("6 colheres (sopa) de caldo de limão (cerca de 2 unidades)", MeasureType.Spoon, 6d, 90d)]
   [TestCase("2 xícaras de café de água", MeasureType.SmallCup, 2d, 140d)]
   [TestCase("1 glass of water", MeasureType.Glass, 1d, 190d)]
+  [TestCase("⅓ de xícara (chá) de queijo parmesão ralado fino", MeasureType.Cup, 1d / 3d, 100d / 3d)]
   public async Task ToEntity_ParsesTexts_CommonCases(string input, MeasureType expectedType, double expectedMeasureQty, double expectedQuantity)
   {
     var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
@@ -314,6 +316,58 @@ public class IngredientServiceTests
     Assert.That(ingredient.MeasureType, Is.EqualTo(expectedType));
     Assert.That(ingredient.MeasureQuantity, Is.EqualTo(expectedMeasureQty).Within(0.0001));
     Assert.That(ingredient.Quantity, Is.EqualTo(expectedQuantity).Within(0.0001));
+  }
+
+  [TestCase("1/3 de xícara (chá) de queijo parmesão ralado fino", 100d / 3d)]
+  [TestCase("um terço de xícara (chá) de queijo parmesão ralado fino", 100d / 3d)]
+  public async Task ToEntity_Parmesan_FractionVariants(string input, double expectedQuantity)
+  {
+    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
+    Assert.That(File.Exists(path), Is.True, $"Arquivo não encontrado: {path}");
+
+    var json = File.ReadAllText(path);
+    var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+    var fixtures = System.Text.Json.JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = fixtures
+      .Select((fixture, index) => new Food
+      {
+        Id = index + 1,
+        Name = fixture.Name ?? new LanguageText(),
+        Keys = fixture.Keys ?? new LanguageText(),
+        MeasurementUnit = Enum.TryParse<MeasurementUnit>(fixture.MeasurementUnit, true, out var mu) ? mu : MeasurementUnit.Gram,
+        Measures = fixture.Measures?.ToModel() ?? new Measure()
+      })
+      .ToList();
+
+    localContext.Food.AddRange(foods);
+    localContext.SaveChanges();
+
+    localService.Text = input;
+    var ingredient = await localService.ToEntity();
+
+    // Measure type and quantity
+    Assert.That(ingredient.MeasureType, Is.EqualTo(MeasureType.Cup));
+    Assert.That(ingredient.Quantity, Is.EqualTo(expectedQuantity).Within(0.0001));
+
+    // Heuristic check: resolved food should be parmesan (contains "parmes" in name/keys or has cup=100)
+    var namePt = ingredient.Food.Name?.Pt ?? string.Empty;
+    var nameEn = ingredient.Food.Name?.En ?? string.Empty;
+    var keysPt = ingredient.Food.Keys?.Pt ?? string.Empty;
+    var keysEn = ingredient.Food.Keys?.En ?? string.Empty;
+    var looksLikeParmesan =
+      (namePt + nameEn + keysPt + keysEn).ToLowerInvariant().Contains("parmes") ||
+      (ingredient.Food.Measures?.Cup ?? 0) == 100;
+
+    Assert.That(looksLikeParmesan, Is.True, "Resolved food does not look like Parmesan");
   }
 
   [Test]
@@ -445,5 +499,3 @@ public class IngredientServiceTests
     };
   }
 }
-
-

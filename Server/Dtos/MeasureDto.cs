@@ -7,6 +7,7 @@ public static class MeasureData
   public static readonly Dictionary<MeasureType, LanguageTextAndPluralBase> Map = new()
   {
     { MeasureType.Cup, new LanguageTextAndPluralBase { Text = new LanguageTextBase { En = "Cup", Pt = "Xícara" }, PluralText = new LanguageTextBase { En = "Cups", Pt = "Xícaras" } } },
+    { MeasureType.SmallCup, new LanguageTextAndPluralBase { Text = new LanguageTextBase { En = "Expresso Cup", Pt = "Xícara de café" }, PluralText = new LanguageTextBase { En = "Expresso Cups", Pt = "Xícaras de café" } } },
     { MeasureType.Spoon, new LanguageTextAndPluralBase { Text = new LanguageTextBase { En = "Tablespoon", Pt = "Colher de Sopa" }, PluralText = new LanguageTextBase { En = "Tablespoons", Pt = "Colheres de Sopa" } } },
     { MeasureType.TeaSpoon, new LanguageTextAndPluralBase { Text = new LanguageTextBase { En = "Teaspoon", Pt = "Colher de Chá" }, PluralText = new LanguageTextBase { En = "Teaspoons", Pt = "Colheres de Chá" } } },
     { MeasureType.Unity, new LanguageTextAndPluralBase { Text = new LanguageTextBase { En = "Unit", Pt = "Unidade" }, PluralText = new LanguageTextBase { En = "Units", Pt = "Unidades" } } },

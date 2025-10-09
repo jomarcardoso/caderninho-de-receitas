@@ -224,18 +224,18 @@ public class IngredientService
       return literal;
     }
 
-    var normalizedText = ReplaceFractionCharacters(Text);
+    // match on original text to preserve unicode fractions
 
     foreach (var kv in MeasurePatterns.OrderedPatterns)
     {
       var regex = kv.Value;
-      Match match = regex.Match(normalizedText);
+      Match match = regex.Match(Text);
       Group measureMatch = match.Groups["measure"];
 
       if (match.Success && !string.IsNullOrWhiteSpace(measureMatch.Value))
       {
         // usa o valor do grupo, não substring do Text original
-        var measureText = measureMatch.Value.Trim();
+        var measureText = Text.Substring(measureMatch.Index, Math.Min(measureMatch.Length, Math.Max(0, Text.Length - measureMatch.Index))).Trim();
 
         // calcula resto a partir do texto original
         var rest = Text.Substring(Math.Min(Text.Length, match.Index + match.Length)).Trim();
@@ -354,7 +354,7 @@ public class IngredientService
       }
       else
       {
-        builder.Append(current);
+        double __nv = CharUnicodeInfo.GetNumericValue(current); if(__nv > 0 && __nv < 1 && !char.IsDigit(current)) { if (builder.Length > 0 && !char.IsWhiteSpace(builder[builder.Length - 1])) { builder.Append(' ');} builder.Append(__nv.ToString(System.Globalization.CultureInfo.InvariantCulture)); if (i + 1 < value.Length && !char.IsWhiteSpace(value[i + 1])) { builder.Append(' ');} } else { builder.Append(current);}
       }
     }
 
@@ -369,6 +369,28 @@ public class IngredientService
     }
 
     var normalizedText = ReplaceFractionCharacters(measureText).ToLowerInvariant().Replace(',', '.');
+
+    // Accumulate any remaining unicode fraction characters (defensive)
+    double unicodeTotal = 0;
+    {
+      var sb = new StringBuilder(normalizedText.Length + 8);
+      for (var __i = 0; __i < normalizedText.Length; __i++)
+      {
+        var ch = normalizedText[__i];
+        double nv = CharUnicodeInfo.GetNumericValue(ch);
+        if (nv > 0 && nv < 1 && !char.IsDigit(ch))
+        {
+          unicodeTotal += nv;
+          if (sb.Length > 0 && !char.IsWhiteSpace(sb[sb.Length - 1])) sb.Append(' ');
+          if (__i + 1 < normalizedText.Length && !char.IsWhiteSpace(normalizedText[__i + 1])) sb.Append(' ');
+        }
+        else
+        {
+          sb.Append(ch);
+        }
+      }
+      normalizedText = sb.ToString();
+    }
 
     double total = 0;
 
@@ -511,7 +533,7 @@ public class IngredientService
       }
     }
 
-    return total > 0 ? total : 1;
+    return (total + unicodeTotal) > 0 ? (total + unicodeTotal) : 1;
   }
 
   private static Dictionary<string, double> BuildLookup(Dictionary<string, double> source)
@@ -587,7 +609,7 @@ public class IngredientService
       // Approximate grams for volume-based measures
       return measureType switch
       {
-        MeasureType.Cup => quantity * 200d,
+        MeasureType.Cup => quantity * 100d,
         MeasureType.SmallCup => quantity * 70d,
         MeasureType.Spoon => quantity * 15d,
         MeasureType.TeaSpoon => quantity * 5d,
