@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Server.Services;
 using Server.Models;
@@ -218,4 +218,232 @@ public class IngredientServiceTests
 
     Assert.That(result, Is.EqualTo(expected).Within(0.0001));
   }
+
+  [TestCase("1 lata de tomate pelado em cubos", MeasureType.Can, 1d, 400d)]
+  [TestCase("uma lata de tomate em cubos", MeasureType.Can, 1d, 400d)]
+  [TestCase("1 lata de tomates picados", MeasureType.Can, 1d, 400d)]
+  [TestCase("1 lata de tomate", MeasureType.Can, 1d, 400d)]
+  [TestCase("1 lata de tomates", MeasureType.Can, 1d, 400d)]
+  public async Task ToEntity_ParsesText_UsingFoodMeasures(string input, MeasureType expectedType, double expectedMeasureQty, double expectedQuantity)
+  {
+    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
+    Assert.That(File.Exists(path), Is.True, $"Arquivo não encontrado: {path}");
+
+    var json = File.ReadAllText(path);
+    var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+    var fixtures = System.Text.Json.JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = fixtures
+      .Select((fixture, index) => new Food
+      {
+        Id = index + 1,
+        Name = fixture.Name ?? new LanguageText(),
+        Keys = fixture.Keys ?? new LanguageText(),
+        MeasurementUnit = Enum.TryParse<MeasurementUnit>(fixture.MeasurementUnit, true, out var mu) ? mu : MeasurementUnit.Gram,
+        Measures = fixture.Measures?.ToModel() ?? new Measure()
+      })
+      .ToList();
+
+    localContext.Food.AddRange(foods);
+    localContext.SaveChanges();
+
+    localService.Text = input;
+    var ingredient = await localService.ToEntity();
+
+    Assert.That(ingredient.MeasureType, Is.EqualTo(expectedType));
+    Assert.That(ingredient.MeasureQuantity, Is.EqualTo(expectedMeasureQty).Within(0.0001));
+    Assert.That(ingredient.Quantity, Is.EqualTo(expectedQuantity).Within(0.0001));
+
+    var names = new[] { ingredient.Food.Name.Pt, ingredient.Food.Name.En }
+      .Where(n => !string.IsNullOrWhiteSpace(n))
+      .Select(n => n.Trim())
+      .ToList();
+    Assert.That(names, Does.Contain("Tomate").Or.Contain("Tomato"));
+  }
+
+  [TestCase("2 dentes de alho", MeasureType.Clove, 2d, 6d)]
+  [TestCase("2 xícaras (chá) de água", MeasureType.Cup, 2d, 480d)]
+  [TestCase("4 xícaras (chá) de água", MeasureType.Cup, 4d, 960d)]
+  [TestCase("6 colheres (sopa) de tahine (pasta de gergelim)", MeasureType.Spoon, 6d, 54d)]
+  [TestCase("6 colheres (sopa) de caldo de limão (cerca de 2 unidades)", MeasureType.Spoon, 6d, 90d)]
+  [TestCase("2 xícaras de café de água", MeasureType.SmallCup, 2d, 140d)]
+  [TestCase("1 glass of water", MeasureType.Glass, 1d, 190d)]
+  public async Task ToEntity_ParsesTexts_CommonCases(string input, MeasureType expectedType, double expectedMeasureQty, double expectedQuantity)
+  {
+    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
+    Assert.That(File.Exists(path), Is.True, $"Arquivo não encontrado: {path}");
+
+    var json = File.ReadAllText(path);
+    var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+    var fixtures = System.Text.Json.JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = fixtures
+      .Select((fixture, index) => new Food
+      {
+        Id = index + 1,
+        Name = fixture.Name ?? new LanguageText(),
+        Keys = fixture.Keys ?? new LanguageText(),
+        MeasurementUnit = Enum.TryParse<MeasurementUnit>(fixture.MeasurementUnit, true, out var mu) ? mu : MeasurementUnit.Gram,
+        Measures = fixture.Measures?.ToModel() ?? new Measure()
+      })
+      .ToList();
+
+    localContext.Food.AddRange(foods);
+    localContext.SaveChanges();
+
+    localService.Text = input;
+    var ingredient = await localService.ToEntity();
+
+    Assert.That(ingredient.MeasureType, Is.EqualTo(expectedType));
+    Assert.That(ingredient.MeasureQuantity, Is.EqualTo(expectedMeasureQty).Within(0.0001));
+    Assert.That(ingredient.Quantity, Is.EqualTo(expectedQuantity).Within(0.0001));
+  }
+
+  [Test]
+  public async Task ToEntity_ParsesLiteral_ToTaste()
+  {
+    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
+    Assert.That(File.Exists(path), Is.True, $"Arquivo não encontrado: {path}");
+
+    var json = File.ReadAllText(path);
+    var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+    var fixtures = System.Text.Json.JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = fixtures
+      .Select((fixture, index) => new Food
+      {
+        Id = index + 1,
+        Name = fixture.Name ?? new LanguageText(),
+        Keys = fixture.Keys ?? new LanguageText(),
+        MeasurementUnit = Enum.TryParse<MeasurementUnit>(fixture.MeasurementUnit, true, out var mu) ? mu : MeasurementUnit.Gram,
+        Measures = fixture.Measures?.ToModel() ?? new Measure()
+      })
+      .ToList();
+
+    localContext.Food.AddRange(foods);
+    localContext.SaveChanges();
+
+    localService.Text = "sal a gosto";
+    var ingredient = await localService.ToEntity();
+
+    Assert.That(ingredient.MeasureType, Is.EqualTo(MeasureType.Literal));
+  }
+
+  private sealed class FoodFixtureFull
+  {
+    [System.Text.Json.Serialization.JsonPropertyName("name")]
+    public LanguageText Name { get; set; } = new();
+
+    [System.Text.Json.Serialization.JsonPropertyName("keys")]
+    public LanguageText Keys { get; set; } = new();
+
+    [System.Text.Json.Serialization.JsonPropertyName("measurementUnit")]
+    public string MeasurementUnit { get; set; } = string.Empty;
+
+    [System.Text.Json.Serialization.JsonPropertyName("measures")]
+    public MeasureFixture Measures { get; set; } = new();
+  }
+
+  private sealed class MeasureFixture
+  {
+    [System.Text.Json.Serialization.JsonPropertyName("cup")]
+    public System.Text.Json.JsonElement? Cup { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("spoon")]
+    public System.Text.Json.JsonElement? Spoon { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("teaSpoon")]
+    public System.Text.Json.JsonElement? TeaSpoon { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("unity")]
+    public System.Text.Json.JsonElement? Unity { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("unitySmall")]
+    public System.Text.Json.JsonElement? UnitySmall { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("unityLarge")]
+    public System.Text.Json.JsonElement? UnityLarge { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("can")]
+    public System.Text.Json.JsonElement? Can { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("glass")]
+    public System.Text.Json.JsonElement? Glass { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("breast")]
+    public System.Text.Json.JsonElement? Breast { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("clove")]
+    public System.Text.Json.JsonElement? Clove { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("slice")]
+    public System.Text.Json.JsonElement? Slice { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("bunch")]
+    public System.Text.Json.JsonElement? Bunch { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("pinch")]
+    public System.Text.Json.JsonElement? Pinch { get; set; }
+
+    private static double? ParseNullable(System.Text.Json.JsonElement? value)
+    {
+      if (value is null) return null;
+      var el = value.Value;
+      if (el.ValueKind == System.Text.Json.JsonValueKind.Number)
+      {
+        if (el.TryGetDouble(out var dnum)) return dnum;
+      }
+      else if (el.ValueKind == System.Text.Json.JsonValueKind.String)
+      {
+        var s = el.GetString();
+        if (double.TryParse(s, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var d))
+          return d;
+      }
+      return null;
+    }
+
+    public Measure ToModel() => new Measure
+    {
+      Cup = ParseNullable(Cup),
+      Spoon = ParseNullable(Spoon),
+      TeaSpoon = ParseNullable(TeaSpoon),
+      Unity = ParseNullable(Unity),
+      UnitySmall = ParseNullable(UnitySmall),
+      UnityLarge = ParseNullable(UnityLarge),
+      Can = ParseNullable(Can),
+      Glass = ParseNullable(Glass),
+      Breast = ParseNullable(Breast),
+      Clove = ParseNullable(Clove),
+      Slice = ParseNullable(Slice),
+      Bunch = ParseNullable(Bunch),
+      Pinch = ParseNullable(Pinch)
+    };
+  }
 }
+
+

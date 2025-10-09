@@ -3,6 +3,7 @@ namespace Server.Shared;
 public enum MeasureType
 {
   Cup,
+  SmallCup,
   Spoon,
   TeaSpoon,
   Unity,
@@ -25,6 +26,7 @@ public enum MeasureType
 public enum FoodMeasureType
 {
   Cup,
+  SmallCup,
   Spoon,
   TeaSpoon,
   Unity,
@@ -42,6 +44,7 @@ public enum FoodMeasureType
 public class MeasureBase
 {
   public double? Cup { get; set; }
+  public double? SmallCup { get; set; }
   public double? Spoon { get; set; }
   public double? TeaSpoon { get; set; }
   public double? Unity { get; set; }

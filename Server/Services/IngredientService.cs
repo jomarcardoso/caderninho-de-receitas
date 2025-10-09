@@ -1,4 +1,4 @@
-using System.Globalization;
+ï»¿using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Server.Models;
@@ -13,13 +13,14 @@ public static class MeasurePatterns
 {
   private const RegexOptions PatternOptions = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled;
 
-  private const string NumberWordsPt = @"(\d+(?:[.,]\d+)?(?:[\u00BC-\u00BE\u2150-\u215E\u2189])?|[\u00BC-\u00BE\u2150-\u215E\u2189]|um[a]?|dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze)";
-  private const string PartialWordsPt = @"(mei(o|a)|1/2|metade|um terço|1/3|dois terços|2/3|um quarto|1/4|três quartos|3/4)";
+  private const string NumberWordsPt = @"(\d+(?:[.,]\d+)?(?:[\u00BC-\u00BE\u2150-\u215E\u2189])?|[\u00BC-\u00BE\u2150-\u215E\u2189]|um[a]?|dois|duas|trÃªs|quatro|cinco|seis|sete|oito|nove|dez|onze|doze)";
+  private const string PartialWordsPt = @"(mei(o|a)|1/2|metade|um terÃ§o|1/3|dois terÃ§os|2/3|um quarto|1/4|trÃªs quartos|3/4)";
   private const string QuantityPt = $@"({NumberWordsPt}(?:\s+{PartialWordsPt})?(?:\s+e\s+{PartialWordsPt})?|{PartialWordsPt})";
   private const string PartialEndPt = $@"( e {PartialWordsPt})?";
-  private const string CupPt = @"((?:xícara|xicara)s?|xíc\.?)";
+  private const string CupPt = @"((?:xÃ­cara|xicara)s?|xÃ­c\.?)";
+  private const string SmallCupPt = @"((?:xÃ­cara|xicara)s?\s*(?:\(\s*caf(?:Ã©|e)\s*\)|\s+de\s+caf(?:Ã©|e)))";
   private const string SpoonPt = @"((?:colher(?:es)?(?: de sopa)?|c\.s\.?)s?)";
-  private const string TeaSpoonPt = @"((?:colher(?:es)?(?:inhas?| de ch(?:á|a)| pequenas?)|c\.c\.?)s?)";
+  private const string TeaSpoonPt = @"((?:colher(?:es)?(?:inhas?| de ch(?:Ã¡|a)| pequenas?)|c\.c\.?)s?)";
   private const string MlPt = @"(?:ml|mililitros?)";
   private const string LiterPt = @"(?:l|litros?)";
   private const string GramPt = @"(?:gr?|gramas?)";
@@ -38,6 +39,7 @@ public static class MeasurePatterns
   public static readonly Dictionary<MeasureType, Regex> PatternsPt = new()
   {
     { MeasureType.Cup, new Regex($@"(?<!\S)(?<measure>{QuantityPt}{PartialEndPt}\s*{PrepositionPt}{CupPt}{UnitParenOptPt}{PartialEndPt})(?=\s|$)", PatternOptions) },
+    { MeasureType.SmallCup, new Regex($@"(?<!\S)(?<measure>{QuantityPt}{PartialEndPt}\s*{PrepositionPt}{SmallCupPt}{UnitParenOptPt}{PartialEndPt})(?=\s|$)", PatternOptions) },
     { MeasureType.TeaSpoon, new Regex($@"(?<!\S)(?<measure>{QuantityPt}{PartialEndPt}\s*{PrepositionPt}{TeaSpoonPt}{UnitParenOptPt}{PartialEndPt})(?=\s|$)", PatternOptions) },
     { MeasureType.Spoon, new Regex($@"(?<!\S)(?<measure>{QuantityPt}{PartialEndPt}\s*{PrepositionPt}{SpoonPt}{UnitParenOptPt}{PartialEndPt})(?=\s|$)", PatternOptions) },
     { MeasureType.Ml, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{MlPt}{PartialEndPt})\b", PatternOptions) },
@@ -100,25 +102,43 @@ public static class MeasurePatterns
   {
     get
     {
-      foreach (var pair in PatternsPt.Where(entry => entry.Key != MeasureType.Unity))
+      // Define explicit, stable order to avoid Dictionary enumeration variance.
+      var orderPt = new[]
       {
-        yield return pair;
+        MeasureType.SmallCup,
+        MeasureType.Cup,
+        MeasureType.TeaSpoon,
+        MeasureType.Spoon,
+        MeasureType.Ml,
+        MeasureType.Liter,
+        MeasureType.Gram,
+        MeasureType.Kilo,
+        MeasureType.Breast,
+        MeasureType.Clove,
+        MeasureType.Bunch,
+        MeasureType.Can,
+        MeasureType.Glass,
+        MeasureType.Slice,
+        MeasureType.Pinch
+      };
+
+      foreach (var type in orderPt)
+      {
+        if (PatternsPt.TryGetValue(type, out var rx))
+          yield return new KeyValuePair<MeasureType, Regex>(type, rx);
       }
 
-      foreach (var pair in PatternsEn.Where(entry => entry.Key != MeasureType.Unity))
+      var orderEn = orderPt; // same preference for EN
+      foreach (var type in orderEn)
       {
-        yield return pair;
+        if (PatternsEn.TryGetValue(type, out var rx))
+          yield return new KeyValuePair<MeasureType, Regex>(type, rx);
       }
 
       if (PatternsPt.TryGetValue(MeasureType.Unity, out var unityPt))
-      {
         yield return new KeyValuePair<MeasureType, Regex>(MeasureType.Unity, unityPt);
-      }
-
       if (PatternsEn.TryGetValue(MeasureType.Unity, out var unityEn))
-      {
         yield return new KeyValuePair<MeasureType, Regex>(MeasureType.Unity, unityEn);
-      }
     }
   }
 }
@@ -152,9 +172,9 @@ public class IngredientService
 
   private static readonly IReadOnlyDictionary<char, string> FractionCharacterReplacements = new Dictionary<char, string>
   {
-    ['¼'] = "1/4",   // U+00BC
-    ['½'] = "1/2",   // U+00BD
-    ['¾'] = "3/4",   // U+00BE
+    ['Â¼'] = "1/4",   // U+00BC
+    ['Â½'] = "1/2",   // U+00BD
+    ['Â¾'] = "3/4",   // U+00BE
     ['?'] = "1/7",   // U+2150
     ['?'] = "1/9",   // U+2151
     ['?'] = "1/10",  // U+2152
@@ -214,7 +234,7 @@ public class IngredientService
 
       if (match.Success && !string.IsNullOrWhiteSpace(measureMatch.Value))
       {
-        // usa o valor do grupo, não substring do Text original
+        // usa o valor do grupo, nÃ£o substring do Text original
         var measureText = measureMatch.Value.Trim();
 
         // calcula resto a partir do texto original
@@ -380,7 +400,7 @@ public class IngredientService
     });
     ConsumeMatches(@"\d+", match => double.Parse(match.Value, CultureInfo.InvariantCulture));
 
-    var measurementWordsPattern = @"\b(?:xícaras?|xicaras?|xicara|xíc\.?|colheres?|colher(?:es)?(?: de (?:sopa|chá))?|colher(?:inhas?|inha)?|c\.s\.?|c\.c\.?|ml|mililitros?|l|litros?|gramas?|grama|gr|g|kg|kilo(?:grama)?s?|latas?|lata|copos?|copo|fatias?|fatia|pitadas?|pitada|unidades?|unidade|cups?|cup|c(?:up)?\.?|tablespoons?|tablespoon|tbsp\.?|tb\.?|tbs\.?|teaspoons?|teaspoon|tsp\.?|millilit(?:er|re)s?|lit(?:er|re)s?|grams?|gram|kilograms?|kilogrammes?|kilos?|pinches?|pinch|cans?|can|tins?|glass(?:es)?|slice(?:s)?|clove(?:s)?|breast(?:s)?|bunch(?:es)?|units?|unit)\b";
+    var measurementWordsPattern = @"\b(?:xÃ­caras?|xicaras?|xicara|xÃ­c\.?|colheres?|colher(?:es)?(?: de (?:sopa|chÃ¡))?|colher(?:inhas?|inha)?|c\.s\.?|c\.c\.?|ml|mililitros?|l|litros?|gramas?|grama|gr|g|kg|kilo(?:grama)?s?|latas?|lata|copos?|copo|fatias?|fatia|pitadas?|pitada|unidades?|unidade|cups?|cup|c(?:up)?\.?|tablespoons?|tablespoon|tbsp\.?|tb\.?|tbs\.?|teaspoons?|teaspoon|tsp\.?|millilit(?:er|re)s?|lit(?:er|re)s?|grams?|gram|kilograms?|kilogrammes?|kilos?|pinches?|pinch|cans?|can|tins?|glass(?:es)?|slice(?:s)?|clove(?:s)?|breast(?:s)?|bunch(?:es)?|units?|unit)\b";
     normalizedText = Regex.Replace(normalizedText, measurementWordsPattern, " ", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
     normalizedText = Regex.Replace(normalizedText, @"\b(?:de|do|da|dos|das|para|por|com|of|the|for|with|per|each)\b", " ", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
@@ -394,7 +414,7 @@ public class IngredientService
       ["uma"] = 1,
       ["dois"] = 2,
       ["duas"] = 2,
-      ["três"] = 3,
+      ["trÃªs"] = 3,
       ["tres"] = 3,
       ["quatro"] = 4,
       ["cinco"] = 5,
@@ -435,12 +455,12 @@ public class IngredientService
 
     var multiPartials = BuildLookup(new Dictionary<string, double>
     {
-      ["um terço"] = 1.0 / 3,
+      ["um terÃ§o"] = 1.0 / 3,
       ["um terco"] = 1.0 / 3,
-      ["dois terços"] = 2.0 / 3,
+      ["dois terÃ§os"] = 2.0 / 3,
       ["dois tercos"] = 2.0 / 3,
       ["um quarto"] = 0.25,
-      ["três quartos"] = 3.0 / 4,
+      ["trÃªs quartos"] = 3.0 / 4,
       ["tres quartos"] = 3.0 / 4,
       ["one third"] = 1.0 / 3,
       ["a third"] = 1.0 / 3,
@@ -522,23 +542,84 @@ public class IngredientService
     return builder.ToString().ToLowerInvariant();
   }
 
-  public static double ConvertToLiteralQuantity(double quantity, MeasureType measureType)
+    public static double ConvertToLiteralQuantity(double quantity, MeasureType measureType, Food food)
   {
-    return measureType switch
+    // Always return grams
+    // Direct units
+    if (measureType == MeasureType.Gram) return quantity;
+    if (measureType == MeasureType.Kilo) return quantity * 1000d;
+
+    // ml/liter measures should be converted to grams (1 ml = 1 g)
+    if (measureType == MeasureType.Ml) return quantity; // ml equals grams
+    if (measureType == MeasureType.Liter) return quantity * 1000d;
+
+    // Try per-food mapping first
+    double? perFoodUnit = measureType switch
     {
-      MeasureType.Cup => quantity * 200,      // 1 xícara = 200g açúcar (exemplo)
-      MeasureType.Spoon => quantity * 15,    // 1 colher = 15g
-      MeasureType.TeaSpoon => quantity * 5,  // 1 colher de chá = 5g
-      _ => quantity
+      MeasureType.Cup => food.Measures.Cup,
+      MeasureType.SmallCup => food.Measures.SmallCup,
+      MeasureType.Spoon => food.Measures.Spoon,
+      MeasureType.TeaSpoon => food.Measures.TeaSpoon,
+      MeasureType.Unity => food.Measures.Unity,
+      MeasureType.UnitySmall => food.Measures.UnitySmall,
+      MeasureType.UnityLarge => food.Measures.UnityLarge,
+      MeasureType.Can => food.Measures.Can,
+      MeasureType.Glass => food.Measures.Glass,
+      MeasureType.Breast => food.Measures.Breast,
+      MeasureType.Clove => food.Measures.Clove,
+      MeasureType.Slice => food.Measures.Slice,
+      MeasureType.Bunch => food.Measures.Bunch,
+      MeasureType.Pinch => food.Measures.Pinch,
+      _ => null
     };
+
+    if (perFoodUnit.HasValue)
+    {
+      // If the food is measured in liters, map liters to grams by 1L = 1000g
+      return food.MeasurementUnit == MeasurementUnit.Liter
+        ? quantity * perFoodUnit.Value * 1000d
+        : quantity * perFoodUnit.Value; // already grams
+    }
+
+    // Fallback heuristics when no per-food mapping is available
+    if (food.MeasurementUnit == MeasurementUnit.Gram)
+    {
+      // Approximate grams for volume-based measures
+      return measureType switch
+      {
+        MeasureType.Cup => quantity * 200d,
+        MeasureType.SmallCup => quantity * 70d,
+        MeasureType.Spoon => quantity * 15d,
+        MeasureType.TeaSpoon => quantity * 5d,
+        _ => quantity // default to grams already
+      };
+    }
+
+    if (food.MeasurementUnit == MeasurementUnit.Liter)
+    {
+      // Convert volume approximations to ml then to grams (1 ml = 1 g)
+      var ml = measureType switch
+      {
+        MeasureType.Cup => quantity * 240d,
+        MeasureType.SmallCup => quantity * 70d,
+        MeasureType.Spoon => quantity * 15d,
+        MeasureType.TeaSpoon => quantity * 5d,
+        MeasureType.Glass => quantity * 190d,
+        _ => quantity * 1000d // default assume quantity is liters -> grams
+      };
+      return ml; // ml equals grams under this assumption
+    }
+
+    return quantity;
   }
 
+  
   public async Task<Ingredient> ToEntity()
   {
     var (measureText, measureType, restText) = SplitTextInMeasureAndRest();
     var food = await foodService.FindFoodByPossibleName(restText);
     var quantity = ParseMeasureQuantity(measureText);
-    var grams = ConvertToLiteralQuantity(quantity, measureType);
+    var grams = ConvertToLiteralQuantity(quantity, measureType, food);
 
     return new Ingredient(
       Text,
