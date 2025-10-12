@@ -597,10 +597,11 @@ public class IngredientService
 
     if (perFoodUnit.HasValue)
     {
-      // If the food is measured in liters, map liters to grams by 1L = 1000g
-      return food.MeasurementUnit == MeasurementUnit.Liter
-        ? quantity * perFoodUnit.Value * 1000d
-        : quantity * perFoodUnit.Value; // already grams
+      // Per-food mappings are already in the food's base unit:
+      // - Gram-based foods: values are grams
+      // - Liter-based foods: values are milliliters (1 ml = 1 g)
+      // So in both cases, just multiply by the mapped value.
+      return quantity * perFoodUnit.Value;
     }
 
     // Fallback heuristics when no per-food mapping is available

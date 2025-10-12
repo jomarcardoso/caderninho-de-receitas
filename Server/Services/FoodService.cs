@@ -23,6 +23,8 @@ public class FoodService
     "moído", "moída", "moídos", "moídas",
     "inteiro", "inteira", "inteiros", "inteiras",
     "pelado", "pelados",
+    "maduro", "maduros",
+    "coado", "coados",
     "em cubo", "em cubos",
     "em rodela", "em rodelas",
     "amassado", "amassada", "amassados", "amassadas",

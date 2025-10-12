@@ -273,12 +273,13 @@ public class IngredientServiceTests
   [TestCase("2 dentes de alho", MeasureType.Clove, 2d, 6d)]
   [TestCase("2 xícaras (chá) de água", MeasureType.Cup, 2d, 480d)]
   [TestCase("4 xícaras (chá) de água", MeasureType.Cup, 4d, 960d)]
-  [TestCase("⅓ de xícara (chá) de queijo parmesão ralado fino", MeasureType.Cup, 1d / 3d, 100d / 3d)]
   [TestCase("6 colheres (sopa) de tahine (pasta de gergelim)", MeasureType.Spoon, 6d, 54d)]
   [TestCase("6 colheres (sopa) de caldo de limão (cerca de 2 unidades)", MeasureType.Spoon, 6d, 90d)]
   [TestCase("2 xícaras de café de água", MeasureType.SmallCup, 2d, 140d)]
   [TestCase("1 glass of water", MeasureType.Glass, 1d, 190d)]
   [TestCase("⅓ de xícara (chá) de queijo parmesão ralado fino", MeasureType.Cup, 1d / 3d, 100d / 3d)]
+  [TestCase("½ xícara (chá) de leite", MeasureType.Cup, 1d / 2d, 120d)]
+  [TestCase("2 ovos", MeasureType.Unity, 2d, 100d)]
   public async Task ToEntity_ParsesTexts_CommonCases(string input, MeasureType expectedType, double expectedMeasureQty, double expectedQuantity)
   {
     var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
