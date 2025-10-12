@@ -16,6 +16,7 @@ public class FoodService
     "(opcional)", "opcional",
     "picado", "picada", "picados", "picadas",
     "ralado", "ralada", "ralados", "raladas",
+    "na hora",
     "cozido", "cozida", "cozidos", "cozidas",
     "desfiado", "desfiada", "desfiados", "desfiadas",
     "triturado", "triturada", "triturados", "trituradas",
@@ -190,7 +191,8 @@ public class FoodService
       .Aggregate(noPrefixName,
         (current, modifier) => current
           .Replace(modifier, string.Empty)
-          // do a second if the food has more than one modifier
+          // do three if the food has more than one modifier
+          .Replace(modifier, string.Empty)
           .Replace(modifier, string.Empty)
           .Trim()
           .Replace("  ", " "));

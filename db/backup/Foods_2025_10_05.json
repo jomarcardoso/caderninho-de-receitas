@@ -1,6 +1,5 @@
 ﻿[
   {
-    "id": 1,
     "name": {
       "en": "Avocado",
       "pt": "Abacate"
@@ -107,7 +106,6 @@
     }
   },
   {
-    "id": 2,
     "name": {
       "en": "Pineapple",
       "pt": "Abacaxi"
@@ -214,7 +212,6 @@
     }
   },
   {
-    "id": 3,
     "name": {
       "en": "Kabocha Squash",
       "pt": "Abóbora cabotiá"
@@ -321,7 +318,6 @@
     }
   },
   {
-    "id": 4,
     "name": {
       "en": "Zucchini",
       "pt": "Abobrinha"
@@ -428,7 +424,6 @@
     }
   },
   {
-    "id": 5,
     "name": {
       "en": "Chocolate Drink Powder",
       "pt": "Achocolatado em pó"
@@ -535,7 +530,6 @@
     }
   },
   {
-    "id": 6,
     "name": {
       "en": "White Sugar",
       "pt": "Açúcar branco"
@@ -642,7 +636,6 @@
     }
   },
   {
-    "id": 7,
     "name": {
       "en": "Crystal Sugar",
       "pt": "Açúcar cristal"
@@ -749,7 +742,6 @@
     }
   },
   {
-    "id": 8,
     "name": {
       "en": "Brown Sugar",
       "pt": "Açúcar mascavo"
@@ -856,7 +848,6 @@
     }
   },
   {
-    "id": 9,
     "name": {
       "en": "Water",
       "pt": "Água"
@@ -963,7 +954,6 @@
     }
   },
   {
-    "id": 10,
     "name": {
       "en": "Coconut Water",
       "pt": "Água de coco"
@@ -1070,7 +1060,6 @@
     }
   },
   {
-    "id": 11,
     "name": {
       "en": "Tonic Water",
       "pt": "Água tônica"
@@ -1177,7 +1166,6 @@
     }
   },
   {
-    "id": 12,
     "name": {
       "en": "Cassava Root",
       "pt": "Aipim"
@@ -1284,7 +1272,6 @@
     }
   },
   {
-    "id": 13,
     "name": {
       "en": "Rosemary",
       "pt": "Alecrim"
@@ -1391,7 +1378,6 @@
     }
   },
   {
-    "id": 14,
     "name": {
       "en": "Celery",
       "pt": "Aipo"
@@ -1498,7 +1484,6 @@
     }
   },
   {
-    "id": 15,
     "name": {
       "en": "Lettuce",
       "pt": "alface"
@@ -1605,7 +1590,6 @@
     }
   },
   {
-    "id": 16,
     "name": {
       "en": "Garlic",
       "pt": "alho"
@@ -1712,7 +1696,6 @@
     }
   },
   {
-    "id": 17,
     "name": {
       "en": "Almond",
       "pt": "Amêndoa"
@@ -1819,7 +1802,6 @@
     }
   },
   {
-    "id": 18,
     "name": {
       "en": "Roasted Salted Almonds",
       "pt": "Amêndoa torrada e salgada"
@@ -1926,7 +1908,6 @@
     }
   },
   {
-    "id": 19,
     "name": {
       "en": "Peanut",
       "pt": "Amendoim"
@@ -2033,7 +2014,6 @@
     }
   },
   {
-    "id": 20,
     "name": {
       "en": "Cornstarch",
       "pt": "Amido de milho"
@@ -2140,7 +2120,6 @@
     }
   },
   {
-    "id": 21,
     "name": {
       "en": "White Rice",
       "pt": "Arroz Branco"
@@ -2247,7 +2226,6 @@
     }
   },
   {
-    "id": 22,
     "name": {
       "en": "Cooked Brown Rice",
       "pt": "Arroz integral cozido"
@@ -2354,7 +2332,6 @@
     }
   },
   {
-    "id": 23,
     "name": {
       "en": "Uncooked Brown Rice",
       "pt": "Arroz integral cru"
@@ -2461,7 +2438,6 @@
     }
   },
   {
-    "id": 24,
     "name": {
       "en": "Caramelized Rice Pudding with Farofa",
       "pt": "Arroz doce, caramelizado com farofa"
@@ -2568,7 +2544,6 @@
     }
   },
   {
-    "id": 25,
     "name": {
       "en": "Lebanese Rice with Chicken and Yogurt",
       "pt": "Arroz libanês com frango, coalhada e nozes"
@@ -2675,7 +2650,6 @@
     }
   },
   {
-    "id": 26,
     "name": {
       "en": "Oats",
       "pt": "Aveia"
@@ -2782,7 +2756,6 @@
     }
   },
   {
-    "id": 27,
     "name": {
       "en": "Olive Oil",
       "pt": "Azeite de oliva"
@@ -2889,7 +2862,6 @@
     }
   },
   {
-    "id": 28,
     "name": {
       "en": "Olive",
       "pt": "Azeitona"
@@ -2996,7 +2968,6 @@
     }
   },
   {
-    "id": 29,
     "name": {
       "en": "Baba Ganoush",
       "pt": "Babaganouch"
@@ -3103,7 +3074,6 @@
     }
   },
   {
-    "id": 30,
     "name": {
       "en": "Mysore Banana",
       "pt": "Banana Mysore"
@@ -3210,7 +3180,6 @@
     }
   },
   {
-    "id": 31,
     "name": {
       "en": "Cavendish Banana",
       "pt": "Banana nanica"
@@ -3317,7 +3286,6 @@
     }
   },
   {
-    "id": 32,
     "name": {
       "en": "Silver Banana",
       "pt": "Banana Prata"
@@ -3424,7 +3392,6 @@
     }
   },
   {
-    "id": 33,
     "name": {
       "en": "Pork Lard",
       "pt": "Banha de porco"
@@ -3531,7 +3498,6 @@
     }
   },
   {
-    "id": 34,
     "name": {
       "en": "Potato",
       "pt": "Batata"
@@ -3638,7 +3604,6 @@
     }
   },
   {
-    "id": 35,
     "name": {
       "en": "Sweet Potato",
       "pt": "Batata Doce"
@@ -3745,7 +3710,6 @@
     }
   },
   {
-    "id": 36,
     "name": {
       "en": "Eggplant",
       "pt": "Beringela"
@@ -3852,7 +3816,6 @@
     }
   },
   {
-    "id": 37,
     "name": {
       "en": "Beetroot",
       "pt": "Beterraba"
@@ -3959,7 +3922,6 @@
     }
   },
   {
-    "id": 38,
     "name": {
       "en": "Baking Soda",
       "pt": "Bicarbonato de sódio"
@@ -4066,7 +4028,6 @@
     }
   },
   {
-    "id": 39,
     "name": {
       "en": "Cornstarch Biscuit",
       "pt": "Biscoito de maizena"
@@ -4173,7 +4134,6 @@
     }
   },
   {
-    "id": 40,
     "name": {
       "en": "Sandwich Cookie",
       "pt": "Biscoito recheado"
@@ -4280,7 +4240,6 @@
     }
   },
   {
-    "id": 41,
     "name": {
       "en": "Carrot Cake",
       "pt": "Bolo de cenoura"
@@ -4387,7 +4346,6 @@
     }
   },
   {
-    "id": 42,
     "name": {
       "en": "Orange Cake",
       "pt": "Bolo de laranja"
@@ -4494,7 +4452,6 @@
     }
   },
   {
-    "id": 43,
     "name": {
       "en": "Cocoa Powder",
       "pt": "Cacau em pó"
@@ -4601,7 +4558,6 @@
     }
   },
   {
-    "id": 44,
     "name": {
       "en": "Cachaca",
       "pt": "Cachaça"
@@ -4708,7 +4664,6 @@
     }
   },
   {
-    "id": 45,
     "name": {
       "en": "Brewed Coffee",
       "pt": "Café passado"
@@ -4815,7 +4770,6 @@
     }
   },
   {
-    "id": 179,
     "name": {
       "en": "Pasta Salad with Eggplant and Beet Puree",
       "pt": "Sal"
@@ -4922,7 +4876,6 @@
     }
   },
   {
-    "id": 46,
     "name": {
       "en": "Ground Coffee",
       "pt": "Café moído"
@@ -5029,7 +4982,6 @@
     }
   },
   {
-    "id": 47,
     "name": {
       "en": "Sugarcane Juice",
       "pt": "Caldo de cana"
@@ -5136,7 +5088,6 @@
     }
   },
   {
-    "id": 48,
     "name": {
       "en": "Vegetable Broth",
       "pt": "Caldo de Legumes"
@@ -5243,7 +5194,6 @@
     }
   },
   {
-    "id": 49,
     "name": {
       "en": "Cinnamon",
       "pt": "Canela"
@@ -5350,7 +5300,6 @@
     }
   },
   {
-    "id": 50,
     "name": {
       "en": "Starfruit",
       "pt": "carambola"
@@ -5457,7 +5406,6 @@
     }
   },
   {
-    "id": 51,
     "name": {
       "en": "Cardamom",
       "pt": "Cardamomo"
@@ -5564,7 +5512,6 @@
     }
   },
   {
-    "id": 52,
     "name": {
       "en": "Curry Powder",
       "pt": "Caril"
@@ -5671,7 +5618,6 @@
     }
   },
   {
-    "id": 53,
     "name": {
       "en": "Beef",
       "pt": "Carne bovina"
@@ -5778,7 +5724,6 @@
     }
   },
   {
-    "id": 54,
     "name": {
       "en": "Brazil Nut",
       "pt": "Castanha-do-pará"
@@ -5885,7 +5830,6 @@
     }
   },
   {
-    "id": 55,
     "name": {
       "en": "Onion",
       "pt": "Cebola"
@@ -5992,7 +5936,6 @@
     }
   },
   {
-    "id": 56,
     "name": {
       "en": "Chives",
       "pt": "Cebolinha"
@@ -6099,7 +6042,6 @@
     }
   },
   {
-    "id": 57,
     "name": {
       "en": "Pickled Onions",
       "pt": "Cebolas em conserva"
@@ -6206,7 +6148,6 @@
     }
   },
   {
-    "id": 58,
     "name": {
       "en": "Carrot",
       "pt": "Cenoura"
@@ -6313,7 +6254,6 @@
     }
   },
   {
-    "id": 59,
     "name": {
       "en": "Cooked Carrot",
       "pt": "Cenoura cozida"
@@ -6420,7 +6360,6 @@
     }
   },
   {
-    "id": 60,
     "name": {
       "en": "Pilsner Beer",
       "pt": "Cerveja pilsen"
@@ -6527,7 +6466,6 @@
     }
   },
   {
-    "id": 61,
     "name": {
       "en": "Fennel Tea",
       "pt": "Chá de erva-doce"
@@ -6634,7 +6572,6 @@
     }
   },
   {
-    "id": 62,
     "name": {
       "en": "Chapati",
       "pt": "Chapati"
@@ -6741,7 +6678,6 @@
     }
   },
   {
-    "id": 63,
     "name": {
       "en": "Dark Chocolate 45-59%",
       "pt": "Chocolate preto 45 - 59%"
@@ -6848,7 +6784,6 @@
     }
   },
   {
-    "id": 64,
     "name": {
       "en": "Chayote",
       "pt": "Chuchu"
@@ -6955,7 +6890,6 @@
     }
   },
   {
-    "id": 65,
     "name": {
       "en": "Barbecue",
       "pt": "Churrasco"
@@ -7062,7 +6996,6 @@
     }
   },
   {
-    "id": 66,
     "name": {
       "en": "Egg White",
       "pt": "Clara de ovo"
@@ -7169,7 +7102,6 @@
     }
   },
   {
-    "id": 67,
     "name": {
       "en": "Fresh Yogurt Curd",
       "pt": "Coalhada fresca"
@@ -7276,7 +7208,6 @@
     }
   },
   {
-    "id": 68,
     "name": {
       "en": "Strained Yogurt",
       "pt": "Coalhada seca"
@@ -7383,7 +7314,6 @@
     }
   },
   {
-    "id": 69,
     "name": {
       "en": "Shredded Coconut",
       "pt": "Coco ralado"
@@ -7490,7 +7420,6 @@
     }
   },
   {
-    "id": 70,
     "name": {
       "en": "Cilantro",
       "pt": "Coentro"
@@ -7597,7 +7526,6 @@
     }
   },
   {
-    "id": 71,
     "name": {
       "en": "Cauliflower",
       "pt": "Couve-flor"
@@ -7704,7 +7632,6 @@
     }
   },
   {
-    "id": 72,
     "name": {
       "en": "Clove",
       "pt": "Cravo da índia"
@@ -7811,7 +7738,6 @@
     }
   },
   {
-    "id": 73,
     "name": {
       "en": "Cuca Coffee Cake",
       "pt": "Cuca"
@@ -7918,7 +7844,6 @@
     }
   },
   {
-    "id": 74,
     "name": {
       "en": "Green Peas",
       "pt": "Ervilha"
@@ -8025,7 +7950,6 @@
     }
   },
   {
-    "id": 75,
     "name": {
       "en": "Sfiha",
       "pt": "Esfirra"
@@ -8132,7 +8056,6 @@
     }
   },
   {
-    "id": 76,
     "name": {
       "en": "Spaghetti",
       "pt": "Espaguete"
@@ -8239,7 +8162,6 @@
     }
   },
   {
-    "id": 77,
     "name": {
       "en": "Beef Stroganoff",
       "pt": "Estrogonofe de Carne"
@@ -8346,7 +8268,6 @@
     }
   },
   {
-    "id": 78,
     "name": {
       "en": "Chicken Stroganoff",
       "pt": "Estrogonofe de Frango"
@@ -8453,7 +8374,6 @@
     }
   },
   {
-    "id": 79,
     "name": {
       "en": "Falafel",
       "pt": "Falafel"
@@ -8560,7 +8480,6 @@
     }
   },
   {
-    "id": 80,
     "name": {
       "en": "Oat Flour",
       "pt": "Farinha de Aveia"
@@ -8667,7 +8586,6 @@
     }
   },
   {
-    "id": 81,
     "name": {
       "en": "Cassava Flour",
       "pt": "Farinha de Mandioca"
@@ -8774,7 +8692,6 @@
     }
   },
   {
-    "id": 82,
     "name": {
       "en": "Breadcrumbs",
       "pt": "Farinha de Rosca"
@@ -8881,7 +8798,6 @@
     }
   },
   {
-    "id": 83,
     "name": {
       "en": "Wheat Flour",
       "pt": "Farinha de trigo"
@@ -8988,7 +8904,6 @@
     }
   },
   {
-    "id": 84,
     "name": {
       "en": "Baking Powder",
       "pt": "Fermento"
@@ -9095,7 +9010,6 @@
     }
   },
   {
-    "id": 85,
     "name": {
       "en": "Fig",
       "pt": "Figo"
@@ -9202,7 +9116,6 @@
     }
   },
   {
-    "id": 86,
     "name": {
       "en": "Canned Figs in Syrup",
       "pt": "Figo enlatado em calda"
@@ -9309,7 +9222,6 @@
     }
   },
   {
-    "id": 87,
     "name": {
       "en": "Bay Leaf",
       "pt": "Folha de Louro"
@@ -9416,7 +9328,6 @@
     }
   },
   {
-    "id": 88,
     "name": {
       "en": "Chicken",
       "pt": "Frango"
@@ -9523,7 +9434,6 @@
     }
   },
   {
-    "id": 89,
     "name": {
       "en": "Roast Chicken",
       "pt": "Frango assado"
@@ -9630,7 +9540,6 @@
     }
   },
   {
-    "id": 90,
     "name": {
       "en": "Cornmeal",
       "pt": "Fubá"
@@ -9737,7 +9646,6 @@
     }
   },
   {
-    "id": 91,
     "name": {
       "en": "Chicken and Rice Stew",
       "pt": "Galinhada"
@@ -9844,7 +9752,6 @@
     }
   },
   {
-    "id": 92,
     "name": {
       "en": "Ice",
       "pt": "Gelo"
@@ -9951,7 +9858,6 @@
     }
   },
   {
-    "id": 93,
     "name": {
       "en": "Egg Yolk",
       "pt": "Gema de ovo"
@@ -10058,7 +9964,6 @@
     }
   },
   {
-    "id": 94,
     "name": {
       "en": "Ginger",
       "pt": "Gengibre"
@@ -10165,7 +10070,6 @@
     }
   },
   {
-    "id": 95,
     "name": {
       "en": "Sesame Seeds",
       "pt": "Gergelim"
@@ -10272,7 +10176,6 @@
     }
   },
   {
-    "id": 96,
     "name": {
       "en": "Chickpeas",
       "pt": "Grão-de-bico"
@@ -10379,7 +10282,6 @@
     }
   },
   {
-    "id": 97,
     "name": {
       "en": "Guacamole",
       "pt": "Guacamole"
@@ -10486,7 +10388,6 @@
     }
   },
   {
-    "id": 98,
     "name": {
       "en": "Pigeon Pea",
       "pt": "Guandu"
@@ -10593,7 +10494,6 @@
     }
   },
   {
-    "id": 99,
     "name": {
       "en": "Hashweh",
       "pt": "Hashweh"
@@ -10700,7 +10600,6 @@
     }
   },
   {
-    "id": 100,
     "name": {
       "en": "Mint",
       "pt": "Hortelã"
@@ -10807,7 +10706,6 @@
     }
   },
   {
-    "id": 101,
     "name": {
       "en": "Plain Yogurt",
       "pt": "Iogurte natural"
@@ -10914,7 +10812,6 @@
     }
   },
   {
-    "id": 102,
     "name": {
       "en": "Isotonic Drink",
       "pt": "Isotônico"
@@ -11021,7 +10918,6 @@
     }
   },
   {
-    "id": 103,
     "name": {
       "en": "Kiwi",
       "pt": "Kiwi"
@@ -11128,7 +11024,6 @@
     }
   },
   {
-    "id": 104,
     "name": {
       "en": "Orange",
       "pt": "Laranja"
@@ -11235,7 +11130,6 @@
     }
   },
   {
-    "id": 105,
     "name": {
       "en": "Coconut Milk",
       "pt": "Leite de coco"
@@ -11342,7 +11236,6 @@
     }
   },
   {
-    "id": 106,
     "name": {
       "en": "Cow\u0027s Milk",
       "pt": "Leite de vaca"
@@ -11449,7 +11342,6 @@
     }
   },
   {
-    "id": 107,
     "name": {
       "en": "Cooked Lentils",
       "pt": "Lentilha cozida"
@@ -11556,7 +11448,6 @@
     }
   },
   {
-    "id": 108,
     "name": {
       "en": "Dry Lentils",
       "pt": "Lentilha crua"
@@ -11663,7 +11554,6 @@
     }
   },
   {
-    "id": 109,
     "name": {
       "en": "Lime",
       "pt": "Limão"
@@ -11770,7 +11660,6 @@
     }
   },
   {
-    "id": 110,
     "name": {
       "en": "Flaxseed",
       "pt": "Linhaça"
@@ -11877,7 +11766,6 @@
     }
   },
   {
-    "id": 111,
     "name": {
       "en": "Pork Loin",
       "pt": "Lombo de porco"
@@ -11984,7 +11872,6 @@
     }
   },
   {
-    "id": 112,
     "name": {
       "en": "Fusilli Pasta",
       "pt": "Macarrão fusilli"
@@ -12091,7 +11978,6 @@
     }
   },
   {
-    "id": 113,
     "name": {
       "en": "Pastry Dough",
       "pt": "Massa de pastel"
@@ -12198,7 +12084,6 @@
     }
   },
   {
-    "id": 114,
     "name": {
       "en": "Fuji Apple",
       "pt": "Maçã Fuji"
@@ -12305,7 +12190,6 @@
     }
   },
   {
-    "id": 115,
     "name": {
       "en": "Manicoba Stew",
       "pt": "Maniçoba"
@@ -12412,7 +12296,6 @@
     }
   },
   {
-    "id": 116,
     "name": {
       "en": "Mango",
       "pt": "Manga"
@@ -12519,7 +12402,6 @@
     }
   },
   {
-    "id": 117,
     "name": {
       "en": "Basil",
       "pt": "Manjericão"
@@ -12626,7 +12508,6 @@
     }
   },
   {
-    "id": 118,
     "name": {
       "en": "Butter",
       "pt": "Manteiga"
@@ -12733,7 +12614,6 @@
     }
   },
   {
-    "id": 119,
     "name": {
       "en": "Peanut Butter",
       "pt": "Pasta de Amendoim"
@@ -12840,7 +12720,6 @@
     }
   },
   {
-    "id": 120,
     "name": {
       "en": "Passion Fruit",
       "pt": "Maracujá"
@@ -12947,7 +12826,6 @@
     }
   },
   {
-    "id": 121,
     "name": {
       "en": "Margarine",
       "pt": "Margarina"
@@ -13054,7 +12932,6 @@
     }
   },
   {
-    "id": 122,
     "name": {
       "en": "Maria Mole Dessert",
       "pt": "Maria mole"
@@ -13161,7 +13038,6 @@
     }
   },
   {
-    "id": 123,
     "name": {
       "en": "Farfalle Pasta",
       "pt": "Massa gravatinha"
@@ -13268,7 +13144,6 @@
     }
   },
   {
-    "id": 124,
     "name": {
       "en": "Honey",
       "pt": "Mel"
@@ -13375,7 +13250,6 @@
     }
   },
   {
-    "id": 125,
     "name": {
       "en": "Tangerine",
       "pt": "Mexerica"
@@ -13482,7 +13356,6 @@
     }
   },
   {
-    "id": 126,
     "name": {
       "en": "Corn Kernels",
       "pt": "Milho"
@@ -13589,7 +13462,6 @@
     }
   },
   {
-    "id": 127,
     "name": {
       "en": "Cake Mix",
       "pt": "Mistura para bolo"
@@ -13696,7 +13568,6 @@
     }
   },
   {
-    "id": 128,
     "name": {
       "en": "Honey Lemon Salad Dressing",
       "pt": "Molho de Limão e Mel para Salada"
@@ -13803,7 +13674,6 @@
     }
   },
   {
-    "id": 129,
     "name": {
       "en": "Tahini Sauce",
       "pt": "Molho de tahine"
@@ -13910,7 +13780,6 @@
     }
   },
   {
-    "id": 130,
     "name": {
       "en": "Tomato Sauce",
       "pt": "Molho de tomate"
@@ -14017,7 +13886,6 @@
     }
   },
   {
-    "id": 131,
     "name": {
       "en": "Strawberry",
       "pt": "Morango"
@@ -14124,7 +13992,6 @@
     }
   },
   {
-    "id": 132,
     "name": {
       "en": "Mustard Seeds",
       "pt": "Semente de mostarda"
@@ -14174,7 +14041,6 @@
     }
   },
   {
-    "id": 133,
     "name": {
       "en": "Muhammara",
       "pt": "Muhammara"
@@ -14224,7 +14090,6 @@
     }
   },
   {
-    "id": 134,
     "name": {
       "en": "Walnut",
       "pt": "Noz"
@@ -14331,7 +14196,6 @@
     }
   },
   {
-    "id": 135,
     "name": {
       "en": "Nutmeg",
       "pt": "Noz-moscada"
@@ -14438,7 +14302,6 @@
     }
   },
   {
-    "id": 136,
     "name": {
       "en": "Soybean Oil",
       "pt": "Óleo de soja"
@@ -14545,7 +14408,6 @@
     }
   },
   {
-    "id": 137,
     "name": {
       "en": "Oregano",
       "pt": "Orégano"
@@ -14652,7 +14514,6 @@
     }
   },
   {
-    "id": 138,
     "name": {
       "en": "Raw Egg",
       "pt": "Ovo cru"
@@ -14759,7 +14620,6 @@
     }
   },
   {
-    "id": 139,
     "name": {
       "en": "Boiled Egg",
       "pt": "Ovo cozido"
@@ -14866,7 +14726,6 @@
     }
   },
   {
-    "id": 140,
     "name": {
       "en": "Raw Quail Egg",
       "pt": "Ovo de codorna cru"
@@ -14973,7 +14832,6 @@
     }
   },
   {
-    "id": 141,
     "name": {
       "en": "Fried Egg",
       "pt": "Ovo frito"
@@ -15080,7 +14938,6 @@
     }
   },
   {
-    "id": 142,
     "name": {
       "en": "Homemade Bread",
       "pt": "Pão caseiro"
@@ -15179,7 +15036,6 @@
     }
   },
   {
-    "id": 143,
     "name": {
       "en": "Sweet Potato Bread",
       "pt": "Pão de Batata Doce"
@@ -15278,7 +15134,6 @@
     }
   },
   {
-    "id": 144,
     "name": {
       "en": "Sponge Cake",
       "pt": "Pão de Ló"
@@ -15377,7 +15232,6 @@
     }
   },
   {
-    "id": 145,
     "name": {
       "en": "French Bread Roll",
       "pt": "Pão Francês"
@@ -15476,7 +15330,6 @@
     }
   },
   {
-    "id": 146,
     "name": {
       "en": "Paprika",
       "pt": "Páprica"
@@ -15583,7 +15436,6 @@
     }
   },
   {
-    "id": 147,
     "name": {
       "en": "Beef Round",
       "pt": "Patinho"
@@ -15690,7 +15542,6 @@
     }
   },
   {
-    "id": 148,
     "name": {
       "en": "Grilled Beef Round",
       "pt": "Patinho grelhado"
@@ -15797,7 +15648,6 @@
     }
   },
   {
-    "id": 149,
     "name": {
       "en": "Fried Chicken Pastel",
       "pt": "Pastel de frango (frito)"
@@ -15904,7 +15754,6 @@
     }
   },
   {
-    "id": 150,
     "name": {
       "en": "Chocolate Pave",
       "pt": "Pavê de chocolate"
@@ -16011,7 +15860,6 @@
     }
   },
   {
-    "id": 151,
     "name": {
       "en": "Smoked Turkey Breast",
       "pt": "Peito de peru defumado"
@@ -16118,7 +15966,6 @@
     }
   },
   {
-    "id": 152,
     "name": {
       "en": "Cucumber",
       "pt": "Pepino"
@@ -16225,7 +16072,6 @@
     }
   },
   {
-    "id": 153,
     "name": {
       "en": "Pear",
       "pt": "Pera"
@@ -16332,7 +16178,6 @@
     }
   },
   {
-    "id": 154,
     "name": {
       "en": "Leg of Lamb",
       "pt": "Pernil de cordeiro"
@@ -16439,7 +16284,6 @@
     }
   },
   {
-    "id": 155,
     "name": {
       "en": "Roast Turkey",
       "pt": "Peru de natal"
@@ -16546,7 +16390,6 @@
     }
   },
   {
-    "id": 156,
     "name": {
       "en": "Chili Pepper",
       "pt": "Pimenta"
@@ -16653,7 +16496,6 @@
     }
   },
   {
-    "id": 157,
     "name": {
       "en": "Black Pepper",
       "pt": "Pimenta do Reino"
@@ -16760,7 +16602,6 @@
     }
   },
   {
-    "id": 158,
     "name": {
       "en": "Yellow Bell Pepper",
       "pt": "Pimentão amarelo"
@@ -16867,7 +16708,6 @@
     }
   },
   {
-    "id": 159,
     "name": {
       "en": "Green Bell Pepper",
       "pt": "Pimentão verde"
@@ -16974,7 +16814,6 @@
     }
   },
   {
-    "id": 160,
     "name": {
       "en": "Red Bell Pepper",
       "pt": "Pimentão vermelho"
@@ -17081,7 +16920,6 @@
     }
   },
   {
-    "id": 161,
     "name": {
       "en": "Polenta",
       "pt": "Polenta"
@@ -17188,7 +17026,6 @@
     }
   },
   {
-    "id": 162,
     "name": {
       "en": "Ham",
       "pt": "Presunto"
@@ -17295,7 +17132,6 @@
     }
   },
   {
-    "id": 176,
     "name": {
       "en": "Baked Kibbeh",
       "pt": "Repolho"
@@ -17402,7 +17238,6 @@
     }
   },
   {
-    "id": 177,
     "name": {
       "en": "Fried Kibbeh",
       "pt": "Requeijão"
@@ -17509,7 +17344,6 @@
     }
   },
   {
-    "id": 178,
     "name": {
       "en": "Ricotta",
       "pt": "Romã"
@@ -17616,7 +17450,6 @@
     }
   },
   {
-    "id": 163,
     "name": {
       "en": "Cabbage",
       "pt": "Pudim"
@@ -17723,7 +17556,6 @@
     }
   },
   {
-    "id": 164,
     "name": {
       "en": "Cream Cheese Spread",
       "pt": "Queijo Edam"
@@ -17830,7 +17662,6 @@
     }
   },
   {
-    "id": 175,
     "name": {
       "en": "Prato Cheese",
       "pt": "Rabanete"
@@ -17937,7 +17768,6 @@
     }
   },
   {
-    "id": 165,
     "name": {
       "en": "Pomegranate",
       "pt": "Queijo muçarela"
@@ -18044,7 +17874,6 @@
     }
   },
   {
-    "id": 166,
     "name": {
       "en": "Brazilian Flan",
       "pt": "Queijo minas frescal"
@@ -18151,7 +17980,6 @@
     }
   },
   {
-    "id": 167,
     "name": {
       "en": "Edam Cheese",
       "pt": "Queijo minas meia cura"
@@ -18252,7 +18080,6 @@
     }
   },
   {
-    "id": 168,
     "name": {
       "en": "Radish",
       "pt": "Queijo parmesão"
@@ -18351,7 +18178,6 @@
     }
   },
   {
-    "id": 169,
     "name": {
       "en": "Mozzarella Cheese",
       "pt": "Quibe vegetariano"
@@ -18458,7 +18284,6 @@
     }
   },
   {
-    "id": 170,
     "name": {
       "en": "Fresh Minas Cheese",
       "pt": "Queijo petit suisse"
@@ -18565,7 +18390,6 @@
     }
   },
   {
-    "id": 171,
     "name": {
       "en": "Semi-Cured Minas Cheese",
       "pt": "Queijo prato"
@@ -18672,7 +18496,6 @@
     }
   },
   {
-    "id": 172,
     "name": {
       "en": "Parmesan Cheese",
       "pt": "Quibe assado"
@@ -18779,7 +18602,6 @@
     }
   },
   {
-    "id": 173,
     "name": {
       "en": "Vegetarian Kibbeh",
       "pt": "Quibe frito"
@@ -18886,7 +18708,6 @@
     }
   },
   {
-    "id": 174,
     "name": {
       "en": "Petit Suisse Cheese",
       "pt": "Ricota"
@@ -18993,7 +18814,6 @@
     }
   },
   {
-    "id": 180,
     "name": {
       "en": "Chicken Salpicao",
       "pt": "Salada de macarrão com berinjela e purê de beterraba"
@@ -19100,7 +18920,6 @@
     }
   },
   {
-    "id": 181,
     "name": {
       "en": "Parsley",
       "pt": "Salpicão de frango"
@@ -19207,7 +19026,6 @@
     }
   },
   {
-    "id": 182,
     "name": {
       "en": "Salt",
       "pt": "Salsa"
@@ -19314,7 +19132,6 @@
     }
   },
   {
-    "id": 183,
     "name": {
       "en": "Sandwich",
       "pt": "Sanduíche"
@@ -19421,7 +19238,6 @@
     }
   },
   {
-    "id": 184,
     "name": {
       "en": "Cumin Seeds",
       "pt": "Semente de cominho"
@@ -19528,7 +19344,6 @@
     }
   },
   {
-    "id": 185,
     "name": {
       "en": "Semolina",
       "pt": "Semolina"
@@ -19635,7 +19450,6 @@
     }
   },
   {
-    "id": 186,
     "name": {
       "en": "Cauliflower Soup",
       "pt": "Sopa de Couve-flor"
@@ -19742,7 +19556,6 @@
     }
   },
   {
-    "id": 187,
     "name": {
       "en": "Orange Juice",
       "pt": "Suco de Laranja"
@@ -19849,7 +19662,6 @@
     }
   },
   {
-    "id": 188,
     "name": {
       "en": "Sushi",
       "pt": "Sushi"
@@ -19956,7 +19768,6 @@
     }
   },
   {
-    "id": 189,
     "name": {
       "en": "Tabbouleh",
       "pt": "Tabule"
@@ -20063,7 +19874,6 @@
     }
   },
   {
-    "id": 190,
     "name": {
       "en": "Tomato",
       "pt": "Tomate"
@@ -20170,7 +19980,6 @@
     }
   },
   {
-    "id": 191,
     "name": {
       "en": "Thyme",
       "pt": "Tomilho"
@@ -20277,7 +20086,6 @@
     }
   },
   {
-    "id": 192,
     "name": {
       "en": "Pork Fatback",
       "pt": "Toucinho"
@@ -20384,7 +20192,6 @@
     }
   },
   {
-    "id": 193,
     "name": {
       "en": "Annatto",
       "pt": "Urucum"
@@ -20491,7 +20298,6 @@
     }
   },
   {
-    "id": 194,
     "name": {
       "en": "Grape",
       "pt": "Uva"
@@ -20598,7 +20404,6 @@
     }
   },
   {
-    "id": 195,
     "name": {
       "en": "Red Wine Vinegar",
       "pt": "Vinagre de vinho tinto"
@@ -20705,7 +20510,6 @@
     }
   },
   {
-    "id": 196,
     "name": {
       "en": "Crispy Zucchini Chips with Parmesan",
       "pt": "Rodelas de abobrinha crocantes com parmesão"
@@ -20812,7 +20616,6 @@
     }
   },
   {
-    "id": 197,
     "name": {
       "en": "Carreteiro Rice",
       "pt": "Arroz carreteiro"
@@ -20919,7 +20722,6 @@
     }
   },
   {
-    "id": 198,
     "name": {
       "en": "Carrot Soup with Curry",
       "pt": "Sopa de cenoura com curry"
@@ -21026,7 +20828,6 @@
     }
   },
   {
-    "id": 199,
     "name": {
       "en": "Moroccan Couscous with Pork Tenderloin",
       "pt": "Cuscuz marroquino com filé mignon suíno"
@@ -21133,7 +20934,6 @@
     }
   },
   {
-    "id": 240,
     "name": {
       "en": "Grilled Pork Chop",
       "pt": "Bisteca grelhada"
@@ -21240,7 +21040,6 @@
     }
   },
   {
-    "id": 200,
     "name": {
       "en": "Mango Passion Fruit Jam",
       "pt": "Geleia de manga e maracujá"
@@ -21347,7 +21146,6 @@
     }
   },
   {
-    "id": 201,
     "name": {
       "en": "Chayote Vinaigrette with Cumin",
       "pt": "Vinagrete de chuchu com cominho"
@@ -21454,7 +21252,6 @@
     }
   },
   {
-    "id": 202,
     "name": {
       "en": "Creamy Brazil Nut Brownie",
       "pt": "Brownie cremoso de castanha-do-pará"
@@ -21561,7 +21358,6 @@
     }
   },
   {
-    "id": 203,
     "name": {
       "en": "Paprika Fennel Grilled Chicken",
       "pt": "Filé de frango grelhado com páprica e erva-doce"
@@ -21668,7 +21464,6 @@
     }
   },
   {
-    "id": 204,
     "name": {
       "en": "Clotted Cream",
       "pt": "Clotted cream"
@@ -21775,7 +21570,6 @@
     }
   },
   {
-    "id": 205,
     "name": {
       "en": "French Press Coffee",
       "pt": "Café de prensa"
@@ -21882,7 +21676,6 @@
     }
   },
   {
-    "id": 206,
     "name": {
       "en": "Banana Pie",
       "pt": "Torta de banana"
@@ -21989,7 +21782,6 @@
     }
   },
   {
-    "id": 207,
     "name": {
       "en": "Refreshing Melon Juice",
       "pt": "Suco refrescante de melão"
@@ -22096,7 +21888,6 @@
     }
   },
   {
-    "id": 208,
     "name": {
       "en": "Tuna Sandwich",
       "pt": "Sanduíche de atum"
@@ -22203,7 +21994,6 @@
     }
   },
   {
-    "id": 209,
     "name": {
       "en": "Yerba Mate with Lime",
       "pt": "Mate com limão"
@@ -22310,7 +22100,6 @@
     }
   },
   {
-    "id": 210,
     "name": {
       "en": "Cod Fritter with Yam",
       "pt": "Bolinho de bacalhau com inhame"
@@ -22417,7 +22206,6 @@
     }
   },
   {
-    "id": 211,
     "name": {
       "en": "Passion Fruit Caipirinha with Ginger",
       "pt": "Caipirinha de maracujá com gengibre e folhas de mexerica"
@@ -22524,7 +22312,6 @@
     }
   },
   {
-    "id": 212,
     "name": {
       "en": "Citrus Gin and Tonic",
       "pt": "Gim tônica cítrica"
@@ -22631,7 +22418,6 @@
     }
   },
   {
-    "id": 213,
     "name": {
       "en": "Vegetable Crudites",
       "pt": "Crudités de legumes"
@@ -22738,7 +22524,6 @@
     }
   },
   {
-    "id": 214,
     "name": {
       "en": "White Bean Dip",
       "pt": "Dip de feijão branco"
@@ -22845,7 +22630,6 @@
     }
   },
   {
-    "id": 215,
     "name": {
       "en": "Whole Wheat Walnut Bread",
       "pt": "Pão integral com nozes"
@@ -22952,7 +22736,6 @@
     }
   },
   {
-    "id": 216,
     "name": {
       "en": "Fig and Red Wine Jam",
       "pt": "Geleia de figo e vinho tinto"
@@ -23059,7 +22842,6 @@
     }
   },
   {
-    "id": 217,
     "name": {
       "en": "Savory Cheese French Toast",
       "pt": "Rabanada salgada com queijo"
@@ -23166,7 +22948,6 @@
     }
   },
   {
-    "id": 218,
     "name": {
       "en": "Fruit Salad with Cacao Nibs",
       "pt": "Salada de frutas com nibs de cacau"
@@ -23273,7 +23054,6 @@
     }
   },
   {
-    "id": 219,
     "name": {
       "en": "Baked Cocada",
       "pt": "Cocada de forno"
@@ -23380,7 +23160,6 @@
     }
   },
   {
-    "id": 220,
     "name": {
       "en": "Pinto Beans with Cumin",
       "pt": "Feijão-carioca com cominho"
@@ -23487,7 +23266,6 @@
     }
   },
   {
-    "id": 221,
     "name": {
       "en": "Beef with Potatoes and Carrots",
       "pt": "Carne com batata e cenoura na panela de pressão"
@@ -23594,7 +23372,6 @@
     }
   },
   {
-    "id": 222,
     "name": {
       "en": "Mozzarella Pizza",
       "pt": "Pizza de muçarela"
@@ -23701,7 +23478,6 @@
     }
   },
   {
-    "id": 223,
     "name": {
       "en": "Chocolate Mousse",
       "pt": "Musse de chocolate"
@@ -23808,7 +23584,6 @@
     }
   },
   {
-    "id": 224,
     "name": {
       "en": "Onion and Cucumber Salad with Cilantro",
       "pt": "Salada de cebola com pepino e molho de coentro"
@@ -23915,7 +23690,6 @@
     }
   },
   {
-    "id": 225,
     "name": {
       "en": "Chicken Potato Gratin",
       "pt": "Gratinado de batata com frango"
@@ -24022,7 +23796,6 @@
     }
   },
   {
-    "id": 226,
     "name": {
       "en": "Homemade Semolina Pasta",
       "pt": "Massa caseira com semolina"
@@ -24129,7 +23902,6 @@
     }
   },
   {
-    "id": 227,
     "name": {
       "en": "Pasta with Roasted Vegetables",
       "pt": "Macarrão com legumes assados"
@@ -24236,7 +24008,6 @@
     }
   },
   {
-    "id": 228,
     "name": {
       "en": "Bean Soup with Pasta",
       "pt": "Sopa de feijão com macarrão"
@@ -24343,7 +24114,6 @@
     }
   },
   {
-    "id": 229,
     "name": {
       "en": "Corn Farofa with Carrot and Bacon",
       "pt": "Farofa de milho com cenoura e bacon"
@@ -24450,7 +24220,6 @@
     }
   },
   {
-    "id": 230,
     "name": {
       "en": "Northeastern Couscous",
       "pt": "Cuscuz nordestino"
@@ -24557,7 +24326,6 @@
     }
   },
   {
-    "id": 231,
     "name": {
       "en": "Paulista-Style Couscous",
       "pt": "Cuscuz Ã  paulista"
@@ -24664,7 +24432,6 @@
     }
   },
   {
-    "id": 232,
     "name": {
       "en": "Feijao Tropeiro",
       "pt": "Feijão tropeiro mineiro"
@@ -24771,7 +24538,6 @@
     }
   },
   {
-    "id": 233,
     "name": {
       "en": "Feijoada",
       "pt": "Feijoada"
@@ -24878,7 +24644,6 @@
     }
   },
   {
-    "id": 234,
     "name": {
       "en": "Quibebe",
       "pt": "Quibebe"
@@ -24985,7 +24750,6 @@
     }
   },
   {
-    "id": 235,
     "name": {
       "en": "Sarapatel",
       "pt": "Sarapatel"
@@ -25092,7 +24856,6 @@
     }
   },
   {
-    "id": 236,
     "name": {
       "en": "Tacaca",
       "pt": "Tacacá"
@@ -25199,7 +24962,6 @@
     }
   },
   {
-    "id": 237,
     "name": {
       "en": "Tucupi Broth",
       "pt": "Caldo de tucupi"
@@ -25306,7 +25068,6 @@
     }
   },
   {
-    "id": 238,
     "name": {
       "en": "Rice with Dried Figs and Spices",
       "pt": "Arroz com figo seco e especiarias"
@@ -25413,7 +25174,6 @@
     }
   },
   {
-    "id": 239,
     "name": {
       "en": "White Bean Salad with Celery",
       "pt": "Salada de feijão branco com salsão"
@@ -25520,7 +25280,6 @@
     }
   },
   {
-    "id": 241,
     "name": {
       "en": "Lamb Hummus",
       "pt": "Homus com cordeiro"
@@ -25627,7 +25386,6 @@
     }
   },
   {
-    "id": 242,
     "name": {
       "en": "Hummus",
       "pt": "Homus"
@@ -25734,7 +25492,6 @@
     }
   },
   {
-    "id": 243,
     "name": {
       "en": "Garlic Paste",
       "pt": "Pasta de alho"
@@ -25841,7 +25598,6 @@
     }
   },
   {
-    "id": 244,
     "name": {
       "en": "Pressure Cooker Chicken",
       "pt": "Frango na panela de pressão"
@@ -25948,7 +25704,6 @@
     }
   },
   {
-    "id": 245,
     "name": {
       "en": "Cooked Pinto Beans",
       "pt": "Feijão carioca cozido"
@@ -26055,7 +25810,6 @@
     }
   },
   {
-    "id": 246,
     "name": {
       "en": "Dry Pinto Beans",
       "pt": "Feijão carioca cru"
@@ -26162,7 +25916,6 @@
     }
   },
   {
-    "id": 247,
     "name": {
       "en": "Cooked Black-Eyed Peas",
       "pt": "Feijão fradinho cozido"
@@ -26257,7 +26010,6 @@
     "aminoAcids": {}
   },
   {
-    "id": 248,
     "name": {
       "en": "Dry Black-Eyed Peas",
       "pt": "Feijão fradinho cru"
@@ -26352,7 +26104,6 @@
     "aminoAcids": {}
   },
   {
-    "id": 249,
     "name": {
       "en": "Cooked Jalo Beans",
       "pt": "Feijão jalo cozido"
@@ -26447,7 +26198,6 @@
     "aminoAcids": {}
   },
   {
-    "id": 250,
     "name": {
       "en": "Dry Jalo Beans",
       "pt": "Feijão jalo cru"
@@ -26542,7 +26292,6 @@
     "aminoAcids": {}
   },
   {
-    "id": 251,
     "name": {
       "en": "Cooked Black Beans",
       "pt": "Feijão preto cozido"
@@ -26649,7 +26398,6 @@
     }
   },
   {
-    "id": 252,
     "name": {
       "en": "Dry Black Beans",
       "pt": "Feijão preto cru"
@@ -26756,7 +26504,6 @@
     }
   },
   {
-    "id": 253,
     "name": {
       "en": "Cooked Pinto Beans (Rajado)",
       "pt": "Feijão rajado cozido"
@@ -26863,7 +26610,6 @@
     }
   },
   {
-    "id": 254,
     "name": {
       "en": "Dry Pinto Beans (Rajado)",
       "pt": "Feijão rajado cru"
@@ -26970,7 +26716,6 @@
     }
   },
   {
-    "id": 255,
     "name": {
       "en": "Cooked Rosinha Beans",
       "pt": "Feijão rosinha cozido"
@@ -27077,7 +26822,6 @@
     }
   },
   {
-    "id": 256,
     "name": {
       "en": "Dry Rosinha Beans",
       "pt": "Feijão rosinha cru"
@@ -27184,7 +26928,6 @@
     }
   },
   {
-    "id": 257,
     "name": {
       "en": "Cooked Red Kidney Beans",
       "pt": "Feijão roxo cozido"
@@ -27271,7 +27014,6 @@
     }
   },
   {
-    "id": 258,
     "name": {
       "en": "Dry Red Kidney Beans",
       "pt": "Feijão roxo cru"
@@ -27358,7 +27100,6 @@
     }
   },
   {
-    "id": 259,
     "name": {
       "en": "Cooked White Beans",
       "pt": "Feijão branco cozido"
@@ -27442,6 +27183,642 @@
       "tryptophan": 0.11,
       "tyrosine": 0.25,
       "valine": 0.47
+    }
+  },
+  {
+    "name": {
+      "en": "Pear Orange (Pêra Rio)",
+      "pt": "Laranja-Pêra Rio"
+    },
+    "description": {
+      "en": "Brazilian variety of sweet orange with thin peel, very juicy and sweet flavor, ideal for fresh juice.",
+      "pt": "Variedade brasileira de laranja-doce, de casca fina e sabor adocicado, muito suculenta, ideal para sucos naturais."
+    },
+    "image": "https://images.unsplash.com/photo-1615484477778-6d3f3b4cdd1d?auto=format&fit=crop&w=1050&q=80",
+    "measurementUnit": "Gram",
+    "measures": {
+      "cup": 180,
+      "spoon": 15,
+      "teaSpoon": 5,
+      "unity": 130,
+      "unitySmall": 90,
+      "unityLarge": 200,
+      "can": null,
+      "glass": 250,
+      "breast": null,
+      "clove": null,
+      "slice": 50,
+      "bunch": null,
+      "pinch": null
+    },
+    "keys": {
+      "en": "pear orange, pera rio orange, sweet orange, juice orange",
+      "pt": "laranja-pêra, pêra rio, laranja para suco, fruta cítrica"
+    },
+    "icon": "orange.svg",
+    "type": "Fruit",
+    "nutritionalInformation": {
+      "acidification": 0,
+      "ashes": 0,
+      "calories": 47,
+      "carbohydrates": 12,
+      "cholesterol": 0,
+      "dietaryFiber": 2.4,
+      "gi": 43,
+      "gl": 5,
+      "monounsaturatedFats": 0,
+      "polyunsaturatedFats": 0,
+      "proteins": 0.9,
+      "saturedFats": 0,
+      "sugar": 9,
+      "totalFat": 0.1
+    },
+    "minerals": {
+      "calcium": 40,
+      "copper": 0.045,
+      "fluoride": 0,
+      "iron": 0.1,
+      "magnesium": 10,
+      "manganese": 0.025,
+      "phosphorus": 14,
+      "potassium": 181,
+      "selenium": 0,
+      "sodium": 0,
+      "zinc": 0.07
+    },
+    "vitamins": {
+      "a": 11,
+      "alphaCarotene": 11,
+      "b1": 0.08,
+      "b11": 0,
+      "b12": 0,
+      "b2": 0.04,
+      "b3": 0.28,
+      "b5": 0,
+      "b6": 0.06,
+      "b7": 0,
+      "b9": 30,
+      "betaCarotene": 71,
+      "c": 53.2,
+      "choline": 8.4,
+      "cryptoxanthinCarotene": 0,
+      "d": 0,
+      "d2": 0,
+      "d3": 0,
+      "e": 0,
+      "k": 0,
+      "lycopene": 0
+    },
+    "aminoAcids": {
+      "alanine": 50,
+      "arginine": 65,
+      "asparticAcid": 114,
+      "cystine": 10,
+      "glutamicAcid": 94,
+      "glutamine": 0,
+      "glycine": 94,
+      "histidine": 18,
+      "isoleucine": 25,
+      "leucine": 23,
+      "lysine": 47,
+      "methionine": 20,
+      "phenylalanine": 31,
+      "proline": 46,
+      "serine": 32,
+      "threonine": 15,
+      "tryptophan": 9,
+      "tyrosine": 16,
+      "valine": 40
+    }
+  },
+  {
+    "name": {
+      "en": "Pear Orange (IAC)",
+      "pt": "Laranja-Pêra IAC"
+    },
+    "description": {
+      "en": "Cultivar developed by the Agronomic Institute of Campinas with good yield and disease resistance.",
+      "pt": "Cultivar desenvolvida pelo Instituto Agronômico de Campinas (IAC), com boa produtividade e resistência a doenças."
+    },
+    "image": "https://images.unsplash.com/photo-1615485068431-8f173b5c8040?auto=format&fit=crop&w=1050&q=80",
+    "measurementUnit": "Gram",
+    "measures": {
+      "cup": 180,
+      "spoon": 15,
+      "teaSpoon": 5,
+      "unity": 130,
+      "unitySmall": 90,
+      "unityLarge": 200,
+      "can": null,
+      "glass": 250,
+      "breast": null,
+      "clove": null,
+      "slice": 50,
+      "bunch": null,
+      "pinch": null
+    },
+    "keys": {
+      "en": "pear orange, pera iac, sweet orange, brazilian orange",
+      "pt": "laranja-pêra, pêra iac, laranja-doce, fruta cítrica"
+    },
+    "icon": "orange.svg",
+    "type": "Fruit",
+    "nutritionalInformation": {
+      "acidification": 0,
+      "ashes": 0,
+      "calories": 47,
+      "carbohydrates": 12,
+      "cholesterol": 0,
+      "dietaryFiber": 2.4,
+      "gi": 43,
+      "gl": 5,
+      "monounsaturatedFats": 0,
+      "polyunsaturatedFats": 0,
+      "proteins": 0.9,
+      "saturedFats": 0,
+      "sugar": 9,
+      "totalFat": 0.1
+    },
+    "minerals": {
+      "calcium": 40,
+      "copper": 0.045,
+      "fluoride": 0,
+      "iron": 0.1,
+      "magnesium": 10,
+      "manganese": 0.025,
+      "phosphorus": 14,
+      "potassium": 181,
+      "selenium": 0,
+      "sodium": 0,
+      "zinc": 0.07
+    },
+    "vitamins": {
+      "a": 11,
+      "alphaCarotene": 11,
+      "b1": 0.08,
+      "b11": 0,
+      "b12": 0,
+      "b2": 0.04,
+      "b3": 0.28,
+      "b5": 0,
+      "b6": 0.06,
+      "b7": 0,
+      "b9": 30,
+      "betaCarotene": 71,
+      "c": 53.2,
+      "choline": 8.4,
+      "cryptoxanthinCarotene": 0,
+      "d": 0,
+      "d2": 0,
+      "d3": 0,
+      "e": 0,
+      "k": 0,
+      "lycopene": 0
+    },
+    "aminoAcids": {
+      "alanine": 50,
+      "arginine": 65,
+      "asparticAcid": 114,
+      "cystine": 10,
+      "glutamicAcid": 94,
+      "glutamine": 0,
+      "glycine": 94,
+      "histidine": 18,
+      "isoleucine": 25,
+      "leucine": 23,
+      "lysine": 47,
+      "methionine": 20,
+      "phenylalanine": 31,
+      "proline": 46,
+      "serine": 32,
+      "threonine": 15,
+      "tryptophan": 9,
+      "tyrosine": 16,
+      "valine": 40
+    }
+  },
+  {
+    "name": {
+      "en": "Pear Orange (Olímpia)",
+      "pt": "Laranja-Pêra Olímpia"
+    },
+    "description": {
+      "en": "Large sweet orange variety with firm pulp, suitable for both juice and fresh consumption.",
+      "pt": "Variedade de laranja-doce de frutos grandes e polpa firme, indicada tanto para suco quanto para consumo in natura."
+    },
+    "image": "https://images.unsplash.com/photo-1621961458684-0b5d5984c1ff?auto=format&fit=crop&w=1050&q=80",
+    "measurementUnit": "Gram",
+    "measures": {
+      "cup": 180,
+      "spoon": 15,
+      "teaSpoon": 5,
+      "unity": 130,
+      "unitySmall": 90,
+      "unityLarge": 200,
+      "can": null,
+      "glass": 250,
+      "breast": null,
+      "clove": null,
+      "slice": 50,
+      "bunch": null,
+      "pinch": null
+    },
+    "keys": {
+      "en": "pear orange, pera olimpia, sweet orange, juicy orange",
+      "pt": "laranja-pêra, pêra olímpia, laranja-doce, fruta cítrica"
+    },
+    "icon": "orange.svg",
+    "type": "Fruit",
+    "nutritionalInformation": {
+      "acidification": 0,
+      "ashes": 0,
+      "calories": 47,
+      "carbohydrates": 12,
+      "cholesterol": 0,
+      "dietaryFiber": 2.4,
+      "gi": 43,
+      "gl": 5,
+      "monounsaturatedFats": 0,
+      "polyunsaturatedFats": 0,
+      "proteins": 0.9,
+      "saturedFats": 0,
+      "sugar": 9,
+      "totalFat": 0.1
+    },
+    "minerals": {
+      "calcium": 40,
+      "copper": 0.045,
+      "fluoride": 0,
+      "iron": 0.1,
+      "magnesium": 10,
+      "manganese": 0.025,
+      "phosphorus": 14,
+      "potassium": 181,
+      "selenium": 0,
+      "sodium": 0,
+      "zinc": 0.07
+    },
+    "vitamins": {
+      "a": 11,
+      "alphaCarotene": 11,
+      "b1": 0.08,
+      "b11": 0,
+      "b12": 0,
+      "b2": 0.04,
+      "b3": 0.28,
+      "b5": 0,
+      "b6": 0.06,
+      "b7": 0,
+      "b9": 30,
+      "betaCarotene": 71,
+      "c": 53.2,
+      "choline": 8.4,
+      "cryptoxanthinCarotene": 0,
+      "d": 0,
+      "d2": 0,
+      "d3": 0,
+      "e": 0,
+      "k": 0,
+      "lycopene": 0
+    },
+    "aminoAcids": {
+      "alanine": 50,
+      "arginine": 65,
+      "asparticAcid": 114,
+      "cystine": 10,
+      "glutamicAcid": 94,
+      "glutamine": 0,
+      "glycine": 94,
+      "histidine": 18,
+      "isoleucine": 25,
+      "leucine": 23,
+      "lysine": 47,
+      "methionine": 20,
+      "phenylalanine": 31,
+      "proline": 46,
+      "serine": 32,
+      "threonine": 15,
+      "tryptophan": 9,
+      "tyrosine": 16,
+      "valine": 40
+    }
+  },
+  {
+    "name": {
+      "en": "Pear Orange (D9)",
+      "pt": "Laranja-Pêra D9"
+    },
+    "description": {
+      "en": "Mutation of the Pêra Rio orange, with slightly later ripening period and excellent juice yield.",
+      "pt": "Mutação da variedade Pêra Rio, com maturação um pouco mais tardia e excelente rendimento em suco."
+    },
+    "image": "https://images.unsplash.com/photo-1621961315535-2a9b46a62db9?auto=format&fit=crop&w=1050&q=80",
+    "measurementUnit": "Gram",
+    "measures": {
+      "cup": 180,
+      "spoon": 15,
+      "teaSpoon": 5,
+      "unity": 130,
+      "unitySmall": 90,
+      "unityLarge": 200,
+      "can": null,
+      "glass": 250,
+      "breast": null,
+      "clove": null,
+      "slice": 50,
+      "bunch": null,
+      "pinch": null
+    },
+    "keys": {
+      "en": "pear orange, pera d9, sweet orange, late orange",
+      "pt": "laranja-pêra, pêra d9, laranja tardia, fruta cítrica"
+    },
+    "icon": "orange.svg",
+    "type": "Fruit",
+    "nutritionalInformation": {
+      "acidification": 0,
+      "ashes": 0,
+      "calories": 47,
+      "carbohydrates": 12,
+      "cholesterol": 0,
+      "dietaryFiber": 2.4,
+      "gi": 43,
+      "gl": 5,
+      "monounsaturatedFats": 0,
+      "polyunsaturatedFats": 0,
+      "proteins": 0.9,
+      "saturedFats": 0,
+      "sugar": 9,
+      "totalFat": 0.1
+    },
+    "minerals": {
+      "calcium": 40,
+      "copper": 0.045,
+      "fluoride": 0,
+      "iron": 0.1,
+      "magnesium": 10,
+      "manganese": 0.025,
+      "phosphorus": 14,
+      "potassium": 181,
+      "selenium": 0,
+      "sodium": 0,
+      "zinc": 0.07
+    },
+    "vitamins": {
+      "a": 11,
+      "alphaCarotene": 11,
+      "b1": 0.08,
+      "b11": 0,
+      "b12": 0,
+      "b2": 0.04,
+      "b3": 0.28,
+      "b5": 0,
+      "b6": 0.06,
+      "b7": 0,
+      "b9": 30,
+      "betaCarotene": 71,
+      "c": 53.2,
+      "choline": 8.4,
+      "cryptoxanthinCarotene": 0,
+      "d": 0,
+      "d2": 0,
+      "d3": 0,
+      "e": 0,
+      "k": 0,
+      "lycopene": 0
+    },
+    "aminoAcids": {
+      "alanine": 50,
+      "arginine": 65,
+      "asparticAcid": 114,
+      "cystine": 10,
+      "glutamicAcid": 94,
+      "glutamine": 0,
+      "glycine": 94,
+      "histidine": 18,
+      "isoleucine": 25,
+      "leucine": 23,
+      "lysine": 47,
+      "methionine": 20,
+      "phenylalanine": 31,
+      "proline": 46,
+      "serine": 32,
+      "threonine": 15,
+      "tryptophan": 9,
+      "tyrosine": 16,
+      "valine": 40
+    }
+  },
+  {
+    "name": {
+      "en": "Pear Orange (Bianchi)",
+      "pt": "Laranja-Pêra Bianchi"
+    },
+    "description": {
+      "en": "Adapted to warmer regions, offering a more intense and aromatic juice flavor.",
+      "pt": "Variedade adaptada a regiões mais quentes, com suco de sabor mais intenso e aromático."
+    },
+    "image": "https://images.unsplash.com/photo-1615484477778-6d3f3b4cdd1d?auto=format&fit=crop&w=1050&q=80",
+    "measurementUnit": "Gram",
+    "measures": {
+      "cup": 180,
+      "spoon": 15,
+      "teaSpoon": 5,
+      "unity": 130,
+      "unitySmall": 90,
+      "unityLarge": 200,
+      "can": null,
+      "glass": 250,
+      "breast": null,
+      "clove": null,
+      "slice": 50,
+      "bunch": null,
+      "pinch": null
+    },
+    "keys": {
+      "en": "pear orange, pera bianchi, sweet orange, aromatic orange",
+      "pt": "laranja-pêra, pêra bianchi, laranja aromática, fruta cítrica"
+    },
+    "icon": "orange.svg",
+    "type": "Fruit",
+    "nutritionalInformation": {
+      "acidification": 0,
+      "ashes": 0,
+      "calories": 47,
+      "carbohydrates": 12,
+      "cholesterol": 0,
+      "dietaryFiber": 2.4,
+      "gi": 43,
+      "gl": 5,
+      "monounsaturatedFats": 0,
+      "polyunsaturatedFats": 0,
+      "proteins": 0.9,
+      "saturedFats": 0,
+      "sugar": 9,
+      "totalFat": 0.1
+    },
+    "minerals": {
+      "calcium": 40,
+      "copper": 0.045,
+      "fluoride": 0,
+      "iron": 0.1,
+      "magnesium": 10,
+      "manganese": 0.025,
+      "phosphorus": 14,
+      "potassium": 181,
+      "selenium": 0,
+      "sodium": 0,
+      "zinc": 0.07
+    },
+    "vitamins": {
+      "a": 11,
+      "alphaCarotene": 11,
+      "b1": 0.08,
+      "b11": 0,
+      "b12": 0,
+      "b2": 0.04,
+      "b3": 0.28,
+      "b5": 0,
+      "b6": 0.06,
+      "b7": 0,
+      "b9": 30,
+      "betaCarotene": 71,
+      "c": 53.2,
+      "choline": 8.4,
+      "cryptoxanthinCarotene": 0,
+      "d": 0,
+      "d2": 0,
+      "d3": 0,
+      "e": 0,
+      "k": 0,
+      "lycopene": 0
+    },
+    "aminoAcids": {
+      "alanine": 50,
+      "arginine": 65,
+      "asparticAcid": 114,
+      "cystine": 10,
+      "glutamicAcid": 94,
+      "glutamine": 0,
+      "glycine": 94,
+      "histidine": 18,
+      "isoleucine": 25,
+      "leucine": 23,
+      "lysine": 47,
+      "methionine": 20,
+      "phenylalanine": 31,
+      "proline": 46,
+      "serine": 32,
+      "threonine": 15,
+      "tryptophan": 9,
+      "tyrosine": 16,
+      "valine": 40
+    }
+  },
+  {
+    "name": {
+      "en": "Pear Orange (de Março)",
+      "pt": "Laranja-Pêra de Março"
+    },
+    "description": {
+      "en": "Early-ripening variety that reaches maturity before the main Pêra orange season.",
+      "pt": "Variedade precoce de laranja-pêra que amadurece antes da safra principal."
+    },
+    "image": "https://images.unsplash.com/photo-1621961315535-2a9b46a62db9?auto=format&fit=crop&w=1050&q=80",
+    "measurementUnit": "Gram",
+    "measures": {
+      "cup": 180,
+      "spoon": 15,
+      "teaSpoon": 5,
+      "unity": 130,
+      "unitySmall": 90,
+      "unityLarge": 200,
+      "can": null,
+      "glass": 250,
+      "breast": null,
+      "clove": null,
+      "slice": 50,
+      "bunch": null,
+      "pinch": null
+    },
+    "keys": {
+      "en": "pear orange, pera de março, sweet orange, early orange",
+      "pt": "laranja-pêra, pêra de março, laranja precoce, fruta cítrica"
+    },
+    "icon": "orange.svg",
+    "type": "Fruit",
+    "nutritionalInformation": {
+      "acidification": 0,
+      "ashes": 0,
+      "calories": 47,
+      "carbohydrates": 12,
+      "cholesterol": 0,
+      "dietaryFiber": 2.4,
+      "gi": 43,
+      "gl": 5,
+      "monounsaturatedFats": 0,
+      "polyunsaturatedFats": 0,
+      "proteins": 0.9,
+      "saturedFats": 0,
+      "sugar": 9,
+      "totalFat": 0.1
+    },
+    "minerals": {
+      "calcium": 40,
+      "copper": 0.045,
+      "fluoride": 0,
+      "iron": 0.1,
+      "magnesium": 10,
+      "manganese": 0.025,
+      "phosphorus": 14,
+      "potassium": 181,
+      "selenium": 0,
+      "sodium": 0,
+      "zinc": 0.07
+    },
+    "vitamins": {
+      "a": 11,
+      "alphaCarotene": 11,
+      "b1": 0.08,
+      "b11": 0,
+      "b12": 0,
+      "b2": 0.04,
+      "b3": 0.28,
+      "b5": 0,
+      "b6": 0.06,
+      "b7": 0,
+      "b9": 30,
+      "betaCarotene": 71,
+      "c": 53.2,
+      "choline": 8.4,
+      "cryptoxanthinCarotene": 0,
+      "d": 0,
+      "d2": 0,
+      "d3": 0,
+      "e": 0,
+      "k": 0,
+      "lycopene": 0
+    },
+    "aminoAcids": {
+      "alanine": 50,
+      "arginine": 65,
+      "asparticAcid": 114,
+      "cystine": 10,
+      "glutamicAcid": 94,
+      "glutamine": 0,
+      "glycine": 94,
+      "histidine": 18,
+      "isoleucine": 25,
+      "leucine": 23,
+      "lysine": 47,
+      "methionine": 20,
+      "phenylalanine": 31,
+      "proline": 46,
+      "serine": 32,
+      "threonine": 15,
+      "tryptophan": 9,
+      "tyrosine": 16,
+      "valine": 40
     }
   }
 ]

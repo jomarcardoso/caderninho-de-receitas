@@ -37,6 +37,8 @@ public class FoodController : ControllerBase
   [HttpPost]
   public async Task<ActionResult<Food>> Create([FromBody] Food food)
   {
+    // Ignore any incoming Id to avoid PK conflicts
+    food.Id = 0;
     food.Process();
     _context.Food.Add(food);
     await _context.SaveChangesAsync();
@@ -48,12 +50,17 @@ public class FoodController : ControllerBase
   [HttpPost("many")]
   public async Task<ActionResult<Food>> CreateMany([FromBody] Food[] foods)
   {
-    foreach (Food food in foods)
+    if (foods is null || foods.Length == 0) return Ok();
+
+    foreach (var food in foods)
     {
+      // Ignore any incoming Id to avoid PK conflicts
+      food.Id = 0;
       food.Process();
-      _context.Food.Add(food);
-      await _context.SaveChangesAsync();
     }
+
+    _context.Food.AddRange(foods);
+    await _context.SaveChangesAsync();
 
     return Ok();
   }

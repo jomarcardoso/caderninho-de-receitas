@@ -280,6 +280,7 @@ public class IngredientServiceTests
   [TestCase("⅓ de xícara (chá) de queijo parmesão ralado fino", MeasureType.Cup, 1d / 3d, 100d / 3d)]
   [TestCase("½ xícara (chá) de leite", MeasureType.Cup, 1d / 2d, 120d)]
   [TestCase("2 ovos", MeasureType.Unity, 2d, 100d)]
+  [TestCase("1 xícara (chá) de óleo", MeasureType.Cup, 1d, 218d)]
   public async Task ToEntity_ParsesTexts_CommonCases(string input, MeasureType expectedType, double expectedMeasureQty, double expectedQuantity)
   {
     var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");

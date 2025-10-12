@@ -145,12 +145,20 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// test DB
+// DB: ensure schema and reseed Food ID sequence (Postgres)
 using (var scope = app.Services.CreateScope())
 {
   var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-  // db.Database.Migrate();
-  db.Database.EnsureCreated();
+  // Apply pending migrations (preferred over EnsureCreated for relational DBs)
+  try { db.Database.Migrate(); } catch { /* ignore on in-memory/dev */ }
+
+  // Reseed Food.Id sequence to avoid PK conflicts after restores
+  try
+  {
+    var reseedSql = @"SELECT setval(pg_get_serial_sequence('""Food""', 'Id'), COALESCE((SELECT MAX(""Id"") FROM ""Food""), 0), true);";
+    db.Database.ExecuteSqlRaw(reseedSql);
+  }
+  catch { /* ignore if not Postgres or table/sequence not present */ }
 }
 
 // blazor
