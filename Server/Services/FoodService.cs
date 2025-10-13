@@ -187,16 +187,23 @@ public class FoodService
   {
     var noPrefixName = filterPrefix(name);
 
-    var normalized = FoodModifiers
-      .OrderByDescending(modifier => modifier.Length)
-      .Aggregate(noPrefixName,
-        (current, modifier) => current
-          .Replace(modifier, string.Empty)
-          // do three if the food has more than one modifier
-          .Replace(modifier, string.Empty)
-          .Replace(modifier, string.Empty)
-          .Trim()
-          .Replace("  ", " "));
+    // Remove known modifiers in a case-insensitive way (handles "Para polvilhar ...")
+    var normalized = noPrefixName;
+    foreach (var modifier in FoodModifiers.OrderByDescending(m => m.Length))
+    {
+      if (string.IsNullOrWhiteSpace(modifier)) continue;
+      var pattern = Regex.Escape(modifier);
+      // Replace all occurrences, ignore case, and trim extra spaces produced
+      normalized = Regex.Replace(normalized, pattern, string.Empty, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+      normalized = Regex.Replace(normalized, "\\s+", " ", RegexOptions.CultureInvariant).Trim();
+    }
+
+    // Also handle generic trailing purpose phrases starting with "para ..." or "for ..."
+    // e.g., "farinha de trigo para polvilhar a bancada" -> "farinha de trigo"
+    normalized = Regex.Replace(normalized, @"\b(para|for)\b.*$", string.Empty, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Trim();
+
+    // Collapse multiple spaces
+    normalized = Regex.Replace(normalized, "\\s+", " ", RegexOptions.CultureInvariant).Trim();
     normalized = StringService.ReplaceEnding(normalized, " e", string.Empty);
     normalized = StringService.ReplaceEnding(normalized, " and", string.Empty);
 

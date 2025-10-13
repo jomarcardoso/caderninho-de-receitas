@@ -7,6 +7,12 @@ docker-compose down
 docker volume rm db_pgdata
 ```
 
+Reset foods ID
+
+```sql
+ALTER TABLE "Food" ALTER COLUMN "Id" RESTART WITH 1;
+```
+
 ## Db container
 
 ```
@@ -93,7 +99,7 @@ docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (
 Backup to use to unit tests:
 
 ```bash
-docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT \"Id\", \"Name_En\", \"Name_Pt\", \"Keys_En\", \"Keys_Pt\" FROM \"Food\") f) TO STDOUT" > mocks/Foods.json
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(row_to_json(f)) FROM (SELECT * FROM \"Food\") f) TO STDOUT" > mocks/Foods.json
 ```
 
 ### Restore

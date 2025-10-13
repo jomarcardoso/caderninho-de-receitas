@@ -31,6 +31,80 @@ public class IngredientServiceTests
     context.Dispose();
   }
 
+  private static List<Food> LoadFoodsWithMeasures()
+  {
+    var foodsPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
+    Assert.That(File.Exists(foodsPath), Is.True, $"Arquivo não encontrado: {foodsPath}");
+
+    var json = File.ReadAllText(foodsPath);
+    var foods = new List<Food>();
+
+    using (var doc = System.Text.Json.JsonDocument.Parse(json))
+    {
+      int i = 1;
+      foreach (var el in doc.RootElement.EnumerateArray())
+      {
+        int id = el.TryGetProperty("Id", out var idEl) && idEl.TryGetInt32(out var idVal) ? idVal : i;
+        var name = new LanguageText
+        {
+          Pt = el.TryGetProperty("Name_Pt", out var npt) ? (npt.GetString() ?? string.Empty) : string.Empty,
+          En = el.TryGetProperty("Name_En", out var nen) ? (nen.GetString() ?? string.Empty) : string.Empty,
+        };
+        var keys = new LanguageText
+        {
+          Pt = el.TryGetProperty("Keys_Pt", out var kpt) ? (kpt.GetString() ?? string.Empty) : string.Empty,
+          En = el.TryGetProperty("Keys_En", out var ken) ? (ken.GetString() ?? string.Empty) : string.Empty,
+        };
+
+        var mu = MeasurementUnit.Gram;
+        if (el.TryGetProperty("MeasurementUnit", out var muEl))
+        {
+          if (muEl.ValueKind == System.Text.Json.JsonValueKind.Number && muEl.TryGetInt32(out var muInt))
+            mu = Enum.IsDefined(typeof(MeasurementUnit), muInt) ? (MeasurementUnit)muInt : MeasurementUnit.Gram;
+          else if (muEl.ValueKind == System.Text.Json.JsonValueKind.String)
+            Enum.TryParse<MeasurementUnit>(muEl.GetString() ?? string.Empty, true, out mu);
+        }
+
+        var measure = new Measure();
+        foreach (var prop in el.EnumerateObject())
+        {
+          if (!prop.Name.StartsWith("Measures_", StringComparison.OrdinalIgnoreCase)) continue;
+          if (prop.Value.ValueKind != System.Text.Json.JsonValueKind.Number) continue;
+          var val = prop.Value.GetDouble();
+          switch (prop.Name.ToLowerInvariant())
+          {
+            case "measures_cup": measure.Cup = val; break;
+            case "measures_smallcup": measure.SmallCup = val; break;
+            case "measures_spoon": measure.Spoon = val; break;
+            case "measures_teaspoon": measure.TeaSpoon = val; break;
+            case "measures_unity": measure.Unity = val; break;
+            case "measures_unitysmall": measure.UnitySmall = val; break;
+            case "measures_unitylarge": measure.UnityLarge = val; break;
+            case "measures_can": measure.Can = val; break;
+            case "measures_glass": measure.Glass = val; break;
+            case "measures_breast": measure.Breast = val; break;
+            case "measures_clove": measure.Clove = val; break;
+            case "measures_slice": measure.Slice = val; break;
+            case "measures_bunch": measure.Bunch = val; break;
+            case "measures_pinch": measure.Pinch = val; break;
+          }
+        }
+
+        foods.Add(new Food
+        {
+          Id = id,
+          Name = name,
+          Keys = keys,
+          MeasurementUnit = mu,
+          Measures = measure
+        });
+        i++;
+      }
+    }
+
+    return foods;
+  }
+
   [TestCase("feijão cozido", "", MeasureType.Unity, "feijão cozido")]
 
   [TestCase("1 xícara de arroz", "1 xícara", MeasureType.Cup, "de arroz")]
@@ -226,14 +300,6 @@ public class IngredientServiceTests
   [TestCase("1 lata de tomates", MeasureType.Can, 1d, 400d)]
   public async Task ToEntity_ParsesText_UsingFoodMeasures(string input, MeasureType expectedType, double expectedMeasureQty, double expectedQuantity)
   {
-    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
-    Assert.That(File.Exists(path), Is.True, $"Arquivo não encontrado: {path}");
-
-    var json = File.ReadAllText(path);
-    var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-    var fixtures = System.Text.Json.JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
-
     var options = new DbContextOptionsBuilder<AppDbContext>()
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
@@ -242,16 +308,7 @@ public class IngredientServiceTests
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
-    var foods = fixtures
-      .Select((fixture, index) => new Food
-      {
-        Id = index + 1,
-        Name = fixture.Name ?? new LanguageText(),
-        Keys = fixture.Keys ?? new LanguageText(),
-        MeasurementUnit = Enum.TryParse<MeasurementUnit>(fixture.MeasurementUnit, true, out var mu) ? mu : MeasurementUnit.Gram,
-        Measures = fixture.Measures?.ToModel() ?? new Measure()
-      })
-      .ToList();
+    var foods = LoadFoodsWithMeasures();
 
     localContext.Food.AddRange(foods);
     localContext.SaveChanges();
@@ -284,13 +341,6 @@ public class IngredientServiceTests
   [TestCase("6 xícaras (chá) de farinha de trigo (cerca de 740 g)", MeasureType.Gram, 740d, 740d)]
   public async Task ToEntity_ParsesTexts_CommonCases(string input, MeasureType expectedType, double expectedMeasureQty, double expectedQuantity)
   {
-    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
-    Assert.That(File.Exists(path), Is.True, $"Arquivo não encontrado: {path}");
-
-    var json = File.ReadAllText(path);
-    var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-    var fixtures = System.Text.Json.JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
-
     var options = new DbContextOptionsBuilder<AppDbContext>()
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
@@ -299,16 +349,7 @@ public class IngredientServiceTests
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
-    var foods = fixtures
-      .Select((fixture, index) => new Food
-      {
-        Id = index + 1,
-        Name = fixture.Name ?? new LanguageText(),
-        Keys = fixture.Keys ?? new LanguageText(),
-        MeasurementUnit = Enum.TryParse<MeasurementUnit>(fixture.MeasurementUnit, true, out var mu) ? mu : MeasurementUnit.Gram,
-        Measures = fixture.Measures?.ToModel() ?? new Measure()
-      })
-      .ToList();
+    var foods = LoadFoodsWithMeasures();
 
     localContext.Food.AddRange(foods);
     localContext.SaveChanges();
@@ -325,13 +366,6 @@ public class IngredientServiceTests
   [TestCase("um terço de xícara (chá) de queijo parmesão ralado fino", 100d / 3d)]
   public async Task ToEntity_Parmesan_FractionVariants(string input, double expectedQuantity)
   {
-    var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
-    Assert.That(File.Exists(path), Is.True, $"Arquivo não encontrado: {path}");
-
-    var json = File.ReadAllText(path);
-    var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-    var fixtures = System.Text.Json.JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
-
     var options = new DbContextOptionsBuilder<AppDbContext>()
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
@@ -340,16 +374,7 @@ public class IngredientServiceTests
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
-    var foods = fixtures
-      .Select((fixture, index) => new Food
-      {
-        Id = index + 1,
-        Name = fixture.Name ?? new LanguageText(),
-        Keys = fixture.Keys ?? new LanguageText(),
-        MeasurementUnit = Enum.TryParse<MeasurementUnit>(fixture.MeasurementUnit, true, out var mu) ? mu : MeasurementUnit.Gram,
-        Measures = fixture.Measures?.ToModel() ?? new Measure()
-      })
-      .ToList();
+    var foods = LoadFoodsWithMeasures();
 
     localContext.Food.AddRange(foods);
     localContext.SaveChanges();
@@ -379,9 +404,9 @@ public class IngredientServiceTests
     var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");
     Assert.That(File.Exists(path), Is.True, $"Arquivo não encontrado: {path}");
 
+    // usando o helper que lê o mock oficial (formato novo)
     var json = File.ReadAllText(path);
     var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-    var fixtures = System.Text.Json.JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
 
     var options = new DbContextOptionsBuilder<AppDbContext>()
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
@@ -391,16 +416,7 @@ public class IngredientServiceTests
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
-    var foods = fixtures
-      .Select((fixture, index) => new Food
-      {
-        Id = index + 1,
-        Name = fixture.Name ?? new LanguageText(),
-        Keys = fixture.Keys ?? new LanguageText(),
-        MeasurementUnit = Enum.TryParse<MeasurementUnit>(fixture.MeasurementUnit, true, out var mu) ? mu : MeasurementUnit.Gram,
-        Measures = fixture.Measures?.ToModel() ?? new Measure()
-      })
-      .ToList();
+    var foods = LoadFoodsWithMeasures();
 
     localContext.Food.AddRange(foods);
     localContext.SaveChanges();

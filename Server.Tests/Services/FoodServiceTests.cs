@@ -16,10 +16,14 @@ public class FoodServiceTests
   private AppDbContext context = null!;
   private FoodService service = null!;
 
-  private sealed record FoodFixture(
-    [property: JsonPropertyName("name")] LanguageText Name,
-    [property: JsonPropertyName("keys")] LanguageText Keys
-  );
+  private sealed class FoodFixtureFull
+  {
+    [JsonPropertyName("Id")] public int Id { get; set; }
+    [JsonPropertyName("Name_Pt")] public string? Name_Pt { get; set; }
+    [JsonPropertyName("Name_En")] public string? Name_En { get; set; }
+    [JsonPropertyName("Keys_Pt")] public string? Keys_Pt { get; set; }
+    [JsonPropertyName("Keys_En")] public string? Keys_En { get; set; }
+  }
 
   private static void AssertFoodHasName(Food? food, string expectedName)
   {
@@ -42,13 +46,15 @@ public class FoodServiceTests
 
     var json = File.ReadAllText(path);
     var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-    var fixtures = JsonSerializer.Deserialize<List<FoodFixture>>(json, jsonOptions) ?? new List<FoodFixture>();
+    var fixtures = JsonSerializer.Deserialize<List<FoodFixtureFull>>(json, jsonOptions) ?? new List<FoodFixtureFull>();
+
+    // Não mapeamos medidas; apenas nome/keys do mock novo
     var foods = fixtures
-      .Select((fixture, index) => new Food
+      .Select((f, index) => new Food
       {
-        Id = index + 1,
-        Name = fixture.Name ?? new LanguageText(),
-        Keys = fixture.Keys ?? new LanguageText()
+        Id = f.Id != 0 ? f.Id : (index + 1),
+        Name = new LanguageText { Pt = f.Name_Pt ?? string.Empty, En = f.Name_En ?? string.Empty },
+        Keys = new LanguageText { Pt = f.Keys_Pt ?? string.Empty, En = f.Keys_En ?? string.Empty }
       })
       .ToList();
 
@@ -210,6 +216,7 @@ public class FoodServiceTests
   [TestCase("treacle", "Golden Syrup")]
   [TestCase("the diced tomato", "Diced Tomatoes")]
   [TestCase("roosted potato", "Roasted Potato Wedges")]
+  [TestCase("farinha de trigo para polvilhar a bancada", "Farinha de trigo")]
   public async Task FindFoodByPossibleName(string name, string expectedName)
   {
     var foodResult = await service.FindFoodByPossibleName(name);
