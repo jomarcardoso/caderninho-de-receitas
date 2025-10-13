@@ -17,5 +17,6 @@ public enum FoodType
   Cake,
   Cheese,
   Powder,
+  Starch,
   Recipe
 }

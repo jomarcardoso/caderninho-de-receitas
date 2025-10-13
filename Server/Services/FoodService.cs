@@ -15,6 +15,7 @@ public class FoodService
     "para servir", "a gosto para servir", "a gosto para servir (opcional)",
     "(opcional)", "opcional",
     "picado", "picada", "picados", "picadas",
+    "para polvilhar", "para polvilhar a mesa", "para polvilhar a bancada",
     "ralado", "ralada", "ralados", "raladas",
     "na hora",
     "cozido", "cozida", "cozidos", "cozidas",

@@ -143,8 +143,11 @@ public static class MeasurePatterns
   }
 }
 
-public class IngredientService
-{
+  public class IngredientService
+  {
+  private static readonly Regex TrailingExplicitWeightRegex = new(
+    @"\((?:(?!\().)*?(?<num>\d+(?:[.,]\d+)?)\s*(?<unit>g|gr|gramas?|grama|kg|kilo(?:grama)?s?|quil(?:o|ograma)s?|ml|mililitros?|mililitro|l|litros?|litro)\s*\)",
+    RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled | RegexOptions.RightToLeft);
   private static readonly Regex LiteralPhraseRegex = new(@"(?:(?:a|\u00E0)\s+gosto|um\s+fio|fio\s+de|raspas?|raspa|para\s+polvilhar|to\s+taste|as\s+needed|a\s+drizzle|drizzle\s+of|for\s+sprinkling)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
   private static readonly Regex LiteralByUnitRegex = new(@"\(.*\b(cada|each|per)\b.*\)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
   private static readonly HashSet<string> TokensToSkip = new(StringComparer.Ordinal)
@@ -641,7 +644,45 @@ public class IngredientService
   {
     var (measureText, measureType, restText) = SplitTextInMeasureAndRest();
     var food = await foodService.FindFoodByPossibleName(restText);
+
+    // Default quantity parsed from the detected measure (e.g., cups/spoons)
     var quantity = ParseMeasureQuantity(measureText);
+
+    // If there is an explicit weight/volume at the end (e.g., "(cerca de 740 g)"),
+    // prefer that over volumetric measures like cups/spoons.
+    // This avoids double-conversion and respects explicit final quantities.
+    var explicitWeightMatch = TrailingExplicitWeightRegex.Match(Text);
+    if (explicitWeightMatch.Success)
+    {
+      var numText = explicitWeightMatch.Groups["num"].Value.Replace(',', '.');
+      if (double.TryParse(numText, NumberStyles.Float, CultureInfo.InvariantCulture, out var explicitValue))
+      {
+        var unit = explicitWeightMatch.Groups["unit"].Value.Trim().ToLowerInvariant();
+
+        // Normalize to grams (1 ml = 1 g; 1 l = 1000 g)
+        if (unit is "g" or "gr" or "grama" or "gramas")
+        {
+          measureType = MeasureType.Gram;
+          quantity = explicitValue;
+        }
+        else if (unit.StartsWith("kg") || unit.StartsWith("kilo") || unit.StartsWith("quil"))
+        {
+          measureType = MeasureType.Gram;
+          quantity = explicitValue * 1000d;
+        }
+        else if (unit is "ml" or "mililitro" or "mililitros")
+        {
+          measureType = MeasureType.Gram;
+          quantity = explicitValue; // 1 ml ~= 1 g
+        }
+        else if (unit is "l" or "litro" or "litros")
+        {
+          measureType = MeasureType.Gram;
+          quantity = explicitValue * 1000d; // 1 l = 1000 g
+        }
+      }
+    }
+
     var grams = ConvertToLiteralQuantity(quantity, measureType, food);
 
     return new Ingredient(

@@ -21,6 +21,7 @@ public static class FoodTypeData
     { FoodType.Cake,  new LanguageTextBase { En = "Cake", Pt = "Bolo" } } ,
     { FoodType.Cheese,  new LanguageTextBase { En = "Cheese", Pt = "Queijo" } } ,
     { FoodType.Powder,  new LanguageTextBase { En = "Powder", Pt = "Pó" } },
+    { FoodType.Starch,  new LanguageTextBase { En = "Starch", Pt = "Amido" } },
     { FoodType.Recipe,  new LanguageTextBase { En = "Recipe", Pt = "Receita" } }
   };
 
