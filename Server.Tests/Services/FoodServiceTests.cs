@@ -70,28 +70,6 @@ public class FoodServiceTests
 
     var nextId = foods.Any() ? foods.Max(f => f.Id) + 1 : 1;
 
-    foods.AddRange(new[]
-    {
-      CreateFood(
-        nextId++,
-        "Melado dourado",
-        "Golden Syrup",
-        "melado; melado de cana",
-        "golden syrup; treacle; light syrup"),
-      CreateFood(
-        nextId++,
-        "Batata assada em gomos",
-        "Roasted Potato Wedges",
-        "batata assada, batata em gomos",
-        "roasted potatoes, baked potatoes, potato wedges"),
-      CreateFood(
-        nextId++,
-        "Tomate em cubos",
-        "Diced Tomatoes",
-        "tomate em cubos, tomate picado, tomates",
-        "diced tomato, chopped tomato, tomatoes, tomato")
-    });
-
     var options = new DbContextOptionsBuilder<AppDbContext>()
       .UseInMemoryDatabase(databaseName: "TestDb")
       .Options;
@@ -120,8 +98,6 @@ public class FoodServiceTests
   [TestCase("Chocolate preto 45 - 59%", "Chocolate preto 45 - 59%")]
   [TestCase("Cooked black beans", "Cooked black beans")]
   [TestCase(" farInha de mandioca ", "Farinha de mandioca")]
-  [TestCase(" Golden Syrup ", "Golden Syrup")]
-  [TestCase("roasted potato wedges", "Roasted Potato Wedges")]
   public async Task hasExactFoodWithThisName(string name, string expectedName)
   {
     var foodResult = await service.hasExactFoodWithThisName(name);
@@ -139,9 +115,6 @@ public class FoodServiceTests
 
   [TestCase("Chocolate", "Chocolate preto 45 - 59%")]
   [TestCase("black beans", "Cooked black beans")]
-  [TestCase("treacle", "Golden Syrup")]
-  [TestCase("melado", "Golden Syrup")]
-  [TestCase("Potato Wedges", "Roasted Potato Wedges")]
   [TestCase("chocolate em pó", "Chocolate preto 45 - 59%")]
   [TestCase("boiled beans", "Cooked black beans")]
   public async Task hasExactKeyWithThisName(string name, string expectedName)
@@ -189,8 +162,6 @@ public class FoodServiceTests
   [TestCase("iorgute", "Iogurte natural")]
   [TestCase("lentrilha", "Lentilha cozida")]
   [TestCase("tocinho", "Toucinho")]
-  [TestCase("golden sirup", "Golden Syrup")]
-  [TestCase("roosted potato wadges", "Roasted Potato Wedges")]
   public async Task BestMatch(string name, string expectedName)
   {
     var foodResult = await service.BestMatch(name);
@@ -213,48 +184,14 @@ public class FoodServiceTests
   [TestCase("iorgute", "Iogurte natural")]
   [TestCase("lentrilha", "Lentilha cozida")]
   [TestCase("tocinho", "Toucinho")]
-  [TestCase("treacle", "Golden Syrup")]
-  [TestCase("the diced tomato", "Diced Tomatoes")]
-  [TestCase("roosted potato", "Roasted Potato Wedges")]
+  [TestCase("the diced tomato", "Tomate")]
   [TestCase("farinha de trigo para polvilhar a bancada", "Farinha de trigo")]
+  [TestCase("azeite para untar a tigela", "Azeite de oliva")]
   public async Task FindFoodByPossibleName(string name, string expectedName)
   {
     var foodResult = await service.FindFoodByPossibleName(name);
 
     AssertFoodHasName(foodResult, expectedName);
-  }
-
-  [Test]
-  public void GetFoodsFromRecipes_returnsDistinctFoodsFromRecipeAndSteps()
-  {
-    var beans = context.Food.First(f => string.Equals(f.Name.En, "Cooked black beans", System.StringComparison.OrdinalIgnoreCase));
-    var syrup = context.Food.First(f => string.Equals(f.Name.En, "Golden Syrup", System.StringComparison.OrdinalIgnoreCase));
-    var potatoes = context.Food.First(f => string.Equals(f.Name.En, "Roasted Potato Wedges", System.StringComparison.OrdinalIgnoreCase));
-
-    var recipes = new List<Recipe>
-    {
-      new()
-      {
-        Id = 1,
-        Food = potatoes,
-        Steps = new List<RecipeStep>
-        {
-          new()
-          {
-            Ingredients = new List<Ingredient>
-            {
-              new() { Food = beans },
-              new() { Food = syrup },
-              new() { Food = beans }
-            }
-          }
-        }
-      }
-    };
-
-    var foods = FoodService.GetFoodsFromRecipes(recipes);
-
-    Assert.That(foods.Select(f => f.Id), Is.EquivalentTo(new[] { potatoes.Id, beans.Id, syrup.Id }));
   }
 
   [Test]

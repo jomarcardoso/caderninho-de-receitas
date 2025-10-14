@@ -11,6 +11,8 @@ public class FoodService
 {
   public static List<string> FoodModifiers = new List<string>
   {
+    "para untar",
+    "a forma", "a tigela", "as mãos",
     "a gosto", "à gosto",
     "para servir", "a gosto para servir", "a gosto para servir (opcional)",
     "(opcional)", "opcional",
@@ -202,6 +204,9 @@ public class FoodService
     // e.g., "farinha de trigo para polvilhar a bancada" -> "farinha de trigo"
     normalized = Regex.Replace(normalized, @"\b(para|for)\b.*$", string.Empty, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Trim();
 
+    // Remove any parenthetical segments (e.g., "(cerca de 740 g)") that are not part of the core food name
+    normalized = Regex.Replace(normalized, @"\([^)]*\)", " ", RegexOptions.CultureInvariant).Trim();
+
     // Collapse multiple spaces
     normalized = Regex.Replace(normalized, "\\s+", " ", RegexOptions.CultureInvariant).Trim();
     normalized = StringService.ReplaceEnding(normalized, " e", string.Empty);
@@ -216,16 +221,52 @@ public class FoodService
     var trimmedName = name.Trim();
     var levenshtein = new Levenshtein(trimmedName);
 
-    return _allFoods
-      .OrderBy(food =>
-      {
-        var candidates = GetSearchableValues(food);
+    static bool StartsWithWord(string source, string query)
+    {
+      if (string.IsNullOrWhiteSpace(source) || string.IsNullOrWhiteSpace(query)) return false;
+      return Regex.IsMatch(source, $@"^\s*{Regex.Escape(query)}\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+    }
 
-        return candidates.Count == 0
+    static bool ContainsWord(string source, string query)
+    {
+      if (string.IsNullOrWhiteSpace(source) || string.IsNullOrWhiteSpace(query)) return false;
+      return Regex.IsMatch(source, $@"\b{Regex.Escape(query)}\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+    }
+
+    // Strong preference: any value that starts with the query as a word
+    var startsWithSet = _allFoods
+      .Select(food => new { Food = food, Values = GetSearchableValues(food).ToList() })
+      .Where(x => x.Values.Any(v => StartsWithWord(v, trimmedName)))
+      .Select(x => new { x.Food, Distance = x.Values.Min(v => levenshtein.DistanceFrom(v)) })
+      .OrderBy(x => x.Distance)
+      .FirstOrDefault();
+
+    if (startsWithSet is not null)
+      return startsWithSet.Food;
+
+    // Next preference: any value that contains the query as a word
+    var containsSet = _allFoods
+      .Select(food => new { Food = food, Values = GetSearchableValues(food).ToList() })
+      .Where(x => x.Values.Any(v => ContainsWord(v, trimmedName)))
+      .Select(x => new { x.Food, Distance = x.Values.Min(v => levenshtein.DistanceFrom(v)) })
+      .OrderBy(x => x.Distance)
+      .FirstOrDefault();
+
+    if (containsSet is not null)
+      return containsSet.Food;
+
+    // Fallback: pure Levenshtein with small tie-break
+    return _allFoods
+      .Select(food =>
+      {
+        var candidates = GetSearchableValues(food).ToList();
+        var baseDistance = candidates.Count == 0
           ? levenshtein.DistanceFrom(string.Empty)
           : candidates.Min(candidate => levenshtein.DistanceFrom(candidate));
+        return new { Food = food, Base = baseDistance };
       })
-      .First();
+      .OrderBy(x => x.Base)
+      .First().Food;
   }
 
   public async Task<Food> FindFoodByPossibleName(string possibleName)
@@ -279,6 +320,28 @@ public class FoodService
     {
       return _food;
     }
+
+    // If no exact match, try substring containment (both directions) and prefer the longest match
+    // var allFoods = await GetAllAsync();
+    // var substringCandidate = allFoods
+    //   .Select(f => new
+    //   {
+    //     Food = f,
+    //     BestLen = GetSearchableValues(f)
+    //       .Select(val => new { Val = val, Len = Math.Max(
+    //           val.IndexOf(filteredPossibleName, StringComparison.OrdinalIgnoreCase) >= 0 ? filteredPossibleName.Length : 0,
+    //           filteredPossibleName.IndexOf(val, StringComparison.OrdinalIgnoreCase) >= 0 ? val.Length : 0) })
+    //       .Max(x => x.Len)
+    //   })
+    //   .Where(x => x.BestLen > 0)
+    //   .OrderByDescending(x => x.BestLen)
+    //   .Select(x => x.Food)
+    //   .FirstOrDefault();
+
+    // if (substringCandidate is not null)
+    // {
+    //   return substringCandidate;
+    // }
 
     return await BestMatch(filteredPossibleName);
   }

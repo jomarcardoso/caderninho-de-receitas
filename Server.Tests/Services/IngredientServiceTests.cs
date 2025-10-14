@@ -399,6 +399,159 @@ public class IngredientServiceTests
   }
 
   [Test]
+  public async Task ToEntity_FromMultiLine_Text()
+  {
+    var input = string.Join("\n", new[]
+    {
+      "6 xícaras (chá) de farinha de trigo (cerca de 740 g)",
+      "2 colheres (sopa) de fermento biológico seco (20 g)",
+      "2 colheres (chá) de açúcar",
+      "2 colheres (chá) de sal",
+      "2½ xícaras (chá) de água morna",
+      "¼ de xícara (chá) de azeite",
+      "farinha de trigo para polvilhar a bancada",
+      "azeite para untar a tigela"
+    });
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = LoadFoodsWithMeasures();
+    localContext.Food.AddRange(foods);
+    localContext.SaveChanges();
+
+    var lines = input.Split('\n');
+    var results = new List<Ingredient>();
+    foreach (var line in lines)
+    {
+      var normalized = line.Trim();
+      if (string.IsNullOrWhiteSpace(normalized)) continue;
+      localService.Text = normalized;
+      var ing = await localService.ToEntity();
+      results.Add(ing);
+    }
+
+    Assert.That(results.Count, Is.EqualTo(8));
+
+    // 1) 6 xícaras (chá) de farinha de trigo (cerca de 740 g)
+    Assert.That(results[0].MeasureType, Is.EqualTo(MeasureType.Gram));
+    Assert.That(results[0].MeasureQuantity, Is.EqualTo(740).Within(0.0001));
+    Assert.That(results[0].Quantity, Is.EqualTo(740).Within(0.0001));
+    Assert.That(results[0].Food.Name.Pt, Is.EqualTo("Farinha de trigo"));
+
+    // 2) 2 colheres (sopa) de fermento biológico seco (20 g)
+    Assert.That(results[1].MeasureType, Is.EqualTo(MeasureType.Gram));
+    Assert.That(results[1].Quantity, Is.EqualTo(20).Within(0.0001));
+
+    // 3) 2 colheres (chá) de açúcar -> 2 x 4g (mock)
+    Assert.That(results[2].MeasureType, Is.EqualTo(MeasureType.TeaSpoon));
+    Assert.That(results[2].MeasureQuantity, Is.EqualTo(2).Within(0.0001));
+    Assert.That(results[2].Quantity, Is.EqualTo(8).Within(0.0001));
+
+    // 4) 2 colheres (chá) de sal -> 2 x 6g (mock)
+    Assert.That(results[3].MeasureType, Is.EqualTo(MeasureType.TeaSpoon));
+    Assert.That(results[3].MeasureQuantity, Is.EqualTo(2).Within(0.0001));
+    Assert.That(results[3].Quantity, Is.EqualTo(12).Within(0.0001));
+
+    // 5) 2½ xícaras (chá) de água morna -> 2.5 x cup(g/ml)
+    Assert.That(results[4].MeasureType, Is.EqualTo(MeasureType.Cup));
+    Assert.That(results[4].MeasureQuantity, Is.EqualTo(2.5).Within(0.0001));
+    var waterCup = results[4].Food.Measures.Cup ?? (results[4].Food.MeasurementUnit == MeasurementUnit.Liter ? 240 : 100);
+    Assert.That(results[4].Quantity, Is.EqualTo(2.5 * waterCup).Within(0.0001));
+
+    // 6) ¼ de xícara (chá) de azeite -> 0.25 x cup(g)
+    Assert.That(results[5].MeasureType, Is.EqualTo(MeasureType.Cup));
+    Assert.That(results[5].MeasureQuantity, Is.EqualTo(0.25).Within(0.0001));
+    var oilCup = results[5].Food.Measures.Cup ?? (results[5].Food.MeasurementUnit == MeasurementUnit.Liter ? 240 : 100);
+    Assert.That(results[5].Quantity, Is.EqualTo(0.25 * oilCup).Within(0.0001));
+
+    // // 7) farinha de trigo para polvilhar a bancada -> food match only
+    Assert.That(results[6].MeasureType, Is.EqualTo(MeasureType.Literal));
+    Assert.That(results[6].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+    Assert.That(results[6].Quantity, Is.EqualTo(1).Within(0.0001));
+    Assert.That(results[6].Food.Name.Pt, Is.EqualTo("Farinha de trigo"));
+
+    // // 8) azeite para untar a tigela -> food match only
+    Assert.That(results[7].MeasureType, Is.EqualTo(MeasureType.Unity));
+    Assert.That(results[7].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+    Assert.That(results[7].Quantity, Is.EqualTo(1).Within(0.0001));
+    Assert.That(results[7].Food.Name.Pt, Is.EqualTo("Azeite de oliva"));
+
+
+    // var oilNames = new[] { results[7].Food.Name.Pt, results[7].Food.Name.En };
+    // Assert.That(oilNames.Any(n => (n ?? string.Empty).ToLower().Contains("óleo") || (n ?? string.Empty).ToLower().Contains("oleo") || (n ?? string.Empty).ToLower().Contains("oil")));
+  }
+
+  [Test]
+  public async Task ToEntity_Azeite_ForGreasing_PicksOliveOil()
+  {
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = LoadFoodsWithMeasures();
+    localContext.Food.AddRange(foods);
+    localContext.SaveChanges();
+
+    localService.Text = "azeite para untar a tigela";
+    var ing = await localService.ToEntity();
+
+    Assert.That(ing.MeasureType, Is.EqualTo(MeasureType.Unity));
+    Assert.That(ing.Food.Name.Pt, Is.EqualTo("Azeite de oliva"));
+  }
+
+  [Test]
+  public async Task FoodService_FindFood_Azeite_WithMeasuresDataset()
+  {
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+
+    var foods = LoadFoodsWithMeasures();
+    localContext.Food.AddRange(foods);
+    localContext.SaveChanges();
+
+    var food = await localFoodService.FindFoodByPossibleName("azeite para untar a tigela");
+    Assert.That(food.Name.Pt, Is.EqualTo("Azeite de oliva"));
+  }
+
+  [Test]
+  public void SplitTextInMeasureAndRest_LeavesAzeiteTextIntact()
+  {
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    localService.Text = "azeite para untar a tigela";
+    // Introspect raw pattern match
+    var patterns = MeasurePatterns.OrderedPatterns.ToList();
+    var first = patterns.FirstOrDefault(kv => kv.Value.Match(localService.Text).Groups["measure"].Success);
+    var (measureText, measureType, rest) = localService.SplitTextInMeasureAndRest();
+
+    TestContext.WriteLine($"FirstMatchedType={first.Key}, MeasureText='{measureText}'");
+
+    Assert.That(measureType, Is.EqualTo(MeasureType.Unity));
+    Assert.That(measureText, Is.EqualTo(string.Empty), "Unexpected measure captured by regex");
+    Assert.That(rest, Is.EqualTo("azeite para untar a tigela"));
+  }
+
+  [Test]
   public async Task ToEntity_ParsesLiteral_ToTaste()
   {
     var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "mocks", "Foods.json");

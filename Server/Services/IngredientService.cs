@@ -20,7 +20,7 @@ public static class MeasurePatterns
   private const string CupPt = @"((?:xícara|xicara)s?|xíc\.?)";
   private const string SmallCupPt = @"((?:xícara|xicara)s?\s*(?:\(\s*caf(?:é|e)\s*\)|\s+de\s+caf(?:é|e)))";
   private const string SpoonPt = @"((?:colher(?:es)?(?: de sopa)?|c\.s\.?)s?)";
-  private const string TeaSpoonPt = @"((?:colher(?:es)?(?:inhas?| de ch(?:á|a)| pequenas?)|c\.c\.?)s?)";
+  private const string TeaSpoonPt = @"((?:colher(?:es)?(?:inhas?| de ch(?:á|a)| \(\s*ch(?:á|a)\s*\)| pequenas?)|c\.c\.?)s?)";
   private const string MlPt = @"(?:ml|mililitros?)";
   private const string LiterPt = @"(?:l|litros?)";
   private const string GramPt = @"(?:gr?|gramas?)";
@@ -53,7 +53,7 @@ public static class MeasurePatterns
     { MeasureType.Glass, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{GlassPt}{PartialEndPt})\b", PatternOptions) },
     { MeasureType.Slice, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt}\s?{SlicePt}{PartialEndPt})\b", PatternOptions) },
     { MeasureType.Pinch, new Regex($@"\b(?<measure>{NumberWordsPt}\s+{PinchPt})\b", PatternOptions) },
-    { MeasureType.Unity, new Regex($@"\b(?<measure>{QuantityPt}{PartialEndPt})\b", PatternOptions) },
+    { MeasureType.Unity, new Regex($@"^\s*(?<measure>{QuantityPt}{PartialEndPt})(?=\s|$)", PatternOptions) },
   };
 
   private const string NumberWordsEn = @"(\d+(?:[.,]\d+|[\u00BC-\u00BE\u2150-\u215E\u2189])?|[\u00BC-\u00BE\u2150-\u215E\u2189]|an?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)";
@@ -95,7 +95,7 @@ public static class MeasurePatterns
     { MeasureType.Glass, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}{OptionalArticleEn}\s?{GlassEn}{PartialEndEn})\b", PatternOptions) },
     { MeasureType.Slice, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn}{OptionalArticleEn}\s?{SliceEn}{PartialEndEn})\b", PatternOptions) },
     { MeasureType.Pinch, new Regex($@"\b(?<measure>(?:{NumberWordsEn}\s+)?{PinchEn})\b", PatternOptions) },
-    { MeasureType.Unity, new Regex($@"\b(?<measure>{QuantityEn}{PartialEndEn})\b", PatternOptions) },
+    { MeasureType.Unity, new Regex($@"^\s*(?<measure>{QuantityEn}{PartialEndEn})(?=\s|$)", PatternOptions) },
   };
 
   public static IEnumerable<KeyValuePair<MeasureType, Regex>> OrderedPatterns
@@ -268,7 +268,22 @@ public static class MeasurePatterns
     if (literalMatch.Success)
     {
       var measureText = literalMatch.Value.Trim();
-      var rest = RemoveSegment(text, literalMatch.Index, literalMatch.Length).Trim();
+
+      // If the literal phrase denotes a purpose suffix (e.g., starts with "para" or "for"),
+      // drop everything from the start of that phrase to the end to avoid leaving tails like
+      // "a bancada" that pollute the food name. Otherwise, only remove the matched segment.
+      string rest;
+      var startsWithPurpose = Regex.IsMatch(measureText, @"^(?:para|for)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+      if (startsWithPurpose)
+      {
+        rest = text[..literalMatch.Index].Trim();
+      }
+      else
+      {
+        rest = RemoveSegment(text, literalMatch.Index, literalMatch.Length).Trim();
+      }
+
+      // If nothing meaningful remains, fall back to the original text so downstream filters can act.
       rest = string.IsNullOrWhiteSpace(rest) ? text : rest;
       return new QuantityAndRest(measureText, MeasureType.Literal, rest);
     }
@@ -683,7 +698,13 @@ public static class MeasurePatterns
       }
     }
 
-    var grams = ConvertToLiteralQuantity(quantity, measureType, food);
+    // If there's no parsed measure and the text is a purpose-only mention ("para/for ..."),
+    // treat it as a food match only without converting to grams/ml. Keep quantity = 1.
+    var isPurposeOnly = string.IsNullOrWhiteSpace(measureText) && Regex.IsMatch(Text, @"\b(para|for)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+
+    var grams = isPurposeOnly
+      ? 1d
+      : ConvertToLiteralQuantity(quantity, measureType, food);
 
     return new Ingredient(
       Text,
