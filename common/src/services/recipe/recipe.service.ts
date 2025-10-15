@@ -220,7 +220,10 @@ export async function fetchMostCopiedRecipes(
   return [];
 }
 
-export async function saveRecipe(recipe: RecipeDto): Promise<RecipesData> {
+export async function saveRecipe(
+  recipe: RecipeDto,
+  languageHeader?: Language,
+): Promise<RecipesData> {
   try {
     const url = recipe.id
       ? `http://localhost:5106/api/recipe/${recipe.id}`
@@ -229,6 +232,7 @@ export async function saveRecipe(recipe: RecipeDto): Promise<RecipesData> {
       method: recipe.id ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(languageHeader ? { 'X-Language': languageHeader } : {}),
       },
       body: JSON.stringify(recipe),
     });

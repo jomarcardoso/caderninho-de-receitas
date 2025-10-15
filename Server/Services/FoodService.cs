@@ -9,10 +9,13 @@ namespace Server.Services;
 
 public class FoodService
 {
-  public static List<string> FoodModifiers = new List<string>
+  public static readonly List<string> FoodModifiersPt = new()
   {
     "para untar",
     "a forma", "a tigela", "as mãos",
+    "para decorar", "para finalizar", "para regar",
+    "para cobrir", "para rechear", "para guarnecer",
+    "para servir gelado", "para servir quente", "para acompanhar",
     "a gosto", "à gosto",
     "para servir", "a gosto para servir", "a gosto para servir (opcional)",
     "(opcional)", "opcional",
@@ -45,9 +48,15 @@ public class FoodService
     "descongelado", "descongelada", "descongelados", "descongeladas",
     "recheado", "recheada", "recheados", "recheadas",
     "cru", "crua", "crus", "cruas",
-    "peneirado", "peneirada", "peneirados", "peneiradas",
+    "peneirado", "peneirada", "peneirados", "peneiradas"
+  };
+
+  public static readonly List<string> FoodModifiersEn = new()
+  {
     "to taste", "for serving", "for garnish", "for topping",
     "to taste for serving", "to taste for serving (optional)",
+    "for greasing", "for lining", "for dusting", "for decorating",
+    "to decorate", "to grease", "to line",
     "chopped", "finely chopped", "roughly chopped",
     "diced", "sliced", "thinly sliced", "thickly sliced",
     "minced", "grated", "shredded",
@@ -62,6 +71,20 @@ public class FoodService
     "cubed", "mashed",
     "seasoned"
   };
+
+  public Server.Shared.Language? LanguagePreference { get; set; } = null;
+
+  private static IEnumerable<string> GetModifiers(Server.Shared.Language? language)
+  {
+    if (!language.HasValue)
+    {
+      return FoodModifiersPt.Concat(FoodModifiersEn);
+    }
+
+    return language.Value == Server.Shared.Language.Pt
+      ? FoodModifiersPt
+      : FoodModifiersEn;
+  }
 
   private static readonly char[] KeySeparators = new[] { ',', ';' };
 
@@ -185,13 +208,15 @@ public class FoodService
     return Regex.Replace(foodText, @"^(de|da|do|dos|das|of|the)\s+", "", RegexOptions.IgnoreCase).Trim();
   }
 
-  internal static string filterName(string name)
+  internal static string filterName(string name) => filterName(name, null);
+
+  internal static string filterName(string name, Server.Shared.Language? language)
   {
     var noPrefixName = filterPrefix(name);
 
     // Remove known modifiers in a case-insensitive way (handles "Para polvilhar ...")
     var normalized = noPrefixName;
-    foreach (var modifier in FoodModifiers.OrderByDescending(m => m.Length))
+    foreach (var modifier in GetModifiers(language).OrderByDescending(m => m.Length))
     {
       if (string.IsNullOrWhiteSpace(modifier)) continue;
       var pattern = Regex.Escape(modifier);
@@ -305,7 +330,7 @@ public class FoodService
       }
     }
 
-    string filteredPossibleName = filterName(possibleName);
+    string filteredPossibleName = filterName(possibleName, LanguagePreference);
 
     _food = await hasExactFoodWithThisName(filteredPossibleName);
 
@@ -344,6 +369,20 @@ public class FoodService
     // }
 
     return await BestMatch(filteredPossibleName);
+  }
+
+  public async Task<Food> FindFoodByPossibleName(string possibleName, Server.Shared.Language? language)
+  {
+    var previous = LanguagePreference;
+    try
+    {
+      LanguagePreference = language;
+      return await FindFoodByPossibleName(possibleName);
+    }
+    finally
+    {
+      LanguagePreference = previous;
+    }
   }
 
   public static List<Food> GetFoodsFromRecipes(List<Recipe> recipes)

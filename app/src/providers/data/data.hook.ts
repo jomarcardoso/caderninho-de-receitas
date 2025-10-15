@@ -8,9 +8,11 @@ import type { RecipeDto } from 'services/recipe/recipe.dto';
 import type { DataContextProps } from './data.context';
 import { RECIPES_DATA } from 'services/recipe/recipe.data';
 import LoadingContext from '../loading/loading.context';
+import { LanguageContext } from '../language/language.context';
 
 export function useData(): DataContextProps {
   const { setLoading } = useContext(LoadingContext);
+  const { language } = useContext(LanguageContext);
   const [data, setData] = useState(RECIPES_DATA);
 
   /**
@@ -18,7 +20,8 @@ export function useData(): DataContextProps {
    */
   async function saveRecipe(recipe: RecipeDto) {
     setLoading?.(true);
-    const newData = await saveRecipeService(recipe);
+    const payload: RecipeDto = { ...recipe, language: recipe.language ?? language };
+    const newData = await saveRecipeService(payload, payload.language);
 
     if (newData.recipes.length) {
       setData(newData);

@@ -29,8 +29,13 @@ public class RecipeService
 
   public async Task<Recipe> DtoToEntity(RecipeDto recipeDto)
   {
+    // Propagate language preference when resolving foods and ingredients
+    var lang = recipeDto.Language;
+    ingredientService.LanguagePreference = lang;
+    foodService.LanguagePreference = lang;
+
     var steps = await BuildStepsAsync(recipeDto);
-    var food = await foodService.FindFoodByPossibleName(recipeDto.Name);
+    var food = await foodService.FindFoodByPossibleName(recipeDto.Name, lang);
 
     return new Recipe(
       recipeDto.Id,
@@ -134,7 +139,12 @@ public class RecipeService
     recipe.Description = recipeDto.Description;
     recipe.Additional = recipeDto.Additional;
     recipe.Language = recipeDto.Language;
-    recipe.Food = await foodService.FindFoodByPossibleName(recipeDto.Name);
+    // Update language preference for this update scope
+    var lang = recipeDto.Language;
+    ingredientService.LanguagePreference = lang;
+    foodService.LanguagePreference = lang;
+
+    recipe.Food = await foodService.FindFoodByPossibleName(recipeDto.Name, lang);
 
     var steps = await BuildStepsAsync(recipeDto);
 
@@ -167,6 +177,7 @@ public class RecipeService
         }
 
         ingredientService.Text = normalizedText;
+        ingredientService.LanguagePreference = recipeDto.Language;
         var ingredient = await ingredientService.ToEntity();
         ingredients.Add(ingredient);
       }

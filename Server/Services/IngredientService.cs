@@ -145,10 +145,11 @@ public static class MeasurePatterns
 
   public class IngredientService
   {
+  public Server.Shared.Language? LanguagePreference { get; set; } = null;
   private static readonly Regex TrailingExplicitWeightRegex = new(
     @"\((?:(?!\().)*?(?<num>\d+(?:[.,]\d+)?)\s*(?<unit>g|gr|gramas?|grama|kg|kilo(?:grama)?s?|quil(?:o|ograma)s?|ml|mililitros?|mililitro|l|litros?|litro)\s*\)",
     RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled | RegexOptions.RightToLeft);
-  private static readonly Regex LiteralPhraseRegex = new(@"(?:(?:a|\u00E0)\s+gosto|um\s+fio|fio\s+de|raspas?|raspa|para\s+polvilhar|to\s+taste|as\s+needed|a\s+drizzle|drizzle\s+of|for\s+sprinkling)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
+  private static readonly Regex LiteralPhraseRegex = new(@"(?:(?:a|\u00E0)\s+gosto|um\s+fio|fio\s+de|raspas?|raspa|para\s+polvilhar|para\s+untar|para\s+decorar|to\s+taste|as\s+needed|a\s+drizzle|drizzle\s+of|for\s+sprinkling|for\s+greasing|for\s+decorating|for\s+topping)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
   private static readonly Regex LiteralByUnitRegex = new(@"\(.*\b(cada|each|per)\b.*\)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
   private static readonly HashSet<string> TokensToSkip = new(StringComparer.Ordinal)
   {
@@ -219,6 +220,53 @@ public static class MeasurePatterns
     this.foodService = foodService ?? throw new ArgumentNullException(nameof(foodService));
   }
 
+  private IEnumerable<KeyValuePair<MeasureType, Regex>> GetOrderedPatterns()
+  {
+    if (!LanguagePreference.HasValue)
+    {
+      return MeasurePatterns.OrderedPatterns;
+    }
+
+    var lang = LanguagePreference.Value;
+
+    IEnumerable<MeasureType> order = new[]
+    {
+      MeasureType.SmallCup,
+      MeasureType.Cup,
+      MeasureType.TeaSpoon,
+      MeasureType.Spoon,
+      MeasureType.Ml,
+      MeasureType.Liter,
+      MeasureType.Gram,
+      MeasureType.Kilo,
+      MeasureType.Breast,
+      MeasureType.Clove,
+      MeasureType.Bunch,
+      MeasureType.Can,
+      MeasureType.Glass,
+      MeasureType.Slice,
+      MeasureType.Pinch
+    };
+
+    var list = new List<KeyValuePair<MeasureType, Regex>>();
+    var dict = lang == Server.Shared.Language.Pt ? MeasurePatterns.PatternsPt : MeasurePatterns.PatternsEn;
+    foreach (var type in order)
+    {
+      if (dict.TryGetValue(type, out var rx))
+      {
+        list.Add(new KeyValuePair<MeasureType, Regex>(type, rx));
+      }
+    }
+
+    // Add Unity for the selected language at the end
+    if (dict.TryGetValue(MeasureType.Unity, out var unity))
+    {
+      list.Add(new KeyValuePair<MeasureType, Regex>(MeasureType.Unity, unity));
+    }
+
+    return list;
+  }
+
   public QuantityAndRest SplitTextInMeasureAndRest()
   {
     var literal = TryResolveLiteralMeasure(Text);
@@ -229,7 +277,7 @@ public static class MeasurePatterns
 
     // match on original text to preserve unicode fractions
 
-    foreach (var kv in MeasurePatterns.OrderedPatterns)
+    foreach (var kv in GetOrderedPatterns())
     {
       var regex = kv.Value;
       Match match = regex.Match(Text);
@@ -658,7 +706,7 @@ public static class MeasurePatterns
   public async Task<Ingredient> ToEntity()
   {
     var (measureText, measureType, restText) = SplitTextInMeasureAndRest();
-    var food = await foodService.FindFoodByPossibleName(restText);
+    var food = await foodService.FindFoodByPossibleName(restText, LanguagePreference);
 
     // Default quantity parsed from the detected measure (e.g., cups/spoons)
     var quantity = ParseMeasureQuantity(measureText);

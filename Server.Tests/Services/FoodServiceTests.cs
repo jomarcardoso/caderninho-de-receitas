@@ -157,6 +157,21 @@ public class FoodServiceTests
     Assert.That(stringResult, Is.EqualTo(expectedName));
   }
 
+  [Test]
+  public void filterName_respects_language_preferences()
+  {
+    // EN modifier 'chopped' is removed only when language is EN
+    Assert.That(FoodService.filterName("salsa chopped", Server.Shared.Language.En), Is.EqualTo("salsa"));
+    Assert.That(FoodService.filterName("salsa chopped", Server.Shared.Language.Pt), Is.EqualTo("salsa chopped"));
+
+    // PT modifier 'picada' is removed only when language is PT
+    Assert.That(FoodService.filterName("salsa picada", Server.Shared.Language.Pt), Is.EqualTo("salsa"));
+    Assert.That(FoodService.filterName("salsa picada", Server.Shared.Language.En), Is.EqualTo("salsa picada"));
+
+    // PT purpose phrase 'para decorar' should be removed under PT
+    Assert.That(FoodService.filterName("morango para decorar", Server.Shared.Language.Pt), Is.EqualTo("morango"));
+  }
+
   [TestCase("farinha de manioca", "Farinha de mandioca")]
   [TestCase("farinia de trigo", "Farinha de trigo")]
   [TestCase("iorgute", "Iogurte natural")]

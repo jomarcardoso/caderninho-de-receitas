@@ -8,7 +8,7 @@ public abstract class RecipeContract<TRecipeStep>
   public string? Description { get; set; }
   public string? Additional { get; set; }
   public List<TRecipeStep> Steps { get; set; } = new List<TRecipeStep>();
-  public Language Language = Language.En;
+  public Language Language { get; set; } = Language.En;
 }
 
 public abstract class RecipeBase<TRecipeStep, TFood> : RecipeContract<TRecipeStep>, INutrientsBase
