@@ -91,9 +91,18 @@ public class FoodService
   private readonly AppDbContext _context;
   private List<Food> foods = new List<Food>();
 
-  public FoodService(AppDbContext context)
+  public FoodService(AppDbContext context, Microsoft.Extensions.Configuration.IConfiguration? configuration = null)
   {
     _context = context;
+    try
+    {
+      var val = configuration?["FoodMatching:LowConfidenceThreshold"];
+      if (!string.IsNullOrWhiteSpace(val) && double.TryParse(val, System.Globalization.CultureInfo.InvariantCulture, out var parsed))
+      {
+        if (parsed >= 0 && parsed <= 1) LowConfidenceThreshold = parsed;
+      }
+    }
+    catch { /* ignore config issues */ }
   }
 
   private static IEnumerable<string> GetLanguageValues(LanguageText? text)
@@ -240,7 +249,42 @@ public class FoodService
     return normalized.Trim();
   }
 
-  internal async Task<Food> BestMatch(string name)
+  private static double LowConfidenceThreshold = 0.55; // 0..1 similarity
+  private static readonly object LowConfidenceLogLock = new();
+  private static string LowConfidenceLogFilePath => Path.Combine(AppContext.BaseDirectory, "logs", "food-match-low-confidence.jsonl");
+
+  private static double ComputeNormalizedScore(string query, string candidate, Levenshtein levenshtein)
+  {
+    if (string.IsNullOrWhiteSpace(query) && string.IsNullOrWhiteSpace(candidate)) return 1.0;
+    if (string.IsNullOrWhiteSpace(candidate)) return 0.0;
+    int distance = levenshtein.DistanceFrom(candidate);
+    int maxLen = Math.Max(query.Length, candidate.Length);
+    if (maxLen == 0) return 1.0;
+    double score = 1.0 - (double)distance / maxLen;
+    if (score < 0) score = 0; if (score > 1) score = 1;
+    return score;
+  }
+
+  private static async Task TryLogLowConfidenceAsync(object payload)
+  {
+    try
+    {
+      var directory = Path.GetDirectoryName(LowConfidenceLogFilePath)!;
+      if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+      string json = System.Text.Json.JsonSerializer.Serialize(payload);
+      lock (LowConfidenceLogLock)
+      {
+        File.AppendAllText(LowConfidenceLogFilePath, json + Environment.NewLine);
+      }
+      await Task.CompletedTask;
+    }
+    catch
+    {
+      // non-fatal; ignore logging errors
+    }
+  }
+
+  internal async Task<Food> BestMatch(string name, string? originalInput = null)
   {
     List<Food> _allFoods = await GetAllAsync();
     var trimmedName = name.Trim();
@@ -267,7 +311,27 @@ public class FoodService
       .FirstOrDefault();
 
     if (startsWithSet is not null)
-      return startsWithSet.Food;
+    {
+      var food = startsWithSet.Food;
+      var bestVal = GetSearchableValues(food).OrderBy(v => levenshtein.DistanceFrom(v)).FirstOrDefault() ?? string.Empty;
+      var score = ComputeNormalizedScore(trimmedName, bestVal, levenshtein);
+      if (score < LowConfidenceThreshold)
+      {
+        await TryLogLowConfidenceAsync(new
+        {
+          type = "startsWith",
+          query = trimmedName,
+          bestCandidate = bestVal,
+          score,
+          language = LanguagePreference?.ToString(),
+          foodId = food.Id,
+          foodNamePt = food.Name?.Pt,
+          foodNameEn = food.Name?.En,
+          timestampUtc = DateTime.UtcNow
+        });
+      }
+      return food;
+    }
 
     // Next preference: any value that contains the query as a word
     var containsSet = _allFoods
@@ -278,10 +342,30 @@ public class FoodService
       .FirstOrDefault();
 
     if (containsSet is not null)
-      return containsSet.Food;
+    {
+      var food = containsSet.Food;
+      var bestVal = GetSearchableValues(food).OrderBy(v => levenshtein.DistanceFrom(v)).FirstOrDefault() ?? string.Empty;
+      var score = ComputeNormalizedScore(trimmedName, bestVal, levenshtein);
+      if (score < LowConfidenceThreshold)
+      {
+        await TryLogLowConfidenceAsync(new
+        {
+          type = "contains",
+          query = trimmedName,
+          bestCandidate = bestVal,
+          score,
+          language = LanguagePreference?.ToString(),
+          foodId = food.Id,
+          foodNamePt = food.Name?.Pt,
+          foodNameEn = food.Name?.En,
+          timestampUtc = DateTime.UtcNow
+        });
+      }
+      return food;
+    }
 
     // Fallback: pure Levenshtein with small tie-break
-    return _allFoods
+    var fallback = _allFoods
       .Select(food =>
       {
         var candidates = GetSearchableValues(food).ToList();
@@ -292,6 +376,27 @@ public class FoodService
       })
       .OrderBy(x => x.Base)
       .First().Food;
+
+    {
+      var bestVal = GetSearchableValues(fallback).OrderBy(v => levenshtein.DistanceFrom(v)).FirstOrDefault() ?? string.Empty;
+      var score = ComputeNormalizedScore(trimmedName, bestVal, levenshtein);
+      if (score < LowConfidenceThreshold)
+      {
+        await TryLogLowConfidenceAsync(new
+        {
+          type = "levenshtein",
+          query = trimmedName,
+          bestCandidate = bestVal,
+          score,
+          language = LanguagePreference?.ToString(),
+          foodId = fallback.Id,
+          foodNamePt = fallback.Name?.Pt,
+          foodNameEn = fallback.Name?.En,
+          timestampUtc = DateTime.UtcNow
+        });
+      }
+    }
+    return fallback;
   }
 
   public async Task<Food> FindFoodByPossibleName(string possibleName)
@@ -368,7 +473,7 @@ public class FoodService
     //   return substringCandidate;
     // }
 
-    return await BestMatch(filteredPossibleName);
+    return await BestMatch(filteredPossibleName, possibleName);
   }
 
   public async Task<Food> FindFoodByPossibleName(string possibleName, Server.Shared.Language? language)
