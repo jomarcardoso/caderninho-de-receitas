@@ -202,6 +202,7 @@ public class FoodServiceTests
   [TestCase("the diced tomato", "Tomate")]
   [TestCase("farinha de trigo para polvilhar a bancada", "Farinha de trigo")]
   [TestCase("azeite para untar a tigela", "Azeite de oliva")]
+  [TestCase("1 xícara (chá) de farinha de trigo integral", "Farinha de trigo integral")]
   public async Task FindFoodByPossibleName(string name, string expectedName)
   {
     var foodResult = await service.FindFoodByPossibleName(name);

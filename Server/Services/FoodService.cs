@@ -11,10 +11,12 @@ public class FoodService
 {
   public static readonly List<string> FoodModifiersPt = new()
   {
+    "em ponto de pomada",
     "para untar",
     "a forma", "a tigela", "as mãos",
     "para decorar", "para finalizar", "para regar",
     "para cobrir", "para rechear", "para guarnecer",
+    "em temperatura ambiente", "gelado", "frio", "quente",
     "para servir gelado", "para servir quente", "para acompanhar",
     "a gosto", "à gosto",
     "para servir", "a gosto para servir", "a gosto para servir (opcional)",
@@ -364,21 +366,27 @@ public class FoodService
       return food;
     }
 
-    // Fallback: pure Levenshtein with small tie-break
-    var fallback = _allFoods
+    // Fallback: pure Levenshtein with tie-break preferring shorter best candidate
+    var fallbackRanked = _allFoods
       .Select(food =>
       {
         var candidates = GetSearchableValues(food).ToList();
+        var bestVal = candidates.Count == 0
+          ? string.Empty
+          : candidates.OrderBy(candidate => levenshtein.DistanceFrom(candidate)).First();
         var baseDistance = candidates.Count == 0
           ? levenshtein.DistanceFrom(string.Empty)
-          : candidates.Min(candidate => levenshtein.DistanceFrom(candidate));
-        return new { Food = food, Base = baseDistance };
+          : levenshtein.DistanceFrom(bestVal);
+        var nameLen = (food.Name?.Pt ?? food.Name?.En ?? string.Empty).Length;
+        return new { Food = food, Base = baseDistance, Best = bestVal, NameLen = nameLen };
       })
       .OrderBy(x => x.Base)
-      .First().Food;
+      .ThenBy(x => x.Best.Length)
+      .ThenBy(x => x.NameLen)
+      .First();
 
     {
-      var bestVal = GetSearchableValues(fallback).OrderBy(v => levenshtein.DistanceFrom(v)).FirstOrDefault() ?? string.Empty;
+      var bestVal = fallbackRanked.Best ?? string.Empty;
       var score = ComputeNormalizedScore(trimmedName, bestVal, levenshtein);
       if (score < LowConfidenceThreshold)
       {
@@ -386,17 +394,18 @@ public class FoodService
         {
           type = "levenshtein",
           query = trimmedName,
+          originalQuery = originalInput,
           bestCandidate = bestVal,
           score,
           language = LanguagePreference?.ToString(),
-          foodId = fallback.Id,
-          foodNamePt = fallback.Name?.Pt,
-          foodNameEn = fallback.Name?.En,
+          foodId = fallbackRanked.Food.Id,
+          foodNamePt = fallbackRanked.Food.Name?.Pt,
+          foodNameEn = fallbackRanked.Food.Name?.En,
           timestampUtc = DateTime.UtcNow
         });
       }
     }
-    return fallback;
+    return fallbackRanked.Food;
   }
 
   public async Task<Food> FindFoodByPossibleName(string possibleName)
