@@ -19,19 +19,7 @@
 }
 
 .paper-bg {
-  background-image: url('images/textures/paper-texture.png');
-  position: relative;
-
   &::before {
-    backdrop-filter: contrast(1.08);
     box-shadow: var(--shadow-primary-inset);
-    content: '';
-    display: block;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    pointer-events: none;
   }
 }

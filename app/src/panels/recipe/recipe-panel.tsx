@@ -146,7 +146,7 @@ const RecipePanel: FC<{
           ],
         }}
       >
-        <div className="paper-bg">{renderBody()}</div>
+        <div className="theme-light paper-bg">{renderBody()}</div>
       </Layout>
     </Panel>
   );
