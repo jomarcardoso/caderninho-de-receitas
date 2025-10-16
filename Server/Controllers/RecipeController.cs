@@ -242,6 +242,7 @@ public class RecipeController : ControllerBase
       StructuredContent = structured
     });
   }
+
   [HttpPost("plain-text/from-image")]
   [AllowAnonymous]
   public async Task<IActionResult> CreateRecipeFromImage(
@@ -297,6 +298,7 @@ public class RecipeController : ControllerBase
 
     return await CreateRecipeInternalAsync(recipeDto, temporaryOwnerId, request.IsPublic);
   }
+
   [HttpPost("plain-text")]
   [AllowAnonymous]
   public async Task<IActionResult> CreateRecipeFromPlainText(
@@ -372,6 +374,26 @@ public class RecipeController : ControllerBase
     {
       return NotFound();
     }
+
+    return Ok(recipe);
+  }
+
+  [HttpGet("public/{id}")]
+  [AllowAnonymous]
+  public async Task<IActionResult> GetPublicRecipe(int id)
+  {
+    Recipe? recipe = await _context.Recipe
+      .Include(r => r.Food)
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .ThenInclude(i => i.Food)
+      .FirstOrDefaultAsync(r => r.Id == id);
+
+    if (recipe is null)
+      return NotFound();
+
+    if (!recipe.IsPublic)
+      return NotFound();
 
     return Ok(recipe);
   }

@@ -6,6 +6,7 @@ import type { RecipeDto } from '@common/services/recipe';
 import type { RecipeStepDto } from '@common/services/recipe-step';
 import { fetchMostCopiedRecipes } from '@common/services/recipe';
 import type { Language } from '@common/services/language/language.types';
+import Link from 'next/link';
 
 const API_BASE_URL =
   process.env.RECIPES_API_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -100,31 +101,33 @@ export default async function Home() {
 
       <section className="grid">
         {recipes.map((recipe) => (
-          <article key={recipe.id} className="card">
-            <h2>{recipe.name}</h2>
-            {recipe.description && (
-              <p className="description">{recipe.description}</p>
-            )}
+          <Link href={`/recipe/${recipe.id}`}>
+            <article key={recipe.id} className="card">
+              <h2>{recipe.name}</h2>
+              {recipe.description && (
+                <p className="description">{recipe.description}</p>
+              )}
 
-            {recipe.steps.length > 0 && (
-              <div className="steps">
-                <h3>Modo de preparo</h3>
-                <ol>
-                  {recipe.steps.map((step, index) => (
-                    <li key={index}>
-                      {step.title && <strong>{step.title}</strong>}
-                      {step.ingredientsText && (
-                        <pre className="ingredients">
-                          {step.ingredientsText}
-                        </pre>
-                      )}
-                      <p>{step.preparation}</p>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
-          </article>
+              {recipe.steps.length > 0 && (
+                <div className="steps">
+                  <h3>Modo de preparo</h3>
+                  <ol>
+                    {recipe.steps.map((step, index) => (
+                      <li key={index}>
+                        {step.title && <strong>{step.title}</strong>}
+                        {step.ingredientsText && (
+                          <pre className="ingredients">
+                            {step.ingredientsText}
+                          </pre>
+                        )}
+                        <p>{step.preparation}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+            </article>
+          </Link>
         ))}
       </section>
     </div>

@@ -9,6 +9,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fontsource/cinzel": "^5.2.8",
+    "@fontsource/dosis": "^5.2.8",
+    "@fontsource/vibur": "^5.2.8",
     "bootstrap": "^5.3.8",
     "next": "15.5.4",
     "notebook-layout": "file:../notebook-layout",
