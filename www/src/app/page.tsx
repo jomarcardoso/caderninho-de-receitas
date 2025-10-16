@@ -1,12 +1,12 @@
 ﻿import Image from 'next/image';
 import './page.css';
-import '../../../notebook-layout/styles/main.scss';
 import type { Metadata } from 'next';
 import type { RecipeDto } from '@common/services/recipe';
 import type { RecipeStepDto } from '@common/services/recipe-step';
 import { fetchMostCopiedRecipes } from '@common/services/recipe';
 import type { Language } from '@common/services/language/language.types';
 import Link from 'next/link';
+import { SectionCard } from 'notebook-layout';
 
 const API_BASE_URL =
   process.env.RECIPES_API_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -58,15 +58,6 @@ const FALLBACK_RECIPES: RecipeDto[] = [
   },
 ];
 
-interface ApiRecipeResponse {
-  id?: number;
-  name?: string;
-  description?: string;
-  additional?: string;
-  language?: string;
-  steps?: RecipeStepDto[];
-}
-
 async function fetchRecipes(): Promise<RecipeDto[]> {
   const mostCopied = await fetchMostCopiedRecipes(6, API_BASE_URL);
   return mostCopied.length ? mostCopied : FALLBACK_RECIPES;
@@ -103,29 +94,30 @@ export default async function Home() {
         {recipes.map((recipe) => (
           <Link href={`/recipe/${recipe.id}`}>
             <article key={recipe.id} className="card">
-              <h2>{recipe.name}</h2>
-              {recipe.description && (
-                <p className="description">{recipe.description}</p>
-              )}
+              <SectionCard title={recipe.name}>
+                {recipe.description && (
+                  <p className="description">{recipe.description}</p>
+                )}
 
-              {recipe.steps.length > 0 && (
-                <div className="steps">
-                  <h3>Modo de preparo</h3>
-                  <ol>
-                    {recipe.steps.map((step, index) => (
-                      <li key={index}>
-                        {step.title && <strong>{step.title}</strong>}
-                        {step.ingredientsText && (
-                          <pre className="ingredients">
-                            {step.ingredientsText}
-                          </pre>
-                        )}
-                        <p>{step.preparation}</p>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              )}
+                {recipe.steps.length > 0 && (
+                  <div className="steps">
+                    <h3>Modo de preparo</h3>
+                    <ol>
+                      {recipe.steps.map((step, index) => (
+                        <li key={index}>
+                          {step.title && <strong>{step.title}</strong>}
+                          {step.ingredientsText && (
+                            <pre className="ingredients">
+                              {step.ingredientsText}
+                            </pre>
+                          )}
+                          <p>{step.preparation}</p>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+              </SectionCard>
             </article>
           </Link>
         ))}

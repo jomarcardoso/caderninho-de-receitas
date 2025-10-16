@@ -9,6 +9,11 @@ $enable-cssgrid: true;
 @import "bootstrap/scss/bootstrap-grid";
 @import "bootstrap/scss/bootstrap-utilities";
 
+body {
+  position: fixed;
+  top: 0;
+}
+
 @media (min-width: 768px) {
   html {
     overflow: hidden;
