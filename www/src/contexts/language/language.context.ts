@@ -7,4 +7,4 @@ export type Language = 'en' | 'pt';
 export const LanguageContext = createContext<{
   language: Language;
   setLanguage?: React.Dispatch<React.SetStateAction<Language>>;
-}>({ language: 'en' });
+}>({ language: 'pt' });

@@ -8,7 +8,7 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider: FC<LanguageProviderProps> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>('pt');
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>

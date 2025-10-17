@@ -4,3 +4,57 @@
     gap: 24px;
   }
 }
+
+/* Amino Acids Table (mirrors app styles) */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table__caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.table__tr {}
+
+.table__th,
+.table__td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.aminoacids-table {
+  &__name {
+    width: 84px;
+    white-space: nowrap;
+  }
+
+  &__cell {
+    padding: 8px 0;
+    width: 56px;
+  }
+
+  &__bar {
+    min-height: 20px;
+    mix-blend-mode: multiply;
+    background: transparent;
+
+    &--filled {
+      background-color: var(--color-primary-main);
+      border-right: 2px solid var(--color-primary-dark);
+    }
+  }
+
+  &--on-light {
+    .aminoacids-table__bar--filled {
+      background-color: var(--color-primary-light);
+    }
+  }
+}

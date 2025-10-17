@@ -136,7 +136,7 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
         </SectionCard>
       )}
 
-      {recipe?.vitamins?.length && (
+      {Array.isArray(recipe?.vitamins) && recipe!.vitamins.length > 0 && (
         <SectionCard title={translate('vitamins', language)}>
           <div className="grid columns-1 g-3">
             <ul className="list">{recipe?.vitamins.map(renderNutrient)}</ul>
@@ -144,7 +144,7 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
         </SectionCard>
       )}
 
-      {recipe?.minerals?.length && (
+      {Array.isArray(recipe?.minerals) && recipe!.minerals.length > 0 && (
         <SectionCard title={translate('minerals', language)}>
           <div className="grid columns-1 g-3">
             <ul className="list">{recipe?.minerals.map(renderNutrient)}</ul>
@@ -152,7 +152,7 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
         </SectionCard>
       )}
 
-      {recipe?.aminoAcids?.length && recipe?.aminoAcids && (
+      {Array.isArray(recipe?.aminoAcids) && recipe!.aminoAcids.length > 0 && (
         <SectionCard title={translate('aminoAcidsTableTitle', language)}>
           <AminoAcidsTable contrast="light" essentialAminoAcids={recipe.aminoAcids} />
         </SectionCard>
