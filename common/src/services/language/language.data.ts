@@ -313,6 +313,10 @@ export const I18N_TEXT = {
     en: 'selenium',
     pt: 'selênio',
   },
+  home: {
+    en: 'Home page',
+    pt: 'Página inicial',
+  },
   recipeStepIngredientsHeading: {
     en: 'Ingredients{suffix}',
     pt: 'Ingredientes{suffix}',

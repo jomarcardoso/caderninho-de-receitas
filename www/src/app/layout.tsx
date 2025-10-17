@@ -4,6 +4,7 @@ import './globals.scss';
 import '@fontsource/dosis';
 import '@fontsource/cinzel';
 import '@fontsource/vibur';
+import { LanguageProvider } from '../contexts/language';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
