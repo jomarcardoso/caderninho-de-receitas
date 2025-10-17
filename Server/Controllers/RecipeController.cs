@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
@@ -109,60 +109,111 @@ public class RecipeController : ControllerBase
   }
 
   [HttpGet("{id}")]
-  public async Task<IActionResult> GetRecipe(int id)
-  {
-    var userId = GetUserId();
+  public async Task<IActionResult> GetRecipe(
+  int id,
+  [FromQuery] int count = 5,
+  [FromQuery] string? excludeIds = null,
+  [FromQuery] bool excludeSameOwner = true)
+{
+  var userId = GetUserId();
+  var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
+  if (recipe is null) return NotFound();
+  if (recipe.OwnerId != userId && !recipe.IsPublic) return NotFound();
 
-    var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
-    if (recipe is null) return NotFound();
-    if (recipe.OwnerId != userId && !recipe.IsPublic) return NotFound();
+  count = Math.Clamp(count, 1, 5);
+  var excluded = new HashSet<int>((excludeIds ?? string.Empty)
+    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+    .Select(s => int.TryParse(s.Trim(), out var v) ? v : 0)
+    .Where(v => v > 0));
 
-    var relatedIds = await _context.RecipeRelation
-      .AsNoTracking()
-      .Where(r => r.RecipeId == id)
-      .OrderByDescending(r => r.Weight)
-      .Take(5)
-      .Select(r => r.RelatedRecipeId)
-      .ToListAsync();
+  var baseRelations = await _context.RecipeRelation
+    .AsNoTracking()
+    .Where(r => r.RecipeId == id)
+    .OrderByDescending(r => r.Weight)
+    .Take(50)
+    .ToListAsync();
 
-    var related = await _context.Recipe
-      .AsNoTracking()
-      .Where(r => relatedIds.Contains(r.Id) && r.IsPublic)
-      .Select(r => new { r.Id, r.Name, r.Image, r.Description })
-      .ToListAsync();
+  var rand = new Random();
+  var candidateIds = baseRelations
+    .Where(r => !excluded.Contains(r.RelatedRecipeId) && r.RelatedRecipeId != id)
+    .Select(r => new { r.RelatedRecipeId, Score = r.Weight + rand.NextDouble() * 0.05 })
+    .OrderByDescending(x => x.Score)
+    .Take(20)
+    .ToList();
 
-    return Ok(new { recipe, related });
-  }
+  var candidates = await _context.Recipe
+    .AsNoTracking()
+    .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
+    .Select(r => new { r.Id, r.Name, r.Image, r.Description, r.OwnerId, r.IsPublic })
+    .ToListAsync();
+
+  var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
+  var filtered = candidates
+    .Where(r => r.IsPublic)
+    .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
+    .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
+    .Take(count)
+    .Select(r => new { r.Id, r.Name, r.Image, r.Description })
+    .ToList();
+
+  return Ok(new { recipe, related = filtered });
+}
 
   [HttpGet("public/{id}")]
   [AllowAnonymous]
-  public async Task<IActionResult> GetPublicRecipe(int id)
-  {
-    var recipe = await _context.Recipe
-      .Include(r => r.Food)
-      .Include(r => r.Steps)
+  public async Task<IActionResult> GetPublicRecipe(
+  int id,
+  [FromQuery] int count = 5,
+  [FromQuery] string? excludeIds = null,
+  [FromQuery] bool excludeSameOwner = true)
+{
+  var recipe = await _context.Recipe
+    .Include(r => r.Food)
+    .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .FirstOrDefaultAsync(r => r.Id == id);
+    .FirstOrDefaultAsync(r => r.Id == id);
 
-    if (recipe is null || !recipe.IsPublic) return NotFound();
+  if (recipe is null || !recipe.IsPublic) return NotFound();
 
-    var relatedIds = await _context.RecipeRelation
-      .AsNoTracking()
-      .Where(r => r.RecipeId == id)
-      .OrderByDescending(r => r.Weight)
-      .Take(5)
-      .Select(r => r.RelatedRecipeId)
-      .ToListAsync();
+  count = Math.Clamp(count, 1, 5);
+  var excluded = new HashSet<int>((excludeIds ?? string.Empty)
+    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+    .Select(s => int.TryParse(s.Trim(), out var v) ? v : 0)
+    .Where(v => v > 0));
 
-    var related = await _context.Recipe
-      .AsNoTracking()
-      .Where(r => relatedIds.Contains(r.Id) && r.IsPublic)
-      .Select(r => new { r.Id, r.Name, r.Image, r.Description })
-      .ToListAsync();
+  var baseRelations = await _context.RecipeRelation
+    .AsNoTracking()
+    .Where(r => r.RecipeId == id)
+    .OrderByDescending(r => r.Weight)
+    .Take(50)
+    .ToListAsync();
 
-    return Ok(new { recipe, related });
-  }
+  var rand = new Random();
+  var candidateIds = baseRelations
+    .Where(r => !excluded.Contains(r.RelatedRecipeId) && r.RelatedRecipeId != id)
+    .Select(r => new { r.RelatedRecipeId, Score = r.Weight + rand.NextDouble() * 0.05 })
+    .OrderByDescending(x => x.Score)
+    .Take(20)
+    .ToList();
+
+  var candidates = await _context.Recipe
+    .AsNoTracking()
+    .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
+    .Select(r => new { r.Id, r.Name, r.Image, r.Description, r.OwnerId, r.IsPublic })
+    .ToListAsync();
+
+  var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
+  var filtered = candidates
+    .Where(r => r.IsPublic)
+    .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
+    .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
+    .Take(count)
+    .Select(r => new { r.Id, r.Name, r.Image, r.Description })
+    .ToList();
+
+  return Ok(new { recipe, related = filtered });
+}
 
   private static Language? TryMapLanguage(string? value)
   {
@@ -215,9 +266,45 @@ public class RecipeController : ControllerBase
     errorResult = BadRequest("Temporary owner id must be provided for anonymous requests.");
     return false;
   }
+
+  // Admin/maintenance: rebuild precomputed recipe relations
+  // POST api/Recipe/relations/rebuild?topPerRecipe=10
+  [HttpPost("relations/rebuild")]
+  [HttpGet("relations/rebuild")]
+  public async Task<IActionResult> RebuildRelations([FromQuery] int topPerRecipe = 10, CancellationToken cancellationToken = default)
+  {
+    topPerRecipe = Math.Clamp(topPerRecipe, 1, 50);
+    var created = await relationService.RebuildAllRelationsAsync(topPerRecipe, cancellationToken);
+    return Ok(new { created });
+  }
+  [HttpGet("most-copied")]
+  [AllowAnonymous]
+  public async Task<IActionResult> GetMostCopiedRecipes([FromQuery] int quantity = 6)
+  {
+    if (quantity < 1) return BadRequest("Quantity must be greater than zero.");
+    if (quantity > 64) return BadRequest("Quantity must not exceed 64.");
+
+    var userId = GetUserId();
+    var recipes = await recipeService.GetMostCopiedRecipesAsync(quantity, userId);
+
+    var response = recipes
+      .Select(r => new
+      {
+        id = r.Id,
+        name = r.Name,
+        description = r.Description,
+        additional = r.Additional,
+        language = r.Language.ToString().ToLowerInvariant(),
+        steps = new object[0]
+      })
+      .ToList();
+
+    return Ok(response);
+  }
 }
 
 public class ClaimOwnerRequest
 {
   public string TemporaryOwnerId { get; set; } = string.Empty;
 }
+
