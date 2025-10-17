@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
 
   public DbSet<Recipe> Recipe { get; set; }
   public DbSet<Food> Food { get; set; }
+  public DbSet<RecipeRelation> RecipeRelation { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -56,6 +57,13 @@ public class AppDbContext : DbContext
       entity.OwnsOne(r => r.EssentialAminoAcids);
       entity.OwnsOne(r => r.Vitamins);
       entity.OwnsOne(r => r.Minerals);
+    });
+
+    // RecipeRelation
+    modelBuilder.Entity<RecipeRelation>(entity =>
+    {
+      entity.HasKey(r => r.Id);
+      entity.HasIndex(r => new { r.RecipeId, r.RelatedRecipeId }).IsUnique();
     });
   }
 }

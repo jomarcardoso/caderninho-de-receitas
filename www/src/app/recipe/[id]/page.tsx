@@ -1,4 +1,4 @@
-import { Recipe } from '@common/services/recipe';
+﻿import { Recipe } from '@common/services/recipe';
 import '../../page.css';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -9,7 +9,9 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ??
   'http://localhost:5106';
 
-async function fetchRecipeById(id: string): Promise<Recipe | null> {
+type RecipeWithRelated = { recipe: Recipe; related: Recipe[] };
+
+async function fetchRecipeById(id: string): Promise<RecipeWithRelated | null> {
   try {
     const base = API_BASE_URL.replace(/\/$/, '');
     const res = await fetch(`${base}/api/Recipe/public/${id}`, {
@@ -21,8 +23,15 @@ async function fetchRecipeById(id: string): Promise<Recipe | null> {
       return null;
     }
 
-    const data = (await res.json()) as Recipe;
-    return data ?? null;
+    const raw = (await res.json()) as any;
+    if (!raw) return null;
+
+    if (raw.recipe) {
+      return { recipe: raw.recipe as Recipe, related: (raw.related as Recipe[]) ?? [] };
+    }
+
+    // Backward-compat: API returned a plain Recipe
+    return { recipe: raw as Recipe, related: [] };
   } catch (err) {
     return null;
   }
@@ -34,11 +43,11 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const recipe = await fetchRecipeById(id);
-  if (!recipe) return { title: 'Receita não encontrada' };
+  const data = await fetchRecipeById(id);
+  if (!data) return { title: 'Receita não encontrada' };
   return {
-    title: recipe.name ?? 'Receita',
-    description: recipe.description ?? undefined,
+    title: data.recipe.name ?? 'Receita',
+    description: data.recipe.description ?? undefined,
   };
 }
 
@@ -48,8 +57,10 @@ export default async function RecipePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const recipe = await fetchRecipeById(id);
-  if (!recipe) notFound();
+  const data = await fetchRecipeById(id);
+  if (!data) notFound();
+
+  const { recipe, related } = data;
 
   return (
     <div className="page theme-light">
@@ -106,3 +117,5 @@ export default async function RecipePage({
     </div>
   );
 }
+
+
