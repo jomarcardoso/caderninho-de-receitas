@@ -322,11 +322,28 @@ public class RecipeService
         .ToList();
     }
 
-    return new RecipesDto
+    // Attach referenced food icons
+    var iconNames = foods
+      .Select(f => f.Icon)
+      .Where(s => !string.IsNullOrWhiteSpace(s))
+      .Select(s => s.Trim())
+      .Distinct()
+      .ToList();
+
+    var icons = await _context.FoodIcon
+      .AsNoTracking()
+      .Where(i => iconNames.Contains(i.Name))
+      .ToListAsync();
+
+    var response = new RecipesDto
     {
       Recipes = recipeDtos,
       Foods = _mapper.Map<List<Food>>(foods)
     };
+
+    response.FoodIcons = icons.ToDictionary(i => i.Name, i => i.Content);
+
+    return response;
   }
 
   public async Task DeleteStepsAsync(Recipe recipe)

@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
   public DbSet<Recipe> Recipe { get; set; }
   public DbSet<Food> Food { get; set; }
   public DbSet<RecipeRelation> RecipeRelation { get; set; }
+  public DbSet<FoodIcon> FoodIcon { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -64,6 +65,16 @@ public class AppDbContext : DbContext
     {
       entity.HasKey(r => r.Id);
       entity.HasIndex(r => new { r.RecipeId, r.RelatedRecipeId }).IsUnique();
+    });
+
+    // FoodIcon
+    modelBuilder.Entity<FoodIcon>(entity =>
+    {
+      entity.HasKey(i => i.Id);
+      entity.HasIndex(i => i.Name).IsUnique();
+      entity.Property(i => i.Name).IsRequired();
+      entity.Property(i => i.MediaType).IsRequired();
+      entity.Property(i => i.Content).IsRequired();
     });
   }
 }

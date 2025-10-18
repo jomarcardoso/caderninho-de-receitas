@@ -212,7 +212,30 @@ public class RecipeController : ControllerBase
     .Select(r => new { r.Id, r.Name, r.Image, r.Description })
     .ToList();
 
-  return Ok(new { recipe, related = filtered });
+  // Build icons dictionary for foods referenced in this recipe (and its steps)
+  var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+  if (!string.IsNullOrWhiteSpace(recipe.Food?.Icon))
+  {
+    iconNames.Add(recipe.Food.Icon.Trim());
+  }
+
+  foreach (var s in recipe.Steps ?? new List<RecipeStep>())
+  {
+    foreach (var i in s.Ingredients ?? new List<Ingredient>())
+    {
+      var name = i.Food?.Icon;
+      if (!string.IsNullOrWhiteSpace(name)) iconNames.Add(name.Trim());
+    }
+  }
+
+  var icons = await _context.FoodIcon
+    .AsNoTracking()
+    .Where(i => iconNames.Contains(i.Name))
+    .ToListAsync();
+
+  var foodIcons = icons.ToDictionary(i => i.Name, i => i.Content);
+
+  return Ok(new { recipe, related = filtered, foodIcons });
 }
 
   private static Language? TryMapLanguage(string? value)

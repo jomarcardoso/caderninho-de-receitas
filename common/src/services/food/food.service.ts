@@ -7,10 +7,24 @@ export function mapFoodResponseToModel(
   foodResponse: FoodResponse,
   commonResponse: FoodsDataResponse,
 ): Food {
+  const iconName = foodResponse.icon?.trim?.() ?? '';
+  const raw = (commonResponse.foodIcons ?? {})[iconName];
+
+  let resolvedIcon = '';
+  if (raw && iconName) {
+    if (iconName.toLowerCase().endsWith('.svg')) {
+      resolvedIcon = `data:image/svg+xml;utf8,${encodeURIComponent(raw)}`;
+    } else if (iconName.toLowerCase().endsWith('.png')) {
+      resolvedIcon = `data:image/png;base64,${raw}`;
+    } else if (iconName.toLowerCase().endsWith('.webp')) {
+      resolvedIcon = `data:image/webp;base64,${raw}`;
+    }
+  }
+
   return {
     ...foodResponse,
     ...mapAllNutrientsResponseToModel(foodResponse, commonResponse),
-    icon: `/images/food/${foodResponse.icon}`,
+    icon: resolvedIcon || (iconName ? `/images/food/${iconName}` : ''),
     measurementUnit: {
       text: commonResponse.measurementUnits[foodResponse.measurementUnit].text,
       pluralText:
