@@ -87,7 +87,7 @@ public class RecipeService
       ownerId
     )
     {
-      Image = source.Image,
+      Imgs = source.Imgs,
       Language = source.Language,
       CopiedFromRecipeId = source.Id,
       IsPublic = source.IsPublic

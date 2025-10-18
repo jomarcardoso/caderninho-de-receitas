@@ -24,6 +24,11 @@ export function mapFoodResponseToModel(
   return {
     ...foodResponse,
     ...mapAllNutrientsResponseToModel(foodResponse, commonResponse),
+    imgs: Array.isArray((foodResponse as any).imgs)
+      ? ((foodResponse as any).imgs as string[])
+      : ((foodResponse as any).image
+          ? [String((foodResponse as any).image)]
+          : []),
     icon: resolvedIcon || (iconName ? `/images/food/${iconName}` : ''),
     measurementUnit: {
       text: commonResponse.measurementUnits[foodResponse.measurementUnit].text,

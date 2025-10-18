@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { SectionCard } from 'notebook-layout';
 import SideMenu from '@/components/SideMenu';
 import ClientRecipeDetails from '@/components/RecipeDetails.client';
+import FallbackImage from '@/components/FallbackImage.client';
 
 const API_BASE_URL =
   process.env.RECIPES_API_URL ??
@@ -87,9 +88,10 @@ export default async function RecipePage({
           <h1 className="h1 mb-3">{recipe.name}</h1>
 
           <SectionCard>
-            <img
+            <FallbackImage
               className="img-primary"
-              src={recipe?.image || recipe?.food.image}
+              alt=""
+              srcs={[...(recipe?.imgs ?? []), ...(recipe?.food?.imgs ?? [])]}
             />
           </SectionCard>
 

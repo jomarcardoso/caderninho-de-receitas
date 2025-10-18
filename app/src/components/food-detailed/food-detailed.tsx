@@ -57,7 +57,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
 
   return (
     <div className="grid g-4 columns-1" {...props}>
-      <Image src={image} alt="" aspectRatio={1.25} />
+      <Image srcs={[...(food.imgs ?? [])]} alt="" aspectRatio={1.25} />
 
       <div className="container">
         {hasNutrients ? (

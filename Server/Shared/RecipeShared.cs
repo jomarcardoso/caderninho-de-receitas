@@ -14,7 +14,7 @@ public abstract class RecipeContract<TRecipeStep>
 public abstract class RecipeBase<TRecipeStep, TFood> : RecipeContract<TRecipeStep>, INutrientsBase
 {
   public TFood Food { get; set; }
-  public string Image { get; set; } = string.Empty;
+  public List<string> Imgs { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;
   public bool IsPublic { get; set; } = true;
   //RecipeCategory category { get; set; }

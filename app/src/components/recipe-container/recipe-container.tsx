@@ -63,7 +63,10 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
       )}
       <div style={{ marginBottom: '24px' }}>
         <Image
-          src={recipe?.image || recipe?.food.image}
+          srcs={[
+            ...(recipe?.imgs ?? []),
+            ...(recipe?.food?.imgs ?? []),
+          ]}
           alt=""
           aspectRatio={1.25}
         />

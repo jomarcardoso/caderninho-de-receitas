@@ -46,9 +46,9 @@ const Ingredients = ({
             style={{ cursor: setCurrentFood || setCurrentFoodQuantity ? 'pointer' : 'default' }}
           >
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-              {ing.food?.icon || ing.food?.image ? (
+              {ing.food?.icon || (ing.food as any)?.imgs?.[0] ? (
                 <img
-                  src={ing.food.icon || ing.food.image}
+                  src={ing.food.icon || (ing.food as any).imgs?.[0]}
                   alt=""
                   style={{ width: 24, height: 24, objectFit: 'contain' }}
                 />

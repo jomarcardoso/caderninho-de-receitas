@@ -28,7 +28,7 @@ export const FOOD: Food = {
   id: 0,
   name: { ...EMPTY_LANGUAGE_TEXT },
   description: { ...EMPTY_LANGUAGE_TEXT },
-  image: '',
+  imgs: [],
   keys: { ...EMPTY_LANGUAGE_TEXT },
   isRecipe: false,
   icon: '',

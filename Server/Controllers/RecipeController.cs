@@ -144,7 +144,7 @@ public class RecipeController : ControllerBase
   var candidates = await _context.Recipe
     .AsNoTracking()
     .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
-    .Select(r => new { r.Id, r.Name, r.Image, r.Description, r.OwnerId, r.IsPublic })
+    .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic })
     .ToListAsync();
 
   var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
@@ -153,7 +153,7 @@ public class RecipeController : ControllerBase
     .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
     .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
     .Take(count)
-    .Select(r => new { r.Id, r.Name, r.Image, r.Description })
+    .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
     .ToList();
 
   return Ok(new { recipe, related = filtered });
@@ -200,7 +200,7 @@ public class RecipeController : ControllerBase
   var candidates = await _context.Recipe
     .AsNoTracking()
     .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
-    .Select(r => new { r.Id, r.Name, r.Image, r.Description, r.OwnerId, r.IsPublic })
+    .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic })
     .ToListAsync();
 
   var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
@@ -209,7 +209,7 @@ public class RecipeController : ControllerBase
     .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
     .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
     .Take(count)
-    .Select(r => new { r.Id, r.Name, r.Image, r.Description })
+    .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
     .ToList();
 
   // Build icons dictionary for foods referenced in this recipe (and its steps)

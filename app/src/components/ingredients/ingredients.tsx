@@ -52,7 +52,10 @@ const Ingredients: FC<IngredientsProps> = ({
             <div className="w-100 grid columns-10 align-items-center g-2">
               <div className="g-col-1">
                 <Image
-                  src={ingredient.food.icon || ingredient.food.image}
+                  srcs={[
+                    ingredient.food.icon,
+                    ...(ingredient.food.imgs ?? []),
+                  ].filter(Boolean) as string[]}
                   alt={ingredient.food.name[language]}
                   transparent
                 />

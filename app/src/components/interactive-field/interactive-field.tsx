@@ -84,7 +84,7 @@ export const InteractiveField: FC<FieldProps> = ({ ...props }) => {
           (line) =>
             line.food.name && (
               <Image
-                src={line.food.icon || line.food.image}
+                srcs={[line.food.icon, ...(line.food.imgs ?? [])].filter(Boolean) as string[]}
                 alt={line.food.name[language]}
                 transparent
                 className="interactive-field__img"
