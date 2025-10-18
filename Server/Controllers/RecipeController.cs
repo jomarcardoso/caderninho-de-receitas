@@ -216,7 +216,9 @@ public class RecipeController : ControllerBase
   var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
   if (!string.IsNullOrWhiteSpace(recipe.Food?.Icon))
   {
-    iconNames.Add(recipe.Food.Icon.Trim());
+    var name = recipe.Food.Icon.Trim();
+    try { name = System.IO.Path.GetFileName(name); } catch { }
+    if (!string.IsNullOrWhiteSpace(name)) iconNames.Add(name);
   }
 
   foreach (var s in recipe.Steps ?? new List<RecipeStep>())
@@ -224,7 +226,12 @@ public class RecipeController : ControllerBase
     foreach (var i in s.Ingredients ?? new List<Ingredient>())
     {
       var name = i.Food?.Icon;
-      if (!string.IsNullOrWhiteSpace(name)) iconNames.Add(name.Trim());
+      if (!string.IsNullOrWhiteSpace(name))
+      {
+        var n = name.Trim();
+        try { n = System.IO.Path.GetFileName(n); } catch { }
+        if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
+      }
     }
   }
 

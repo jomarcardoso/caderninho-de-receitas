@@ -11,7 +11,11 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ??
   'http://localhost:5106';
 
-type RecipeWithRelated = { recipe: Recipe; related: Recipe[] };
+type RecipeWithRelated = {
+  recipe: Recipe;
+  related: Recipe[];
+  foodIcons?: Record<string, string>;
+};
 
 async function fetchRecipeById(id: string): Promise<RecipeWithRelated | null> {
   try {
@@ -32,11 +36,16 @@ async function fetchRecipeById(id: string): Promise<RecipeWithRelated | null> {
       return {
         recipe: raw.recipe as Recipe,
         related: (raw.related as Recipe[]) ?? [],
+        foodIcons: (raw.foodIcons as Record<string, string>) ?? undefined,
       };
     }
 
     // Backward-compat: API returned a plain Recipe
-    return { recipe: raw as Recipe, related: [] };
+    return {
+      recipe: raw as Recipe,
+      related: [],
+      foodIcons: (raw.foodIcons as Record<string, string>) ?? undefined,
+    };
   } catch (err) {
     return null;
   }
@@ -65,12 +74,14 @@ export default async function RecipePage({
   const data = await fetchRecipeById(id);
   if (!data) notFound();
 
-  const { recipe, related } = data;
+  const { recipe, related, foodIcons } = data;
+
+  console.log('foodIcons', foodIcons);
 
   return (
     <div className="page page-recipe theme-light">
       <div className="row">
-        <div className="col-md-3"></div>
+        <div className="col-md-3 col-lg-4"></div>
 
         <main className="col-md-7 col-lg-5">
           <h1 className="h1 mb-3">{recipe.name}</h1>
@@ -82,7 +93,7 @@ export default async function RecipePage({
             />
           </SectionCard>
 
-          <ClientRecipeDetails recipe={recipe} />
+          <ClientRecipeDetails recipe={recipe} foodIcons={foodIcons} />
         </main>
 
         <div className="col-md-2 col-lg-3">

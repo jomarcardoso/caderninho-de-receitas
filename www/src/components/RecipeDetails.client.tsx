@@ -45,7 +45,16 @@ const Ingredients = ({
             onClick={() => handleClick(ing)}
             style={{ cursor: setCurrentFood || setCurrentFoodQuantity ? 'pointer' : 'default' }}
           >
-            {ing.text}
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              {ing.food?.icon || ing.food?.image ? (
+                <img
+                  src={ing.food.icon || ing.food.image}
+                  alt=""
+                  style={{ width: 24, height: 24, objectFit: 'contain' }}
+                />
+              ) : null}
+              <span>{ing.text}</span>
+            </span>
           </li>
         ))}
       </ul>
@@ -193,11 +202,52 @@ const AminoAcidsTable = ({
   );
 };
 
-export default function ClientRecipeDetails({ recipe }: { recipe: Recipe }) {
+type ClientProps = { recipe: Recipe; foodIcons?: Record<string, string> };
+
+function buildIconsIndex(dict?: Record<string, string>): Record<string, string> {
+  if (!dict) return {};
+  const idx: Record<string, string> = {};
+  for (const [k, v] of Object.entries(dict)) {
+    idx[k] = v;
+    idx[k.toLowerCase()] = v;
+  }
+  return idx;
+}
+
+export default function ClientRecipeDetails({ recipe, foodIcons }: ClientProps) {
   const { language } = useLanguage();
+  const iconsIndex = useMemo(() => buildIconsIndex(foodIcons), [foodIcons]);
+
+  const resolve = (name?: string): string => {
+    if (!name) return '';
+    const initial = name.trim();
+    if (initial.startsWith('data:') || initial.startsWith('http')) return initial;
+    const basename = initial.includes('/') ? initial.split('/').pop()! : initial;
+    const keyL = basename.toLowerCase();
+    const raw = iconsIndex[basename] ?? iconsIndex[initial] ?? iconsIndex[keyL];
+    const ext = basename.toLowerCase();
+    if (!raw) return basename ? `/images/food/${basename}` : '';
+    if (ext.endsWith('.svg')) return `data:image/svg+xml;utf8,${encodeURIComponent(raw)}`;
+    if (ext.endsWith('.png')) return `data:image/png;base64,${raw}`;
+    if (ext.endsWith('.webp')) return `data:image/webp;base64,${raw}`;
+    return raw;
+  };
 
   const normalizedRecipe = useMemo(() => {
     const r: any = { ...recipe };
+    // Resolve icons via dictionary when provided (public endpoint)
+    if (r.food) {
+      r.food = { ...r.food, icon: resolve(r.food.icon) };
+    }
+    if (Array.isArray(r.steps)) {
+      r.steps = r.steps.map((s: any) => ({
+        ...s,
+        ingredients: (s.ingredients ?? []).map((ing: any) => ({
+          ...ing,
+          food: { ...ing.food, icon: resolve(ing.food?.icon) },
+        })),
+      }));
+    }
     r.vitamins = mapRecordToNutrients(r.vitamins, VITAMINS_FALLBACK);
     if (!r.vitamins?.length && r.food?.vitamins) {
       r.vitamins = mapRecordToNutrients(r.food.vitamins, VITAMINS_FALLBACK);
@@ -220,7 +270,7 @@ export default function ClientRecipeDetails({ recipe }: { recipe: Recipe }) {
       r.nutritionalInformation = mapRecordToNutrients(r.food.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK);
     }
     return r as Recipe;
-  }, [recipe]);
+  }, [recipe, foodIcons]);
 
   return (
     <RecipeDetails

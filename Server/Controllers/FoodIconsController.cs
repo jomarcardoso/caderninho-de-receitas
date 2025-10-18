@@ -7,9 +7,9 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/food-icons")]
-public class FoodIconsController : ControllerBase
-{
-  private readonly AppDbContext _context;
+  public class FoodIconsController : ControllerBase
+  {
+    private readonly AppDbContext _context;
 
   public FoodIconsController(AppDbContext context)
   {
@@ -71,5 +71,29 @@ public class FoodIconsController : ControllerBase
     await _context.SaveChangesAsync();
     return Ok();
   }
-}
 
+  [HttpGet]
+  public async Task<IActionResult> GetAllNames()
+  {
+    var names = await _context.FoodIcon
+      .AsNoTracking()
+      .Select(i => i.Name)
+      .OrderBy(n => n)
+      .ToListAsync();
+    return Ok(names);
+  }
+
+  [HttpGet("map")]
+  public async Task<IActionResult> GetMap([FromQuery] string? names = null)
+  {
+    IQueryable<FoodIcon> query = _context.FoodIcon.AsNoTracking();
+    if (!string.IsNullOrWhiteSpace(names))
+    {
+      var set = new HashSet<string>(names.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()), StringComparer.OrdinalIgnoreCase);
+      query = query.Where(i => set.Contains(i.Name));
+    }
+
+    var map = await query.ToDictionaryAsync(i => i.Name, i => i.Content);
+    return Ok(map);
+  }
+}
