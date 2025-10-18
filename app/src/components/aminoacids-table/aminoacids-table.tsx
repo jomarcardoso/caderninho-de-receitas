@@ -11,7 +11,7 @@ interface Props {
 
 export type AminoAcidsTableProps = Props & HTMLProps<HTMLTableElement>;
 
-const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
+export const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
   essentialAminoAcids = [],
   contrast,
   className = '',
@@ -104,6 +104,3 @@ const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
     </div>
   );
 };
-
-export default AminoAcidsTable;
-

@@ -43,6 +43,9 @@ export interface RecipeDetailsProps {
   language: Language;
   setCurrentFood?(food: Food): void;
   setCurrentFoodQuantity?(quantity: number): void;
+  // When true, vitamins/minerals/amino acids/nutritional info render within SectionCard.
+  // When false, they render as plain blocks (legacy app appearance).
+  nutrientSectionsWithCards?: boolean;
   components: {
     Ingredients: React.ComponentType<IngredientsProps>;
     Preparation: React.ComponentType<PreparationProps>;
@@ -58,6 +61,7 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
   language,
   setCurrentFood,
   setCurrentFoodQuantity,
+  nutrientSectionsWithCards = true,
   components,
 }) => {
   const { Ingredients, Preparation, NutrientDisplay, ListItem, AminoAcidsTable, SectionCard } = components;
@@ -129,33 +133,58 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
       {recipe?.additional && <div>{recipe.additional}</div>}
 
       {nutritionalInformation.length > 0 && (
-        <SectionCard title={translate('nutritionalInformation', language)}>
+        nutrientSectionsWithCards ? (
+          <SectionCard title={translate('nutritionalInformation', language)}>
+            <div className="grid columns-1 g-3">
+              <ul>{nutritionalInformation.map(renderNutritionalInformation)}</ul>
+            </div>
+          </SectionCard>
+        ) : (
           <div className="grid columns-1 g-3">
+            <h2 className="h2">{translate('nutritionalInformation', language)}</h2>
             <ul>{nutritionalInformation.map(renderNutritionalInformation)}</ul>
           </div>
-        </SectionCard>
+        )
       )}
 
       {Array.isArray(recipe?.vitamins) && recipe!.vitamins.length > 0 && (
-        <SectionCard title={translate('vitamins', language)}>
+        nutrientSectionsWithCards ? (
+          <SectionCard title={translate('vitamins', language)}>
+            <div className="grid columns-1 g-3">
+              <ul className="list">{recipe?.vitamins.map(renderNutrient)}</ul>
+            </div>
+          </SectionCard>
+        ) : (
           <div className="grid columns-1 g-3">
+            <h3 className="section-title">{translate('vitamins', language)}</h3>
             <ul className="list">{recipe?.vitamins.map(renderNutrient)}</ul>
           </div>
-        </SectionCard>
+        )
       )}
 
       {Array.isArray(recipe?.minerals) && recipe!.minerals.length > 0 && (
-        <SectionCard title={translate('minerals', language)}>
+        nutrientSectionsWithCards ? (
+          <SectionCard title={translate('minerals', language)}>
+            <div className="grid columns-1 g-3">
+              <ul className="list">{recipe?.minerals.map(renderNutrient)}</ul>
+            </div>
+          </SectionCard>
+        ) : (
           <div className="grid columns-1 g-3">
+            <h3 className="section-title">{translate('minerals', language)}</h3>
             <ul className="list">{recipe?.minerals.map(renderNutrient)}</ul>
           </div>
-        </SectionCard>
+        )
       )}
 
       {Array.isArray(recipe?.aminoAcids) && recipe!.aminoAcids.length > 0 && (
-        <SectionCard title={translate('aminoAcidsTableTitle', language)}>
+        nutrientSectionsWithCards ? (
+          <SectionCard title={translate('aminoAcidsTableTitle', language)}>
+            <AminoAcidsTable contrast="light" essentialAminoAcids={recipe.aminoAcids} />
+          </SectionCard>
+        ) : (
           <AminoAcidsTable contrast="light" essentialAminoAcids={recipe.aminoAcids} />
-        </SectionCard>
+        )
       )}
     </div>
   );

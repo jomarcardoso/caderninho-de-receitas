@@ -1,6 +1,6 @@
 import { type FC, type HTMLProps, type ReactElement, useContext } from 'react';
 import Image from '../image/image';
-import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
+import { AminoAcidsTable } from '../aminoacids-table/aminoacids-table';
 import NutrientDisplay from '../nutrient/nutrient';
 import { ListItem } from '../list-item/list-item';
 import round from 'lodash/round';

@@ -1,7 +1,7 @@
 import { type FC, useContext, useEffect } from 'react';
 import { StickyHeader } from 'ovos';
 import Image from '../image/image';
-import AminoAcidsTable from '../aminoacids-table/aminoacids-table';
+import { AminoAcidsTable, type AminoAcidsTableProps } from '../aminoacids-table/aminoacids-table';
 import Ingredients from '../ingredients/ingredients';
 import Preparation from '../preparation/preparation';
 import NutrientDisplay from '../nutrient/nutrient';
@@ -12,6 +12,10 @@ import { type Recipe } from 'services/recipe/recipe.model';
 import { LanguageContext } from '../../providers/language/language.context';
 import { SectionCard } from 'notebook-layout';
 import RecipeDetails from '@common/components/recipe/RecipeDetails';
+
+const AminoAcidsTableLight = (props: AminoAcidsTableProps) => (
+  <AminoAcidsTable contrast="light" {...props} />
+);
 
 export interface RecipeContainerProps {
   recipe?: Recipe;
@@ -25,8 +29,6 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
   setCurrentFoodQuantity,
 }) => {
   const { language } = useContext(LanguageContext);
-
-  
 
   useEffect(() => {
     StickyHeader({});
@@ -70,6 +72,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
         <RecipeDetails
           recipe={recipe}
           language={language}
+          nutrientSectionsWithCards={false}
           setCurrentFood={setCurrentFood}
           setCurrentFoodQuantity={setCurrentFoodQuantity}
           components={{
@@ -77,7 +80,7 @@ const RecipeContainer: FC<RecipeContainerProps> = ({
             Preparation,
             NutrientDisplay,
             ListItem,
-            AminoAcidsTable,
+            AminoAcidsTable: AminoAcidsTableLight,
             SectionCard,
           }}
         />
