@@ -5,3 +5,4 @@ export * from './navigation';
 export * from './data';
 // export * from './firebase';
 export * from './editing';
+export * from './health/health.provider';

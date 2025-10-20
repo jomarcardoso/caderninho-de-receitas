@@ -15,22 +15,25 @@ import {
 } from './providers';
 import { LanguageProvider } from './providers/language/language.provider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { HealthProvider } from './providers';
 
 const Root = () => (
   <LoadingProvider>
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <DataProvider>
-        <LanguageProvider>
-          <NavigationProvider>
-            <CurrentRecipeProvider>
-              <EditingProvider>
-                <App />
-              </EditingProvider>
-            </CurrentRecipeProvider>
-          </NavigationProvider>
-        </LanguageProvider>
-      </DataProvider>
-    </GoogleOAuthProvider>
+    <HealthProvider>
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <DataProvider>
+          <LanguageProvider>
+            <NavigationProvider>
+              <CurrentRecipeProvider>
+                <EditingProvider>
+                  <App />
+                </EditingProvider>
+              </CurrentRecipeProvider>
+            </NavigationProvider>
+          </LanguageProvider>
+        </DataProvider>
+      </GoogleOAuthProvider>
+    </HealthProvider>
   </LoadingProvider>
 );
 
