@@ -50,7 +50,7 @@ public class FoodService
     "descongelado", "descongelada", "descongelados", "descongeladas",
     "recheado", "recheada", "recheados", "recheadas",
     "cru", "crua", "crus", "cruas",
-    "peneirado", "peneirada", "peneirados", "peneiradas"
+    "peneirado", "peneirada", "peneirados", "peneiradas", "filé", "filés"
   };
 
   public static readonly List<string> FoodModifiersEn = new()

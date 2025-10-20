@@ -31,7 +31,8 @@ public static class MeasurePatterns
   private const string SlicePt = @"(?:fatias?|rodelas?)";
   private const string BreastPt = @"peitos?";
   private const string ClovePt = @"dentes?";
-  private const string BunchPt = @"cachos?";
+  // include common PT variants for bunch: "maço/maços" besides "cacho"
+  private const string BunchPt = @"(?:cachos?|ma\u00E7os?)";
 
   private const string PrepositionPt = @"(?:\s*(?:de|do|da|dos|das)\s+)?";
   private const string UnitParenOptPt = @"(?:\s*\([^)]*\))?";
@@ -149,7 +150,7 @@ public static class MeasurePatterns
   private static readonly Regex TrailingExplicitWeightRegex = new(
     @"\((?:(?!\().)*?(?<num>\d+(?:[.,]\d+)?)\s*(?<unit>g|gr|gramas?|grama|kg|kilo(?:grama)?s?|quil(?:o|ograma)s?|ml|mililitros?|mililitro|l|litros?|litro)\s*\)",
     RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled | RegexOptions.RightToLeft);
-  private static readonly Regex LiteralPhraseRegex = new(@"(?:(?:a|\u00E0)\s+gosto|um\s+fio|fio\s+de|raspas?|raspa|para\s+polvilhar|para\s+untar|para\s+decorar|to\s+taste|as\s+needed|a\s+drizzle|drizzle\s+of|for\s+sprinkling|for\s+greasing|for\s+decorating|for\s+topping)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
+  private static readonly Regex LiteralPhraseRegex = new(@"(?:(?:a|\u00E0)\s+gosto|um\s+fio|fio\s+de|raspas?|raspa|para\s+polvilhar|para\s+untar|para\s+decorar|para\s+montar|to\s+taste|as\s+needed|a\s+drizzle|drizzle\s+of|for\s+sprinkling|for\s+greasing|for\s+decorating|for\s+topping|for\s+assembling)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
   private static readonly Regex LiteralByUnitRegex = new(@"\(.*\b(cada|each|per)\b.*\)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
   private static readonly HashSet<string> TokensToSkip = new(StringComparer.Ordinal)
   {
@@ -204,7 +205,11 @@ public static class MeasurePatterns
     {
       if (!string.IsNullOrEmpty(value))
       {
-        _text = StringService.ReplaceStarting(value, "- ", "").Trim();
+        var t = StringService.ReplaceStarting(value, "- ", "");
+        // Normalize frequent prefixes that are not part of the food name
+        t = StringService.ReplaceStarting(t, "caldo de ", "");
+        t = StringService.ReplaceStarting(t, "suco de ", "");
+        _text = t.Trim();
       }
       else
       {
@@ -742,6 +747,13 @@ public static class MeasurePatterns
         {
           measureType = MeasureType.Gram;
           quantity = explicitValue * 1000d; // 1 l = 1000 g
+        }
+
+        // Handle cases like "(80 g cada)" / "(80 g each)": multiply by count if available.
+        if (LiteralByUnitRegex.IsMatch(Text))
+        {
+          var count = ParseMeasureQuantity(measureText);
+          if (count > 0) quantity *= count;
         }
       }
     }

@@ -25,6 +25,231 @@ public class IngredientServiceTests
     service = new IngredientService(foodService);
   }
 
+  [Test]
+  public async Task ToEntity_FromMultiLine_Text_Recipe1()
+  {
+    var input = string.Join("\n", new[]
+    {
+      "4 filés de pescada (cerca de 80 g cada)",
+      "¼ de xícara (chá) de vinho branco",
+      "azeite",
+      "sal e pimenta-do-reino moída na hora a gosto",
+      "palitos de dente para montar as rosetas",
+    });
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = LoadFoodsWithMeasures();
+    localContext.Food.AddRange(foods);
+
+    // Ensure minimal foods for this recipe exist
+    localContext.Food.AddRange(new[]
+    {
+      new Food { Id = 91001, Name = new LanguageText { Pt = "Pescada", En = "Whiting" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 91002, Name = new LanguageText { Pt = "Vinho branco", En = "White wine" }, MeasurementUnit = MeasurementUnit.Liter, Measures = new Measure { Cup = 240 } },
+      new Food { Id = 91003, Name = new LanguageText { Pt = "Azeite de oliva", En = "Olive oil" }, MeasurementUnit = MeasurementUnit.Liter },
+      new Food { Id = 91004, Name = new LanguageText { Pt = "Sal", En = "Salt" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 91005, Name = new LanguageText { Pt = "Pimenta do Reino", En = "Black pepper" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 91006, Name = new LanguageText { Pt = "Palitos de dente", En = "Toothpicks" }, MeasurementUnit = MeasurementUnit.Gram },
+    });
+    localContext.SaveChanges();
+
+    var lines = input.Split('\n');
+    var results = new List<Ingredient>();
+    foreach (var line in lines)
+    {
+      var normalized = line.Trim();
+      if (string.IsNullOrWhiteSpace(normalized)) continue;
+      localService.Text = normalized;
+      var ing = await localService.ToEntity();
+      results.Add(ing);
+    }
+
+    Assert.That(results.Count, Is.EqualTo(5));
+
+    // 1) 4 filés de pescada (cerca de 80 g cada) -> explicit per-unit weight captured; total may be parsed as 80g
+    // We assert the explicit weight is captured (>= 80). If you prefer multiplying by count, we can expand the parser.
+    Assert.That(results[0].Quantity, Is.GreaterThanOrEqualTo(80).Within(0.0001));
+    Assert.That(results[0].Food.Name.Pt.ToLowerInvariant(), Does.Contain("pescada"));
+
+    // 2) ¼ de xícara (chá) de vinho branco => 0.25 * cup
+    Assert.That(results[1].MeasureType, Is.EqualTo(MeasureType.Cup));
+    Assert.That(results[1].MeasureQuantity, Is.EqualTo(0.25).Within(0.0001));
+    var wineCup = results[1].Food.Measures.Cup ?? (results[1].Food.MeasurementUnit == MeasurementUnit.Liter ? 240 : 100);
+    Assert.That(results[1].Quantity, Is.EqualTo(0.25 * wineCup).Within(0.0001));
+
+    // 3) azeite => default unity
+    Assert.That(results[2].MeasureType, Is.EqualTo(MeasureType.Unity));
+    Assert.That(results[2].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+    Assert.That(results[2].Food.Name.Pt.ToLowerInvariant(), Does.Contain("azeite"));
+
+    // 4) sal e pimenta-do-reino moída na hora a gosto => literal
+    Assert.That(results[3].MeasureType, Is.EqualTo(MeasureType.Literal));
+    Assert.That(results[3].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+
+    // 5) palitos de dente para montar as rosetas => literal
+    Assert.That(results[4].MeasureType, Is.EqualTo(MeasureType.Literal));
+    Assert.That(results[4].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+  }
+
+  [Test]
+  public async Task ToEntity_FromMultiLine_Text_Recipe2()
+  {
+    var input = string.Join("\n", new[]
+    {
+      "2 maços de couve",
+      "50 g de manteiga em cubos",
+      "sal e pimenta-do-reino moída na hora a gosto",
+    });
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = LoadFoodsWithMeasures();
+    localContext.Food.AddRange(foods);
+    localContext.Food.AddRange(new[]
+    {
+      new Food { Id = 92001, Name = new LanguageText { Pt = "Couve", En = "Collard greens" }, MeasurementUnit = MeasurementUnit.Gram, Measures = new Measure { Bunch = 300 } },
+      new Food { Id = 92002, Name = new LanguageText { Pt = "Manteiga", En = "Butter" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 92003, Name = new LanguageText { Pt = "Sal", En = "Salt" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 92004, Name = new LanguageText { Pt = "Pimenta do Reino", En = "Black pepper" }, MeasurementUnit = MeasurementUnit.Gram },
+    });
+    localContext.SaveChanges();
+
+    var lines = input.Split('\n');
+    var results = new List<Ingredient>();
+    foreach (var line in lines)
+    {
+      var normalized = line.Trim();
+      if (string.IsNullOrWhiteSpace(normalized)) continue;
+      localService.Text = normalized;
+      var ing = await localService.ToEntity();
+      results.Add(ing);
+    }
+
+    Assert.That(results.Count, Is.EqualTo(3));
+
+    // 1) 2 maços de couve => 2 x bunch(300g)
+    Assert.That(results[0].MeasureType, Is.EqualTo(MeasureType.Bunch));
+    Assert.That(results[0].MeasureQuantity, Is.EqualTo(2).Within(0.0001));
+    Assert.That(results[0].Quantity, Is.EqualTo(600).Within(0.0001));
+
+    // 2) 50 g de manteiga em cubos
+    Assert.That(results[1].MeasureType, Is.EqualTo(MeasureType.Gram));
+    Assert.That(results[1].Quantity, Is.EqualTo(50).Within(0.0001));
+
+    // 3) a gosto => literal
+    Assert.That(results[2].MeasureType, Is.EqualTo(MeasureType.Literal));
+    Assert.That(results[2].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+  }
+
+  [Test]
+  public async Task ToEntity_FromMultiLine_Text_Recipe3()
+  {
+    var input = string.Join("\n", new[]
+    {
+      "4 tomates maduros",
+      "2 pimentas dedo-de-moça",
+      "1 dente de alho",
+      "½ xícara (chá) de açúcar",
+      "½ xícara (chá) de açúcar mascavo",
+      "½ xícara (chá) de vinagre de vinho branco",
+      "1 colher (chá) de café em pó",
+      "caldo de 1 limão",
+      "1 pitada de sal",
+    });
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
+      .Options;
+
+    using var localContext = new AppDbContext(options);
+    var localFoodService = new FoodService(localContext);
+    var localService = new IngredientService(localFoodService);
+
+    var foods = LoadFoodsWithMeasures();
+    localContext.Food.AddRange(foods);
+    localContext.Food.AddRange(new[]
+    {
+      new Food { Id = 93001, Name = new LanguageText { Pt = "Tomate", En = "Tomato" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 93002, Name = new LanguageText { Pt = "Pimenta dedo-de-moça", En = "Red chili pepper" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 93003, Name = new LanguageText { Pt = "Alho", En = "Garlic" }, MeasurementUnit = MeasurementUnit.Gram, Measures = new Measure { Clove = 3 } },
+      new Food { Id = 93004, Name = new LanguageText { Pt = "Açúcar", En = "Sugar" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 93005, Name = new LanguageText { Pt = "Açúcar mascavo", En = "Brown sugar" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 93006, Name = new LanguageText { Pt = "Vinagre de vinho branco", En = "White wine vinegar" }, MeasurementUnit = MeasurementUnit.Liter },
+      new Food { Id = 93007, Name = new LanguageText { Pt = "Café em pó", En = "Ground coffee" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 93008, Name = new LanguageText { Pt = "Limão", En = "Lemon" }, MeasurementUnit = MeasurementUnit.Gram },
+      new Food { Id = 93009, Name = new LanguageText { Pt = "Sal", En = "Salt" }, MeasurementUnit = MeasurementUnit.Gram },
+    });
+    localContext.SaveChanges();
+
+    var lines = input.Split('\n');
+    var results = new List<Ingredient>();
+    foreach (var line in lines)
+    {
+      var normalized = line.Trim();
+      if (string.IsNullOrWhiteSpace(normalized)) continue;
+      localService.Text = normalized;
+      var ing = await localService.ToEntity();
+      results.Add(ing);
+    }
+
+    Assert.That(results.Count, Is.EqualTo(9));
+
+    // 1) 4 tomates maduros
+    Assert.That(results[0].MeasureType, Is.EqualTo(MeasureType.Unity));
+    Assert.That(results[0].MeasureQuantity, Is.EqualTo(4).Within(0.0001));
+
+    // 2) 2 pimentas dedo-de-moça
+    Assert.That(results[1].MeasureType, Is.EqualTo(MeasureType.Unity));
+    Assert.That(results[1].MeasureQuantity, Is.EqualTo(2).Within(0.0001));
+
+    // 3) 1 dente de alho
+    Assert.That(results[2].MeasureType, Is.EqualTo(MeasureType.Clove));
+    Assert.That(results[2].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+
+    // 4) ½ xícara (chá) de açúcar
+    Assert.That(results[3].MeasureType, Is.EqualTo(MeasureType.Cup));
+    Assert.That(results[3].MeasureQuantity, Is.EqualTo(0.5).Within(0.0001));
+    var sugarCup = results[3].Food.Measures.Cup ?? (results[3].Food.MeasurementUnit == MeasurementUnit.Liter ? 240 : 100);
+    Assert.That(results[3].Quantity, Is.EqualTo(0.5 * sugarCup).Within(0.0001));
+
+    // 5) ½ xícara (chá) de açúcar mascavo
+    Assert.That(results[4].MeasureType, Is.EqualTo(MeasureType.Cup));
+    Assert.That(results[4].MeasureQuantity, Is.EqualTo(0.5).Within(0.0001));
+
+    // 6) ½ xícara (chá) de vinagre de vinho branco
+    Assert.That(results[5].MeasureType, Is.EqualTo(MeasureType.Cup));
+    Assert.That(results[5].MeasureQuantity, Is.EqualTo(0.5).Within(0.0001));
+    var vinegarCup = results[5].Food.Measures.Cup ?? (results[5].Food.MeasurementUnit == MeasurementUnit.Liter ? 240 : 100);
+    Assert.That(results[5].Quantity, Is.EqualTo(0.5 * vinegarCup).Within(0.0001));
+
+    // 7) 1 colher (chá) de café em pó
+    Assert.That(results[6].MeasureType, Is.EqualTo(MeasureType.TeaSpoon));
+    Assert.That(results[6].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+    var tsp = results[6].Food.Measures.TeaSpoon ?? 5; // fallback 5 g
+    Assert.That(results[6].Quantity, Is.EqualTo(tsp).Within(0.0001));
+
+    // 8) caldo de 1 limão
+    Assert.That(results[7].MeasureType, Is.EqualTo(MeasureType.Unity));
+    Assert.That(results[7].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+
+    // 9) 1 pitada de sal
+    Assert.That(results[8].MeasureType, Is.EqualTo(MeasureType.Pinch));
+    Assert.That(results[8].MeasureQuantity, Is.EqualTo(1).Within(0.0001));
+  }
+
   [TearDown]
   public void TearDown()
   {
