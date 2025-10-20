@@ -7,6 +7,7 @@ export interface RecipeContract<TRecipeStep> {
   additional?: string;
   steps: TRecipeStep[];
   language: Language;
+  imgs?: string[];
   // category: RecipeCategory | '';
 }
 

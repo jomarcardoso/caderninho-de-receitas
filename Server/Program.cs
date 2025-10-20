@@ -50,6 +50,7 @@ builder.Services.AddScoped<PlainTextRecipePreProcessor>();
 builder.Services.AddSingleton<RecipeImageOcrService>();
 builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenValidator>();
 builder.Services.AddScoped<GoogleAuthService>();
+builder.Services.AddSingleton<AzureBlobSasService>();
 
 // blazor
 builder.Services.AddRazorPages();

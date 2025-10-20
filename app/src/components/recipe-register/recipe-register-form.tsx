@@ -21,6 +21,8 @@ import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from 'services/language/language.service';
 import { generateId } from 'services/string.service';
 import { Field } from 'notebook-layout';
+import UploadButton from '../upload-button/upload-button';
+import Image from '../image/image';
 
 interface RecipeStepDtoWithKeyId extends RecipeStepDto {
   keyId: string;
@@ -38,6 +40,7 @@ export interface RecipeForm {
   // category: RecipeCategory | '';
   // quantitySteps: number;
   additional: string;
+  imgs: string[];
 }
 
 interface Props {
@@ -200,6 +203,31 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                         <p>{translate('creatingRecipeMessage', language)}</p>
                       ) : (
                         <p>{translate('editingRecipeMessage', language)}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <h3 className="h3">Imagens da receita</h3>
+                      <div className="d-flex gap-3 align-items-center" style={{ flexWrap: 'wrap' }}>
+                        <UploadButton
+                          label="Enviar imagem"
+                          prefix="recipes"
+                          onUploaded={(url) => setFieldValue('imgs', [...(values.imgs || []), url])}
+                        />
+                        {!!values.imgs?.length && (
+                          <small>clique em uma imagem para remover</small>
+                        )}
+                      </div>
+                      {!!values.imgs?.length && (
+                        <div className="d-flex gap-3" style={{ flexWrap: 'wrap', marginTop: 8 }}>
+                          {values.imgs.map((u, i) => (
+                            <div key={`${u}-${i}`} onClick={() => setFieldValue('imgs', values.imgs.filter((_, idx) => idx !== i))} style={{ cursor: 'pointer' }}>
+                              <div style={{ width: 120, borderRadius: 8, overflow: 'hidden' }}>
+                                <Image src={u} alt="" aspectRatio={1.25} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       )}
                     </div>
 

@@ -2,7 +2,10 @@ using Server.Shared;
 
 namespace Server.Dtos;
 
-public class RecipeDto : RecipeContract<RecipeStepDto>;
+public class RecipeDto : RecipeContract<RecipeStepDto>
+{
+  public List<string> Imgs { get; set; } = new();
+}
 
 public class RecipeResponseDto : RecipeBase<RecipeStepResponse, int>;
 

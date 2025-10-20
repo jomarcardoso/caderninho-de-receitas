@@ -37,7 +37,7 @@ public class RecipeService
     var steps = await BuildStepsAsync(recipeDto);
     var food = await foodService.FindFoodByPossibleName(recipeDto.Name, lang);
 
-    return new Recipe(
+    var entity = new Recipe(
       recipeDto.Id,
       recipeDto.Name,
       recipeDto.Keys,
@@ -46,6 +46,9 @@ public class RecipeService
       recipeDto.Additional,
       steps
     );
+
+    entity.Imgs = recipeDto.Imgs ?? new List<string>();
+    return entity;
   }
 
   public async Task<Recipe?> FindRecipeWithDetailsById(int recipeId)
@@ -154,6 +157,7 @@ public class RecipeService
       recipe.Steps.Add(step);
     }
 
+    recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     RecalculateRecipeNutrition(recipe);
   }
 

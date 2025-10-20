@@ -47,6 +47,7 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
       name = '',
       description = '',
       additional = '',
+      imgs = [],
       steps: stepsData = [],
     }: // category = '',
     RecipeForm): Promise<void> => {
@@ -63,6 +64,7 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
         name,
         description,
         additional,
+        imgs,
         language,
         id: recipe?.id ?? 0,
         // category,
@@ -107,6 +109,7 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
           name: recipe?.name ?? '',
           description: recipe?.description ?? '',
           additional: recipe?.additional ?? '',
+          imgs: recipe?.imgs ?? [],
           // category: recipe?.category ?? '',
           steps: recipe?.steps?.length
             ? recipe.steps.map((s) => ({ keyId: generateId(), ...s }))
