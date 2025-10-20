@@ -29,12 +29,10 @@ const Footer: FC<FooterProps> = ({
 
   function render() {
     function renderItem({ icon, ...itemProps }: FooterItemProps) {
+      // Evita espalhar 'key' vindo de itemProps, que gera warning no React
+      const { key: _ignoreKey, ...rest } = (itemProps as unknown) as Record<string, unknown>;
       return (
-        <SemanticButton
-          className="footer__control"
-          key={String(icon)}
-          {...itemProps}
-        >
+        <SemanticButton className="footer__control" key={String(icon)} {...(rest as any)}>
           <span className="svg-icon">{icon}</span>
         </SemanticButton>
       );

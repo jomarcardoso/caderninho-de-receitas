@@ -19,6 +19,7 @@ import { translate } from 'services/language/language.service';
 import type { Food } from 'services/food/food.model';
 import { DataContext } from '../../providers';
 import { Field } from 'notebook-layout';
+import HealthContext from '../../providers/health/health.context';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -39,11 +40,10 @@ const FoodsPanel: FC<Props> = ({
   const {
     data: { foods },
   } = useContext(DataContext);
+  const { serverUp } = useContext(HealthContext);
   const [quantityToShow, setQuantityToShow] = useState(externalQuantityToShow);
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
-
-  console.log(foods);
 
   let searchedFoods = JSON.parse(JSON.stringify(foods)) as Food[];
 
@@ -142,8 +142,12 @@ const FoodsPanel: FC<Props> = ({
 
         {foods.length ? (
           <ol className="list">{cuttedOrderedFoods.map(renderFood)}</ol>
-        ) : (
+        ) : serverUp ? (
           <LoadingSvg />
+        ) : (
+          <p style={{ opacity: 0.7 }}>
+            {translate('noConnectionNoLocalData', language) || 'Sem conexão e sem dados locais. Abra o app uma vez com servidor online para popular o cache.'}
+          </p>
         )}
 
         {orderedFoods.length >= quantityToShow && (

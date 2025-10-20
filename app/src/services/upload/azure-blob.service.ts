@@ -7,7 +7,7 @@ export interface SasResponse {
 function getApiBase(): string {
   // Prefer env, fallback to server default used in Program.cs
   const fromEnv = (import.meta as any)?.env?.VITE_API_BASE_URL as string | undefined;
-  return (fromEnv || 'https://localhost:7269').replace(/\/$/, '');
+  return (fromEnv || 'http://localhost:5106').replace(/\/$/, '');
 }
 
 export async function requestSas(fileName: string, contentType?: string, prefix?: string): Promise<SasResponse> {

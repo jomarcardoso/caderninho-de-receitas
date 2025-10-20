@@ -15,6 +15,14 @@ import { FOOD } from '../food/food.model';
 import { mapRecipeStepModelToDto } from '../recipe-step/recipe-step.service';
 import type { RecipeStepDto } from '../recipe-step';
 
+function getApiBase(): string {
+  const vite = (typeof import.meta !== 'undefined' && (import.meta as any)?.env?.VITE_API_BASE_URL) as string | undefined;
+  if (vite && typeof vite === 'string' && vite.trim()) return vite.replace(/\/$/, '');
+  const next = (typeof process !== 'undefined' && (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined;
+  if (next && typeof next === 'string' && next.trim()) return next.replace(/\/$/, '');
+  return 'http://localhost:5106';
+}
+
 interface ApiRecipeResponse {
   id?: number;
   name?: string;
@@ -158,7 +166,7 @@ export function mapRecipesDataResponseToModel(
 
 export async function fetchRecipes(): Promise<RecipesData> {
   try {
-    const res = await fetch('http://localhost:5106/api/recipe');
+    const res = await fetch(`${getApiBase()}/api/recipe`);
     if (!res.ok) {
       throw new Error('Failed to save recipe');
     }
@@ -181,7 +189,7 @@ export async function fetchMostCopiedRecipes(
   quantity = 6,
   baseUrl?: string,
 ): Promise<RecipeDto[]> {
-  const apiBase = (baseUrl ?? '').replace(/\/$/, '') || 'http://localhost:5106';
+  const apiBase = (baseUrl ?? '').replace(/\/$/, '') || getApiBase();
 
   try {
     const res = await fetch(`${apiBase}/api/Recipe/most-copied?quantity=${quantity}`, {
@@ -225,9 +233,10 @@ export async function saveRecipe(
   languageHeader?: Language,
 ): Promise<RecipesData> {
   try {
+    const base = getApiBase();
     const url = recipe.id
-      ? `http://localhost:5106/api/recipe/${recipe.id}`
-      : 'http://localhost:5106/api/recipe';
+      ? `${base}/api/recipe/${recipe.id}`
+      : `${base}/api/recipe`;
     const res = await fetch(url, {
       method: recipe.id ? 'PUT' : 'POST',
       headers: {
@@ -254,7 +263,7 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
   if (!id) return RECIPES_DATA;
 
   try {
-    const res = await fetch(`http://localhost:5106/api/recipe/${id}`, {
+    const res = await fetch(`${getApiBase()}/api/recipe/${id}`, {
       method: 'DELETE',
     });
     if (!res.ok) {

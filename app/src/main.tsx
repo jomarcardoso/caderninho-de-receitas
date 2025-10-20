@@ -15,6 +15,7 @@ import {
 } from './providers';
 import { LanguageProvider } from './providers/language/language.provider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { attachCacheDebug } from './debug/cache-debug';
 import { HealthProvider } from './providers';
 
 const Root = () => (
@@ -38,3 +39,6 @@ const Root = () => (
 );
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<Root />);
+
+// Attach cache debug helpers (safe no-op in prod)
+try { attachCacheDebug(); } catch {}
