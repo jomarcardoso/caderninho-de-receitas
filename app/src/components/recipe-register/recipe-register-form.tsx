@@ -10,6 +10,7 @@ import { IoDuplicateOutline } from 'react-icons/io5';
 import SubmitComponent from '../submit';
 import './recipe-register.scss';
 import { Button } from 'notebook-layout';
+import HealthContext from '../../providers/health/health.context';
 import CookSvg from 'images/svg/history/cook.svg?react';
 import PizzaSvg from 'images/svg/history/pizza.svg?react';
 import {
@@ -59,6 +60,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   recipe,
 }) => {
   const { language } = useContext(LanguageContext);
+  const { serverUp } = useContext(HealthContext);
 
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredientsText = '', stepTitle = '') => {
@@ -306,7 +308,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
           </div>
 
           <div className="g-col-8">
-            <SubmitComponent>
+            <SubmitComponent disabled={!serverUp} title={!serverUp ? 'Servidor offline' : undefined}>
               {translate('saveRecipe', language)}
             </SubmitComponent>
           </div>

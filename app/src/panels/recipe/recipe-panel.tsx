@@ -17,6 +17,7 @@ import { ShareService } from 'services/url/share.service';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import type { Food } from 'services/food/food.model';
 import { mapRecipeModelToDto } from 'services/recipe/recipe.service';
+import HealthContext from '../../providers/health/health.context';
 
 let rendered = 0;
 
@@ -29,6 +30,7 @@ const RecipePanel: FC<{
   const { removeRecipe } = useContext(DataContext);
   const { setLoading } = useContext(LoadingContext);
   const { editing, setEditing } = useContext(EditingContext);
+  const { serverUp } = useContext(HealthContext);
   const currentRecipeDto = currentRecipe && mapRecipeModelToDto(currentRecipe);
 
   async function handleShare() {
@@ -130,6 +132,7 @@ const RecipePanel: FC<{
               onClick: handleEdit,
               icon: <IoCreateOutline />,
               key: 'edit',
+              disabled: !serverUp,
             },
             {
               hidden: (currentRecipe?.id ?? 0) < 10000,
