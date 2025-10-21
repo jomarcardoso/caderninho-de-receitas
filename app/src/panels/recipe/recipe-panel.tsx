@@ -13,7 +13,7 @@ import { Panel } from '../../components/panel/panel';
 import { LanguageContext } from '../../providers/language/language.context';
 import LoadingContext from '../../providers/loading/loading.context';
 import { EditingContext } from '../../providers/editing/editing.context';
-import { ShareService } from 'services/url/share.service';
+import { AppShareService } from '../../services/share';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
 import type { Food } from 'services/food/food.model';
 import { mapRecipeModelToDto } from 'services/recipe/recipe.service';
@@ -34,18 +34,12 @@ const RecipePanel: FC<{
   const currentRecipeDto = currentRecipe && mapRecipeModelToDto(currentRecipe);
 
   async function handleShare() {
-    if (setLoading) {
-      setLoading(true);
-    }
-
-    if (!currentRecipe) {
-      return;
-    }
-
-    await ShareService.shareRecipe(currentRecipe, language);
-
-    if (setLoading) {
-      setLoading(false);
+    if (setLoading) setLoading(true);
+    if (!currentRecipe) return;
+    try {
+      await AppShareService.shareLinkWithBody(currentRecipe, language);
+    } finally {
+      if (setLoading) setLoading(false);
     }
   }
 
@@ -63,6 +57,16 @@ const RecipePanel: FC<{
 
   function handleEdit() {
     setEditing?.(true);
+  }
+
+  async function handleShareLinkOnly() {
+    if (setLoading) setLoading(true);
+    if (!currentRecipe) return;
+    try {
+      await AppShareService.shareLinkOnly(currentRecipe);
+    } finally {
+      if (setLoading) setLoading(false);
+    }
   }
 
   function renderBody() {
@@ -139,6 +143,14 @@ const RecipePanel: FC<{
               onClick: handleShare,
               icon: <IoShareOutline />,
               key: 'share',
+              title: 'Compartilhar (link + corpo)'
+            },
+            {
+              hidden: (currentRecipe?.id ?? 0) < 10000,
+              onClick: handleShareLinkOnly,
+              icon: <IoShareOutline />,
+              key: 'sharelink',
+              title: 'Compartilhar link'
             },
             {
               hidden: (currentRecipe?.id ?? 0) < 10000,
