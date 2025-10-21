@@ -107,3 +107,9 @@ docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_
 ```sh
 docker exec -it caderninho-db psql -U admin caderninho < backup.sql
 ```
+
+## Icons
+
+Save the icons at folder "icons".
+
+Run "node import_food_icons.js".
