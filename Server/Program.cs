@@ -2,6 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using System.Security.Claims;
+using System.Net.Http.Headers;
+using System.Text.Json.Nodes;
 using Server.Services;
 using Server.Services.Auth;
 using Server.Serialization;
@@ -100,6 +104,58 @@ else
       {
         googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
         googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+      })
+      .AddOAuth("TikTok", options =>
+      {
+        options.ClientId = builder.Configuration["Authentication:TikTok:ClientId"] ?? string.Empty;
+        options.ClientSecret = builder.Configuration["Authentication:TikTok:ClientSecret"] ?? string.Empty;
+        options.CallbackPath = "/signin-tiktok";
+
+        options.AuthorizationEndpoint = "https://www.tiktok.com/v2/auth/authorize/";
+        options.TokenEndpoint = "https://open.tiktokapis.com/v2/oauth/token/";
+        options.UserInformationEndpoint = "https://open.tiktokapis.com/v2/user/info/";
+
+        options.Scope.Add("user.info.basic");
+        options.SaveTokens = true;
+
+        options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "open_id");
+        options.ClaimActions.MapJsonKey(ClaimTypes.Name, "display_name");
+        options.ClaimActions.MapJsonKey("urn:tiktok:avatar_url", "avatar_url");
+
+        options.Events = new OAuthEvents
+        {
+          OnCreatingTicket = async context =>
+          {
+            // TikTok user info expects Authorization: Bearer and returns nested JSON
+            var request = new HttpRequestMessage(HttpMethod.Get, options.UserInformationEndpoint);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+
+            using var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+            response.EnsureSuccessStatusCode();
+            using var stream = await response.Content.ReadAsStreamAsync();
+
+            var json = await JsonNode.ParseAsync(stream, cancellationToken: context.HttpContext.RequestAborted);
+            // Expected shape: { data: { user: { open_id, display_name, avatar_url, ... } } }
+            var user = json?["data"]?["user"] as JsonObject ?? json as JsonObject;
+            if (user is not null)
+            {
+              var principal = context.Identity;
+              string? GetString(string key) => user[key]?.GetValue<string>();
+
+              var openId = GetString("open_id");
+              var displayName = GetString("display_name");
+              var avatar = GetString("avatar_url") ?? GetString("avatar_url_100");
+
+              if (!string.IsNullOrEmpty(openId))
+                principal!.AddClaim(new Claim(ClaimTypes.NameIdentifier, openId, ClaimValueTypes.String, context.Options.ClaimsIssuer));
+              if (!string.IsNullOrEmpty(displayName))
+                principal!.AddClaim(new Claim(ClaimTypes.Name, displayName, ClaimValueTypes.String, context.Options.ClaimsIssuer));
+              if (!string.IsNullOrEmpty(avatar))
+                principal!.AddClaim(new Claim("urn:tiktok:avatar_url", avatar, ClaimValueTypes.String, context.Options.ClaimsIssuer));
+            }
+          }
+        };
       });
 }
 
