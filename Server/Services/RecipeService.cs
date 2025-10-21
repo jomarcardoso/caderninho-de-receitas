@@ -158,6 +158,7 @@ public class RecipeService
     }
 
     recipe.Imgs = recipeDto.Imgs ?? new List<string>();
+    recipe.UpdatedAt = DateTime.UtcNow;
     RecalculateRecipeNutrition(recipe);
   }
 

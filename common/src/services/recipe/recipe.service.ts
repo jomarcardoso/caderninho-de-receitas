@@ -80,6 +80,7 @@ export function mapRecipeModelToDto(recipe: Recipe): RecipeDto {
     additional: recipe.additional ?? '',
     description: recipe.description ?? '',
     steps: recipe.steps?.map(mapRecipeStepModelToDto) ?? [],
+    // createdAt/updatedAt are server-managed; not required on save
   };
 }
 

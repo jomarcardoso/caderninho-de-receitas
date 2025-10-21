@@ -26,6 +26,8 @@ public class Recipe : RecipeBase<RecipeStep, Food>
     Description = description;
     Additional = additional;
     Steps = steps;
+    CreatedAt = DateTime.UtcNow;
+    UpdatedAt = DateTime.UtcNow;
 
     NutritionalInformation = new NutritionalInformationBase();
     Minerals = new MineralsBase();

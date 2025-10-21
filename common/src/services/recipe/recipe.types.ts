@@ -15,6 +15,8 @@ export interface RecipeBase<TRecipeStep> extends RecipeContract<TRecipeStep> {
   userId?: number;
   imgs?: string[];
   savedByOthersCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // export type SetRecipe = (recipe: RecipeBase) => number;
