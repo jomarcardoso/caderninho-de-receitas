@@ -96,4 +96,26 @@ namespace Server.Controllers;
     var map = await query.ToDictionaryAsync(i => i.Name, i => i.Content);
     return Ok(map);
   }
+
+  // GET: api/food-icons/search?q=app&limit=25
+  [HttpGet("search")]
+  public async Task<IActionResult> Search([FromQuery] string? q = null, [FromQuery] int limit = 25)
+  {
+    limit = Math.Clamp(limit, 1, 200);
+    IQueryable<FoodIcon> query = _context.FoodIcon.AsNoTracking();
+
+    if (!string.IsNullOrWhiteSpace(q))
+    {
+      var term = q.Trim();
+      query = query.Where(i => i.Name.Contains(term));
+    }
+
+    var results = await query
+      .OrderBy(i => i.Name)
+      .Take(limit)
+      .Select(i => new { i.Name, i.MediaType })
+      .ToListAsync();
+
+    return Ok(results);
+  }
 }

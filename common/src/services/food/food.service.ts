@@ -30,6 +30,8 @@ export function mapFoodResponseToModel(
           ? [String((foodResponse as any).image)]
           : []),
     icon: resolvedIcon || (iconName ? `/images/food/${iconName}` : ''),
+    // keep original filename for edit forms
+    ...(iconName ? { iconName } : {}),
     measurementUnit: {
       text: commonResponse.measurementUnits[foodResponse.measurementUnit].text,
       pluralText:
@@ -75,3 +77,4 @@ export function mapFoodsDataResponseToModel(
 
 //   return [];
 // }
+

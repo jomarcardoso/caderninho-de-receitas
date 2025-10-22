@@ -1,4 +1,4 @@
-import { type FC, type HTMLProps, useCallback, useContext, useState } from 'react';
+import { type FC, type HTMLProps, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Form } from 'formik';
 import type { FormikProps } from 'formik';
 import type { Food } from 'services/food/food.model';
@@ -8,6 +8,7 @@ import { Field } from 'notebook-layout';
 import SubmitComponent from '../submit';
 import Image from '../image/image';
 import { Button } from 'notebook-layout';
+import { searchFoodIcons, type FoodIconSearchItem } from '../../services/icons.api';
 
 export interface FoodRegisterFormProps { food: Food }
 
@@ -50,6 +51,30 @@ export interface FoodForm {
 export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps> = ({ values, handleChange, handleBlur, setFieldValue, food }) => {
   const { language } = useContext(LanguageContext);
   const [imageLink, setImageLink] = useState('');
+  const [iconQuery, setIconQuery] = useState('');
+  const [iconLoading, setIconLoading] = useState(false);
+  const [iconResults, setIconResults] = useState<FoodIconSearchItem[]>([]);
+
+  useEffect(() => {
+    const q = (values.icon || '').trim();
+    setIconQuery(q);
+  }, [values.icon]);
+
+  useEffect(() => {
+    let timer: any;
+    const q = iconQuery;
+    if (!q || q.length < 2) {
+      setIconResults([]);
+      return;
+    }
+    setIconLoading(true);
+    timer = setTimeout(async () => {
+      const list = await searchFoodIcons(q, 12);
+      setIconResults(list);
+      setIconLoading(false);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [iconQuery]);
 
   const renderInput = useCallback(
     (
@@ -144,6 +169,34 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
               <Image src={food.icon} alt="" transparent />
             </div>
           ) : null}
+
+          {/* Sugestões de ícones a partir da busca */}
+          {iconLoading && <div style={{ opacity: 0.7, fontSize: 12 }}>buscando ícones...</div>}
+          {!iconLoading && iconResults.length > 0 && (
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+              {iconResults.map((it) => (
+                <button
+                  key={it.name}
+                  type="button"
+                  onClick={() => setFieldValue('icon', it.name)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '6px 10px',
+                    borderRadius: 8,
+                    border: '1px solid #ddd',
+                    background: '#fff',
+                    cursor: 'pointer',
+                  }}
+                  title={it.name}
+                >
+                  <img src={`/images/food/${it.name}`} alt="" width={20} height={20} style={{ objectFit: 'contain' }} />
+                  <span style={{ fontSize: 12 }}>{it.name}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {renderInput(translate('foodFormFoodName', language), 'name', false, false, 'text')}
