@@ -9,7 +9,7 @@ import Layout, { type LayoutProps } from '../../components/layout/layout';
 import FoodDetailed from '../../components/food-detailed/food-detailed';
 import Header, { type HeaderProps } from '../../components/header/header';
 import './food.scss';
-// import { FoodRegister } from '../../components/food-register/food-register';
+import { FoodRegister } from '../../components/food-register/food-register';
 import { IoCreateOutline } from 'react-icons/io5';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from 'services/language/language.service';
@@ -26,8 +26,7 @@ const FoodPanel: FC<Props> = forwardRef(
     const { language } = useContext(LanguageContext);
     const name = food?.name[language] ?? '';
     const [edit, setEdit] = useState(false);
-    // const editTemplate = <FoodRegister food={food} />;
-    const editTemplate = <div>{translate('comingSoon', language)}</div>;
+    const editTemplate = <FoodRegister food={food as any} />;
 
     return (
       <div>
