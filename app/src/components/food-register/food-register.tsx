@@ -1,4 +1,4 @@
-import { type FC, useContext, useMemo } from 'react';
+﻿import { type FC, useContext, useMemo } from 'react';
 import { Formik } from 'formik';
 import type { FormikProps } from 'formik';
 import { FoodRegisterForm, type FoodForm } from './food-register-form';
@@ -21,9 +21,30 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
     return typeof item?.quantity === 'number' && !Number.isNaN(item.quantity) ? item.quantity : '';
   };
 
+  function deriveIconName(raw?: string): string {
+    const val = raw || '';
+    if (!val) return '';
+    if (val.startsWith('/')) {
+      const base = val.split('/').pop() || '';
+      return base.includes('.') ? base : '';
+    }
+    if (/^https?:/i.test(val)) {
+      try {
+        const base = new URL(val).pathname.split('/').pop() || '';
+        return base.includes('.') ? base : '';
+      } catch {
+        return '';
+      }
+    }
+    // data: URIs não possuem nome de arquivo
+    return '';
+  }
+
   const initialValues = useMemo<FoodForm>(() => ({
     name: food?.name?.[language] || '',
     description: food?.description?.[language] || '',
+    icon: deriveIconName(food?.icon),
+    imgs: Array.isArray(food?.imgs) ? food!.imgs : [],
     gi: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.Gi?.index),
     calories: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.Calories?.index),
     carbohydrates: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.Carbohydrates?.index),
@@ -72,4 +93,8 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
     </Formik>
   );
 };
+
+
+
+
 

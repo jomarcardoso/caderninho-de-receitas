@@ -1,4 +1,4 @@
-import { type FC, type HTMLProps, useCallback, useContext } from 'react';
+import { type FC, type HTMLProps, useCallback, useContext, useState } from 'react';
 import { Form } from 'formik';
 import type { FormikProps } from 'formik';
 import type { Food } from 'services/food/food.model';
@@ -6,6 +6,8 @@ import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from 'services/language/language.service';
 import { Field } from 'notebook-layout';
 import SubmitComponent from '../submit';
+import Image from '../image/image';
+import { Button } from 'notebook-layout';
 
 export interface FoodRegisterFormProps { food: Food }
 
@@ -13,6 +15,8 @@ export interface FoodRegisterFormProps { food: Food }
 export interface FoodForm {
   name: string;
   description: string;
+  icon: string;
+  imgs: string[];
   gi: number | '';
   calories: number | '';
   carbohydrates: number | '';
@@ -43,8 +47,9 @@ export interface FoodForm {
   selenium: number | '';
 }
 
-export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps> = ({ values, handleChange, handleBlur }) => {
+export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps> = ({ values, handleChange, handleBlur, setFieldValue, food }) => {
   const { language } = useContext(LanguageContext);
+  const [imageLink, setImageLink] = useState('');
 
   const renderInput = useCallback(
     (
@@ -70,8 +75,77 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
   );
 
   return (
-    <Form>
+    <Form className='pt-5' style={{paddingBottom: 100}}>
       <div className="container" style={{ display: 'grid', gap: 12 }}>
+        {/* Imagem do alimento */}
+        <div>
+          <h3 className="h3">Links de imagens</h3>
+          <div className="d-flex gap-3 align-items-center" style={{ flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <Field
+                placeholder="colar link da imagem"
+                name={'imageLinkDraft' as any}
+                value={imageLink}
+                onChange={(e: any) => setImageLink(e?.target?.value ?? '')}
+                breakline={false}
+                type="text"
+              />
+              <Button
+                type="button"
+                variant="secondary"
+                contrast="light"
+                onClick={() => {
+                  const link = (imageLink || '').trim();
+                  if (!link) return;
+                  setFieldValue('imgs', [...(values.imgs || []), link]);
+                  setImageLink('');
+                }}
+              >
+                Adicionar link
+              </Button>
+            </div>
+          </div>
+
+          {!!values.imgs?.length && (
+            <div className="d-flex gap-3 align-items-center" style={{ flexWrap: 'wrap', marginTop: 12 }}>
+              {values.imgs.map((url, i) => (
+                <div key={url + i} style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
+                  <div style={{ width: 120, borderRadius: 8, overflow: 'hidden' }}>
+                    <Image src={url} alt="" aspectRatio={1.25} />
+                  </div>
+                  <Button
+                    variant="secondary"
+                    contrast="light"
+                    type="button"
+                    onClick={() => setFieldValue('imgs', values.imgs.filter((_, idx) => idx !== i))}
+                  >
+                    Remover
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Ícone (nome do arquivo) */}
+        <div>
+          <Field
+            label={'icon'}
+            name={'icon'}
+            value={values.icon}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            breakline={false}
+            type="text"
+          />
+          {/* Preview do ícone atual (resolvido do modelo) */}
+          {food?.icon ? (
+            <div style={{ marginTop: 8 }}>
+              <Image src={food.icon} alt="" transparent />
+            </div>
+          ) : null}
+        </div>
+
         {renderInput(translate('foodFormFoodName', language), 'name', false, false, 'text')}
         {renderInput(
           translate('descriptionLabel', language),
@@ -123,4 +197,3 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
     </Form>
   );
 };
-

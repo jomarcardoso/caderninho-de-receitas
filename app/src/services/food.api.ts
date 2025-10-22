@@ -57,9 +57,9 @@ function buildCreatePayload(form: FoodForm, language: Language) {
     id: 0,
     name,
     description,
-    imgs: [] as string[],
+    imgs: Array.isArray((form as any).imgs) ? (form as any).imgs : ([] as string[]),
     keys,
-    icon: '',
+    icon: (form as any).icon || '',
     type: 0, // Solid
     measurementUnit: 0, // Gram
     nutritionalInformation,
@@ -76,6 +76,12 @@ function buildUpdateFormData(id: number, form: FoodForm, language: Language): Fo
   fd.append('Id', String(id));
   fd.append(`Name.${lang.toUpperCase() === 'PT' ? 'Pt' : 'En'}`, form.name || '');
   fd.append(`Description.${lang.toUpperCase() === 'PT' ? 'Pt' : 'En'}`, form.description || '');
+  if ((form as any).icon) fd.append('Icon', String((form as any).icon));
+  if (Array.isArray((form as any).imgs)) {
+    (form as any).imgs.forEach((url: string, i: number) => {
+      if (typeof url === 'string' && url.trim()) fd.append(`Imgs[${i}]`, url);
+    });
+  }
   // NutritionalInformation.*
   if (form.gi !== '' && form.gi != null) fd.append('NutritionalInformation.Gi', String(form.gi));
   if (form.calories !== '' && form.calories != null) fd.append('NutritionalInformation.Calories', String(form.calories));
