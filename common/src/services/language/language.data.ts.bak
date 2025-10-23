@@ -1,11 +1,4 @@
-﻿import { type LanguageText } from './language.types';
-
-export const I18N_TEXT = {
-  sendForApproval: {
-    en: 'send for approval',
-    pt: 'enviar para aprovação',
-  },
-  language: {
+﻿ const I18N_TEXT = {\n  sendForApproval: {\n    en: 'send for approval',\n    pt: 'enviar para aprovação',\n  },\n  language: {
     en: 'language',
     pt: 'idioma',
   },
@@ -316,62 +309,8 @@ export const I18N_TEXT = {
   foodFormSelenium: {
     en: 'selenium',
     pt: 'selênio',
-  },  foodFormDietaryFiber: {
-    en: 'dietary fiber',
-    pt: 'fibra alimentar',
   },
-  foodFormSugar: {
-    en: 'sugar',
-    pt: 'açúcar',
-  },
-  foodFormMonounsaturatedFats: {
-    en: 'monounsaturated fats',
-    pt: 'gorduras monoinsaturadas',
-  },
-  foodFormPolyunsaturatedFats: {
-    en: 'polyunsaturated fats',
-    pt: 'gorduras poli-insaturadas',
-  },
-  foodFormAlanine: {
-    en: 'alanine',
-    pt: 'alanina',
-  },
-  foodFormArginine: {
-    en: 'arginine',
-    pt: 'arginina',
-  },
-  foodFormAsparticAcid: {
-    en: 'aspartic acid',
-    pt: 'ácido aspártico',
-  },
-  foodFormCystine: {
-    en: 'cystine',
-    pt: 'cistina',
-  },
-  foodFormGlutamicAcid: {
-    en: 'glutamic acid',
-    pt: 'ácido glutâmico',
-  },
-  foodFormGlutamine: {
-    en: 'glutamine',
-    pt: 'glutamina',
-  },
-  foodFormGlycine: {
-    en: 'glycine',
-    pt: 'glicina',
-  },
-  foodFormProline: {
-    en: 'proline',
-    pt: 'prolina',
-  },
-  foodFormSerine: {
-    en: 'serine',
-    pt: 'serina',
-  },
-  foodFormTyrosine: {
-    en: 'tyrosine',
-    pt: 'tirosina',
-  },  home: {
+  home: {
     en: 'Home page',
     pt: 'Página inicial',
   },
@@ -384,8 +323,6 @@ export const I18N_TEXT = {
     pt: 'Modo de preparo{suffix}',
   },
 } satisfies Record<string, LanguageText>;
-
-
 
 
 

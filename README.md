@@ -46,7 +46,7 @@ Problemas que a aplicação resolve:
 - https://freeicons.io/
 
 - https://pixabay.com/images/
-- https://unsplash.com/s/photos/
+- https://unsplash.com/
 
 ## Fontes
 

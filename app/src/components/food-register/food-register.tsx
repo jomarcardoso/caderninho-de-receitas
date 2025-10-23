@@ -4,9 +4,10 @@ import type { FormikProps } from 'formik';
 import { FoodRegisterForm, type FoodForm } from './food-register-form';
 import type { Food } from 'services/food/food.model';
 import { LanguageContext } from '../../providers/language/language.context';
-import { saveFood } from '../../services/food.api';
+// import { saveFood } from '../../services/food.api';
 import { NUTRITIONAL_INFO_FALLBACK, AMINO_ACIDS_FALLBACK, MINERALS_FALLBACK } from 'services/nutrient/fallback';
 import type { Nutrient } from 'services/nutrient/nutrient.model';
+import { submitFoodEdit } from '../../services/edits.api';
 
 export interface FoodRegisterProps {
   food: Food;
@@ -51,6 +52,10 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
     proteins: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.Proteins?.index),
     totalFat: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.TotalFat?.index),
     saturedFats: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.SaturedFats?.index),
+    dietaryFiber: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.DietaryFiber?.index),
+    sugar: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.Sugar?.index),
+    monounsaturatedFats: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.MonounsaturatedFats?.index),
+    polyunsaturatedFats: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.PolyunsaturatedFats?.index),
     tryptophan: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Tryptophan?.index),
     phenylalanine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Phenylalanine?.index),
     leucine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Leucine?.index),
@@ -60,6 +65,16 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
     threonine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Threonine?.index),
     methionine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Methionine?.index),
     histidine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Histidine?.index),
+    alanine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Alanine?.index),
+    arginine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Arginine?.index),
+    asparticAcid: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.AsparticAcid?.index),
+    cystine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Cystine?.index),
+    glutamicAcid: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.GlutamicAcid?.index),
+    glutamine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Glutamine?.index),
+    glycine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Glycine?.index),
+    proline: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Proline?.index),
+    serine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Serine?.index),
+    tyrosine: pickByIndex(food?.aminoAcids, AMINO_ACIDS_FALLBACK.Tyrosine?.index),
     calcium: pickByIndex(food?.minerals, MINERALS_FALLBACK.Calcium?.index),
     copper: pickByIndex(food?.minerals, MINERALS_FALLBACK.Copper?.index),
     iron: pickByIndex(food?.minerals, MINERALS_FALLBACK.Iron?.index),
@@ -78,21 +93,26 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
       initialValues={initialValues}
       onSubmit={async (values, helpers) => {
         try {
-          await saveFood(values, food?.id || 0, language);
+          const ok = await submitFoodEdit(food?.id || 0, values, language);
+          alert(ok ? 'Edição enviada para aprovação.' : 'Falha ao enviar edição.');
         } finally {
           helpers.setSubmitting(false);
         }
       }}
     >
       {(formik: FormikProps<FoodForm>) => (
-        <FoodRegisterForm
-          food={food}
-          {...formik}
-        />
+        <FoodRegisterForm food={food} {...formik} />
       )}
     </Formik>
   );
 };
+
+
+
+
+
+
+
 
 
 

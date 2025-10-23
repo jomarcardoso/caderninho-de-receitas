@@ -24,6 +24,10 @@ export interface FoodForm {
   proteins: number | '';
   totalFat: number | '';
   saturedFats: number | '';
+  dietaryFiber: number | '';
+  sugar: number | '';
+  monounsaturatedFats: number | '';
+  polyunsaturatedFats: number | '';
   // Amino acids (subset já presente no formulário antigo)
   tryptophan: number | '';
   phenylalanine: number | '';
@@ -34,6 +38,16 @@ export interface FoodForm {
   threonine: number | '';
   methionine: number | '';
   histidine: number | '';
+  alanine: number | '';
+  arginine: number | '';
+  asparticAcid: number | '';
+  cystine: number | '';
+  glutamicAcid: number | '';
+  glutamine: number | '';
+  glycine: number | '';
+  proline: number | '';
+  serine: number | '';
+  tyrosine: number | '';
   // Minerals (conforme labels já existentes)
   calcium: number | '';
   copper: number | '';
@@ -215,6 +229,10 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
         {renderInput(translate('foodFormProteins', language), 'proteins')}
         {renderInput(translate('foodFormTotalFat', language), 'totalFat')}
         {renderInput(translate('foodFormSaturatedFat', language), 'saturedFats')}
+        {renderInput(translate('foodFormDietaryFiber', language), 'dietaryFiber')}
+        {renderInput(translate('foodFormSugar', language), 'sugar')}
+        {renderInput(translate('foodFormMonounsaturatedFats', language), 'monounsaturatedFats')}
+        {renderInput(translate('foodFormPolyunsaturatedFats', language), 'polyunsaturatedFats')}
 
         {renderInput(translate('foodFormTryptophan', language), 'tryptophan')}
         {renderInput(
@@ -228,6 +246,16 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
         {renderInput(translate('foodFormThreonine', language), 'threonine')}
         {renderInput(translate('foodFormMethionine', language), 'methionine')}
         {renderInput(translate('foodFormHistidine', language), 'histidine')}
+        {renderInput(translate('foodFormAlanine', language), 'alanine')}
+        {renderInput(translate('foodFormArginine', language), 'arginine')}
+        {renderInput(translate('foodFormAsparticAcid', language), 'asparticAcid')}
+        {renderInput(translate('foodFormCystine', language), 'cystine')}
+        {renderInput(translate('foodFormGlutamicAcid', language), 'glutamicAcid')}
+        {renderInput(translate('foodFormGlutamine', language), 'glutamine')}
+        {renderInput(translate('foodFormGlycine', language), 'glycine')}
+        {renderInput(translate('foodFormProline', language), 'proline')}
+        {renderInput(translate('foodFormSerine', language), 'serine')}
+        {renderInput(translate('foodFormTyrosine', language), 'tyrosine')}
 
         {renderInput(translate('foodFormCalcium', language), 'calcium')}
         {renderInput(translate('foodFormCopper', language), 'copper')}
@@ -243,7 +271,7 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
 
         <div style={{ marginTop: 12 }}>
           <SubmitComponent>
-            {translate('save', language) || 'Salvar'}
+            {translate('sendForApproval', language) || 'Enviar para aprovação'}
           </SubmitComponent>
         </div>
       </div>

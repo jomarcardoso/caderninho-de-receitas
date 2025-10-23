@@ -22,7 +22,8 @@
   margin-bottom: 8px;
 }
 
-.table__tr {}
+.table__tr {
+}
 
 .table__th,
 .table__td {
@@ -48,13 +49,13 @@
 
     &--filled {
       background-color: var(--color-primary-main);
-      border-right: 2px solid var(--color-primary-dark);
+      border-right: 2px solid var(--color-primary-darker);
     }
   }
 
   &--on-light {
     .aminoacids-table__bar--filled {
-      background-color: var(--color-primary-light);
+      background-color: var(--color-primary-lighter);
     }
   }
 }

@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
   public DbSet<RecipeRelation> RecipeRelation { get; set; }
   public DbSet<FoodIcon> FoodIcon { get; set; }
   public DbSet<RecipeShare> RecipeShare { get; set; }
+  public DbSet<Server.Models.FoodEditRequest> FoodEditRequest { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -87,5 +88,17 @@ public class AppDbContext : DbContext
       entity.Property(s => s.OwnerId).IsRequired();
       entity.Property(s => s.CreatedAt).IsRequired();
     });
+
+    // FoodEditRequest
+    modelBuilder.Entity<Server.Models.FoodEditRequest>(entity =>
+    {
+      entity.HasKey(e => e.Id);
+      entity.HasIndex(e => new { e.FoodId, e.Status });
+      entity.Property(e => e.ProposedBy).IsRequired();
+      entity.Property(e => e.Payload).IsRequired();
+      entity.Property(e => e.CreatedAt).IsRequired();
+    });
   }
 }
+
+

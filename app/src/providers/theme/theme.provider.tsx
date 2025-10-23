@@ -1,11 +1,11 @@
-import { use, type FC, type HTMLProps } from 'react';
+import { useMemo, type FC, type HTMLProps } from 'react';
 import { ThemeContext, type Theme } from './theme.context';
 
 export interface ThemeProviderProps extends HTMLProps<HTMLDivElement> {
   theme: Theme;
 }
 
-export const ThemeProvider: FC<ThemeProviderProps> = ({ theme = 'base', children }) => {
+export const ThemeProvider: FC<ThemeProviderProps> = ({ theme = 'base', children, ...props }) => {
   const className = useMemo(() => {
     switch (theme) {
       case 'base':
@@ -21,7 +21,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ theme = 'base', children
 
   return (
     <ThemeContext.Provider value={theme}>
-      <div className={className}>{children}</div>
+      <div className={className} {...props}>{children}</div>
     </ThemeContext.Provider>
   )
 }

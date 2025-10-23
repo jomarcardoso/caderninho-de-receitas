@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Server;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -186,6 +186,8 @@ else
 
 builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 
+
+builder.Services.AddSingleton<IClaimsTransformation, Server.Auth.AdminRoleClaimsTransformation>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -229,6 +231,7 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
 
 
 

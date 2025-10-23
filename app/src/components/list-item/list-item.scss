@@ -11,7 +11,7 @@
   gap: 1rem;
 
   &__icon {
-    color: var(--color-dark-light);
+    color: var(--color-dark-lighter);
   }
 
   &__image {
@@ -30,7 +30,7 @@
   &:where(button, a, [tabindex]):active,
   &:where(button, a, [tabindex]):hover {
     background-color: var(--color-light-main);
-    color: var(--color-dark-dark);
+    color: var(--color-dark-darker);
     border-color: #777;
     font-weight: bold;
 
