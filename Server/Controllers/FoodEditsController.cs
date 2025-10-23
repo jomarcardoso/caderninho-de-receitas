@@ -25,7 +25,7 @@ public class FoodEditsController : ControllerBase
   }
 
   [HttpPost]
-  [Authorize]
+  [Authorize(Roles = "Keeper,Admin,Owner")]
   public async Task<IActionResult> Create([FromBody] CreateEditDto dto)
   {
     if (dto.FoodId <= 0) return BadRequest("FoodId is required");
@@ -187,3 +187,4 @@ public class FoodEditsController : ControllerBase
     return Ok();
   }
 }
+
