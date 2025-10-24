@@ -271,7 +271,6 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
 
         <Button
           className="ms-auto"
-          contrast="light"
           variant="secondary"
           onClick={login}
           disabled={isAuthenticating}

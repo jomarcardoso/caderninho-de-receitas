@@ -23,6 +23,7 @@ const Footer: FC<FooterProps> = ({
 }) => {
   const classes = generateClasses({
     footer: true,
+    'theme-primary': true,
     'footer--menu': footerMenu,
     'footer--open': open,
   });

@@ -95,7 +95,6 @@ const MainPanel: FC = () => {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 variant="secondary"
-                contrast="light"
                 onClick={() => setCurrentRecipe?.(undefined)}
               >
                 <IoAddCircleOutline />

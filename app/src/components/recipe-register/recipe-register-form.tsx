@@ -222,7 +222,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                           <div style={{ width: 120, borderRadius: 8, overflow: 'hidden' }}>
                             <Image src={values.imgs[0]} alt="" aspectRatio={1.25} />
                           </div>
-                          <Button variant="secondary" contrast="light" type="button" onClick={() => setFieldValue('imgs', [])}>
+                          <Button variant="secondary" type="button" onClick={() => setFieldValue('imgs', [])}>
                             Remover imagem
                           </Button>
                         </div>
@@ -275,7 +275,6 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
                         <Button
                           type="button"
                           variant="secondary"
-                          contrast="light"
                           onClick={() =>
                             setFieldValue('steps', [
                               ...values.steps,
@@ -295,7 +294,7 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
           </FieldArray>
         </div>
       </div>
-      <div className="recipe-register__submit">
+      <div className="recipe-register__submit theme-base">
         <div className="grid g-0">
           <div className="g-col-4">
             <Button fullWidth variant="secondary" onClick={onCancel}>

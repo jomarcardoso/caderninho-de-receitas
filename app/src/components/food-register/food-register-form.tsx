@@ -132,7 +132,6 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
               <Button
                 type="button"
                 variant="secondary"
-                contrast="light"
                 onClick={() => {
                   const link = (imageLink || '').trim();
                   if (!link) return;
