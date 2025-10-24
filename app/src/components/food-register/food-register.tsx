@@ -7,7 +7,7 @@ import { LanguageContext } from '../../providers/language/language.context';
 // import { saveFood } from '../../services/food.api';
 import { NUTRITIONAL_INFO_FALLBACK, AMINO_ACIDS_FALLBACK, MINERALS_FALLBACK } from 'services/nutrient/fallback';
 import type { Nutrient } from 'services/nutrient/nutrient.model';
-import { submitFoodEdit } from '../../services/edits.api';
+import { submitFoodEditPayload } from '../../services/edits.api';
 
 export interface FoodRegisterProps {
   food: Food;
@@ -93,8 +93,8 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
       initialValues={initialValues}
       onSubmit={async (values, helpers) => {
         try {
-          const ok = await submitFoodEdit(food?.id || 0, values, language);
-          alert(ok ? 'Edição enviada para aprovação.' : 'Falha ao enviar edição.');
+          const ok = await submitFoodEditPayload(food?.id || 0, { imgs: values.imgs || [] });
+          alert('Edição enviada para aprovação.');
         } finally {
           helpers.setSubmitting(false);
         }
@@ -106,6 +106,8 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
     </Formik>
   );
 };
+
+
 
 
 

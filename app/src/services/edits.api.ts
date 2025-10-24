@@ -1,4 +1,4 @@
-import type { FoodForm } from '../components/food-register/food-register-form';
+﻿import type { FoodForm } from '../components/food-register/food-register-form';
 import type { Language } from 'services/language/language.types';
 import { buildFoodPayloadForSave } from './food.payload';
 
@@ -20,4 +20,19 @@ export async function submitFoodEdit(foodId: number, form: FoodForm, language: L
     return false;
   }
 }
+
+
+export async function submitFoodEditPayload(foodId: number, payload: any): Promise<boolean> {
+  try {
+    const res = await fetch(`${getApiBase()}/api/food-edits`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ foodId, payload }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 
