@@ -60,7 +60,7 @@ export function useData(): DataContextProps {
     // Primeiro tenta usar o cache para renderização imediata
     (async () => {
       const cached = await getCachedRecipesData();
-      
+
       if (cached) {
         // Tem cache: usa imediatamente (mesmo que recipes esteja vazio, ainda há foods/medidas úteis)
         setData(cached);
@@ -78,13 +78,6 @@ export function useData(): DataContextProps {
         setLoading?.(false);
       }
     })();
-  }, [serverUp, checking]);
-
-  // Quando o servidor voltar, atualiza a partir da API
-  useEffect(() => {
-    if (!checking && serverUp) {
-      getData();
-    }
   }, [serverUp, checking]);
 
   return {

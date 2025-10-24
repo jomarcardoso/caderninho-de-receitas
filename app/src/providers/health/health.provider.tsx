@@ -39,9 +39,6 @@ export const HealthProvider: FC<HTMLProps<Element>> = ({ children }) => {
   useEffect(() => {
     setChecking(true);
     void refresh();
-    const id = window.setInterval(() => { void refresh(); }, 15000);
-    timerRef.current = id;
-    return () => { if (timerRef.current) window.clearInterval(timerRef.current); };
   }, [refresh]);
 
   const value = useMemo(() => ({ serverUp, checking, lastChecked, refresh }), [serverUp, checking, lastChecked, refresh]);
