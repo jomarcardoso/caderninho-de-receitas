@@ -68,7 +68,7 @@ export async function fetchMe(): Promise<MeResponse | null> {
   }
 }
 
-export async function hasFoodEditPermission(): Promise<boolean> {
+export async function hasKeeperPermission(): Promise<boolean> {
   const me = await fetchMe();
   if (!me) return false;
   const roles = (me.roles || []).map((r) => r.toLowerCase());

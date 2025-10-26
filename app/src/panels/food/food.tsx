@@ -15,8 +15,7 @@ import { IoCreateOutline } from 'react-icons/io5';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from 'services/language/language.service';
 import type { Food } from 'services/food/food.model';
-import { hasFoodEditPermission } from 'services/auth/auth.service';
-import HealthContext from '../../providers/health/health.context';
+import RoleContext from '../../providers/role/role.context';
 
 interface Props extends LayoutProps {
   food?: Food;
@@ -27,27 +26,16 @@ interface Props extends LayoutProps {
 const FoodPanel: FC<Props> = forwardRef(
   ({ food, quantity = 100, headerProps, ...props }, ref) => {
     const { language } = useContext(LanguageContext);
-    const { serverUp } = useContext(HealthContext);
+    const { canEditFood } = useContext(RoleContext);
     const name = food?.name[language] ?? '';
     const [edit, setEdit] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
     const editTemplate = <FoodRegister food={food as any} />;
 
-    // Check permission lazily; hide by default
+    // Consume permission from RoleContext
     useEffect(() => {
-      let cancelled = false;
-      (async () => {
-        if (!serverUp) {
-          setCanEdit(false);
-          return;
-        }
-        const ok = await hasFoodEditPermission();
-        if (!cancelled) setCanEdit(ok);
-      })();
-      return () => {
-        cancelled = true;
-      };
-    }, [serverUp]);
+      setCanEdit(!!canEditFood);
+    }, [canEditFood]);
 
     return (
       <div>

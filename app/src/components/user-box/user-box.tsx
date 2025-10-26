@@ -77,12 +77,14 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     setUser(null);
     storeUser(null);
     setErrorMessage(null);
+    try { window.dispatchEvent(new Event('app:user:logout')); } catch {}
   }, []);
 
   const persistUser = useCallback((u: GoogleLoginResponse) => {
     setUser(u);
     storeUser(u);
     setErrorMessage(null);
+    try { window.dispatchEvent(new Event('app:user:login')); } catch {}
   }, []);
 
   const resolveLoginErrorMessage = useCallback(

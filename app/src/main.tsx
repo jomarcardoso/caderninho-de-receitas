@@ -16,13 +16,14 @@ import {
 import { LanguageProvider } from './providers/language/language.provider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { attachCacheDebug } from './debug/cache-debug';
-import { HealthProvider } from './providers';
+import { HealthProvider, RoleProvider } from './providers';
 
 const Root = () => (
   <LoadingProvider>
     <HealthProvider>
-      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-        <DataProvider>
+      <RoleProvider>
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          <DataProvider>
           <LanguageProvider>
             <NavigationProvider>
               <CurrentRecipeProvider>
@@ -32,8 +33,9 @@ const Root = () => (
               </CurrentRecipeProvider>
             </NavigationProvider>
           </LanguageProvider>
-        </DataProvider>
-      </GoogleOAuthProvider>
+          </DataProvider>
+        </GoogleOAuthProvider>
+      </RoleProvider>
     </HealthProvider>
   </LoadingProvider>
 );

@@ -6,3 +6,4 @@ export * from './data';
 // export * from './firebase';
 export * from './editing';
 export * from './health/health.provider';
+export * from './role/role.provider';

@@ -21,7 +21,7 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
-            src: 'images/logo.png', // você pode mover isso para `public/images/logo.png`
+            src: 'logo.png', // points to public/logo.png during dev
             sizes: '512x512',
             type: 'image/png',
           },
