@@ -176,38 +176,58 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
             breakline={false}
             type="text"
           />
-          {/* Preview do ícone atual (resolvido do modelo) */}
-          {food?.icon ? (
-            <div style={{ marginTop: 8 }}>
-              <Image src={food.icon} alt="" transparent />
-            </div>
-          ) : null}
+          {/* Preview do ícone selecionado (ou atual) */}
+          {(() => {
+            const selected = iconResults.find((it) => it.name === values.icon);
+            if (selected && selected.content) {
+              const isSvg = (selected.mediaType || '').toLowerCase().includes('svg') || selected.content.trim().startsWith('<');
+              const src = isSvg
+                ? `data:image/svg+xml;utf8,${encodeURIComponent(selected.content)}`
+                : `data:${selected.mediaType || 'image/png'};base64,${selected.content}`;
+              return (
+                <div style={{ marginTop: 8 }}>
+                  <img src={src} alt="" width={28} height={28} style={{ objectFit: 'contain' }} />
+                </div>
+              );
+            }
+            return food?.icon ? (
+              <div style={{ marginTop: 8 }}>
+                <Image src={food.icon} alt="" transparent />
+              </div>
+            ) : null;
+          })()}
 
           {/* Sugestões de ícones a partir da busca */}
           {iconLoading && <div style={{ opacity: 0.7, fontSize: 12 }}>buscando ícones...</div>}
           {!iconLoading && iconResults.length > 0 && (
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
-              {iconResults.map((it) => (
-                <button
-                  key={it.name}
-                  type="button"
-                  onClick={() => setFieldValue('icon', it.name)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    padding: '6px 10px',
-                    borderRadius: 8,
-                    border: '1px solid #ddd',
-                    background: '#fff',
-                    cursor: 'pointer',
-                  }}
-                  title={it.name}
-                >
-                  <img src={`/images/food/${it.name}`} alt="" width={20} height={20} style={{ objectFit: 'contain' }} />
-                  <span style={{ fontSize: 12 }}>{it.name}</span>
-                </button>
-              ))}
+              {iconResults.map((it) => {
+                const isSvg = (it.mediaType || '').toLowerCase().includes('svg') || (it.content || '').trim().startsWith('<');
+                const src = isSvg
+                  ? `data:image/svg+xml;utf8,${encodeURIComponent(it.content || '')}`
+                  : `data:${it.mediaType || 'image/png'};base64,${it.content || ''}`;
+                return (
+                  <button
+                    key={it.name}
+                    type="button"
+                    onClick={() => setFieldValue('icon', it.name)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      padding: '6px 10px',
+                      borderRadius: 8,
+                      border: '1px solid #ddd',
+                      background: '#fff',
+                      cursor: 'pointer',
+                    }}
+                    title={it.name}
+                  >
+                    <img src={src} alt="" width={20} height={20} style={{ objectFit: 'contain' }} />
+                    <span style={{ fontSize: 12 }}>{it.name}</span>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

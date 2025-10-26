@@ -93,7 +93,11 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
       initialValues={initialValues}
       onSubmit={async (values, helpers) => {
         try {
-          const ok = await submitFoodEditPayload(food?.id || 0, { imgs: values.imgs || [] });
+          const payload = {
+            icon: values.icon || '',
+            imgs: Array.isArray(values.imgs) ? values.imgs : [],
+          } as any;
+          await submitFoodEditPayload(food?.id || 0, payload);
           alert('Edição enviada para aprovação.');
         } finally {
           helpers.setSubmitting(false);

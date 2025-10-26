@@ -113,7 +113,7 @@ namespace Server.Controllers;
     var results = await query
       .OrderBy(i => i.Name)
       .Take(limit)
-      .Select(i => new { i.Name, i.MediaType })
+      .Select(i => new { i.Name, i.MediaType, i.Content })
       .ToListAsync();
 
     return Ok(results);

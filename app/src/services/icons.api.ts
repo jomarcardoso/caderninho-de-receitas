@@ -6,6 +6,7 @@ function getApiBase(): string {
 export interface FoodIconSearchItem {
   name: string;
   mediaType?: string;
+  content?: string; // raw svg or base64 for png
 }
 
 export async function searchFoodIcons(q = '', limit = 25): Promise<FoodIconSearchItem[]> {
