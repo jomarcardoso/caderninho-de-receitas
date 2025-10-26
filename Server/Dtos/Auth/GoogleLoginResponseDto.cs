@@ -1,4 +1,4 @@
-﻿namespace Server.Dtos.Auth;
+namespace Server.Dtos.Auth;
 
 public class GoogleLoginResponseDto
 {
@@ -7,4 +7,5 @@ public class GoogleLoginResponseDto
   public string Picture { get; init; } = string.Empty;
   public string GoogleId { get; init; } = string.Empty;
   public bool EmailVerified { get; init; }
+  public string[] Roles { get; init; } = Array.Empty<string>();
 }

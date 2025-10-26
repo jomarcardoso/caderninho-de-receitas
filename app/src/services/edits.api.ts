@@ -13,6 +13,7 @@ export async function submitFoodEdit(foodId: number, form: FoodForm, language: L
     const res = await fetch(`${getApiBase()}/api/food-edits`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ foodId, payload }),
     });
     return res.ok;
@@ -27,6 +28,7 @@ export async function submitFoodEditPayload(foodId: number, payload: any): Promi
     const res = await fetch(`${getApiBase()}/api/food-edits`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ foodId, payload }),
     });
     return res.ok;

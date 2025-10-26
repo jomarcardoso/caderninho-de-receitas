@@ -6,7 +6,8 @@
   gap: 8px 16px;
   grid-template-areas:
     "avatar name name"
-    "avatar . out-button";
+    "avatar . out-button"
+    "google google google";
   grid-template-columns: auto 1fr auto;
   grid-template-rows: 1fr auto;
 
@@ -17,6 +18,10 @@
 
   .avatar {
     grid-area: avatar;
+  }
+
+  .google-login {
+    grid-area: google;
   }
 
   p {

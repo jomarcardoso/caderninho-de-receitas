@@ -4,6 +4,7 @@ import {
   forwardRef,
   useContext,
   useState,
+  useEffect,
 } from 'react';
 import Layout, { type LayoutProps } from '../../components/layout/layout';
 import FoodDetailed from '../../components/food-detailed/food-detailed';
@@ -14,6 +15,8 @@ import { IoCreateOutline } from 'react-icons/io5';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from 'services/language/language.service';
 import type { Food } from 'services/food/food.model';
+import { hasFoodEditPermission } from 'services/auth/auth.service';
+import HealthContext from '../../providers/health/health.context';
 
 interface Props extends LayoutProps {
   food?: Food;
@@ -24,9 +27,27 @@ interface Props extends LayoutProps {
 const FoodPanel: FC<Props> = forwardRef(
   ({ food, quantity = 100, headerProps, ...props }, ref) => {
     const { language } = useContext(LanguageContext);
+    const { serverUp } = useContext(HealthContext);
     const name = food?.name[language] ?? '';
     const [edit, setEdit] = useState(false);
+    const [canEdit, setCanEdit] = useState(false);
     const editTemplate = <FoodRegister food={food as any} />;
+
+    // Check permission lazily; hide by default
+    useEffect(() => {
+      let cancelled = false;
+      (async () => {
+        if (!serverUp) {
+          setCanEdit(false);
+          return;
+        }
+        const ok = await hasFoodEditPermission();
+        if (!cancelled) setCanEdit(ok);
+      })();
+      return () => {
+        cancelled = true;
+      };
+    }, [serverUp]);
 
     return (
       <div>
@@ -45,29 +66,15 @@ const FoodPanel: FC<Props> = forwardRef(
           {...props}
           footerProps={{
             items: [
-              // {
-              //   onClick: memoizedhandleNewRecipe,
-              //   icon: <IoAddCircleOutline />,
-              //   key: 'add',
-              // },
-              {
-                // hidden: (currentRecipe?.id ?? 0) < 10000,
-                onClick: () => setEdit(true),
-                icon: <IoCreateOutline />,
-                key: 'edit',
-              },
-              // {
-              //   hidden: (currentRecipe?.id ?? 0) < 10000,
-              //   onClick: handleShare,
-              //   icon: <IoShareOutline />,
-              //   key: 'share',
-              // },
-              // {
-              //   hidden: (currentRecipe?.id ?? 0) < 10000,
-              //   onClick: handleClickRemove,
-              //   icon: <IoTrashOutline />,
-              //   key: 'remove',
-              // },
+              ...(canEdit
+                ? [
+                    {
+                      onClick: () => setEdit(true),
+                      icon: <IoCreateOutline />,
+                      key: 'edit',
+                    } as const,
+                  ]
+                : []),
             ],
           }}
         >

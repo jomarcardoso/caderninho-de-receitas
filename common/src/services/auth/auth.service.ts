@@ -1,9 +1,10 @@
-﻿export interface GoogleLoginResponse {
+export interface GoogleLoginResponse {
   displayName: string;
   email: string;
   picture: string;
   googleId: string;
   emailVerified: boolean;
+  roles?: string[];
 }
 
 interface GoogleLoginErrorResponse {
@@ -45,3 +46,37 @@ export async function authenticateWithGoogle(
 
   return (await response.json()) as GoogleLoginResponse;
 }
+
+export interface MeResponse {
+  displayName: string;
+  email: string;
+  picture: string;
+  roles: string[];
+}
+
+export async function fetchMe(): Promise<MeResponse | null> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { Accept: 'application/json' },
+    });
+    if (!response.ok) return null;
+    return (await response.json()) as MeResponse;
+  } catch {
+    return null;
+  }
+}
+
+export async function hasFoodEditPermission(): Promise<boolean> {
+  const me = await fetchMe();
+  if (!me) return false;
+  const roles = (me.roles || []).map((r) => r.toLowerCase());
+  return (
+    roles.includes('keeper') ||
+    roles.includes('admin') ||
+    roles.includes('owner')
+  );
+}
+
+
