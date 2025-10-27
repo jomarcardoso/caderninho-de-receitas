@@ -73,10 +73,17 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<FoodIcon>(entity =>
     {
       entity.HasKey(i => i.Id);
-      entity.HasIndex(i => i.Name).IsUnique();
-      entity.Property(i => i.Name).IsRequired();
+      // Localized name is owned; enforce uniqueness on Name.En and require it
+      entity.OwnsOne(i => i.Name, nb =>
+      {
+        nb.Property(n => n.En).IsRequired();
+        nb.Property(n => n.Pt);
+        nb.HasIndex(n => n.En).IsUnique();
+      });
+
       entity.Property(i => i.MediaType).IsRequired();
       entity.Property(i => i.Content).IsRequired();
+      entity.OwnsOne(i => i.Keys);
     });
 
     // RecipeShare

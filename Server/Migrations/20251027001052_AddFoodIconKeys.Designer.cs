@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Server;
@@ -12,9 +13,11 @@ using Server;
 namespace Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251027001052_AddFoodIconKeys")]
+    partial class AddFoodIconKeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,7 +110,14 @@ namespace Server.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("FoodIcon");
                 });
@@ -691,34 +701,7 @@ namespace Server.Migrations
                                 .HasForeignKey("FoodIconId");
                         });
 
-                    b.OwnsOne("Server.Models.LanguageText", "Name", b1 =>
-                        {
-                            b1.Property<int>("FoodIconId")
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("En")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Pt")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.HasKey("FoodIconId");
-
-                            b1.HasIndex("En")
-                                .IsUnique();
-
-                            b1.ToTable("FoodIcon");
-
-                            b1.WithOwner()
-                                .HasForeignKey("FoodIconId");
-                        });
-
                     b.Navigation("Keys")
-                        .IsRequired();
-
-                    b.Navigation("Name")
                         .IsRequired();
                 });
 

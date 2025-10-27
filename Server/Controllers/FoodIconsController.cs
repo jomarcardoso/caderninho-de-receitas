@@ -23,20 +23,31 @@ namespace Server.Controllers;
       return BadRequest("Icon payload must include a name.");
 
     var normalizedName = icon.Name.Trim();
-    var existing = await _context.FoodIcon.FirstOrDefaultAsync(i => i.Name == normalizedName);
+    var existing = await _context.FoodIcon.FirstOrDefaultAsync(i => i.Name.En == normalizedName);
     if (existing is null)
     {
-      _context.FoodIcon.Add(new FoodIcon
+      var item = new FoodIcon
       {
-        Name = normalizedName,
+        Name = new Server.Models.LanguageText { En = normalizedName, Pt = string.Empty },
         MediaType = icon.MediaType?.Trim() ?? string.Empty,
         Content = icon.Content ?? string.Empty,
-      });
+      };
+      if (icon.Keys is not null)
+      {
+        item.Keys = new Server.Models.LanguageText { Pt = icon.Keys.Pt?.Trim() ?? string.Empty, En = icon.Keys.En?.Trim() ?? string.Empty };
+      }
+      _context.FoodIcon.Add(item);
     }
     else
     {
       existing.MediaType = icon.MediaType?.Trim() ?? existing.MediaType;
       existing.Content = icon.Content ?? existing.Content;
+      if (icon.Keys is not null)
+      {
+        existing.Keys ??= new Server.Models.LanguageText();
+        existing.Keys.Pt = icon.Keys.Pt?.Trim() ?? existing.Keys.Pt;
+        existing.Keys.En = icon.Keys.En?.Trim() ?? existing.Keys.En;
+      }
     }
 
     await _context.SaveChangesAsync();
@@ -49,8 +60,8 @@ namespace Server.Controllers;
     if (icons is null || icons.Count == 0) return Ok();
 
     var names = icons.Select(i => i.Name.Trim()).ToHashSet(StringComparer.OrdinalIgnoreCase);
-    var existing = await _context.FoodIcon.Where(i => names.Contains(i.Name)).ToListAsync();
-    var map = existing.ToDictionary(i => i.Name, StringComparer.OrdinalIgnoreCase);
+    var existing = await _context.FoodIcon.Where(i => names.Contains(i.Name.En)).ToListAsync();
+    var map = existing.ToDictionary(i => i.Name.En, StringComparer.OrdinalIgnoreCase);
 
     foreach (var icon in icons)
     {
@@ -59,13 +70,19 @@ namespace Server.Controllers;
 
       if (!map.TryGetValue(name, out var item))
       {
-        item = new FoodIcon { Name = name };
+        item = new FoodIcon { Name = new Server.Models.LanguageText { En = name, Pt = string.Empty } };
         _context.FoodIcon.Add(item);
         map[name] = item;
       }
 
       item.MediaType = icon.MediaType?.Trim() ?? item.MediaType;
       item.Content = icon.Content ?? item.Content;
+      if (icon.Keys is not null)
+      {
+        item.Keys ??= new Server.Models.LanguageText();
+        item.Keys.Pt = icon.Keys.Pt?.Trim() ?? item.Keys.Pt;
+        item.Keys.En = icon.Keys.En?.Trim() ?? item.Keys.En;
+      }
     }
 
     await _context.SaveChangesAsync();
@@ -77,7 +94,7 @@ namespace Server.Controllers;
   {
     var names = await _context.FoodIcon
       .AsNoTracking()
-      .Select(i => i.Name)
+      .Select(i => i.Name.En)
       .OrderBy(n => n)
       .ToListAsync();
     return Ok(names);
@@ -90,10 +107,10 @@ namespace Server.Controllers;
     if (!string.IsNullOrWhiteSpace(names))
     {
       var set = new HashSet<string>(names.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()), StringComparer.OrdinalIgnoreCase);
-      query = query.Where(i => set.Contains(i.Name));
+      query = query.Where(i => set.Contains(i.Name.En));
     }
 
-    var map = await query.ToDictionaryAsync(i => i.Name, i => i.Content);
+    var map = await query.ToDictionaryAsync(i => i.Name.En, i => i.Content);
     return Ok(map);
   }
 
@@ -107,13 +124,19 @@ namespace Server.Controllers;
     if (!string.IsNullOrWhiteSpace(q))
     {
       var term = q.Trim();
-      query = query.Where(i => i.Name.Contains(term));
+      var pattern = $"%{term}%";
+      // Case-insensitive search in Postgres using ILIKE on name and keys (pt/en)
+      query = query.Where(i =>
+        EF.Functions.ILike(i.Name.En, pattern) ||
+        EF.Functions.ILike(i.Keys.Pt, pattern) ||
+        EF.Functions.ILike(i.Keys.En, pattern)
+      );
     }
 
     var results = await query
-      .OrderBy(i => i.Name)
+      .OrderBy(i => i.Name.En)
       .Take(limit)
-      .Select(i => new { i.Name, i.MediaType, i.Content })
+      .Select(i => new { Name = i.Name.En, i.MediaType, i.Content })
       .ToListAsync();
 
     return Ok(results);

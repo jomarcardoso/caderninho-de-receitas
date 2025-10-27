@@ -237,10 +237,10 @@ public class RecipeController : ControllerBase
 
   var icons = await _context.FoodIcon
     .AsNoTracking()
-    .Where(i => iconNames.Contains(i.Name))
+    .Where(i => iconNames.Contains(i.Name.En))
     .ToListAsync();
 
-  var foodIcons = icons.ToDictionary(i => i.Name, i => i.Content);
+  var foodIcons = icons.ToDictionary(i => i.Name.En, i => i.Content);
 
   return Ok(new { recipe, related = filtered, foodIcons });
 }

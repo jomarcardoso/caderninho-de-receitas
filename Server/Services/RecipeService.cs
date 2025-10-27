@@ -338,7 +338,7 @@ public class RecipeService
 
     var icons = await _context.FoodIcon
       .AsNoTracking()
-      .Where(i => iconNames.Contains(i.Name))
+      .Where(i => iconNames.Contains(i.Name.En))
       .ToListAsync();
 
     var response = new RecipesDto
@@ -347,7 +347,7 @@ public class RecipeService
       Foods = _mapper.Map<List<Food>>(foods)
     };
 
-    response.FoodIcons = icons.ToDictionary(i => i.Name, i => i.Content);
+    response.FoodIcons = icons.ToDictionary(i => i.Name.En, i => i.Content);
 
     return response;
   }
