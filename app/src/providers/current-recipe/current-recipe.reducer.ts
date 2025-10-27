@@ -1,35 +1,34 @@
 import type { Reducer } from 'react';
-import type { Recipe } from 'services/recipe/recipe.model';
 
 interface State {
-  recipe?: Recipe;
-  lastRecipe?: Recipe;
+  recipeId?: number;
+  lastRecipeId?: number;
 }
 
 interface Action {
   type: 'set' | 'restore_last';
-  value?: Recipe;
+  value?: number;
 }
 
 export const currentRecipeReducer: Reducer<State, Action> = (state, action) => {
   if (action.type === 'set') {
-    if (action.value && action.value.id) {
+    if (typeof action.value === 'number' && action.value > 0) {
       return {
-        lastRecipe: action.value,
-        recipe: action.value,
+        lastRecipeId: action.value,
+        recipeId: action.value,
       };
     }
 
     return {
       ...state,
-      recipe: action.value,
+      recipeId: undefined,
     };
   }
 
   if (action.type === 'restore_last') {
     return {
       ...state,
-      recipe: state.lastRecipe,
+      recipeId: state.lastRecipeId,
     };
   }
 

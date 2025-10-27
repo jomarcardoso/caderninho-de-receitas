@@ -4,7 +4,6 @@ import { StorageService } from '../../storage';
 import { currentRecipeReducer } from './current-recipe.reducer';
 import { DataContext } from '../data/data.context';
 import { last } from 'lodash';
-import type { Recipe } from 'services/recipe/recipe.model';
 import type { CurrentRecipeContextProps } from './current-recipe.context';
 
 let initialRecipeId = 0;
@@ -21,18 +20,11 @@ export const useRecipe = (): CurrentRecipeContextProps => {
   const {
     data: { recipes },
   } = useContext(DataContext);
-  const lastRegisteredRecipe = last(recipes);
-  const currentRecipe = useMemo(() => {
-    if (!initialRecipeId) {
-      return lastRegisteredRecipe;
-    }
-
-    return recipes.find((r) => r.id === initialRecipeId);
-  }, [recipes]);
+  const lastRegisteredRecipeId = useMemo(() => last(recipes)?.id, [recipes]);
 
   const [state, dispatch] = useReducer(currentRecipeReducer, {
-    recipe: currentRecipe,
-    lastRecipe: lastRegisteredRecipe,
+    recipeId: initialRecipeId || lastRegisteredRecipeId,
+    lastRecipeId: lastRegisteredRecipeId,
   });
 
   function restoreLastRecipe() {
@@ -41,7 +33,7 @@ export const useRecipe = (): CurrentRecipeContextProps => {
     });
   }
 
-  function setCurrentRecipe(value: Recipe) {
+  function setCurrentRecipeId(value?: number) {
     dispatch({
       type: 'set',
       value,
@@ -49,14 +41,14 @@ export const useRecipe = (): CurrentRecipeContextProps => {
   }
 
   useEffect(() => {
-    if (state.recipe) {
-      StorageService.setCurrentRecipe(state.recipe);
+    if (state.recipeId) {
+      StorageService.setCurrentRecipeId(state.recipeId);
     }
-  }, [state.recipe]);
+  }, [state.recipeId]);
 
   return {
-    currentRecipe: state.recipe,
-    setCurrentRecipe,
+    currentRecipeId: state.recipeId,
+    setCurrentRecipeId,
     restoreLastRecipe,
   };
 };

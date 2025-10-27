@@ -9,7 +9,6 @@ import Dialog from '../dialog/dialog';
 import { Button } from 'notebook-layout';
 import { EditingContext } from '../../providers/editing/editing.context';
 import CurrentRecipeContext from '../../providers/current-recipe/current-recipe.context';
-import { StorageService } from '../../storage';
 import type { RecipeDto } from 'services/recipe/recipe.dto';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from 'services/language/language.service';
@@ -22,7 +21,7 @@ interface Props {
 const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
   const [recipe, setRecipe] = useState(recipeToEdit);
   const { saveRecipe } = useContext(DataContext);
-  const { restoreLastRecipe, currentRecipe, setCurrentRecipe } =
+  const { restoreLastRecipe, currentRecipeId, setCurrentRecipeId } =
     useContext(CurrentRecipeContext);
   const [openedEmptyRecipe, setOpenedEmptyRecipe] = useState(false);
   const { setEditing } = useContext(EditingContext);
@@ -33,14 +32,12 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
   }, []);
 
   const handleCancel = useCallback(() => {
-    StorageService.removeCurrentRecipe();
-
-    if (!currentRecipe?.id) {
+    if (!currentRecipeId) {
       restoreLastRecipe?.();
     }
 
     if (setEditing) setEditing(false);
-  }, [currentRecipe?.id, restoreLastRecipe, setEditing]);
+  }, [currentRecipeId, restoreLastRecipe, setEditing]);
 
   const memoizedHandleSubmit = useCallback(
     async ({
@@ -89,11 +86,11 @@ const RecipeRegister: FC<Props> = ({ recipeToEdit }) => {
       }
 
       if (savedRecipe) {
-        setCurrentRecipe?.(savedRecipe);
+        setCurrentRecipeId?.(savedRecipe.id);
         setEditing?.(false);
       }
     },
-    [language, recipe?.id, saveRecipe, setCurrentRecipe, setEditing],
+    [language, recipe?.id, saveRecipe, setCurrentRecipeId, setEditing],
   );
 
   useEffect(() => {

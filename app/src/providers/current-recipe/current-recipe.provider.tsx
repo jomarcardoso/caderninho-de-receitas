@@ -3,14 +3,14 @@ import CurrentRecipeContext from './current-recipe.context';
 import { useRecipe } from './current-recipe.hook';
 
 export const CurrentRecipeProvider: FC<HTMLProps<Element>> = ({ children }) => {
-  const { currentRecipe, setCurrentRecipe, restoreLastRecipe } = useRecipe();
+  const { currentRecipeId, setCurrentRecipeId, restoreLastRecipe } = useRecipe();
   const memoizedCurrentRecipe = useMemo(
     () => ({
-      currentRecipe,
+      currentRecipeId,
       restoreLastRecipe,
-      setCurrentRecipe,
+      setCurrentRecipeId,
     }),
-    [currentRecipe, restoreLastRecipe, setCurrentRecipe],
+    [currentRecipeId, restoreLastRecipe, setCurrentRecipeId],
   );
 
   return (

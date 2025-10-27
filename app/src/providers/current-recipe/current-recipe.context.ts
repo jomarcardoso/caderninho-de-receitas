@@ -1,9 +1,10 @@
 import { createContext } from 'react';
-import type { Recipe } from 'services/recipe/recipe.model';
 
 export interface CurrentRecipeContextProps {
-  currentRecipe?: Recipe;
-  setCurrentRecipe?: React.Dispatch<React.SetStateAction<Recipe | undefined>>;
+  currentRecipeId?: number;
+  setCurrentRecipeId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
   restoreLastRecipe?: () => void;
 }
 

@@ -25,12 +25,13 @@ const RecipePanel: FC<{
   setCurrentFood(food: Food): void;
   setCurrentFoodQuantity(quantity: number): void;
 }> = ({ setCurrentFood, setCurrentFoodQuantity }) => {
-  const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
+  const { currentRecipeId, setCurrentRecipeId } = useContext(CurrentRecipeContext);
   const { language } = useContext(LanguageContext);
-  const { removeRecipe } = useContext(DataContext);
+  const { removeRecipe, data } = useContext(DataContext);
   const { setLoading } = useContext(LoadingContext);
   const { editing, setEditing } = useContext(EditingContext);
   const { serverUp } = useContext(HealthContext);
+  const currentRecipe = data.recipes.find((r) => r.id === currentRecipeId);
   const currentRecipeDto = currentRecipe && mapRecipeModelToDto(currentRecipe);
 
   async function handleShare() {
@@ -44,15 +45,15 @@ const RecipePanel: FC<{
   }
 
   const memoizedhandleNewRecipe = useCallback(() => {
-    setCurrentRecipe?.(undefined);
-  }, [setCurrentRecipe]);
+    setCurrentRecipeId?.(undefined);
+  }, [setCurrentRecipeId]);
 
   function handleClickRemove() {
     if (removeRecipe && currentRecipe?.id) {
       removeRecipe(currentRecipe.id);
     }
 
-    setCurrentRecipe?.(undefined);
+    setCurrentRecipeId?.(undefined);
   }
 
   function handleEdit() {
@@ -89,7 +90,7 @@ const RecipePanel: FC<{
     } else {
       setEditing?.(false);
     }
-  }, [currentRecipe]);
+  }, [currentRecipeId]);
 
   useEffect(() => {
     rendered += 1;
@@ -114,7 +115,7 @@ const RecipePanel: FC<{
     elRecipePanel?.scrollTo({
       top: 0,
     });
-  }, [currentRecipe, editing]);
+  }, [currentRecipeId, editing]);
 
   return (
     <Panel id="recipe">

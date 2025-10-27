@@ -20,7 +20,7 @@ import { translate } from 'services/language/language.service';
 
 const MainPanel: FC = () => {
   const { language } = useContext(LanguageContext);
-  const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
+  const { currentRecipeId, setCurrentRecipeId } = useContext(CurrentRecipeContext);
   const { data } = useContext(DataContext);
   const { recipes = [] } = data || {};
   const alphabeticalRecipes = recipes.sort((a, b) => {
@@ -37,7 +37,7 @@ const MainPanel: FC = () => {
   useScroll();
 
   function handleClickLink(recipe: Recipe) {
-    setCurrentRecipe?.(recipe);
+    setCurrentRecipeId?.(recipe.id);
   }
 
   function renderItem(recipe: Recipe) {
@@ -45,7 +45,7 @@ const MainPanel: FC = () => {
       <ListItem
         key={recipe.id}
         isAction
-        isActive={recipe.id === currentRecipe?.id}
+        isActive={recipe.id === currentRecipeId}
         tabIndex={0}
         onClick={() => handleClickLink(recipe)}
       >
@@ -95,7 +95,7 @@ const MainPanel: FC = () => {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 variant="secondary"
-                onClick={() => setCurrentRecipe?.(undefined)}
+                onClick={() => setCurrentRecipeId?.(undefined)}
               >
                 <IoAddCircleOutline />
                 {translate('addNewRecipe', language)}
