@@ -64,9 +64,9 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
 
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredientsText = '', stepTitle = '') => {
-      const normalizedIngredients = ingredientsText.trim();
+      const normalizedIngredients = ingredientsText ?? '';
       const ingredientList = normalizedIngredients
-        ? normalizedIngredients.split('\n').map((line) => line.trim())
+        ? normalizedIngredients.split('\n')
         : [];
       const bulletValue = ingredientList.length
         ? `${BULLET} ${ingredientList.join(`\n${BULLET} `)}`
@@ -79,8 +79,8 @@ const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
       ) => {
         const cleanedValue = event.target.value
           .split('\n')
-          .map((line) => line.replace(new RegExp(`^${BULLET} ?`), '').trim())
-          .filter((line) => line.length)
+          // remove bullet prefix only, preserve user spaces
+          .map((line) => line.replace(new RegExp(`^${BULLET} ?`), ''))
           .join('\n');
 
         setFieldValue(`steps.${index}.ingredientsText`, cleanedValue);
