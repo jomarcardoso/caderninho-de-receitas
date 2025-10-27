@@ -32,7 +32,7 @@ docker run -d \
 Backup in SQL
 
 ```sh
-docker exec -it caderninho-db pg_dump -U admin caderninho > backup/full_db_2025_10_18.sql
+docker exec -it caderninho-db pg_dump -U admin caderninho > backup/full_db_2025_10_28.sql
 
 # recreate
 # connect postgres db
@@ -48,7 +48,7 @@ CREATE DATABASE caderninho;
 \q
 
 # restore
-cat backup/full_db_2025_09_10.sql | docker exec -i caderninho-db psql -U admin -d caderninho
+cat backup/full_db_2025_10_28.sql | docker exec -i caderninho-db psql -U admin -d caderninho
 ```
 
 backup of Foods in JSON
