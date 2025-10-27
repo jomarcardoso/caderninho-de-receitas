@@ -20,6 +20,7 @@ import type { Food } from 'services/food/food.model';
 import { DataContext } from '../../providers';
 import { Field } from 'notebook-layout';
 import HealthContext from '../../providers/health/health.context';
+import RoleContext from '../../providers/role/role.context';
 
 interface Props {
   setCurrentFood: React.Dispatch<React.SetStateAction<Food>>;
@@ -41,6 +42,7 @@ const FoodsPanel: FC<Props> = ({
     data: { foods },
   } = useContext(DataContext);
   const { serverUp } = useContext(HealthContext);
+  const { canEditFood } = useContext(RoleContext);
   const [quantityToShow, setQuantityToShow] = useState(externalQuantityToShow);
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
@@ -75,7 +77,9 @@ const FoodsPanel: FC<Props> = ({
   const cuttedOrderedFoods = orderedFoods.slice(0, quantityToShow);
 
   function renderFood(food: Food): ReactElement | null {
-    if (food.type.en === 'Recipe' || !food.icon) return null;
+    const isRecipeFood = (food as any).isRecipe === true || (food.type?.en === 'Recipe');
+    // Hide recipe-backed foods for normal users; show for keepers/admin/owner
+    if (!canEditFood && isRecipeFood) return null;
 
     return (
       <ListItem

@@ -48,6 +48,7 @@ public class RecipeService
     );
 
     entity.Imgs = recipeDto.Imgs ?? new List<string>();
+    entity.Language = recipeDto.Language;
     return entity;
   }
 
