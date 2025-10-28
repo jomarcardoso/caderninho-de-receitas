@@ -8,7 +8,7 @@ import { Field } from 'notebook-layout';
 import SubmitComponent from '../submit';
 import Image from '../image/image';
 import { Button } from 'notebook-layout';
-import { searchFoodIcons, type FoodIconSearchItem } from '../../services/icons.api';
+import { searchFoodIcons, type FoodIconSearchItem, getFoodIconsMapById, type FoodIconByIdEntry } from '../../services/icons.api';
 
 export interface FoodRegisterFormProps { food: Food }
 
@@ -16,6 +16,8 @@ export interface FoodRegisterFormProps { food: Food }
 export interface FoodForm {
   name: string;
   description: string;
+  // New structure: iconId is the preferred field
+  iconId?: number;
   icon: string;
   imgs: string[];
   gi: number | '';
@@ -68,6 +70,7 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
   const [iconQuery, setIconQuery] = useState('');
   const [iconLoading, setIconLoading] = useState(false);
   const [iconResults, setIconResults] = useState<FoodIconSearchItem[]>([]);
+  const [iconByIdPreview, setIconByIdPreview] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const q = (values.icon || '').trim();
@@ -89,6 +92,24 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
     }, 250);
     return () => clearTimeout(timer);
   }, [iconQuery]);
+
+  useEffect(() => {
+    const id = (food as any)?.iconId as number | undefined;
+    if (!id || id <= 0) { setIconByIdPreview(undefined); return; }
+    (async () => {
+      try {
+        const map = await getFoodIconsMapById([id]);
+        const entry = map[id];
+        if (!entry) { setIconByIdPreview(undefined); return; }
+        const media = (entry.mediaType || '').toLowerCase();
+        const isSvg = media.includes('svg') || (entry.content || '').trim().startsWith('<');
+        const src = isSvg
+          ? `data:image/svg+xml;utf8,${encodeURIComponent(entry.content || '')}`
+          : `data:${entry.mediaType || 'image/png'};base64,${entry.content || ''}`;
+        setIconByIdPreview(src);
+      } catch { setIconByIdPreview(undefined); }
+    })();
+  }, [food]);
 
   const renderInput = useCallback(
     (
@@ -178,7 +199,8 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
           />
           {/* Preview do ícone selecionado (ou atual) */}
           {(() => {
-            const selected = iconResults.find((it) => it.name === values.icon);
+            const selected = iconResults.find((it) => it.id && it.id === (values as any).iconId) ||
+                             iconResults.find((it) => it.name === values.icon);
             if (selected && selected.content) {
               const isSvg = (selected.mediaType || '').toLowerCase().includes('svg') || selected.content.trim().startsWith('<');
               const src = isSvg
@@ -190,9 +212,9 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
                 </div>
               );
             }
-            return food?.icon ? (
+            return (iconByIdPreview || food?.icon) ? (
               <div style={{ marginTop: 8 }}>
-                <Image src={food.icon} alt="" transparent />
+                <Image src={iconByIdPreview || food.icon} alt="" transparent />
               </div>
             ) : null;
           })()}
@@ -210,7 +232,10 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
                   <button
                     key={it.name}
                     type="button"
-                    onClick={() => setFieldValue('icon', it.name)}
+                    onClick={() => {
+                      if (typeof it.id === 'number') setFieldValue('iconId', it.id);
+                      setFieldValue('icon', it.name);
+                    }}
                     style={{
                       display: 'flex',
                       alignItems: 'center',

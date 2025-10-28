@@ -94,6 +94,10 @@ public class FoodEditsController : ControllerBase
       {
         food.Icon = iconEl.GetString() ?? food.Icon;
       }
+      if (root.TryGetProperty("iconId", out var iconIdEl) && iconIdEl.TryGetInt32(out var iconId))
+      {
+        food.IconId = iconId;
+      }
       if (root.TryGetProperty("imgs", out var imgsEl) && imgsEl.ValueKind == JsonValueKind.Array)
       {
         var list = new List<string>();

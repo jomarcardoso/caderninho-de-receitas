@@ -59,6 +59,7 @@ function buildCreatePayload(form: FoodForm, language: Language) {
     description,
     imgs: Array.isArray((form as any).imgs) ? (form as any).imgs : ([] as string[]),
     keys,
+    iconId: typeof (form as any).iconId === 'number' ? (form as any).iconId : 0,
     icon: (form as any).icon || '',
     type: 0, // Solid
     measurementUnit: 0, // Gram
@@ -76,6 +77,7 @@ function buildUpdateFormData(id: number, form: FoodForm, language: Language): Fo
   fd.append('Id', String(id));
   fd.append(`Name.${lang.toUpperCase() === 'PT' ? 'Pt' : 'En'}`, form.name || '');
   fd.append(`Description.${lang.toUpperCase() === 'PT' ? 'Pt' : 'En'}`, form.description || '');
+  if ((form as any).iconId != null && (form as any).iconId !== '') fd.append('IconId', String((form as any).iconId));
   if ((form as any).icon) fd.append('Icon', String((form as any).icon));
   if (Array.isArray((form as any).imgs)) {
     (form as any).imgs.forEach((url: string, i: number) => {

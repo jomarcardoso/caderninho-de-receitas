@@ -31,6 +31,7 @@ export const FOOD: Food = {
   imgs: [],
   keys: { ...EMPTY_LANGUAGE_TEXT },
   isRecipe: false,
+  iconId: 0,
   icon: '',
   type: { ...EMPTY_LANGUAGE_TEXT },
   measurementUnit: {

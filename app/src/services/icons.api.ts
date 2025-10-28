@@ -4,6 +4,7 @@ function getApiBase(): string {
 }
 
 export interface FoodIconSearchItem {
+  id?: number;
   name: string;
   mediaType?: string;
   content?: string; // raw svg or base64 for png
@@ -34,5 +35,20 @@ export async function getFoodIconsMap(names: string[]): Promise<Record<string, s
     return (await res.json()) as Record<string, string>;
   } catch {
     return {};
+  }
+}
+
+export interface FoodIconByIdEntry { mediaType?: string; content?: string }
+
+export async function getFoodIconsMapById(ids: number[]): Promise<Record<number, FoodIconByIdEntry>> {
+  if (!Array.isArray(ids) || ids.length === 0) return {};
+  const base = getApiBase();
+  const url = `${base}/api/food-icons/map-by-id?ids=${encodeURIComponent(ids.join(','))}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return {} as any;
+    return (await res.json()) as Record<number, FoodIconByIdEntry>;
+  } catch {
+    return {} as any;
   }
 }

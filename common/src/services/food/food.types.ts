@@ -7,5 +7,8 @@ export interface FoodBase {
   imgs: string[];
   keys: Record<Language, string>;
   isRecipe: boolean;
+  // New: numeric id referencing FoodIcon entity
+  iconId?: number;
+  // Legacy string icon path/name kept for transition
   icon: string;
 }

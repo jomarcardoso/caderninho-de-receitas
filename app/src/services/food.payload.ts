@@ -64,6 +64,7 @@ export function buildFoodPayloadForSave(form: FoodForm, language: Language) {
     description,
     imgs: Array.isArray((form as any).imgs) ? (form as any).imgs : ([] as string[]),
     keys,
+    iconId: typeof (form as any).iconId === 'number' ? (form as any).iconId : 0,
     icon: (form as any).icon || '',
     type: 0,
     measurementUnit: 0,

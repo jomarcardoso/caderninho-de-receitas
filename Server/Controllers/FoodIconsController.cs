@@ -114,6 +114,27 @@ namespace Server.Controllers;
     return Ok(map);
   }
 
+  // GET: api/food-icons/map-by-id?ids=1,2,3
+  [HttpGet("map-by-id")]
+  public async Task<IActionResult> GetMapById([FromQuery] string? ids = null)
+  {
+    IQueryable<FoodIcon> query = _context.FoodIcon.AsNoTracking();
+    if (!string.IsNullOrWhiteSpace(ids))
+    {
+      var set = new HashSet<int>(ids
+        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+        .Select(s => int.TryParse(s.Trim(), out var n) ? n : 0)
+        .Where(n => n > 0));
+      if (set.Count > 0)
+      {
+        query = query.Where(i => set.Contains(i.Id));
+      }
+    }
+
+    var map = await query.ToDictionaryAsync(i => i.Id, i => new { i.MediaType, i.Content });
+    return Ok(map);
+  }
+
   // GET: api/food-icons/search?q=app&limit=25
   [HttpGet("search")]
   public async Task<IActionResult> Search([FromQuery] string? q = null, [FromQuery] int limit = 25)
@@ -136,7 +157,7 @@ namespace Server.Controllers;
     var results = await query
       .OrderBy(i => i.Name.En)
       .Take(limit)
-      .Select(i => new { Name = i.Name.En, i.MediaType, i.Content })
+      .Select(i => new { i.Id, Name = i.Name.En, i.MediaType, i.Content })
       .ToListAsync();
 
     return Ok(results);

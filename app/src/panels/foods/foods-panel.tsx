@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import Image from '../../components/image/image';
@@ -18,6 +19,7 @@ import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from 'services/language/language.service';
 import type { Food } from 'services/food/food.model';
 import { DataContext } from '../../providers';
+import { getFoodIconsMapById, type FoodIconByIdEntry } from '../../services/icons.api';
 import { Field } from 'notebook-layout';
 import HealthContext from '../../providers/health/health.context';
 import RoleContext from '../../providers/role/role.context';
@@ -76,6 +78,55 @@ const FoodsPanel: FC<Props> = ({
 
   const cuttedOrderedFoods = orderedFoods.slice(0, quantityToShow);
 
+  const [iconMap, setIconMap] = useState<Record<number, string>>({});
+
+  function toDataUrl(entry: FoodIconByIdEntry | undefined): string | undefined {
+    if (!entry || !entry.content) return undefined;
+    const media = (entry.mediaType || '').toLowerCase();
+    const isSvg = media.includes('svg') || entry.content.trim().startsWith('<');
+    return isSvg
+      ? `data:image/svg+xml;utf8,${encodeURIComponent(entry.content)}`
+      : `data:${entry.mediaType || 'image/png'};base64,${entry.content}`;
+  }
+
+  // Build a stable key for current icon ids to avoid infinite refetch loops
+  const iconIdsKey = useMemo(
+    () => {
+      const ids = cuttedOrderedFoods
+        .map((f) => (f as any).iconId as number)
+        .filter((n) => typeof n === 'number' && n > 0)
+        .sort((a, b) => a - b);
+      return ids.join(',');
+    },
+    [
+      // dependency is a string that stays identical when ids don't change
+      cuttedOrderedFoods
+        .map((f) => (f as any).iconId as number)
+        .filter((n) => typeof n === 'number' && n > 0)
+        .sort((a, b) => a - b)
+        .join(','),
+    ],
+  );
+
+  useEffect(() => {
+    if (!iconIdsKey) return;
+    const iconIds = iconIdsKey.split(',').map((s) => Number(s)).filter((n) => n > 0);
+    (async () => {
+      try {
+        const map = await getFoodIconsMapById(iconIds);
+        const urls: Record<number, string> = {};
+        for (const k of Object.keys(map)) {
+          const id = Number(k);
+          const url = toDataUrl(map[id]);
+          if (id > 0 && url) urls[id] = url;
+        }
+        setIconMap(urls);
+      } catch {
+        // ignore
+      }
+    })();
+  }, [iconIdsKey]);
+
   function renderFood(food: Food): ReactElement | null {
     const isRecipeFood = (food as any).isRecipe === true || (food.type?.en === 'Recipe');
     // Hide recipe-backed foods for normal users; show for keepers/admin/owner
@@ -89,7 +140,7 @@ const FoodsPanel: FC<Props> = ({
           setCurrentFood(food);
           setCurrentFoodQuantity(100);
         }}
-        icon={<Image src={food.icon} alt="" transparent />}
+        icon={<Image src={iconMap[(food as any).iconId as any] || food.icon} alt="" transparent />}
       >
         {food.name[language]}
       </ListItem>
