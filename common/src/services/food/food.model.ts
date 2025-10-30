@@ -32,7 +32,7 @@ export const FOOD: Food = {
   keys: { ...EMPTY_LANGUAGE_TEXT },
   isRecipe: false,
   iconId: 0,
-  icon: '',
+  icon: [],
   type: { ...EMPTY_LANGUAGE_TEXT },
   measurementUnit: {
     text: { ...EMPTY_MEASUREMENT_UNIT.text },

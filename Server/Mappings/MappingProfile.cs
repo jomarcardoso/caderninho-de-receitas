@@ -8,7 +8,7 @@ public class MappingProfile : Profile
   public MappingProfile()
   {
     // Recipe → RecipeDto
-    CreateMap<Recipe, RecipeResponseDto>()
+    CreateMap<Recipe, RecipeResponse>()
       .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food != null ? src.Food.Id : 0));
 
     // RecipeStep → RecipeStepDto

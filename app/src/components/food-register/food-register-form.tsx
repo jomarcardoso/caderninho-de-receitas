@@ -212,9 +212,13 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
                 </div>
               );
             }
-            return (iconByIdPreview || food?.icon) ? (
+            const srcs = [
+              ...(iconByIdPreview ? [iconByIdPreview] : []),
+              ...((food as any)?.icon ?? []),
+            ] as string[];
+            return srcs.length ? (
               <div style={{ marginTop: 8 }}>
-                <Image src={iconByIdPreview || food.icon} alt="" transparent />
+                <Image srcs={srcs} alt="" transparent />
               </div>
             ) : null;
           })()}

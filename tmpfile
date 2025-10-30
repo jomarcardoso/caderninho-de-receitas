@@ -89,7 +89,7 @@ const FoodsPanel: FC<Props> = ({
           setCurrentFood(food);
           setCurrentFoodQuantity(100);
         }}
-        icon={<Image srcs={[...(food.icon ?? []), ...(food.imgs ?? [])]} alt="" transparent />}
+        icon={<Image src={iconMap[(food as any).iconId as any] || food.icon} alt="" transparent />}
       >
         {food.name[language]}
       </ListItem>
@@ -174,4 +174,5 @@ const FoodsPanel: FC<Props> = ({
 };
 
 export default FoodsPanel;
+
 

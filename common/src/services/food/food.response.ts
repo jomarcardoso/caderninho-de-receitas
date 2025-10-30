@@ -1,6 +1,12 @@
-import type { CommonResponse } from '../common/common.response';
+import type { CommonDataResponse } from '../common/common.response';
 import { type AllNutrientsResponse } from '../nutrient/nutrient.response';
 import { type FoodBase } from './food.types';
+
+export interface FoodIconResponse {
+  id: number;
+  mediaType?: string;
+  content?: string; // raw svg or base64 (png/webp), or data URI
+}
 
 export interface FoodResponse extends FoodBase, AllNutrientsResponse {
   measurementUnit: number;
@@ -8,7 +14,7 @@ export interface FoodResponse extends FoodBase, AllNutrientsResponse {
   measures: Record<string, number>;
 }
 
-export interface FoodsDataResponse extends CommonResponse {
+export interface FoodsDataResponse extends CommonDataResponse {
   foods: FoodResponse[];
-  foodIcons?: Record<string, string>;
+  foodIcons?: FoodIconResponse[];
 }

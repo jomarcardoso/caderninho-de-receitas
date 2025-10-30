@@ -4,8 +4,8 @@ namespace Server.Dtos;
 
 public class FoodResponse : Food { }
 
-public class FoodsResponse : CommonResponse
+public class FoodsDataResponse : CommonDataResponse
 {
   public List<Food> Foods { get; set; } = new();
-  public Dictionary<string, string> FoodIcons { get; set; } = new();
+  public List<FoodIcon> FoodIcons { get; set; } = new();
 }

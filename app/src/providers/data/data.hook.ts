@@ -48,6 +48,8 @@ export function useData(): DataContextProps {
   const getData = useCallback(async () => {
     const newData = await fetchRecipes();
 
+    console.log('newData', newData)
+
     if (newData.recipes && newData.recipes.length) {
       setData(newData);
       await setCachedRecipesData(newData);

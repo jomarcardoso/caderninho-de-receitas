@@ -42,6 +42,7 @@ export interface FoodIconByIdEntry { mediaType?: string; content?: string }
 
 export async function getFoodIconsMapById(ids: number[]): Promise<Record<number, FoodIconByIdEntry>> {
   if (!Array.isArray(ids) || ids.length === 0) return {};
+
   const base = getApiBase();
   const url = `${base}/api/food-icons/map-by-id?ids=${encodeURIComponent(ids.join(','))}`;
   try {

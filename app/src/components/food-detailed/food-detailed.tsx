@@ -3,7 +3,6 @@ import Image from '../image/image';
 import { AminoAcidsTable } from '../aminoacids-table/aminoacids-table';
 import NutrientDisplay from '../nutrient/nutrient';
 import { ListItem } from '../list-item/list-item';
-import round from 'lodash/round';
 import type { Food } from 'services/food/food.model';
 import type { Nutrient } from 'services/nutrient/nutrient.model';
 import { LanguageContext } from '../../providers/language/language.context';
@@ -19,7 +18,7 @@ const FoodDetailed: FC<FoodDetailedProps> = ({
   quantity = 100,
   ...props
 }) => {
-  const { image, vitamins, minerals, aminoAcids, nutritionalInformation } =
+  const { vitamins, minerals, aminoAcids, nutritionalInformation } =
     food;
   const { language } = useContext(LanguageContext);
 

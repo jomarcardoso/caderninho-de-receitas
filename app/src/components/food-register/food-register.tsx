@@ -44,7 +44,7 @@ export const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
   const initialValues = useMemo<FoodForm>(() => ({
     name: food?.name?.[language] || '',
     description: food?.description?.[language] || '',
-    icon: ((food as any)?.iconName || deriveIconName(food?.icon)),
+    icon: ((food as any)?.iconName || deriveIconName(((food as any)?.icon?.[0] as string) || '')),
     imgs: Array.isArray(food?.imgs) ? food!.imgs : [],
     gi: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.Gi?.index),
     calories: pickByIndex(food?.nutritionalInformation, NUTRITIONAL_INFO_FALLBACK.Calories?.index),

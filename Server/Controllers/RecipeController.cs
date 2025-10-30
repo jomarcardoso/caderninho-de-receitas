@@ -104,7 +104,7 @@ public class RecipeController : ControllerBase
   public async Task<IActionResult> GetMyRecipes()
   {
     var userId = GetUserId();
-    var response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    RecipesDataResponse response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
   }
 
@@ -114,50 +114,50 @@ public class RecipeController : ControllerBase
   [FromQuery] int count = 5,
   [FromQuery] string? excludeIds = null,
   [FromQuery] bool excludeSameOwner = true)
-{
-  var userId = GetUserId();
-  var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
-  if (recipe is null) return NotFound();
-  if (recipe.OwnerId != userId && !recipe.IsPublic) return NotFound();
+  {
+    var userId = GetUserId();
+    var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
+    if (recipe is null) return NotFound();
+    if (recipe.OwnerId != userId && !recipe.IsPublic) return NotFound();
 
-  count = Math.Clamp(count, 1, 5);
-  var excluded = new HashSet<int>((excludeIds ?? string.Empty)
-    .Split(',', StringSplitOptions.RemoveEmptyEntries)
-    .Select(s => int.TryParse(s.Trim(), out var v) ? v : 0)
-    .Where(v => v > 0));
+    count = Math.Clamp(count, 1, 5);
+    var excluded = new HashSet<int>((excludeIds ?? string.Empty)
+      .Split(',', StringSplitOptions.RemoveEmptyEntries)
+      .Select(s => int.TryParse(s.Trim(), out var v) ? v : 0)
+      .Where(v => v > 0));
 
-  var baseRelations = await _context.RecipeRelation
-    .AsNoTracking()
-    .Where(r => r.RecipeId == id)
-    .OrderByDescending(r => r.Weight)
-    .Take(50)
-    .ToListAsync();
+    var baseRelations = await _context.RecipeRelation
+      .AsNoTracking()
+      .Where(r => r.RecipeId == id)
+      .OrderByDescending(r => r.Weight)
+      .Take(50)
+      .ToListAsync();
 
-  var rand = new Random();
-  var candidateIds = baseRelations
-    .Where(r => !excluded.Contains(r.RelatedRecipeId) && r.RelatedRecipeId != id)
-    .Select(r => new { r.RelatedRecipeId, Score = r.Weight + rand.NextDouble() * 0.05 })
-    .OrderByDescending(x => x.Score)
-    .Take(20)
-    .ToList();
+    var rand = new Random();
+    var candidateIds = baseRelations
+      .Where(r => !excluded.Contains(r.RelatedRecipeId) && r.RelatedRecipeId != id)
+      .Select(r => new { r.RelatedRecipeId, Score = r.Weight + rand.NextDouble() * 0.05 })
+      .OrderByDescending(x => x.Score)
+      .Take(20)
+      .ToList();
 
-  var candidates = await _context.Recipe
-    .AsNoTracking()
-    .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
-    .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic })
-    .ToListAsync();
+    var candidates = await _context.Recipe
+      .AsNoTracking()
+      .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
+      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic })
+      .ToListAsync();
 
-  var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
-  var filtered = candidates
-    .Where(r => r.IsPublic)
-    .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
-    .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
-    .Take(count)
-    .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
-    .ToList();
+    var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
+    var filtered = candidates
+      .Where(r => r.IsPublic)
+      .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
+      .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
+      .Take(count)
+      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
+      .ToList();
 
-  return Ok(new { recipe, related = filtered });
-}
+    return Ok(new { recipe, related = filtered });
+  }
 
   [HttpGet("public/{id}")]
   [AllowAnonymous]
@@ -166,84 +166,84 @@ public class RecipeController : ControllerBase
   [FromQuery] int count = 5,
   [FromQuery] string? excludeIds = null,
   [FromQuery] bool excludeSameOwner = true)
-{
-  var recipe = await _context.Recipe
-    .Include(r => r.Food)
-    .Include(r => r.Steps)
-      .ThenInclude(s => s.Ingredients)
-      .ThenInclude(i => i.Food)
-    .FirstOrDefaultAsync(r => r.Id == id);
-
-  if (recipe is null || !recipe.IsPublic) return NotFound();
-
-  count = Math.Clamp(count, 1, 5);
-  var excluded = new HashSet<int>((excludeIds ?? string.Empty)
-    .Split(',', StringSplitOptions.RemoveEmptyEntries)
-    .Select(s => int.TryParse(s.Trim(), out var v) ? v : 0)
-    .Where(v => v > 0));
-
-  var baseRelations = await _context.RecipeRelation
-    .AsNoTracking()
-    .Where(r => r.RecipeId == id)
-    .OrderByDescending(r => r.Weight)
-    .Take(50)
-    .ToListAsync();
-
-  var rand = new Random();
-  var candidateIds = baseRelations
-    .Where(r => !excluded.Contains(r.RelatedRecipeId) && r.RelatedRecipeId != id)
-    .Select(r => new { r.RelatedRecipeId, Score = r.Weight + rand.NextDouble() * 0.05 })
-    .OrderByDescending(x => x.Score)
-    .Take(20)
-    .ToList();
-
-  var candidates = await _context.Recipe
-    .AsNoTracking()
-    .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
-    .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic })
-    .ToListAsync();
-
-  var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
-  var filtered = candidates
-    .Where(r => r.IsPublic)
-    .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
-    .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
-    .Take(count)
-    .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
-    .ToList();
-
-  // Build icons dictionary for foods referenced in this recipe (and its steps)
-  var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-  if (!string.IsNullOrWhiteSpace(recipe.Food?.Icon))
   {
-    var name = recipe.Food.Icon.Trim();
-    try { name = System.IO.Path.GetFileName(name); } catch { }
-    if (!string.IsNullOrWhiteSpace(name)) iconNames.Add(name);
-  }
+    var recipe = await _context.Recipe
+      .Include(r => r.Food)
+      .Include(r => r.Steps)
+        .ThenInclude(s => s.Ingredients)
+        .ThenInclude(i => i.Food)
+      .FirstOrDefaultAsync(r => r.Id == id);
 
-  foreach (var s in recipe.Steps ?? new List<RecipeStep>())
-  {
-    foreach (var i in s.Ingredients ?? new List<Ingredient>())
+    if (recipe is null || !recipe.IsPublic) return NotFound();
+
+    count = Math.Clamp(count, 1, 5);
+    var excluded = new HashSet<int>((excludeIds ?? string.Empty)
+      .Split(',', StringSplitOptions.RemoveEmptyEntries)
+      .Select(s => int.TryParse(s.Trim(), out var v) ? v : 0)
+      .Where(v => v > 0));
+
+    var baseRelations = await _context.RecipeRelation
+      .AsNoTracking()
+      .Where(r => r.RecipeId == id)
+      .OrderByDescending(r => r.Weight)
+      .Take(50)
+      .ToListAsync();
+
+    var rand = new Random();
+    var candidateIds = baseRelations
+      .Where(r => !excluded.Contains(r.RelatedRecipeId) && r.RelatedRecipeId != id)
+      .Select(r => new { r.RelatedRecipeId, Score = r.Weight + rand.NextDouble() * 0.05 })
+      .OrderByDescending(x => x.Score)
+      .Take(20)
+      .ToList();
+
+    var candidates = await _context.Recipe
+      .AsNoTracking()
+      .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
+      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic })
+      .ToListAsync();
+
+    var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
+    var filtered = candidates
+      .Where(r => r.IsPublic)
+      .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
+      .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
+      .Take(count)
+      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
+      .ToList();
+
+    // Build icons dictionary for foods referenced in this recipe (and its steps)
+    var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    if (!string.IsNullOrWhiteSpace(recipe.Food?.Icon))
     {
-      var name = i.Food?.Icon;
-      if (!string.IsNullOrWhiteSpace(name))
+      var name = recipe.Food.Icon.Trim();
+      try { name = System.IO.Path.GetFileName(name); } catch { }
+      if (!string.IsNullOrWhiteSpace(name)) iconNames.Add(name);
+    }
+
+    foreach (var s in recipe.Steps ?? new List<RecipeStep>())
+    {
+      foreach (var i in s.Ingredients ?? new List<Ingredient>())
       {
-        var n = name.Trim();
-        try { n = System.IO.Path.GetFileName(n); } catch { }
-        if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
+        var name = i.Food?.Icon;
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+          var n = name.Trim();
+          try { n = System.IO.Path.GetFileName(n); } catch { }
+          if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
+        }
       }
     }
+
+    var icons = await _context.FoodIcon
+      .AsNoTracking()
+      .Where(i => iconNames.Contains(i.Name.En))
+      .ToListAsync();
+
+    var foodIcons = icons.ToDictionary(i => i.Name.En, i => i.Content);
+
+    return Ok(new { recipe, related = filtered, foodIcons });
   }
-
-  var icons = await _context.FoodIcon
-    .AsNoTracking()
-    .Where(i => iconNames.Contains(i.Name.En))
-    .ToListAsync();
-
-  var foodIcons = icons.ToDictionary(i => i.Name.En, i => i.Content);
-
-  return Ok(new { recipe, related = filtered, foodIcons });
-}
 
   private static Language? TryMapLanguage(string? value)
   {

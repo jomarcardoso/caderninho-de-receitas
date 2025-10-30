@@ -1,4 +1,4 @@
-import type { CommonResponse } from '../common/common.response';
+import type { CommonDataResponse } from '../common/common.response';
 import type { NutrientDataResponse } from '../nutrient-data/nutrient-data.response';
 import type { AllNutrients, Nutrient } from './nutrient.model';
 import type {
@@ -21,7 +21,12 @@ export function mapNutrientResponseToModel(
 
 export function mapAllNutrientsResponseToModel(
   allNutrientsResponse: AllNutrientsResponse,
-  { nutritionalInformation, minerals, vitamins, aminoAcids }: CommonResponse,
+  {
+    nutritionalInformation,
+    minerals,
+    vitamins,
+    aminoAcids,
+  }: CommonDataResponse,
 ): AllNutrients {
   return {
     nutritionalInformation: mapNutrientResponseToModel(

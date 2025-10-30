@@ -1,7 +1,7 @@
 import { type CommonData } from './common.model';
-import type { CommonResponse } from './common.response';
+import type { CommonDataResponse } from './common.response';
 
-export function mapCommonResponseToModel(data: CommonResponse): CommonData {
+export function mapCommonResponseToModel(data: CommonDataResponse): CommonData {
   return {
     measures: Object.values(data.measures),
     foodTypes: Object.values(data.foodTypes),

@@ -4,7 +4,7 @@ import type {
 } from '../language/language.types';
 import type { NutrientDataResponse } from '../nutrient-data/nutrient-data.response';
 
-export interface CommonResponse {
+export interface CommonDataResponse {
   measures: Record<string, LanguageTextAndPlural>;
   foodTypes: Record<string, LanguageText>;
   measurementUnits: Record<string, LanguageTextAndPlural>;

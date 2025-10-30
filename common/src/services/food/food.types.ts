@@ -9,6 +9,6 @@ export interface FoodBase {
   isRecipe: boolean;
   // New: numeric id referencing FoodIcon entity
   iconId?: number;
-  // Legacy string icon path/name kept for transition
-  icon: string;
+  // Icon sources list (data:URI or URLs). If empty, UI may fallback to imgs
+  icon: string[];
 }

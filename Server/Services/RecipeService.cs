@@ -217,9 +217,19 @@ public class RecipeService
     }
   }
 
-  public async Task<List<Recipe>> GetAllRecipesByUserId(string userId)
+  public class RecipesFoodsAndIcons
   {
-    List<Recipe> recipes = await _context.Recipe
+    public List<Recipe> Recipes { get; set; } = new();
+    public List<Food> Foods { get; set; } = new();
+    public List<FoodIcon> FoodIcons { get; set; } = new();
+  }
+
+  public async Task<RecipesFoodsAndIcons> GetAllRecipesByUserId(string userId)
+  {
+    var result = new RecipesFoodsAndIcons();
+
+    // Recipes with full details
+    result.Recipes = await _context.Recipe
       .Where(r => r.OwnerId == userId)
       .Include(r => r.Food)
       .Include(r => r.Steps)
@@ -227,7 +237,26 @@ public class RecipeService
       .ThenInclude(i => i.Food)
       .ToListAsync();
 
-    return recipes;
+    // Distinct foods referenced by recipes (including ingredients)
+    result.Foods = FoodService.GetFoodsFromRecipes(result.Recipes);
+
+    // Icons by IconId if available
+    var iconIds = result.Foods
+      .Select(f => f.IconId)
+      .Where(id => id.HasValue && id.Value > 0)
+      .Select(id => id!.Value)
+      .Distinct()
+      .ToList();
+
+    if (iconIds.Count > 0)
+    {
+      result.FoodIcons = await _context.FoodIcon
+        .AsNoTracking()
+        .Where(i => iconIds.Contains(i.Id))
+        .ToListAsync();
+    }
+
+    return result;
   }
 
   public async Task<List<Recipe>> GetMostCopiedRecipesAsync(int quantity, string? userId = null)
@@ -312,11 +341,12 @@ public class RecipeService
     return recipes.Count;
   }
 
-  public async Task<RecipesDto> GetRecipesAndFoodsByUserId(string userId)
+  public async Task<RecipesDataResponse> GetRecipesAndFoodsByUserId(string userId)
   {
-    List<Recipe> recipes = await GetAllRecipesByUserId(userId);
-    List<RecipeResponseDto> recipeDtos = _mapper.Map<List<RecipeResponseDto>>(recipes);
-    List<Food> foods = FoodService.GetFoodsFromRecipes(recipes);
+    var data = await GetAllRecipesByUserId(userId);
+    var recipes = data.Recipes;
+    List<RecipeResponse> recipeDtos = _mapper.Map<List<RecipeResponse>>(recipes);
+    List<Food> foods = data.Foods;
 
     if (foods.Count == 0)
     {
@@ -329,25 +359,33 @@ public class RecipeService
     }
 
     // Attach referenced food icons
-    var iconNames = foods
-      .Select(f => f.Icon)
-      .Where(s => !string.IsNullOrWhiteSpace(s))
-      .Select(s => s.Trim())
-      .Distinct()
-      .ToList();
+    // Prefer icons resolved by IconId collected above; fallback to name-based lookup only if none were found
+    var icons = data.FoodIcons;
+    if (icons.Count == 0 && foods.Count > 0)
+    {
+      var iconNames = foods
+        .Select(f => f.Icon)
+        .Where(s => !string.IsNullOrWhiteSpace(s))
+        .Select(s => s.Trim())
+        .Distinct()
+        .ToList();
 
-    var icons = await _context.FoodIcon
-      .AsNoTracking()
-      .Where(i => iconNames.Contains(i.Name.En))
-      .ToListAsync();
+      if (iconNames.Count > 0)
+      {
+        icons = await _context.FoodIcon
+          .AsNoTracking()
+          .Where(i => iconNames.Contains(i.Name.En))
+          .ToListAsync();
+      }
+    }
 
-    var response = new RecipesDto
+    var response = new RecipesDataResponse
     {
       Recipes = recipeDtos,
       Foods = _mapper.Map<List<Food>>(foods)
     };
 
-    response.FoodIcons = icons.ToDictionary(i => i.Name.En, i => i.Content);
+    response.FoodIcons = icons;
 
     return response;
   }

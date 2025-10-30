@@ -15,7 +15,7 @@ import { ShoppingListService } from '../../providers/shopping-list/shopping-list
 import { ShoppingListContext } from '../../providers';
 import { FoodsContext } from '../../providers/foods.provider';
 import { LanguageContext } from '../../providers/language/language.context';
-import { getFoodIconsMapById, type FoodIconByIdEntry } from '../../services/icons.api';
+// icons are now provided in each food model
 
 export const InteractiveField: FC<FieldProps> = ({ ...props }) => {
   const { language } = useContext(LanguageContext);
@@ -78,34 +78,7 @@ export const InteractiveField: FC<FieldProps> = ({ ...props }) => {
     }
   }, [shoppingList]);
 
-  const [iconMap, setIconMap] = useState<Record<number, string>>({});
-  function toDataUrl(entry: FoodIconByIdEntry | undefined): string | undefined {
-    if (!entry || !entry.content) return undefined;
-    const media = (entry.mediaType || '').toLowerCase();
-    const isSvg = media.includes('svg') || entry.content.trim().startsWith('<');
-    return isSvg
-      ? `data:image/svg+xml;utf8,${encodeURIComponent(entry.content)}`
-      : `data:${entry.mediaType || 'image/png'};base64,${entry.content}`;
-  }
-
-  useEffect(() => {
-    const ids = Array.from(new Set((formattedShoppingList.list || [])
-      .map((l: any) => (l.food as any)?.iconId)
-      .filter((n: any) => typeof n === 'number' && n > 0)));
-    if (!ids.length) return;
-    (async () => {
-      try {
-        const map = await getFoodIconsMapById(ids);
-        const urls: Record<number, string> = {};
-        for (const k of Object.keys(map)) {
-          const id = Number(k);
-          const url = toDataUrl(map[id]);
-          if (id > 0 && url) urls[id] = url;
-        }
-        setIconMap(urls);
-      } catch {}
-    })();
-  }, [formattedShoppingList]);
+  // removed icon fetching: food.icon already carries sources
 
   return (
     <div className="interactive-field">
@@ -114,10 +87,7 @@ export const InteractiveField: FC<FieldProps> = ({ ...props }) => {
           (line) =>
             line.food.name && (
               <Image
-                srcs={[
-                  iconMap[(line.food as any).iconId as any] || line.food.icon,
-                  ...(line.food.imgs ?? []),
-                ].filter(Boolean) as string[]}
+                srcs={[...(line.food as any).icon ?? [], ...(line.food.imgs ?? [])] as string[]}
                 alt={line.food.name[language]}
                 transparent
                 className="interactive-field__img"

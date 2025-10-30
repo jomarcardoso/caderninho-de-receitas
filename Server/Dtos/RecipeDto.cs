@@ -7,9 +7,9 @@ public class RecipeDto : RecipeContract<RecipeStepDto>
   public List<string> Imgs { get; set; } = new();
 }
 
-public class RecipeResponseDto : RecipeBase<RecipeStepResponse, int>;
+public class RecipeResponse : RecipeBase<RecipeStepResponse, int>;
 
-public class RecipesDto : FoodsResponse
+public class RecipesDataResponse : FoodsDataResponse
 {
-  public List<RecipeResponseDto> Recipes { get; set; } = new();
+  public List<RecipeResponse> Recipes { get; set; } = new();
 }

@@ -2,7 +2,7 @@ using Server.Shared;
 
 namespace Server.Dtos;
 
-public class CommonResponse
+public class CommonDataResponse
 {
   public Dictionary<MeasureType, LanguageTextAndPluralBase> Measures { get; set; } = MeasureData.Map;
   public Dictionary<FoodType, LanguageTextBase> FoodTypes { get; set; } = FoodTypeData.Map;

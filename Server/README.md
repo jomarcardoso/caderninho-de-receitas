@@ -62,3 +62,40 @@ The frontend consumes this list and interprets the values without redeclaring th
 
 - FAO/WHO/UNU
 - PDCAAS e DIAAS
+
+## API
+
+Order to load the app:
+
+1. RecipesDataResponse - my recipes and data
+2. HomeDataResponse
+
+On demand returns:
+
+1. RecipeResponse
+
+RecipesDataResponse
+
+- recipes - my recipes
+- foods - related to recipes
+- foodIcons - related to foods
+- nutrients
+
+RecipeResponse
+
+- recipe
+- foods - related to recipe
+- foodIcons - related to foods
+- relatedRecipes
+
+HomeDataResponse
+
+- partnerRecipes
+- mostCopiedRecipes
+- newGoodRecipes
+
+## Classes Diagram
+
+### Recipe controller
+
+-
