@@ -1,4 +1,4 @@
-import { type FC, type HTMLProps, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { type FC, type HTMLProps, useCallback, useEffect, useMemo, useState } from 'react';
 import HealthContext from './health.context';
 
 function getApiBase(): string {
@@ -10,7 +10,6 @@ export const HealthProvider: FC<HTMLProps<Element>> = ({ children }) => {
   const [serverUp, setServerUp] = useState(false);
   const [checking, setChecking] = useState(true);
   const [lastChecked, setLastChecked] = useState<number | undefined>(undefined);
-  const timerRef = useRef<number | undefined>(undefined);
 
   const refresh = useCallback(async () => {
     setChecking(true);
