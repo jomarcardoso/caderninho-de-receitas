@@ -79,6 +79,11 @@ export function mapRecipeModelToDto(recipe: Recipe): RecipeDto {
     name: recipe.name ?? '',
     additional: recipe.additional ?? '',
     description: recipe.description ?? '',
+    categories: Array.isArray((recipe as any).categories)
+      ? ((recipe as any).categories as Array<{ key?: string }>)
+          .map((c) => c?.key)
+          .filter((k): k is string => typeof k === 'string' && k.length > 0)
+      : [],
     steps: recipe.steps?.map(mapRecipeStepModelToDto) ?? [],
     // createdAt/updatedAt are server-managed; not required on save
   };
@@ -100,10 +105,23 @@ export function mapRecipeResponseToModel(
     ? mapFoodResponseToModel(foodResponse, dataResponse)
     : FOOD;
 
+  const categoryKeys: string[] = Array.isArray((recipeResponse as any).categories)
+    ? ((recipeResponse as any).categories as string[])
+    : [];
+
+  const categories = categoryKeys
+    .map((key) => {
+      const entry = (dataResponse as any)?.recipeCategories?.[key];
+      if (!entry) return null;
+      return { key, text: entry.text, pluralText: entry.pluralText };
+    })
+    .filter((x): x is { key: string; text: any; pluralText: any } => Boolean(x));
+
   return {
     ...recipeResponse,
     ...mapAllNutrientsResponseToModel(recipeResponse, dataResponse),
     food,
+    categories,
     steps: recipeResponse.steps.map((stepResponse) => ({
       ...stepResponse,
       ...mapAllNutrientsResponseToModel(stepResponse, dataResponse),

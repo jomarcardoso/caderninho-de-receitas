@@ -8,6 +8,7 @@ export interface CommonDataResponse {
   measures: Record<string, LanguageTextAndPlural>;
   foodTypes: Record<string, LanguageText>;
   measurementUnits: Record<string, LanguageTextAndPlural>;
+  recipeCategories: Record<string, LanguageTextAndPlural>;
   aminoAcids: Record<string, NutrientDataResponse>;
   minerals: Record<string, NutrientDataResponse>;
   vitamins: Record<string, NutrientDataResponse>;

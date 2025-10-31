@@ -8,7 +8,8 @@ export interface RecipeContract<TRecipeStep> {
   steps: TRecipeStep[];
   language: Language;
   imgs?: string[];
-  // category: RecipeCategory | '';
+  // Recipe category keys (EN enum keys from backend)
+  categories?: string[];
 }
 
 export interface RecipeBase<TRecipeStep> extends RecipeContract<TRecipeStep> {

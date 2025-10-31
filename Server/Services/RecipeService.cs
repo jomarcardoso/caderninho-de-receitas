@@ -49,6 +49,7 @@ public class RecipeService
 
     entity.Imgs = recipeDto.Imgs ?? new List<string>();
     entity.Language = recipeDto.Language;
+    entity.Categories = recipeDto.Categories ?? new List<Server.Shared.RecipeCategory>();
     return entity;
   }
 
@@ -160,6 +161,7 @@ public class RecipeService
 
     recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     recipe.UpdatedAt = DateTime.UtcNow;
+    recipe.Categories = recipeDto.Categories ?? new List<Server.Shared.RecipeCategory>();
     RecalculateRecipeNutrition(recipe);
   }
 

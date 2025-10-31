@@ -4,6 +4,7 @@ export const COMMON_DATA: CommonData = {
   measures: [],
   foodTypes: [],
   measurementUnits: [],
+  recipeCategories: [],
   vitamins: [],
   aminoAcids: [],
   minerals: [],

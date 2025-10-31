@@ -8,8 +8,13 @@ export interface CommonData {
   measures: LanguageTextAndPlural[];
   foodTypes: LanguageText[];
   measurementUnits: LanguageTextAndPlural[];
+  recipeCategories: RecipeCategory[];
   vitamins: NutrientData[];
   aminoAcids: NutrientData[];
   minerals: NutrientData[];
   nutritionalInformation: NutrientData[];
+}
+
+export interface RecipeCategory extends LanguageTextAndPlural {
+  key: string;
 }
