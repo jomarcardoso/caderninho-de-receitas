@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Server.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
   public DbSet<FoodIcon> FoodIcon { get; set; }
   public DbSet<RecipeShare> RecipeShare { get; set; }
   public DbSet<Server.Models.FoodEditRequest> FoodEditRequest { get; set; }
+  public DbSet<UserProfile> UserProfile { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -126,6 +127,16 @@ public class AppDbContext : DbContext
       entity.Property(e => e.Payload).IsRequired();
       entity.Property(e => e.CreatedAt).IsRequired();
     });
+
+    // UserProfile
+    modelBuilder.Entity<UserProfile>(entity =>
+    {
+      entity.HasKey(u => u.OwnerId);
+      entity.Property(u => u.OwnerId).IsRequired();
+      entity.HasIndex(u => u.OwnerId).IsUnique();
+      entity.Property(u => u.CreatedAt).IsRequired();
+      entity.Property(u => u.UpdatedAt).IsRequired();
+    });
   }
 
   private static string SerializeCategories(List<RecipeCategory>? list)
@@ -153,6 +164,7 @@ public class AppDbContext : DbContext
     return result;
   }
 }
+
 
 
 

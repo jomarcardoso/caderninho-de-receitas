@@ -55,6 +55,7 @@ builder.Services.AddSingleton<RecipeImageOcrService>();
 builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenValidator>();
 builder.Services.AddScoped<GoogleAuthService>();
 builder.Services.AddSingleton<AzureBlobSasService>();
+builder.Services.AddScoped<UserProfileService>();
 
 // blazor
 builder.Services.AddRazorPages();
@@ -232,6 +233,7 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
 
 
 
