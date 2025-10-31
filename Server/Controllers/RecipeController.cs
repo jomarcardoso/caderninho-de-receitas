@@ -116,9 +116,12 @@ public class RecipeController : ControllerBase
     [FromQuery] int quantity = 20)
   {
     var userId = GetUserId();
-    var categoryKeys = (categories ?? string.Empty)
-      .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-      .ToList();
+    // accept either comma-separated 'categories' or repeated ?categories= key
+    var categoryKeys = Request.Query.ContainsKey("categories") && Request.Query["categories"].Count > 1
+      ? Request.Query["categories"].ToList()
+      : (categories ?? string.Empty)
+          .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+          .ToList();
 
     var recipes = await recipeService.SearchRecipesAsync(text, categoryKeys, quantity, string.IsNullOrWhiteSpace(userId) ? null : userId);
 
@@ -142,6 +145,17 @@ public class RecipeController : ControllerBase
     }).ToList();
 
     return Ok(new { recipes = recipeDtos });
+  }
+
+  [HttpGet("categories")]
+  [AllowAnonymous]
+  public IActionResult GetCategories()
+  {
+    // Return dictionary with camelCase enum keys
+    static string ToCamel(string s) => string.IsNullOrEmpty(s) ? s : char.ToLowerInvariant(s[0]) + (s.Length > 1 ? s.Substring(1) : string.Empty);
+    var map = RecipeCategoryData.Map
+      .ToDictionary(kv => ToCamel(kv.Key.ToString()), kv => kv.Value);
+    return Ok(map);
   }
 
   [HttpGet("{id}")]

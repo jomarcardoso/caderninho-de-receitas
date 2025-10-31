@@ -37,8 +37,8 @@ public static class RecipeCategoryData
       }
     },
     { RecipeCategory.OneDish, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "One-dish meal", Pt = "Prato ��nico" },
-        PluralText = new LanguageTextBase { En = "One-dish meals", Pt = "Pratos ��nicos" }
+        Text = new LanguageTextBase { En = "One-dish meal", Pt = "Prato Único" },
+        PluralText = new LanguageTextBase { En = "One-dish meals", Pt = "Pratos Únicos" }
       }
     },
     { RecipeCategory.Poultry, new LanguageTextAndPluralBase {
@@ -62,8 +62,8 @@ public static class RecipeCategoryData
       }
     },
     { RecipeCategory.HealthyEating, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Healthy recipe", Pt = "Receita saud��vel" },
-        PluralText = new LanguageTextBase { En = "Healthy recipes", Pt = "Receitas saud��veis" }
+        Text = new LanguageTextBase { En = "Healthy recipe", Pt = "Receita saudável" },
+        PluralText = new LanguageTextBase { En = "Healthy recipes", Pt = "Receitas saudáveis" }
       }
     },
   };

@@ -336,16 +336,17 @@ public class RecipeService
     if (hasText)
     {
       string pattern = $"%{text!.Trim()}%";
-      query = query.Where(r => EF.Functions.Like(r.Name, pattern) || EF.Functions.Like(r.Keys, pattern));
+      query = query.Where(r =>
+        EF.Functions.ILike(r.Name, pattern)
+        || EF.Functions.ILike(r.Keys, pattern)
+        || EF.Functions.ILike(r.Description ?? string.Empty, pattern)
+        || EF.Functions.ILike(r.Additional ?? string.Empty, pattern)
+        || r.Steps.Any(s => EF.Functions.ILike(s.Title ?? string.Empty, pattern)
+          || EF.Functions.ILike(s.Preparation ?? string.Empty, pattern)
+          || EF.Functions.ILike(s.Additional ?? string.Empty, pattern)
+          || EF.Functions.ILike(s.IngredientsText ?? string.Empty, pattern))
+      );
     }
-
-    // Execute base filtered query first
-    var baseCandidates = await query
-      .OrderBy(r => r.Id)
-      .Take(quantity * 2) // take more, we may filter by categories below
-      .ToListAsync();
-
-    var result = baseCandidates;
 
     var cats = (categoryKeys ?? Array.Empty<string>())
       .Select(TryParseCategoryKey)
@@ -355,39 +356,19 @@ public class RecipeService
 
     if (cats.Count > 0)
     {
-      // Filter in-memory by categories intersection
-      result = baseCandidates
-        .Where(r => (r.Categories ?? new List<RecipeCategory>()).Any(c => cats.Contains(c)))
-        .ToList();
-
-      // If no text was provided, we may need to fetch more to satisfy quantity
-      if (!hasText && result.Count < quantity)
-      {
-        // Pull more and filter again (best-effort, avoids complex SQL for now)
-        var more = await _context.Recipe
-          .AsNoTracking()
-          .Where(r => r.IsPublic || (includePrivate && r.OwnerId == userId))
-          .OrderByDescending(r => r.Id)
-          .Take(quantity * 4)
-          .Include(r => r.Food)
-          .Include(r => r.Steps)
-          .ThenInclude(s => s.Ingredients)
-          .ThenInclude(i => i.Food)
-          .ToListAsync();
-
-        var union = more
-          .Where(r => (r.Categories ?? new List<RecipeCategory>()).Any(c => cats.Contains(c)))
-          .Concat(result)
-          .DistinctBy(r => r.Id)
-          .ToList();
-
-        result = union;
-      }
+      // Build OR predicates over the CSV column to let DB filter by category
+      var names = cats.Select(c => c.ToString()).ToList();
+      query = query.Where(r => names.Any(name =>
+        EF.Functions.Like(
+          "," + EF.Property<string>(r, "Categories") + ",",
+          "%," + name + ",%"))
+      );
     }
 
-    return result
+    return await query
+      .OrderBy(r => r.Id)
       .Take(quantity)
-      .ToList();
+      .ToListAsync();
   }
 
   public async Task<int> ClaimRecipesAsync(string temporaryOwnerId, string newOwnerId)

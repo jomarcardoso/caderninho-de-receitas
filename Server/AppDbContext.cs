@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Server.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Server.Shared;
 
 namespace Server;
 
@@ -37,6 +40,24 @@ public class AppDbContext : DbContext
     // Recipe
     modelBuilder.Entity<Recipe>(entity =>
     {
+      // Persist Categories as a comma-separated enum names string
+      var categoriesConverter = new ValueConverter<List<RecipeCategory>, string>(
+        v => SerializeCategories(v),
+        v => DeserializeCategories(v)
+      );
+
+      var categoriesComparer = new ValueComparer<List<RecipeCategory>>(
+        (a, b) => (a ?? new()).SequenceEqual(b ?? new()),
+        v => (v ?? new()).Aggregate(0, (acc, x) => HashCode.Combine(acc, x.GetHashCode())),
+        v => v == null ? new List<RecipeCategory>() : v.ToList()
+      );
+
+      entity.Property(r => r.Categories)
+        .HasConversion(categoriesConverter)
+        .HasColumnName("Categories")
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(categoriesComparer);
+
       entity.OwnsMany(r => r.Steps, step =>
       {
         step.OwnsMany(s => s.Ingredients, ingredient =>
@@ -106,6 +127,32 @@ public class AppDbContext : DbContext
       entity.Property(e => e.CreatedAt).IsRequired();
     });
   }
+
+  private static string SerializeCategories(List<RecipeCategory>? list)
+  {
+    var items = (list ?? new List<RecipeCategory>())
+      .Select(x => x.ToString())
+      .Distinct()
+      .ToArray();
+    return string.Join(',', items);
+  }
+
+  private static List<RecipeCategory> DeserializeCategories(string? data)
+  {
+    var result = new List<RecipeCategory>();
+    var raw = (data ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    foreach (var s in raw)
+    {
+      try
+      {
+        var val = Enum.Parse<RecipeCategory>(s, ignoreCase: true);
+        if (!result.Contains(val)) result.Add(val);
+      }
+      catch { /* ignore invalid values */ }
+    }
+    return result;
+  }
 }
+
 
 
