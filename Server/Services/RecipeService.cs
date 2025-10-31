@@ -309,6 +309,87 @@ public class RecipeService
       .ToListAsync();
   }
 
+  private static RecipeCategory? TryParseCategoryKey(string key)
+  {
+    if (string.IsNullOrWhiteSpace(key)) return null;
+    // Convert camelCase to PascalCase for Enum.Parse
+    string pascal = char.ToUpperInvariant(key[0]) + (key.Length > 1 ? key.Substring(1) : string.Empty);
+    if (Enum.TryParse<RecipeCategory>(pascal, ignoreCase: true, out var value)) return value;
+    return null;
+  }
+
+  public async Task<List<Recipe>> SearchRecipesAsync(string? text, IEnumerable<string>? categoryKeys, int quantity, string? userId = null)
+  {
+    quantity = Math.Clamp(quantity, 1, 64);
+
+    bool includePrivate = !string.IsNullOrWhiteSpace(userId);
+
+    IQueryable<Recipe> query = _context.Recipe
+      .AsNoTracking()
+      .Include(r => r.Food)
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .ThenInclude(i => i.Food)
+      .Where(r => r.IsPublic || (includePrivate && r.OwnerId == userId));
+
+    var hasText = !string.IsNullOrWhiteSpace(text);
+    if (hasText)
+    {
+      string pattern = $"%{text!.Trim()}%";
+      query = query.Where(r => EF.Functions.Like(r.Name, pattern) || EF.Functions.Like(r.Keys, pattern));
+    }
+
+    // Execute base filtered query first
+    var baseCandidates = await query
+      .OrderBy(r => r.Id)
+      .Take(quantity * 2) // take more, we may filter by categories below
+      .ToListAsync();
+
+    var result = baseCandidates;
+
+    var cats = (categoryKeys ?? Array.Empty<string>())
+      .Select(TryParseCategoryKey)
+      .Where(v => v.HasValue)
+      .Select(v => v!.Value)
+      .ToHashSet();
+
+    if (cats.Count > 0)
+    {
+      // Filter in-memory by categories intersection
+      result = baseCandidates
+        .Where(r => (r.Categories ?? new List<RecipeCategory>()).Any(c => cats.Contains(c)))
+        .ToList();
+
+      // If no text was provided, we may need to fetch more to satisfy quantity
+      if (!hasText && result.Count < quantity)
+      {
+        // Pull more and filter again (best-effort, avoids complex SQL for now)
+        var more = await _context.Recipe
+          .AsNoTracking()
+          .Where(r => r.IsPublic || (includePrivate && r.OwnerId == userId))
+          .OrderByDescending(r => r.Id)
+          .Take(quantity * 4)
+          .Include(r => r.Food)
+          .Include(r => r.Steps)
+          .ThenInclude(s => s.Ingredients)
+          .ThenInclude(i => i.Food)
+          .ToListAsync();
+
+        var union = more
+          .Where(r => (r.Categories ?? new List<RecipeCategory>()).Any(c => cats.Contains(c)))
+          .Concat(result)
+          .DistinctBy(r => r.Id)
+          .ToList();
+
+        result = union;
+      }
+    }
+
+    return result
+      .Take(quantity)
+      .ToList();
+  }
+
   public async Task<int> ClaimRecipesAsync(string temporaryOwnerId, string newOwnerId)
   {
     if (string.IsNullOrWhiteSpace(temporaryOwnerId))

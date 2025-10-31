@@ -37,8 +37,6 @@ export function mapFoodResponseToModel(
     }
   }
 
-  console.log(iconList);
-
   return {
     ...foodResponse,
     ...mapAllNutrientsResponseToModel(foodResponse, commonResponse),

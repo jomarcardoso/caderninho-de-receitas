@@ -108,6 +108,42 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
+  [HttpGet("search")]
+  [AllowAnonymous]
+  public async Task<IActionResult> Search(
+    [FromQuery] string? text = null,
+    [FromQuery] string? categories = null,
+    [FromQuery] int quantity = 20)
+  {
+    var userId = GetUserId();
+    var categoryKeys = (categories ?? string.Empty)
+      .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+      .ToList();
+
+    var recipes = await recipeService.SearchRecipesAsync(text, categoryKeys, quantity, string.IsNullOrWhiteSpace(userId) ? null : userId);
+
+    var recipeDtos = recipes.Select(r => new RecipeDto
+    {
+      Id = r.Id,
+      Name = r.Name,
+      Keys = r.Keys,
+      Description = r.Description,
+      Additional = r.Additional,
+      Language = r.Language,
+      Steps = r.Steps.Select(s => new RecipeStepDto
+      {
+        Title = s.Title,
+        Preparation = s.Preparation,
+        Additional = s.Additional,
+        IngredientsText = s.IngredientsText,
+      }).ToList(),
+      Imgs = r.Imgs,
+      Categories = r.Categories,
+    }).ToList();
+
+    return Ok(new { recipes = recipeDtos });
+  }
+
   [HttpGet("{id}")]
   public async Task<IActionResult> GetRecipe(
   int id,
