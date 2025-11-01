@@ -1,6 +1,5 @@
 import { type FC, useContext, useEffect, useMemo, useState } from 'react';
 import Image from '../image/image';
-import { SemanticButton } from '../semantic-button';
 import { LanguageContext } from '../../providers/language/language.context';
 import { translate } from 'services/language/language.service';
 import type { Ingredient } from 'services/ingredient/ingredient.model';
@@ -44,7 +43,7 @@ const Ingredients: FC<IngredientsProps> = ({
     >
       <div className="list">
         {ingredients.map((ingredient) => (
-          <SemanticButton
+          <button
             key={`${ingredient.food.id}-${
               ingredient.quantity
             }-${ingredient.text.replace(/\s/g, '-')}`}
@@ -60,7 +59,7 @@ const Ingredients: FC<IngredientsProps> = ({
                 <p>{ingredient.text}</p>
               </div>
             </div>
-          </SemanticButton>
+          </button>
         ))}
       </div>
     </Section>

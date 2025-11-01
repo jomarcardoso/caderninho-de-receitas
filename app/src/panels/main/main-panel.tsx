@@ -73,7 +73,7 @@ const MainPanel: FC = () => {
       ]}
     >
       <div
-        className="theme-light paper-bg container"
+        className="container"
         style={{
           paddingTop: '40px',
           paddingBottom: '40px',

@@ -2,7 +2,6 @@ import { type FC, type HTMLProps, type ReactNode, useMemo } from 'react';
 import { IoChevronForward } from 'react-icons/io5';
 import './list-item.scss';
 import { generateClasses } from 'services/dom/classes';
-import { SemanticButton, type SemanticButtonProps } from '../semantic-button';
 
 interface Props {
   isAction?: boolean;
@@ -14,7 +13,7 @@ interface Props {
 
 export type ListItemProps = Props &
   HTMLProps<HTMLLIElement> &
-  SemanticButtonProps;
+  HTMLProps<HTMLButtonElement>;
 
 export const ListItem: FC<ListItemProps> = ({
   children,
@@ -50,9 +49,9 @@ export const ListItem: FC<ListItemProps> = ({
 
   if (onClick) {
     return (
-      <SemanticButton className={classes} {...props}>
+      <button className={classes} {...props}>
         {content}
-      </SemanticButton>
+      </button>
     );
   }
 

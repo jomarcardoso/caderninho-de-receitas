@@ -1,4 +1,4 @@
-import {
+﻿import {
   useState,
   useCallback,
   forwardRef,
@@ -7,7 +7,7 @@ import {
   type FC,
 } from 'react';
 import './layout.scss';
-import Footer, { type FooterProps } from '../footer/footer';
+import { Footer, type FooterProps } from 'notebook-layout';
 import { generateClasses } from 'services/dom/classes';
 import NotebookTabs, {
   type NotebookTabsProps,
@@ -42,7 +42,7 @@ const Layout: FC<LayoutProps> = forwardRef(
 
     const classes = generateClasses({
       layout: true,
-      'paper-bg': true,
+      'theme-light': true,
       'layout--footer-menu': footerMenu,
       [className]: className,
     });
@@ -96,4 +96,5 @@ const Layout: FC<LayoutProps> = forwardRef(
 );
 
 export default Layout;
+
 
