@@ -1,0 +1,35 @@
+.layout-2 {
+  --layout-2-static-height: 0;
+
+  position: relative;
+
+  &__header,
+  &__footer {
+    min-height: var(--bar-height);
+    position: sticky;
+  }
+
+  &__header {
+    top: 0;
+  }
+
+  &__footer {
+    bottom: 0;
+  }
+
+  &__main {
+    min-height: calc(100dvh - var(--layout-2-static-height));
+  }
+
+  :has(&__footer, &__header) {
+    --layout-2-static-height: calc(2 * var(--bar-height));
+  }
+
+  :has(&__header):not(:has(&__footer)) {
+    --layout-2-static-height: var(--bar-height);
+  }
+
+  :has(&__footer):not(:has(&__header)) {
+    --layout-2-static-height: var(--bar-height);
+  }
+}

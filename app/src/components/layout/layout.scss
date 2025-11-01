@@ -3,7 +3,7 @@
   box-shadow: var(--shadow-primary-inset);
 
   &__content {
-    height: calc(100dvh - var(--header-height));
+    height: calc(100dvh - var(--bar-height));
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;

@@ -11,13 +11,22 @@
     overflow: hidden;
     position: sticky;
     bottom: 0;
-    border-top-left-radius: var(--border-radius-secondary);
-    border-top-right-radius: var(--border-radius-secondary);
     box-shadow: var(--shadow-primary);
 
-    .button {
-      border-radius: 0;
+    button {
       height: 44px;
+    }
+
+    .button:not([type='submit']) {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .button[type='submit'] {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 0;
     }
   }
 

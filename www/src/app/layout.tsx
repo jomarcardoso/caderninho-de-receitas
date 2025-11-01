@@ -5,6 +5,8 @@ import '@fontsource/dosis';
 import '@fontsource/cinzel';
 import '@fontsource/vibur';
 import { LanguageProvider } from '../contexts/language';
+import IoniconsInit from '@/components/ionicons-init';
+import { ClientNavigationProvider } from '@/providers/client-navigation.provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,10 +30,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <LanguageProvider>
-          {children}
-        </LanguageProvider>
+      <body
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable}`}
+      >
+        {/* Initialize Ionicons custom element on the client */}
+        <IoniconsInit />
+        <ClientNavigationProvider>
+          <LanguageProvider>{children}</LanguageProvider>
+        </ClientNavigationProvider>
       </body>
     </html>
   );

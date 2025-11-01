@@ -2,7 +2,6 @@
 import './page.css';
 import type { Metadata } from 'next';
 import type { RecipeDto } from '@common/services/recipe';
-import type { RecipeStepDto } from '@common/services/recipe-step';
 import { fetchMostCopiedRecipes } from '@common/services/recipe';
 import type { Language } from '@common/services/language/language.types';
 import Link from 'next/link';
@@ -59,18 +58,24 @@ const FALLBACK_RECIPES: RecipeDto[] = [
 ];
 
 async function fetchRecipes(): Promise<RecipeDto[]> {
-type FeaturedUser = { ownerId: string; displayName?: string; pictureUrl?: string };
-async function fetchFeaturedUsers(): Promise<FeaturedUser[]> {
-  try {
-    const base = API_BASE_URL || 'http://localhost:5106';
-    const res = await fetch(${base}/api/users/featured?quantity=6, { next: { revalidate: 60 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? (data as FeaturedUser[]) : [];
-  } catch {
-    return [];
+  type FeaturedUser = {
+    ownerId: string;
+    displayName?: string;
+    pictureUrl?: string;
+  };
+  async function fetchFeaturedUsers(): Promise<FeaturedUser[]> {
+    try {
+      const base = API_BASE_URL || 'http://localhost:5106';
+      const res = await fetch(`${base}/api/users/featured?quantity=6`, {
+        next: { revalidate: 60 },
+      });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data) ? (data as FeaturedUser[]) : [];
+    } catch {
+      return [];
+    }
   }
-}
   const mostCopied = await fetchMostCopiedRecipes(6, API_BASE_URL);
   return mostCopied.length ? mostCopied : FALLBACK_RECIPES;
 }
@@ -82,7 +87,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [recipes, featured] = await Promise.all([fetchRecipes(), fetchFeaturedUsers()]);
+  const [recipes, featured] = await Promise.all([
+    fetchRecipes(),
+    fetchFeaturedUsers(),
+  ]);
 
   return (
     <div className="page theme-light">
@@ -102,20 +110,40 @@ export default async function Home() {
         </p>
       </header>
 
-            {featured.length > 0 && (
-        <section style={{ maxWidth: 960, margin: '0 auto', padding: '0 16px 32px' }}>
+      {featured.length > 0 && (
+        <section
+          style={{ maxWidth: 960, margin: '0 auto', padding: '0 16px 32px' }}
+        >
           <h2 style={{ margin: '16px 0' }}>Cozinheiro da vez</h2>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             {featured.map((u) => (
-              <div key={u.ownerId} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1px solid #eee', padding: 10, borderRadius: 8 }}>
-                <img src={u.pictureUrl || '/vite.svg'} alt={u.displayName || 'Usuário'} width={48} height={48} style={{ borderRadius: '50%', objectFit: 'cover' }} />
-                <span style={{ fontWeight: 600 }}>{u.displayName || 'Convidado'}</span>
+              <div
+                key={u.ownerId}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  border: '1px solid #eee',
+                  padding: 10,
+                  borderRadius: 8,
+                }}
+              >
+                <img
+                  src={u.pictureUrl || '/vite.svg'}
+                  alt={u.displayName || 'Usuário'}
+                  width={48}
+                  height={48}
+                  style={{ borderRadius: '50%', objectFit: 'cover' }}
+                />
+                <span style={{ fontWeight: 600 }}>
+                  {u.displayName || 'Convidado'}
+                </span>
               </div>
             ))}
           </div>
         </section>
       )}
-<section className="grid">
+      <section className="grid">
         {recipes.map((recipe) => (
           <Link href={`/recipe/${recipe.id}`}>
             <article key={recipe.id} className="card">
@@ -150,6 +178,3 @@ export default async function Home() {
     </div>
   );
 }
-
-
-
