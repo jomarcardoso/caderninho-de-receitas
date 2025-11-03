@@ -9,6 +9,8 @@ import {
   listOutline,
   restaurantOutline,
   searchOutline,
+  searchCircleOutline,
+  chevronForwardOutline,
 } from 'ionicons/icons';
 
 export default function IoniconsInit() {
@@ -22,6 +24,8 @@ export default function IoniconsInit() {
       'list-outline': listOutline,
       'restaurant-outline': restaurantOutline,
       'search-outline': searchOutline,
+      'search-circle-outline': searchCircleOutline,
+      'chevron-forward-outline': chevronForwardOutline,
     });
   }, []);
 

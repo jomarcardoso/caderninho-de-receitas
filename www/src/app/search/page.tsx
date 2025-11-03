@@ -114,7 +114,7 @@ export default async function RecipesPage({
     const qty = typeof nextQuantity === 'number' ? nextQuantity : quantity;
     params.set('quantity', String(qty));
     const qs = params.toString();
-    return `/recipes${qs ? `?${qs}` : ''}`;
+    return `/search${qs ? `?${qs}` : ''}`;
   }
   return (
     <Layout2
@@ -130,7 +130,7 @@ export default async function RecipesPage({
       <main className="theme-light">
         <div className="container py-5">
           <h1 className="h1 mb-5">Buscar receitas</h1>
-          <form method="get" action="/recipes" className="mb-5">
+          <form method="get" action="/search" className="mb-5">
             <Field
               label="Buscar receita"
               type="search"

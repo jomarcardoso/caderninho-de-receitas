@@ -3,9 +3,16 @@ import './page.scss';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { SectionCard } from 'notebook-layout';
-import SideMenu from '@/components/SideMenu';
+// import SideMenu from '@/components/SideMenu';
+// import ClientRecipeDetails from '@/components/RecipeDetails.client';
+// import FallbackImage from '@/components/FallbackImage.client';
+import { Layout2 } from '@/components/layout-2/layout-2';
+import { Header2 } from '@/components/header-2/header-2';
+import { Footer2 } from '@/components/footer-2/footer-2';
+import { NavLink } from '@/components/nav-link/nav-link';
+// import { RecipeDetails } from '@common/components';
+import { Image2 } from '@/components/image-2/image';
 import ClientRecipeDetails from '@/components/RecipeDetails.client';
-import FallbackImage from '@/components/FallbackImage.client';
 
 const API_BASE_URL =
   process.env.RECIPES_API_URL ??
@@ -78,30 +85,57 @@ export default async function RecipePage({
   const { recipe, related, foodIcons } = data;
 
   console.log('foodIcons', foodIcons);
+  console.log('related', related);
 
   return (
-    <div className="page page-recipe theme-light">
-      <div className="row">
-        <div className="col-md-3 col-lg-4"></div>
-
-        <main className="col-md-7 col-lg-5">
-          <h1 className="h1 mb-3">{recipe.name}</h1>
-
-          <SectionCard>
-            <FallbackImage
-              className="img-primary"
-              alt=""
+    <Layout2
+      header={<Header2 currentPage="recipe" />}
+      footer={
+        <Footer2>
+          <NavLink action="pop">
+            <ion-icon name="arrow-back-outline" />
+          </NavLink>
+        </Footer2>
+      }
+    >
+      <main className="theme-light">
+        <div className="recipe-page">
+          {recipe?.name && (
+            <div
+              style={{
+                position: 'sticky',
+                top: 'var(--bar-height)',
+                right: 0,
+                width: '100%',
+                zIndex: 1,
+              }}
+            >
+              <div className="recipe-page__name">
+                <div className="container">
+                  <h1
+                    className="h2"
+                    style={{
+                      fontSize: recipe.name.length > 30 ? 17 : 19,
+                    }}
+                  >
+                    {recipe.name}
+                  </h1>
+                </div>
+              </div>
+            </div>
+          )}
+          <div style={{ marginBottom: '24px' }}>
+            <Image2
               srcs={[...(recipe?.imgs ?? []), ...(recipe?.food?.imgs ?? [])]}
+              alt=""
+              aspectRatio={1.25}
             />
-          </SectionCard>
-
-          <ClientRecipeDetails recipe={recipe} foodIcons={foodIcons} />
-        </main>
-
-        <div className="col-md-2 col-lg-3">
-          <SideMenu />
+          </div>
+          <div className="recipe-page__body container">
+            <ClientRecipeDetails recipe={recipe} foodIcons={foodIcons} />
+          </div>
         </div>
-      </div>
-    </div>
+      </main>
+    </Layout2>
   );
 }

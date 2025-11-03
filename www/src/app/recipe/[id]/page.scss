@@ -1,61 +1,21 @@
-.page-recipe {
-  main {
-    display: grid;
-    gap: 24px;
-  }
-}
-
-/* Amino Acids Table (mirrors app styles) */
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table__caption {
-  text-align: left;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.table__tr {
-}
-
-.table__th,
-.table__td {
-  padding: 8px 12px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.aminoacids-table {
+.recipe-page {
   &__name {
-    width: 84px;
-    white-space: nowrap;
-  }
-
-  &__cell {
+    background-color: var(--color-primary-main);
+    box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
+      0 1px 5px 0 rgb(0 0 0 / 12%);
+    color: var(--color-white);
     padding: 8px 0;
-    width: 56px;
+    z-index: 1;
+    position: sticky;
+    top: 0;
   }
 
-  &__bar {
-    min-height: 20px;
-    mix-blend-mode: multiply;
-    background: transparent;
-
-    &--filled {
-      background-color: var(--color-primary-main);
-      border-right: 2px solid var(--color-primary-darker);
-    }
+  &__container {
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
-  &--on-light {
-    .aminoacids-table__bar--filled {
-      background-color: var(--color-primary-lighter);
-    }
+  &__body {
+    padding-bottom: 32px;
   }
 }

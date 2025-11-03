@@ -6,7 +6,7 @@ export default function SideMenu() {
     <div className="side-menu-container">
       <nav className="side-menu theme-primary">
         <Link href="/">PÃ¡gina inicial</Link>
-        <Link href="/recipes">Receitas</Link>
+        <Link href="/search">Receitas</Link>
       </nav>
     </div>
   );
