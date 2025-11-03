@@ -21,3 +21,12 @@ export interface RecipesData extends AllNutrientsData {
   foodTypes: LanguageText[];
   measurementUnits: LanguageTextAndPlural[];
 }
+
+export interface RecipeData extends AllNutrientsData {
+  recipe: Recipe;
+  relatedRecipes: Recipe[];
+  foods: Food[];
+  measures: LanguageTextAndPlural[];
+  foodTypes: LanguageText[];
+  measurementUnits: LanguageTextAndPlural[];
+}

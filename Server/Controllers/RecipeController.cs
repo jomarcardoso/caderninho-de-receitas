@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
+using AutoMapper;
 using Server.Models;
 using Server.Services;
 using Server.PreProcessing;
@@ -17,6 +18,7 @@ namespace Server.Controllers;
 public class RecipeController : ControllerBase
 {
   private readonly AppDbContext _context;
+  private readonly IMapper _mapper;
   private readonly RecipeService recipeService;
   private readonly RelationService relationService;
   private readonly PlainTextRecipeParser plainTextRecipeParser;
@@ -31,7 +33,8 @@ public class RecipeController : ControllerBase
     RelationService relationService,
     PlainTextRecipeParser plainTextRecipeParser,
     PlainTextRecipePreProcessor plainTextRecipePreProcessor,
-    RecipeImageOcrService recipeImageOcrService)
+    RecipeImageOcrService recipeImageOcrService,
+    IMapper mapper)
   {
     _context = context;
     this.recipeService = recipeService ?? throw new ArgumentNullException(nameof(recipeService));
@@ -39,6 +42,7 @@ public class RecipeController : ControllerBase
     this.plainTextRecipeParser = plainTextRecipeParser ?? throw new ArgumentNullException(nameof(plainTextRecipeParser));
     this.plainTextRecipePreProcessor = plainTextRecipePreProcessor ?? throw new ArgumentNullException(nameof(plainTextRecipePreProcessor));
     this.recipeImageOcrService = recipeImageOcrService ?? throw new ArgumentNullException(nameof(recipeImageOcrService));
+    _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
   }
 
   private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
@@ -206,7 +210,63 @@ public class RecipeController : ControllerBase
       .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
       .ToList();
 
-    return Ok(new { recipe, related = filtered });
+    // Collect foods referenced in this recipe (including ingredients)
+    var foods = FoodService.GetFoodsFromRecipes(new List<Recipe> { recipe });
+
+    // Prefer lookup by IconId; fallback to name-based matching
+    var iconIds = foods
+      .Select(f => f.IconId)
+      .Where(id => id.HasValue && id.Value > 0)
+      .Select(id => id!.Value)
+      .Distinct()
+      .ToList();
+
+    List<FoodIcon> foodIcons;
+    if (iconIds.Count > 0)
+    {
+      foodIcons = await _context.FoodIcon
+        .AsNoTracking()
+        .Where(i => iconIds.Contains(i.Id))
+        .ToListAsync();
+    }
+    else
+    {
+      var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+      foreach (var f in foods)
+      {
+        if (!string.IsNullOrWhiteSpace(f.Icon))
+        {
+          var n = f.Icon.Trim();
+          try { n = System.IO.Path.GetFileName(n); } catch { }
+          if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
+        }
+      }
+
+      foodIcons = await _context.FoodIcon
+        .AsNoTracking()
+        .Where(i => iconNames.Contains(i.Name.En))
+        .ToListAsync();
+    }
+
+    // Map recipe and related to responses
+    var recipeResponse = _mapper.Map<RecipeResponse>(recipe);
+
+    var relatedIds = filtered.Select(r => r.Id).ToList();
+    var relatedEntities = await _context.Recipe
+      .AsNoTracking()
+      .Where(r => relatedIds.Contains(r.Id))
+      .ToListAsync();
+    var relatedResponses = _mapper.Map<List<RecipeResponse>>(relatedEntities);
+
+    var response = new RecipeDataResponse
+    {
+      Recipes = recipeResponse,
+      RelatedRecipes = relatedResponses,
+      Foods = foods,
+      FoodIcons = foodIcons
+    };
+
+    return Ok(response);
   }
 
   [HttpGet("public/{id}")]
@@ -285,14 +345,58 @@ public class RecipeController : ControllerBase
       }
     }
 
-    var icons = await _context.FoodIcon
+    // Prefer lookup by IconId; fallback to name-based matching
+    var iconIds = new List<int>();
+    if (recipe.Food?.IconId is int rid && rid > 0) iconIds.Add(rid);
+    foreach (var s in recipe.Steps ?? new List<RecipeStep>())
+    {
+      foreach (var i in s.Ingredients ?? new List<Ingredient>())
+      {
+        if (i.Food?.IconId is int iid && iid > 0) iconIds.Add(iid);
+      }
+    }
+    iconIds = iconIds.Distinct().ToList();
+
+    List<FoodIcon> icons;
+    if (iconIds.Count > 0)
+    {
+      icons = await _context.FoodIcon
+        .AsNoTracking()
+        .Where(i => iconIds.Contains(i.Id))
+        .ToListAsync();
+    }
+    else
+    {
+      icons = await _context.FoodIcon
+        .AsNoTracking()
+        .Where(i => iconNames.Contains(i.Name.En))
+        .ToListAsync();
+    }
+
+    // Map recipe and related to responses with AutoMapper
+    var recipeResponse = _mapper.Map<RecipeResponse>(recipe);
+
+    var relatedIds = filtered.Select(r => r.Id).ToList();
+    var relatedEntities = await _context.Recipe
       .AsNoTracking()
-      .Where(i => iconNames.Contains(i.Name.En))
+      .Where(r => relatedIds.Contains(r.Id))
       .ToListAsync();
+    var relatedResponses = _mapper.Map<List<RecipeResponse>>(relatedEntities);
 
-    var foodIcons = icons.ToDictionary(i => i.Name.En, i => i.Content);
+    // Build full response including common dictionaries (via FoodsDataResponse inheritance)
+    var response = new RecipeDataResponse
+    {
+      Recipes = recipeResponse,
+      RelatedRecipes = relatedResponses,
+      Foods = new List<Food> { recipe.Food! }
+        .Concat(recipe.Steps.SelectMany(s => s.Ingredients).Select(i => i.Food))
+        .Where(f => f is not null)
+        .DistinctBy(f => f!.Id)
+        .ToList()!,
+      FoodIcons = icons
+    };
 
-    return Ok(new { recipe, related = filtered, foodIcons });
+    return Ok(response);
   }
 
   private static Language? TryMapLanguage(string? value)

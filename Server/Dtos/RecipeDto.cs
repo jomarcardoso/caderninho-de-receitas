@@ -13,3 +13,9 @@ public class RecipesDataResponse : FoodsDataResponse
 {
   public List<RecipeResponse> Recipes { get; set; } = new();
 }
+
+public class RecipeDataResponse : FoodsDataResponse
+{
+  public RecipeResponse Recipes { get; set; } = new();
+  public List<RecipeResponse> RelatedRecipes { get; set; } = new();
+}

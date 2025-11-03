@@ -6,7 +6,11 @@ import {
 import { Language } from '@/contexts/language';
 import type { Nutrient } from 'services/nutrient/nutrient.model';
 
-export const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({ nutrient }) => {
+export interface NutrientDisplayProps {
+  nutrient: Nutrient;
+}
+
+export const NutrientDisplay: FC<NutrientDisplayProps> = ({ nutrient }) => {
   if (!nutrient.quantity) return null;
 
   const language: Language = 'pt';
@@ -29,4 +33,3 @@ export const NutrientDisplay: FC<{ nutrient: Nutrient }> = ({ nutrient }) => {
     </div>
   );
 };
-"use client";

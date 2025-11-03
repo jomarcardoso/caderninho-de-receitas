@@ -12,3 +12,8 @@ export interface RecipeResponse
 export interface RecipesDataResponse extends FoodsDataResponse {
   recipes: RecipeResponse[];
 }
+
+export interface RecipeDataResponse extends FoodsDataResponse {
+  recipes: RecipeResponse;
+  relatedRecipes: RecipeResponse[];
+}

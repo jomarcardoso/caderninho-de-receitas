@@ -2,18 +2,29 @@ import { type CommonData } from './common.model';
 import type { CommonDataResponse } from './common.response';
 
 export function mapCommonResponseToModel(data: CommonDataResponse): CommonData {
+  const {
+    measures = {} as CommonDataResponse['measures'],
+    foodTypes = {} as CommonDataResponse['foodTypes'],
+    measurementUnits = {} as CommonDataResponse['measurementUnits'],
+    recipeCategories = {} as CommonDataResponse['recipeCategories'],
+    vitamins = {} as CommonDataResponse['vitamins'],
+    aminoAcids = {} as CommonDataResponse['aminoAcids'],
+    minerals = {} as CommonDataResponse['minerals'],
+    nutritionalInformation = {} as CommonDataResponse['nutritionalInformation'],
+  } = (data || {}) as CommonDataResponse;
+
   return {
-    measures: Object.values(data.measures),
-    foodTypes: Object.values(data.foodTypes),
-    measurementUnits: Object.values(data.measurementUnits),
-    recipeCategories: Object.entries(data.recipeCategories).map(([key, val]) => ({
+    measures: Object.values(measures),
+    foodTypes: Object.values(foodTypes),
+    measurementUnits: Object.values(measurementUnits),
+    recipeCategories: Object.entries(recipeCategories).map(([key, val]) => ({
       key,
       text: val.text,
       pluralText: val.pluralText,
     })),
-    vitamins: Object.values(data.vitamins),
-    aminoAcids: Object.values(data.aminoAcids),
-    minerals: Object.values(data.minerals),
-    nutritionalInformation: Object.values(data.nutritionalInformation),
+    vitamins: Object.values(vitamins),
+    aminoAcids: Object.values(aminoAcids),
+    minerals: Object.values(minerals),
+    nutritionalInformation: Object.values(nutritionalInformation),
   };
 }

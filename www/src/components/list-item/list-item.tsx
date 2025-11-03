@@ -62,4 +62,3 @@ export const ListItem: FC<ListItemProps> = ({
     </li>
   );
 };
-"use client";

@@ -1,8 +1,9 @@
-﻿import { Recipe } from '@common/services/recipe';
+﻿import type { RecipeData } from '@common/services/recipe';
+import { fetchRecipeData } from '@common/services/recipe';
 import './page.scss';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { SectionCard } from 'notebook-layout';
+// import { SectionCard } from 'notebook-layout';
 // import SideMenu from '@/components/SideMenu';
 // import ClientRecipeDetails from '@/components/RecipeDetails.client';
 // import FallbackImage from '@/components/FallbackImage.client';
@@ -12,51 +13,12 @@ import { Footer2 } from '@/components/footer-2/footer-2';
 import { NavLink } from '@/components/nav-link/nav-link';
 // import { RecipeDetails } from '@common/components';
 import { Image2 } from '@/components/image-2/image';
-import ClientRecipeDetails from '@/components/RecipeDetails.client';
+import { RecipeDetails } from '@/components/recipe-details/recipe-details';
 
-const API_BASE_URL =
-  process.env.RECIPES_API_URL ??
-  process.env.NEXT_PUBLIC_API_BASE_URL ??
-  'http://localhost:5106';
-
-type RecipeWithRelated = {
-  recipe: Recipe;
-  related: Recipe[];
-  foodIcons?: Record<string, string>;
-};
-
-async function fetchRecipeById(id: string): Promise<RecipeWithRelated | null> {
-  try {
-    const base = API_BASE_URL.replace(/\/$/, '');
-    const res = await fetch(`${base}/api/Recipe/public/${id}`, {
-      cache: 'no-store',
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (!res.ok) {
-      return null;
-    }
-
-    const raw = (await res.json()) as any;
-    if (!raw) return null;
-
-    if (raw.recipe) {
-      return {
-        recipe: raw.recipe as Recipe,
-        related: (raw.related as Recipe[]) ?? [],
-        foodIcons: (raw.foodIcons as Record<string, string>) ?? undefined,
-      };
-    }
-
-    // Backward-compat: API returned a plain Recipe
-    return {
-      recipe: raw as Recipe,
-      related: [],
-      foodIcons: (raw.foodIcons as Record<string, string>) ?? undefined,
-    };
-  } catch (err) {
-    return null;
-  }
+async function fetchRecipeById(id: string): Promise<RecipeData | null> {
+  const num = Number(id);
+  if (!Number.isFinite(num)) return null;
+  return await fetchRecipeData(num);
 }
 
 export async function generateMetadata({
@@ -66,7 +28,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const data = await fetchRecipeById(id);
-  if (!data) return { title: 'Receita não encontrada' };
+  console.log(data);
+
+  if (!data) return { title: 'Receita n�o encontrada' };
   return {
     title: data.recipe.name ?? 'Receita',
     description: data.recipe.description ?? undefined,
@@ -82,10 +46,7 @@ export default async function RecipePage({
   const data = await fetchRecipeById(id);
   if (!data) notFound();
 
-  const { recipe, related, foodIcons } = data;
-
-  console.log('foodIcons', foodIcons);
-  console.log('related', related);
+  const { recipe } = data;
 
   return (
     <Layout2
@@ -101,26 +62,16 @@ export default async function RecipePage({
       <main className="theme-light">
         <div className="recipe-page">
           {recipe?.name && (
-            <div
-              style={{
-                position: 'sticky',
-                top: 'var(--bar-height)',
-                right: 0,
-                width: '100%',
-                zIndex: 1,
-              }}
-            >
-              <div className="recipe-page__name">
-                <div className="container">
-                  <h1
-                    className="h2"
-                    style={{
-                      fontSize: recipe.name.length > 30 ? 17 : 19,
-                    }}
-                  >
-                    {recipe.name}
-                  </h1>
-                </div>
+            <div className="recipe-page__name">
+              <div className="container">
+                <h1
+                  className="h2"
+                  style={{
+                    fontSize: recipe.name.length > 30 ? 17 : 19,
+                  }}
+                >
+                  {recipe.name}
+                </h1>
               </div>
             </div>
           )}
@@ -132,7 +83,7 @@ export default async function RecipePage({
             />
           </div>
           <div className="recipe-page__body container">
-            <ClientRecipeDetails recipe={recipe} foodIcons={foodIcons} />
+            <RecipeDetails recipe={recipe} />
           </div>
         </div>
       </main>

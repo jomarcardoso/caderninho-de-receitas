@@ -29,4 +29,3 @@ export const Preparation: FC<PreparationProps> = ({
     </Section>
   );
 };
-"use client";

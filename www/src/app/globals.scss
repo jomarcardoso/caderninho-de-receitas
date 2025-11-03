@@ -1,3 +1,137 @@
 @use '../../../notebook-layout/styles/main' as *;
-@use 'bootstrap/scss/bootstrap-grid';
+// Enable Bootstrap CSS Grid utilities (provides .grid, .g-col-*, .columns-*)
+@use 'bootstrap/scss/bootstrap-grid' with (
+  $enable-cssgrid: true
+);
 @use 'bootstrap/scss/bootstrap-utilities';
+
+.columns-1 {
+  --bs-columns: 1;
+}
+
+.columns-9 {
+  --bs-columns: 9;
+}
+
+.columns-10 {
+  --bs-columns: 10;
+}
+
+.columns-14 {
+  --bs-columns: 14;
+}
+
+.columns-16 {
+  --bs-columns: 16;
+}
+
+.g-col-13 {
+  grid-column: auto/span 13;
+}
+
+.g-col-14 {
+  grid-column: auto/span 14;
+}
+
+.g-col-15 {
+  grid-column: auto/span 15;
+}
+
+.g-col-16 {
+  grid-column: auto/span 16;
+}
+
+.g-0 {
+  --bs-gap: 0;
+}
+
+.g-1 {
+  --bs-gap: 4px;
+}
+
+.g-2 {
+  --bs-gap: 8px;
+}
+
+.g-3 {
+  --bs-gap: 12px;
+}
+
+.g-4 {
+  --bs-gap: 16px;
+}
+
+.g-5 {
+  --bs-gap: 24px;
+}
+
+.g-6 {
+  --bs-gap: 32px;
+}
+
+.g-7 {
+  --bs-gap: 40px;
+}
+
+.list-item {
+  align-items: center;
+  display: flex;
+  min-height: 44px;
+  padding: 11px 10px;
+  text-overflow: ellipsis;
+  border-top: 1px solid #c7c7c7;
+  width: 100%;
+  text-align: left;
+  mix-blend-mode: multiply;
+  gap: 1rem;
+
+  &__icon {
+    color: var(--color-dark-lighter);
+  }
+
+  &__image {
+    width: 26px;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  &.-active,
+  &:where(button, a, [tabindex]):active,
+  &:where(button, a, [tabindex]):hover {
+    background-color: var(--color-light-main);
+    color: var(--color-dark-darker);
+    border-color: #777;
+    font-weight: bold;
+
+    + .list-item {
+      border-top-color: #777;
+    }
+
+    &:first-child {
+      border-top: 1px solid #777;
+    }
+
+    &:last-child {
+      border-bottom: 1px solid #777;
+    }
+
+    .list-item__icon {
+      color: currentcolor;
+    }
+  }
+
+  &.-no-gutters {
+    padding: 11px 0;
+  }
+
+  &.-no-border {
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+  }
+}

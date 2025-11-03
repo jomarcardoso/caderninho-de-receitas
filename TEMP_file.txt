@@ -1,10 +1,6 @@
-import type {
-  RecipeResponse,
-  RecipesDataResponse,
-  RecipeDataResponse,
-} from './recipe.response';
+import type { RecipeResponse, RecipesDataResponse } from './recipe.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
-import { type Recipe, type RecipesData, type RecipeData } from './recipe.model';
+import { type Recipe, type RecipesData } from './recipe.model';
 import type { RecipeDto } from './recipe.dto';
 import { translate } from '../language/language.service';
 import { type Language } from '../language/language.types';
@@ -17,17 +13,13 @@ import { type RecipeStepDto } from '../recipe-step';
 import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
 import { FOOD } from '../food/food.model';
 import { mapRecipeStepModelToDto } from '../recipe-step/recipe-step.service';
-// (duplicate import removed)
+import type { RecipeStepDto } from '../recipe-step';
 
 function getApiBase(): string {
-  const vite = (typeof import.meta !== 'undefined' &&
-    (import.meta as any)?.env?.VITE_API_BASE_URL) as string | undefined;
-  if (vite && typeof vite === 'string' && vite.trim())
-    return vite.replace(/\/$/, '');
-  const next = (typeof process !== 'undefined' &&
-    (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined;
-  if (next && typeof next === 'string' && next.trim())
-    return next.replace(/\/$/, '');
+  const vite = (typeof import.meta !== 'undefined' && (import.meta as any)?.env?.VITE_API_BASE_URL) as string | undefined;
+  if (vite && typeof vite === 'string' && vite.trim()) return vite.replace(/\/$/, '');
+  const next = (typeof process !== 'undefined' && (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined;
+  if (next && typeof next === 'string' && next.trim()) return next.replace(/\/$/, '');
   return 'http://localhost:5106';
 }
 
@@ -103,7 +95,7 @@ export function mapRecipesModelToDto(recipes: Recipe[]): RecipeDto[] {
 
 export function mapRecipeResponseToModel(
   recipeResponse: RecipeResponse,
-  dataResponse: import('../food/food.response').FoodsDataResponse,
+  dataResponse: RecipesDataResponse,
 ): Recipe {
   const foodResponse = dataResponse.foods.find(
     (food) => food.id === recipeResponse.food,
@@ -113,9 +105,7 @@ export function mapRecipeResponseToModel(
     ? mapFoodResponseToModel(foodResponse, dataResponse)
     : FOOD;
 
-  const categoryKeys: string[] = Array.isArray(
-    (recipeResponse as any).categories,
-  )
+  const categoryKeys: string[] = Array.isArray((recipeResponse as any).categories)
     ? ((recipeResponse as any).categories as string[])
     : [];
 
@@ -125,9 +115,7 @@ export function mapRecipeResponseToModel(
       if (!entry) return null;
       return { key, text: entry.text, pluralText: entry.pluralText };
     })
-    .filter((x): x is { key: string; text: any; pluralText: any } =>
-      Boolean(x),
-    );
+    .filter((x): x is { key: string; text: any; pluralText: any } => Boolean(x));
 
   return {
     ...recipeResponse,
@@ -223,13 +211,10 @@ export async function fetchMostCopiedRecipes(
   const apiBase = (baseUrl ?? '').replace(/\/$/, '') || getApiBase();
 
   try {
-    const res = await fetch(
-      `${apiBase}/api/Recipe/most-copied?quantity=${quantity}`,
-      {
-        headers: { 'Content-Type': 'application/json' },
-        // Let callers decide caching; most environments can layer cache outside
-      },
-    );
+    const res = await fetch(`${apiBase}/api/Recipe/most-copied?quantity=${quantity}`, {
+      headers: { 'Content-Type': 'application/json' },
+      // Let callers decide caching; most environments can layer cache outside
+    });
 
     if (!res.ok) {
       throw new Error(`Failed to fetch most-copied: ${res.status}`);
@@ -246,8 +231,7 @@ export async function fetchMostCopiedRecipes(
       name: recipe.name ?? '',
       description: recipe.description ?? '',
       additional: recipe.additional ?? '',
-      language:
-        (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
+      language: (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
       steps:
         recipe.steps?.map<RecipeStepDto>((step) => ({
           title: step.title ?? '',
@@ -315,54 +299,3 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
   return RECIPES_DATA;
 }
 
-export function mapRecipeDataResponseToModel(
-  data: RecipeDataResponse,
-): RecipeData {
-  const foodsData = mapFoodsDataResponseToModel(data);
-  const recipe = mapRecipeResponseToModel(data.recipes, data as any);
-  const relatedRecipes = (data.relatedRecipes ?? []).map((r) =>
-    mapRecipeResponseToModel(r, data as any),
-  );
-  return { ...foodsData, recipe, relatedRecipes };
-}
-
-export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
-  if (!id) return null;
-  try {
-    const res = await fetch(`${getApiBase()}/api/Recipe/public/${id}`, {
-      headers: { 'Content-Type': 'application/json' },
-      cache: 'no-store',
-    });
-    if (!res.ok) return null;
-    const json = (await res.json()) as any;
-
-    if (
-      json &&
-      typeof json === 'object' &&
-      'recipes' in json &&
-      'relatedRecipes' in json
-    ) {
-      return mapRecipeDataResponseToModel(json as RecipeDataResponse);
-    }
-
-    // Legacy shape shim
-    const shim: RecipeDataResponse = {
-      foods: json.foods ?? [],
-      foodIcons: json.foodIcons ?? [],
-      measures: json.measures ?? {},
-      foodTypes: json.foodTypes ?? {},
-      measurementUnits: json.measurementUnits ?? {},
-      vitamins: json.vitamins ?? {},
-      aminoAcids: json.aminoAcids ?? {},
-      minerals: json.minerals ?? {},
-      nutritionalInformation: json.nutritionalInformation ?? {},
-      recipes: json.recipe as RecipeResponse,
-      relatedRecipes: (json.related as RecipeResponse[]) ?? [],
-    } as any;
-
-    return mapRecipeDataResponseToModel(shim);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-}

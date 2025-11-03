@@ -104,4 +104,3 @@ export const AminoAcidsTable: FC<AminoAcidsTableProps> = ({
     </div>
   );
 };
-"use client";

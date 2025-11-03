@@ -1,10 +1,11 @@
 import { type FC } from 'react';
-import { Image2 } from '../image-2/image';
-import { Language } from '@/contexts/language';
-import { translate } from '@common/services/language/language.service';
+import { translate } from 'services/language/language.service';
 import type { Ingredient } from 'services/ingredient/ingredient.model';
 import type { Food } from 'services/food/food.model';
 import { Section, type SectionProps } from 'notebook-layout';
+import { Language } from '@/contexts/language';
+import { Image2 } from '../image-2/image';
+// icons now come embedded in food.icon
 
 interface Props {
   ingredients: Array<Ingredient>;
@@ -21,7 +22,7 @@ export const Ingredients: FC<IngredientsProps> = ({
   ...props
 }) => {
   const language: Language = 'pt';
-
+  // icon fetching removed
   function handleClick(ingredient: Ingredient) {
     if (setCurrentFood) {
       setCurrentFood(ingredient.food);
@@ -45,15 +46,17 @@ export const Ingredients: FC<IngredientsProps> = ({
               ingredient.quantity
             }-${ingredient.text.replace(/\s/g, '-')}`}
             className="list-item -no-gutters -no-border"
-            onClick={() => handleClick(ingredient)}
+            // onClick={() => handleClick(ingredient)}
           >
             <div className="w-100 grid columns-10 align-items-center g-2">
               <div className="g-col-1">
                 <Image2
-                  srcs={[
-                    ...(((ingredient.food as any).icon as string[]) ?? []),
-                    ...((ingredient.food.imgs ?? []) as string[]),
-                  ]}
+                  srcs={
+                    [
+                      ingredient.food.icon,
+                      ...(ingredient.food.imgs ?? []),
+                    ] as string[]
+                  }
                   alt={ingredient.food.name[language]}
                   transparent
                 />
@@ -69,4 +72,3 @@ export const Ingredients: FC<IngredientsProps> = ({
     </Section>
   );
 };
-"use client";

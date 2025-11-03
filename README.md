@@ -118,3 +118,9 @@ https://storyset.com/illustration/order-food/bro/animate?share=38946
 https://ionic.io/ionicons
 
 https://react-icons.github.io/react-icons
+
+## Git
+
+Restore file
+
+git checkout HEAD~1 -- file/path

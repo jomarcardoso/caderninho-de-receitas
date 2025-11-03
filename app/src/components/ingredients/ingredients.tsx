@@ -33,8 +33,6 @@ const Ingredients: FC<IngredientsProps> = ({
     }
   }
 
-  console.log(ingredients);
-
   return (
     <Section
       title={translate('ingredientsTitle', language)}
