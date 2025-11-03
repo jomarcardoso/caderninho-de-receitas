@@ -1,6 +1,6 @@
 import { Footer2 } from '@/components/footer-2/footer-2';
+import { Header2 } from '@/components/header-2/header-2';
 import { Layout2 } from '@/components/layout-2/layout-2';
-import { useAppNavigation } from '@/providers/navigation.provider';
 import Link from 'next/link';
 
 export const metadata = { title: 'Recipes Search' };
@@ -83,7 +83,6 @@ export default async function RecipesPage({
     quantity?: string;
   };
 }) {
-  const { reset } = useAppNavigation();
   const q = searchParams?.text || '';
   const selected = Array.isArray(searchParams?.categories)
     ? (searchParams?.categories as string[])
@@ -118,12 +117,12 @@ export default async function RecipesPage({
   }
   return (
     <Layout2
-      header="oi"
+      header={<Header2 />}
       footer={
         <Footer2>
-          <button onClick={() => reset()} type="button">
+          <Link href="/">
             <ion-icon name="arrow-back-outline" />
-          </button>
+          </Link>
         </Footer2>
       }
     >

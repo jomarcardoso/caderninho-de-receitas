@@ -10,6 +10,26 @@ import { SectionCard } from 'notebook-layout';
 const API_BASE_URL =
   process.env.RECIPES_API_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
 
+type FeaturedUser = {
+  ownerId: string;
+  displayName?: string;
+  pictureUrl?: string;
+};
+
+async function fetchFeaturedUsers(): Promise<FeaturedUser[]> {
+  try {
+    const base = API_BASE_URL || 'http://localhost:5106';
+    const res = await fetch(`${base}/api/users/featured?quantity=6`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? (data as FeaturedUser[]) : [];
+  } catch {
+    return [];
+  }
+}
+
 const FALLBACK_RECIPES: RecipeDto[] = [
   {
     id: 1,
@@ -58,24 +78,6 @@ const FALLBACK_RECIPES: RecipeDto[] = [
 ];
 
 async function fetchRecipes(): Promise<RecipeDto[]> {
-  type FeaturedUser = {
-    ownerId: string;
-    displayName?: string;
-    pictureUrl?: string;
-  };
-  async function fetchFeaturedUsers(): Promise<FeaturedUser[]> {
-    try {
-      const base = API_BASE_URL || 'http://localhost:5106';
-      const res = await fetch(`${base}/api/users/featured?quantity=6`, {
-        next: { revalidate: 60 },
-      });
-      if (!res.ok) return [];
-      const data = await res.json();
-      return Array.isArray(data) ? (data as FeaturedUser[]) : [];
-    } catch {
-      return [];
-    }
-  }
   const mostCopied = await fetchMostCopiedRecipes(6, API_BASE_URL);
   return mostCopied.length ? mostCopied : FALLBACK_RECIPES;
 }
