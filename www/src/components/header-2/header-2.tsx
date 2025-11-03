@@ -16,51 +16,49 @@ export const Header2: FC<Header2Props> = ({
 }) => {
   return (
     <header className="header-2" id="header" data-ovo-sticky-header {...props}>
-      <div className="header-2__wrapper">
-        <Link
-          className="header-2__button"
-          href="/my-recipes"
-          aria-current={currentPage === 'my-recipes' ? 'page' : undefined}
+      <Link
+        className="header-2__button"
+        href="/my-recipes"
+        aria-current={currentPage === 'my-recipes' ? 'page' : undefined}
+      >
+        <div
+          className="svg-icon"
+          style={{
+            color:
+              currentPage === 'my-recipes'
+                ? 'var(--color-primary-main)'
+                : undefined,
+          }}
         >
-          <div
-            className="svg-icon"
-            style={{
-              color:
-                currentPage === 'my-recipes'
-                  ? 'var(--color-primary-main)'
-                  : undefined,
-            }}
-          >
-            {currentPage === 'my-recipes' ? <ListDuoSvg /> : <ListLightSvg />}
-          </div>
-        </Link>
+          {currentPage === 'my-recipes' ? <ListDuoSvg /> : <ListLightSvg />}
+        </div>
+      </Link>
 
-        <Link
-          className="header-2__button"
-          href="/"
-          aria-current={currentPage === 'main' ? 'page' : undefined}
-        >
-          <Logo active={currentPage === 'main'} />
-        </Link>
+      <Link
+        className="header-2__button"
+        href="/"
+        aria-current={currentPage === 'main' ? 'page' : undefined}
+      >
+        <Logo active={currentPage === 'main'} />
+      </Link>
 
-        <Link
-          className="header-2__button"
-          href="/recipe"
-          aria-current={currentPage === 'recipe' ? 'page' : undefined}
+      <Link
+        className="header-2__button"
+        href="/recipe"
+        aria-current={currentPage === 'recipe' ? 'page' : undefined}
+      >
+        <div
+          className="svg-icon"
+          style={{
+            color:
+              currentPage === 'recipe'
+                ? 'var(--color-primary-main)'
+                : undefined,
+          }}
         >
-          <div
-            className="svg-icon"
-            style={{
-              color:
-                currentPage === 'recipe'
-                  ? 'var(--color-primary-main)'
-                  : undefined,
-            }}
-          >
-            <CheffLightSvg />
-          </div>
-        </Link>
-      </div>
+          <CheffLightSvg />
+        </div>
+      </Link>
     </header>
   );
 };

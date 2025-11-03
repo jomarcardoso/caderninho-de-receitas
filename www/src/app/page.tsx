@@ -6,6 +6,9 @@ import { fetchMostCopiedRecipes } from '@common/services/recipe';
 import type { Language } from '@common/services/language/language.types';
 import Link from 'next/link';
 import { SectionCard } from 'notebook-layout';
+import { Layout2 } from '@/components/layout-2/layout-2';
+import { Footer2 } from '@/components/footer-2/footer-2';
+import { Header2 } from '@/components/header-2/header-2';
 
 const API_BASE_URL =
   process.env.RECIPES_API_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -95,88 +98,90 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="page theme-light">
-      <header className="hero">
-        <Image
-          className="logo"
-          src="/vercel.svg"
-          alt="Caderninho de Receitas"
-          width={72}
-          height={72}
-          priority
-        />
-        <h1>Caderninho de Receitas</h1>
-        <p>
-          Uma seleção de receitas preparadas com carinho para inspirar o seu
-          próximo prato. Tudo pronto para ser compartilhado.
-        </p>
-      </header>
-
-      {featured.length > 0 && (
-        <section
-          style={{ maxWidth: 960, margin: '0 auto', padding: '0 16px 32px' }}
-        >
-          <h2 style={{ margin: '16px 0' }}>Cozinheiro da vez</h2>
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            {featured.map((u) => (
-              <div
-                key={u.ownerId}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  border: '1px solid #eee',
-                  padding: 10,
-                  borderRadius: 8,
-                }}
-              >
-                <img
-                  src={u.pictureUrl || '/vite.svg'}
-                  alt={u.displayName || 'Usuário'}
-                  width={48}
-                  height={48}
-                  style={{ borderRadius: '50%', objectFit: 'cover' }}
-                />
-                <span style={{ fontWeight: 600 }}>
-                  {u.displayName || 'Convidado'}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-      <section className="grid">
-        {recipes.map((recipe) => (
-          <Link href={`/recipe/${recipe.id}`}>
-            <article key={recipe.id} className="card">
-              <SectionCard title={recipe.name}>
-                {recipe.description && (
-                  <p className="description">{recipe.description}</p>
-                )}
-
-                {recipe.steps.length > 0 && (
-                  <div className="steps">
-                    <h3>Modo de preparo</h3>
-                    <ol>
-                      {recipe.steps.map((step, index) => (
-                        <li key={index}>
-                          {step.title && <strong>{step.title}</strong>}
-                          {step.ingredientsText && (
-                            <pre className="ingredients">
-                              {step.ingredientsText}
-                            </pre>
-                          )}
-                          <p>{step.preparation}</p>
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                )}
-              </SectionCard>
-            </article>
+    <Layout2
+      header={<Header2 />}
+      footer={
+        <Footer2>
+          <Link href="/search">
+            <ion-icon name="search-outline" />
           </Link>
-        ))}
-      </section>
-    </div>
+        </Footer2>
+      }
+    >
+      <div className="theme-light py-5">
+        <div className="container">
+          {featured.length > 0 && (
+            <section
+              style={{
+                maxWidth: 960,
+                margin: '0 auto',
+                padding: '0 16px 32px',
+              }}
+            >
+              <h2 style={{ margin: '16px 0' }}>Cozinheiro da vez</h2>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                {featured.map((u) => (
+                  <div
+                    key={u.ownerId}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      border: '1px solid #eee',
+                      padding: 10,
+                      borderRadius: 8,
+                    }}
+                  >
+                    <img
+                      src={u.pictureUrl || '/vite.svg'}
+                      alt={u.displayName || 'Usuário'}
+                      width={48}
+                      height={48}
+                      style={{ borderRadius: '50%', objectFit: 'cover' }}
+                    />
+                    <span style={{ fontWeight: 600 }}>
+                      {u.displayName || 'Convidado'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section className="grid">
+            {recipes.map((recipe) => (
+              <Link href={`/recipe/${recipe.id}`}>
+                <article key={recipe.id} className="card">
+                  <SectionCard title={recipe.name}>
+                    {recipe.description && (
+                      <p className="description">{recipe.description}</p>
+                    )}
+
+                    {recipe.steps.length > 0 && (
+                      <div className="steps">
+                        <h3>Modo de preparo</h3>
+                        <ol>
+                          {recipe.steps.map((step, index) => (
+                            <li key={index}>
+                              {step.title && <strong>{step.title}</strong>}
+                              {step.ingredientsText && (
+                                <pre className="ingredients">
+                                  {step.ingredientsText}
+                                </pre>
+                              )}
+                              <p>{step.preparation}</p>
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    )}
+                  </SectionCard>
+                </article>
+              </Link>
+            ))}
+          </section>
+        </div>
+      </div>
+    </Layout2>
   );
 }
