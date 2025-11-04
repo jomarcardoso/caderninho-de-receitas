@@ -4,6 +4,7 @@ using Server.Dtos.Auth;
 using Server.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Server.Controllers;
 
@@ -12,10 +13,12 @@ namespace Server.Controllers;
 public class AuthController : ControllerBase
 {
   private readonly GoogleAuthService googleAuthService;
+  private readonly AppDbContext _context;
 
-  public AuthController(GoogleAuthService googleAuthService)
+  public AuthController(GoogleAuthService googleAuthService, AppDbContext context)
   {
     this.googleAuthService = googleAuthService;
+    _context = context;
   }
 
   [HttpPost("google")]
@@ -44,6 +47,45 @@ public class AuthController : ControllerBase
       GoogleId = user.GoogleId,
       EmailVerified = user.EmailVerified,
     };
+
+    // Transfer ownership of any dev-user recipes to this Google user
+    try
+    {
+      var targetOwnerId = user.GoogleId?.Trim();
+      if (!string.IsNullOrWhiteSpace(targetOwnerId))
+      {
+        var devUser = "dev-user";
+        var recipes = await _context.Recipe
+          .Where(r => r.OwnerId == devUser)
+          .ToListAsync(cancellationToken);
+        if (recipes.Count > 0)
+        {
+          foreach (var r in recipes) r.OwnerId = targetOwnerId!;
+          await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        // Transfer RecipeLists as well
+        var lists = await _context.RecipeList
+          .Where(l => l.OwnerId == devUser)
+          .ToListAsync(cancellationToken);
+        if (lists.Count > 0)
+        {
+          foreach (var l in lists) l.OwnerId = targetOwnerId!;
+          await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        // Transfer RecipeShares as well
+        var shares = await _context.RecipeShare
+          .Where(s => s.OwnerId == devUser)
+          .ToListAsync(cancellationToken);
+        if (shares.Count > 0)
+        {
+          foreach (var s in shares) s.OwnerId = targetOwnerId!;
+          await _context.SaveChangesAsync(cancellationToken);
+        }
+      }
+    }
+    catch { /* do not fail login if transfer fails */ }
 
     return Ok(response);
   }

@@ -22,7 +22,7 @@ export default function UserPage() {
             <ion-icon name="add-circle-outline" />
           </Link>
           <Link href="/user">
-            <ion-icon name="person-circle-outline" />
+            <ion-icon name="person-circle" />
           </Link>
         </Navbar>
       }
@@ -30,9 +30,14 @@ export default function UserPage() {
       <main className="py-5">
         <section className="grid" aria-labelledby="user-title">
           <div className="g-col-12">
-            <h1 className="section-title" id="user-title">Área do usuário</h1>
+            <h1 className="section-title" id="user-title">
+              Área do usuário
+            </h1>
           </div>
-          <div className="g-col-12" style={{ display: 'flex', justifyContent: 'center' }}>
+          <div
+            className="g-col-12"
+            style={{ display: 'flex', justifyContent: 'center' }}
+          >
             <div style={{ width: 360 }}>
               <UserBox />
             </div>
@@ -42,4 +47,3 @@ export default function UserPage() {
     </Layout2>
   );
 }
-

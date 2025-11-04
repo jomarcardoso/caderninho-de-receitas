@@ -16,6 +16,7 @@ import {
   saveOutline,
   addCircleOutline,
   personCircleOutline,
+  personCircle,
 } from 'ionicons/icons';
 
 export default function IoniconsInit() {
@@ -36,6 +37,7 @@ export default function IoniconsInit() {
       'save-outline': saveOutline,
       'add-circle-outline': addCircleOutline,
       'person-circle-outline': personCircleOutline,
+      'person-circle': personCircle,
     });
   }, []);
 

@@ -124,3 +124,31 @@ https://react-icons.github.io/react-icons
 Restore file
 
 git checkout HEAD~1 -- file/path
+
+## Initial recipes
+
+Cladis:
+
+- bolacha recheada com merengue e coco
+- bolacha pintada
+- pão de ló
+- torta de nata e ameixa seca
+- cuca de forma
+- pizza de forma
+- banana bread com aveia
+- cuscuz
+- bolinho de polvilho azedo
+- risoles de carne
+- puxa puxa de soro de leite
+- puxa puxa de melado
+- pão de forma
+- gemada de 2 ingredientes
+- bolo de amido de milho
+- sorvete de fruta
+- pão de ceia
+- bolo de cenoura
+- nega maluca
+- lasanha vegetariana
+- lasanha de proteína de soja
+- suflê de vegetais
+- pão de queijo

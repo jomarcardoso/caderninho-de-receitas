@@ -1,5 +1,4 @@
-﻿import Image from 'next/image';
-import './page.css';
+﻿import './page.scss';
 import type { Metadata } from 'next';
 import type { RecipeDto } from '@common/services/recipe';
 import { fetchMostCopiedRecipes } from '@common/services/recipe';
@@ -99,89 +98,91 @@ export default async function Home() {
 
   return (
     <Layout2
+      className="home-page"
       header={<Header2 />}
       navbar={
         <Navbar>
           <Link href="/search">
             <ion-icon name="search-outline" />
           </Link>
+          <Link href="/user">
+            <ion-icon name="person-circle-outline" />
+          </Link>
         </Navbar>
       }
     >
-      <div className="theme-light py-5">
-        <div className="container">
-          {featured.length > 0 && (
-            <section
-              style={{
-                maxWidth: 960,
-                margin: '0 auto',
-                padding: '0 16px 32px',
-              }}
-            >
-              <h2 style={{ margin: '16px 0' }}>Cozinheiro da vez</h2>
-              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                {featured.map((u) => (
-                  <div
-                    key={u.ownerId}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 10,
-                      border: '1px solid #eee',
-                      padding: 10,
-                      borderRadius: 8,
-                    }}
-                  >
-                    <img
-                      src={u.pictureUrl || '/vite.svg'}
-                      alt={u.displayName || 'Usuário'}
-                      width={48}
-                      height={48}
-                      style={{ borderRadius: '50%', objectFit: 'cover' }}
-                    />
-                    <span style={{ fontWeight: 600 }}>
-                      {u.displayName || 'Convidado'}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          <section>
-            {recipes.map((recipe) => (
-              <Link href={`/recipe/${recipe.id}`}>
-                <article key={recipe.id} className="card">
-                  <SectionCard title={recipe.name}>
-                    {recipe.description && (
-                      <p className="description">{recipe.description}</p>
-                    )}
-
-                    {recipe.steps.length > 0 && (
-                      <div className="steps">
-                        <h3>Modo de preparo</h3>
-                        <ol>
-                          {recipe.steps.map((step, index) => (
-                            <li key={index}>
-                              {step.title && <strong>{step.title}</strong>}
-                              {step.ingredientsText && (
-                                <pre className="ingredients">
-                                  {step.ingredientsText}
-                                </pre>
-                              )}
-                              <p>{step.preparation}</p>
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                    )}
-                  </SectionCard>
-                </article>
-              </Link>
-            ))}
+      <main className="py-5">
+        {featured.length > 0 && (
+          <section
+            style={{
+              maxWidth: 960,
+              margin: '0 auto',
+              padding: '0 16px 32px',
+            }}
+          >
+            <h2 style={{ margin: '16px 0' }}>Cozinheiro da vez</h2>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              {featured.map((u) => (
+                <div
+                  key={u.ownerId}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    border: '1px solid #eee',
+                    padding: 10,
+                    borderRadius: 8,
+                  }}
+                >
+                  <img
+                    src={u.pictureUrl || '/vite.svg'}
+                    alt={u.displayName || 'Usuário'}
+                    width={48}
+                    height={48}
+                    style={{ borderRadius: '50%', objectFit: 'cover' }}
+                  />
+                  <span style={{ fontWeight: 600 }}>
+                    {u.displayName || 'Convidado'}
+                  </span>
+                </div>
+              ))}
+            </div>
           </section>
-        </div>
-      </div>
+        )}
+
+        <section>
+          {recipes.map((recipe) => (
+            <Link href={`/recipe/${recipe.id}`}>
+              <article key={recipe.id} className="card">
+                <SectionCard title={recipe.name}>
+                  {recipe.description && (
+                    <p className="description">{recipe.description}</p>
+                  )}
+
+                  {recipe.steps.length > 0 && (
+                    <div className="steps">
+                      <h3>Modo de preparo</h3>
+                      <ol>
+                        {recipe.steps.map((step, index) => (
+                          <li key={index}>
+                            {step.title && <strong>{step.title}</strong>}
+                            {step.ingredientsText && (
+                              <pre className="ingredients">
+                                {step.ingredientsText}
+                              </pre>
+                            )}
+                            <p>{step.preparation}</p>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  )}
+                </SectionCard>
+              </article>
+            </Link>
+          ))}
+        </section>
+      </main>
     </Layout2>
   );
 }
