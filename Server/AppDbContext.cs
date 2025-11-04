@@ -18,6 +18,8 @@ public class AppDbContext : DbContext
   public DbSet<RecipeShare> RecipeShare { get; set; }
   public DbSet<Server.Models.FoodEditRequest> FoodEditRequest { get; set; }
   public DbSet<UserProfile> UserProfile { get; set; }
+  public DbSet<RecipeList> RecipeList { get; set; }
+  public DbSet<RecipeListItem> RecipeListItem { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -136,6 +138,28 @@ public class AppDbContext : DbContext
       entity.HasIndex(u => u.OwnerId).IsUnique();
       entity.Property(u => u.CreatedAt).IsRequired();
       entity.Property(u => u.UpdatedAt).IsRequired();
+    });
+
+    // RecipeList
+    modelBuilder.Entity<RecipeList>(entity =>
+    {
+      entity.HasKey(l => l.Id);
+      entity.Property(l => l.OwnerId).IsRequired();
+      entity.Property(l => l.Name).IsRequired();
+      entity.HasIndex(l => new { l.OwnerId, l.Name });
+      entity.HasMany(l => l.Items)
+        .WithOne(i => i.RecipeList!)
+        .HasForeignKey(i => i.RecipeListId)
+        .OnDelete(DeleteBehavior.Cascade);
+    });
+
+    modelBuilder.Entity<RecipeListItem>(entity =>
+    {
+      entity.HasKey(i => new { i.RecipeListId, i.RecipeId });
+      entity.HasOne(i => i.Recipe)
+        .WithMany()
+        .HasForeignKey(i => i.RecipeId)
+        .OnDelete(DeleteBehavior.Cascade);
     });
   }
 
