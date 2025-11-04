@@ -18,6 +18,7 @@
     bottom: 0;
   }
 
+  &__main > main,
   &__main {
     min-height: calc(100dvh - var(--layout-2-static-height));
   }
