@@ -4,7 +4,7 @@ import type {
   RecipeDataResponse,
 } from './recipe.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
-import { type Recipe, type RecipesData, type RecipeData } from './recipe.model';
+import { type Recipe, type RecipesData, type RecipeData, type RecipeList, type RecipeListItem } from './recipe.model';
 import type { RecipeDto } from './recipe.dto';
 import { translate } from '../language/language.service';
 import { type Language } from '../language/language.types';
@@ -174,9 +174,39 @@ export function mapRecipesDataResponseToModel(
 ): RecipesData {
   const foodsData = mapFoodsDataResponseToModel(data);
 
+  // Pre-map all recipes and index by id for quick lookup when hydrating lists
+  const mappedRecipes = mapAllRecipesResponseToModel(data);
+  const byId = new Map<number, Recipe>();
+  for (const r of mappedRecipes) {
+    if (typeof r.id === 'number') byId.set(r.id, r);
+  }
+
   return {
     ...foodsData,
-    recipes: mapAllRecipesResponseToModel(data),
+    recipes: mappedRecipes,
+    recipeLists: (data.recipeLists ?? []).map((l) => ({
+      id: l.id,
+      ownerId: l.ownerId,
+      name: l.name,
+      description: l.description ?? null,
+      createdAt: l.createdAt,
+      updatedAt: l.updatedAt,
+      items: (l.items ?? []).map((it) => ({
+        recipeListId: it.recipeListId,
+        recipe:
+          byId.get(it.recipeId) ??
+          (() => {
+            const fromResp = (data.recipes || []).find(
+              (rr: any) => rr?.id === it.recipeId,
+            );
+            return fromResp
+              ? mapRecipeResponseToModel(fromResp, data as any)
+              : ({} as Recipe);
+          })(),
+        position: it.position,
+        createdAt: it.createdAt,
+      })),
+    })),
   };
   // return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
 }
@@ -366,3 +396,7 @@ export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
     return null;
   }
 }
+
+
+
+

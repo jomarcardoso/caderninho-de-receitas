@@ -20,6 +20,7 @@ export interface RecipesData extends AllNutrientsData {
   measures: LanguageTextAndPlural[];
   foodTypes: LanguageText[];
   measurementUnits: LanguageTextAndPlural[];
+  recipeLists?: RecipeList[];
 }
 
 export interface RecipeData extends AllNutrientsData {
@@ -30,3 +31,21 @@ export interface RecipeData extends AllNutrientsData {
   foodTypes: LanguageText[];
   measurementUnits: LanguageTextAndPlural[];
 }
+
+export type RecipeListItem = {
+  recipeListId: number;
+  recipe: Recipe;
+  position: number;
+  createdAt: string;
+};
+
+export type RecipeList = {
+  id: number;
+  ownerId: string;
+  name: string;
+  description?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  items?: RecipeListItem[];
+};
+

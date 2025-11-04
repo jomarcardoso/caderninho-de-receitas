@@ -451,7 +451,17 @@ public class RecipeService
 
     response.FoodIcons = icons;
 
-    return response;
+        // Attach user recipe lists
+    try
+    {
+      var lists = await _context.RecipeList
+        .AsNoTracking()
+        .Where(l => l.OwnerId == userId)
+        .Include(l => l.Items)
+        .ToListAsync();
+      response.RecipeLists = lists;
+    }
+    catch { /* ignore in case of permission issues */ }return response;
   }
 
   public async Task DeleteStepsAsync(Recipe recipe)
@@ -461,4 +471,5 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 }
+
 
