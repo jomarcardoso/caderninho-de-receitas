@@ -11,6 +11,9 @@ import {
   searchOutline,
   searchCircleOutline,
   chevronForwardOutline,
+  createOutline,
+  duplicateOutline,
+  saveOutline,
 } from 'ionicons/icons';
 
 export default function IoniconsInit() {
@@ -26,6 +29,9 @@ export default function IoniconsInit() {
       'search-outline': searchOutline,
       'search-circle-outline': searchCircleOutline,
       'chevron-forward-outline': chevronForwardOutline,
+      'create-outline': createOutline,
+      'duplicate-outline': duplicateOutline,
+      'save-outline': saveOutline,
     });
   }, []);
 

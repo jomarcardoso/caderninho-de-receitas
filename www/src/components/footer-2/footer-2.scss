@@ -16,4 +16,26 @@
     line-height: 1;
     max-width: 44px;
   }
+
+  .button {
+    max-width: initial;
+  }
+
+  .button:not([type='submit']) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    flex: initial;
+  }
+
+  .button[type='submit'] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+    flex: 1;
+  }
+
+  &:has(.button) {
+    padding: 0;
+  }
 }

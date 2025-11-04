@@ -14,6 +14,7 @@ import { NavLink } from '@/components/nav-link/nav-link';
 // import { RecipeDetails } from '@common/components';
 import { Image2 } from '@/components/image-2/image';
 import { RecipeDetails } from '@/components/recipe-details/recipe-details';
+import Link from 'next/link';
 
 async function fetchRecipeById(id: string): Promise<RecipeData | null> {
   const num = Number(id);
@@ -56,6 +57,10 @@ export default async function RecipePage({
           <NavLink action="pop">
             <ion-icon name="arrow-back-outline" />
           </NavLink>
+
+          <Link href="/kitchen">
+            <ion-icon name="create-outline" />
+          </Link>
         </Footer2>
       }
     >

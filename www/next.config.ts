@@ -67,6 +67,24 @@ const nextConfig: NextConfig = withPWAConfig({
       __dirname,
       '../common/src/services',
     );
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.('.svg'),
+    );
+    config.module.rules.push(
+      {
+        ...fileLoaderRule!,
+        test: /\.svg$/i,
+        resourceQuery: /url/, // para tratar como asset quando for usado como URL
+      },
+      {
+        test: /\.svg$/i,
+        issuer: /\.(js|ts)x?$/, // ou /\.[jt]sx?$/
+        resourceQuery: { not: [/url/] },
+        use: ['@svgr/webpack'],
+      },
+    );
+    fileLoaderRule!.exclude = /\.svg$/i;
+
     return config;
   },
   i18n: {

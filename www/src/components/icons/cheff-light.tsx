@@ -10,4 +10,3 @@ export default function CheffLightSvg(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
