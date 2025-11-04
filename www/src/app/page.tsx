@@ -148,7 +148,7 @@ export default async function Home() {
             </section>
           )}
 
-          <section className="grid">
+          <section>
             {recipes.map((recipe) => (
               <Link href={`/recipe/${recipe.id}`}>
                 <article key={recipe.id} className="card">

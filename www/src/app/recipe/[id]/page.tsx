@@ -29,7 +29,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const data = await fetchRecipeById(id);
-  console.log(data);
 
   if (!data) return { title: 'Receita n�o encontrada' };
   return {
@@ -49,9 +48,20 @@ export default async function RecipePage({
 
   const { recipe } = data;
 
+  console.log(data.relatedRecipes);
+
   return (
     <Layout2
       header={<Header2 currentPage="kitchen" />}
+      aside={
+        <ul>
+          {data.relatedRecipes.map((r) => (
+            <li key={r.id}>
+              <Link href={`/recipe/${r.id}`}>{r.name}</Link>
+            </li>
+          ))}
+        </ul>
+      }
       navbar={
         <Navbar>
           <NavLink action="pop">

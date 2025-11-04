@@ -63,11 +63,15 @@
   @media (orientation: landscape) {
     display: grid;
     grid-template-areas:
-      'layout-2__aside . layout-2__header . layout-2__navbar'
-      'layout-2__aside . layout-2__main . layout-2__navbar';
-    grid-template-columns: 1fr minmax(24px, 1fr) 4fr minmax(24px, 1fr) var(
-        --bar-size
-      );
+      'layout-2__aside . layout-2__header . . layout-2__navbar'
+      'layout-2__aside . layout-2__main . . layout-2__navbar';
+    grid-template-columns:
+      auto
+      24px
+      minmax(320px, 480px)
+      24px
+      calc(2 * var(--bar-size))
+      var(--bar-size);
   }
   @include themes.theme-light;
 }

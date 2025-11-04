@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.scss';
 import '@fontsource/dosis';
@@ -44,6 +45,8 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable}`}
       >
+        {/* Google Identity Services for Sign-In */}
+        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" async />
         {/* Initialize Ionicons custom element on the client */}
         <IoniconsInit />
         {/* Initialize page-wide sticky header behavior on client */}

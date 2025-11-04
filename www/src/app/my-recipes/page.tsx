@@ -1,3 +1,4 @@
+import './page.scss';
 import type { Metadata } from 'next';
 import MyRecipesClient from './ui/MyRecipes.client';
 import { fetchRecipes as fetchRecipesFull } from '@common/services/recipe';
@@ -62,6 +63,7 @@ export default async function MyRecipesPage() {
 
   return (
     <Layout2
+      className="my-recipes-page"
       header={<Header2 currentPage="my-recipes" />}
       navbar={
         <Navbar>
@@ -77,7 +79,7 @@ export default async function MyRecipesPage() {
         </Navbar>
       }
     >
-      <main className="container py-5">
+      <main className="py-5">
         <section
           className="grid"
           ovo-scrollspy-content="1"
