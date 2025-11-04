@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation';
 // import FallbackImage from '@/components/FallbackImage.client';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import { Header2 } from '@/components/header-2/header-2';
-import { Footer2 } from '@/components/footer-2/footer-2';
+import { Navbar } from '@/components/navbar/navbar';
 import { NavLink } from '@/components/nav-link/nav-link';
 // import { RecipeDetails } from '@common/components';
 import { Image2 } from '@/components/image-2/image';
@@ -51,9 +51,9 @@ export default async function RecipePage({
 
   return (
     <Layout2
-      header={<Header2 currentPage="recipe" />}
-      footer={
-        <Footer2>
+      header={<Header2 currentPage="kitchen" />}
+      navbar={
+        <Navbar>
           <NavLink action="pop">
             <ion-icon name="arrow-back-outline" />
           </NavLink>
@@ -61,7 +61,7 @@ export default async function RecipePage({
           <Link href="/kitchen">
             <ion-icon name="create-outline" />
           </Link>
-        </Footer2>
+        </Navbar>
       }
     >
       <main className="theme-light">

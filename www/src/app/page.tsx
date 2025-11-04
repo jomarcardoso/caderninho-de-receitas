@@ -7,7 +7,7 @@ import type { Language } from '@common/services/language/language.types';
 import Link from 'next/link';
 import { SectionCard } from 'notebook-layout';
 import { Layout2 } from '@/components/layout-2/layout-2';
-import { Footer2 } from '@/components/footer-2/footer-2';
+import { Navbar } from '@/components/navbar/navbar';
 import { Header2 } from '@/components/header-2/header-2';
 
 const API_BASE_URL =
@@ -100,12 +100,12 @@ export default async function Home() {
   return (
     <Layout2
       header={<Header2 />}
-      footer={
-        <Footer2>
+      navbar={
+        <Navbar>
           <Link href="/search">
             <ion-icon name="search-outline" />
           </Link>
-        </Footer2>
+        </Navbar>
       }
     >
       <div className="theme-light py-5">

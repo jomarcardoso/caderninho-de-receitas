@@ -3,7 +3,7 @@ import MyRecipesClient from './ui/MyRecipes.client';
 import { fetchRecipes as fetchRecipesFull } from '@common/services/recipe';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import { Header2 } from '@/components/header-2/header-2';
-import { Footer2 } from '@/components/footer-2/footer-2';
+import { Navbar } from '@/components/navbar/navbar';
 import { Language } from '@/contexts/language';
 import { translate } from '@common/services/language/language.service';
 import { Button } from 'notebook-layout';
@@ -63,18 +63,21 @@ export default async function MyRecipesPage() {
   return (
     <Layout2
       header={<Header2 currentPage="my-recipes" />}
-      footer={
-        <Footer2>
+      navbar={
+        <Navbar>
           <Link href="/">
             <ion-icon name="arrow-back-outline" />
           </Link>
           <Link href="/kitchen">
             <ion-icon name="add-circle-outline" />
           </Link>
-        </Footer2>
+          <Link href="/user">
+            <ion-icon name="person-circle-outline" />
+          </Link>
+        </Navbar>
       }
     >
-      <main className="theme-light container py-5">
+      <main className="container py-5">
         <section
           className="grid"
           ovo-scrollspy-content="1"
@@ -126,16 +129,9 @@ export default async function MyRecipesPage() {
                   </ol>
                 ) : null}
 
-                <button
-                  // onClick={() => handleDelete(l.id)}
-                  style={{
-                    padding: 8,
-                    borderRadius: 6,
-                    border: '1px solid #eee',
-                  }}
-                >
+                <Button className="mt-3" variant="secondary" type="button">
                   Excluir
-                </button>
+                </Button>
               </li>
             ))}
           </ul>

@@ -1,4 +1,4 @@
-import { Footer2 } from '@/components/footer-2/footer-2';
+import { Navbar } from '@/components/navbar/navbar';
 import { Header2 } from '@/components/header-2/header-2';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import Link from 'next/link';
@@ -119,12 +119,12 @@ export default async function RecipesPage({
   return (
     <Layout2
       header={<Header2 />}
-      footer={
-        <Footer2>
+      navbar={
+        <Navbar>
           <Link href="/">
             <ion-icon name="arrow-back-outline" />
           </Link>
-        </Footer2>
+        </Navbar>
       }
     >
       <main className="theme-light">

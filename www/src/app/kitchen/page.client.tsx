@@ -1,5 +1,5 @@
 'use client';
-import { Footer2 } from '@/components/footer-2/footer-2';
+import { Navbar } from '@/components/navbar/navbar';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import { RecipeRegister } from '@/components/recipe-register/recipe-register';
 import { NavigationService } from '@/services/navigation.service';
@@ -13,9 +13,9 @@ export const KitchenPageClient = () => {
 
   return (
     <Layout2
-      header={<Header2 currentPage="recipe" />}
-      footer={
-        <Footer2>
+      header={<Header2 currentPage="kitchen" />}
+      navbar={
+        <Navbar>
           <Button variant="secondary" onClick={() => NavigationService.pop()}>
             {translate('cancel', language)}
           </Button>
@@ -27,7 +27,7 @@ export const KitchenPageClient = () => {
             <ion-icon name="save-outline" />
             {translate('saveRecipe', language)}
           </Button>
-        </Footer2>
+        </Navbar>
       }
     >
       <main className="theme-light py-5">

@@ -1,6 +1,7 @@
 import { type FC, type HTMLProps, type ReactNode, useMemo } from 'react';
 import './list-item.scss';
 import { generateClasses } from 'services/dom/classes';
+import Link, { LinkProps } from 'next/link';
 
 interface Props {
   isAction?: boolean;
@@ -12,7 +13,8 @@ interface Props {
 
 export type ListItemProps = Props &
   HTMLProps<HTMLLIElement> &
-  HTMLProps<HTMLButtonElement>;
+  HTMLProps<HTMLButtonElement> &
+  LinkProps;
 
 export const ListItem: FC<ListItemProps> = ({
   children,
@@ -53,6 +55,14 @@ export const ListItem: FC<ListItemProps> = ({
       <button className={classes} {...props}>
         {content}
       </button>
+    );
+  }
+
+  if (props.href) {
+    return (
+      <Link className={classes} {...props}>
+        {content}
+      </Link>
     );
   }
 

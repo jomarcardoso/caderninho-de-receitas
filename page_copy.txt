@@ -108,7 +108,7 @@ export default async function RecipePage({
             <div
               style={{
                 position: 'sticky',
-                top: 'var(--bar-height)',
+                top: 'var(--action-size)',
                 right: 0,
                 width: '100%',
                 zIndex: 1,

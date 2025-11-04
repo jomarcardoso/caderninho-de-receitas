@@ -4,7 +4,7 @@
     width: 100vw;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    height: calc(100dvh - var(--bar-height));
+    height: calc(100dvh - var(--action-size));
     overflow-x: scroll;
   }
 }

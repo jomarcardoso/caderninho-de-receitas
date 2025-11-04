@@ -76,7 +76,7 @@
 .list-item {
   align-items: center;
   display: flex;
-  min-height: 44px;
+  min-height: var(--action-size);
   padding: 11px 10px;
   text-overflow: ellipsis;
   border-top: 1px solid #c7c7c7;

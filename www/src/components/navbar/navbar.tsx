@@ -1,21 +1,21 @@
-import './footer-2.scss';
+import './navbar.scss';
 import { generateClasses } from 'notebook-layout/utils/utils';
 import { FC, HTMLProps } from 'react';
 
-export const Footer2: FC<HTMLProps<HTMLDivElement>> = ({
+export const Navbar: FC<HTMLProps<HTMLDivElement>> = ({
   children,
   className = '',
   ...props
 }) => {
   const classes = generateClasses({
-    'footer-2': true,
+    navbar: true,
     'theme-primary': true,
     [className]: className,
   });
 
   return (
-    <footer className={classes} {...props}>
+    <nav className={classes} {...props}>
       {children}
-    </footer>
+    </nav>
   );
 };

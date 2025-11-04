@@ -4,13 +4,15 @@ import { FC, HTMLProps } from 'react';
 
 export interface Layout2Props extends HTMLProps<HTMLDivElement> {
   header?: React.ReactNode;
-  footer?: React.ReactNode;
+  aside?: React.ReactNode;
+  navbar?: React.ReactNode;
 }
 
 export const Layout2: FC<Layout2Props> = ({
   className = '',
   header,
-  footer,
+  aside,
+  navbar,
   children,
   ...props
 }) => {
@@ -21,11 +23,17 @@ export const Layout2: FC<Layout2Props> = ({
 
   return (
     <div className={classes} {...props}>
-      {header && <div className="layout-2__header">{header}</div>}
+      {header && (
+        <div className="layout-2__header" data-ovo-sticky-header>
+          {header}
+        </div>
+      )}
+
+      {children && <div className="layout-2__aside">{aside}</div>}
 
       {children && <div className="layout-2__main">{children}</div>}
 
-      {footer && <div className="layout-2__footer">{footer}</div>}
+      {navbar && <div className="layout-2__navbar">{navbar}</div>}
     </div>
   );
 };

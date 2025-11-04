@@ -7,7 +7,7 @@ import ListLightSvg from '../icons/list-light';
 import ListDuoSvg from '../icons/list-duo';
 
 export interface Header2Props extends HTMLProps<HTMLDivElement> {
-  currentPage: 'main' | 'my-recipes' | 'recipe';
+  currentPage: 'main' | 'my-recipes' | 'kitchen';
 }
 
 export const Header2: FC<Header2Props> = ({
@@ -15,7 +15,7 @@ export const Header2: FC<Header2Props> = ({
   ...props
 }) => {
   return (
-    <header className="header-2" id="header" data-ovo-sticky-header {...props}>
+    <header className="header-2" id="header" {...props}>
       <Link
         className="header-2__button"
         href="/my-recipes"
@@ -36,11 +36,11 @@ export const Header2: FC<Header2Props> = ({
 
       <Link
         className="header-2__button"
-        href="/recipe"
-        aria-current={currentPage === 'recipe' ? 'page' : undefined}
+        href="/kitchen"
+        aria-current={currentPage === 'kitchen' ? 'page' : undefined}
       >
         <div className="svg-icon">
-          {currentPage === 'recipe' ? (
+          {currentPage === 'kitchen' ? (
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
               <g className="fa-group">
                 <path
