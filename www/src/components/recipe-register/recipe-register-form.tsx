@@ -1,10 +1,8 @@
 'use client';
-import { Form, FieldArray, type FormikProps } from 'formik';
+import { FieldArray, type FormikProps } from 'formik';
 import { type FC, useCallback, type ChangeEventHandler, Fragment } from 'react';
 import './recipe-register.scss';
 import { Button } from 'notebook-layout';
-import HealthContext from '../../providers/health/health.context';
-// icons moved to public folder in www
 import { RECIPE_STEP_DTO, type RecipeStepDto } from 'services/recipe-step';
 import type { RecipeDto } from 'services/recipe/recipe.dto';
 import { translate } from 'services/language/language.service';
@@ -42,9 +40,8 @@ interface Props {
 
 const BULLET = '-';
 
-export const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
+export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
   values,
-  onCancel,
   handleBlur: formikHandleBlur,
   handleChange,
   setFieldValue,
@@ -173,141 +170,134 @@ export const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   ]);
 
   return (
-    <Form action="/" method="post">
-      <div className="recipe-register__body">
-        <div className="recipe-register__wrapper">
-          <FieldArray name="steps">
-            {() => (
-              <>
-                {recipe?.id ? (
-                  <div className="recipe-register__story-image">
-                    <CookSvg style={{ mixBlendMode: 'multiply' }} />
-                  </div>
-                ) : (
-                  <div className="container">
-                    <PizzaSvg style={{ mixBlendMode: 'multiply' }} />
-                  </div>
-                )}
+    <div className="recipe-register__body">
+      <div className="recipe-register__wrapper">
+        <FieldArray name="steps">
+          {() => (
+            <>
+              {recipe?.id ? (
+                <div className="recipe-register__story-image">
+                  <CookSvg style={{ mixBlendMode: 'multiply' }} />
+                </div>
+              ) : (
                 <div className="container">
-                  <div className="grid columns-1 g-6">
-                    <div>
-                      {!recipe?.id ? (
-                        <p>{translate('creatingRecipeMessage', language)}</p>
-                      ) : (
-                        <p>{translate('editingRecipeMessage', language)}</p>
-                      )}
-                    </div>
+                  <PizzaSvg style={{ mixBlendMode: 'multiply' }} />
+                </div>
+              )}
+              <div className="container">
+                <div className="grid columns-1 g-6">
+                  <div>
+                    {!recipe?.id ? (
+                      <p>{translate('creatingRecipeMessage', language)}</p>
+                    ) : (
+                      <p>{translate('editingRecipeMessage', language)}</p>
+                    )}
+                  </div>
 
-                    <div>
-                      <h3 className="h3">Imagem da receita</h3>
+                  <div>
+                    <h3 className="h3">Imagem da receita</h3>
+                    <div
+                      className="d-flex gap-3 align-items-center"
+                      style={{ flexWrap: 'wrap' }}
+                    >
+                      <UploadButton
+                        label={
+                          values.imgs?.length
+                            ? 'Substituir imagem'
+                            : 'Enviar imagem'
+                        }
+                        prefix="recipes"
+                        onUploaded={(url) => setFieldValue('imgs', [url])}
+                      />
+                    </div>
+                    {!!values.imgs?.length && (
                       <div
                         className="d-flex gap-3 align-items-center"
-                        style={{ flexWrap: 'wrap' }}
+                        style={{ flexWrap: 'wrap', marginTop: 8 }}
                       >
-                        <UploadButton
-                          label={
-                            values.imgs?.length
-                              ? 'Substituir imagem'
-                              : 'Enviar imagem'
-                          }
-                          prefix="recipes"
-                          onUploaded={(url) => setFieldValue('imgs', [url])}
-                        />
-                      </div>
-                      {!!values.imgs?.length && (
                         <div
-                          className="d-flex gap-3 align-items-center"
-                          style={{ flexWrap: 'wrap', marginTop: 8 }}
+                          style={{
+                            width: 120,
+                            borderRadius: 8,
+                            overflow: 'hidden',
+                          }}
                         >
-                          <div
-                            style={{
-                              width: 120,
-                              borderRadius: 8,
-                              overflow: 'hidden',
-                            }}
-                          >
-                            <Image2
-                              src={values.imgs[0]}
-                              alt=""
-                              aspectRatio={1.25}
-                            />
-                          </div>
-                          <Button
-                            variant="secondary"
-                            type="button"
-                            onClick={() => setFieldValue('imgs', [])}
-                          >
-                            Remover imagem
-                          </Button>
+                          <Image2
+                            src={values.imgs[0]}
+                            alt=""
+                            aspectRatio={1.25}
+                          />
                         </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <Field
-                        label={translate('recipeNameLabel', language)}
-                        name="name"
-                        value={values.name}
-                        onChange={handleChange}
-                        onBlur={formikHandleBlur}
-                      />
-                    </div>
-
-                    <div>
-                      <Field
-                        multiline
-                        name="description"
-                        label={translate('descriptionLabel', language)}
-                        value={values.description}
-                        onChange={handleChange}
-                        onBlur={formikHandleBlur}
-                        minRows={2}
-                      />
-                    </div>
-
-                    <div>
-                      <Field
-                        multiline
-                        name="additional"
-                        label={translate(
-                          'additionalInformationLabel',
-                          language,
-                        )}
-                        value={values.additional}
-                        onChange={handleChange}
-                        onBlur={formikHandleBlur}
-                        minRows={2}
-                      />
-                    </div>
-
-                    {memoizedRenderSteps()}
-
-                    <div>
-                      <div
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                      >
                         <Button
-                          type="button"
                           variant="secondary"
-                          onClick={() =>
-                            setFieldValue('steps', [
-                              ...values.steps,
-                              RECIPE_STEP_DTO_WITH_KEY_ID,
-                            ])
-                          }
+                          type="button"
+                          onClick={() => setFieldValue('imgs', [])}
                         >
-                          <ion-icon name="duplicate-outline" />
-                          {translate('addAnotherStep', language)}
+                          Remover imagem
                         </Button>
                       </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <Field
+                      label={translate('recipeNameLabel', language)}
+                      name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={formikHandleBlur}
+                    />
+                  </div>
+
+                  <div>
+                    <Field
+                      multiline
+                      name="description"
+                      label={translate('descriptionLabel', language)}
+                      value={values.description}
+                      onChange={handleChange}
+                      onBlur={formikHandleBlur}
+                      minRows={2}
+                    />
+                  </div>
+
+                  <div>
+                    <Field
+                      multiline
+                      name="additional"
+                      label={translate('additionalInformationLabel', language)}
+                      value={values.additional}
+                      onChange={handleChange}
+                      onBlur={formikHandleBlur}
+                      minRows={2}
+                    />
+                  </div>
+
+                  {memoizedRenderSteps()}
+
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        onClick={() =>
+                          setFieldValue('steps', [
+                            ...values.steps,
+                            RECIPE_STEP_DTO_WITH_KEY_ID,
+                          ])
+                        }
+                      >
+                        <ion-icon name="duplicate-outline" />
+                        {translate('addAnotherStep', language)}
+                      </Button>
                     </div>
                   </div>
                 </div>
-              </>
-            )}
-          </FieldArray>
-        </div>
+              </div>
+            </>
+          )}
+        </FieldArray>
       </div>
-    </Form>
+    </div>
   );
 };

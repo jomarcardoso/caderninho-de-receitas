@@ -6,6 +6,7 @@ import { RECIPES_DATA } from 'services/recipe/recipe.data';
 
 export interface DataContextProps {
   data: RecipesData;
+  setData?(data: RecipesData): void;
   saveRecipe?(recipe: RecipeDto): Promise<RecipesData>;
   removeRecipe?(id: number): void;
 }

@@ -9,7 +9,6 @@ import {
   getRecipeLists,
   removeRecipeFromList,
   type RecipeList,
-  type RecipeListItem,
 } from '@/services/recipe-lists.service';
 
 export default function MyRecipesClient({

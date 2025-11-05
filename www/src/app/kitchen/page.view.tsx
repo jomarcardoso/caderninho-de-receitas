@@ -12,7 +12,7 @@ import { LanguageContext } from '@/contexts/language';
 import {
   RECIPE_STEP_DTO_WITH_KEY_ID,
   RecipeForm,
-  RecipeRegisterForm,
+  RecipeRegister,
 } from '@/components/recipe-register/recipe-register-form';
 import { Form, Formik, FormikProps } from 'formik';
 import { generateId } from '@common/services/string.service';
@@ -117,7 +117,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
         onSubmit={memoizedHandleSubmit}
       >
         {(formik: FormikProps<RecipeForm>) => (
-          <Form>
+          <Form action="/" method="post">
             <Layout2
               header={<Header2 currentPage="kitchen" />}
               navbar={
@@ -141,7 +141,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
             >
               <main className="theme-light py-5">
                 {formik.values.name}
-                <RecipeRegisterForm
+                <RecipeRegister
                   recipe={recipe}
                   onCancel={handleCancel}
                   {...formik}
