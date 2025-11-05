@@ -11,6 +11,8 @@ import { ClientNavigationProvider } from '@/providers/client-navigation.provider
 import StickyHeaderInit from '@/components/sticky-header-init';
 import { LoadingProvider } from '@/providers/loading';
 import { DataProvider } from '@/providers/data';
+import { CurrentRecipeProvider } from '@/providers/current-recipe';
+import { NavigationProvider } from '@/providers/navigation.provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -46,18 +48,24 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable}`}
       >
         {/* Google Identity Services for Sign-In */}
-        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" async />
+        <Script
+          src="https://accounts.google.com/gsi/client"
+          strategy="afterInteractive"
+          async
+        />
         {/* Initialize Ionicons custom element on the client */}
         <IoniconsInit />
         {/* Initialize page-wide sticky header behavior on client */}
         <StickyHeaderInit />
-        <ClientNavigationProvider>
+        <NavigationProvider>
           <LoadingProvider>
             <DataProvider>
-              <LanguageProvider>{children}</LanguageProvider>
+              <CurrentRecipeProvider>
+                <LanguageProvider>{children}</LanguageProvider>
+              </CurrentRecipeProvider>
             </DataProvider>
           </LoadingProvider>
-        </ClientNavigationProvider>
+        </NavigationProvider>
       </body>
     </html>
   );

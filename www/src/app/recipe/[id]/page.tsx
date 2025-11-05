@@ -68,7 +68,7 @@ export default async function RecipePage({
             <ion-icon name="arrow-back-outline" />
           </NavLink>
 
-          <Link href="/kitchen">
+          <Link href={`/kitchen/${recipe.id}`}>
             <ion-icon name="create-outline" />
           </Link>
         </Navbar>

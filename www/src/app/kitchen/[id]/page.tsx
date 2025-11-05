@@ -1,44 +1,36 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { fetchRecipes } from '@common/services/recipe';
+import { fetchRecipeData } from '@common/services/recipe';
+import { KitchenPageView } from '../page.view';
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const data = await fetchRecipes();
   const num = Number(id);
-  const recipe = data.recipes.find((r) => r.id === num);
+  const data = Number.isFinite(num) ? await fetchRecipeData(num) : null;
   return {
-    title: recipe?.name ?? 'Kitchen',
-    description: recipe?.description ?? undefined,
+    title: data?.recipe?.name ?? 'Kitchen',
+    description: data?.recipe?.description ?? undefined,
   };
 }
 
 export default async function KitchenRecipePage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const data = await fetchRecipes();
   const num = Number(id);
-  const recipe = data.recipes.find((r) => r.id === num);
+  const data = Number.isFinite(num) ? await fetchRecipeData(num) : null;
+  const recipe = data?.recipe;
 
   if (!recipe) notFound();
 
-  return (
-    <main className="container" style={{ padding: 24 }}>
-      <h1 className="h2" style={{ marginBottom: 8 }}>{recipe.name}</h1>
-      {recipe.description && (
-        <p style={{ opacity: 0.85, marginBottom: 16 }}>{recipe.description}</p>
-      )}
-      <div style={{ fontSize: 13, opacity: 0.7 }}>
-        <span>Receita #{recipe.id}</span>
-      </div>
-    </main>
-  );
-}
+  // const { currentRecipeDto } = useContext(CurrentRecipeContext);
 
+  // return <KitchenPageView recipeToEdit={currentRecipeDto} />;
+  return <></>;
+}

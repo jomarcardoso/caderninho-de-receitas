@@ -1,11 +1,6 @@
+'use client';
 import { Form, FieldArray, type FormikProps } from 'formik';
-import {
-  type FC,
-  useCallback,
-  type ChangeEventHandler,
-  useContext,
-  Fragment,
-} from 'react';
+import { type FC, useCallback, type ChangeEventHandler, Fragment } from 'react';
 import './recipe-register.scss';
 import { Button } from 'notebook-layout';
 import HealthContext from '../../providers/health/health.context';
@@ -56,7 +51,6 @@ export const RecipeRegisterForm: FC<FormikProps<RecipeForm> & Props> = ({
   recipe,
 }) => {
   const language: Language = 'pt';
-  const { serverUp } = useContext(HealthContext);
 
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredientsText = '', stepTitle = '') => {

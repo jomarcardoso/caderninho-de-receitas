@@ -133,22 +133,67 @@ Cladis:
 - bolacha pintada
 - pão de ló
 - torta de nata e ameixa seca
-- cuca de forma
+- cuca de batida forma + uva
 - pizza de forma
 - banana bread com aveia
 - cuscuz
 - bolinho de polvilho azedo
-- risoles de carne
+- risoles de carne a milanesa
 - puxa puxa de soro de leite
 - puxa puxa de melado
 - pão de forma
 - gemada de 2 ingredientes
 - bolo de amido de milho
-- sorvete de fruta
-- pão de ceia
+- sorvete de fruta natural + chocoloate
 - bolo de cenoura
 - nega maluca
 - lasanha vegetariana
 - lasanha de proteína de soja
 - suflê de vegetais
 - pão de queijo
+- panqueca
+- cuca enrolada de coco + bombom
+- cuca enrolada de amendoim
+- cuca de requeijão
+- hambúrguer
+- requeijão caseiro
+- kes shmier
+- ovo em conserva com beterraba
+- pizza caseira
+- pudim de forno
+- sacolé cremoso
+- aipim frito amassado
+- farofa com cenoura
+- faroga com couve
+- bolacha de canela
+- broa de clara de ovo
+- Bolacha de melado com cobertura caramelada vom açucar
+- cocada
+- rosca de coco
+- pé de moleque
+- cri cri
+- Amendoim para recheio de ovo de pascoa
+- pipoca com calda de melado
+- pão integral
+- pão de cenoura
+- pão de aipim
+- sobremesa de caramelo
+- polenta assada
+- Peixe frito sequinho
+- Torta de limão
+- Torta de bolacha
+- Bolo com cobertura de morango
+- Purê de batata recheado
+- Bolinho de chuva
+- Cuéca virada
+- Gelatina recheada
+- Massa caseira
+- Costela assada com batata e cebola
+- Maionese sem azeite
+- Molho de legumes para saladas
+- Pão de calabresa com requeijão
+- Pastel de milho com queijo defumado
+- Empanado de arroz com frango
+
+Clarice
+Cléria
