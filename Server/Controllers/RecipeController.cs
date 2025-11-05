@@ -9,6 +9,7 @@ using Server.PreProcessing;
 using Server.Serialization;
 using Server.Shared;
 using System.Security.Claims;
+ 
 
 namespace Server.Controllers;
 
@@ -24,6 +25,7 @@ public class RecipeController : ControllerBase
   private readonly PlainTextRecipeParser plainTextRecipeParser;
   private readonly PlainTextRecipePreProcessor plainTextRecipePreProcessor;
   private readonly RecipeImageOcrService recipeImageOcrService;
+  
 
   private const string TemporaryOwnerHeaderName = "X-Temporary-Owner";
 
@@ -83,7 +85,10 @@ public class RecipeController : ControllerBase
   }
 
   [HttpPut("{id}")]
-  public async Task<IActionResult> UpdateRecipe(int id, [FromBody] RecipeDto recipeDto)
+  public async Task<IActionResult> UpdateRecipe(
+    int id,
+    [FromBody] RecipeDto recipeDto,
+    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
   {
     var userId = GetUserId();
 
@@ -93,7 +98,20 @@ public class RecipeController : ControllerBase
       .FirstOrDefaultAsync(r => r.Id == id);
 
     if (recipe is null) return NotFound();
-    if (recipe.OwnerId != userId) return NotFound();
+    if (recipe.OwnerId != userId)
+    {
+      // Allow override in development when authenticated as dev-user
+      if (string.Equals(userId, "dev-user", StringComparison.Ordinal) &&
+          !string.IsNullOrWhiteSpace(temporaryOwnerId) &&
+          string.Equals(recipe.OwnerId, temporaryOwnerId.Trim(), StringComparison.Ordinal))
+      {
+        // proceed with update as the intended temporary owner
+      }
+      else
+      {
+        return NotFound();
+      }
+    }
 
     await recipeService.UpdateEntityFromDto(recipe, recipeDto);
     recipe.OwnerId = userId;
@@ -105,10 +123,17 @@ public class RecipeController : ControllerBase
   }
 
   [HttpGet]
-  public async Task<IActionResult> GetMyRecipes()
+  public async Task<IActionResult> GetMyRecipes(
+    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
   {
-    var userId = GetUserId();
-    RecipesDataResponse response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    // Fallback: try to read from raw headers or query if model binding didn't catch it
+    if (string.IsNullOrWhiteSpace(temporaryOwnerId))
+    {
+      temporaryOwnerId = Request.Headers[TemporaryOwnerHeaderName].FirstOrDefault();
+    }
+
+    if (!TryResolveOwnerId(temporaryOwnerId, out var ownerId, out var errorResult)) return errorResult!;
+    RecipesDataResponse response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
     return Ok(response);
   }
 
@@ -431,6 +456,15 @@ public class RecipeController : ControllerBase
   private bool TryResolveOwnerId(string? temporaryOwnerId, out string ownerId, out IActionResult? errorResult)
   {
     string userId = GetUserId();
+
+    // If running under dev auth (userId == "dev-user"), prefer the temporary owner header when provided
+    if (!string.IsNullOrWhiteSpace(temporaryOwnerId) &&
+        (string.IsNullOrWhiteSpace(userId) || string.Equals(userId, "dev-user", StringComparison.Ordinal)))
+    {
+      ownerId = temporaryOwnerId.Trim();
+      errorResult = null;
+      return true;
+    }
 
     if (!string.IsNullOrWhiteSpace(userId))
     {

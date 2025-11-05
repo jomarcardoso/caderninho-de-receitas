@@ -28,7 +28,65 @@ function getApiBase(): string {
     (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined;
   if (next && typeof next === 'string' && next.trim())
     return next.replace(/\/$/, '');
-  return 'http://localhost:5106';
+  // Prefer HTTPS default to avoid header loss on redirects from HTTP->HTTPS
+  return 'https://localhost:7269';
+}
+
+function getApiBases(): string[] {
+  const bases: string[] = [];
+  const add = (s?: string) => { if (s && s.trim()) bases.push(s.replace(/\/$/, '')); };
+
+  add((typeof import.meta !== 'undefined' && (import.meta as any)?.env?.VITE_API_BASE_URL) as string | undefined);
+  add((typeof process !== 'undefined' && (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined);
+
+  try {
+    if (typeof window !== 'undefined') {
+      const isHttps = window.location?.protocol === 'https:';
+      if (isHttps) { add('https://localhost:7269'); add('http://localhost:5106'); }
+      else { add('http://localhost:5106'); add('https://localhost:7269'); }
+    }
+  } catch {}
+
+  add('https://localhost:7269');
+  add('http://localhost:5106');
+
+  return Array.from(new Set(bases));
+}
+
+async function fetchWithFallback(path: string, init?: RequestInit): Promise<Response> {
+  const bases = getApiBases();
+  let lastErr: unknown;
+  for (const base of bases) {
+    try {
+      const res = await fetch(`${base}${path}`, init);
+      return res;
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error('Failed to fetch');
+}
+
+function getTemporaryOwnerId(): string | undefined {
+  try {
+    if (typeof window === 'undefined') return undefined;
+    const raw = window.localStorage.getItem('caderninho-de-receitas:google-user');
+    if (!raw) return undefined;
+    const obj = JSON.parse(raw);
+    const id = (obj?.googleId ?? obj?.GoogleId ?? obj?.googleID) as string | undefined;
+    if (typeof id === 'string' && id.trim()) return id.trim();
+  } catch {}
+  // Fallback to cookie if localStorage missing
+  try {
+    if (typeof document !== 'undefined' && typeof document.cookie === 'string') {
+      const match = document.cookie.split(';').map(s => s.trim()).find(s => s.startsWith('x-temp-owner='));
+      if (match) {
+        const v = decodeURIComponent(match.split('=')[1] || '');
+        if (v && v.trim()) return v.trim();
+      }
+    }
+  } catch {}
+  return undefined;
 }
 
 interface ApiRecipeResponse {
@@ -227,7 +285,13 @@ export function mapRecipesDataResponseToModel(
 
 export async function fetchRecipes(): Promise<RecipesData> {
   try {
-    const res = await fetch(`${getApiBase()}/api/recipe`);
+    const tempOwner = getTemporaryOwnerId();
+    const res = await fetchWithFallback(`/api/recipe`, {
+      headers: {
+        ...(tempOwner ? { 'X-Temporary-Owner': tempOwner } : {}),
+      },
+      cache: 'no-store',
+    });
     if (!res.ok) {
       throw new Error('Failed to save recipe');
     }
@@ -298,15 +362,14 @@ export async function saveRecipe(
   languageHeader?: Language,
 ): Promise<RecipesData> {
   try {
-    const base = getApiBase();
-    const url = recipe.id
-      ? `${base}/api/recipe/${recipe.id}`
-      : `${base}/api/recipe`;
-    const res = await fetch(url, {
+    const url = recipe.id ? `/api/recipe/${recipe.id}` : `/api/recipe`;
+    const tempOwner = getTemporaryOwnerId();
+    const res = await fetchWithFallback(url, {
       method: recipe.id ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',
         ...(languageHeader ? { 'X-Language': languageHeader } : {}),
+        ...(tempOwner ? { 'X-Temporary-Owner': tempOwner } : {}),
       },
       body: JSON.stringify(recipe),
     });
@@ -328,8 +391,12 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
   if (!id) return RECIPES_DATA;
 
   try {
-    const res = await fetch(`${getApiBase()}/api/recipe/${id}`, {
+    const tempOwner = getTemporaryOwnerId();
+    const res = await fetchWithFallback(`/api/recipe/${id}`, {
       method: 'DELETE',
+      headers: {
+        ...(tempOwner ? { 'X-Temporary-Owner': tempOwner } : {}),
+      },
     });
     if (!res.ok) {
       throw new Error('Failed to save recipe');
@@ -359,7 +426,7 @@ export function mapRecipeDataResponseToModel(
 export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
   if (!id) return null;
   try {
-    const res = await fetch(`${getApiBase()}/api/Recipe/public/${id}`, {
+    const res = await fetchWithFallback(`/api/Recipe/public/${id}`, {
       headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
     });

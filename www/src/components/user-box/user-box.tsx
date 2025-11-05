@@ -73,6 +73,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     setUser(null);
     storeUser(null);
     setErrorMessage(null);
+    try { document.cookie = 'x-temp-owner=; Max-Age=0; Path=/'; } catch {}
     try { window.dispatchEvent(new Event('app:user:logout')); } catch {}
   }, []);
 
@@ -80,6 +81,14 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     setUser(u);
     storeUser(u);
     setErrorMessage(null);
+    try {
+      const gid = (u as any).googleId as string | undefined;
+      if (gid && gid.trim()) {
+        // 30 days
+        const maxAge = 60 * 60 * 24 * 30;
+        document.cookie = `x-temp-owner=${encodeURIComponent(gid.trim())}; Max-Age=${maxAge}; Path=/`;
+      }
+    } catch {}
     try { window.dispatchEvent(new Event('app:user:login')); } catch {}
   }, []);
 
