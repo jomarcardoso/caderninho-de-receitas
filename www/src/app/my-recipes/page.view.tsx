@@ -6,12 +6,13 @@ import { Header2 } from '@/components/header-2/header-2';
 import { Navbar } from '@/components/navbar/navbar';
 import { Language } from '@/contexts/language';
 import { translate } from '@common/services/language/language.service';
-import { Button } from 'notebook-layout';
+import { Button, Card } from 'notebook-layout';
 import Link from 'next/link';
 import { ListItem } from '@/components/list-item/list-item';
 import capitalize from 'lodash/capitalize';
 import { Recipe, RecipesData } from '@common/services/recipe';
 import { FC } from 'react';
+import { Image2 } from '@/components/image-2/image';
 
 export interface MyRecipesViewProps {
   data: RecipesData;
@@ -23,16 +24,53 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
 
   function renderItem(recipe: Recipe) {
     return (
-      <ListItem
-        key={recipe.id}
-        isAction
-        // isActive={recipe.id === currentRecipeId}
-        tabIndex={0}
-        href={`/recipe/${recipe.id}`}
-      >
-        {capitalize(recipe.name)}
-      </ListItem>
+      <li className="col-12">
+        <article aria-labelledby={String(recipe.id)}>
+          <Card
+            title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
+            img={
+              <Image2
+                srcs={[...(recipe?.imgs ?? []), ...(recipe?.food?.imgs ?? [])]}
+              />
+            }
+          >
+            <ul className="row g-3">
+              <li className="col-6">
+                <strong>{translate('foodFormCalories', language)}</strong>
+                <br />
+                {recipe.nutritionalInformation[2].quantity.toFixed(0)}
+              </li>
+              <li className="col-6">
+                <strong>{translate('foodFormProteins', language)}</strong>
+                <br />
+                {recipe.nutritionalInformation[10].quantity.toFixed(0)}
+              </li>
+              <li className="col-6">
+                <strong>{translate('foodFormFat', language)}</strong>
+                <br />
+                {recipe.nutritionalInformation[13].quantity.toFixed(0)}
+              </li>
+              <li className="col-6">
+                <strong>{translate('foodFormDietaryFiber', language)}</strong>
+                <br />
+                {recipe.nutritionalInformation[5].quantity.toFixed(0)}
+              </li>
+            </ul>
+          </Card>
+        </article>
+      </li>
     );
+    // return (
+    //   <ListItem
+    //     key={recipe.id}
+    //     isAction
+    //     // isActive={recipe.id === currentRecipeId}
+    //     tabIndex={0}
+    //     href={`/recipe/${recipe.id}`}
+    //   >
+    //     {capitalize(recipe.name)}
+    //   </ListItem>
+    // );
   }
 
   return (
@@ -61,13 +99,13 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
           id="recipes"
         >
           <div className="g-col-12">
-            <h1 className="section-title" id="my-recipes-title">
+            <h1 className="h1" id="my-recipes-title">
               {translate('myRecipesHeading', language)}
             </h1>
           </div>
 
           <div className="g-col-12">
-            <ol className="list">{recipes.map(renderItem)}</ol>
+            <ol className="row g-4">{recipes.map(renderItem)}</ol>
           </div>
 
           <div className="g-col-12">

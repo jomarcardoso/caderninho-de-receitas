@@ -233,6 +233,10 @@ export const I18N_TEXT = {
     en: 'total fat',
     pt: 'gorduras totais',
   },
+  foodFormFat: {
+    en: 'fat',
+    pt: 'gorduras',
+  },
   foodFormSaturatedFat: {
     en: 'saturated fat',
     pt: 'gordura saturada',
@@ -316,9 +320,10 @@ export const I18N_TEXT = {
   foodFormSelenium: {
     en: 'selenium',
     pt: 'selênio',
-  },  foodFormDietaryFiber: {
+  },
+  foodFormDietaryFiber: {
     en: 'dietary fiber',
-    pt: 'fibra alimentar',
+    pt: 'fibras',
   },
   foodFormSugar: {
     en: 'sugar',
@@ -371,7 +376,8 @@ export const I18N_TEXT = {
   foodFormTyrosine: {
     en: 'tyrosine',
     pt: 'tirosina',
-  },  home: {
+  },
+  home: {
     en: 'Home page',
     pt: 'Página inicial',
   },
@@ -384,8 +390,3 @@ export const I18N_TEXT = {
     pt: 'Modo de preparo{suffix}',
   },
 } satisfies Record<string, LanguageText>;
-
-
-
-
-

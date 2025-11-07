@@ -1,8 +1,12 @@
 .my-recipes-page {
   main {
     @media (orientation: portrait) {
-      padding-left: 16px;
-      padding-right: 16px;
+      padding-left: 8px;
+      padding-right: 8px;
     }
+  }
+
+  strong {
+    font-weight: bold;
   }
 }

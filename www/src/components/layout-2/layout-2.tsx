@@ -1,11 +1,11 @@
 import './layout-2.scss';
 import { generateClasses } from 'notebook-layout/utils/utils';
-import { FC, HTMLProps } from 'react';
+import { type FC, type HTMLProps, type ReactNode } from 'react';
 
 export interface Layout2Props extends HTMLProps<HTMLDivElement> {
-  header?: React.ReactNode;
-  aside?: React.ReactNode;
-  navbar?: React.ReactNode;
+  header?: ReactNode;
+  aside?: ReactNode;
+  navbar?: ReactNode;
 }
 
 export const Layout2: FC<Layout2Props> = ({
