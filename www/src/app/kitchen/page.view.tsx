@@ -6,6 +6,7 @@ import { translate } from '@common/services/language/language.service';
 import { Button } from 'notebook-layout';
 import { Header2 } from '@/components/header-2/header-2';
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { RecipeDto } from '@common/services/recipe';
 import { DataContext } from '@/providers/data';
 import { LanguageContext } from '@/contexts/language';
@@ -29,6 +30,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
   const [openedEmptyRecipe, setOpenedEmptyRecipe] = useState(false);
   const { language } = useContext(LanguageContext);
   const { pop } = useAppNavigation();
+  const router = useRouter();
 
   const handleCloseEmptyAlert = useCallback(() => {
     setOpenedEmptyRecipe(false);
@@ -87,11 +89,20 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
       }
 
       if (savedRecipe) {
-        // setCurrentRecipeId?.(savedRecipe.id);
-        // navigate to the recipe page
+        // Revalidate cache tag for this recipe and navigate to its page
+        try {
+          await fetch('/api/revalidate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tags: [`recipe/${savedRecipe.id}`] }),
+          });
+        } catch (e) {
+          console.warn('Failed to revalidate tag', e);
+        }
+        router.push(`/recipe/${savedRecipe.id}`);
       }
     },
-    [language, recipe?.id, saveRecipe],
+    [language, recipe?.id, saveRecipe, router],
   );
 
   useEffect(() => {

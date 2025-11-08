@@ -25,39 +25,44 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
   function renderItem(recipe: Recipe) {
     return (
       <li className="col-12">
-        <article aria-labelledby={String(recipe.id)}>
-          <Card
-            title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
-            img={
-              <Image2
-                srcs={[...(recipe?.imgs ?? []), ...(recipe?.food?.imgs ?? [])]}
-              />
-            }
-          >
-            <ul className="row g-3">
-              <li className="col-6">
-                <strong>{translate('foodFormCalories', language)}</strong>
-                <br />
-                {recipe.nutritionalInformation[2].quantity.toFixed(0)}
-              </li>
-              <li className="col-6">
-                <strong>{translate('foodFormProteins', language)}</strong>
-                <br />
-                {recipe.nutritionalInformation[10].quantity.toFixed(0)}
-              </li>
-              <li className="col-6">
-                <strong>{translate('foodFormFat', language)}</strong>
-                <br />
-                {recipe.nutritionalInformation[13].quantity.toFixed(0)}
-              </li>
-              <li className="col-6">
-                <strong>{translate('foodFormDietaryFiber', language)}</strong>
-                <br />
-                {recipe.nutritionalInformation[5].quantity.toFixed(0)}
-              </li>
-            </ul>
-          </Card>
-        </article>
+        <Link href={`/recipe/${recipe.id}`}>
+          <article aria-labelledby={String(recipe.id)}>
+            <Card
+              title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
+              img={
+                <Image2
+                  srcs={[
+                    ...(recipe?.imgs ?? []),
+                    ...(recipe?.food?.imgs ?? []),
+                  ]}
+                />
+              }
+            >
+              <ul className="row g-3">
+                <li className="col-6">
+                  <strong>{translate('foodFormCalories', language)}</strong>
+                  <br />
+                  {recipe.nutritionalInformation[2].quantity.toFixed(0)}
+                </li>
+                <li className="col-6">
+                  <strong>{translate('foodFormProteins', language)}</strong>
+                  <br />
+                  {recipe.nutritionalInformation[10].quantity.toFixed(0)}
+                </li>
+                <li className="col-6">
+                  <strong>{translate('foodFormFat', language)}</strong>
+                  <br />
+                  {recipe.nutritionalInformation[13].quantity.toFixed(0)}
+                </li>
+                <li className="col-6">
+                  <strong>{translate('foodFormDietaryFiber', language)}</strong>
+                  <br />
+                  {recipe.nutritionalInformation[5].quantity.toFixed(0)}
+                </li>
+              </ul>
+            </Card>
+          </article>
+        </Link>
       </li>
     );
     // return (
