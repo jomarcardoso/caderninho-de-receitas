@@ -65,11 +65,8 @@ export const DataProvider: FC<DataProviderProps> = ({
   /** Remove receita */
   async function removeRecipe(id = 0) {
     const newData = await removeRecipeById(id);
-
-    if (newData.recipes.length) {
-      setData(newData);
-      await setCachedRecipesData(newData);
-    }
+    setData(newData);
+    await setCachedRecipesData(newData);
   }
 
   /** Atualiza do backend */

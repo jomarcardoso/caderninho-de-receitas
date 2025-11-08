@@ -122,6 +122,50 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> DeleteRecipe(
+    int id,
+    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
+  {
+    var claimedUserId = GetUserId();
+
+    var recipe = await _context.Recipe
+      .Include(r => r.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .FirstOrDefaultAsync(r => r.Id == id);
+
+    if (recipe is null) return NotFound();
+
+    // Allow override in development when authenticated as dev-user
+    if (recipe.OwnerId != claimedUserId)
+    {
+      if (string.Equals(claimedUserId, "dev-user", StringComparison.Ordinal)
+          && !string.IsNullOrWhiteSpace(temporaryOwnerId)
+          && string.Equals(recipe.OwnerId, temporaryOwnerId.Trim(), StringComparison.Ordinal))
+      {
+        // permitted delete
+      }
+      else
+      {
+        return NotFound();
+      }
+    }
+
+    _context.Recipe.Remove(recipe);
+    await _context.SaveChangesAsync();
+
+    // Determine list owner for response
+    var ownerForResponse = recipe.OwnerId;
+    if (!string.IsNullOrWhiteSpace(temporaryOwnerId)
+        && (string.IsNullOrWhiteSpace(claimedUserId) || string.Equals(claimedUserId, "dev-user", StringComparison.Ordinal)))
+    {
+      ownerForResponse = temporaryOwnerId.Trim();
+    }
+
+    var response = await recipeService.GetRecipesAndFoodsByUserId(ownerForResponse);
+    return Ok(response);
+  }
+
   [HttpGet]
   public async Task<IActionResult> GetMyRecipes(
     [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)

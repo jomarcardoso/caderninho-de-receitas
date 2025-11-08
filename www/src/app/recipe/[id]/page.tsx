@@ -15,6 +15,7 @@ import { NavLink } from '@/components/nav-link/nav-link';
 import { Image2 } from '@/components/image-2/image';
 import { RecipeDetails } from '@/components/recipe-details/recipe-details';
 import Link from 'next/link';
+import RecipeDeleteButton from '@/components/recipe-delete-button/recipe-delete-button';
 
 async function fetchRecipeById(id: string): Promise<RecipeData | null> {
   const num = Number(id);
@@ -69,6 +70,8 @@ export default async function RecipePage({
           <Link href={`/kitchen/${recipe.id}`}>
             <ion-icon name="create-outline" />
           </Link>
+
+          <RecipeDeleteButton id={recipe.id} />
         </Navbar>
       }
     >

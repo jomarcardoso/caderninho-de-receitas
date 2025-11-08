@@ -35,7 +35,11 @@ export async function fetchApiJson<T = any>(path: string, init?: RequestInit): P
   let lastErr: unknown;
   for (const base of bases) {
     try {
-      const res = await fetch(`${base}${path}`, { ...init, headers, cache: 'no-store' });
+      const options: RequestInit & { next?: any } = { ...(init || {}), headers } as any;
+      if (!options.next) {
+        options.cache = 'no-store';
+      }
+      const res = await fetch(`${base}${path}`, options);
       if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
       return (await res.json()) as T;
     } catch (e) {
@@ -46,3 +50,24 @@ export async function fetchApiJson<T = any>(path: string, init?: RequestInit): P
   throw lastErr instanceof Error ? lastErr : new Error('Fetch failed');
 }
 
+export async function fetchApiJsonWithTags<T = any>(path: string, tags: string[], init?: RequestInit): Promise<T> {
+  const bases = getServerApiBases();
+  const owner = getOwnerIdFromCookies();
+
+  const headers = new Headers(init?.headers as HeadersInit | undefined);
+  if (owner && !headers.has('X-Temporary-Owner')) headers.set('X-Temporary-Owner', owner);
+  if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+
+  let lastErr: unknown;
+  for (const base of bases) {
+    try {
+      const res = await fetch(`${base}${path}`, { ...init, headers, next: { tags } });
+      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+      return (await res.json()) as T;
+    } catch (e) {
+      lastErr = e;
+      // try next base
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error('Fetch failed');
+}

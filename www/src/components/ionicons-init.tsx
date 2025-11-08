@@ -17,6 +17,7 @@ import {
   addCircleOutline,
   personCircleOutline,
   personCircle,
+  trashOutline,
 } from 'ionicons/icons';
 
 export default function IoniconsInit() {
@@ -25,7 +26,7 @@ export default function IoniconsInit() {
     defineCustomElements(window);
 
     // Register any icons we reference by name to avoid network fetch
-    addIcons({
+  addIcons({
       'arrow-back-outline': arrowBackOutline,
       'list-outline': listOutline,
       'restaurant-outline': restaurantOutline,
@@ -38,6 +39,7 @@ export default function IoniconsInit() {
       'add-circle-outline': addCircleOutline,
       'person-circle-outline': personCircleOutline,
       'person-circle': personCircle,
+      'trash-outline': trashOutline,
     });
   }, []);
 
