@@ -49,8 +49,6 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
       steps: stepsData = [],
     }: // category = '',
     RecipeForm): Promise<void> => {
-      console.log(saveRecipe);
-
       if (!saveRecipe) return;
 
       if (!name) {
@@ -151,7 +149,6 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
               }
             >
               <main className="theme-light py-5">
-                {formik.values.name}
                 <RecipeRegister
                   recipe={recipe}
                   onCancel={handleCancel}

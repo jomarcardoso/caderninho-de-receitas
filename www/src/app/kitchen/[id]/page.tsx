@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { fetchRecipeData, fetchRecipes } from '@common/services/recipe';
+import { fetchRecipeData, mapRecipeModelToDto } from '@common/services/recipe';
+import type { RecipeDto } from '@common/services/recipe';
 import { KitchenPageView } from '../page.view';
 
 export async function generateMetadata({
@@ -22,7 +23,11 @@ export default async function KitchenRecipePage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const data = await fetchRecipes();
-  const recipes = data.recipes;
-  const recipeLists = data.recipeLists ?? [];
+  const { id } = await params;
+  const num = Number(id);
+  if (!Number.isFinite(num)) notFound();
+  const data = await fetchRecipeData(num);
+  if (!data?.recipe) notFound();
+  const recipeToEdit: RecipeDto = mapRecipeModelToDto(data.recipe);
+  return <KitchenPageView recipeToEdit={recipeToEdit} />;
 }
