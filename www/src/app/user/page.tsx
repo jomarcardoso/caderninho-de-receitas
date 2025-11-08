@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { NavLink } from '@/components/nav-link/nav-link';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import { Header2 } from '@/components/header-2/header-2';
 import { Navbar } from '@/components/navbar/navbar';
@@ -15,9 +16,9 @@ export default function UserPage() {
       header={<Header2 currentPage="user" />}
       navbar={
         <Navbar>
-          <Link href="/">
+          <NavLink action="pop">
             <ion-icon name="arrow-back-outline" />
-          </Link>
+          </NavLink>
           <Link href="/kitchen">
             <ion-icon name="add-circle-outline" />
           </Link>

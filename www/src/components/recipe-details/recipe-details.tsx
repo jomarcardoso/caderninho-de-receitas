@@ -28,11 +28,11 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
 }) => {
   const language: Language = 'pt';
 
-  const renderNutrient = (nutrient: Nutrient): ReactElement | null => {
+  const renderNutrient = (nutrient: Nutrient, index: number): ReactElement | null => {
     if (!nutrient.quantity) return null;
 
     return (
-      <ListItem noGutters noBorder key={nutrient.name.en}>
+      <ListItem noGutters noBorder key={`${nutrient.name.en}-${index}`}>
         <NutrientDisplay nutrient={nutrient} />
       </ListItem>
     );
@@ -104,12 +104,12 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
 
       <div className="grid columns-1 g-3">
         <h3 className="section-title">{translate('vitamins', language)}</h3>
-        <ul className="list">{recipe?.vitamins.map(renderNutrient)}</ul>
+        <ul className="list">{recipe?.vitamins.map((n, i) => renderNutrient(n, i))}</ul>
       </div>
 
       <div className="grid columns-1 g-3">
         <h3 className="section-title">{translate('minerals', language)}</h3>
-        <ul className="list">{recipe?.minerals.map(renderNutrient)}</ul>
+        <ul className="list">{recipe?.minerals.map((n, i) => renderNutrient(n, i))}</ul>
       </div>
 
       {Array.isArray(recipe?.aminoAcids) && (

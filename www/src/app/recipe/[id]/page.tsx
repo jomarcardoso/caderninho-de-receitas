@@ -48,8 +48,6 @@ export default async function RecipePage({
 
   const { recipe } = data;
 
-  console.log(data.relatedRecipes);
-
   return (
     <Layout2
       header={<Header2 currentPage="kitchen" />}

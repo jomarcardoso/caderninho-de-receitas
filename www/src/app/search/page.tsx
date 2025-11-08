@@ -2,6 +2,7 @@ import { Navbar } from '@/components/navbar/navbar';
 import { Header2 } from '@/components/header-2/header-2';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import Link from 'next/link';
+import { NavLink } from '@/components/nav-link/nav-link';
 import { Button, Field } from 'notebook-layout';
 
 export const metadata = { title: 'Recipes Search' };
@@ -121,9 +122,9 @@ export default async function RecipesPage({
       header={<Header2 />}
       navbar={
         <Navbar>
-          <Link href="/">
+          <NavLink action="pop">
             <ion-icon name="arrow-back-outline" />
-          </Link>
+          </NavLink>
         </Navbar>
       }
     >

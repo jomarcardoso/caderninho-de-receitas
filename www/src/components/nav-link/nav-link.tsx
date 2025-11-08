@@ -41,6 +41,13 @@ export function NavLink({
         reset(to);
         break;
       case 'pop':
+        try {
+          if (typeof window !== 'undefined' && window.history && window.history.length > 0) {
+            window.history.back();
+            return;
+          }
+        } catch {}
+        // Fallback to internal stack pop if History API not available
         pop();
         break;
       default:

@@ -8,6 +8,7 @@ import { Language } from '@/contexts/language';
 import { translate } from '@common/services/language/language.service';
 import { Button, Card } from 'notebook-layout';
 import Link from 'next/link';
+import { NavLink } from '@/components/nav-link/nav-link';
 import { ListItem } from '@/components/list-item/list-item';
 import capitalize from 'lodash/capitalize';
 import { Recipe, RecipesData } from '@common/services/recipe';
@@ -24,7 +25,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
 
   function renderItem(recipe: Recipe) {
     return (
-      <li className="col-12">
+      <li className="col-12" key={recipe.id}>
         <Link href={`/recipe/${recipe.id}`}>
           <article aria-labelledby={String(recipe.id)}>
             <Card
@@ -84,9 +85,9 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
       header={<Header2 currentPage="my-recipes" />}
       navbar={
         <Navbar>
-          <Link href="/">
+          <NavLink action="pop">
             <ion-icon name="arrow-back-outline" />
-          </Link>
+          </NavLink>
           <Link href="/kitchen">
             <ion-icon name="add-circle-outline" />
           </Link>

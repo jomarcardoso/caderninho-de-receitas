@@ -314,34 +314,50 @@ export async function fetchMostCopiedRecipes(
   quantity = 6,
   baseUrl?: string,
 ): Promise<RecipeDto[]> {
-  const apiBase = (baseUrl ?? '').replace(/\/$/, '') || getApiBase();
+  const path = `/api/Recipe/most-copied?quantity=${quantity}`;
 
   try {
-    const res = await fetch(
-      `${apiBase}/api/Recipe/most-copied?quantity=${quantity}`,
-      {
+    // Try explicit baseUrl first if provided
+    if (baseUrl && baseUrl.trim()) {
+      const apiBase = baseUrl.replace(/\/$/, '');
+      const res = await fetch(`${apiBase}${path}`, {
         headers: { 'Content-Type': 'application/json' },
-        // Let callers decide caching; most environments can layer cache outside
-      },
-    );
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch most-copied: ${res.status}`);
+      });
+      if (res.ok) {
+        const data = (await res.json()) as ApiRecipeResponse[];
+        return (Array.isArray(data) ? data : []).map<RecipeDto>((recipe, index) => ({
+          id: recipe.id ?? index,
+          name: recipe.name ?? '',
+          description: recipe.description ?? '',
+          additional: recipe.additional ?? '',
+          language: (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
+          steps:
+            recipe.steps?.map<RecipeStepDto>((step) => ({
+              title: step.title ?? '',
+              preparation: step.preparation ?? '',
+              additional: step.additional ?? '',
+              ingredientsText: step.ingredientsText ?? '',
+            })) ?? [],
+        }));
+      }
     }
+  } catch (e) {
+    // ignore and fallback
+  }
 
+  try {
+    const res = await fetchWithFallback(path, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!res.ok) throw new Error(`Failed to fetch most-copied: ${res.status}`);
     const data = (await res.json()) as ApiRecipeResponse[];
-
-    if (!Array.isArray(data) || data.length === 0) {
-      return [];
-    }
-
+    if (!Array.isArray(data) || data.length === 0) return [];
     return data.map<RecipeDto>((recipe, index) => ({
       id: recipe.id ?? index,
       name: recipe.name ?? '',
       description: recipe.description ?? '',
       additional: recipe.additional ?? '',
-      language:
-        (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
+      language: (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
       steps:
         recipe.steps?.map<RecipeStepDto>((step) => ({
           title: step.title ?? '',
