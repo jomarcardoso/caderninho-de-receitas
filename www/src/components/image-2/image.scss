@@ -1,5 +1,5 @@
 .image {
-  background-color: var(--color-primary-lighter);
+  background-color: var(--color-light-lighter);
   width: 100%;
 
   &__container {
@@ -7,7 +7,7 @@
   }
 
   &__padding {
-    content: "";
+    content: '';
     display: block;
     padding-bottom: var(--image-padding-bottom);
   }

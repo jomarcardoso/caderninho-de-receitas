@@ -133,10 +133,12 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
             Minhas listas
           </h2>
 
-          {recipeLists.length === 0 && <p>Nenhuma lista criada.</p>}
+          {(recipeLists?.length ?? 0) === 0 && (
+            <p>Nenhuma lista criada.</p>
+          )}
 
           <ul className="list" style={{ maxWidth: 560 }}>
-            {recipeLists.map((l) => (
+            {(recipeLists ?? []).map((l) => (
               <li key={l.id}>
                 <h3 className="section-title">{l.name}</h3>
                 {l.description && (

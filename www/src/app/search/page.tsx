@@ -3,7 +3,15 @@ import { Header2 } from '@/components/header-2/header-2';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
-import { Button, Field } from 'notebook-layout';
+import { Button, Card, Field, SectionCard } from 'notebook-layout';
+import capitalize from 'lodash/capitalize';
+import { Image2 } from '@/components/image-2/image';
+import {
+  type RecipesData,
+  type RecipesDataResponse,
+  RECIPES_DATA,
+  mapRecipesDataResponseToModel,
+} from '@common/services/recipe';
 
 export const metadata = { title: 'Recipes Search' };
 
@@ -42,19 +50,13 @@ async function fetchCategories() {
   }
 }
 
-type RecipeSearchItem = {
-  id: number;
-  name: string;
-  description?: string;
-  categories?: string[];
-};
-
 async function searchRecipes(
   text?: string,
   categories?: string[],
   quantity = 20,
 ) {
-  if (!text || !text.trim()) return [] as RecipeSearchItem[];
+  if (!text || !text.trim())
+    return { ...RECIPES_DATA, recipes: [] } as RecipesData;
   const base =
     process.env.RECIPES_API_URL ||
     process.env.NEXT_PUBLIC_API_BASE_URL ||
@@ -67,12 +69,23 @@ async function searchRecipes(
   }
   try {
     const res = await fetch(url.toString(), { next: { revalidate: 0 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    const list = Array.isArray(data?.recipes) ? data.recipes : [];
-    return list as RecipeSearchItem[];
+    if (!res.ok) return { ...RECIPES_DATA, recipes: [] } as RecipesData;
+    const json = (await res.json()) as any;
+
+    // Prefer full RecipesDataResponse from backend when available
+    if (
+      json &&
+      typeof json === 'object' &&
+      Array.isArray(json.foods) &&
+      Array.isArray(json.recipes)
+    ) {
+      return mapRecipesDataResponseToModel(json as RecipesDataResponse);
+    }
+
+    // If the response is not the expected full shape, fall back to empty data
+    return { ...RECIPES_DATA, recipes: [] } as RecipesData;
   } catch {
-    return [] as RecipeSearchItem[];
+    return { ...RECIPES_DATA, recipes: [] } as RecipesData;
   }
 }
 
@@ -85,7 +98,7 @@ export default async function RecipesPage({
     quantity?: string;
   };
 }) {
-  const q = searchParams?.text || '';
+  const query = searchParams?.text || '';
   const selected = Array.isArray(searchParams?.categories)
     ? (searchParams?.categories as string[])
     : typeof searchParams?.categories === 'string'
@@ -98,16 +111,17 @@ export default async function RecipesPage({
       Number.parseInt(String(searchParams?.quantity ?? '20')) || 20,
     ),
   );
-  const [categoriesMap, recipes] = await Promise.all([
+  const [categoriesMap, data] = await Promise.all([
     fetchCategories(),
-    searchRecipes(q, selected, quantity),
+    searchRecipes(query, selected, quantity),
   ]);
+  const recipes = (data as RecipesData).recipes;
   const categoryEntries = Object.entries(categoriesMap);
   const selectedLabels = selected.map((k) => categoriesMap?.[k]?.text?.pt || k);
 
   function buildUrl(nextQuantity?: number, omitCategory?: string) {
     const params = new URLSearchParams();
-    if (q) params.set('text', q);
+    if (query) params.set('text', query);
     const cats = omitCategory
       ? selected.filter((c) => c !== omitCategory)
       : selected;
@@ -118,44 +132,22 @@ export default async function RecipesPage({
     return `/search${qs ? `?${qs}` : ''}`;
   }
   return (
-    <Layout2
-      header={<Header2 />}
-      navbar={
-        <Navbar>
-          <NavLink action="pop">
-            <ion-icon name="arrow-back-outline" />
-          </NavLink>
-        </Navbar>
-      }
-    >
-      <main className="theme-light">
-        <div className="container py-5">
-          <h1 className="h1 mb-5">Buscar receitas</h1>
-          <form method="get" action="/search" className="mb-5">
-            <Field
-              label="Buscar receita"
-              type="search"
-              name="text"
-              defaultValue={q}
-              placeholder="Digite o nome ou palavra-chave"
-              className="mb-3"
-            />
-            <Button type="submit" className="mb-3">
-              <ion-icon name="search-outline" />
-              buscar
-            </Button>
-
-            {categoryEntries.length > 0 && (
-              <fieldset
-                style={{
-                  border: '1px solid #eee',
-                  borderRadius: 8,
-                  padding: 12,
-                }}
-              >
-                <legend style={{ padding: '0 6px', opacity: 0.8 }}>
-                  Categorias
-                </legend>
+    <form method="get" action="/search">
+      <Layout2
+        header={<Header2 />}
+        navbar={
+          <Navbar>
+            <NavLink action="pop">
+              <ion-icon name="arrow-back-outline" />
+            </NavLink>
+          </Navbar>
+        }
+        aside={
+          categoryEntries.length > 0 && (
+            <div className="py-5">
+              <h2 className="h2 mb-3">filtros</h2>
+              <fieldset>
+                <legend className="section-title">Categorias</legend>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                   {categoryEntries.map(([key, val]) => {
                     const checked = selected.includes(key);
@@ -183,146 +175,169 @@ export default async function RecipesPage({
                   })}
                 </div>
               </fieldset>
-            )}
-          </form>
+            </div>
+          )
+        }
+      >
+        <main className="theme-light py-5">
+          <Field
+            label="Buscar receita"
+            type="search"
+            name="text"
+            defaultValue={query}
+            placeholder="Digite o nome ou palavra-chave"
+            className="mb-3"
+          />
 
-          {(q || selected.length > 0) && (
-            <div>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  flexWrap: 'wrap',
-                  marginBottom: 8,
-                }}
-              >
-                <p style={{ opacity: 0.7, marginBottom: 0 }}>
-                  Resultados para: <strong>{q || '—'}</strong>
-                </p>
-                {selectedLabels.length > 0 && (
-                  <>
-                    <span style={{ opacity: 0.7 }}>|</span>
-                    <span style={{ opacity: 0.7 }}>Categorias:</span>
-                    {selected.map((key) => (
-                      <a
-                        key={key}
-                        href={buildUrl(undefined, key)}
-                        style={{ textDecoration: 'none' }}
-                        title="Remover filtro"
-                      >
-                        <span
-                          style={{
-                            fontSize: 12,
-                            padding: '4px 8px',
-                            borderRadius: 999,
-                            background: '#f2f2f2',
-                          }}
-                        >
-                          {categoriesMap?.[key]?.text?.pt || key} ×
-                        </span>
-                      </a>
-                    ))}
-                    <a
-                      href={buildUrl(20)}
-                      style={{ marginLeft: 8, fontSize: 12, opacity: 0.8 }}
-                    >
-                      Limpar filtros
-                    </a>
-                  </>
-                )}
-              </div>
-              {recipes.length === 0 && (
-                <p style={{ opacity: 0.7 }}>Nenhuma receita encontrada.</p>
-              )}
-              <ul
-                style={{
-                  display: 'grid',
-                  gap: 12,
-                  listStyle: 'none',
-                  padding: 0,
-                }}
-              >
-                {recipes.map((r) => (
-                  <li
-                    key={r.id}
-                    style={{
-                      border: '1px solid #eee',
-                      borderRadius: 8,
-                      padding: 12,
-                    }}
-                  >
-                    <Link
-                      href={`/recipe/${r.id}`}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <div style={{ fontWeight: 600 }}>{r.name}</div>
-                      {r.description && (
-                        <div
-                          style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}
-                        >
-                          {r.description}
-                        </div>
-                      )}
-                    </Link>
-                    {Array.isArray(r.categories) && r.categories.length > 0 && (
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          gap: 6,
-                          marginTop: 8,
-                        }}
-                      >
-                        {r.categories.map((key) => (
-                          <span
-                            key={key}
-                            style={{
-                              fontSize: 11,
-                              padding: '3px 6px',
-                              borderRadius: 999,
-                              background: '#f7f7f7',
-                              border: '1px solid #eee',
-                            }}
-                          >
-                            {categoriesMap?.[key]?.text?.pt || key}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
+          <Button type="submit" className="mb-3">
+            <ion-icon name="search-outline" />
+            buscar
+          </Button>
 
-              {recipes.length >= quantity && (
+          <h1 className="h1 mb-3 mt-4">Resultados para: {query}</h1>
+
+          <SectionCard>
+            {(query || selected.length > 0) && (
+              <div>
                 <div
                   style={{
                     display: 'flex',
-                    justifyContent: 'center',
-                    marginTop: 16,
+                    alignItems: 'center',
+                    gap: 8,
+                    flexWrap: 'wrap',
+                    marginBottom: 8,
                   }}
                 >
-                  <a
-                    href={buildUrl(quantity + 20)}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <button
-                      type="button"
-                      style={{
-                        padding: '10px 16px',
-                        borderRadius: 8,
-                        border: '1px solid #ccc',
-                      }}
-                    >
-                      Carregar mais
-                    </button>
-                  </a>
+                  {selectedLabels.length > 0 && (
+                    <>
+                      <span style={{ opacity: 0.7 }}>|</span>
+                      <h2 style={{ opacity: 0.7 }}>Categorias:</h2>
+                      {selected.map((key) => (
+                        <a
+                          key={key}
+                          href={buildUrl(undefined, key)}
+                          style={{ textDecoration: 'none' }}
+                          title="Remover filtro"
+                        >
+                          <span
+                            style={{
+                              fontSize: 12,
+                              padding: '4px 8px',
+                              borderRadius: 999,
+                              background: '#f2f2f2',
+                            }}
+                          >
+                            {categoriesMap?.[key]?.text?.pt || key} ×
+                          </span>
+                        </a>
+                      ))}
+                      <a
+                        href={buildUrl(20)}
+                        style={{ marginLeft: 8, fontSize: 12, opacity: 0.8 }}
+                      >
+                        Limpar filtros
+                      </a>
+                    </>
+                  )}
                 </div>
-              )}
-            </div>
-          )}
-        </div>
-      </main>
-    </Layout2>
+                {recipes.length === 0 && (
+                  <p style={{ opacity: 0.7 }}>Nenhuma receita encontrada.</p>
+                )}
+                <ul className="row g-3">
+                  {recipes.map((recipe) => (
+                    <li key={recipe.id} className="col-6">
+                      <Link
+                        href={`/recipe/${recipe.id}`}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Card
+                          style={{ height: '100%' }}
+                          variant="slim"
+                          title={
+                            <h2 id={String(recipe.id)}>
+                              {capitalize(recipe.name)}
+                            </h2>
+                          }
+                          img={
+                            <Image2
+                              srcs={[
+                                ...(recipe?.imgs ?? []),
+                                ...(recipe?.food?.imgs ?? []),
+                              ]}
+                            />
+                          }
+                        >
+                          <p
+                            style={{
+                              maxHeight: 120,
+                              textOverflow: 'ellipsis',
+                              textAlign: 'justify',
+                            }}
+                          >
+                            {recipe.description}
+                          </p>
+                        </Card>
+                      </Link>
+                      {Array.isArray(recipe.categories) &&
+                        recipe.categories.length > 0 && (
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              gap: 6,
+                              marginTop: 8,
+                            }}
+                          >
+                            {recipe.categories.map((key) => (
+                              <span
+                                key={key}
+                                style={{
+                                  fontSize: 11,
+                                  padding: '3px 6px',
+                                  borderRadius: 999,
+                                  background: '#f7f7f7',
+                                  border: '1px solid #eee',
+                                }}
+                              >
+                                {categoriesMap?.[key]?.text?.pt || key}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                    </li>
+                  ))}
+                </ul>
+
+                {recipes.length >= quantity && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      marginTop: 16,
+                    }}
+                  >
+                    <a
+                      href={buildUrl(quantity + 20)}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <button
+                        type="button"
+                        style={{
+                          padding: '10px 16px',
+                          borderRadius: 8,
+                          border: '1px solid #ccc',
+                        }}
+                      >
+                        Carregar mais
+                      </button>
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
+          </SectionCard>
+        </main>
+      </Layout2>
+    </form>
   );
 }

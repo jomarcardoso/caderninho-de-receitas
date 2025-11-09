@@ -293,7 +293,7 @@ export async function fetchRecipes(): Promise<RecipesData> {
       cache: 'no-store',
     });
     if (!res.ok) {
-      throw new Error('Failed to save recipe');
+      throw new Error(`Failed to fetch recipes: ${res.status}`);
     }
 
     const data: RecipesDataResponse = await res.json();
@@ -415,7 +415,7 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
       },
     });
     if (!res.ok) {
-      throw new Error('Failed to save recipe');
+      throw new Error(`Failed to delete recipe: ${res.status}`);
     }
 
     const data: RecipesDataResponse = await res.json();
@@ -458,22 +458,8 @@ export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
       return mapRecipeDataResponseToModel(json as RecipeDataResponse);
     }
 
-    // Legacy shape shim
-    const shim: RecipeDataResponse = {
-      foods: json.foods ?? [],
-      foodIcons: json.foodIcons ?? [],
-      measures: json.measures ?? {},
-      foodTypes: json.foodTypes ?? {},
-      measurementUnits: json.measurementUnits ?? {},
-      vitamins: json.vitamins ?? {},
-      aminoAcids: json.aminoAcids ?? {},
-      minerals: json.minerals ?? {},
-      nutritionalInformation: json.nutritionalInformation ?? {},
-      recipes: json.recipe as RecipeResponse,
-      relatedRecipes: (json.related as RecipeResponse[]) ?? [],
-    } as any;
-
-    return mapRecipeDataResponseToModel(shim);
+    // Unexpected response shape
+    return null;
   } catch (e) {
     console.error(e);
     return null;

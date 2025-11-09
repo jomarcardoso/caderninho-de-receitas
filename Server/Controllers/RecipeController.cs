@@ -198,26 +198,56 @@ public class RecipeController : ControllerBase
 
     var recipes = await recipeService.SearchRecipesAsync(text, categoryKeys, quantity, string.IsNullOrWhiteSpace(userId) ? null : userId);
 
-    var recipeDtos = recipes.Select(r => new RecipeDto
-    {
-      Id = r.Id,
-      Name = r.Name,
-      Keys = r.Keys,
-      Description = r.Description,
-      Additional = r.Additional,
-      Language = r.Language,
-      Steps = r.Steps.Select(s => new RecipeStepDto
-      {
-        Title = s.Title,
-        Preparation = s.Preparation,
-        Additional = s.Additional,
-        IngredientsText = s.IngredientsText,
-      }).ToList(),
-      Imgs = r.Imgs,
-      Categories = r.Categories,
-    }).ToList();
+    // Map to API responses
+    var recipeResponses = _mapper.Map<List<RecipeResponse>>(recipes);
 
-    return Ok(new { recipes = recipeDtos });
+    // Collect Foods referenced by the recipes (including steps/ingredients)
+    var foods = FoodService.GetFoodsFromRecipes(recipes);
+
+    // Attach referenced FoodIcons (prefer IconId when present; fallback to name-based)
+    var iconIds = foods
+      .Select(f => f.IconId)
+      .Where(id => id.HasValue && id.Value > 0)
+      .Select(id => id!.Value)
+      .Distinct()
+      .ToList();
+
+    List<FoodIcon> foodIcons;
+    if (iconIds.Count > 0)
+    {
+      foodIcons = await _context.FoodIcon
+        .AsNoTracking()
+        .Where(i => iconIds.Contains(i.Id))
+        .ToListAsync();
+    }
+    else
+    {
+      var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+      foreach (var f in foods)
+      {
+        if (!string.IsNullOrWhiteSpace(f.Icon))
+        {
+          var n = f.Icon.Trim();
+          try { n = System.IO.Path.GetFileName(n); } catch { }
+          if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
+        }
+      }
+
+      foodIcons = await _context.FoodIcon
+        .AsNoTracking()
+        .Where(i => iconNames.Contains(i.Name.En))
+        .ToListAsync();
+    }
+
+    // Build full response including common dictionaries (via FoodsDataResponse inheritance)
+    var response = new RecipesDataResponse
+    {
+      Recipes = recipeResponses,
+      Foods = foods,
+      FoodIcons = foodIcons
+    };
+
+    return Ok(response);
   }
 
   [HttpGet("categories")]
