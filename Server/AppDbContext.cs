@@ -84,6 +84,13 @@ public class AppDbContext : DbContext
       entity.OwnsOne(r => r.EssentialAminoAcids);
       entity.OwnsOne(r => r.Vitamins);
       entity.OwnsOne(r => r.Minerals);
+
+      // Link Recipe.OwnerId -> UserProfile.OwnerId
+      entity
+        .HasOne(r => r.Owner)
+        .WithMany()
+        .HasForeignKey(r => r.OwnerId)
+        .HasPrincipalKey(u => u.OwnerId);
     });
 
     // RecipeRelation

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Services;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controllers;
 
@@ -33,6 +34,16 @@ public class UsersController : ControllerBase
     return Ok(list);
   }
 
+  [HttpGet("{ownerId}")]
+  [AllowAnonymous]
+  public async Task<IActionResult> GetById(string ownerId)
+  {
+    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest();
+    var profile = await _profiles.GetByOwnerIdAsync(ownerId.Trim());
+    if (profile is null) return NotFound();
+    return Ok(profile);
+  }
+
   [HttpPost("feature/{ownerId}")]
   [Authorize(Roles = "Admin")]
   public async Task<IActionResult> Feature(string ownerId)
@@ -51,4 +62,3 @@ public class UsersController : ControllerBase
     return NoContent();
   }
 }
-

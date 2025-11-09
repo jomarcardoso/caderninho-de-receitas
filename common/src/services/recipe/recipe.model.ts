@@ -12,6 +12,11 @@ import type { RecipeCategory } from '../common/common.model';
 export interface Recipe extends RecipeBase<RecipeStep>, AllNutrients {
   food: Food;
   categories?: RecipeCategory[];
+  author?: {
+    id: string;
+    displayName?: string;
+    pictureUrl?: string;
+  };
 }
 
 export interface RecipesData extends AllNutrientsData {

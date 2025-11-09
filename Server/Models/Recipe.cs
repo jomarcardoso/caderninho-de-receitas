@@ -6,6 +6,8 @@ public class Recipe : RecipeBase<RecipeStep, Food>
 {
   public string OwnerId { get; set; } = string.Empty;
   public int CopiedFromRecipeId { get; set; } = 0;
+  // Navigation to profile of the owner/author
+  public UserProfile? Owner { get; set; }
 
   public Recipe() : base() { }
 

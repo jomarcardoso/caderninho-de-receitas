@@ -5,6 +5,7 @@ using Server.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Server.Models;
 
 namespace Server.Controllers;
 
@@ -47,6 +48,39 @@ public class AuthController : ControllerBase
       GoogleId = user.GoogleId,
       EmailVerified = user.EmailVerified,
     };
+
+    // Upsert UserProfile with data from Google
+    try
+    {
+      var ownerId = user.GoogleId?.Trim();
+      if (!string.IsNullOrWhiteSpace(ownerId))
+      {
+        var now = DateTime.UtcNow;
+        var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerId, cancellationToken);
+        if (profile is null)
+        {
+          profile = new UserProfile
+          {
+            OwnerId = ownerId,
+            DisplayName = string.IsNullOrWhiteSpace(user.Name) ? ownerId : user.Name,
+            PictureUrl = string.IsNullOrWhiteSpace(user.Picture) ? null : user.Picture,
+            CreatedAt = now,
+            UpdatedAt = now,
+            LastLoginAt = now,
+          };
+          _context.UserProfile.Add(profile);
+        }
+        else
+        {
+          profile.DisplayName = string.IsNullOrWhiteSpace(profile.DisplayName) ? (string.IsNullOrWhiteSpace(user.Name) ? ownerId : user.Name) : profile.DisplayName;
+          profile.PictureUrl = profile.PictureUrl ?? (string.IsNullOrWhiteSpace(user.Picture) ? null : user.Picture);
+          profile.UpdatedAt = now;
+          profile.LastLoginAt = now;
+        }
+        await _context.SaveChangesAsync(cancellationToken);
+      }
+    }
+    catch { /* ignore profile upsert issues during login */ }
 
     // Transfer ownership of any dev-user recipes to this Google user
     try

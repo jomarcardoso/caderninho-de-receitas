@@ -9,7 +9,15 @@ public class MappingProfile : Profile
   {
     // Recipe → RecipeDto
     CreateMap<Recipe, RecipeResponse>()
-      .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food != null ? src.Food.Id : 0));
+      .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food != null ? src.Food.Id : 0))
+      .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Owner != null
+        ? new AuthorSummary
+          {
+            Id = src.Owner.OwnerId,
+            DisplayName = string.IsNullOrWhiteSpace(src.Owner.DisplayName) ? src.Owner.OwnerId : src.Owner.DisplayName,
+            PictureUrl = src.Owner.PictureUrl
+          }
+        : new AuthorSummary { Id = src.OwnerId, DisplayName = src.OwnerId }));
 
     // RecipeStep → RecipeStepDto
     CreateMap<RecipeStep, RecipeStepResponse>().ReverseMap();

@@ -233,6 +233,7 @@ public class RecipeService
     // Recipes with full details
     result.Recipes = await _context.Recipe
       .Where(r => r.OwnerId == userId)
+      .Include(r => r.Owner)
       .Include(r => r.Food)
       .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)
@@ -272,6 +273,7 @@ public class RecipeService
 
     return await _context.Recipe
       .AsNoTracking()
+      .Include(r => r.Owner)
       .Include(r => r.Food)
       .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)
@@ -326,6 +328,7 @@ public class RecipeService
 
     IQueryable<Recipe> query = _context.Recipe
       .AsNoTracking()
+      .Include(r => r.Owner)
       .Include(r => r.Food)
       .Include(r => r.Steps)
       .ThenInclude(s => s.Ingredients)

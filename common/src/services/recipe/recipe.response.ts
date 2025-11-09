@@ -7,6 +7,11 @@ export interface RecipeResponse
   extends RecipeBase<RecipeStepResponse>,
     AllNutrientsResponse {
   food: number;
+  author?: {
+    id: string;
+    displayName?: string;
+    pictureUrl?: string;
+  };
 }
 
 export interface RecipesDataResponse extends FoodsDataResponse {

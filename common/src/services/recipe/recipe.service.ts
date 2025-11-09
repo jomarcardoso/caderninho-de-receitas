@@ -191,6 +191,13 @@ export function mapRecipeResponseToModel(
     ...recipeResponse,
     ...mapAllNutrientsResponseToModel(recipeResponse, dataResponse),
     food,
+    author: recipeResponse.author
+      ? {
+          id: recipeResponse.author.id,
+          displayName: recipeResponse.author.displayName,
+          pictureUrl: recipeResponse.author.pictureUrl,
+        }
+      : undefined,
     categories,
     steps: recipeResponse.steps.map((stepResponse) => ({
       ...stepResponse,

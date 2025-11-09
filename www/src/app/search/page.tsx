@@ -3,7 +3,7 @@ import { Header2 } from '@/components/header-2/header-2';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
-import { Button, Card, Field, SectionCard } from 'notebook-layout';
+import { Button, Card, Checkbox, Field, SectionCard } from 'notebook-layout';
 import capitalize from 'lodash/capitalize';
 import { Image2 } from '@/components/image-2/image';
 import {
@@ -161,10 +161,10 @@ export default async function RecipesPage({
                           border: '1px solid #eee',
                           borderRadius: 6,
                           padding: '6px 8px',
+                          cursor: 'pointer',
                         }}
                       >
-                        <input
-                          type="checkbox"
+                        <Checkbox
                           name="categories"
                           value={key}
                           defaultChecked={checked}
@@ -267,15 +267,35 @@ export default async function RecipesPage({
                             />
                           }
                         >
-                          <p
+                          <div
                             style={{
-                              maxHeight: 120,
-                              textOverflow: 'ellipsis',
-                              textAlign: 'justify',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'space-between',
+                              height: '100%',
                             }}
                           >
-                            {recipe.description}
-                          </p>
+                            <p
+                              style={{
+                                maxHeight: 126,
+                                textOverflow: 'ellipsis',
+                                textAlign: 'justify',
+                                overflow: 'hidden',
+                              }}
+                            >
+                              {recipe.description}
+                            </p>
+
+                            <p
+                              className="mt-2 p-1 text-center"
+                              style={{
+                                border: '1px solid var(--color-dark-main)',
+                                borderRadius: 'var(--border-radius-secondary)',
+                              }}
+                            >
+                              {recipe.author?.displayName}
+                            </p>
+                          </div>
                         </Card>
                       </Link>
                       {Array.isArray(recipe.categories) &&

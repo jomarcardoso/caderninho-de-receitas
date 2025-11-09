@@ -353,6 +353,7 @@ public class RecipeController : ControllerBase
     var relatedIds = filtered.Select(r => r.Id).ToList();
     var relatedEntities = await _context.Recipe
       .AsNoTracking()
+      .Include(r => r.Owner)
       .Where(r => relatedIds.Contains(r.Id))
       .ToListAsync();
     var relatedResponses = _mapper.Map<List<RecipeResponse>>(relatedEntities);
@@ -378,6 +379,7 @@ public class RecipeController : ControllerBase
   {
     var recipe = await _context.Recipe
       .Include(r => r.Food)
+      .Include(r => r.Owner)
       .Include(r => r.Steps)
         .ThenInclude(s => s.Ingredients)
         .ThenInclude(i => i.Food)
@@ -478,6 +480,7 @@ public class RecipeController : ControllerBase
     var relatedIds = filtered.Select(r => r.Id).ToList();
     var relatedEntities = await _context.Recipe
       .AsNoTracking()
+      .Include(r => r.Owner)
       .Where(r => relatedIds.Contains(r.Id))
       .ToListAsync();
     var relatedResponses = _mapper.Map<List<RecipeResponse>>(relatedEntities);
@@ -579,19 +582,9 @@ public class RecipeController : ControllerBase
     var userId = GetUserId();
     var recipes = await recipeService.GetMostCopiedRecipesAsync(quantity, userId);
 
-    var response = recipes
-      .Select(r => new
-      {
-        id = r.Id,
-        name = r.Name,
-        description = r.Description,
-        additional = r.Additional,
-        language = r.Language.ToString().ToLowerInvariant(),
-        steps = new object[0]
-      })
-      .ToList();
-
-    return Ok(response);
+    // Return mapped RecipeResponse including Author information
+    var responses = _mapper.Map<List<RecipeResponse>>(recipes);
+    return Ok(responses);
   }
 }
 
