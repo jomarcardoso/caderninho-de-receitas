@@ -94,6 +94,105 @@ HomeDataResponse
 - mostCopiedRecipes
 - newGoodRecipes
 
+### Food
+
+```json
+{
+  "name": { "pt": "Banana", "en": "Banana" },
+  "description": { "pt": "Fruta", "en": "Fruit" },
+  "imgs": ["https://example.com/imgs/banana.webp"],
+  "measurementUnit": "gram",
+  "measures": { "unity": 120, "smallCup": 150 },
+  "keys": { "pt": "banana, fruta", "en": "banana, fruit" },
+  "iconId": 12,
+  "type": "fruit",
+  "nutritionalInformation": {
+    "calories": 89,
+    "carbohydrates": 23,
+    "proteins": 1.1,
+    "totalFat": 0.3,
+    "saturedFats": 0.1,
+    "monounsaturatedFats": 0.0,
+    "polyunsaturatedFats": 0.1,
+    "dietaryFiber": 2.6,
+    "sugar": 12.2,
+    "cholesterol": 0,
+    "gi": 51,
+    "gl": 13,
+    "ashes": 1.1,
+    "acidification": 0
+  },
+  "minerals": {
+    "potassium": 358,
+    "magnesium": 27,
+    "phosphorus": 22,
+    "calcium": 5,
+    "sodium": 1,
+    "iron": 0.3,
+    "zinc": 0.15,
+    "copper": 0.08,
+    "manganese": 0.27,
+    "selenium": 1,
+    "fluoride": 0
+  },
+  "vitamins": {
+    "a": 3,
+    "c": 8.7,
+    "b1": 0.031,
+    "b2": 0.073,
+    "b3": 0.665,
+    "b5": 0.334,
+    "b6": 0.367,
+    "b9": 20,
+    "e": 0.1,
+    "k": 0.5,
+    "betaCarotene": 26,
+    "alphaCarotene": 25,
+    "d": 0,
+    "d2": 0,
+    "d3": 0,
+    "choline": 9.8,
+    "cryptoxanthinCarotene": 3,
+    "lycopene": 0,
+    "b7": 0,
+    "b11": 0,
+    "b12": 0
+  },
+  "aminoAcids": {
+    "alanine": 0.049,
+    "arginine": 0.033,
+    "asparticAcid": 0.128,
+    "glutamicAcid": 0.146,
+    "glycine": 0.028,
+    "histidine": 0.021,
+    "isoleucine": 0.039,
+    "leucine": 0.07,
+    "lysine": 0.057,
+    "methionine": 0.01,
+    "phenylalanine": 0.043,
+    "proline": 0.031,
+    "serine": 0.046,
+    "threonine": 0.037,
+    "tryptophan": 0.011,
+    "tyrosine": 0.03,
+    "valine": 0.052
+  }
+}
+```
+
+Enums:
+
+MeasurementUnit: "gram", "liter"
+
+FoodType: "liquid", "seed", "herb", "temper", "fruit", "solid", "oil", "legumen", "flake", "root", "meat", "vegetable", "cake", "cheese", "powder", "starch", "recipe"
+
+Notas
+
+Preferir iconId para ícone (match com tabela FoodIcon); icon é fallback.
+Campos ausentes em minerals, vitamins, aminoAcids e nutritionalInformation assumem zero.
+measures é opcional; inclua apenas as medidas relevantes ao alimento.
+O servidor calcula essentialAminoAcids e aminoAcidsScore automaticamente (método Food.Process()).
+
 ## Classes Diagram
 
 ### Recipe controller

@@ -79,16 +79,14 @@ export default async function RecipePage({
         <div className="recipe-page">
           {recipe?.name && (
             <div className="recipe-page__name">
-              <div className="container">
-                <h1
-                  className="h2"
-                  style={{
-                    fontSize: recipe.name.length > 30 ? 17 : 19,
-                  }}
-                >
-                  {recipe.name}
-                </h1>
-              </div>
+              <h1
+                className="h2"
+                style={{
+                  fontSize: recipe.name.length > 30 ? 17 : 19,
+                }}
+              >
+                {recipe.name}
+              </h1>
             </div>
           )}
           <div style={{ marginBottom: '24px' }}>
@@ -98,7 +96,7 @@ export default async function RecipePage({
               aspectRatio={1.25}
             />
           </div>
-          <div className="recipe-page__body container">
+          <div className="recipe-page__body">
             <RecipeDetails recipe={recipe} />
           </div>
         </div>

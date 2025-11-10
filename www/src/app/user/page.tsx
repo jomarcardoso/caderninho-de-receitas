@@ -5,6 +5,7 @@ import { Layout2 } from '@/components/layout-2/layout-2';
 import { Header2 } from '@/components/header-2/header-2';
 import { Navbar } from '@/components/navbar/navbar';
 import UserBox from '@/components/user-box/user-box';
+import FoodBulkUploader from '@/components/food-bulk/food-bulk';
 
 export const metadata: Metadata = {
   title: 'Usuário',
@@ -41,6 +42,14 @@ export default function UserPage() {
           >
             <div style={{ width: 360 }}>
               <UserBox />
+            </div>
+          </div>
+        </section>
+
+        <section className="py-5">
+          <div className="grid">
+            <div className="g-col-12">
+              <FoodBulkUploader />
             </div>
           </div>
         </section>
