@@ -71,6 +71,10 @@ export default async function RecipePage({
             <ion-icon name="create-outline" />
           </Link>
 
+          <button type="button" aria-label="Compartilhar" title="Compartilhar">
+            <ion-icon ios="share-outline" md="share-social-outline" />
+          </button>
+
           <RecipeDeleteButton id={recipe.id} />
         </Navbar>
       }

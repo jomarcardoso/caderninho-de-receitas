@@ -50,6 +50,9 @@ public class RecipeService
     entity.Imgs = recipeDto.Imgs ?? new List<string>();
     entity.Language = recipeDto.Language;
     entity.Categories = recipeDto.Categories ?? new List<Server.Shared.RecipeCategory>();
+    // New recipes require moderation
+    entity.IsPublic = false;
+    entity.Verified = false;
     return entity;
   }
 

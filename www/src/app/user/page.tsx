@@ -6,6 +6,7 @@ import { Header2 } from '@/components/header-2/header-2';
 import { Navbar } from '@/components/navbar/navbar';
 import UserBox from '@/components/user-box/user-box';
 import FoodBulkUploader from '@/components/food-bulk/food-bulk';
+import AdminPendingRecipes from '@/components/admin-pending-recipes/admin-pending-recipes';
 
 export const metadata: Metadata = {
   title: 'Usuário',
@@ -50,6 +51,14 @@ export default function UserPage() {
           <div className="grid">
             <div className="g-col-12">
               <FoodBulkUploader />
+            </div>
+          </div>
+        </section>
+
+        <section className="py-5">
+          <div className="grid">
+            <div className="g-col-12">
+              <AdminPendingRecipes />
             </div>
           </div>
         </section>

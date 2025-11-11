@@ -449,9 +449,10 @@ export function mapRecipeDataResponseToModel(
 export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
   if (!id) return null;
   try {
-    const res = await fetchWithFallback(`/api/Recipe/public/${id}`, {
+    const res = await fetchWithFallback(`/api/Recipe/${id}`, {
       headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
+      credentials: 'include',
     });
     if (!res.ok) return null;
     const json = (await res.json()) as any;

@@ -17,7 +17,8 @@ public abstract class RecipeBase<TRecipeStep, TFood> : RecipeContract<TRecipeSte
   public TFood Food { get; set; }
   public List<string> Imgs { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;
-  public bool IsPublic { get; set; } = true;
+  public bool IsPublic { get; set; } = false;
+  public bool Verified { get; set; } = false;
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
   //RecipeCategory category { get; set; }

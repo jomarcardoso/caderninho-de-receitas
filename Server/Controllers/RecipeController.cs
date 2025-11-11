@@ -9,7 +9,7 @@ using Server.PreProcessing;
 using Server.Serialization;
 using Server.Shared;
 using System.Security.Claims;
- 
+
 
 namespace Server.Controllers;
 
@@ -25,7 +25,7 @@ public class RecipeController : ControllerBase
   private readonly PlainTextRecipeParser plainTextRecipeParser;
   private readonly PlainTextRecipePreProcessor plainTextRecipePreProcessor;
   private readonly RecipeImageOcrService recipeImageOcrService;
-  
+
 
   private const string TemporaryOwnerHeaderName = "X-Temporary-Owner";
 
@@ -74,6 +74,8 @@ public class RecipeController : ControllerBase
     {
       var recipe = await recipeService.DtoToEntity(dto);
       recipe.OwnerId = ownerId;
+      recipe.IsPublic = false;
+      recipe.Verified = false;
       recipesToAdd.Add(recipe);
     }
 
@@ -115,11 +117,56 @@ public class RecipeController : ControllerBase
 
     await recipeService.UpdateEntityFromDto(recipe, recipeDto);
     recipe.OwnerId = userId;
+    // Any change requires re-approval
+    recipe.IsPublic = false;
+    recipe.Verified = false;
 
     await _context.SaveChangesAsync();
 
     var response = await recipeService.GetRecipesAndFoodsByUserId(userId);
     return Ok(response);
+  }
+
+  // Admin moderation: list unverified recipes
+  [HttpGet("pending")]
+  [Authorize(Roles = "Admin")]
+  public async Task<IActionResult> GetPendingRecipes()
+  {
+    var pending = await _context.Recipe
+      .AsNoTracking()
+      .Where(r => !r.Verified)
+      .OrderByDescending(r => r.CreatedAt)
+      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic, r.Verified, r.CreatedAt })
+      .ToListAsync();
+    return Ok(pending);
+  }
+
+  // Admin moderation: approve
+  [HttpPost("{id}/approve")]
+  [Authorize(Roles = "Admin")]
+  public async Task<IActionResult> ApproveRecipe(int id)
+  {
+    var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
+    if (recipe is null) return NotFound();
+    recipe.IsPublic = true;
+    recipe.Verified = true;
+    recipe.UpdatedAt = DateTime.UtcNow;
+    await _context.SaveChangesAsync();
+    return Ok(new { id = recipe.Id, isPublic = recipe.IsPublic, verified = recipe.Verified });
+  }
+
+  // Admin moderation: deny
+  [HttpPost("{id}/deny")]
+  [Authorize(Roles = "Admin")]
+  public async Task<IActionResult> DenyRecipe(int id)
+  {
+    var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
+    if (recipe is null) return NotFound();
+    recipe.IsPublic = false;
+    recipe.Verified = true;
+    recipe.UpdatedAt = DateTime.UtcNow;
+    await _context.SaveChangesAsync();
+    return Ok(new { id = recipe.Id, isPublic = recipe.IsPublic, verified = recipe.Verified });
   }
 
   [HttpDelete("{id}")]
@@ -262,114 +309,6 @@ public class RecipeController : ControllerBase
   }
 
   [HttpGet("{id}")]
-  public async Task<IActionResult> GetRecipe(
-  int id,
-  [FromQuery] int count = 5,
-  [FromQuery] string? excludeIds = null,
-  [FromQuery] bool excludeSameOwner = true)
-  {
-    var userId = GetUserId();
-    var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
-    if (recipe is null) return NotFound();
-    if (recipe.OwnerId != userId && !recipe.IsPublic) return NotFound();
-
-    count = Math.Clamp(count, 1, 5);
-    var excluded = new HashSet<int>((excludeIds ?? string.Empty)
-      .Split(',', StringSplitOptions.RemoveEmptyEntries)
-      .Select(s => int.TryParse(s.Trim(), out var v) ? v : 0)
-      .Where(v => v > 0));
-
-    var baseRelations = await _context.RecipeRelation
-      .AsNoTracking()
-      .Where(r => r.RecipeId == id)
-      .OrderByDescending(r => r.Weight)
-      .Take(50)
-      .ToListAsync();
-
-    var rand = new Random();
-    var candidateIds = baseRelations
-      .Where(r => !excluded.Contains(r.RelatedRecipeId) && r.RelatedRecipeId != id)
-      .Select(r => new { r.RelatedRecipeId, Score = r.Weight + rand.NextDouble() * 0.05 })
-      .OrderByDescending(x => x.Score)
-      .Take(20)
-      .ToList();
-
-    var candidates = await _context.Recipe
-      .AsNoTracking()
-      .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
-      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic })
-      .ToListAsync();
-
-    var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
-    var filtered = candidates
-      .Where(r => r.IsPublic)
-      .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
-      .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
-      .Take(count)
-      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
-      .ToList();
-
-    // Collect foods referenced in this recipe (including ingredients)
-    var foods = FoodService.GetFoodsFromRecipes(new List<Recipe> { recipe });
-
-    // Prefer lookup by IconId; fallback to name-based matching
-    var iconIds = foods
-      .Select(f => f.IconId)
-      .Where(id => id.HasValue && id.Value > 0)
-      .Select(id => id!.Value)
-      .Distinct()
-      .ToList();
-
-    List<FoodIcon> foodIcons;
-    if (iconIds.Count > 0)
-    {
-      foodIcons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconIds.Contains(i.Id))
-        .ToListAsync();
-    }
-    else
-    {
-      var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-      foreach (var f in foods)
-      {
-        if (!string.IsNullOrWhiteSpace(f.Icon))
-        {
-          var n = f.Icon.Trim();
-          try { n = System.IO.Path.GetFileName(n); } catch { }
-          if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
-        }
-      }
-
-      foodIcons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconNames.Contains(i.Name.En))
-        .ToListAsync();
-    }
-
-    // Map recipe and related to responses
-    var recipeResponse = _mapper.Map<RecipeResponse>(recipe);
-
-    var relatedIds = filtered.Select(r => r.Id).ToList();
-    var relatedEntities = await _context.Recipe
-      .AsNoTracking()
-      .Include(r => r.Owner)
-      .Where(r => relatedIds.Contains(r.Id))
-      .ToListAsync();
-    var relatedResponses = _mapper.Map<List<RecipeResponse>>(relatedEntities);
-
-    var response = new RecipeDataResponse
-    {
-      Recipes = recipeResponse,
-      RelatedRecipes = relatedResponses,
-      Foods = foods,
-      FoodIcons = foodIcons
-    };
-
-    return Ok(response);
-  }
-
-  [HttpGet("public/{id}")]
   [AllowAnonymous]
   public async Task<IActionResult> GetPublicRecipe(
   int id,
@@ -500,6 +439,8 @@ public class RecipeController : ControllerBase
 
     return Ok(response);
   }
+
+  // Removed legacy public endpoint to unify access under GetRecipe
 
   private static Language? TryMapLanguage(string? value)
   {
