@@ -2,6 +2,8 @@
   box-shadow: var(--shadow-primary);
   display: flex;
   justify-content: space-around;
+  // for iOS
+  padding-bottom: env(safe-area-inset-bottom);
 
   a,
   button {

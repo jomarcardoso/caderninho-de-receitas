@@ -39,7 +39,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
                 />
               }
             >
-              <ul className="row g-3">
+              <ul className="row no-gutters g-3">
                 <li className="col-6">
                   <strong>{translate('foodFormCalories', language)}</strong>
                   <br />
@@ -111,16 +111,12 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
           </div>
 
           <div className="g-col-12">
-            <ol className="row g-4">{recipes.map(renderItem)}</ol>
+            <ol className="row no-gutters g-4">{recipes.map(renderItem)}</ol>
           </div>
 
           <div className="g-col-12">
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                as={Link}
-                className="button button--secondary"
-                href="/kitchen"
-              >
+              <Button as={Link} href="/kitchen">
                 <ion-icon name="add-circle-outline" />
                 {translate('addNewRecipe', language)}
               </Button>
@@ -133,9 +129,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
             Minhas listas
           </h2>
 
-          {(recipeLists?.length ?? 0) === 0 && (
-            <p>Nenhuma lista criada.</p>
-          )}
+          {(recipeLists?.length ?? 0) === 0 && <p>Nenhuma lista criada.</p>}
 
           <ul className="list" style={{ maxWidth: 560 }}>
             {(recipeLists ?? []).map((l) => (
@@ -162,6 +156,13 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
         {/* <MyRecipesClient initialLists={recipeLists} /> */}
 
         {/* <ShoppingList /> */}
+
+        <div className="d-flex justify-content-center mt-4">
+          <NavLink action="pop" className="button button--secondary">
+            <ion-icon name="arrow-back-outline" />
+            voltar para página anterior
+          </NavLink>
+        </div>
       </main>
     </Layout2>
   );

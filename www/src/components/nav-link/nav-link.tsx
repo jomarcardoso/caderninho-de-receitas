@@ -2,9 +2,9 @@
 'use client';
 
 import { useAppNavigation } from '@/hooks/useAppNavigation';
-import { MouseEvent } from 'react';
+import { HTMLProps, MouseEvent } from 'react';
 
-interface NavLinkProps {
+interface NavLinkProps extends HTMLProps<HTMLAnchorElement> {
   /** Ação do hook: push, pop ou reset */
   action: 'push' | 'pop' | 'reset';
   /** Caminho alvo, usado apenas em push e reset */
@@ -26,6 +26,7 @@ export function NavLink({
   children,
   onNavigate,
   native = false,
+  ...props
 }: NavLinkProps) {
   const { push, pop, reset } = useAppNavigation();
 
@@ -42,7 +43,11 @@ export function NavLink({
         break;
       case 'pop':
         try {
-          if (typeof window !== 'undefined' && window.history && window.history.length > 0) {
+          if (
+            typeof window !== 'undefined' &&
+            window.history &&
+            window.history.length > 0
+          ) {
             window.history.back();
             return;
           }
@@ -58,7 +63,7 @@ export function NavLink({
   };
 
   return (
-    <a href={to || '#'} onClick={handleClick}>
+    <a href={to || '#'} onClick={handleClick} {...props}>
       {children}
     </a>
   );

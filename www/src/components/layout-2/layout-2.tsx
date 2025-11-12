@@ -23,11 +23,7 @@ export const Layout2: FC<Layout2Props> = ({
 
   return (
     <div className={classes} {...props}>
-      {header && (
-        <div className="layout-2__header" data-ovo-sticky-header>
-          {header}
-        </div>
-      )}
+      {header && <div className="layout-2__header">{header}</div>}
 
       {children && <div className="layout-2__aside">{aside}</div>}
 

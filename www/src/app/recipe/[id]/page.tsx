@@ -13,9 +13,10 @@ import { Navbar } from '@/components/navbar/navbar';
 import { NavLink } from '@/components/nav-link/nav-link';
 // import { RecipeDetails } from '@common/components';
 import { Image2 } from '@/components/image-2/image';
-import { RecipeDetails } from '@/components/recipe-details/recipe-details';
 import Link from 'next/link';
 import RecipeDeleteButton from '@/components/recipe-delete-button/recipe-delete-button';
+import { useHistory } from '@/providers/history/history.provider';
+import { RecipePageClient } from './page.client';
 
 async function fetchRecipeById(id: string): Promise<RecipeData | null> {
   const num = Number(id);
@@ -82,15 +83,26 @@ export default async function RecipePage({
       <main className="theme-light">
         <div className="recipe-page">
           {recipe?.name && (
-            <div className="recipe-page__name">
-              <h1
-                className="h2"
-                style={{
-                  fontSize: recipe.name.length > 30 ? 17 : 19,
-                }}
-              >
-                {recipe.name}
-              </h1>
+            <div
+              // data-ovo-sticky-header
+              style={{
+                position: 'sticky',
+                top: 0,
+                right: 0,
+                width: '100%',
+                zIndex: 1,
+              }}
+            >
+              <div className="recipe-page__name">
+                <h1
+                  className="h2"
+                  style={{
+                    fontSize: recipe.name.length > 30 ? 17 : 19,
+                  }}
+                >
+                  {recipe.name}
+                </h1>
+              </div>
             </div>
           )}
           <div style={{ marginBottom: '24px' }}>
@@ -101,7 +113,7 @@ export default async function RecipePage({
             />
           </div>
           <div className="recipe-page__body">
-            <RecipeDetails recipe={recipe} />
+            <RecipePageClient recipe={recipe} />
           </div>
         </div>
       </main>

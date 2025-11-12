@@ -1,7 +1,7 @@
 @use '../../../../notebook-layout/styles/themes.scss';
 
 .layout-2 {
-  &__header,
+  // &__header,
   &__navbar,
   &__navbar > * {
     position: sticky;
@@ -10,7 +10,7 @@
 
   &__header {
     grid-area: layout-2__header;
-    top: 0;
+    // top: 0;
   }
 
   &__aside {

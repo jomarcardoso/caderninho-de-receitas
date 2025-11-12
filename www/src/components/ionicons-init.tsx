@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { defineCustomElements } from 'ionicons/loader';
 import { addIcons } from 'ionicons';
+import { UAParser } from 'ua-parser-js';
 // Import only the icons you use to avoid fetching assets
 import {
   arrowBackOutline,
@@ -35,15 +36,14 @@ export default function IoniconsInit() {
     try {
       const getBrowserMode = (): 'ios' | 'md' => {
         if (typeof navigator === 'undefined') return 'md';
-        const ua = navigator.userAgent || '';
-        const platform = (navigator as any).platform || '';
-        const maxTouchPoints = (navigator as any).maxTouchPoints || 0;
-        const isIOSLike =
-          /iPad|iPhone|iPod/.test(ua) ||
-          (platform === 'MacIntel' && maxTouchPoints > 1);
+        const parser = new UAParser(navigator.userAgent);
+        const osName = (parser.getOS().name || '').toLowerCase();
+        const isIOSLike = osName === 'ios';
 
         if (isIOSLike) return 'ios';
-        const isAndroid = /Android/i.test(ua);
+
+        const isAndroid = osName === 'android';
+
         if (isAndroid) return 'md';
         return 'md';
       };
