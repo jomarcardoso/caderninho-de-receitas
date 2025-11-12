@@ -7,6 +7,7 @@ export interface RecipeResponse
   extends RecipeBase<RecipeStepResponse>,
     AllNutrientsResponse {
   food: number;
+  isOwner?: boolean;
   author?: {
     id: string;
     displayName?: string;

@@ -416,6 +416,8 @@ public class RecipeService
     var data = await GetAllRecipesByUserId(userId);
     var recipes = data.Recipes;
     List<RecipeResponse> recipeDtos = _mapper.Map<List<RecipeResponse>>(recipes);
+    // Mark ownership for UI convenience
+    foreach (var r in recipeDtos) { r.IsOwner = true; }
     List<Food> foods = data.Foods;
 
     if (foods.Count == 0)

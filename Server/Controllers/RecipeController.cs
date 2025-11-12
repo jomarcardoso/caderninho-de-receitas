@@ -247,6 +247,11 @@ public class RecipeController : ControllerBase
 
     // Map to API responses
     var recipeResponses = _mapper.Map<List<RecipeResponse>>(recipes);
+    // Enrich with ownership flag for UI
+    foreach (var r in recipeResponses)
+    {
+      try { r.IsOwner = string.Equals(r.Author?.Id, userId, StringComparison.Ordinal); } catch { r.IsOwner = false; }
+    }
 
     // Collect Foods referenced by the recipes (including steps/ingredients)
     var foods = FoodService.GetFoodsFromRecipes(recipes);
@@ -324,7 +329,9 @@ public class RecipeController : ControllerBase
         .ThenInclude(i => i.Food)
       .FirstOrDefaultAsync(r => r.Id == id);
 
-    if (recipe is null || !recipe.IsPublic) return NotFound();
+    if (recipe is null) return NotFound();
+    var userId = GetUserId();
+    if (!recipe.IsPublic && !string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal)) return NotFound();
 
     count = Math.Clamp(count, 1, 5);
     var excluded = new HashSet<int>((excludeIds ?? string.Empty)
@@ -415,6 +422,8 @@ public class RecipeController : ControllerBase
 
     // Map recipe and related to responses with AutoMapper
     var recipeResponse = _mapper.Map<RecipeResponse>(recipe);
+    // Ownership flag for UI
+    try { recipeResponse.IsOwner = string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal); } catch { recipeResponse.IsOwner = false; }
 
     var relatedIds = filtered.Select(r => r.Id).ToList();
     var relatedEntities = await _context.Recipe
@@ -525,6 +534,10 @@ public class RecipeController : ControllerBase
 
     // Return mapped RecipeResponse including Author information
     var responses = _mapper.Map<List<RecipeResponse>>(recipes);
+    foreach (var r in responses)
+    {
+      try { r.IsOwner = string.Equals(r.Author?.Id, userId, StringComparison.Ordinal); } catch { r.IsOwner = false; }
+    }
     return Ok(responses);
   }
 }
@@ -533,4 +546,3 @@ public class ClaimOwnerRequest
 {
   public string TemporaryOwnerId { get; set; } = string.Empty;
 }
-

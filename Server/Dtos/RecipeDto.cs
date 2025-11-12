@@ -17,6 +17,7 @@ public class AuthorSummary
 public class RecipeResponse : RecipeBase<RecipeStepResponse, int>
 {
   public AuthorSummary? Author { get; set; }
+  public bool IsOwner { get; set; } = false;
 }
 
 public class RecipesDataResponse : FoodsDataResponse

@@ -105,7 +105,13 @@ Se for usar...
 </script>
 ```
 
-## Storyset
+## Layout
+
+### Thumb-Reachable UI (One-Handed Ergonomics)
+
+Designing interfaces that keep the most important controls within easy reach of the user’s thumb. This approach improves comfort, accessibility, and speed of interaction — especially on larger mobile screens — by placing primary actions and navigation elements in the lower half of the display.
+
+### Storyset
 
 https://storyset.com/illustration/chef/bro/animate?share=38917
 
@@ -113,7 +119,7 @@ https://storyset.com/illustration/cooking/bro/animate?share=38930
 
 https://storyset.com/illustration/order-food/bro/animate?share=38946
 
-## Ícones
+### Ícones
 
 https://ionic.io/ionicons
 
