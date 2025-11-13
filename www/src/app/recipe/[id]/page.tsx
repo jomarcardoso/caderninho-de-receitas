@@ -66,14 +66,17 @@ export default async function RecipePage({
         <Navbar>
           <NavLink action="pop">
             <ion-icon name="arrow-back-outline" />
+            página <br /> anterior
           </NavLink>
 
           <Link href={`/kitchen/${recipe.id}`}>
             <ion-icon name="create-outline" />
+            editar <br /> receita
           </Link>
 
           <button type="button" aria-label="Compartilhar" title="Compartilhar">
-            <ion-icon ios="share-outline" md="share-social-outline" />
+            <ion-icon md="share-outline" />
+            enviar <br /> receita
           </button>
 
           <RecipeDeleteButton id={recipe.id} />

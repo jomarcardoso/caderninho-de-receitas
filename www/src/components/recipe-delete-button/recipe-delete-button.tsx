@@ -15,6 +15,7 @@ export default function RecipeDeleteButton({ id }: { id: number }) {
   return (
     <button onClick={onDelete} aria-disabled={loading} title="Excluir">
       <ion-icon name="trash-outline" />
+      apagar <br /> receita
     </button>
   );
 }

@@ -87,12 +87,11 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
         <Navbar>
           <NavLink action="pop">
             <ion-icon name="arrow-back-outline" />
+            página <br /> anterior
           </NavLink>
           <Link href="/kitchen">
             <ion-icon name="add-circle-outline" />
-          </Link>
-          <Link href="/user">
-            <ion-icon name="person-circle-outline" />
+            nova <br /> receita
           </Link>
         </Navbar>
       }

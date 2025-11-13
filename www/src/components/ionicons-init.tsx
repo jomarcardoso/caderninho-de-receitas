@@ -25,9 +25,15 @@ import {
   checkmarkOutline,
   closeOutline,
   addOutline,
+  homeOutline,
+  personOutline,
 } from 'ionicons/icons';
 
 export default function IoniconsInit() {
+  const parser = new UAParser(navigator.userAgent);
+  const osName = (parser.getOS().name || '').toLowerCase();
+  const isIOSLike = osName === 'ios';
+
   useEffect(() => {
     // Define the web component once on client
     defineCustomElements(window);
@@ -74,20 +80,20 @@ export default function IoniconsInit() {
       'list-outline': listOutline,
       'restaurant-outline': restaurantOutline,
       'search-outline': searchOutline,
-      'search-circle-outline': searchCircleOutline,
       'chevron-forward-outline': chevronForwardOutline,
-      'add-outline': addOutline,
       'create-outline': createOutline,
       'duplicate-outline': duplicateOutline,
       'save-outline': saveOutline,
+      'add-outline': addOutline,
       'add-circle-outline': addCircleOutline,
       'person-circle-outline': personCircleOutline,
       'person-circle': personCircle,
       'trash-outline': trashOutline,
-      'share-outline': shareOutline,
-      'share-social-outline': shareSocialOutline,
-      'checkmark-outline': checkmarkOutline,
+      'share-outline': isIOSLike ? shareOutline : shareSocialOutline,
       'close-outline': closeOutline,
+      'checkmark-outline': checkmarkOutline,
+      'home-outline': homeOutline,
+      'person-outline': personOutline,
     });
   }, []);
 

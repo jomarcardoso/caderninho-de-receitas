@@ -139,7 +139,18 @@ export default async function RecipesPage({
           <Navbar>
             <NavLink action="pop">
               <ion-icon name="arrow-back-outline" />
+              página <br /> anterior
             </NavLink>
+
+            <Link href="/my-recipes">
+              <ion-icon name="list-outline"></ion-icon>
+              minhas <br /> receitas
+            </Link>
+
+            <Link href="/kitchen">
+              <ion-icon name="add-circle-outline" />
+              nova <br /> receita
+            </Link>
           </Navbar>
         }
         aside={
