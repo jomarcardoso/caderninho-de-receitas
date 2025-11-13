@@ -104,9 +104,15 @@ export default async function Home() {
         <Navbar>
           <Link href="/search">
             <ion-icon name="search-outline" />
+            procurar <br /> receitas
           </Link>
-          <Link href="/user">
-            <ion-icon name="person-circle-outline" />
+          <Link href="/my-recipes">
+            <ion-icon name="list-outline"></ion-icon>
+            minhas <br /> receitas
+          </Link>
+          <Link href="/kitchen">
+            <ion-icon name="add-outline"></ion-icon>
+            nova <br /> receita
           </Link>
         </Navbar>
       }

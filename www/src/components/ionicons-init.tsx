@@ -24,6 +24,7 @@ import {
   shareSocialOutline,
   checkmarkOutline,
   closeOutline,
+  addOutline,
 } from 'ionicons/icons';
 
 export default function IoniconsInit() {
@@ -75,6 +76,7 @@ export default function IoniconsInit() {
       'search-outline': searchOutline,
       'search-circle-outline': searchCircleOutline,
       'chevron-forward-outline': chevronForwardOutline,
+      'add-outline': addOutline,
       'create-outline': createOutline,
       'duplicate-outline': duplicateOutline,
       'save-outline': saveOutline,

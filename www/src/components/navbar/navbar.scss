@@ -4,6 +4,8 @@
   justify-content: space-around;
   // for iOS
   padding-bottom: env(safe-area-inset-bottom);
+  font-size: 0.8rem;
+  text-transform: lowercase;
 
   a,
   button {
@@ -11,7 +13,8 @@
     display: inline-flex;
     flex: 1;
     justify-content: center;
-    line-height: 1;
+    line-height: 1.1;
+    gap: 4px;
   }
 
   .button {
@@ -45,7 +48,7 @@
     a,
     button {
       height: 100%;
-      max-width: var(--action-size);
+      // max-width: var(--action-size);
     }
   }
 
