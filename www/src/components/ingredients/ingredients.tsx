@@ -1,11 +1,9 @@
-import { type FC } from 'react';
 import { translate } from 'services/language/language.service';
 import type { Ingredient } from 'services/ingredient/ingredient.model';
 import type { Food } from 'services/food/food.model';
 import { Section, type SectionProps } from 'notebook-layout';
 import { Language } from '@/contexts/language';
-import { Image2 } from '../image-2/image';
-// icons now come embedded in food.icon
+import IngredientsList from './ingredientsList.client';
 
 interface Props {
   ingredients: Array<Ingredient>;
@@ -15,12 +13,12 @@ interface Props {
 
 export type IngredientsProps = Props & SectionProps;
 
-export const Ingredients: FC<IngredientsProps> = ({
+export function Ingredients({
   ingredients = [],
   setCurrentFood,
   setCurrentFoodQuantity,
   ...props
-}) => {
+}: IngredientsProps) {
   const language: Language = 'pt';
   // icon fetching removed
   function handleClick(ingredient: Ingredient) {
@@ -39,36 +37,12 @@ export const Ingredients: FC<IngredientsProps> = ({
       onBgWhite
       {...props}
     >
-      <div className="list">
-        {ingredients.map((ingredient) => (
-          <button
-            key={`${ingredient.food.id}-${
-              ingredient.quantity
-            }-${ingredient.text.replace(/\s/g, '-')}`}
-            className="list-item -no-gutters -no-border"
-            // onClick={() => handleClick(ingredient)}
-          >
-            <div className="w-100 grid columns-10 align-items-center g-2">
-              <div className="g-col-1">
-                <Image2
-                  srcs={
-                    [
-                      ingredient.food.icon,
-                      ...(ingredient.food.imgs ?? []),
-                    ] as string[]
-                  }
-                  alt={ingredient.food.name[language]}
-                  transparent
-                />
-              </div>
-
-              <div className="g-col-9">
-                <p>{ingredient.text}</p>
-              </div>
-            </div>
-          </button>
-        ))}
-      </div>
+      <IngredientsList
+        language={language}
+        ingredients={ingredients}
+        setCurrentFood={setCurrentFood}
+        setCurrentFoodQuantity={setCurrentFoodQuantity}
+      />
     </Section>
   );
-};
+}
