@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
 import capitalize from 'lodash/capitalize';
 import { Recipe, RecipesData } from '@common/services/recipe';
+import { createRecipeList } from '@/services/recipe-lists.service';
 import { FC, useMemo, useState } from 'react';
 import { Image2 } from '@/components/image-2/image';
 import { Dialog } from 'notebook-layout';
@@ -36,6 +37,21 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
   function closeDialog() {
     setDialogOpen(false);
     setSelectedId(null);
+  }
+
+  async function handleAddNewList() {
+    try {
+      const name = prompt('Nome da nova lista');
+      if (!name) return;
+      const trimmed = name.trim();
+      if (!trimmed) return;
+      await createRecipeList(trimmed);
+      // Reload to reflect the newly created list in SSR-provided data
+      if (typeof window !== 'undefined') window.location.reload();
+    } catch (e) {
+      // noop: keep minimal behavior; errors can be surfaced later
+      console.error('Falha ao criar lista', e);
+    }
   }
 
   function renderItem(recipe: Recipe) {
@@ -208,6 +224,12 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
               </li>
             ))}
           </ul>
+
+          <div className="mt-4" style={{ display: 'flex', gap: 8 }}>
+            <Button type="button" variant="secondary" onClick={handleAddNewList}>
+              adicionar nova lista
+            </Button>
+          </div>
         </section>
 
         {/* <MyRecipesClient initialLists={recipeLists} /> */}

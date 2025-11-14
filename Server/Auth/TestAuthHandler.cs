@@ -16,18 +16,25 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
 
   protected override Task<AuthenticateResult> HandleAuthenticateAsync()
   {
-    // Cria um usuário fake com NameIdentifier (OwnerId)
-    var claims = new[]
-    {
-            new Claim(ClaimTypes.NameIdentifier, "dev-user"),
-            new Claim(ClaimTypes.Name, "Developer User"),
-            new Claim(ClaimTypes.Email, "dev@teste.com")
-        };
+    // In development, prefer the x-temp-owner cookie when present to bind requests
+    // to the real OwnerId; fallback to a fixed dev-user.
+    var owner = Request?.Cookies["x-temp-owner"];
+    owner = string.IsNullOrWhiteSpace(owner) ? "dev-user" : owner!.Trim();
 
-    var identity = new ClaimsIdentity(claims, "Test");
+    var claims = new List<Claim>
+    {
+      new Claim(ClaimTypes.NameIdentifier, owner!),
+      new Claim(ClaimTypes.Role, "user"),
+    };
+    // Friendly defaults for display
+    claims.Add(new Claim(ClaimTypes.Name, owner == "dev-user" ? "Developer User" : owner));
+    claims.Add(new Claim(ClaimTypes.Email, owner == "dev-user" ? "dev@teste.com" : "user@local"));
+
+    var identity = new ClaimsIdentity(claims, Scheme.Name);
     var principal = new ClaimsPrincipal(identity);
-    var ticket = new AuthenticationTicket(principal, "Test");
+    var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
     return Task.FromResult(AuthenticateResult.Success(ticket));
   }
 }
+

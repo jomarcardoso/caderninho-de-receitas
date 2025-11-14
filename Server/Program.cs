@@ -14,6 +14,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Server.Auth;
 using System.Text.Json.Serialization;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -208,6 +209,30 @@ app.UseCors("AllowSpecificOrigin");
 
 // auth
 app.UseAuthentication();
+
+// In development, elevate temporary owner cookie to an authenticated user for any request
+if (app.Environment.IsDevelopment())
+{
+  app.Use(async (ctx, next) =>
+  {
+    var isAuth = ctx.User?.Identity?.IsAuthenticated == true;
+    if (!isAuth)
+    {
+      var tempOwner = ctx.Request.Cookies["x-temp-owner"];
+      if (!string.IsNullOrWhiteSpace(tempOwner))
+      {
+        var claims = new List<Claim>
+        {
+          new Claim(ClaimTypes.NameIdentifier, tempOwner!),
+          new Claim(ClaimTypes.Role, "user"),
+        };
+        var identity = new ClaimsIdentity(claims, "TempOwner");
+        ctx.User = new ClaimsPrincipal(identity);
+      }
+    }
+    await next();
+  });
+}
 app.UseAuthorization();
 
 app.MapControllers();

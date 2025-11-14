@@ -121,6 +121,25 @@ public class AuthController : ControllerBase
     }
     catch { /* do not fail login if transfer fails */ }
 
+    // In development and in general, set a helper cookie with the owner id so the site at 5106 receives it
+    try
+    {
+      var ownerId = user.GoogleId?.Trim();
+      if (!string.IsNullOrWhiteSpace(ownerId))
+      {
+        var opts = new CookieOptions
+        {
+          Path = "/",
+          HttpOnly = true,
+          SameSite = SameSiteMode.Lax,
+          Expires = DateTimeOffset.UtcNow.AddDays(30),
+          Secure = false, // allow http dev; adjust in prod if needed
+        };
+        Response.Cookies.Append("x-temp-owner", ownerId!, opts);
+      }
+    }
+    catch { }
+
     return Ok(response);
   }
 

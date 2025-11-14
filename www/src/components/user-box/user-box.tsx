@@ -91,6 +91,16 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
   );
 
   const handleLogout = useCallback(() => {
+    try {
+      // Fire-and-forget: clear backend session cookie via Next proxy
+      fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { accept: 'application/json' },
+        credentials: 'include',
+        cache: 'no-store',
+      }).catch(() => {});
+    } catch {}
+
     setUser(null);
     storeUser(null);
     setErrorMessage(null);
