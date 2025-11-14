@@ -96,6 +96,12 @@ HomeDataResponse
 
 ### Food
 
+Generate list of foods.
+
+docker exec -i caderninho-db psql -U admin -d caderninho -c "\copy (SELECT json_agg(\"Name_Pt\") FROM \"Food\") TO STDOUT" > temp/foods.json
+
+Json format to create new foods
+
 ```json
 {
   "name": { "pt": "Banana", "en": "Banana" },

@@ -1,18 +1,13 @@
-﻿import { CiCircleChevLeft, CiEdit, CiShare1 } from 'react-icons/ci';
+import { CiCircleChevLeft, CiEdit, CiShare1 } from 'react-icons/ci';
 import type { RecipeData } from '@common/services/recipe';
 import { fetchRecipeData } from '@common/services/recipe';
 import './page.scss';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-// import { SectionCard } from 'notebook-layout';
-// import SideMenu from '@/components/SideMenu';
-// import ClientRecipeDetails from '@/components/RecipeDetails.client';
-// import FallbackImage from '@/components/FallbackImage.client';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import { Header2 } from '@/components/header-2/header-2';
 import { Navbar } from '@/components/navbar/navbar';
 import { NavLink } from '@/components/nav-link/nav-link';
-// import { RecipeDetails } from '@common/components';
 import { Image2 } from '@/components/image-2/image';
 import Link from 'next/link';
 import RecipeDeleteButton from '@/components/recipe-delete-button/recipe-delete-button';
@@ -33,7 +28,7 @@ export async function generateMetadata({
   const { id } = await params;
   const data = await fetchRecipeById(id);
 
-  if (!data) return { title: 'Receita n�o encontrada' };
+  if (!data) return { title: 'Receita não encontrada' };
   return {
     title: data.recipe.name ?? 'Receita',
     description: data.recipe.description ?? undefined,
@@ -53,7 +48,7 @@ export default async function RecipePage({
 
   return (
     <Layout2
-      header={<Header2 currentPage="kitchen" />}
+      header={<Header2 />}
       aside={
         <ul>
           {data.relatedRecipes.map((r) => (
@@ -88,7 +83,6 @@ export default async function RecipePage({
         <div className="recipe-page">
           {recipe?.name && (
             <div
-              // data-ovo-sticky-header
               style={{
                 position: 'sticky',
                 top: 0,
@@ -124,3 +118,4 @@ export default async function RecipePage({
     </Layout2>
   );
 }
+

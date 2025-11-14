@@ -1,6 +1,5 @@
-﻿'use client';
+'use client';
 import { CiCircleRemove, CiCircleCheck } from 'react-icons/ci';
-
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   approveRecipe,
@@ -21,7 +20,7 @@ export default function AdminPendingRecipes() {
       const data = await fetchPendingRecipes();
       setItems(data);
     } catch (e: any) {
-      setError(e?.message || 'Falha ao carregar pendÃªncias');
+      setError(e?.message || 'Falha ao carregar pendências');
     } finally {
       setLoading(false);
     }
@@ -83,7 +82,7 @@ export default function AdminPendingRecipes() {
                 <div>
                   <div style={{ fontWeight: 600 }}>{r.name}</div>
                   <div style={{ fontSize: 12, opacity: 0.7 }}>
-                    #{r.id} ï¿½?ï¿½ {new Date(r.createdAt).toLocaleString()}
+                    #{r.id} • {new Date(r.createdAt).toLocaleString()}
                   </div>
                 </div>
               </div>
@@ -114,7 +113,7 @@ export default function AdminPendingRecipes() {
     <section className="grid" aria-labelledby="admin-pending-title">
       <div className="g-col-12">
         <h2 className="section-title" id="admin-pending-title">
-          AprovaÃ§Ã£o de receitas
+          Aprovação de receitas
         </h2>
       </div>
       <div className="g-col-12">{body}</div>

@@ -21,7 +21,8 @@ export default async function UserPage() {
     if (res.ok) {
       const me = (await res.json()) as { roles?: string[] } | null;
       const roles = (me?.roles || []).map((r) => r.toLowerCase());
-      showAdmin = roles.includes('admin') || roles.includes('owner') || roles.includes('keeper');
+      showAdmin =
+        roles.includes('admin') || roles.includes('owner') || roles.includes('keeper');
     }
   } catch {}
 

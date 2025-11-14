@@ -159,8 +159,8 @@ export default async function Home() {
 
         <section>
           {recipes.map((recipe) => (
-            <Link href={`/recipe/${recipe.id}`}>
-              <article key={recipe.id} className="card">
+            <Link key={recipe.id} href={`/recipe/${recipe.id}`}>
+              <article className="card">
                 <SectionCard title={recipe.name}>
                   {recipe.description && (
                     <p className="description">{recipe.description}</p>
@@ -193,3 +193,4 @@ export default async function Home() {
     </Layout2>
   );
 }
+

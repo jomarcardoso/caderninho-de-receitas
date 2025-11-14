@@ -67,23 +67,12 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
         </Link>
       </li>
     );
-    // return (
-    //   <ListItem
-    //     key={recipe.id}
-    //     isAction
-    //     // isActive={recipe.id === currentRecipeId}
-    //     tabIndex={0}
-    //     href={`/recipe/${recipe.id}`}
-    //   >
-    //     {capitalize(recipe.name)}
-    //   </ListItem>
-    // );
   }
 
   return (
     <Layout2
       className="my-recipes-page"
-      header={<Header2 currentPage="my-recipes" />}
+      header={<Header2 />}
       navbar={
         <Navbar>
           <NavLink action="pop">
@@ -167,3 +156,4 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
     </Layout2>
   );
 };
+

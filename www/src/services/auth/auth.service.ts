@@ -17,6 +17,10 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   DEFAULT_API_BASE_URL;
 
+// Simple in-memory cache to avoid repeated /api/me fetches on client
+let meCache: MeResponse | null | undefined;
+let meInflight: Promise<MeResponse | null> | null = null;
+
 async function parseError(response: Response): Promise<string> {
   try {
     const payload = (await response.json()) as GoogleLoginErrorResponse;
@@ -54,6 +58,36 @@ export interface MeResponse {
 }
 
 export async function fetchMe(): Promise<MeResponse | null> {
+  // On the web app, prefer the Next.js proxy to ensure cookies flow and reduce CORS issues
+  if (typeof window !== 'undefined') {
+    if (meCache !== undefined) return meCache ?? null;
+    if (meInflight) return meInflight;
+    meInflight = (async () => {
+      try {
+        const response = await fetch('/api/me', {
+          method: 'GET',
+          credentials: 'include',
+          headers: { Accept: 'application/json' },
+          cache: 'no-store',
+        });
+        if (!response.ok) {
+          meCache = null;
+          return null;
+        }
+        const data = (await response.json()) as MeResponse;
+        meCache = data ?? null;
+        return meCache;
+      } catch {
+        meCache = null;
+        return null;
+      } finally {
+        meInflight = null;
+      }
+    })();
+    return meInflight;
+  }
+
+  // For server-side usages, call the backend directly (no client cache)
   try {
     const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
       method: 'GET',

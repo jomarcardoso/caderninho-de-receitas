@@ -3,15 +3,12 @@ import { type FC, type HTMLProps } from 'react';
 import './header-2.scss';
 import Link from 'next/link';
 import Logo from '../logo/logo';
-// Ionicons custom element
 
 export interface Header2Props extends HTMLProps<HTMLDivElement> {
-  // currentPage prop kept for backward compatibility, but not used
   currentPage?: 'main' | 'my-recipes' | 'kitchen';
 }
 
 export const Header2: FC<Header2Props> = ({
-  // currentPage is ignored intentionally
   ...props
 }) => {
   return (
@@ -36,3 +33,4 @@ export const Header2: FC<Header2Props> = ({
     </header>
   );
 };
+
