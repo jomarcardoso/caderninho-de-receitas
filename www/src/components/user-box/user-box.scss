@@ -5,9 +5,9 @@
   display: grid;
   gap: 8px 16px;
   grid-template-areas:
-    "avatar name name"
-    "avatar . out-button"
-    "google google google";
+    'avatar name name'
+    'avatar . out-button'
+    'google google google';
   grid-template-columns: auto 1fr auto;
   grid-template-rows: 1fr auto;
 
@@ -28,8 +28,7 @@
     grid-area: name;
   }
 
-  .action-button {
+  .button {
     grid-area: out-button;
   }
 }
-

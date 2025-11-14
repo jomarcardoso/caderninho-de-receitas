@@ -78,3 +78,12 @@ export async function hasKeeperPermission(): Promise<boolean> {
   );
 }
 
+export async function hasAdminPermission(): Promise<boolean> {
+  const me = await fetchMe();
+  const roles = (me?.roles || []).map((r) => r.toLowerCase());
+  return (
+    roles.includes('admin') ||
+    roles.includes('owner') ||
+    roles.includes('keeper')
+  );
+}
