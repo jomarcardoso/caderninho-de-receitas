@@ -1,3 +1,4 @@
+﻿import { CiCircleChevRight } from 'react-icons/ci';
 import { type FC, type HTMLProps, type ReactNode, useMemo } from 'react';
 import './list-item.scss';
 import { generateClasses } from 'services/dom/classes';
@@ -43,7 +44,7 @@ export const ListItem: FC<ListItemProps> = ({
         {icon && <div className="list-item__image">{icon}</div>}
         <div className="list-item__content">{children}</div>
         {isAction && (
-          <ion-icon name="chevron-forward-outline" class="list-item__icon" />
+          <CiCircleChevRight className="list-item__icon" />
         )}
       </>
     ),
@@ -72,3 +73,4 @@ export const ListItem: FC<ListItemProps> = ({
     </li>
   );
 };
+

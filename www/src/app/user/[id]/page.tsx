@@ -1,3 +1,4 @@
+﻿import { CiHome } from 'react-icons/ci';
 import Link from 'next/link';
 import { Header2 } from '@/components/header-2/header-2';
 import { Navbar } from '@/components/navbar/navbar';
@@ -13,17 +14,25 @@ type UserProfile = {
 
 export const metadata = { title: 'Autor' };
 
-export default async function UserPublicPage({ params }: { params: { id: string } }) {
+export default async function UserPublicPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const id = params.id;
 
   let profile: UserProfile | null = null;
   let featured: UserProfile[] = [];
 
   try {
-    profile = await fetchApiJson<UserProfile>(`/api/users/${encodeURIComponent(id)}`);
+    profile = await fetchApiJson<UserProfile>(
+      `/api/users/${encodeURIComponent(id)}`,
+    );
   } catch {}
   try {
-    featured = await fetchApiJson<UserProfile[]>(`/api/users/featured?quantity=6`);
+    featured = await fetchApiJson<UserProfile[]>(
+      `/api/users/featured?quantity=6`,
+    );
   } catch {}
 
   return (
@@ -32,7 +41,7 @@ export default async function UserPublicPage({ params }: { params: { id: string 
       navbar={
         <Navbar>
           <Link href="/">
-            <ion-icon name="home-outline" />
+            <CiHome />
           </Link>
         </Navbar>
       }
@@ -56,7 +65,9 @@ export default async function UserPublicPage({ params }: { params: { id: string 
                   <h1 className="h1" style={{ margin: 0 }}>
                     {profile.displayName || 'Autor'}
                   </h1>
-                  <div style={{ opacity: 0.7, fontSize: 14 }}>@{profile.ownerId}</div>
+                  <div style={{ opacity: 0.7, fontSize: 14 }}>
+                    @{profile.ownerId}
+                  </div>
                 </div>
               </div>
               {profile.bio && (
@@ -74,8 +85,14 @@ export default async function UserPublicPage({ params }: { params: { id: string 
               </h2>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 {featured.map((u) => (
-                  <Link key={u.ownerId} href={`/user/${encodeURIComponent(u.ownerId)}`} style={{ textDecoration: 'none' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Link
+                    key={u.ownerId}
+                    href={`/user/${encodeURIComponent(u.ownerId)}`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <div
+                      style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+                    >
                       {u.pictureUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -98,4 +115,3 @@ export default async function UserPublicPage({ params }: { params: { id: string 
     </Layout2>
   );
 }
-

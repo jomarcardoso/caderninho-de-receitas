@@ -1,4 +1,5 @@
 'use client';
+import { CiCircleChevLeft, CiCirclePlus } from 'react-icons/ci';
 import './page.scss';
 // import MyRecipesClient from './ui/MyRecipes.client';
 import { Layout2 } from '@/components/layout-2/layout-2';
@@ -86,11 +87,11 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
       navbar={
         <Navbar>
           <NavLink action="pop">
-            <ion-icon name="arrow-back-outline" />
+            <CiCircleChevLeft className="svg-icon" />
             página <br /> anterior
           </NavLink>
           <Link href="/kitchen">
-            <ion-icon name="add-circle-outline" />
+            <CiCirclePlus className="svg-icon" />
             nova <br /> receita
           </Link>
         </Navbar>
@@ -116,7 +117,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
           <div className="g-col-12">
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button as={Link} href="/kitchen">
-                <ion-icon name="add-circle-outline" />
+                <CiCirclePlus />
                 {translate('addNewRecipe', language)}
               </Button>
             </div>
@@ -158,7 +159,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
 
         <div className="d-flex justify-content-center mt-4">
           <NavLink action="pop" className="button button--secondary">
-            <ion-icon name="arrow-back-outline" />
+            <CiCircleChevLeft />
             voltar para página anterior
           </NavLink>
         </div>

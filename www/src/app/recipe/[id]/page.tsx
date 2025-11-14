@@ -1,4 +1,5 @@
-﻿import type { RecipeData } from '@common/services/recipe';
+﻿import { CiCircleChevLeft, CiEdit, CiShare1 } from 'react-icons/ci';
+import type { RecipeData } from '@common/services/recipe';
 import { fetchRecipeData } from '@common/services/recipe';
 import './page.scss';
 import type { Metadata } from 'next';
@@ -65,17 +66,17 @@ export default async function RecipePage({
       navbar={
         <Navbar>
           <NavLink action="pop">
-            <ion-icon name="arrow-back-outline" />
+            <CiCircleChevLeft className="svg-icon" />
             página <br /> anterior
           </NavLink>
 
           <Link href={`/kitchen/${recipe.id}`}>
-            <ion-icon name="create-outline" />
+            <CiEdit className="svg-icon" />
             editar <br /> receita
           </Link>
 
           <button type="button" aria-label="Compartilhar" title="Compartilhar">
-            <ion-icon md="share-outline" />
+            <CiShare1 className="svg-icon" />
             enviar <br /> receita
           </button>
 

@@ -1,6 +1,7 @@
 .logo {
   color: var(--color-dark-main);
   font-family: var(--font-family-title);
+  // font-weight: normal;
   font-size: 16px;
   line-height: 1;
   letter-spacing: 0;
@@ -14,7 +15,7 @@
   }
 
   &.-active {
-    text-shadow: 0 0 1px currentcolor;
+    // text-shadow: 0 0 1px currentcolor;
 
     .logo__text-small {
       color: var(--color-primary-main);
@@ -25,4 +26,3 @@
     color: #fff;
   }
 }
-

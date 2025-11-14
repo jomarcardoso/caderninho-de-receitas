@@ -1,4 +1,5 @@
-'use client';
+﻿'use client';
+import { CiCircleChevLeft, CiFloppyDisk } from 'react-icons/ci';
 import { Navbar } from '@/components/navbar/navbar';
 import { Layout2 } from '@/components/layout-2/layout-2';
 import { NavigationService } from '@/services/navigation.service';
@@ -19,6 +20,7 @@ import { Form, Formik, FormikProps } from 'formik';
 import { generateId } from '@common/services/string.service';
 import Dialog from '@/components/dialog/dialog';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
+import { NavLink } from '@/components/nav-link/nav-link';
 
 interface KitchenPageViewProps {
   recipeToEdit?: RecipeDto;
@@ -128,21 +130,19 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
         {(formik: FormikProps<RecipeForm>) => (
           <Form action="/" method="post">
             <Layout2
-              header={<Header2 currentPage="kitchen" />}
+              header={<Header2 />}
               navbar={
                 <Navbar>
-                  <Button
-                    variant="secondary"
-                    onClick={() => NavigationService.pop()}
-                  >
+                  <NavLink action="pop" className="button button--secondary">
+                    <CiCircleChevLeft className="svg-icon" />
                     {translate('cancel', language)}
-                  </Button>
+                  </NavLink>
                   <Button
                     type="submit"
                     // disabled={!serverUp}
                     // title={!serverUp ? 'Servidor offline' : undefined}
                   >
-                    <ion-icon name="save-outline" />
+                    <CiFloppyDisk className="svg-icon" />
                     {translate('saveRecipe', language)}
                   </Button>
                 </Navbar>

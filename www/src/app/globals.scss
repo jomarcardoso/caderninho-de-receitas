@@ -5,6 +5,10 @@
 );
 @use 'bootstrap/scss/bootstrap-utilities';
 
+strong {
+  font-weight: bold;
+}
+
 .columns-1 {
   --bs-columns: 1;
 }

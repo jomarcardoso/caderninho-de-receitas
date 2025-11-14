@@ -1,4 +1,5 @@
-'use client';
+﻿'use client';
+import { CiTrash } from 'react-icons/ci';
 
 import { useContext, useState } from 'react';
 import { useDeleteRecipe } from '@/hooks/useDeleteRecipe';
@@ -14,7 +15,7 @@ export default function RecipeDeleteButton({ id }: { id: number }) {
 
   return (
     <button onClick={onDelete} aria-disabled={loading} title="Excluir">
-      <ion-icon name="trash-outline" />
+      <CiTrash className="svg-icon" />
       apagar <br /> receita
     </button>
   );

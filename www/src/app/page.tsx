@@ -1,4 +1,5 @@
-﻿import './page.scss';
+import { CiSearch, CiViewList, CiCirclePlus } from 'react-icons/ci';
+import './page.scss';
 import type { Metadata } from 'next';
 import type { RecipeDto } from '@common/services/recipe';
 import { fetchMostCopiedRecipes } from '@common/services/recipe';
@@ -103,15 +104,15 @@ export default async function Home() {
       navbar={
         <Navbar>
           <Link href="/search">
-            <ion-icon name="search-outline" />
+            <CiSearch className="svg-icon" />
             procurar <br /> receitas
           </Link>
           <Link href="/my-recipes">
-            <ion-icon name="list-outline"></ion-icon>
+            <CiViewList className="svg-icon" />
             minhas <br /> receitas
           </Link>
           <Link href="/kitchen">
-            <ion-icon name="add-outline"></ion-icon>
+            <CiCirclePlus className="svg-icon" />
             nova <br /> receita
           </Link>
         </Navbar>
@@ -192,4 +193,3 @@ export default async function Home() {
     </Layout2>
   );
 }
-

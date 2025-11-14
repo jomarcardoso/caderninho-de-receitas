@@ -6,7 +6,6 @@ import '@fontsource/dosis';
 import '@fontsource/cinzel';
 import '@fontsource/vibur';
 import { LanguageProvider } from '../contexts/language';
-import IoniconsInit from '@/components/ionicons-init';
 import { ClientNavigationProvider } from '@/providers/client-navigation.provider';
 import StickyHeaderInit from '@/components/sticky-header-init';
 import { LoadingProvider } from '@/providers/loading';
@@ -53,9 +52,7 @@ export default function RootLayout({
           strategy="afterInteractive"
           async
         />
-        {/* Initialize Ionicons custom element on the client */}
-        <IoniconsInit />
-        {/* Initialize page-wide sticky header behavior on client */}
+        {/* Initialize Ionicons custom element on the client */}{/* Initialize page-wide sticky header behavior on client */}
         <StickyHeaderInit />
         <NavigationProvider>
           <LoadingProvider>
@@ -70,4 +67,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 

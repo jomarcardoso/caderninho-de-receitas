@@ -1,3 +1,4 @@
+import { CiHome, CiUser } from 'react-icons/ci';
 import { type FC, type HTMLProps } from 'react';
 import './header-2.scss';
 import Link from 'next/link';
@@ -18,18 +19,18 @@ export const Header2: FC<Header2Props> = ({
       {/* Left: go to home */}
       <Link className="header-2__button" href="/" aria-label="Início">
         <div className="svg-icon">
-          <ion-icon name="home-outline" />
+          <CiHome />
         </div>
       </Link>
 
       <Link className="header-2__button" href="/">
-        <Logo active={false} />
+        <Logo active={true} />
       </Link>
 
       {/* Right: go to user page */}
       <Link className="header-2__button" href="/user" aria-label="Usuário">
         <div className="svg-icon">
-          <ion-icon name="person-outline" />
+          <CiUser />
         </div>
       </Link>
     </header>

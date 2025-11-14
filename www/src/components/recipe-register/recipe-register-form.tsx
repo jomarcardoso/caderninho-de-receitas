@@ -1,4 +1,5 @@
-'use client';
+﻿'use client';
+import { CiSquarePlus } from 'react-icons/ci';
 import { FieldArray, type FormikProps } from 'formik';
 import { type FC, useCallback, type ChangeEventHandler, Fragment } from 'react';
 import './recipe-register.scss';
@@ -287,7 +288,7 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
                           ])
                         }
                       >
-                        <ion-icon name="duplicate-outline" />
+                        <CiSquarePlus />
                         {translate('addAnotherStep', language)}
                       </Button>
                     </div>

@@ -1,3 +1,10 @@
+import {
+  CiCircleChevLeft,
+  CiCirclePlus,
+  CiSearch,
+  CiUser,
+  CiViewList,
+} from 'react-icons/ci';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
@@ -15,17 +22,24 @@ export const metadata: Metadata = {
 export default function UserPage() {
   return (
     <Layout2
-      header={<Header2 currentPage="user" />}
+      header={<Header2 />}
       navbar={
         <Navbar>
           <NavLink action="pop">
-            <ion-icon name="arrow-back-outline" />
+            <CiCircleChevLeft className="svg-icon" />
+            página <br /> anterior
           </NavLink>
-          <Link href="/kitchen">
-            <ion-icon name="add-circle-outline" />
+          <Link href="/search">
+            <CiSearch className="svg-icon" />
+            procurar <br /> receitas
           </Link>
-          <Link href="/user">
-            <ion-icon name="person-circle" />
+          <Link href="/my-recipes">
+            <CiViewList className="svg-icon" />
+            minhas <br /> receitas
+          </Link>
+          <Link href="/kitchen">
+            <CiCirclePlus className="svg-icon" />
+            nova <br /> receita
           </Link>
         </Navbar>
       }

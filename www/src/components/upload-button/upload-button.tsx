@@ -1,7 +1,11 @@
 import { useRef, useState } from 'react';
 import { Button } from 'notebook-layout';
 import { uploadImageToAzure } from '../../services/upload/azure-blob.service';
-import { isNativeCameraAvailable, takePhotoAsFile } from '../../services/upload/camera';
+import {
+  isNativeCameraAvailable,
+  takePhotoAsFile,
+} from '../../services/upload/camera';
+import { CiSaveUp2 } from 'react-icons/ci';
 
 export interface UploadButtonProps {
   onUploaded?: (url: string) => void;
@@ -9,7 +13,11 @@ export interface UploadButtonProps {
   label?: string;
 }
 
-export function UploadButton({ onUploaded, prefix, label = 'Enviar imagem' }: UploadButtonProps) {
+export function UploadButton({
+  onUploaded,
+  prefix,
+  label = 'Enviar imagem',
+}: UploadButtonProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,13 +62,17 @@ export function UploadButton({ onUploaded, prefix, label = 'Enviar imagem' }: Up
         ref={inputRef}
         type="file"
         accept="image/*"
-        capture={nativeCamera ? 'environment' : undefined as any}
+        capture={nativeCamera ? 'environment' : (undefined as any)}
         onChange={handleSelect}
         style={{ display: 'none' }}
       />
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {nativeCamera && (
-          <Button disabled={loading} onClick={handleTakePhoto} variant="secondary">
+          <Button
+            disabled={loading}
+            onClick={handleTakePhoto}
+            variant="secondary"
+          >
             {loading ? 'Enviando...' : 'Tirar foto'}
           </Button>
         )}
@@ -69,17 +81,24 @@ export function UploadButton({ onUploaded, prefix, label = 'Enviar imagem' }: Up
           onClick={() => inputRef.current?.click()}
           variant="secondary"
         >
+          <CiSaveUp2 className="svg-icon" />
           {loading ? 'Enviando...' : label}
         </Button>
       </div>
       {url && (
         <div style={{ marginTop: 8 }}>
           <small>URL:</small>
-          <div><a href={url} target="_blank" rel="noreferrer">{url}</a></div>
+          <div>
+            <a href={url} target="_blank" rel="noreferrer">
+              {url}
+            </a>
+          </div>
         </div>
       )}
       {error && (
-        <div style={{ color: 'var(--color-danger)', marginTop: 8 }}>{error}</div>
+        <div style={{ color: 'var(--color-danger)', marginTop: 8 }}>
+          {error}
+        </div>
       )}
     </div>
   );

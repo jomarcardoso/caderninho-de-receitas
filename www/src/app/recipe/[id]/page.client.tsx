@@ -1,4 +1,5 @@
-'use client';
+﻿'use client';
+import { CiCircleChevLeft } from 'react-icons/ci';
 import { NavLink } from '@/components/nav-link/nav-link';
 import { RecipeDetails } from '@/components/recipe-details/recipe-details';
 import { useHistory } from '@/providers/history/history.provider';
@@ -17,10 +18,11 @@ export const RecipePageClient: FC<RecipePageClientProps> = ({ recipe }) => {
 
       <div className="d-flex justify-content-center mt-4">
         <NavLink action="pop" className="button button--secondary">
-          <ion-icon name="arrow-back-outline" />
+          <CiCircleChevLeft />
           voltar para página anterior
         </NavLink>
       </div>
     </>
   );
 };
+

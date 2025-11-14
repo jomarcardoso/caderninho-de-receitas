@@ -1,3 +1,9 @@
+import {
+  CiCircleChevLeft,
+  CiViewList,
+  CiCirclePlus,
+  CiSearch,
+} from 'react-icons/ci';
 import { Navbar } from '@/components/navbar/navbar';
 import { Header2 } from '@/components/header-2/header-2';
 import { Layout2 } from '@/components/layout-2/layout-2';
@@ -138,17 +144,17 @@ export default async function RecipesPage({
         navbar={
           <Navbar>
             <NavLink action="pop">
-              <ion-icon name="arrow-back-outline" />
+              <CiCircleChevLeft className="svg-icon" />
               página <br /> anterior
             </NavLink>
 
             <Link href="/my-recipes">
-              <ion-icon name="list-outline"></ion-icon>
+              <CiViewList className="svg-icon" />
               minhas <br /> receitas
             </Link>
 
             <Link href="/kitchen">
-              <ion-icon name="add-circle-outline" />
+              <CiCirclePlus className="svg-icon" />
               nova <br /> receita
             </Link>
           </Navbar>
@@ -201,7 +207,7 @@ export default async function RecipesPage({
           />
 
           <Button type="submit" className="mb-3">
-            <ion-icon name="search-outline" />
+            <CiSearch />
             buscar
           </Button>
 
@@ -238,7 +244,7 @@ export default async function RecipesPage({
                               background: '#f2f2f2',
                             }}
                           >
-                            {categoriesMap?.[key]?.text?.pt || key} ×
+                            {categoriesMap?.[key]?.text?.pt || key} x
                           </span>
                         </a>
                       ))}

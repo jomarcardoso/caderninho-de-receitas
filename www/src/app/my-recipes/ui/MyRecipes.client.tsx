@@ -188,7 +188,7 @@ export default function MyRecipesClient({
                   {selected.description && (
                     <span style={{ opacity: 0.8 }}>
                       {' '}
-                      — {selected.description}
+                      - {selected.description}
                     </span>
                   )}
                 </div>
