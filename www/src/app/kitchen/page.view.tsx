@@ -18,7 +18,7 @@ import {
 } from '@/components/recipe-register/recipe-register-form';
 import { Form, Formik, FormikProps } from 'formik';
 import { generateId } from '@common/services/string.service';
-import Dialog from '@/components/dialog/dialog';
+import { Dialog } from 'notebook-layout';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import { NavLink } from '@/components/nav-link/nav-link';
 

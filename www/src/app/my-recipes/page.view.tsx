@@ -1,5 +1,5 @@
 'use client';
-import { CiCircleChevLeft, CiCirclePlus } from 'react-icons/ci';
+import { CiCircleChevLeft, CiCirclePlus, CiSearch } from 'react-icons/ci';
 import './page.scss';
 // import MyRecipesClient from './ui/MyRecipes.client';
 import { Layout2 } from '@/components/layout-2/layout-2';
@@ -10,11 +10,11 @@ import { translate } from '@common/services/language/language.service';
 import { Button, Card } from 'notebook-layout';
 import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
-import { ListItem } from '@/components/list-item/list-item';
 import capitalize from 'lodash/capitalize';
 import { Recipe, RecipesData } from '@common/services/recipe';
-import { FC } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { Image2 } from '@/components/image-2/image';
+import { Dialog } from 'notebook-layout';
 
 export interface MyRecipesViewProps {
   data: RecipesData;
@@ -23,48 +23,76 @@ export interface MyRecipesViewProps {
 export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
   const language: Language = 'pt';
   const { recipes, recipeLists } = data;
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const lists = useMemo(() => recipeLists ?? [], [recipeLists]);
+
+  function openDialogForRecipe(id: number) {
+    setSelectedId(id);
+    setDialogOpen(true);
+  }
+
+  function closeDialog() {
+    setDialogOpen(false);
+    setSelectedId(null);
+  }
 
   function renderItem(recipe: Recipe) {
     return (
       <li className="col-12" key={recipe.id}>
-        <Link href={`/recipe/${recipe.id}`}>
-          <article aria-labelledby={String(recipe.id)}>
-            <Card
-              title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
-              img={
-                <Image2
-                  srcs={[
-                    ...(recipe?.imgs ?? []),
-                    ...(recipe?.food?.imgs ?? []),
-                  ]}
-                />
-              }
-            >
-              <ul className="row no-gutters g-3">
-                <li className="col-6">
-                  <strong>{translate('foodFormCalories', language)}</strong>
-                  <br />
-                  {recipe.nutritionalInformation[2].quantity.toFixed(0)}
-                </li>
-                <li className="col-6">
-                  <strong>{translate('foodFormProteins', language)}</strong>
-                  <br />
-                  {recipe.nutritionalInformation[10].quantity.toFixed(0)}
-                </li>
-                <li className="col-6">
-                  <strong>{translate('foodFormFat', language)}</strong>
-                  <br />
-                  {recipe.nutritionalInformation[13].quantity.toFixed(0)}
-                </li>
-                <li className="col-6">
-                  <strong>{translate('foodFormDietaryFiber', language)}</strong>
-                  <br />
-                  {recipe.nutritionalInformation[5].quantity.toFixed(0)}
-                </li>
-              </ul>
-            </Card>
-          </article>
-        </Link>
+        <article aria-labelledby={String(recipe.id)}>
+          <Card
+            title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
+            img={
+              <Image2
+                srcs={[...(recipe?.imgs ?? []), ...(recipe?.food?.imgs ?? [])]}
+              />
+            }
+            footer={
+              <>
+                <Button
+                  type="button"
+                  variant="tertiary"
+                  size="small"
+                  onClick={() => openDialogForRecipe(recipe.id)}
+                >
+                  adicionar em uma lista
+                </Button>
+
+                <Link
+                  className="button button--small button--secondary"
+                  href={`/recipe/${recipe.id}`}
+                >
+                  abrir receita
+                </Link>
+              </>
+            }
+          >
+            <ul className="row no-gutters g-3">
+              <li className="col-6">
+                <strong>{translate('foodFormCalories', language)}</strong>
+                <br />
+                {recipe.nutritionalInformation[2].quantity.toFixed(0)}
+              </li>
+              <li className="col-6">
+                <strong>{translate('foodFormProteins', language)}</strong>
+                <br />
+                {recipe.nutritionalInformation[10].quantity.toFixed(0)}
+              </li>
+              <li className="col-6">
+                <strong>{translate('foodFormFat', language)}</strong>
+                <br />
+                {recipe.nutritionalInformation[13].quantity.toFixed(0)}
+              </li>
+              <li className="col-6">
+                <strong>{translate('foodFormDietaryFiber', language)}</strong>
+                <br />
+                {recipe.nutritionalInformation[5].quantity.toFixed(0)}
+              </li>
+            </ul>
+          </Card>
+        </article>
       </li>
     );
   }
@@ -79,6 +107,10 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
             <CiCircleChevLeft className="svg-icon" />
             página <br /> anterior
           </NavLink>
+          <Link href="/search">
+            <CiSearch className="svg-icon" />
+            procurar <br /> receitas
+          </Link>
           <Link href="/kitchen">
             <CiCirclePlus className="svg-icon" />
             nova <br /> receita
@@ -87,6 +119,42 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
       }
     >
       <main className="py-5">
+        <Dialog
+          open={dialogOpen}
+          onClose={closeDialog}
+          title="Adicionar em uma lista"
+          actions={
+            <div
+              style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}
+            >
+              <Button variant="secondary" type="button" onClick={closeDialog}>
+                fechar
+              </Button>
+            </div>
+          }
+        >
+          {lists.length === 0 ? (
+            <p>Nenhuma lista disponível.</p>
+          ) : (
+            <ul className="list">
+              {lists.map((l) => (
+                <li key={l.id}>
+                  <button
+                    type="button"
+                    className="list-item"
+                    onClick={() => {
+                      // TODO: implementar ação de adicionar a receita (selectedId) na lista (l.id)
+                      // Por enquanto, apenas fechar o diálogo
+                      closeDialog();
+                    }}
+                  >
+                    {l.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Dialog>
         <section
           className="grid"
           ovo-scrollspy-content="1"
@@ -156,4 +224,3 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
     </Layout2>
   );
 };
-
