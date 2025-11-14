@@ -162,4 +162,41 @@ public class AuthController : ControllerBase
       roles,
     });
   }
+
+  [HttpPost("logout")]
+  [ProducesResponseType(StatusCodes.Status200OK)]
+  public IActionResult Logout()
+  {
+    try
+    {
+      var expire = DateTimeOffset.UtcNow.AddDays(-1);
+      var optsHttpOnly = new CookieOptions
+      {
+        Path = "/",
+        HttpOnly = true,
+        SameSite = SameSiteMode.Lax,
+        Expires = expire,
+        Secure = false,
+      };
+      var optsNonHttpOnly = new CookieOptions
+      {
+        Path = "/",
+        HttpOnly = false,
+        SameSite = SameSiteMode.Lax,
+        Expires = expire,
+        Secure = false,
+      };
+
+      // Clear helper owner cookie used in development
+      Response.Cookies.Append("x-temp-owner", string.Empty, optsHttpOnly);
+      // In case a non-HttpOnly variant was ever set by the client, clear it too
+      Response.Cookies.Append("x-temp-owner", string.Empty, optsNonHttpOnly);
+
+      // If a session cookie exists from other flows, expire it as well (no-op if absent)
+      Response.Cookies.Append("caderninho.session", string.Empty, optsHttpOnly);
+    }
+    catch { /* best effort */ }
+
+    return Ok();
+  }
 }
