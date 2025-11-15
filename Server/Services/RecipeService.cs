@@ -377,23 +377,23 @@ public class RecipeService
       .ToListAsync();
   }
 
-  public async Task<int> ClaimRecipesAsync(string temporaryOwnerId, string newOwnerId)
+  public async Task<int> ReassignOwnerAsync(string fromOwnerId, string toOwnerId)
   {
-    if (string.IsNullOrWhiteSpace(temporaryOwnerId))
+    if (string.IsNullOrWhiteSpace(fromOwnerId))
     {
-      throw new ArgumentException("Temporary owner id must be provided.", nameof(temporaryOwnerId));
+      throw new ArgumentException("Source owner id must be provided.", nameof(fromOwnerId));
     }
 
-    if (string.IsNullOrWhiteSpace(newOwnerId))
+    if (string.IsNullOrWhiteSpace(toOwnerId))
     {
-      throw new ArgumentException("New owner id must be provided.", nameof(newOwnerId));
+      throw new ArgumentException("Target owner id must be provided.", nameof(toOwnerId));
     }
 
-    temporaryOwnerId = temporaryOwnerId.Trim();
-    newOwnerId = newOwnerId.Trim();
+    fromOwnerId = fromOwnerId.Trim();
+    toOwnerId = toOwnerId.Trim();
 
     List<Recipe> recipes = await _context.Recipe
-      .Where(r => r.OwnerId == temporaryOwnerId)
+      .Where(r => r.OwnerId == fromOwnerId)
       .ToListAsync();
 
     if (recipes.Count == 0)
@@ -403,7 +403,7 @@ public class RecipeService
 
     foreach (Recipe recipe in recipes)
     {
-      recipe.OwnerId = newOwnerId;
+      recipe.OwnerId = toOwnerId;
     }
 
     await _context.SaveChangesAsync();

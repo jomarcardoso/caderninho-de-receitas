@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
+using System;
 
 namespace Server.Controllers;
 
@@ -135,7 +136,8 @@ public class AuthController : ControllerBase
           Expires = DateTimeOffset.UtcNow.AddDays(30),
           Secure = false, // allow http dev; adjust in prod if needed
         };
-        Response.Cookies.Append("x-temp-owner", ownerId!, opts);
+        // Unified owner cookie
+        Response.Cookies.Append("ownerId", ownerId!, opts);
       }
     }
     catch { }
@@ -187,10 +189,9 @@ public class AuthController : ControllerBase
         Secure = false,
       };
 
-      // Clear helper owner cookie used in development
-      Response.Cookies.Append("x-temp-owner", string.Empty, optsHttpOnly);
-      // In case a non-HttpOnly variant was ever set by the client, clear it too
-      Response.Cookies.Append("x-temp-owner", string.Empty, optsNonHttpOnly);
+      // Clear helper owner cookie
+      Response.Cookies.Append("ownerId", string.Empty, optsHttpOnly);
+      Response.Cookies.Append("ownerId", string.Empty, optsNonHttpOnly);
 
       // If a session cookie exists from other flows, expire it as well (no-op if absent)
       Response.Cookies.Append("caderninho.session", string.Empty, optsHttpOnly);
@@ -198,5 +199,36 @@ public class AuthController : ControllerBase
     catch { /* best effort */ }
 
     return Ok();
+  }
+
+  [HttpPost("ensure-owner")]
+  [ProducesResponseType(StatusCodes.Status200OK)]
+  public IActionResult EnsureOwner()
+  {
+    try
+    {
+      var ownerFromAuth = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var existing = Request.Cookies["ownerId"];
+
+      string ownerId = (ownerFromAuth?.Trim()) ?? string.Empty;
+      if (string.IsNullOrWhiteSpace(ownerId)) ownerId = (existing?.Trim()) ?? string.Empty;
+      if (string.IsNullOrWhiteSpace(ownerId)) ownerId = $"anon-{Guid.NewGuid():N}";
+
+      var opts = new CookieOptions
+      {
+        Path = "/",
+        HttpOnly = true,
+        SameSite = SameSiteMode.Lax,
+        Secure = false,
+        Expires = DateTimeOffset.UtcNow.AddDays(30),
+      };
+      Response.Cookies.Append("ownerId", ownerId, opts);
+
+      return Ok(new { ownerId });
+    }
+    catch
+    {
+      return Ok(new { ownerId = string.Empty });
+    }
   }
 }

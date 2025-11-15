@@ -4,6 +4,7 @@ import type {
   RecipeDataResponse,
 } from './recipe.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
+import { ensureOwnerCookie, getOwnerIdFromCookies } from '../auth/owner.util';
 import { type Recipe, type RecipesData, type RecipeData, type RecipeList, type RecipeListItem } from './recipe.model';
 import type { RecipeDto } from './recipe.dto';
 import { translate } from '../language/language.service';
@@ -56,38 +57,22 @@ function getApiBases(): string[] {
 async function fetchWithFallback(path: string, init?: RequestInit): Promise<Response> {
   const bases = getApiBases();
   let lastErr: unknown;
+  let lastRes: Response | undefined;
   for (const base of bases) {
     try {
       const res = await fetch(`${base}${path}`, init);
-      return res;
+      if (res.ok) return res;
+      // keep last non-ok to return if all bases fail
+      lastRes = res;
     } catch (e) {
       lastErr = e;
     }
   }
+  if (lastRes) return lastRes;
   throw lastErr instanceof Error ? lastErr : new Error('Failed to fetch');
 }
 
-function getTemporaryOwnerId(): string | undefined {
-  try {
-    if (typeof window === 'undefined') return undefined;
-    const raw = window.localStorage.getItem('caderninho-de-receitas:google-user');
-    if (!raw) return undefined;
-    const obj = JSON.parse(raw);
-    const id = (obj?.googleId ?? obj?.GoogleId ?? obj?.googleID) as string | undefined;
-    if (typeof id === 'string' && id.trim()) return id.trim();
-  } catch {}
-  // Fallback to cookie if localStorage missing
-  try {
-    if (typeof document !== 'undefined' && typeof document.cookie === 'string') {
-      const match = document.cookie.split(';').map(s => s.trim()).find(s => s.startsWith('x-temp-owner='));
-      if (match) {
-        const v = decodeURIComponent(match.split('=')[1] || '');
-        if (v && v.trim()) return v.trim();
-      }
-    }
-  } catch {}
-  return undefined;
-}
+// OwnerId resolve is centralized in ../auth/owner.util
 
 interface ApiRecipeResponse {
   id?: number;
@@ -292,12 +277,13 @@ export function mapRecipesDataResponseToModel(
 
 export async function fetchRecipes(): Promise<RecipesData> {
   try {
-    const tempOwner = getTemporaryOwnerId();
+    await ensureOwnerCookie();
+    const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(`/api/recipe`, {
       headers: {
-        ...(tempOwner ? { 'X-Temporary-Owner': tempOwner } : {}),
       },
       cache: 'no-store',
+      credentials: 'include',
     });
     if (!res.ok) {
       throw new Error(`Failed to fetch recipes: ${res.status}`);
@@ -385,15 +371,16 @@ export async function saveRecipe(
   languageHeader?: Language,
 ): Promise<RecipesData> {
   try {
+    await ensureOwnerCookie();
     const url = recipe.id ? `/api/recipe/${recipe.id}` : `/api/recipe`;
-    const tempOwner = getTemporaryOwnerId();
+    const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(url, {
       method: recipe.id ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',
         ...(languageHeader ? { 'X-Language': languageHeader } : {}),
-        ...(tempOwner ? { 'X-Temporary-Owner': tempOwner } : {}),
       },
+      credentials: 'include',
       body: JSON.stringify(recipe),
     });
     if (!res.ok) {
@@ -414,12 +401,13 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
   if (!id) return RECIPES_DATA;
 
   try {
-    const tempOwner = getTemporaryOwnerId();
+    await ensureOwnerCookie();
+    const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(`/api/recipe/${id}`, {
       method: 'DELETE',
       headers: {
-        ...(tempOwner ? { 'X-Temporary-Owner': tempOwner } : {}),
       },
+      credentials: 'include',
     });
     if (!res.ok) {
       throw new Error(`Failed to delete recipe: ${res.status}`);
@@ -449,8 +437,12 @@ export function mapRecipeDataResponseToModel(
 export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
   if (!id) return null;
   try {
+    await ensureOwnerCookie();
+    const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(`/api/Recipe/${id}`, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       cache: 'no-store',
       credentials: 'include',
     });

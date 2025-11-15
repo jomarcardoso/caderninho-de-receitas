@@ -24,8 +24,11 @@ export async function POST(request: Request) {
     'set-cookie',
     'caderninho.session=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
   );
-  // Also clear temporary owner cookie if present (non-HttpOnly)
-  res.headers.append('set-cookie', 'x-temp-owner=; Max-Age=0; Path=/; SameSite=Lax');
+  // Expire unified owner cookie
+  res.headers.append(
+    'set-cookie',
+    'ownerId=; Max-Age=0; Path=/; SameSite=Lax',
+  );
 
   try {
     const cookie = request.headers.get('cookie') || '';

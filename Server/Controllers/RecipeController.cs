@@ -27,7 +27,7 @@ public class RecipeController : ControllerBase
   private readonly RecipeImageOcrService recipeImageOcrService;
 
 
-  private const string TemporaryOwnerHeaderName = "X-Temporary-Owner";
+  // Unified owner uses authenticated claim or cookie only
 
   public RecipeController(
     AppDbContext context,
@@ -47,27 +47,38 @@ public class RecipeController : ControllerBase
     _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
   }
 
-  private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+  private string GetUserId()
+  {
+    // Prefer authenticated user when present
+    var authId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (!string.IsNullOrWhiteSpace(authId)) return authId!;
+
+    // Then prefer cookie ownerId (unified)
+    var cookieOwner = Request.Cookies["ownerId"];
+    if (!string.IsNullOrWhiteSpace(cookieOwner)) return cookieOwner!.Trim();
+
+    return string.Empty;
+  }
 
   [HttpPost]
   [AllowAnonymous]
   public async Task<IActionResult> CreateRecipe(
-    [FromBody] RecipeDto recipeDto,
-    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
+    [FromBody] RecipeDto recipeDto)
   {
     if (recipeDto is null) return BadRequest("Recipe payload must be provided.");
-    return await CreateRecipeInternalAsync(recipeDto, temporaryOwnerId, null);
+    var ownerId = GetUserId();
+    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId cookie missing. Call /api/auth/ensure-owner first.");
+    return await CreateRecipeInternalAsync(recipeDto, ownerId, null);
   }
 
   [HttpPost("many")]
   [AllowAnonymous]
   public async Task<IActionResult> CreateRecipes(
-    [FromBody] List<RecipeDto> recipesDto,
-    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
+    [FromBody] List<RecipeDto> recipesDto)
   {
     if (recipesDto is null || recipesDto.Count == 0) return BadRequest("At least one recipe must be provided.");
-
-    if (!TryResolveOwnerId(temporaryOwnerId, out var ownerId, out var errorResult)) return errorResult!;
+    var ownerId = GetUserId();
+    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId cookie missing. Call /api/auth/ensure-owner first.");
 
     var recipesToAdd = new List<Recipe>();
     foreach (var dto in recipesDto)
@@ -87,12 +98,14 @@ public class RecipeController : ControllerBase
   }
 
   [HttpPut("{id}")]
+  [AllowAnonymous]
   public async Task<IActionResult> UpdateRecipe(
     int id,
-    [FromBody] RecipeDto recipeDto,
-    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
+    [FromBody] RecipeDto recipeDto)
   {
-    var userId = GetUserId();
+    if (recipeDto is null) return BadRequest("Recipe payload must be provided.");
+    var ownerId = GetUserId();
+    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId cookie missing. Call /api/auth/ensure-owner first.");
 
     var recipe = await _context.Recipe
       .Include(r => r.Steps)
@@ -100,30 +113,18 @@ public class RecipeController : ControllerBase
       .FirstOrDefaultAsync(r => r.Id == id);
 
     if (recipe is null) return NotFound();
-    if (recipe.OwnerId != userId)
-    {
-      // Allow override in development when authenticated as dev-user
-      if (string.Equals(userId, "dev-user", StringComparison.Ordinal) &&
-          !string.IsNullOrWhiteSpace(temporaryOwnerId) &&
-          string.Equals(recipe.OwnerId, temporaryOwnerId.Trim(), StringComparison.Ordinal))
-      {
-        // proceed with update as the intended temporary owner
-      }
-      else
-      {
-        return NotFound();
-      }
-    }
+    if (!string.Equals(recipe.OwnerId, ownerId, StringComparison.Ordinal)) return NotFound();
 
     await recipeService.UpdateEntityFromDto(recipe, recipeDto);
-    recipe.OwnerId = userId;
+    // Keep ownership as resolved ownerId; do not override on update
+    recipe.OwnerId = ownerId;
     // Any change requires re-approval
     recipe.IsPublic = false;
     recipe.Verified = false;
 
     await _context.SaveChangesAsync();
 
-    var response = await recipeService.GetRecipesAndFoodsByUserId(userId);
+    var response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
     return Ok(response);
   }
 
@@ -171,8 +172,7 @@ public class RecipeController : ControllerBase
 
   [HttpDelete("{id}")]
   public async Task<IActionResult> DeleteRecipe(
-    int id,
-    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
+    int id)
   {
     var claimedUserId = GetUserId();
 
@@ -182,48 +182,21 @@ public class RecipeController : ControllerBase
       .FirstOrDefaultAsync(r => r.Id == id);
 
     if (recipe is null) return NotFound();
-
-    // Allow override in development when authenticated as dev-user
-    if (recipe.OwnerId != claimedUserId)
-    {
-      if (string.Equals(claimedUserId, "dev-user", StringComparison.Ordinal)
-          && !string.IsNullOrWhiteSpace(temporaryOwnerId)
-          && string.Equals(recipe.OwnerId, temporaryOwnerId.Trim(), StringComparison.Ordinal))
-      {
-        // permitted delete
-      }
-      else
-      {
-        return NotFound();
-      }
-    }
+    if (!string.Equals(recipe.OwnerId, claimedUserId, StringComparison.Ordinal)) return NotFound();
 
     _context.Recipe.Remove(recipe);
     await _context.SaveChangesAsync();
 
-    // Determine list owner for response
-    var ownerForResponse = recipe.OwnerId;
-    if (!string.IsNullOrWhiteSpace(temporaryOwnerId)
-        && (string.IsNullOrWhiteSpace(claimedUserId) || string.Equals(claimedUserId, "dev-user", StringComparison.Ordinal)))
-    {
-      ownerForResponse = temporaryOwnerId.Trim();
-    }
-
-    var response = await recipeService.GetRecipesAndFoodsByUserId(ownerForResponse);
+    var response = await recipeService.GetRecipesAndFoodsByUserId(claimedUserId);
     return Ok(response);
   }
 
   [HttpGet]
-  public async Task<IActionResult> GetMyRecipes(
-    [FromHeader(Name = TemporaryOwnerHeaderName)] string? temporaryOwnerId = null)
+  [AllowAnonymous]
+  public async Task<IActionResult> GetMyRecipes()
   {
-    // Fallback: try to read from raw headers or query if model binding didn't catch it
-    if (string.IsNullOrWhiteSpace(temporaryOwnerId))
-    {
-      temporaryOwnerId = Request.Headers[TemporaryOwnerHeaderName].FirstOrDefault();
-    }
-
-    if (!TryResolveOwnerId(temporaryOwnerId, out var ownerId, out var errorResult)) return errorResult!;
+    var ownerId = GetUserId();
+    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId cookie missing. Call /api/auth/ensure-owner first.");
     RecipesDataResponse response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
     return Ok(response);
   }
@@ -464,10 +437,8 @@ public class RecipeController : ControllerBase
     };
   }
 
-  private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string? temporaryOwnerId, bool? isPublic)
+  private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string ownerId, bool? isPublic)
   {
-    if (!TryResolveOwnerId(temporaryOwnerId, out string ownerId, out IActionResult? errorResult)) return errorResult!;
-
     var recipe = await recipeService.DtoToEntity(recipeDto);
     recipe.OwnerId = ownerId;
 
@@ -480,37 +451,7 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
-  private bool TryResolveOwnerId(string? temporaryOwnerId, out string ownerId, out IActionResult? errorResult)
-  {
-    string userId = GetUserId();
-
-    // If running under dev auth (userId == "dev-user"), prefer the temporary owner header when provided
-    if (!string.IsNullOrWhiteSpace(temporaryOwnerId) &&
-        (string.IsNullOrWhiteSpace(userId) || string.Equals(userId, "dev-user", StringComparison.Ordinal)))
-    {
-      ownerId = temporaryOwnerId.Trim();
-      errorResult = null;
-      return true;
-    }
-
-    if (!string.IsNullOrWhiteSpace(userId))
-    {
-      ownerId = userId.Trim();
-      errorResult = null;
-      return true;
-    }
-
-    if (!string.IsNullOrWhiteSpace(temporaryOwnerId))
-    {
-      ownerId = temporaryOwnerId.Trim();
-      errorResult = null;
-      return true;
-    }
-
-    ownerId = string.Empty;
-    errorResult = BadRequest("Temporary owner id must be provided for anonymous requests.");
-    return false;
-  }
+  // Legacy owner resolution removed; unified GetUserId() now handles auth/cookie/header
 
   // Admin/maintenance: rebuild precomputed recipe relations
   // POST api/Recipe/relations/rebuild?topPerRecipe=10
@@ -542,7 +483,4 @@ public class RecipeController : ControllerBase
   }
 }
 
-public class ClaimOwnerRequest
-{
-  public string TemporaryOwnerId { get; set; } = string.Empty;
-}
+// Removed legacy ClaimOwnerRequest used for temporary owner flows

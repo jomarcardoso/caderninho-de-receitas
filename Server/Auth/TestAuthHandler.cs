@@ -16,9 +16,8 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
 
   protected override Task<AuthenticateResult> HandleAuthenticateAsync()
   {
-    // In development, prefer the x-temp-owner cookie when present to bind requests
-    // to the real OwnerId; fallback to a fixed dev-user.
-    var owner = Request?.Cookies["x-temp-owner"];
+    // In development, prefer the unified ownerId cookie if this handler is ever used
+    var owner = Request?.Cookies["ownerId"];
     owner = string.IsNullOrWhiteSpace(owner) ? "dev-user" : owner!.Trim();
 
     var claims = new List<Claim>
@@ -37,4 +36,3 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
     return Task.FromResult(AuthenticateResult.Success(ticket));
   }
 }
-

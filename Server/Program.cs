@@ -89,9 +89,45 @@ builder.Services.AddCors(options =>
 
 if (builder.Environment.IsDevelopment())
 {
-  // fake login
-  builder.Services.AddAuthentication("Test")
-      .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", null);
+  // Development: simulate production auth (no dev-user). Use Cookie scheme.
+  builder.Services
+    .AddAuthentication(options =>
+    {
+      options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+      options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    })
+    .AddCookie(options =>
+    {
+      options.Cookie.Name = "caderninho.session";
+      options.Cookie.HttpOnly = true;
+      options.Cookie.SameSite = SameSiteMode.Lax;
+      options.Cookie.SecurePolicy = CookieSecurePolicy.None; // allow http on dev
+      options.SlidingExpiration = true;
+      options.ExpireTimeSpan = TimeSpan.FromDays(7);
+      options.Events = new CookieAuthenticationEvents
+      {
+        OnRedirectToLogin = ctx =>
+        {
+          if (ctx.Request.Path.StartsWithSegments("/api"))
+          {
+            ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return Task.CompletedTask;
+          }
+          ctx.Response.Redirect(ctx.RedirectUri);
+          return Task.CompletedTask;
+        },
+        OnRedirectToAccessDenied = ctx =>
+        {
+          if (ctx.Request.Path.StartsWithSegments("/api"))
+          {
+            ctx.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return Task.CompletedTask;
+          }
+          ctx.Response.Redirect(ctx.RedirectUri);
+          return Task.CompletedTask;
+        }
+      };
+    });
 }
 else
 {
@@ -102,7 +138,37 @@ else
         options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
       })
-      .AddCookie()
+      .AddCookie(options =>
+      {
+        options.Cookie.Name = "caderninho.session";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.SlidingExpiration = true;
+        options.ExpireTimeSpan = TimeSpan.FromDays(7);
+        options.Events = new CookieAuthenticationEvents
+        {
+          OnRedirectToLogin = ctx =>
+          {
+            if (ctx.Request.Path.StartsWithSegments("/api"))
+            {
+              ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+              return Task.CompletedTask;
+            }
+            ctx.Response.Redirect(ctx.RedirectUri);
+            return Task.CompletedTask;
+          },
+          OnRedirectToAccessDenied = ctx =>
+          {
+            if (ctx.Request.Path.StartsWithSegments("/api"))
+            {
+              ctx.Response.StatusCode = StatusCodes.Status403Forbidden;
+              return Task.CompletedTask;
+            }
+            ctx.Response.Redirect(ctx.RedirectUri);
+            return Task.CompletedTask;
+          }
+        };
+      })
       .AddGoogle(googleOptions =>
       {
         googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
@@ -209,30 +275,6 @@ app.UseCors("AllowSpecificOrigin");
 
 // auth
 app.UseAuthentication();
-
-// In development, elevate temporary owner cookie to an authenticated user for any request
-if (app.Environment.IsDevelopment())
-{
-  app.Use(async (ctx, next) =>
-  {
-    var isAuth = ctx.User?.Identity?.IsAuthenticated == true;
-    if (!isAuth)
-    {
-      var tempOwner = ctx.Request.Cookies["x-temp-owner"];
-      if (!string.IsNullOrWhiteSpace(tempOwner))
-      {
-        var claims = new List<Claim>
-        {
-          new Claim(ClaimTypes.NameIdentifier, tempOwner!),
-          new Claim(ClaimTypes.Role, "user"),
-        };
-        var identity = new ClaimsIdentity(claims, "TempOwner");
-        ctx.User = new ClaimsPrincipal(identity);
-      }
-    }
-    await next();
-  });
-}
 app.UseAuthorization();
 
 app.MapControllers();

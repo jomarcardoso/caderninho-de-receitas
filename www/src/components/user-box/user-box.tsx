@@ -92,7 +92,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
 
   const handleLogout = useCallback(() => {
     try {
-      // Fire-and-forget: clear backend session cookie via Next proxy
+      // Fire-and-forget: clear backend/session cookies via Next proxy
       fetch('/api/auth/logout', {
         method: 'POST',
         headers: { accept: 'application/json' },
@@ -105,9 +105,6 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     storeUser(null);
     setErrorMessage(null);
     try {
-      document.cookie = 'x-temp-owner=; Max-Age=0; Path=/';
-    } catch {}
-    try {
       window.dispatchEvent(new Event('app:user:logout'));
     } catch {}
   }, []);
@@ -116,15 +113,13 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     setUser(u);
     storeUser(u);
     setErrorMessage(null);
+    // Ensure backend ownerId cookie exists (idempotent)
     try {
-      const gid = (u as any).googleId as string | undefined;
-      if (gid && gid.trim()) {
-        // 30 days
-        const maxAge = 60 * 60 * 24 * 30;
-        document.cookie = `x-temp-owner=${encodeURIComponent(
-          gid.trim(),
-        )}; Max-Age=${maxAge}; Path=/`;
-      }
+      fetch('http://localhost:5106/api/auth/ensure-owner', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { accept: 'application/json' },
+      }).catch(() => {});
     } catch {}
     try {
       window.dispatchEvent(new Event('app:user:login'));

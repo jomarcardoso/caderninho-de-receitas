@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { fetchRecipeData, mapRecipeModelToDto } from '@common/services/recipe';
+import { mapRecipeModelToDto, type RecipeData, mapRecipeDataResponseToModel } from '@common/services/recipe';
+import { fetchApiJson } from '@/lib/api-server';
 import type { RecipeDto } from '@common/services/recipe';
 import { KitchenPageView } from '../page.view';
 
@@ -11,7 +12,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const num = Number(id);
-  const data = Number.isFinite(num) ? await fetchRecipeData(num) : null;
+  const data = Number.isFinite(num)
+    ? (() => fetchApiJson<any>(`/api/Recipe/${num}`, { cache: 'no-store' })
+        .then((raw) => (raw && typeof raw === 'object' ? mapRecipeDataResponseToModel(raw as any) : null))
+        .catch(() => null))()
+    : null;
   return {
     title: data?.recipe?.name ?? 'Kitchen',
     description: data?.recipe?.description ?? undefined,
@@ -26,7 +31,9 @@ export default async function KitchenRecipePage({
   const { id } = await params;
   const num = Number(id);
   if (!Number.isFinite(num)) notFound();
-  const data = await fetchRecipeData(num);
+  const data = await fetchApiJson<any>(`/api/Recipe/${num}`, { cache: 'no-store' })
+    .then((raw) => (raw && typeof raw === 'object' ? mapRecipeDataResponseToModel(raw as any) : null))
+    .catch(() => null);
   if (!data?.recipe) notFound();
   const recipeToEdit: RecipeDto = mapRecipeModelToDto(data.recipe);
   return <KitchenPageView recipeToEdit={recipeToEdit} />;

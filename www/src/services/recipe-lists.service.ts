@@ -42,6 +42,7 @@ async function handleJson<T>(res: Response): Promise<T> {
 }
 
 export async function getRecipeLists(): Promise<RecipeList[]> {
+  await ensureOwnerCookie();
   const res = await fetch(`${apiBase()}/api/RecipeLists`, {
     credentials: 'include',
   });
@@ -49,6 +50,7 @@ export async function getRecipeLists(): Promise<RecipeList[]> {
 }
 
 export async function getRecipeList(id: number): Promise<RecipeList | null> {
+  await ensureOwnerCookie();
   const res = await fetch(`${apiBase()}/api/RecipeLists/${id}`, {
     credentials: 'include',
   });
@@ -60,6 +62,7 @@ export async function createRecipeList(
   name: string,
   description?: string,
 ): Promise<RecipeList> {
+  await ensureOwnerCookie();
   const res = await fetch(`${apiBase()}/api/RecipeLists`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -73,6 +76,7 @@ export async function updateRecipeList(
   id: number,
   payload: { name?: string; description?: string | null },
 ): Promise<RecipeList> {
+  await ensureOwnerCookie();
   const res = await fetch(`${apiBase()}/api/RecipeLists/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -83,6 +87,7 @@ export async function updateRecipeList(
 }
 
 export async function deleteRecipeList(id: number): Promise<boolean> {
+  await ensureOwnerCookie();
   const res = await fetch(`${apiBase()}/api/RecipeLists/${id}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -96,6 +101,7 @@ export async function addRecipeToList(
   listId: number,
   recipeId: number,
 ): Promise<boolean> {
+  await ensureOwnerCookie();
   const res = await fetch(`${apiBase()}/api/RecipeLists/${listId}/recipes/${recipeId}`, {
     method: 'POST',
     credentials: 'include',
@@ -109,6 +115,7 @@ export async function removeRecipeFromList(
   listId: number,
   recipeId: number,
 ): Promise<boolean> {
+  await ensureOwnerCookie();
   const res = await fetch(`${apiBase()}/api/RecipeLists/${listId}/recipes/${recipeId}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -118,3 +125,4 @@ export async function removeRecipeFromList(
   return Boolean(data?.removed ?? true);
 }
 
+import { ensureOwnerCookie } from '@common/services/auth/owner.util';

@@ -15,11 +15,26 @@ public class RecipeListsController : ControllerBase
     _context = context;
   }
 
-  private string GetUserId() => User?.Identity?.IsAuthenticated == true
-    ? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? string.Empty
-    : string.Empty;
+  // Unified owner uses authenticated claim or cookie only
+
+  private string GetUserId()
+  {
+    // Prefer authenticated user when present
+    if (User?.Identity?.IsAuthenticated == true)
+    {
+      var id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+      if (!string.IsNullOrWhiteSpace(id)) return id!;
+    }
+
+    // Else, accept owner from cookie or header (anonymous flow)
+    var cookieOwner = Request?.Cookies["ownerId"];
+    if (!string.IsNullOrWhiteSpace(cookieOwner)) return cookieOwner!.Trim();
+
+    return string.Empty;
+  }
 
   [HttpGet]
+  [AllowAnonymous]
   public async Task<IActionResult> GetMyLists()
   {
     var userId = GetUserId();
@@ -34,6 +49,7 @@ public class RecipeListsController : ControllerBase
   public record UpsertListPayload(string name, string? description);
 
   [HttpPost]
+  [AllowAnonymous]
   public async Task<IActionResult> Create([FromBody] UpsertListPayload payload)
   {
     var userId = GetUserId();
@@ -52,6 +68,7 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpPut("{id}")]
+  [AllowAnonymous]
   public async Task<IActionResult> Update(int id, [FromBody] UpsertListPayload payload)
   {
     var userId = GetUserId();
@@ -65,6 +82,7 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpDelete("{id}")]
+  [AllowAnonymous]
   public async Task<IActionResult> Delete(int id)
   {
     var userId = GetUserId();
@@ -76,6 +94,7 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpGet("{id}")]
+  [AllowAnonymous]
   public async Task<IActionResult> Get(int id)
   {
     var userId = GetUserId();
@@ -88,6 +107,7 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpPost("{id}/recipes/{recipeId}")]
+  [AllowAnonymous]
   public async Task<IActionResult> AddRecipe(int id, int recipeId)
   {
     var userId = GetUserId();
@@ -104,6 +124,7 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpDelete("{id}/recipes/{recipeId}")]
+  [AllowAnonymous]
   public async Task<IActionResult> RemoveRecipe(int id, int recipeId)
   {
     var userId = GetUserId();

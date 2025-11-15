@@ -44,7 +44,7 @@ export const DataProvider: FC<DataProviderProps> = ({
     [setData],
   );
 
-  /** Atualiza receita */
+  // Atualiza receita
   async function saveRecipe(recipe: RecipeDto) {
     setLoading?.(true);
     const payload: RecipeDto = {
@@ -62,14 +62,14 @@ export const DataProvider: FC<DataProviderProps> = ({
     return newData;
   }
 
-  /** Remove receita */
+  // Remove receita
   async function removeRecipe(id = 0) {
     const newData = await removeRecipeById(id);
     setData(newData);
     await setCachedRecipesData(newData);
   }
 
-  /** Atualiza do backend */
+  // Atualiza do backend
   const getData = useCallback(async () => {
     const newData = await fetchRecipes();
     if (newData.recipes?.length) {
@@ -79,16 +79,25 @@ export const DataProvider: FC<DataProviderProps> = ({
     setLoading?.(false);
   }, [setData]);
 
-  /** Efeito de inicialização */
+  // Efeito de inicialização
   useEffect(() => {
-    // ⚠️ Se já veio via SSR, não precisa buscar nem cachear de novo
+    // Se já veio via SSR, não precisa buscar nem cachear de novo
     if (initialData) {
       setCachedRecipesData(initialData);
       setLoading?.(false);
       return;
     }
 
-    // Se não veio, aplica a lógica anterior
+    // Em rotas de detalhe/edição, não buscamos a listagem global
+    try {
+      const path = typeof window !== 'undefined' ? window.location.pathname : '';
+      if (/^\/(recipe|kitchen)\/\d+(?:$|\/)/.test(path)) {
+        setLoading?.(false);
+        return;
+      }
+    } catch {}
+
+    // Caso contrário, segue o fluxo normal de cache + fetch
     (async () => {
       const cached = await getCachedRecipesData();
 
@@ -113,3 +122,4 @@ export const DataProvider: FC<DataProviderProps> = ({
     </DataContext.Provider>
   );
 };
+

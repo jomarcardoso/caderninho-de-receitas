@@ -1,6 +1,7 @@
 import { CiCircleChevLeft, CiEdit, CiShare1 } from 'react-icons/ci';
 import type { RecipeData } from '@common/services/recipe';
-import { fetchRecipeData } from '@common/services/recipe';
+import { mapRecipeDataResponseToModel } from '@common/services/recipe';
+import { fetchApiJson } from '@/lib/api-server';
 import './page.scss';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -17,7 +18,16 @@ import { RecipePageClient } from './page.client';
 async function fetchRecipeById(id: string): Promise<RecipeData | null> {
   const num = Number(id);
   if (!Number.isFinite(num)) return null;
-  return await fetchRecipeData(num);
+  try {
+    const raw = await fetchApiJson<any>(`/api/Recipe/${num}`, { cache: 'no-store' });
+    // Map API response shape into RecipeData model expected by the page
+    if (raw && typeof raw === 'object' && ('recipes' in raw || 'relatedRecipes' in raw)) {
+      return mapRecipeDataResponseToModel(raw as any);
+    }
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 export async function generateMetadata({
@@ -42,7 +52,7 @@ export default async function RecipePage({
 }) {
   const { id } = await params;
   const data = await fetchRecipeById(id);
-  if (!data) notFound();
+  if (!data?.recipe) notFound();
 
   const { recipe } = data;
 
@@ -51,7 +61,7 @@ export default async function RecipePage({
       header={<Header2 />}
       aside={
         <ul>
-          {data.relatedRecipes.map((r) => (
+          {(data.relatedRecipes ?? []).map((r) => (
             <li key={r.id}>
               <Link href={`/recipe/${r.id}`}>{r.name}</Link>
             </li>
