@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
 import capitalize from 'lodash/capitalize';
 import { Recipe, RecipesData } from '@common/services/recipe';
-import { createRecipeList } from '@/services/recipe-lists.service';
+import { createRecipeList, deleteRecipeList } from '@/services/recipe-lists.service';
 import { FC, useMemo, useState } from 'react';
 import { Image2 } from '@/components/image-2/image';
 import { Dialog } from 'notebook-layout';
@@ -51,6 +51,20 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
     } catch (e) {
       // noop: keep minimal behavior; errors can be surfaced later
       console.error('Falha ao criar lista', e);
+    }
+  }
+
+  async function handleDeleteList(id: number) {
+    try {
+      const ok = confirm('Tem certeza que deseja excluir esta lista?');
+      if (!ok) return;
+      const deleted = await deleteRecipeList(id);
+      if (deleted) {
+        if (typeof window !== 'undefined') window.location.reload();
+      }
+    } catch (e) {
+      alert('Não foi possível excluir a lista agora.');
+      console.error(e);
     }
   }
 
@@ -218,7 +232,12 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
                   </ol>
                 ) : null}
 
-                <Button className="mt-3" variant="secondary" type="button">
+                <Button
+                  className="mt-3"
+                  variant="secondary"
+                  type="button"
+                  onClick={() => handleDeleteList(l.id)}
+                >
                   Excluir
                 </Button>
               </li>
