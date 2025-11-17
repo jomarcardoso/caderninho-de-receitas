@@ -4,18 +4,14 @@ import { CiShare1 } from 'react-icons/ci';
 import Dialog from 'notebook-layout/components/dialog/dialog';
 import { mapRecipeDataResponseToModel } from '@common/services/recipe';
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5106')
+const API_BASE = (
+  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5106'
+)
   .toString()
   .trim()
   .replace(/\/$/, '');
 
 type ShareData = { slug: string };
-
-// ATENÇÃO: teste temporário para tornar o link clicável no WhatsApp.
-// Defina para true para usar https://google.com.br no texto compartilhado.
-// Depois de validar, volte para false para usar o link real do slug.
-const USE_TEST_LINK_FOR_TEXT = false;
-const TEST_LINK_FOR_TEXT = 'https://panelinha.com.br/receita/pao-de-queijo';
 
 export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
   const [open, setOpen] = useState(false);
@@ -23,7 +19,9 @@ export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
   const [slug, setSlug] = useState<string | undefined>();
 
   const shareLink = useMemo(() => {
-    return slug ? `${window.location.origin}/recipe/${encodeURIComponent(slug)}` : '';
+    return slug
+      ? `${window.location.origin}/recipe/${encodeURIComponent(slug)}`
+      : '';
   }, [slug]);
 
   const ensureShare = useCallback(async () => {
@@ -33,7 +31,10 @@ export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
       const res = await fetch(`${API_BASE}/api/share/recipe`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
         body: JSON.stringify({ recipeId, isPublic: true }),
       });
       if (res.status === 401 || res.status === 403) {
@@ -66,14 +67,16 @@ export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
 
   const fetchSharedData = useCallback(async (s: string) => {
     try {
-      const res = await fetch(`/api/share/recipe/${encodeURIComponent(s)}/data`, {
-        method: 'GET',
-        headers: { accept: 'application/json' },
-        cache: 'no-store',
-      });
+      const res = await fetch(
+        `/api/share/recipe/${encodeURIComponent(s)}/data`,
+        {
+          method: 'GET',
+          headers: { accept: 'application/json' },
+          cache: 'no-store',
+        },
+      );
       if (!res.ok) return null;
       const raw = (await res.json()) as any;
-      // Normaliza para RecipeData com .recipe
       try {
         return mapRecipeDataResponseToModel(raw as any);
       } catch {
@@ -95,7 +98,7 @@ export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
     if (r.description) lines.push('', String(r.description));
 
     // Link logo após a descrição (para melhor preview nos apps)
-    lines.push('', (USE_TEST_LINK_FOR_TEXT ? TEST_LINK_FOR_TEXT : link));
+    lines.push('', link);
 
     // Ingredientes (preferir texto pronto ingredientsText dos passos)
     lines.push('', 'Ingredientes:');
@@ -114,7 +117,6 @@ export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
     if (ingredientTextLines.length) {
       lines.push(ingredientTextLines.join('\n'));
     } else {
-      // Fallback: montar lista a partir dos objetos (se necessário)
       const allIngredients: any[] = [];
       steps.forEach((step: any) => {
         const arr = Array.isArray(step?.ingredients) ? step.ingredients : [];
@@ -151,7 +153,10 @@ export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
           // Muitos destinos ignoram o 'text' quando 'url' é enviado.
           // Para garantir que o conteúdo completo seja enviado, incluímos o link dentro do próprio texto
           // e NÃO passamos 'url' aqui.
-          await (navigator as any).share({ title: data?.recipe?.name || 'Receita', text });
+          await (navigator as any).share({
+            title: data?.recipe?.name || 'Receita',
+            text,
+          });
           setOpen(false);
           return;
         } catch {
@@ -185,13 +190,28 @@ export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
         title="Compartilhar receita"
         actions={
           <div className="d-flex gap-2 justify-content-end w-100">
-            <button type="button" className="btn" onClick={() => setOpen(false)} disabled={busy}>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setOpen(false)}
+              disabled={busy}
+            >
               Cancelar
             </button>
-            <button type="button" className="btn -primary" onClick={onCopyLink} disabled={busy}>
+            <button
+              type="button"
+              className="btn -primary"
+              onClick={onCopyLink}
+              disabled={busy}
+            >
               Copiar link
             </button>
-            <button type="button" className="btn -primary" onClick={onShareAsText} disabled={busy}>
+            <button
+              type="button"
+              className="btn -primary"
+              onClick={onShareAsText}
+              disabled={busy}
+            >
               Enviar como texto
             </button>
           </div>

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { CiCircleChevLeft, CiCirclePlus, CiSearch } from 'react-icons/ci';
 import './page.scss';
 // import MyRecipesClient from './ui/MyRecipes.client';
@@ -8,11 +8,15 @@ import { Navbar } from '@/components/navbar/navbar';
 import { Language } from '@/contexts/language';
 import { translate } from '@common/services/language/language.service';
 import { Button, Card } from 'notebook-layout';
+import { addRecipeToList } from '@/services/recipe-lists.service';
 import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
 import capitalize from 'lodash/capitalize';
 import { Recipe, RecipesData } from '@common/services/recipe';
-import { createRecipeList, deleteRecipeList } from '@/services/recipe-lists.service';
+import {
+  createRecipeList,
+  deleteRecipeList,
+} from '@/services/recipe-lists.service';
 import { FC, useMemo, useState } from 'react';
 import { Image2 } from '@/components/image-2/image';
 import { Dialog } from 'notebook-layout';
@@ -26,6 +30,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
   const { recipes, recipeLists } = data;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [adding, setAdding] = useState(false);
 
   const lists = useMemo(() => recipeLists ?? [], [recipeLists]);
 
@@ -65,6 +70,21 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
     } catch (e) {
       alert('Não foi possível excluir a lista agora.');
       console.error(e);
+    }
+  }
+
+  async function handleAddRecipeToList(listId: number) {
+    if (!selectedId) return;
+    try {
+      setAdding(true);
+      const ok = await addRecipeToList(listId, selectedId);
+      if (!ok) throw new Error('Falha ao adicionar');
+      if (typeof window !== 'undefined') window.location.reload();
+    } catch (e) {
+      alert('Não foi possível adicionar a receita nesta lista agora.');
+      console.error(e);
+    } finally {
+      setAdding(false);
     }
   }
 
@@ -172,11 +192,11 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
                   <button
                     type="button"
                     className="list-item"
-                    onClick={() => {
-                      // TODO: implementar ação de adicionar a receita (selectedId) na lista (l.id)
-                      // Por enquanto, apenas fechar o diálogo
+                    onClick={async () => {
+                      await handleAddRecipeToList(l.id);
                       closeDialog();
                     }}
+                    disabled={adding}
                   >
                     {l.name}
                   </button>
@@ -245,7 +265,11 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
           </ul>
 
           <div className="mt-4" style={{ display: 'flex', gap: 8 }}>
-            <Button type="button" variant="secondary" onClick={handleAddNewList}>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleAddNewList}
+            >
               adicionar nova lista
             </Button>
           </div>

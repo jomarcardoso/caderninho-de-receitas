@@ -5,7 +5,13 @@ import type {
 } from './recipe.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import { ensureOwnerCookie, getOwnerIdFromCookies } from '../auth/owner.util';
-import { type Recipe, type RecipesData, type RecipeData, type RecipeList, type RecipeListItem } from './recipe.model';
+import {
+  type Recipe,
+  type RecipesData,
+  type RecipeData,
+  type RecipeList,
+  type RecipeListItem,
+} from './recipe.model';
 import type { RecipeDto } from './recipe.dto';
 import { translate } from '../language/language.service';
 import { type Language } from '../language/language.types';
@@ -35,16 +41,29 @@ function getApiBase(): string {
 
 function getApiBases(): string[] {
   const bases: string[] = [];
-  const add = (s?: string) => { if (s && s.trim()) bases.push(s.replace(/\/$/, '')); };
+  const add = (s?: string) => {
+    if (s && s.trim()) bases.push(s.replace(/\/$/, ''));
+  };
 
-  add((typeof import.meta !== 'undefined' && (import.meta as any)?.env?.VITE_API_BASE_URL) as string | undefined);
-  add((typeof process !== 'undefined' && (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined);
+  add(
+    (typeof import.meta !== 'undefined' &&
+      (import.meta as any)?.env?.VITE_API_BASE_URL) as string | undefined,
+  );
+  add(
+    (typeof process !== 'undefined' &&
+      (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined,
+  );
 
   try {
     if (typeof window !== 'undefined') {
       const isHttps = window.location?.protocol === 'https:';
-      if (isHttps) { add('https://localhost:7269'); add('http://localhost:5106'); }
-      else { add('http://localhost:5106'); add('https://localhost:7269'); }
+      if (isHttps) {
+        add('https://localhost:7269');
+        add('http://localhost:5106');
+      } else {
+        add('http://localhost:5106');
+        add('https://localhost:7269');
+      }
     }
   } catch {}
 
@@ -54,7 +73,10 @@ function getApiBases(): string[] {
   return Array.from(new Set(bases));
 }
 
-async function fetchWithFallback(path: string, init?: RequestInit): Promise<Response> {
+async function fetchWithFallback(
+  path: string,
+  init?: RequestInit,
+): Promise<Response> {
   const bases = getApiBases();
   let lastErr: unknown;
   let lastRes: Response | undefined;
@@ -225,11 +247,25 @@ export function mapRecipesDataResponseToModel(
   const foodsData = mapFoodsDataResponseToModel(data);
 
   // Pre-map all recipes and index by id for quick lookup when hydrating lists
-  const mappedRecipes = mapAllRecipesResponseToModel(data);
+  const mappedRecipesAll = mapAllRecipesResponseToModel(data);
   const byId = new Map<number, Recipe>();
-  for (const r of mappedRecipes) {
+  for (const r of mappedRecipesAll) {
     if (typeof r.id === 'number') byId.set(r.id, r);
   }
+
+  // Compute the set of recipe ids that appear in any list
+  const listedIds = new Set<number>();
+  for (const l of data.recipeLists ?? []) {
+    for (const it of l.items ?? []) {
+      if (typeof (it as any)?.recipeId === 'number')
+        listedIds.add((it as any).recipeId);
+    }
+  }
+
+  // Business rule: do not show recipes "soltas" that are already organized in some list
+  const mappedRecipes = mappedRecipesAll.filter(
+    (r) => !listedIds.has(r.id as number),
+  );
 
   return {
     ...foodsData,
@@ -280,8 +316,7 @@ export async function fetchRecipes(): Promise<RecipesData> {
     await ensureOwnerCookie();
     const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(`/api/recipe`, {
-      headers: {
-      },
+      headers: {},
       cache: 'no-store',
       credentials: 'include',
     });
@@ -318,20 +353,23 @@ export async function fetchMostCopiedRecipes(
       });
       if (res.ok) {
         const data = (await res.json()) as ApiRecipeResponse[];
-        return (Array.isArray(data) ? data : []).map<RecipeDto>((recipe, index) => ({
-          id: recipe.id ?? index,
-          name: recipe.name ?? '',
-          description: recipe.description ?? '',
-          additional: recipe.additional ?? '',
-          language: (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
-          steps:
-            recipe.steps?.map<RecipeStepDto>((step) => ({
-              title: step.title ?? '',
-              preparation: step.preparation ?? '',
-              additional: step.additional ?? '',
-              ingredientsText: step.ingredientsText ?? '',
-            })) ?? [],
-        }));
+        return (Array.isArray(data) ? data : []).map<RecipeDto>(
+          (recipe, index) => ({
+            id: recipe.id ?? index,
+            name: recipe.name ?? '',
+            description: recipe.description ?? '',
+            additional: recipe.additional ?? '',
+            language:
+              (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
+            steps:
+              recipe.steps?.map<RecipeStepDto>((step) => ({
+                title: step.title ?? '',
+                preparation: step.preparation ?? '',
+                additional: step.additional ?? '',
+                ingredientsText: step.ingredientsText ?? '',
+              })) ?? [],
+          }),
+        );
       }
     }
   } catch (e) {
@@ -350,7 +388,8 @@ export async function fetchMostCopiedRecipes(
       name: recipe.name ?? '',
       description: recipe.description ?? '',
       additional: recipe.additional ?? '',
-      language: (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
+      language:
+        (recipe.language?.toLowerCase() as RecipeDto['language']) ?? 'pt',
       steps:
         recipe.steps?.map<RecipeStepDto>((step) => ({
           title: step.title ?? '',
@@ -405,8 +444,7 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
     const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(`/api/recipe/${id}`, {
       method: 'DELETE',
-      headers: {
-      },
+      headers: {},
       credentials: 'include',
     });
     if (!res.ok) {
@@ -465,7 +503,3 @@ export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
     return null;
   }
 }
-
-
-
-

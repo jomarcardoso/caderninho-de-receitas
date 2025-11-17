@@ -1,4 +1,4 @@
-import { CiCircleChevLeft, CiEdit, CiShare1 } from 'react-icons/ci';
+import { CiCircleChevLeft, CiEdit } from 'react-icons/ci';
 import type { RecipeData } from '@common/services/recipe';
 import { mapRecipeDataResponseToModel } from '@common/services/recipe';
 import { fetchApiJson } from '@/lib/api-server';
@@ -12,7 +12,6 @@ import { NavLink } from '@/components/nav-link/nav-link';
 import { Image2 } from '@/components/image-2/image';
 import Link from 'next/link';
 import RecipeDeleteButton from '@/components/recipe-delete-button/recipe-delete-button';
-import { useHistory } from '@/providers/history/history.provider';
 import { RecipePageClient } from './page.client';
 import { ShareRecipeAction } from './share-action.client';
 
@@ -20,12 +19,19 @@ async function fetchRecipeByHandle(handle: string): Promise<RecipeData | null> {
   try {
     const num = Number(handle);
     if (Number.isFinite(num)) {
-      const raw = await fetchApiJson<any>(`/api/Recipe/${num}`, { cache: 'no-store' });
-      if (raw && typeof raw === 'object') return mapRecipeDataResponseToModel(raw as any);
+      const raw = await fetchApiJson<any>(`/api/Recipe/${num}`, {
+        cache: 'no-store',
+      });
+      if (raw && typeof raw === 'object')
+        return mapRecipeDataResponseToModel(raw as any);
       return null;
     }
-    const raw = await fetchApiJson<any>(`/api/share/recipe/${encodeURIComponent(handle)}/data`, { cache: 'no-store' });
-    if (raw && typeof raw === 'object') return mapRecipeDataResponseToModel(raw as any);
+    const raw = await fetchApiJson<any>(
+      `/api/share/recipe/${encodeURIComponent(handle)}/data`,
+      { cache: 'no-store' },
+    );
+    if (raw && typeof raw === 'object')
+      return mapRecipeDataResponseToModel(raw as any);
     return null;
   } catch {
     return null;
@@ -103,9 +109,7 @@ export default async function RecipePage({
               <div className="recipe-page__name">
                 <h1
                   className="h2"
-                  style={{
-                    fontSize: recipe.name.length > 30 ? 17 : 19,
-                  }}
+                  style={{ fontSize: recipe.name.length > 30 ? 17 : 19 }}
                 >
                   {recipe.name}
                 </h1>
@@ -127,6 +131,3 @@ export default async function RecipePage({
     </Layout2>
   );
 }
-
-
-

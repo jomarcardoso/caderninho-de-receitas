@@ -459,17 +459,42 @@ public class RecipeService
 
     response.FoodIcons = icons;
 
-        // Attach user recipe lists
+    // Attach user recipe lists as DTOs to avoid serialization cycles
     try
     {
       var lists = await _context.RecipeList
         .AsNoTracking()
         .Where(l => l.OwnerId == userId)
         .Include(l => l.Items)
+        .Select(l => new RecipeListResponse
+        {
+          Id = l.Id,
+          OwnerId = l.OwnerId,
+          Name = l.Name,
+          Description = l.Description,
+          CreatedAt = l.CreatedAt,
+          UpdatedAt = l.UpdatedAt,
+          Items = l.Items
+            .OrderBy(i => i.Position)
+            .Select(i => new RecipeListItemResponse
+            {
+              RecipeListId = i.RecipeListId,
+              RecipeId = i.RecipeId,
+              Position = i.Position,
+              CreatedAt = i.CreatedAt,
+            })
+            .ToList()
+        })
         .ToListAsync();
+
       response.RecipeLists = lists;
     }
-    catch { /* ignore in case of permission issues */ }return response;
+    catch
+    {
+      // ignore in case of permission issues
+    }
+
+    return response;
   }
 
   public async Task DeleteStepsAsync(Recipe recipe)
