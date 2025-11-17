@@ -14,16 +14,18 @@ import Link from 'next/link';
 import RecipeDeleteButton from '@/components/recipe-delete-button/recipe-delete-button';
 import { useHistory } from '@/providers/history/history.provider';
 import { RecipePageClient } from './page.client';
+import { ShareRecipeAction } from './share-action.client';
 
-async function fetchRecipeById(id: string): Promise<RecipeData | null> {
-  const num = Number(id);
-  if (!Number.isFinite(num)) return null;
+async function fetchRecipeByHandle(handle: string): Promise<RecipeData | null> {
   try {
-    const raw = await fetchApiJson<any>(`/api/Recipe/${num}`, { cache: 'no-store' });
-    // Map API response shape into RecipeData model expected by the page
-    if (raw && typeof raw === 'object' && ('recipes' in raw || 'relatedRecipes' in raw)) {
-      return mapRecipeDataResponseToModel(raw as any);
+    const num = Number(handle);
+    if (Number.isFinite(num)) {
+      const raw = await fetchApiJson<any>(`/api/Recipe/${num}`, { cache: 'no-store' });
+      if (raw && typeof raw === 'object') return mapRecipeDataResponseToModel(raw as any);
+      return null;
     }
+    const raw = await fetchApiJson<any>(`/api/share/recipe/${encodeURIComponent(handle)}/data`, { cache: 'no-store' });
+    if (raw && typeof raw === 'object') return mapRecipeDataResponseToModel(raw as any);
     return null;
   } catch {
     return null;
@@ -36,7 +38,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const data = await fetchRecipeById(id);
+  const data = await fetchRecipeByHandle(id);
 
   if (!data) return { title: 'Receita não encontrada' };
   return {
@@ -51,7 +53,7 @@ export default async function RecipePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const data = await fetchRecipeById(id);
+  const data = await fetchRecipeByHandle(id);
   if (!data?.recipe) notFound();
 
   const { recipe } = data;
@@ -80,10 +82,7 @@ export default async function RecipePage({
             editar <br /> receita
           </Link>
 
-          <button type="button" aria-label="Compartilhar" title="Compartilhar">
-            <CiShare1 className="svg-icon" />
-            enviar <br /> receita
-          </button>
+          <ShareRecipeAction recipeId={recipe.id} />
 
           <RecipeDeleteButton id={recipe.id} />
         </Navbar>
@@ -128,4 +127,6 @@ export default async function RecipePage({
     </Layout2>
   );
 }
+
+
 
