@@ -2,6 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Server.Models;
 
+public enum ThemeColor
+{
+  Primary = 0, // #87695e (padrão)
+}
+
 public class UserProfile
 {
   [Key]
@@ -29,8 +34,14 @@ public class UserProfile
   public bool IsFeatured { get; set; } = false;
   public DateTime? FeaturedAt { get; set; }
 
+  // Preferência de tema do usuário
+  public ThemeColor Theme { get; set; } = ThemeColor.Primary;
+
+  // Controles de visibilidade e verificação (similar às receitas)
+  public bool IsPublic { get; set; } = false;
+  public bool Verified { get; set; } = false;
+
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
   public DateTime? LastLoginAt { get; set; }
 }
-
