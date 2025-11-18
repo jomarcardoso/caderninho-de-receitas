@@ -11,12 +11,11 @@ export interface Header2Props extends HTMLProps<HTMLDivElement> {
 export const Header2: FC<Header2Props> = ({ ...props }) => {
   return (
     <header className="header-2" id="header" {...props}>
-      {/* Left: go to home */}
-      <Link className="header-2__button" href="/search" aria-label="Início">
-        <CiSearch className="svg-icon" />
+      <Link className="header-2__button" href="/" aria-label="Início">
+        <CiHome className="svg-icon" />
       </Link>
 
-      <Link className="header-2__button" href="/">
+      <Link className="header-2__button" href="/my-recipes">
         <Logo active={true} />
       </Link>
 

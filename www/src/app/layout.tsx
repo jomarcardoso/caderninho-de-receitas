@@ -12,6 +12,7 @@ import { LoadingProvider } from '@/providers/loading';
 import { DataProvider } from '@/providers/data';
 import { CurrentRecipeProvider } from '@/providers/current-recipe';
 import { NavigationProvider } from '@/providers/navigation.provider';
+import { cookies } from 'next/headers';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -35,13 +36,21 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Resolve theme directly from cookie set by backend (no extra SSR fetch)
+  let themeAttr: string | undefined;
+  try {
+    const jar: any = (cookies as any)();
+    const store = jar && typeof jar.then === 'function' ? await jar : jar;
+    const val = store?.get?.('theme')?.value as string | undefined;
+    if (val && typeof val === 'string' && val.trim()) themeAttr = val.trim();
+  } catch { /* ignore */ }
   return (
-    <html lang="pt">
+    <html lang="pt" data-theme={themeAttr}>
       <body
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable}`}
