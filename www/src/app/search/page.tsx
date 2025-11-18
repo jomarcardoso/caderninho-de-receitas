@@ -18,6 +18,7 @@ import {
   RECIPES_DATA,
   mapRecipesDataResponseToModel,
 } from '@common/services/recipe';
+import { Categories } from '@/components/categories';
 
 export const metadata = { title: 'Recipes Search' };
 
@@ -214,7 +215,7 @@ export default async function RecipesPage({
           <h1 className="h1 mb-3 mt-4">Resultados para: {query}</h1>
 
           <SectionCard>
-            {(query || selected.length > 0) && (
+            {query || selected.length > 0 ? (
               <div>
                 <div
                   style={{
@@ -371,6 +372,8 @@ export default async function RecipesPage({
                   </div>
                 )}
               </div>
+            ) : (
+              <Categories categories={[]} />
             )}
           </SectionCard>
         </main>
