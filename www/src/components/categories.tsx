@@ -1,9 +1,10 @@
 import { Language } from '@/contexts/language';
-import { RecipeCategory } from '@common/services/common/common.model';
+import { Category } from '@common/services/common/common.model';
 import { FC, HTMLProps } from 'react';
+import { Image2 } from './image-2/image';
 
 export interface CategoriesProps extends HTMLProps<HTMLUListElement> {
-  categories: RecipeCategory[];
+  categories: Category[];
 }
 
 export const Categories: FC<CategoriesProps> = ({
@@ -13,9 +14,12 @@ export const Categories: FC<CategoriesProps> = ({
   const language: Language = 'pt';
 
   return (
-    <ul {...props}>
+    <ul {...props} className="d-flex flex-wrap gap-3">
       {categories.map((c) => (
-        <li key={c.text[language]}>{c.pluralText[language]}</li>
+        <li className="category" key={c.key} style={{ width: 100 }}>
+          <Image2 src={c.img} />
+          {c.pluralText[language]}
+        </li>
       ))}
     </ul>
   );

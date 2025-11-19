@@ -5,7 +5,7 @@ using Server.Shared;
 
 namespace Server.Dtos;
 
-public class RecipeCategoryItem
+public class CategoryItem
 {
   public string Key { get; set; } = string.Empty; // camelCase
   public string Url { get; set; } = string.Empty; // kebab-case
@@ -16,17 +16,17 @@ public class RecipeCategoryItem
 
 public static class RecipeCategoryData
 {
-  private static RecipeCategoryItem C(string key, string url, string en, string pt, string enPlural, string ptPlural)
-    => new RecipeCategoryItem
+  private static CategoryItem C(string key, string url, string en, string pt, string enPlural, string ptPlural)
+    => new CategoryItem
     {
       Key = key,
       Url = url,
       Text = new LanguageTextBase { En = en, Pt = pt },
       PluralText = new LanguageTextBase { En = enPlural, Pt = ptPlural },
-      Img = $"/categories/{url}.jpg",
+      Img = $"/img/categories/{url}.png",
     };
 
-  public static readonly Dictionary<RecipeCategory, RecipeCategoryItem> Map = new()
+  public static readonly Dictionary<RecipeCategory, CategoryItem> Map = new()
   {
     { RecipeCategory.Desserts, C("desserts", "desserts", "Dessert", "Doce e sobremesa", "Desserts", "Doces e sobremesas") },
     { RecipeCategory.CakesAndSweetPies, C("cakesAndSweetPies", "cakes-and-sweet-pies", "Cake or sweet pie", "Bolo ou torta doce", "Cakes and sweet pies", "Bolos e tortas doces") },
@@ -42,7 +42,7 @@ public static class RecipeCategoryData
     { RecipeCategory.HealthyEating, C("healthyEating", "healthy-eating", "Healthy recipe", "Receita saudável", "Healthy recipes", "Receitas saudáveis") },
   };
 
-  public static readonly List<RecipeCategoryItem> List = Map.Values.ToList();
+  public static readonly List<CategoryItem> List = Map.Values.ToList();
 
   static RecipeCategoryData()
   {
@@ -54,4 +54,3 @@ public static class RecipeCategoryData
     }
   }
 }
-

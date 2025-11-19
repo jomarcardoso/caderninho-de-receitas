@@ -19,42 +19,13 @@ import {
   mapRecipesDataResponseToModel,
 } from '@common/services/recipe';
 import { Categories } from '@/components/categories';
+import type { CategoryItem } from '@/services/categories.service';
+import { getCategories } from '@/services/categories.service';
 
 export const metadata = { title: 'Recipes Search' };
 
-async function fetchCategories() {
-  try {
-    const base =
-      process.env.RECIPES_API_URL ||
-      process.env.NEXT_PUBLIC_API_BASE_URL ||
-      'http://localhost:5106';
-    const res = await fetch(`${base}/api/recipe/categories`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok)
-      return {} as Record<
-        string,
-        {
-          text: { en: string; pt: string };
-          pluralText: { en: string; pt: string };
-        }
-      >;
-    return (await res.json()) as Record<
-      string,
-      {
-        text: { en: string; pt: string };
-        pluralText: { en: string; pt: string };
-      }
-    >;
-  } catch {
-    return {} as Record<
-      string,
-      {
-        text: { en: string; pt: string };
-        pluralText: { en: string; pt: string };
-      }
-    >;
-  }
+async function fetchCategories(): Promise<CategoryItem[]> {
+  return await getCategories();
 }
 
 async function searchRecipes(
@@ -99,32 +70,51 @@ async function searchRecipes(
 export default async function RecipesPage({
   searchParams,
 }: {
-  searchParams?: {
-    text?: string;
-    categories?: string | string[];
-    quantity?: string;
-  };
+  searchParams?:
+    | Promise<{
+        text?: string;
+        categories?: string | string[];
+        quantity?: string;
+      }>
+    | {
+        text?: string;
+        categories?: string | string[];
+        quantity?: string;
+      };
 }) {
-  const query = searchParams?.text || '';
-  const selected = Array.isArray(searchParams?.categories)
-    ? (searchParams?.categories as string[])
-    : typeof searchParams?.categories === 'string'
-    ? [searchParams?.categories as string]
+  const sp: any = await (searchParams as any);
+  const query = sp?.text || '';
+  const selected = Array.isArray(sp?.categories)
+    ? (sp?.categories as string[])
+    : typeof sp?.categories === 'string'
+    ? [sp?.categories as string]
     : [];
   const quantity = Math.max(
     1,
     Math.min(
       200,
-      Number.parseInt(String(searchParams?.quantity ?? '20')) || 20,
+      Number.parseInt(String(sp?.quantity ?? '20')) || 20,
     ),
   );
-  const [categoriesMap, data] = await Promise.all([
+  const [categories, data] = await Promise.all([
     fetchCategories(),
     searchRecipes(query, selected, quantity),
   ]);
   const recipes = (data as RecipesData).recipes;
-  const categoryEntries = Object.entries(categoriesMap);
-  const selectedLabels = selected.map((k) => categoriesMap?.[k]?.text?.pt || k);
+  const categoriesList: CategoryItem[] = Array.isArray(categories)
+    ? (categories as CategoryItem[])
+    : [];
+  const categoryMap: Record<
+    string,
+    { text: { en: string; pt: string }; pluralText: { en: string; pt: string } }
+  > = Object.fromEntries(
+    categoriesList.map((c) => [
+      c.key,
+      { text: c.text, pluralText: c.pluralText },
+    ]),
+  );
+  const categoryEntries = Object.entries(categoryMap);
+  const selectedLabels = selected.map((k) => categoryMap?.[k]?.text?.pt || k);
 
   function buildUrl(nextQuantity?: number, omitCategory?: string) {
     const params = new URLSearchParams();
@@ -373,7 +363,7 @@ export default async function RecipesPage({
                 )}
               </div>
             ) : (
-              <Categories categories={[]} />
+              <Categories className="row g-3" categories={categoriesList} />
             )}
           </SectionCard>
         </main>

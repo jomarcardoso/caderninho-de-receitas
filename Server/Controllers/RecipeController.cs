@@ -9,6 +9,7 @@ using Server.PreProcessing;
 using Server.Serialization;
 using Server.Shared;
 using System.Security.Claims;
+using Server.Dtos;
 
 
 namespace Server.Controllers;
@@ -279,11 +280,8 @@ public class RecipeController : ControllerBase
   [AllowAnonymous]
   public IActionResult GetCategories()
   {
-    // Return dictionary with camelCase enum keys
-    static string ToCamel(string s) => string.IsNullOrEmpty(s) ? s : char.ToLowerInvariant(s[0]) + (s.Length > 1 ? s.Substring(1) : string.Empty);
-    var map = RecipeCategoryData.Map
-      .ToDictionary(kv => ToCamel(kv.Key.ToString()), kv => kv.Value);
-    return Ok(map);
+    // Retorna a lista de categorias com metadados (key, url, textos e imagem)
+    return Ok(RecipeCategoryData.List);
   }
 
   [HttpGet("{id}")]
