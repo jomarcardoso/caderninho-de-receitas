@@ -1,74 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Server.Shared;
 
 namespace Server.Dtos;
 
+public class RecipeCategoryItem
+{
+  public string Key { get; set; } = string.Empty; // camelCase
+  public string Url { get; set; } = string.Empty; // kebab-case
+  public LanguageTextBase Text { get; set; } = new LanguageTextBase();
+  public LanguageTextBase PluralText { get; set; } = new LanguageTextBase();
+  public string Img { get; set; } = string.Empty; // caminho relativo (www/public)
+}
+
 public static class RecipeCategoryData
 {
-  public static readonly Dictionary<RecipeCategory, LanguageTextAndPluralBase> Map = new()
+  private static RecipeCategoryItem C(string key, string url, string en, string pt, string enPlural, string ptPlural)
+    => new RecipeCategoryItem
+    {
+      Key = key,
+      Url = url,
+      Text = new LanguageTextBase { En = en, Pt = pt },
+      PluralText = new LanguageTextBase { En = enPlural, Pt = ptPlural },
+      Img = $"/categories/{url}.jpg",
+    };
+
+  public static readonly Dictionary<RecipeCategory, RecipeCategoryItem> Map = new()
   {
-    { RecipeCategory.Desserts, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Dessert", Pt = "Doce e sobremesa" },
-        PluralText = new LanguageTextBase { En = "Desserts", Pt = "Doces e sobremesas" }
-      }
-    },
-    { RecipeCategory.CakesAndSweetPies, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Cake or sweet pie", Pt = "Bolo ou torta doce" },
-        PluralText = new LanguageTextBase { En = "Cakes and sweet pies", Pt = "Bolos e tortas doces" }
-      }
-    },
-    { RecipeCategory.SaladsSaucesSides, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Salad, sauce or side", Pt = "Salada, molho ou acompanhamento" },
-        PluralText = new LanguageTextBase { En = "Salads, sauces and sides", Pt = "Saladas, molhos e acompanhamentos" }
-      }
-    },
-    { RecipeCategory.Snacks, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Snack", Pt = "Lanche" },
-        PluralText = new LanguageTextBase { En = "Snacks", Pt = "Lanches" }
-      }
-    },
-    { RecipeCategory.Pasta, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Pasta", Pt = "Massa" },
-        PluralText = new LanguageTextBase { En = "Pastas", Pt = "Massas" }
-      }
-    },
-    { RecipeCategory.Meats, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Meat", Pt = "Carne" },
-        PluralText = new LanguageTextBase { En = "Meats", Pt = "Carnes" }
-      }
-    },
-    { RecipeCategory.OneDish, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "One-dish meal", Pt = "Prato Único" },
-        PluralText = new LanguageTextBase { En = "One-dish meals", Pt = "Pratos Únicos" }
-      }
-    },
-    { RecipeCategory.Poultry, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Poultry", Pt = "Ave" },
-        PluralText = new LanguageTextBase { En = "Poultry", Pt = "Aves" }
-      }
-    },
-    { RecipeCategory.FishAndSeafood, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Fish or seafood", Pt = "Peixe ou fruto do mar" },
-        PluralText = new LanguageTextBase { En = "Fish and seafood", Pt = "Peixes e frutos do mar" }
-      }
-    },
-    { RecipeCategory.Beverages, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Beverage", Pt = "Bebida" },
-        PluralText = new LanguageTextBase { En = "Beverages", Pt = "Bebidas" }
-      }
-    },
-    { RecipeCategory.Soups, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Soup", Pt = "Sopa" },
-        PluralText = new LanguageTextBase { En = "Soups", Pt = "Sopas" }
-      }
-    },
-    { RecipeCategory.HealthyEating, new LanguageTextAndPluralBase {
-        Text = new LanguageTextBase { En = "Healthy recipe", Pt = "Receita saudável" },
-        PluralText = new LanguageTextBase { En = "Healthy recipes", Pt = "Receitas saudáveis" }
-      }
-    },
+    { RecipeCategory.Desserts, C("desserts", "desserts", "Dessert", "Doce e sobremesa", "Desserts", "Doces e sobremesas") },
+    { RecipeCategory.CakesAndSweetPies, C("cakesAndSweetPies", "cakes-and-sweet-pies", "Cake or sweet pie", "Bolo ou torta doce", "Cakes and sweet pies", "Bolos e tortas doces") },
+    { RecipeCategory.SaladsSaucesSides, C("saladsSaucesSides", "salads-sauces-sides", "Salad, sauce or side", "Salada, molho ou acompanhamento", "Salads, sauces and sides", "Saladas, molhos e acompanhamentos") },
+    { RecipeCategory.Snacks, C("snacks", "snacks", "Snack", "Lanche", "Snacks", "Lanches") },
+    { RecipeCategory.Pasta, C("pasta", "pasta", "Pasta", "Massa", "Pastas", "Massas") },
+    { RecipeCategory.Meats, C("meats", "meats", "Meat", "Carne", "Meats", "Carnes") },
+    { RecipeCategory.OneDish, C("oneDish", "one-dish", "One-dish meal", "Prato único", "One-dish meals", "Pratos únicos") },
+    { RecipeCategory.Poultry, C("poultry", "poultry", "Poultry", "Ave", "Poultry", "Aves") },
+    { RecipeCategory.FishAndSeafood, C("fishAndSeafood", "fish-and-seafood", "Fish or seafood", "Peixe ou fruto do mar", "Fish and seafood", "Peixes e frutos do mar") },
+    { RecipeCategory.Beverages, C("beverages", "beverages", "Beverage", "Bebida", "Beverages", "Bebidas") },
+    { RecipeCategory.Soups, C("soups", "soups", "Soup", "Sopa", "Soups", "Sopas") },
+    { RecipeCategory.HealthyEating, C("healthyEating", "healthy-eating", "Healthy recipe", "Receita saudável", "Healthy recipes", "Receitas saudáveis") },
   };
 
-  public static readonly List<LanguageTextAndPluralBase> List = Map.Values.ToList();
+  public static readonly List<RecipeCategoryItem> List = Map.Values.ToList();
 
   static RecipeCategoryData()
   {
@@ -76,8 +50,7 @@ public static class RecipeCategoryData
     var missing = allEnumValues.Except(Map.Keys).ToList();
     if (missing.Any())
     {
-      throw new InvalidOperationException(
-        $"RecipeCategoryData.Map is missing mappings for: {string.Join(", ", missing)}");
+      throw new InvalidOperationException($"RecipeCategoryData.Map is missing mappings for: {string.Join(", ", missing)}");
     }
   }
 }
