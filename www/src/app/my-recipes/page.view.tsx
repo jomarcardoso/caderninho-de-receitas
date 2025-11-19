@@ -90,7 +90,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
 
   function renderItem(recipe: Recipe) {
     return (
-      <li className="col-12" key={recipe.id}>
+      <li key={recipe.id}>
         <article aria-labelledby={String(recipe.id)}>
           <Card
             title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
@@ -119,26 +119,27 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
               </>
             }
           >
-            <ul className="row no-gutters g-3">
+            <ul className="row no-gutters g-2">
               <li className="col-6">
                 <strong>{translate('foodFormCalories', language)}</strong>
                 <br />
                 {recipe.nutritionalInformation[2].quantity.toFixed(0)}
+                cal
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormProteins', language)}</strong>
                 <br />
-                {recipe.nutritionalInformation[10].quantity.toFixed(0)}
+                {recipe.nutritionalInformation[10].quantity.toFixed(0)}g
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormFat', language)}</strong>
                 <br />
-                {recipe.nutritionalInformation[13].quantity.toFixed(0)}
+                {recipe.nutritionalInformation[13].quantity.toFixed(0)}g
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormDietaryFiber', language)}</strong>
                 <br />
-                {recipe.nutritionalInformation[5].quantity.toFixed(0)}
+                {recipe.nutritionalInformation[5].quantity.toFixed(0)}g
               </li>
             </ul>
           </Card>
@@ -238,16 +239,16 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
 
           {(recipeLists?.length ?? 0) === 0 && <p>Nenhuma lista criada.</p>}
 
-          <ul className="list" style={{ maxWidth: 560 }}>
+          <ul>
             {(recipeLists ?? []).map((l) => (
-              <li key={l.id}>
-                <h3 className="section-title">{l.name}</h3>
+              <li key={l.id} className="mt-4">
+                <h3 className="section-title mb-3">{l.name}</h3>
                 {l.description && (
                   <span style={{ opacity: 0.8 }}>{l.description}</span>
                 )}
 
                 {l.items?.length ? (
-                  <ol className="list">
+                  <ol className="horizontal-scroll">
                     {l.items.map((it) => renderItem(it.recipe))}
                   </ol>
                 ) : null}
@@ -258,18 +259,16 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
                   type="button"
                   onClick={() => handleDeleteList(l.id)}
                 >
-                  Excluir
+                  Excluir lista
+                  <br />
+                  <small>mantém receitas</small>
                 </Button>
               </li>
             ))}
           </ul>
 
           <div className="mt-4" style={{ display: 'flex', gap: 8 }}>
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={handleAddNewList}
-            >
+            <Button type="button" onClick={handleAddNewList}>
               adicionar nova lista
             </Button>
           </div>
