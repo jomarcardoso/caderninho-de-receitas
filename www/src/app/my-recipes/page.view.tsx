@@ -123,23 +123,62 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
               <li className="col-6">
                 <strong>{translate('foodFormCalories', language)}</strong>
                 <br />
-                {recipe.nutritionalInformation[2].quantity.toFixed(0)}
+                {
+                  (
+                    (recipe.nutritionalInformation || []).find(
+                      (n: any) =>
+                        n?.shortName === 'Cal' ||
+                        n?.name?.en === 'Calories' ||
+                        n?.name?.pt === 'Calorias',
+                    )?.quantity ?? 0
+                  ).toFixed(0)
+                }
                 cal
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormProteins', language)}</strong>
                 <br />
-                {recipe.nutritionalInformation[10].quantity.toFixed(0)}g
+                {
+                  (
+                    (recipe.nutritionalInformation || []).find(
+                      (n: any) =>
+                        n?.shortName === 'Prot' ||
+                        n?.name?.en === 'Proteins' ||
+                        n?.name?.pt === 'Proteínas',
+                    )?.quantity ?? 0
+                  ).toFixed(0)
+                }
+                g
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormFat', language)}</strong>
                 <br />
-                {recipe.nutritionalInformation[13].quantity.toFixed(0)}g
+                {
+                  (
+                    (recipe.nutritionalInformation || []).find(
+                      (n: any) =>
+                        n?.shortName === 'Fat' ||
+                        n?.name?.en === 'Total Fat' ||
+                        n?.name?.pt === 'Gordura Total',
+                    )?.quantity ?? 0
+                  ).toFixed(0)
+                }
+                g
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormDietaryFiber', language)}</strong>
                 <br />
-                {recipe.nutritionalInformation[5].quantity.toFixed(0)}g
+                {
+                  (
+                    (recipe.nutritionalInformation || []).find(
+                      (n: any) =>
+                        n?.shortName === 'Fiber' ||
+                        n?.name?.en === 'Dietary Fiber' ||
+                        n?.name?.pt === 'Fibra Alimentar',
+                    )?.quantity ?? 0
+                  ).toFixed(0)
+                }
+                g
               </li>
             </ul>
           </Card>

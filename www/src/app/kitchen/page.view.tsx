@@ -49,6 +49,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
       additional = '',
       imgs = [],
       steps: stepsData = [],
+      categories = [],
     }: // category = '',
     RecipeForm): Promise<void> => {
       if (!saveRecipe) return;
@@ -65,6 +66,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
         description,
         additional,
         imgs,
+        categories,
         language,
         id: recipe?.id ?? 0,
         // category,
@@ -119,6 +121,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
           description: recipe?.description ?? '',
           additional: recipe?.additional ?? '',
           imgs: recipe?.imgs ?? [],
+          categories: recipe?.categories ?? [],
           // category: recipe?.category ?? '',
           steps: recipe?.steps?.length
             ? recipe.steps.map((s) => ({ keyId: generateId(), ...s }))

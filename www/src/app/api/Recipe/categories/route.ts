@@ -11,8 +11,7 @@ export async function GET(req: Request) {
     const upstream = await fetch(`${API_BASE_URL}/api/recipe/categories`, {
       method: 'GET',
       headers: { accept: 'application/json' },
-      cache: 'force-cache',
-      next: { revalidate: 300 },
+      cache: 'no-store',
     });
     const res = new NextResponse(upstream.body, {
       status: upstream.status,
@@ -25,4 +24,3 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'proxy_failed' }, { status: 500 });
   }
 }
-

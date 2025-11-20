@@ -18,6 +18,7 @@ import {
   RECIPES_DATA,
   mapRecipesDataResponseToModel,
 } from '@common/services/recipe';
+import { fetchApiJson } from '@/lib/api-server';
 import { Categories } from '@/components/categories';
 import type { CategoryItem } from '@/services/categories.service';
 import { getCategories } from '@/services/categories.service';
@@ -33,22 +34,18 @@ async function searchRecipes(
   categories?: string[],
   quantity = 20,
 ) {
-  if (!text || !text.trim())
+  // Permitir busca apenas por categorias (sem texto).
+  if ((!(text && text.trim())) && (!categories || categories.length === 0))
     return { ...RECIPES_DATA, recipes: [] } as RecipesData;
-  const base =
-    process.env.RECIPES_API_URL ||
-    process.env.NEXT_PUBLIC_API_BASE_URL ||
-    'http://localhost:5106';
-  const url = new URL('/api/recipe/search', base);
-  url.searchParams.set('text', text);
-  url.searchParams.set('quantity', String(quantity));
+  const params = new URLSearchParams();
+  if (text && text.trim()) params.set('text', text);
+  params.set('quantity', String(quantity));
   if (Array.isArray(categories)) {
-    for (const c of categories) url.searchParams.append('categories', c);
+    for (const c of categories) params.append('categories', c);
   }
+  const path = `/api/recipe/search?${params.toString()}`;
   try {
-    const res = await fetch(url.toString(), { next: { revalidate: 0 } });
-    if (!res.ok) return { ...RECIPES_DATA, recipes: [] } as RecipesData;
-    const json = (await res.json()) as any;
+    const json = await fetchApiJson<any>(path, { cache: 'no-store' });
 
     // Prefer full RecipesDataResponse from backend when available
     if (
@@ -91,10 +88,7 @@ export default async function RecipesPage({
     : [];
   const quantity = Math.max(
     1,
-    Math.min(
-      200,
-      Number.parseInt(String(sp?.quantity ?? '20')) || 20,
-    ),
+    Math.min(200, Number.parseInt(String(sp?.quantity ?? '20')) || 20),
   );
   const [categories, data] = await Promise.all([
     fetchCategories(),
@@ -235,7 +229,7 @@ export default async function RecipesPage({
                               background: '#f2f2f2',
                             }}
                           >
-                            {categoriesMap?.[key]?.text?.pt || key} x
+                            {categoryMap?.[key]?.text?.pt || key} x
                           </span>
                         </a>
                       ))}
@@ -327,7 +321,7 @@ export default async function RecipesPage({
                                   border: '1px solid #eee',
                                 }}
                               >
-                                {categoriesMap?.[key]?.text?.pt || key}
+                                {categoryMap?.[key]?.text?.pt || key}
                               </span>
                             ))}
                           </div>
@@ -363,7 +357,7 @@ export default async function RecipesPage({
                 )}
               </div>
             ) : (
-              <Categories className="row g-3" categories={categoriesList} />
+              <Categories categories={categoriesList} />
             )}
           </SectionCard>
         </main>

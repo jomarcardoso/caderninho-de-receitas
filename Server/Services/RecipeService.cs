@@ -49,7 +49,8 @@ public class RecipeService
 
     entity.Imgs = recipeDto.Imgs ?? new List<string>();
     entity.Language = recipeDto.Language;
-    entity.Categories = recipeDto.Categories ?? new List<Server.Shared.RecipeCategory>();
+    // Convert transport string keys to enum list
+    entity.Categories = ParseCategoryKeys(recipeDto.Categories);
     // New recipes require moderation
     entity.IsPublic = false;
     entity.Verified = false;
@@ -164,7 +165,8 @@ public class RecipeService
 
     recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     recipe.UpdatedAt = DateTime.UtcNow;
-    recipe.Categories = recipeDto.Categories ?? new List<Server.Shared.RecipeCategory>();
+    // Convert transport string keys to enum list
+    recipe.Categories = ParseCategoryKeys(recipeDto.Categories);
     RecalculateRecipeNutrition(recipe);
   }
 
@@ -323,6 +325,17 @@ public class RecipeService
     return null;
   }
 
+  private static List<RecipeCategory> ParseCategoryKeys(IEnumerable<string>? keys)
+  {
+    var set = new HashSet<RecipeCategory>();
+    foreach (var key in (keys ?? Array.Empty<string>()))
+    {
+      var parsed = TryParseCategoryKey(key);
+      if (parsed.HasValue) set.Add(parsed.Value);
+    }
+    return set.ToList();
+  }
+
   public async Task<List<Recipe>> SearchRecipesAsync(string? text, IEnumerable<string>? categoryKeys, int quantity, string? userId = null)
   {
     quantity = Math.Clamp(quantity, 1, 64);
@@ -360,21 +373,28 @@ public class RecipeService
       .Select(v => v!.Value)
       .ToHashSet();
 
+    // NOTE: Filtering by categories persisted as CSV via value converter can be
+    // tricky to translate portably across providers. To ensure correctness,
+    // fetch a reasonable superset from DB, then filter categories in-memory.
+    // This keeps results correct without relying on provider-specific SQL.
+
+    const int SupersetMax = 512;
+    var superset = await query
+      .OrderBy(r => r.Id)
+      .Take(Math.Max(quantity, SupersetMax))
+      .ToListAsync();
+
     if (cats.Count > 0)
     {
-      // Build OR predicates over the CSV column to let DB filter by category
-      var names = cats.Select(c => c.ToString()).ToList();
-      query = query.Where(r => names.Any(name =>
-        EF.Functions.Like(
-          "," + EF.Property<string>(r, "Categories") + ",",
-          "%," + name + ",%"))
-      );
+      superset = superset
+        .Where(r => (r.Categories ?? new List<RecipeCategory>())
+          .Any(c => cats.Contains(c)))
+        .ToList();
     }
 
-    return await query
-      .OrderBy(r => r.Id)
+    return superset
       .Take(quantity)
-      .ToListAsync();
+      .ToList();
   }
 
   public async Task<int> ReassignOwnerAsync(string fromOwnerId, string toOwnerId)

@@ -11,7 +11,7 @@ export type CategoryItem = {
 
 export async function getCategories(): Promise<CategoryItem[]> {
   try {
-    const data = await fetchApiJson<any>(`/api/Recipe/categories`, { cache: 'force-cache' });
+    const data = await fetchApiJson<any>(`/api/Recipe/categories`, { cache: 'no-store' });
     if (Array.isArray(data)) return data as CategoryItem[];
     // If backend still returns a map, degrade gracefully to empty (or map to list in future)
     return [];

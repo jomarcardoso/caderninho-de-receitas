@@ -7,20 +7,24 @@ import type {
 } from './nutrient.response';
 
 export function mapNutrientResponseToModel(
-  nutrientsResponse: NutrientsResponse,
+  nutrientsResponse: NutrientsResponse | undefined | null,
   nutrientsData: Record<string, NutrientDataResponse>,
 ): Nutrient[] {
-  return Object.entries(nutrientsResponse).map(([key, quantity]) => ({
-    quantity,
-    index: nutrientsData[key].index,
-    name: nutrientsData[key].name,
-    shortName: nutrientsData[key].shortName,
-    measurementUnit: nutrientsData[key].measurementUnit,
-  }));
+  const entries = Object.entries(nutrientsResponse || {});
+  return entries.map(([key, quantity]) => {
+    const d = nutrientsData[key];
+    return {
+      quantity: typeof quantity === 'number' ? quantity : 0,
+      index: d?.index ?? 0,
+      name: d?.name ?? ({ en: key, pt: key } as any),
+      shortName: d?.shortName ?? key,
+      measurementUnit: d?.measurementUnit ?? '',
+    };
+  });
 }
 
 export function mapAllNutrientsResponseToModel(
-  allNutrientsResponse: AllNutrientsResponse,
+  allNutrientsResponse: AllNutrientsResponse | undefined | null,
   {
     nutritionalInformation,
     minerals,
@@ -30,25 +34,25 @@ export function mapAllNutrientsResponseToModel(
 ): AllNutrients {
   return {
     nutritionalInformation: mapNutrientResponseToModel(
-      allNutrientsResponse.nutritionalInformation,
+      allNutrientsResponse?.nutritionalInformation,
       nutritionalInformation,
     ),
     minerals: mapNutrientResponseToModel(
-      allNutrientsResponse.minerals,
+      allNutrientsResponse?.minerals,
       minerals,
     ),
     vitamins: mapNutrientResponseToModel(
-      allNutrientsResponse.vitamins,
+      allNutrientsResponse?.vitamins,
       vitamins,
     ),
     aminoAcids: mapNutrientResponseToModel(
-      allNutrientsResponse.aminoAcids,
+      allNutrientsResponse?.aminoAcids,
       aminoAcids,
     ),
     essentialAminoAcids: mapNutrientResponseToModel(
-      allNutrientsResponse.essentialAminoAcids,
+      allNutrientsResponse?.essentialAminoAcids,
       aminoAcids,
     ),
-    aminoAcidsScore: allNutrientsResponse.aminoAcidsScore,
+    aminoAcidsScore: allNutrientsResponse?.aminoAcidsScore ?? 0,
   };
 }

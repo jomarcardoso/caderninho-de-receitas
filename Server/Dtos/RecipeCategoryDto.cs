@@ -40,6 +40,7 @@ public static class RecipeCategoryData
     { RecipeCategory.Beverages, C("beverages", "beverages", "Beverage", "Bebida", "Beverages", "Bebidas") },
     { RecipeCategory.Soups, C("soups", "soups", "Soup", "Sopa", "Soups", "Sopas") },
     { RecipeCategory.HealthyEating, C("healthyEating", "healthy-eating", "Healthy recipe", "Receita saudável", "Healthy recipes", "Receitas saudáveis") },
+    { RecipeCategory.Breads, C("breads", "breads", "Bread", "Pão", "Breads", "Pães") },
   };
 
   public static readonly List<CategoryItem> List = Map.Values.ToList();
@@ -54,3 +55,4 @@ public static class RecipeCategoryData
     }
   }
 }
+

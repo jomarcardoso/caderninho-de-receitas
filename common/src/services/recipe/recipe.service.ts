@@ -22,6 +22,14 @@ import {
 import { RECIPES_DATA } from './recipe.data';
 import { type RecipeStepDto } from '../recipe-step';
 import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
+import type {
+  AllNutrients,
+  Nutrient,
+} from '../nutrient/nutrient.model';
+import type {
+  AllNutrientsResponse,
+  NutrientsResponse,
+} from '../nutrient/nutrient.response';
 import { FOOD } from '../food/food.model';
 import { mapRecipeStepModelToDto } from '../recipe-step/recipe-step.service';
 // (duplicate import removed)
@@ -146,17 +154,19 @@ ${stepsText}`;
 }
 
 export function mapRecipeModelToDto(recipe: Recipe): RecipeDto {
+  const categoryKeys = Array.isArray((recipe as any).categories)
+    ? ((recipe as any).categories as Array<{ key?: string }>)
+        .map((c) => c?.key)
+        .filter((k): k is string => typeof k === 'string' && k.length > 0)
+    : [];
+
   return {
     id: recipe.id ?? 0,
     language: recipe.language ?? 'en',
     name: recipe.name ?? '',
     additional: recipe.additional ?? '',
     description: recipe.description ?? '',
-    categories: Array.isArray((recipe as any).categories)
-      ? ((recipe as any).categories as Array<{ key?: string }>)
-          .map((c) => c?.key)
-          .filter((k): k is string => typeof k === 'string' && k.length > 0)
-      : [],
+    categories: categoryKeys,
     steps: recipe.steps?.map(mapRecipeStepModelToDto) ?? [],
     // createdAt/updatedAt are server-managed; not required on save
   };
@@ -194,9 +204,57 @@ export function mapRecipeResponseToModel(
       Boolean(x),
     );
 
+  // Fallback: aggregate nutrients from steps when top-level nutrients are missing
+  const topLevel: AllNutrients = mapAllNutrientsResponseToModel(
+    recipeResponse as unknown as AllNutrientsResponse,
+    dataResponse,
+  );
+
+  function aggregateFromSteps(): AllNutrients {
+    const zero = {} as Record<string, number>;
+    const addInto = (acc: Record<string, number>, src?: Record<string, number>) => {
+      if (!src) return acc;
+      for (const [k, v] of Object.entries(src)) {
+        const n = typeof v === 'number' ? v : 0;
+        acc[k] = (acc[k] ?? 0) + n;
+      }
+      return acc;
+    };
+
+    const sums = (recipeResponse.steps ?? []).reduce(
+      (acc, s: any) => {
+        addInto(acc.ni, s?.nutritionalInformation);
+        addInto(acc.mi, s?.minerals);
+        addInto(acc.vi, s?.vitamins);
+        addInto(acc.aa, s?.aminoAcids);
+        addInto(acc.eaa, s?.essentialAminoAcids);
+        return acc;
+      },
+      { ni: { ...zero }, mi: { ...zero }, vi: { ...zero }, aa: { ...zero }, eaa: { ...zero } },
+    );
+
+    const agg: AllNutrientsResponse = {
+      nutritionalInformation: sums.ni as NutrientsResponse,
+      minerals: sums.mi as NutrientsResponse,
+      vitamins: sums.vi as NutrientsResponse,
+      aminoAcids: sums.aa as NutrientsResponse,
+      essentialAminoAcids: sums.eaa as NutrientsResponse,
+      aminoAcidsScore: 0,
+    };
+
+    return mapAllNutrientsResponseToModel(agg, dataResponse);
+  }
+
+  const needsFallback =
+    (topLevel?.nutritionalInformation?.length ?? 0) === 0 &&
+    Array.isArray(recipeResponse?.steps) &&
+    recipeResponse.steps.length > 0;
+
+  const allNutrients: AllNutrients = needsFallback ? aggregateFromSteps() : topLevel;
+
   return {
     ...recipeResponse,
-    ...mapAllNutrientsResponseToModel(recipeResponse, dataResponse),
+    ...allNutrients,
     food,
     author: recipeResponse.author
       ? {
@@ -413,6 +471,14 @@ export async function saveRecipe(
     await ensureOwnerCookie();
     const url = recipe.id ? `/api/recipe/${recipe.id}` : `/api/recipe`;
     const ownerId = getOwnerIdFromCookies();
+    // Ensure backend receives string keys explicitly as `categoryKeys`
+    const payload: any = {
+      ...recipe,
+      ...(Array.isArray((recipe as any).categories)
+        ? { categoryKeys: (recipe as any).categories }
+        : {}),
+    };
+
     const res = await fetchWithFallback(url, {
       method: recipe.id ? 'PUT' : 'POST',
       headers: {

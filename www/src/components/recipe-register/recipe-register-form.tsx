@@ -1,7 +1,7 @@
 ﻿'use client';
 import { CiSquarePlus } from 'react-icons/ci';
 import { FieldArray, type FormikProps } from 'formik';
-import { type FC, useCallback, type ChangeEventHandler, Fragment } from 'react';
+import { type FC, useCallback, type ChangeEventHandler, Fragment, useEffect, useState } from 'react';
 import './recipe-register.scss';
 import { Button } from 'notebook-layout';
 import { RECIPE_STEP_DTO, type RecipeStepDto } from 'services/recipe-step';
@@ -28,7 +28,7 @@ export interface RecipeForm {
   steps: RecipeStepDtoWithKeyId[];
   name: string;
   description: string;
-  // category: RecipeCategory | '';
+  categories?: string[];
   // quantitySteps: number;
   additional: string;
   imgs: string[];
@@ -49,6 +49,25 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
   recipe,
 }) => {
   const language: Language = 'pt';
+  const [categoryOptions, setCategoryOptions] = useState<Array<{ key: string; label: string }>>([]);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/Recipe/categories', { cache: 'no-store' });
+        const data = await res.json();
+        const list = Array.isArray(data)
+          ? data
+          : [];
+        const opts = list.map((c: any) => ({ key: String(c?.key || ''), label: String(c?.text?.pt || c?.key || '') })).filter(o => o.key);
+        if (alive) setCategoryOptions(opts);
+      } catch {
+        if (alive) setCategoryOptions([]);
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
 
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredientsText = '', stepTitle = '') => {
@@ -260,6 +279,29 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
                       onBlur={formikHandleBlur}
                       minRows={2}
                     />
+                  </div>
+
+                  <div>
+                    <label className="field__label" htmlFor="recipe-category-select">
+                      Categoria
+                    </label>
+                    <select
+                      id="recipe-category-select"
+                      name="categories"
+                      value={(values.categories && values.categories[0]) || ''}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        setFieldValue('categories', v ? [v] : []);
+                      }}
+                      className="field__input"
+                    >
+                      <option value="">Selecione…</option>
+                      {categoryOptions.map((opt) => (
+                        <option key={opt.key} value={opt.key}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>

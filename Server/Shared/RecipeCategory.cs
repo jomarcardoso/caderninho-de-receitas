@@ -14,5 +14,5 @@ public enum RecipeCategory
   Beverages,
   Soups,
   HealthyEating,
+  Breads,
 }
-
