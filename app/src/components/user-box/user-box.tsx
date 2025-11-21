@@ -15,7 +15,7 @@ import { generateClasses } from 'services/dom/classes';
 import { Avatar } from 'notebook-layout';
 import { Button } from 'notebook-layout';
 import './user-box.scss';
-import { Chip, Chips } from '../chips/chips';
+import { Chip, Chips } from 'notebook-layout';
 import { LanguageContext } from '../../providers/language/language.context';
 import { type Language } from 'services/language/language.types';
 import { translate } from 'services/language/language.service';
