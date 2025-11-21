@@ -188,21 +188,23 @@ export function mapRecipeResponseToModel(
     ? mapFoodResponseToModel(foodResponse, dataResponse)
     : FOOD;
 
-  const categoryKeys: string[] = Array.isArray(
-    (recipeResponse as any).categories,
-  )
+  const categoryKeys: string[] = Array.isArray((recipeResponse as any).categories)
     ? ((recipeResponse as any).categories as string[])
     : [];
 
+  // Backend sends enum names (PascalCase). Our dictionaries are keyed by camelCase.
+  // Normalize to camelCase for lookup and store the normalized key in the model.
   const categories = categoryKeys
-    .map((key) => {
-      const entry = (dataResponse as any)?.recipeCategories?.[key];
+    .map((raw) => {
+      const key = typeof raw === 'string' ? raw.trim() : '';
+      if (!key) return null;
+      const camel = key.length ? (key[0].toLowerCase() + key.slice(1)) : key;
+      const entry = (dataResponse as any)?.recipeCategories?.[camel]
+        ?? (dataResponse as any)?.recipeCategories?.[key];
       if (!entry) return null;
-      return { key, text: entry.text, pluralText: entry.pluralText };
+      return { key: camel, text: entry.text, pluralText: entry.pluralText };
     })
-    .filter((x): x is { key: string; text: any; pluralText: any } =>
-      Boolean(x),
-    );
+    .filter((x): x is { key: string; text: any; pluralText: any } => Boolean(x));
 
   // Fallback: aggregate nutrients from steps when top-level nutrients are missing
   const topLevel: AllNutrients = mapAllNutrientsResponseToModel(

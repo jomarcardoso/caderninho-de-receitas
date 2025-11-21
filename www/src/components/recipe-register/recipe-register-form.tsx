@@ -1,14 +1,20 @@
-﻿'use client';
+'use client';
 import { CiSquarePlus } from 'react-icons/ci';
 import { FieldArray, type FormikProps } from 'formik';
-import { type FC, useCallback, type ChangeEventHandler, Fragment, useEffect, useState } from 'react';
+import {
+  type FC,
+  useCallback,
+  type ChangeEventHandler,
+  Fragment,
+  useEffect,
+  useState,
+} from 'react';
 import './recipe-register.scss';
-import { Button } from 'notebook-layout';
+import { Button, Field, Chips, Chip } from 'notebook-layout';
 import { RECIPE_STEP_DTO, type RecipeStepDto } from 'services/recipe-step';
 import type { RecipeDto } from 'services/recipe/recipe.dto';
 import { translate } from 'services/language/language.service';
 import { generateId } from 'services/string.service';
-import { Field } from 'notebook-layout';
 import { Language } from '@/contexts/language';
 import { Image2 } from '../image-2/image';
 import UploadButton from '../upload-button/upload-button';
@@ -29,7 +35,6 @@ export interface RecipeForm {
   name: string;
   description: string;
   categories?: string[];
-  // quantitySteps: number;
   additional: string;
   imgs: string[];
 }
@@ -49,25 +54,46 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
   recipe,
 }) => {
   const language: Language = 'pt';
-  const [categoryOptions, setCategoryOptions] = useState<Array<{ key: string; label: string }>>([]);
+  const [categoryOptions, setCategoryOptions] = useState<
+    Array<{ key: string; label: string }>
+  >([]);
 
   useEffect(() => {
     let alive = true;
     (async () => {
       try {
-        const res = await fetch('/api/Recipe/categories', { cache: 'no-store' });
+        const res = await fetch('/api/Recipe/categories', {
+          cache: 'no-store',
+        });
         const data = await res.json();
-        const list = Array.isArray(data)
-          ? data
-          : [];
-        const opts = list.map((c: any) => ({ key: String(c?.key || ''), label: String(c?.text?.pt || c?.key || '') })).filter(o => o.key);
+        const list = Array.isArray(data) ? data : [];
+        const opts = list
+          .map((c: any) => ({
+            key: String(c?.key || ''),
+            label: String(c?.text?.pt || c?.key || ''),
+          }))
+          .filter((o) => o.key);
         if (alive) setCategoryOptions(opts);
       } catch {
         if (alive) setCategoryOptions([]);
       }
     })();
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+    };
   }, []);
+
+  const handleCategoriesChange: React.FormEventHandler<HTMLInputElement> = (
+    e,
+  ) => {
+    const key = e.currentTarget.value;
+    const checked = e.currentTarget.checked;
+    const current = Array.isArray(values.categories) ? values.categories : [];
+    const next = checked
+      ? Array.from(new Set([...current, key]))
+      : current.filter((k) => k !== key);
+    setFieldValue('categories', next);
+  };
 
   const memoizedRenderInputIngredient = useCallback(
     (index = 0, ingredientsText = '', stepTitle = '') => {
@@ -86,10 +112,8 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
       ) => {
         const cleanedValue = event.target.value
           .split('\n')
-          // remove bullet prefix only, preserve user spaces
           .map((line) => line.replace(new RegExp(`^${BULLET} ?`), ''))
           .join('\n');
-
         setFieldValue(`steps.${index}.ingredientsText`, cleanedValue);
       };
 
@@ -113,7 +137,6 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
       <>
         {values.steps.map((step = RECIPE_STEP_DTO_WITH_KEY_ID, index) => {
           const suffix = step.title ? ` - ${step.title}` : '';
-
           return (
             <Fragment key={step.keyId}>
               <div>
@@ -167,9 +190,7 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
                   label={translate(
                     'additionalInformationLabelWithStep',
                     language,
-                    {
-                      suffix,
-                    },
+                    { suffix },
                   )}
                   value={step.additional}
                   onChange={handleChange}
@@ -282,26 +303,37 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
                   </div>
 
                   <div>
-                    <label className="field__label" htmlFor="recipe-category-select">
-                      Categoria
-                    </label>
-                    <select
-                      id="recipe-category-select"
+                    <Chips
                       name="categories"
-                      value={(values.categories && values.categories[0]) || ''}
-                      onChange={(e) => {
-                        const v = e.target.value;
-                        setFieldValue('categories', v ? [v] : []);
-                      }}
-                      className="field__input"
+                      legend="categorias"
+                      type="checkbox"
+                      full
                     >
-                      <option value="">Selecione…</option>
                       {categoryOptions.map((opt) => (
-                        <option key={opt.key} value={opt.key}>
+                        <Chip
+                          key={opt.key}
+                          value={opt.key}
+                          checked={(() => {
+                            const arr = Array.isArray(values.categories)
+                              ? values.categories
+                              : [];
+                            for (const k of arr) {
+                              if (typeof k !== 'string') continue;
+                              const norm = k.trim();
+                              if (!norm) continue;
+                              const camel = norm.length
+                                ? norm[0].toLowerCase() + norm.slice(1)
+                                : norm;
+                              if (camel === opt.key) return true;
+                            }
+                            return false;
+                          })()}
+                          onChange={handleCategoriesChange}
+                        >
                           {opt.label}
-                        </option>
+                        </Chip>
                       ))}
-                    </select>
+                    </Chips>
                   </div>
 
                   <div>
