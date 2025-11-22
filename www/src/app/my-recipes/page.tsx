@@ -4,6 +4,7 @@ import {
   RECIPES_DATA,
 } from '@common/services/recipe';
 import { fetchApiJson } from '@/lib/api-server';
+import { hasKeeperOrHigherServer } from '@/services/auth/user-roles.server';
 import { MyRecipesClient } from './page.client';
 
 export const metadata: Metadata = {
@@ -24,5 +25,7 @@ export default async function MyRecipesPage() {
     data = RECIPES_DATA;
   }
 
-  return <MyRecipesClient data={data} />;
+  const showFoodsSection = await hasKeeperOrHigherServer();
+
+  return <MyRecipesClient data={data} showFoodsSection={showFoodsSection} />;
 }

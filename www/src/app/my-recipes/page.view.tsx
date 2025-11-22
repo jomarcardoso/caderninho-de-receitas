@@ -17,17 +17,23 @@ import {
   createRecipeList,
   deleteRecipeList,
 } from '@/services/recipe-lists.service';
-import { FC, useMemo, useState } from 'react';
+import { FC, ReactElement, useMemo, useState } from 'react';
 import { Image2 } from '@/components/image-2/image';
 import { Dialog } from 'notebook-layout';
+import { Food } from '@common/services/food/food.model';
+import { ListItem } from '@/components/list-item/list-item';
 
 export interface MyRecipesViewProps {
   data: RecipesData;
+  showFoodsSection?: boolean;
 }
 
-export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
+export const MyRecipesView: FC<MyRecipesViewProps> = ({
+  data,
+  showFoodsSection = false,
+}) => {
   const language: Language = 'pt';
-  const { recipes, recipeLists } = data;
+  const { recipes, recipeLists, foods } = data;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [adding, setAdding] = useState(false);
@@ -123,67 +129,81 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
               <li className="col-6">
                 <strong>{translate('foodFormCalories', language)}</strong>
                 <br />
-                {
-                  (
-                    (recipe.nutritionalInformation || []).find(
-                      (n: any) =>
-                        n?.shortName === 'Cal' ||
-                        n?.name?.en === 'Calories' ||
-                        n?.name?.pt === 'Calorias',
-                    )?.quantity ?? 0
-                  ).toFixed(0)
-                }
+                {(
+                  (recipe.nutritionalInformation || []).find(
+                    (n: any) =>
+                      n?.shortName === 'Cal' ||
+                      n?.name?.en === 'Calories' ||
+                      n?.name?.pt === 'Calorias',
+                  )?.quantity ?? 0
+                ).toFixed(0)}
                 cal
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormProteins', language)}</strong>
                 <br />
-                {
-                  (
-                    (recipe.nutritionalInformation || []).find(
-                      (n: any) =>
-                        n?.shortName === 'Prot' ||
-                        n?.name?.en === 'Proteins' ||
-                        n?.name?.pt === 'Proteínas',
-                    )?.quantity ?? 0
-                  ).toFixed(0)
-                }
+                {(
+                  (recipe.nutritionalInformation || []).find(
+                    (n: any) =>
+                      n?.shortName === 'Prot' ||
+                      n?.name?.en === 'Proteins' ||
+                      n?.name?.pt === 'Proteínas',
+                  )?.quantity ?? 0
+                ).toFixed(0)}
                 g
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormFat', language)}</strong>
                 <br />
-                {
-                  (
-                    (recipe.nutritionalInformation || []).find(
-                      (n: any) =>
-                        n?.shortName === 'Fat' ||
-                        n?.name?.en === 'Total Fat' ||
-                        n?.name?.pt === 'Gordura Total',
-                    )?.quantity ?? 0
-                  ).toFixed(0)
-                }
+                {(
+                  (recipe.nutritionalInformation || []).find(
+                    (n: any) =>
+                      n?.shortName === 'Fat' ||
+                      n?.name?.en === 'Total Fat' ||
+                      n?.name?.pt === 'Gordura Total',
+                  )?.quantity ?? 0
+                ).toFixed(0)}
                 g
               </li>
               <li className="col-6">
                 <strong>{translate('foodFormDietaryFiber', language)}</strong>
                 <br />
-                {
-                  (
-                    (recipe.nutritionalInformation || []).find(
-                      (n: any) =>
-                        n?.shortName === 'Fiber' ||
-                        n?.name?.en === 'Dietary Fiber' ||
-                        n?.name?.pt === 'Fibra Alimentar',
-                    )?.quantity ?? 0
-                  ).toFixed(0)
-                }
+                {(
+                  (recipe.nutritionalInformation || []).find(
+                    (n: any) =>
+                      n?.shortName === 'Fiber' ||
+                      n?.name?.en === 'Dietary Fiber' ||
+                      n?.name?.pt === 'Fibra Alimentar',
+                  )?.quantity ?? 0
+                ).toFixed(0)}
                 g
               </li>
             </ul>
           </Card>
         </article>
       </li>
+    );
+  }
+
+  function renderFood(food: Food): ReactElement | null {
+    return (
+      <ListItem
+        // isActive={food.id === currentFood?.id}
+        key={food.name[language]}
+        // onClick={() => {
+        //   setCurrentFood(food);
+        //   setCurrentFoodQuantity(100);
+        // }}
+        icon={
+          <Image2
+            srcs={[...(food.icon ?? []), ...(food.imgs ?? [])]}
+            alt=""
+            transparent
+          />
+        }
+      >
+        {food.name[language]}
+      </ListItem>
     );
   }
 
@@ -245,6 +265,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
             </ul>
           )}
         </Dialog>
+
         <section
           className="grid"
           ovo-scrollspy-content="1"
@@ -316,6 +337,20 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({ data }) => {
         {/* <MyRecipesClient initialLists={recipeLists} /> */}
 
         {/* <ShoppingList /> */}
+
+        {showFoodsSection && (
+          <section className="mt-5" id="foods" aria-labelledby="foods-title">
+            <h2 className="section-title" id="foods-title">
+              Alimentos usados em minhas receitas
+            </h2>
+
+            <p className="mt-3">Esta seção é para usuários mantenedores.</p>
+
+            {foods.length > 0 && (
+              <ol className="list mt-3">{foods.map(renderFood)}</ol>
+            )}
+          </section>
+        )}
 
         <div className="d-flex justify-content-center mt-4">
           <NavLink action="pop" className="button button--secondary">
