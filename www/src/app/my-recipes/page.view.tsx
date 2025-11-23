@@ -7,7 +7,7 @@ import { Header2 } from '@/components/header-2/header-2';
 import { Navbar } from '@/components/navbar/navbar';
 import { Language } from '@/contexts/language';
 import { translate } from '@common/services/language/language.service';
-import { Button, Card } from 'notebook-layout';
+import { Button, Card, NotebookTabs } from 'notebook-layout';
 import { addRecipeToList } from '@/services/recipe-lists.service';
 import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
@@ -228,7 +228,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
         </Navbar>
       }
     >
-      <main className="py-5">
+      <main className="py-5" style={{ paddingLeft: 29 }}>
         <Dialog
           open={dialogOpen}
           onClose={closeDialog}
@@ -266,6 +266,20 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
           )}
         </Dialog>
 
+        <NotebookTabs
+          tabs={[
+            {
+              children: 'RECEITAS',
+            },
+            {
+              children: 'LISTAS',
+            },
+            {
+              children: 'alimentos',
+            },
+          ]}
+        />
+
         <section
           className="grid"
           ovo-scrollspy-content="1"
@@ -279,7 +293,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
           </div>
 
           <div className="g-col-12">
-            <ol className="row no-gutters g-4">{recipes.map(renderItem)}</ol>
+            <ol className="d-grid gap-4">{recipes.map(renderItem)}</ol>
           </div>
 
           <div className="g-col-12">
