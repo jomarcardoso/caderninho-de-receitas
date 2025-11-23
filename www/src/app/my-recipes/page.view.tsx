@@ -22,6 +22,7 @@ import { Image2 } from '@/components/image-2/image';
 import { Dialog } from 'notebook-layout';
 import { Food } from '@common/services/food/food.model';
 import { ListItem } from '@/components/list-item/list-item';
+import FoodDialog from '@/components/food-dialog/food-dialog';
 
 export interface MyRecipesViewProps {
   data: RecipesData;
@@ -37,6 +38,8 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [adding, setAdding] = useState(false);
+  const [foodDialogOpen, setFoodDialogOpen] = useState(false);
+  const [selectedFood, setSelectedFood] = useState<Food | null>(null);
 
   const lists = useMemo(() => recipeLists ?? [], [recipeLists]);
 
@@ -48,6 +51,16 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   function closeDialog() {
     setDialogOpen(false);
     setSelectedId(null);
+  }
+
+  function openFoodDialog(food: Food) {
+    setSelectedFood(food);
+    setFoodDialogOpen(true);
+  }
+
+  function closeFoodDialog() {
+    setFoodDialogOpen(false);
+    setSelectedFood(null);
   }
 
   async function handleAddNewList() {
@@ -188,12 +201,10 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   function renderFood(food: Food): ReactElement | null {
     return (
       <ListItem
-        // isActive={food.id === currentFood?.id}
-        key={food.name[language]}
-        // onClick={() => {
-        //   setCurrentFood(food);
-        //   setCurrentFoodQuantity(100);
-        // }}
+        key={food.id}
+        isAction
+        isActive={foodDialogOpen && selectedFood?.id === food.id}
+        onClick={() => openFoodDialog(food)}
         icon={
           <Image2
             srcs={[...(food.icon ?? []), ...(food.imgs ?? [])]}
@@ -265,17 +276,34 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
             </ul>
           )}
         </Dialog>
+        <FoodDialog
+          open={foodDialogOpen}
+          onClose={closeFoodDialog}
+          food={selectedFood}
+          actions={
+            <div
+              style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}
+            >
+              <Button variant="secondary" type="button" onClick={closeFoodDialog}>
+                fechar
+              </Button>
+            </div>
+          }
+        />
 
         <NotebookTabs
           tabs={[
             {
               children: 'RECEITAS',
+              href: '#recipes',
             },
             {
               children: 'LISTAS',
+              href: '#lists',
             },
             {
               children: 'alimentos',
+              href: '#foods',
             },
           ]}
         />
