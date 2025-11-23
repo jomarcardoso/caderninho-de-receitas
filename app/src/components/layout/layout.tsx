@@ -7,11 +7,13 @@
   type FC,
 } from 'react';
 import './layout.scss';
-import { Footer, type FooterProps } from 'notebook-layout';
-import { generateClasses } from 'services/dom/classes';
-import NotebookTabs, {
+import {
+  Footer,
+  type FooterProps,
+  NotebookTabs,
   type NotebookTabsProps,
-} from '../notebook-tabs/notebook-tabs';
+} from 'notebook-layout';
+import { generateClasses } from 'services/dom/classes';
 import { htmxScrollspy } from 'ovos/scrollspy';
 
 export interface LayoutProps extends HTMLProps<HTMLDivElement> {
