@@ -9,6 +9,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UserProfileController : ControllerBase
 {
   private readonly AppDbContext _context;
@@ -21,10 +22,7 @@ public class UserProfileController : ControllerBase
   private string GetUserId()
   {
     var authId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    if (!string.IsNullOrWhiteSpace(authId)) return authId!;
-    var cookieOwner = Request.Cookies["ownerId"];
-    if (!string.IsNullOrWhiteSpace(cookieOwner)) return cookieOwner!.Trim();
-    return string.Empty;
+    return string.IsNullOrWhiteSpace(authId) ? string.Empty : authId!.Trim();
   }
 
   private static UserProfileDto Map(UserProfile p) => new()
@@ -40,11 +38,10 @@ public class UserProfileController : ControllerBase
 
   // GET api/userprofile/me
   [HttpGet("me")]
-  [AllowAnonymous]
   public async Task<IActionResult> GetMe()
   {
     var ownerId = GetUserId();
-    if (string.IsNullOrWhiteSpace(ownerId)) return Ok(new UserProfileDto());
+    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
     var profile = await _context.UserProfile.AsNoTracking().FirstOrDefaultAsync(p => p.OwnerId == ownerId);
     if (profile is null)
@@ -57,11 +54,10 @@ public class UserProfileController : ControllerBase
 
   // PUT api/userprofile/me
   [HttpPut("me")]
-  [AllowAnonymous]
   public async Task<IActionResult> UpdateMe([FromBody] UpdateUserProfileRequest request)
   {
     var ownerId = GetUserId();
-    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId missing. Call /api/auth/ensure-owner first.");
+    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
     var now = DateTime.UtcNow;
     var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerId);

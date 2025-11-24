@@ -1,5 +1,8 @@
-import { cookies, headers } from 'next/headers';
-import { getOwnerIdFromCookies } from '@/lib/api-server';
+import { headers } from 'next/headers';
+import {
+  appendServerAuthHeader,
+  readAuthTokenFromCookies,
+} from '@/lib/auth/token.server';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:5106';
 const API_BASE_URL =
@@ -7,30 +10,21 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   DEFAULT_API_BASE_URL;
 
-function buildCookieHeader(): string | undefined {
-  try {
-    const store = cookies();
-    const all = store.getAll();
-    if (!all || all.length === 0) return undefined;
-    return all.map((c) => `${c.name}=${c.value}`).join('; ');
-  } catch {
-    return undefined;
-  }
+function buildAuthHeaders(extra?: HeadersInit): Headers {
+  const hdrs = new Headers(extra);
+  hdrs.set('Accept', hdrs.get('Accept') ?? 'application/json');
+  appendServerAuthHeader(hdrs);
+  return hdrs;
 }
 
-async function fetchRolesFromBackend(
-  cookieHeader?: string,
-): Promise<string[] | null> {
+async function fetchRolesFromBackend(): Promise<string[] | null> {
   try {
+    const headers = buildAuthHeaders();
+    if (!headers.has('authorization')) return null;
     const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
       method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        ...(cookieHeader ? { cookie: cookieHeader } : {}),
-        'Content-Type': 'application/json',
-      },
+      headers,
       cache: 'no-store',
-      credentials: 'include',
     });
     if (!res.ok) return null;
     const data = (await res.json()) as { roles?: string[] } | null;
@@ -41,9 +35,7 @@ async function fetchRolesFromBackend(
   }
 }
 
-async function fetchRolesViaNextRoute(
-  cookieHeader?: string,
-): Promise<string[] | null> {
+async function fetchRolesViaNextRoute(): Promise<string[] | null> {
   try {
     const hdrs = headers();
     const host = hdrs.get('x-forwarded-host') ?? hdrs.get('host');
@@ -54,10 +46,7 @@ async function fetchRolesViaNextRoute(
 
     const res = await fetch(`${protocol}://${host}/api/me`, {
       method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        ...(cookieHeader ? { cookie: cookieHeader } : {}),
-      },
+      headers: buildAuthHeaders(),
       cache: 'no-store',
     });
     if (!res.ok) return null;
@@ -70,12 +59,11 @@ async function fetchRolesViaNextRoute(
 }
 
 export async function fetchServerUserRoles(): Promise<string[] | null> {
-  const ownerToken = await getOwnerIdFromCookies();
-  if (ownerToken) return ['owner'];
-  const cookieHeader = buildCookieHeader();
+  const token = readAuthTokenFromCookies();
+  if (!token) return null;
   return (
-    (await fetchRolesFromBackend(cookieHeader)) ??
-    (await fetchRolesViaNextRoute(cookieHeader))
+    (await fetchRolesFromBackend()) ??
+    (await fetchRolesViaNextRoute())
   );
 }
 

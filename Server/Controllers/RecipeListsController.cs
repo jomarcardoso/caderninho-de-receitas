@@ -15,29 +15,17 @@ public class RecipeListsController : ControllerBase
     _context = context;
   }
 
-  // Unified owner uses authenticated claim or cookie only
-
   private string GetUserId()
   {
-    // Prefer authenticated user when present
-    if (User?.Identity?.IsAuthenticated == true)
-    {
-      var id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-      if (!string.IsNullOrWhiteSpace(id)) return id!;
-    }
-
-    // Else, accept owner from cookie or header (anonymous flow)
-    var cookieOwner = Request?.Cookies["ownerId"];
-    if (!string.IsNullOrWhiteSpace(cookieOwner)) return cookieOwner!.Trim();
-
-    return string.Empty;
+    var id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    return string.IsNullOrWhiteSpace(id) ? string.Empty : id!.Trim();
   }
 
   [HttpGet]
-  [AllowAnonymous]
   public async Task<IActionResult> GetMyLists()
   {
     var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var lists = await _context.RecipeList
       .AsNoTracking()
       .Where(l => l.OwnerId == userId)
@@ -49,10 +37,10 @@ public class RecipeListsController : ControllerBase
   public record UpsertListPayload(string name, string? description);
 
   [HttpPost]
-  [AllowAnonymous]
   public async Task<IActionResult> Create([FromBody] UpsertListPayload payload)
   {
     var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     if (string.IsNullOrWhiteSpace(payload?.name)) return BadRequest("Name is required");
     var entity = new Server.Models.RecipeList
     {
@@ -68,10 +56,10 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpPut("{id}")]
-  [AllowAnonymous]
   public async Task<IActionResult> Update(int id, [FromBody] UpsertListPayload payload)
   {
     var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var list = await _context.RecipeList.FirstOrDefaultAsync(l => l.Id == id && l.OwnerId == userId);
     if (list is null) return NotFound();
     if (!string.IsNullOrWhiteSpace(payload?.name)) list.Name = payload.name.Trim();
@@ -82,10 +70,10 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpDelete("{id}")]
-  [AllowAnonymous]
   public async Task<IActionResult> Delete(int id)
   {
     var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var list = await _context.RecipeList.FirstOrDefaultAsync(l => l.Id == id && l.OwnerId == userId);
     if (list is null) return NotFound();
     _context.RecipeList.Remove(list);
@@ -94,10 +82,10 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpGet("{id}")]
-  [AllowAnonymous]
   public async Task<IActionResult> Get(int id)
   {
     var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var list = await _context.RecipeList
       .Include(l => l.Items)
       .ThenInclude(i => i.Recipe!)
@@ -107,10 +95,10 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpPost("{id}/recipes/{recipeId}")]
-  [AllowAnonymous]
   public async Task<IActionResult> AddRecipe(int id, int recipeId)
   {
     var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var list = await _context.RecipeList.FirstOrDefaultAsync(l => l.Id == id && l.OwnerId == userId);
     if (list is null) return NotFound();
     var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == recipeId && r.OwnerId == userId);
@@ -124,10 +112,10 @@ public class RecipeListsController : ControllerBase
   }
 
   [HttpDelete("{id}/recipes/{recipeId}")]
-  [AllowAnonymous]
   public async Task<IActionResult> RemoveRecipe(int id, int recipeId)
   {
     var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var list = await _context.RecipeList.FirstOrDefaultAsync(l => l.Id == id && l.OwnerId == userId);
     if (list is null) return NotFound();
     var item = await _context.RecipeListItem.FirstOrDefaultAsync(i => i.RecipeListId == id && i.RecipeId == recipeId);

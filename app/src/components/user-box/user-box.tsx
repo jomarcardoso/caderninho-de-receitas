@@ -20,7 +20,8 @@ import { LanguageContext } from '../../providers/language/language.context';
 import { type Language } from 'services/language/language.types';
 import { translate } from 'services/language/language.service';
 import { GOOGLE_CLIENT_ID } from '../../config/google';
-import { authenticateWithGoogle, type GoogleLoginResponse } from 'services/auth/auth.service';
+import { authenticateWithGoogle, type GoogleLoginResponse, type GoogleLoginSuccess } from 'services/auth/auth.service';
+import { clearAuthToken, setAuthToken } from 'services/auth/token.storage';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 
@@ -74,15 +75,18 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
   );
 
   const handleLogout = useCallback(() => {
+    clearAuthToken();
     setUser(null);
     storeUser(null);
     setErrorMessage(null);
     try { window.dispatchEvent(new Event('app:user:logout')); } catch {}
   }, []);
 
-  const persistUser = useCallback((u: GoogleLoginResponse) => {
-    setUser(u);
-    storeUser(u);
+  const persistSession = useCallback((session: GoogleLoginSuccess) => {
+    const { user: sessionUser, token } = session;
+    setAuthToken(token);
+    setUser(sessionUser);
+    storeUser(sessionUser);
     setErrorMessage(null);
     try { window.dispatchEvent(new Event('app:user:login')); } catch {}
   }, []);
@@ -100,7 +104,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     setErrorMessage(null);
     try {
       const response = await authenticateWithGoogle(token);
-      persistUser(response);
+      persistSession(response);
     } catch (error) {
       console.error('Google authentication failed', error);
       setErrorMessage(resolveLoginErrorMessage());
@@ -109,7 +113,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     } finally {
       setIsAuthenticating(false);
     }
-  }, [isAuthenticating, persistUser, resolveLoginErrorMessage]);
+  }, [isAuthenticating, persistSession, resolveLoginErrorMessage]);
 
   const handleCredentialResponse = useCallback((credentialResponse: CredentialResponse) => {
     setCredentialReceived(true);

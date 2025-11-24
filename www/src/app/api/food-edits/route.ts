@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { readAuthTokenFromRequest } from '@/lib/auth/token.server';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:5106';
 const API_BASE_URL =
@@ -25,26 +26,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+    });
+    const token = readAuthTokenFromRequest(request);
+    if (token) headers.set('authorization', `Bearer ${token}`);
+
     const upstream = await fetch(`${getApiBase()}/api/food-edits`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        cookie: request.headers.get('cookie') ?? '',
-      },
-      credentials: 'include',
+      headers,
       body: JSON.stringify(body),
     });
 
     const responseBody = await upstream.text();
-    const headers = new Headers();
+    const responseHeaders = new Headers();
     const contentType = upstream.headers.get('content-type');
-    if (contentType) headers.set('content-type', contentType);
-    const setCookie = upstream.headers.get('set-cookie');
-    if (setCookie) headers.set('set-cookie', setCookie);
-
+    if (contentType) responseHeaders.set('content-type', contentType);
     return new NextResponse(responseBody, {
       status: upstream.status,
-      headers,
+      headers: responseHeaders,
     });
   } catch (error) {
     console.error('Failed to proxy food edit', error);
@@ -54,4 +54,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

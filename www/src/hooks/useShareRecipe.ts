@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { appendAuthHeader } from '@common/services/auth/token.storage';
 
 const API_BASE =
   (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5106')
@@ -14,10 +15,14 @@ export function useShareRecipe(recipeId: number) {
     if (!recipeId) return;
     setBusy(true);
     try {
+      const headers = new Headers({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      });
+      appendAuthHeader(headers);
       const res = await fetch(`${API_BASE}/api/share/recipe`, {
         method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        headers,
         body: JSON.stringify({ recipeId, isPublic: true }),
       });
 

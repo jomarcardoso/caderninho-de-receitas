@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.Dtos.Auth;
 using Server.Services.Auth;
@@ -177,67 +176,7 @@ public class AuthController : ControllerBase
   [ProducesResponseType(StatusCodes.Status200OK)]
   public IActionResult Logout()
   {
-    try
-    {
-      var expire = DateTimeOffset.UtcNow.AddDays(-1);
-      var optsHttpOnly = new CookieOptions
-      {
-        Path = "/",
-        HttpOnly = true,
-        SameSite = SameSiteMode.Lax,
-        Expires = expire,
-        Secure = false,
-      };
-      var optsNonHttpOnly = new CookieOptions
-      {
-        Path = "/",
-        HttpOnly = false,
-        SameSite = SameSiteMode.Lax,
-        Expires = expire,
-        Secure = false,
-      };
-
-      // Clear helper owner cookie
-      Response.Cookies.Append("ownerId", string.Empty, optsHttpOnly);
-      Response.Cookies.Append("ownerId", string.Empty, optsNonHttpOnly);
-
-      // If a session cookie exists from other flows, expire it as well (no-op if absent)
-      Response.Cookies.Append("caderninho.session", string.Empty, optsHttpOnly);
-    }
-    catch { /* best effort */ }
-
     return Ok();
-  }
-
-  [HttpPost("ensure-owner")]
-  [ProducesResponseType(StatusCodes.Status200OK)]
-  public IActionResult EnsureOwner()
-  {
-    try
-    {
-      var ownerFromAuth = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var existing = Request.Cookies["ownerId"];
-
-      string ownerId = (ownerFromAuth?.Trim()) ?? string.Empty;
-      if (string.IsNullOrWhiteSpace(ownerId)) ownerId = (existing?.Trim()) ?? string.Empty;
-      if (string.IsNullOrWhiteSpace(ownerId)) ownerId = $"anon-{Guid.NewGuid():N}";
-
-      var opts = new CookieOptions
-      {
-        Path = "/",
-        HttpOnly = true,
-        SameSite = SameSiteMode.Lax,
-        Secure = false,
-        Expires = DateTimeOffset.UtcNow.AddDays(30),
-      };
-      Response.Cookies.Append("ownerId", ownerId, opts);
-
-      return Ok(new { ownerId });
-    }
-    catch
-    {
-      return Ok(new { ownerId = string.Empty });
-    }
   }
 }
 

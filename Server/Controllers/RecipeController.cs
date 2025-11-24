@@ -49,36 +49,27 @@ public class RecipeController : ControllerBase
 
   private string GetUserId()
   {
-    // Prefer authenticated user when present
     var authId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    if (!string.IsNullOrWhiteSpace(authId)) return authId!;
-
-    // Then prefer cookie ownerId (unified)
-    var cookieOwner = Request.Cookies["ownerId"];
-    if (!string.IsNullOrWhiteSpace(cookieOwner)) return cookieOwner!.Trim();
-
-    return string.Empty;
+    return string.IsNullOrWhiteSpace(authId) ? string.Empty : authId!.Trim();
   }
 
   [HttpPost]
-  [AllowAnonymous]
   public async Task<IActionResult> CreateRecipe(
     [FromBody] RecipeDto recipeDto)
   {
     if (recipeDto is null) return BadRequest("Recipe payload must be provided.");
     var ownerId = GetUserId();
-    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId cookie missing. Call /api/auth/ensure-owner first.");
+    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
     return await CreateRecipeInternalAsync(recipeDto, ownerId, null);
   }
 
   [HttpPost("many")]
-  [AllowAnonymous]
   public async Task<IActionResult> CreateRecipes(
     [FromBody] List<RecipeDto> recipesDto)
   {
     if (recipesDto is null || recipesDto.Count == 0) return BadRequest("At least one recipe must be provided.");
     var ownerId = GetUserId();
-    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId cookie missing. Call /api/auth/ensure-owner first.");
+    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
     var recipesToAdd = new List<Recipe>();
     foreach (var dto in recipesDto)
@@ -98,14 +89,13 @@ public class RecipeController : ControllerBase
   }
 
   [HttpPut("{id}")]
-  [AllowAnonymous]
   public async Task<IActionResult> UpdateRecipe(
     int id,
     [FromBody] RecipeDto recipeDto)
   {
     if (recipeDto is null) return BadRequest("Recipe payload must be provided.");
     var ownerId = GetUserId();
-    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId cookie missing. Call /api/auth/ensure-owner first.");
+    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
     var recipe = await _context.Recipe
       .Include(r => r.Steps)
@@ -193,11 +183,10 @@ public class RecipeController : ControllerBase
   }
 
   [HttpGet]
-  [AllowAnonymous]
   public async Task<IActionResult> GetMyRecipes()
   {
     var ownerId = GetUserId();
-    if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest("OwnerId cookie missing. Call /api/auth/ensure-owner first.");
+    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
     RecipesDataResponse response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
     return Ok(response);
   }

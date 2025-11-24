@@ -1,3 +1,5 @@
+import { appendAuthHeader } from './token.storage';
+
 export interface GoogleLoginResponse {
   displayName: string;
   email: string;
@@ -5,6 +7,11 @@ export interface GoogleLoginResponse {
   googleId: string;
   emailVerified: boolean;
   roles?: string[];
+}
+
+export interface GoogleLoginSuccess {
+  token: string;
+  user: GoogleLoginResponse;
 }
 
 interface GoogleLoginErrorResponse {
@@ -29,7 +36,7 @@ async function parseError(response: Response): Promise<string> {
 
 export async function authenticateWithGoogle(
   idToken: string,
-): Promise<GoogleLoginResponse> {
+): Promise<GoogleLoginSuccess> {
   const response = await fetch(`${API_BASE_URL}/api/auth/google`, {
     method: 'POST',
     headers: {
@@ -44,7 +51,7 @@ export async function authenticateWithGoogle(
     throw new Error(message || 'Failed to authenticate with Google.');
   }
 
-  return (await response.json()) as GoogleLoginResponse;
+  return (await response.json()) as GoogleLoginSuccess;
 }
 
 export interface MeResponse {
@@ -56,10 +63,11 @@ export interface MeResponse {
 
 export async function fetchMe(): Promise<MeResponse | null> {
   try {
+    const headers = new Headers({ Accept: 'application/json' });
+    appendAuthHeader(headers);
     const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
       method: 'GET',
-      credentials: 'include',
-      headers: { Accept: 'application/json' },
+      headers,
     });
     if (!response.ok) return null;
     return (await response.json()) as MeResponse;

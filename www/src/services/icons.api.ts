@@ -1,3 +1,5 @@
+import { appendAuthHeader } from '@common/services/auth/token.storage';
+
 const DEFAULT_API_BASE_URL = 'http://localhost:5106';
 
 function getApiBase(): string {
@@ -23,9 +25,10 @@ export async function searchFoodIcons(
     const url = new URL(`${getApiBase()}/api/food-icons/search`);
     if (q) url.searchParams.set('q', q);
     url.searchParams.set('limit', String(limit));
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    appendAuthHeader(headers);
     const res = await fetch(url.toString(), {
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      headers,
     });
     if (!res.ok) return [];
     const data = await res.json();
@@ -49,11 +52,12 @@ export async function getFoodIconsMapById(
     ids.join(','),
   )}`;
   try {
-    const res = await fetch(url, { credentials: 'include' });
+    const headers = new Headers();
+    appendAuthHeader(headers);
+    const res = await fetch(url, { headers });
     if (!res.ok) return {};
     return (await res.json()) as Record<number, FoodIconByIdEntry>;
   } catch {
     return {};
   }
 }
-

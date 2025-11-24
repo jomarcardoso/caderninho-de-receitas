@@ -1,11 +1,10 @@
-export interface GoogleLoginResponse {
-  displayName: string;
-  email: string;
-  picture: string;
-  googleId: string;
-  emailVerified: boolean;
-  roles?: string[];
-}
+import type {
+  GoogleLoginResponse as SharedGoogleLoginResponse,
+  GoogleLoginSuccess as SharedGoogleLoginSuccess,
+} from '@common/services/auth/auth.service';
+
+export type GoogleLoginResponse = SharedGoogleLoginResponse;
+export type GoogleLoginSuccess = SharedGoogleLoginSuccess;
 
 interface GoogleLoginErrorResponse {
   error?: string;
@@ -21,6 +20,11 @@ const API_BASE_URL =
 let meCache: MeResponse | null | undefined;
 let meInflight: Promise<MeResponse | null> | null = null;
 
+export function resetMeCache(): void {
+  meCache = undefined;
+  meInflight = null;
+}
+
 async function parseError(response: Response): Promise<string> {
   try {
     const payload = (await response.json()) as GoogleLoginErrorResponse;
@@ -32,14 +36,13 @@ async function parseError(response: Response): Promise<string> {
 
 export async function authenticateWithGoogle(
   idToken: string,
-): Promise<GoogleLoginResponse> {
+): Promise<GoogleLoginSuccess> {
   const response = await fetch(`${API_BASE_URL}/api/auth/google`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ idToken }),
-    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -47,7 +50,7 @@ export async function authenticateWithGoogle(
     throw new Error(message || 'Failed to authenticate with Google.');
   }
 
-  return (await response.json()) as GoogleLoginResponse;
+  return (await response.json()) as GoogleLoginSuccess;
 }
 
 export interface MeResponse {
@@ -66,7 +69,6 @@ export async function fetchMe(): Promise<MeResponse | null> {
       try {
         const response = await fetch('/api/me', {
           method: 'GET',
-          credentials: 'include',
           headers: { Accept: 'application/json' },
           cache: 'no-store',
         });
@@ -91,7 +93,6 @@ export async function fetchMe(): Promise<MeResponse | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
       method: 'GET',
-      credentials: 'include',
       headers: { Accept: 'application/json' },
     });
     if (!response.ok) return null;

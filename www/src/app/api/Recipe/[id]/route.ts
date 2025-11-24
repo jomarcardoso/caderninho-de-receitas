@@ -1,4 +1,6 @@
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { readAuthTokenFromRequest } from '@/lib/auth/token.server';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:5106';
 const API_BASE_URL =
@@ -6,12 +8,11 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   DEFAULT_API_BASE_URL;
 
-async function forward(method: string, req: Request, id: string) {
+async function forward(method: string, req: NextRequest, id: string) {
   const url = new URL(req.url);
   const qs = url.search ? url.search : '';
   const upstreamUrl = `${API_BASE_URL}/api/Recipe/${encodeURIComponent(id)}${qs}`;
 
-  const incomingCookie = req.headers.get('cookie') || undefined;
   let body: string | undefined;
   if (method !== 'GET' && method !== 'HEAD') {
     try {
@@ -23,16 +24,18 @@ async function forward(method: string, req: Request, id: string) {
   }
 
   try {
+    const headers = new Headers({
+      accept: 'application/json',
+      ...(body ? { 'content-type': req.headers.get('content-type') || 'application/json' } : {}),
+    });
+    const token = readAuthTokenFromRequest(req);
+    if (token) headers.set('authorization', `Bearer ${token}`);
+
     const upstream = await fetch(upstreamUrl, {
       method,
-      headers: {
-        accept: 'application/json',
-        ...(body ? { 'content-type': req.headers.get('content-type') || 'application/json' } : {}),
-        ...(incomingCookie ? { cookie: incomingCookie } : {}),
-      },
+      headers,
       body,
       cache: 'no-store',
-      credentials: 'include',
     });
 
     const res = new NextResponse(upstream.body, {
@@ -42,33 +45,23 @@ async function forward(method: string, req: Request, id: string) {
       },
     });
 
-    const h: any = upstream.headers as any;
-    const setCookies: string[] = (typeof h.getSetCookie === 'function' ? h.getSetCookie() : undefined) || [];
-    if (setCookies.length === 0) {
-      for (const [k, v] of upstream.headers.entries()) {
-        if (k.toLowerCase() === 'set-cookie' && v) res.headers.append('set-cookie', v);
-      }
-    } else {
-      for (const sc of setCookies) res.headers.append('set-cookie', sc);
-    }
-
     return res;
   } catch (e) {
     return NextResponse.json({ error: 'proxy_failed' }, { status: 500 });
   }
 }
 
-export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
+export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
   return forward('GET', _req, id);
 }
 
-export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }) {
+export async function PUT(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
   return forward('PUT', req, id);
 }
 
-export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
   return forward('DELETE', req, id);
 }

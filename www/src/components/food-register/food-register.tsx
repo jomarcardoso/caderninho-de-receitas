@@ -11,7 +11,6 @@ import {
 } from 'services/nutrient/fallback';
 import type { Nutrient } from 'services/nutrient/nutrient.model';
 import { submitFoodEdit } from '@/services/edits.api';
-import { ensureOwnerCookie } from '@common/services/auth/owner.util';
 import { FoodRegisterForm, type FoodForm } from './food-register-form';
 
 export interface FoodRegisterProps {
@@ -235,7 +234,6 @@ const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
         helpers: FormikHelpers<FoodForm>,
       ): Promise<void> => {
         try {
-          await ensureOwnerCookie();
           const ok = await submitFoodEdit(food?.id || 0, values, language);
           alert(
             ok

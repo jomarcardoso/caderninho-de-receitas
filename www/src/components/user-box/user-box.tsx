@@ -22,7 +22,13 @@ import { GOOGLE_CLIENT_ID } from '@/config/google';
 import {
   authenticateWithGoogle,
   type GoogleLoginResponse,
+  type GoogleLoginSuccess,
+  resetMeCache,
 } from '@/services/auth/auth.service';
+import {
+  clearAuthToken,
+  setAuthToken,
+} from '@common/services/auth/token.storage';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 
@@ -69,6 +75,19 @@ const storeUser = (user: GoogleLoginResponse | null): void => {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
 };
 
+async function persistServerToken(token: string): Promise<void> {
+  try {
+    await fetch('/api/auth/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+      body: JSON.stringify({ token }),
+    });
+  } catch {
+    // best-effort; failing to persist cookie only impacts SSR
+  }
+}
+
 export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
   const { language, setLanguage } = useContext(LanguageContext);
   const [user, setUser] = useState<GoogleLoginResponse | null>(null);
@@ -92,15 +111,15 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
 
   const handleLogout = useCallback(() => {
     try {
-      // Fire-and-forget: clear backend/session cookies via Next proxy
       fetch('/api/auth/logout', {
         method: 'POST',
         headers: { accept: 'application/json' },
-        credentials: 'include',
         cache: 'no-store',
       }).catch(() => {});
     } catch {}
 
+    clearAuthToken();
+    resetMeCache();
     setUser(null);
     storeUser(null);
     setErrorMessage(null);
@@ -109,18 +128,14 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     } catch {}
   }, []);
 
-  const persistUser = useCallback((u: GoogleLoginResponse) => {
-    setUser(u);
-    storeUser(u);
+  const persistSession = useCallback(async (session: GoogleLoginSuccess) => {
+    const { user: sessionUser, token } = session;
+    setUser(sessionUser);
+    storeUser(sessionUser);
     setErrorMessage(null);
-    // Ensure backend ownerId cookie exists (idempotent)
-    try {
-      fetch('http://localhost:5106/api/auth/ensure-owner', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { accept: 'application/json' },
-      }).catch(() => {});
-    } catch {}
+    setAuthToken(token);
+    resetMeCache();
+    await persistServerToken(token);
     try {
       window.dispatchEvent(new Event('app:user:login'));
     } catch {}
@@ -141,7 +156,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
       setErrorMessage(null);
       try {
         const response = await authenticateWithGoogle(token);
-        persistUser(response);
+        await persistSession(response);
       } catch (error) {
         console.error('Google authentication failed', error);
         setErrorMessage(resolveLoginErrorMessage());
@@ -151,7 +166,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
         setIsAuthenticating(false);
       }
     },
-    [isAuthenticating, persistUser, resolveLoginErrorMessage],
+    [isAuthenticating, persistSession, resolveLoginErrorMessage],
   );
 
   const handleCredentialResponse = useCallback(

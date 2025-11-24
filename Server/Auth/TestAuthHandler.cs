@@ -16,9 +16,7 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
 
   protected override Task<AuthenticateResult> HandleAuthenticateAsync()
   {
-    // In development, prefer the unified ownerId cookie if this handler is ever used
-    var owner = Request?.Cookies["ownerId"];
-    owner = string.IsNullOrWhiteSpace(owner) ? "dev-user" : owner!.Trim();
+    var owner = "dev-user";
 
     var claims = new List<Claim>
     {

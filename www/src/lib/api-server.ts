@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { appendServerAuthHeader } from '@/lib/auth/token.server';
 
 export function getServerApiBases(): string[] {
   const out: string[] = [];
@@ -28,16 +29,6 @@ async function readCookiesSafe(): Promise<ReturnType<typeof cookies> | any> {
   }
 }
 
-export async function getOwnerIdFromCookies(): Promise<string | undefined> {
-  try {
-    const jar: any = await readCookiesSafe();
-    if (!jar) return undefined;
-    return jar.get?.('ownerId')?.value;
-  } catch {
-    return undefined;
-  }
-}
-
 async function buildCookieHeaderFromNext(): Promise<string | undefined> {
   try {
     const jar: any = await readCookiesSafe();
@@ -51,12 +42,12 @@ async function buildCookieHeaderFromNext(): Promise<string | undefined> {
 
 export async function fetchApiJson<T = any>(path: string, init?: RequestInit): Promise<T> {
   const bases = getServerApiBases();
-  const owner = await getOwnerIdFromCookies();
 
   const headers = new Headers(init?.headers as HeadersInit | undefined);
   if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+  appendServerAuthHeader(headers);
 
-  // If calling local Next route (/api/*), forward cookies to preserve session/ownerId
+  // If calling local Next route (/api/*), forward browser cookies (e.g. theme)
   if (path.startsWith('/api/')) {
     try {
       const cookieHeader = await buildCookieHeaderFromNext();
@@ -74,8 +65,7 @@ export async function fetchApiJson<T = any>(path: string, init?: RequestInit): P
   let lastErr: unknown;
   for (const base of bases) {
     try {
-      // For external bases, include ownerId as cookie when available
-      if (owner && !headers.has('cookie')) headers.set('cookie', `ownerId=${owner}`);
+      appendServerAuthHeader(headers);
       const options: RequestInit & { next?: any } = { ...(init || {}), headers } as any;
       if (!options.next) {
         options.cache = 'no-store';
@@ -93,10 +83,10 @@ export async function fetchApiJson<T = any>(path: string, init?: RequestInit): P
 
 export async function fetchApiJsonWithTags<T = any>(path: string, tags: string[], init?: RequestInit): Promise<T> {
   const bases = getServerApiBases();
-  const owner = await getOwnerIdFromCookies();
 
   const headers = new Headers(init?.headers as HeadersInit | undefined);
   if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+  appendServerAuthHeader(headers);
 
   if (path.startsWith('/api/')) {
     try {
@@ -112,7 +102,7 @@ export async function fetchApiJsonWithTags<T = any>(path: string, tags: string[]
   let lastErr: unknown;
   for (const base of bases) {
     try {
-      if (owner && !headers.has('cookie')) headers.set('cookie', `ownerId=${owner}`);
+      appendServerAuthHeader(headers);
       const res = await fetch(`${base}${path}`, { ...init, headers, next: { tags } });
       if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
       return (await res.json()) as T;

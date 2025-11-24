@@ -27,10 +27,7 @@ public class ShareController : ControllerBase
   private string GetUserId()
   {
     var authId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    if (!string.IsNullOrWhiteSpace(authId)) return authId!;
-    var cookieOwner = Request.Cookies["ownerId"];
-    if (!string.IsNullOrWhiteSpace(cookieOwner)) return cookieOwner!.Trim();
-    return string.Empty;
+    return string.IsNullOrWhiteSpace(authId) ? string.Empty : authId!.Trim();
   }
 
   // GET api/share/recipe/{slug}
@@ -58,7 +55,7 @@ public class ShareController : ControllerBase
   public record RecipeShareResponse(string Slug, string Url, string PublicUrl, int RecipeId, DateTime CreatedAt, bool IsPublic);
 
   [HttpPost("recipe")]
-  [AllowAnonymous]
+  [Authorize]
   public async Task<IActionResult> CreateShare([FromBody] RecipeShareCreateRequest request)
   {
     if (request is null || request.RecipeId <= 0) return BadRequest();

@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { CiShare1 } from 'react-icons/ci';
 import Dialog from 'notebook-layout/components/dialog/dialog';
 import { mapRecipeDataResponseToModel } from '@common/services/recipe';
+import { appendAuthHeader } from '@common/services/auth/token.storage';
 
 const API_BASE = (
   process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5106'
@@ -28,13 +29,14 @@ export function ShareRecipeAction({ recipeId }: { recipeId: number }) {
     if (slug) return slug;
     setBusy(true);
     try {
+      const headers = new Headers({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      });
+      appendAuthHeader(headers);
       const res = await fetch(`${API_BASE}/api/share/recipe`, {
         method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
+        headers,
         body: JSON.stringify({ recipeId, isPublic: true }),
       });
       if (res.status === 401 || res.status === 403) {

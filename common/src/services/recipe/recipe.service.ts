@@ -387,7 +387,6 @@ export async function fetchRecipes(): Promise<RecipesData> {
     const res = await fetchWithFallback(`/api/recipe`, {
       headers: {},
       cache: 'no-store',
-      credentials: 'include',
     });
     if (!res.ok) {
       throw new Error(`Failed to fetch recipes: ${res.status}`);
@@ -494,7 +493,6 @@ export async function saveRecipe(
         'Content-Type': 'application/json',
         ...(languageHeader ? { 'X-Language': languageHeader } : {}),
       },
-      credentials: 'include',
       body: JSON.stringify(recipe),
     });
     if (!res.ok) {
@@ -523,7 +521,6 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
     const res = await fetchWithFallback(`/api/recipe/${id}`, {
       method: 'DELETE',
       headers: {},
-      credentials: 'include',
     });
     if (!res.ok) {
       throw new Error(`Failed to delete recipe: ${res.status}`);
@@ -558,7 +555,6 @@ export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
         'Content-Type': 'application/json',
       },
       cache: 'no-store',
-      credentials: 'include',
     });
     if (!res.ok) return null;
     const json = (await res.json()) as any;
