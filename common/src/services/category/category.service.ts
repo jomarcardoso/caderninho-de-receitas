@@ -1,3 +1,5 @@
+import { httpRequest } from '../http/http-client';
+
 export type CategoryText = { en: string; pt: string };
 export type CategoryItem = {
   key: string; // camelCase
@@ -13,14 +15,18 @@ function getBase(): string {
   return base.replace(/\/$/, '');
 }
 
-export async function fetchCategories(baseUrl?: string): Promise<CategoryItem[]> {
+export async function fetchCategories(
+  baseUrl?: string,
+): Promise<CategoryItem[]> {
   const base = (baseUrl || getBase()).replace(/\/$/, '');
   try {
-    const res = await fetch(`${base}/api/recipe/categories`, { cache: 'force-cache' });
-    if (!res.ok) return [];
-    return (await res.json()) as CategoryItem[];
+    const res = await httpRequest<CategoryItem[]>({
+      url: `${base}/api/recipe/categories`,
+      method: 'GET',
+      skipAuth: true,
+    });
+    return Array.isArray(res.data) ? res.data : [];
   } catch {
     return [];
   }
 }
-

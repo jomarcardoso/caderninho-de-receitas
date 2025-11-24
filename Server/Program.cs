@@ -15,6 +15,7 @@ using Server.Serialization;
 using Server.PreProcessing;
 using Server.Auth;
 using Server.Options;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,8 +58,39 @@ builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenVal
 builder.Services.AddScoped<GoogleAuthService>();
 builder.Services.AddSingleton<AzureBlobSasService>();
 builder.Services.AddScoped<UserProfileService>();
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
+if (string.IsNullOrWhiteSpace(jwtOptions.Secret))
+{
+  if (builder.Environment.IsDevelopment())
+  {
+    // Generate an ephemeral secret to keep development running, but warn the developer
+    var fallbackKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+    jwtOptions.Secret = fallbackKey;
+    Console.WriteLine("[Auth] Warning: Jwt:Secret is not configured. Generated a temporary development key for this run.");
+  }
+  else
+  {
+    throw new InvalidOperationException("Jwt:Secret must be configured via appsettings or environment variables.");
+  }
+}
+else
+{
+  var secretBytes = Encoding.UTF8.GetBytes(jwtOptions.Secret);
+  if (secretBytes.Length < 32)
+  {
+    var normalized = Convert.ToBase64String(SHA256.HashData(secretBytes));
+    jwtOptions.Secret = normalized;
+    Console.WriteLine("[Auth] Warning: Jwt:Secret was shorter than 256 bits. Normalized via SHA256 hash for this process.");
+  }
+}
+if (string.IsNullOrWhiteSpace(jwtOptions.Issuer))
+{
+  jwtOptions.Issuer = "caderninho";
+}
+if (string.IsNullOrWhiteSpace(jwtOptions.Audience))
+{
+  jwtOptions.Audience = jwtOptions.Issuer;
+}
 builder.Services.AddSingleton(jwtOptions);
 builder.Services.AddSingleton<JwtTokenService>();
 

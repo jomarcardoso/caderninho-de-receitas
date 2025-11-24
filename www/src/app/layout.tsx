@@ -13,6 +13,7 @@ import { DataProvider } from '@/providers/data';
 import { CurrentRecipeProvider } from '@/providers/current-recipe';
 import { NavigationProvider } from '@/providers/navigation.provider';
 import { cookies } from 'next/headers';
+import { AuthTokenSync } from '@/providers/auth-token-sync';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -55,6 +56,7 @@ export default async function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable}`}
       >
+        <AuthTokenSync />
         {/* Google Identity Services for Sign-In */}
         <Script
           src="https://accounts.google.com/gsi/client"

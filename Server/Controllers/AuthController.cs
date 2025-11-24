@@ -178,6 +178,23 @@ public class AuthController : ControllerBase
   {
     return Ok();
   }
+
+  [HttpPost("refresh")]
+  [Authorize]
+  [ProducesResponseType(StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+  public IActionResult RefreshToken()
+  {
+    var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
+
+    var email = User.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
+    var name = User.FindFirstValue(ClaimTypes.Name) ?? email;
+    var roleClaims = User.FindAll(ClaimTypes.Role);
+
+    var token = _tokenService.GenerateToken(ownerId, email, name, roleClaims);
+    return Ok(new { token });
+  }
 }
 
 

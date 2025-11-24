@@ -1,40 +1,31 @@
 import type { FoodForm } from '../components/food-register/food-register-form';
 import type { Language } from 'services/language/language.types';
 import { buildFoodPayloadForSave } from './food.payload';
-import { appendAuthHeader } from 'services/auth/token.storage';
+import { httpRequest } from 'services/http/http-client';
 
 function getApiBase(): string {
   const fromEnv = (import.meta as any)?.env?.VITE_API_BASE_URL as string | undefined;
   return (fromEnv || 'http://localhost:5106').replace(/\/$/, '');
 }
 
-export async function submitFoodEdit(foodId: number, form: FoodForm, language: Language): Promise<boolean> {
+async function postFoodEdit(body: unknown): Promise<boolean> {
   try {
-    const payload = buildFoodPayloadForSave(form, language);
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    appendAuthHeader(headers);
-    const res = await fetch(`${getApiBase()}/api/food-edits`, {
+    await httpRequest({
+      url: `${getApiBase()}/api/food-edits`,
       method: 'POST',
-      headers,
-      body: JSON.stringify({ foodId, payload }),
+      data: body,
     });
-    return res.ok;
+    return true;
   } catch {
     return false;
   }
 }
 
+export async function submitFoodEdit(foodId: number, form: FoodForm, language: Language): Promise<boolean> {
+  const payload = buildFoodPayloadForSave(form, language);
+  return postFoodEdit({ foodId, payload });
+}
+
 export async function submitFoodEditPayload(foodId: number, payload: any): Promise<boolean> {
-  try {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    appendAuthHeader(headers);
-    const res = await fetch(`${getApiBase()}/api/food-edits`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ foodId, payload }),
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
+  return postFoodEdit({ foodId, payload });
 }

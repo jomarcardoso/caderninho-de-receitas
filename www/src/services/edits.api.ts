@@ -1,7 +1,7 @@
 import type { FoodForm } from '@/components/food-register/food-register-form';
 import type { Language } from 'services/language/language.types';
-import { appendAuthHeader } from '@common/services/auth/token.storage';
 import { buildFoodPayloadForSave } from './food.payload';
+import { httpRequest } from '@common/services/http/http-client';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:5106';
 
@@ -16,42 +16,32 @@ function getApiBase(): string {
   return (fromEnv || DEFAULT_API_BASE_URL).replace(/\/$/, '');
 }
 
+async function postFoodEdit(payload: any): Promise<boolean> {
+  const base = getApiBase();
+  try {
+    await httpRequest({
+      url: `${base}/api/food-edits`,
+      method: 'POST',
+      data: payload,
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function submitFoodEdit(
   foodId: number,
   form: FoodForm,
   language: Language,
 ): Promise<boolean> {
-  try {
-    const payload = buildFoodPayloadForSave(form, language);
-    const base = getApiBase();
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    appendAuthHeader(headers);
-    const res = await fetch(`${base}/api/food-edits`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ foodId, payload }),
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
+  const payload = buildFoodPayloadForSave(form, language);
+  return postFoodEdit({ foodId, payload });
 }
 
 export async function submitFoodEditPayload(
   foodId: number,
   payload: unknown,
 ): Promise<boolean> {
-  try {
-    const base = getApiBase();
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    appendAuthHeader(headers);
-    const res = await fetch(`${base}/api/food-edits`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ foodId, payload }),
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
+  return postFoodEdit({ foodId, payload });
 }

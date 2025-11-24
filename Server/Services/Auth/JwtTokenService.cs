@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Server.Options;
 
@@ -12,9 +11,9 @@ public class JwtTokenService
   private readonly JwtOptions _options;
   private readonly byte[] _key;
 
-  public JwtTokenService(IOptions<JwtOptions> options)
+  public JwtTokenService(JwtOptions options)
   {
-    _options = options.Value;
+    _options = options ?? throw new ArgumentNullException(nameof(options));
     if (string.IsNullOrWhiteSpace(_options.Secret))
     {
       throw new InvalidOperationException("JWT Secret is not configured.");
@@ -50,4 +49,3 @@ public class JwtTokenService
     return handler.WriteToken(token);
   }
 }
-

@@ -4,7 +4,7 @@ import type {
   RecipeDataResponse,
 } from './recipe.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
-import { appendAuthHeader } from '../auth/token.storage';
+import axios from 'axios';
 import {
   type Recipe,
   type RecipesData,
@@ -32,85 +32,42 @@ import type {
 } from '../nutrient/nutrient.response';
 import { FOOD } from '../food/food.model';
 import { mapRecipeStepModelToDto } from '../recipe-step/recipe-step.service';
-// (duplicate import removed)
+import {
+  getApiBase,
+  getApiBases,
+} from '../http/api-base';
+import {
+  httpRequest,
+  type AuthenticatedRequestConfig,
+} from '../http/http-client';
 
-function getApiBase(): string {
-  const vite = (typeof import.meta !== 'undefined' &&
-    (import.meta as any)?.env?.VITE_API_BASE_URL) as string | undefined;
-  if (vite && typeof vite === 'string' && vite.trim())
-    return vite.replace(/\/$/, '');
-  const next = (typeof process !== 'undefined' &&
-    (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined;
-  if (next && typeof next === 'string' && next.trim())
-    return next.replace(/\/$/, '');
-  // Prefer HTTPS default to avoid header loss on redirects from HTTP->HTTPS
-  return 'https://localhost:7269';
-}
-
-function getApiBases(): string[] {
-  const bases: string[] = [];
-  const add = (s?: string) => {
-    if (s && s.trim()) bases.push(s.replace(/\/$/, ''));
-  };
-
-  add(
-    (typeof import.meta !== 'undefined' &&
-      (import.meta as any)?.env?.VITE_API_BASE_URL) as string | undefined,
-  );
-  add(
-    (typeof process !== 'undefined' &&
-      (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) as string | undefined,
-  );
-
-  try {
-    if (typeof window !== 'undefined') {
-      const isHttps = window.location?.protocol === 'https:';
-      if (isHttps) {
-        add('https://localhost:7269');
-        add('http://localhost:5106');
-      } else {
-        add('http://localhost:5106');
-        add('https://localhost:7269');
-      }
-    }
-  } catch {}
-
-  add('https://localhost:7269');
-  add('http://localhost:5106');
-
-  return Array.from(new Set(bases));
-}
-
-function withAuth(init?: RequestInit): RequestInit {
-  const headers = new Headers(
-    (init?.headers as HeadersInit | undefined) ?? undefined,
-  );
-  appendAuthHeader(headers);
-  return { ...(init ?? {}), headers };
-}
-
-async function fetchWithFallback(
+async function requestWithFallback<T = any>(
   path: string,
-  init?: RequestInit,
-): Promise<Response> {
+  config?: AuthenticatedRequestConfig<T>,
+): Promise<T> {
   const bases = getApiBases();
   let lastErr: unknown;
-  let lastRes: Response | undefined;
   for (const base of bases) {
     try {
-      const res = await fetch(`${base}${path}`, withAuth(init));
-      if (res.ok) return res;
-      if ([401, 403, 404].includes(res.status)) {
-        return res;
+      const response = await httpRequest<T>({
+        ...config,
+        url: `${base}${path}`,
+      });
+      return response.data;
+    } catch (error) {
+      if (
+        axios.isAxiosError(error) &&
+        error.response &&
+        [401, 403, 404].includes(error.response.status)
+      ) {
+        throw error;
       }
-      // keep last non-ok to return if all bases fail
-      lastRes = res;
-    } catch (e) {
-      lastErr = e;
+      lastErr = error;
     }
   }
-  if (lastRes) return lastRes;
-  throw lastErr instanceof Error ? lastErr : new Error('Failed to fetch');
+  throw lastErr instanceof Error
+    ? lastErr
+    : new Error('Failed to contact the recipe API');
 }
 
 // OwnerId resolve is centralized in ../auth/owner.util
@@ -384,16 +341,9 @@ export function mapRecipesDataResponseToModel(
 
 export async function fetchRecipes(): Promise<RecipesData> {
   try {
-    const res = await fetchWithFallback(`/api/recipe`, {
-      headers: {},
-      cache: 'no-store',
+    const data = await requestWithFallback<RecipesDataResponse>(`/api/recipe`, {
+      method: 'GET',
     });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch recipes: ${res.status}`);
-    }
-
-    const data: RecipesDataResponse = await res.json();
-
     return mapRecipesDataResponseToModel(data);
   } catch (error) {
     console.error(error);
@@ -445,11 +395,10 @@ export async function fetchMostCopiedRecipes(
   }
 
   try {
-    const res = await fetchWithFallback(path, {
-      headers: { 'Content-Type': 'application/json' },
+    const data = await requestWithFallback<ApiRecipeResponse[]>(path, {
+      method: 'GET',
+      skipAuth: true,
     });
-    if (!res.ok) throw new Error(`Failed to fetch most-copied: ${res.status}`);
-    const data = (await res.json()) as ApiRecipeResponse[];
     if (!Array.isArray(data) || data.length === 0) return [];
     return data.map<RecipeDto>((recipe, index) => ({
       id: recipe.id ?? index,
@@ -487,25 +436,13 @@ export async function saveRecipe(
         : {}),
     };
 
-    const res = await fetchWithFallback(url, {
+    const data = await requestWithFallback<RecipesDataResponse>(url, {
       method: recipe.id ? 'PUT' : 'POST',
+      data: payload,
       headers: {
-        'Content-Type': 'application/json',
         ...(languageHeader ? { 'X-Language': languageHeader } : {}),
       },
-      body: JSON.stringify(recipe),
     });
-    if (!res.ok) {
-      let message = `Failed to save recipe (${res.status})`;
-      try {
-        const text = await res.text();
-        if (text) message += `: ${text}`;
-      } catch {}
-      throw new Error(message);
-    }
-
-    const data: RecipesDataResponse = await res.json();
-
     return mapRecipesDataResponseToModel(data);
   } catch (error) {
     console.error(error);
@@ -518,16 +455,10 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
   if (!id) return RECIPES_DATA;
 
   try {
-    const res = await fetchWithFallback(`/api/recipe/${id}`, {
-      method: 'DELETE',
-      headers: {},
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to delete recipe: ${res.status}`);
-    }
-
-    const data: RecipesDataResponse = await res.json();
-
+    const data = await requestWithFallback<RecipesDataResponse>(
+      `/api/recipe/${id}`,
+      { method: 'DELETE' },
+    );
     return mapRecipesDataResponseToModel(data);
   } catch (error) {
     console.log(error);
@@ -550,27 +481,25 @@ export function mapRecipeDataResponseToModel(
 export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
   if (!id) return null;
   try {
-    const res = await fetchWithFallback(`/api/Recipe/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
+    const json = await requestWithFallback<RecipeDataResponse>(
+      `/api/Recipe/${id}`,
+      {
+        method: 'GET',
       },
-      cache: 'no-store',
-    });
-    if (!res.ok) return null;
-    const json = (await res.json()) as any;
-
+    );
     if (
       json &&
       typeof json === 'object' &&
       'recipes' in json &&
       'relatedRecipes' in json
     ) {
-      return mapRecipeDataResponseToModel(json as RecipeDataResponse);
+      return mapRecipeDataResponseToModel(json);
     }
-
-    // Unexpected response shape
     return null;
   } catch (e) {
+    if (axios.isAxiosError(e) && e.response?.status === 404) {
+      return null;
+    }
     console.error(e);
     return null;
   }

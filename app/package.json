@@ -29,6 +29,7 @@
     "@fontsource/vibur": "^5.2.8",
     "@mui/base": "^5.0.0-beta.70",
     "@react-oauth/google": "^0.12.2",
+    "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
     "formik": "^2.4.6",
     "lodash": "^4.17.21",

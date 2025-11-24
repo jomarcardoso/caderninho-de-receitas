@@ -29,6 +29,7 @@ import {
   clearAuthToken,
   setAuthToken,
 } from '@common/services/auth/token.storage';
+import { syncAuthSession } from '@/lib/auth/session.client';
 
 export type UserBoxProps = Omit<HTMLProps<HTMLDivElement>, 'name'>;
 
@@ -74,19 +75,6 @@ const storeUser = (user: GoogleLoginResponse | null): void => {
   }
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
 };
-
-async function persistServerToken(token: string): Promise<void> {
-  try {
-    await fetch('/api/auth/session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      cache: 'no-store',
-      body: JSON.stringify({ token }),
-    });
-  } catch {
-    // best-effort; failing to persist cookie only impacts SSR
-  }
-}
 
 export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
   const { language, setLanguage } = useContext(LanguageContext);
@@ -135,7 +123,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
     setErrorMessage(null);
     setAuthToken(token);
     resetMeCache();
-    await persistServerToken(token);
+    await syncAuthSession(token);
     try {
       window.dispatchEvent(new Event('app:user:login'));
     } catch {}
