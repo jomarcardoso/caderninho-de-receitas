@@ -114,7 +114,8 @@ public class RecipeController : ControllerBase
       .FirstOrDefaultAsync(r => r.Id == id);
 
     if (recipe is null) return NotFound();
-    if (!string.Equals(recipe.OwnerId, ownerId, StringComparison.Ordinal)) return NotFound();
+    if (!string.Equals(recipe.OwnerId, ownerId, StringComparison.Ordinal))
+      return Forbid();
 
     await recipeService.UpdateEntityFromDto(recipe, recipeDto);
     // Keep ownership as resolved ownerId; do not override on update

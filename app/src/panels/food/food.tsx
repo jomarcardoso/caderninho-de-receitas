@@ -4,7 +4,6 @@ import {
   forwardRef,
   useContext,
   useState,
-  useEffect,
 } from 'react';
 import Layout, { type LayoutProps } from '../../components/layout/layout';
 import FoodDetailed from '../../components/food-detailed/food-detailed';
@@ -14,7 +13,6 @@ import { FoodRegister } from '../../components/food-register/food-register';
 import { IoCreateOutline } from 'react-icons/io5';
 import { LanguageContext } from '../../providers/language/language.context';
 import type { Food } from 'services/food/food.model';
-import RoleContext from '../../providers/role/role.context';
 
 interface Props extends LayoutProps {
   food?: Food;
@@ -25,16 +23,10 @@ interface Props extends LayoutProps {
 const FoodPanel: FC<Props> = forwardRef(
   ({ food, quantity = 100, headerProps, ...props }, ref) => {
     const { language } = useContext(LanguageContext);
-    const { canEditFood } = useContext(RoleContext);
     const name = food?.name[language] ?? '';
     const [edit, setEdit] = useState(false);
-    const [canEdit, setCanEdit] = useState(false);
+    const canEdit = true;
     const editTemplate = <FoodRegister food={food as any} />;
-
-    // Consume permission from RoleContext
-    useEffect(() => {
-      setCanEdit(!!canEditFood);
-    }, [canEditFood]);
 
     return (
       <div>

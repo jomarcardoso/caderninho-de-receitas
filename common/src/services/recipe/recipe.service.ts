@@ -92,6 +92,9 @@ async function fetchWithFallback(
     try {
       const res = await fetch(`${base}${path}`, init);
       if (res.ok) return res;
+      if ([401, 403, 404].includes(res.status)) {
+        return res;
+      }
       // keep last non-ok to return if all bases fail
       lastRes = res;
     } catch (e) {
@@ -491,7 +494,12 @@ export async function saveRecipe(
       body: JSON.stringify(recipe),
     });
     if (!res.ok) {
-      throw new Error('Failed to save recipe');
+      let message = `Failed to save recipe (${res.status})`;
+      try {
+        const text = await res.text();
+        if (text) message += `: ${text}`;
+      } catch {}
+      throw new Error(message);
     }
 
     const data: RecipesDataResponse = await res.json();
