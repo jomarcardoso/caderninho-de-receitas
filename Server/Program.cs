@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Server;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Security.Claims;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Server.Services;
 using Server.Services.Auth;
 using Server.Serialization;
 using Server.PreProcessing;
-using System.Text.Json;
-using Microsoft.AspNetCore.Authentication;
 using Server.Auth;
-using System.Text.Json.Serialization;
-using System.Security.Claims;
+using Server.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,12 +57,12 @@ builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenVal
 builder.Services.AddScoped<GoogleAuthService>();
 builder.Services.AddSingleton<AzureBlobSasService>();
 builder.Services.AddScoped<UserProfileService>();
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
+builder.Services.AddSingleton(jwtOptions);
+builder.Services.AddSingleton<JwtTokenService>();
 
 // blazor
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor(); // Blazor Server
-builder.Services.AddScoped<PageTitleService>();
-
 // Add http client
 builder.Services.AddHttpClient("Default", client =>
 {
@@ -87,146 +87,26 @@ builder.Services.AddCors(options =>
       });
 });
 
-if (builder.Environment.IsDevelopment())
-{
-  // Development: simulate production auth (no dev-user). Use Cookie scheme.
-  builder.Services
-    .AddAuthentication(options =>
+builder.Services
+  .AddAuthentication(options =>
+  {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+  })
+  .AddJwtBearer(options =>
+  {
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-      options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-      options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    })
-    .AddCookie(options =>
-    {
-      options.Cookie.Name = "caderninho.session";
-      options.Cookie.HttpOnly = true;
-      options.Cookie.SameSite = SameSiteMode.Lax;
-      options.Cookie.SecurePolicy = CookieSecurePolicy.None; // allow http on dev
-      options.SlidingExpiration = true;
-      options.ExpireTimeSpan = TimeSpan.FromDays(7);
-      options.Events = new CookieAuthenticationEvents
-      {
-        OnRedirectToLogin = ctx =>
-        {
-          if (ctx.Request.Path.StartsWithSegments("/api"))
-          {
-            ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return Task.CompletedTask;
-          }
-          ctx.Response.Redirect(ctx.RedirectUri);
-          return Task.CompletedTask;
-        },
-        OnRedirectToAccessDenied = ctx =>
-        {
-          if (ctx.Request.Path.StartsWithSegments("/api"))
-          {
-            ctx.Response.StatusCode = StatusCodes.Status403Forbidden;
-            return Task.CompletedTask;
-          }
-          ctx.Response.Redirect(ctx.RedirectUri);
-          return Task.CompletedTask;
-        }
-      };
-    });
-}
-else
-{
-  // login
-  builder.Services
-      .AddAuthentication(options =>
-      {
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-      })
-      .AddCookie(options =>
-      {
-        options.Cookie.Name = "caderninho.session";
-        options.Cookie.HttpOnly = true;
-        options.Cookie.SameSite = SameSiteMode.Lax;
-        options.SlidingExpiration = true;
-        options.ExpireTimeSpan = TimeSpan.FromDays(7);
-        options.Events = new CookieAuthenticationEvents
-        {
-          OnRedirectToLogin = ctx =>
-          {
-            if (ctx.Request.Path.StartsWithSegments("/api"))
-            {
-              ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
-              return Task.CompletedTask;
-            }
-            ctx.Response.Redirect(ctx.RedirectUri);
-            return Task.CompletedTask;
-          },
-          OnRedirectToAccessDenied = ctx =>
-          {
-            if (ctx.Request.Path.StartsWithSegments("/api"))
-            {
-              ctx.Response.StatusCode = StatusCodes.Status403Forbidden;
-              return Task.CompletedTask;
-            }
-            ctx.Response.Redirect(ctx.RedirectUri);
-            return Task.CompletedTask;
-          }
-        };
-      })
-      .AddGoogle(googleOptions =>
-      {
-        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-      })
-      .AddOAuth("TikTok", options =>
-      {
-        options.ClientId = builder.Configuration["Authentication:TikTok:ClientId"] ?? string.Empty;
-        options.ClientSecret = builder.Configuration["Authentication:TikTok:ClientSecret"] ?? string.Empty;
-        options.CallbackPath = "/signin-tiktok";
-
-        options.AuthorizationEndpoint = "https://www.tiktok.com/v2/auth/authorize/";
-        options.TokenEndpoint = "https://open.tiktokapis.com/v2/oauth/token/";
-        options.UserInformationEndpoint = "https://open.tiktokapis.com/v2/user/info/";
-
-        options.Scope.Add("user.info.basic");
-        options.SaveTokens = true;
-
-        options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "open_id");
-        options.ClaimActions.MapJsonKey(ClaimTypes.Name, "display_name");
-        options.ClaimActions.MapJsonKey("urn:tiktok:avatar_url", "avatar_url");
-
-        options.Events = new OAuthEvents
-        {
-          OnCreatingTicket = async context =>
-          {
-            // TikTok user info expects Authorization: Bearer and returns nested JSON
-            var request = new HttpRequestMessage(HttpMethod.Get, options.UserInformationEndpoint);
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-
-            using var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
-            response.EnsureSuccessStatusCode();
-            using var stream = await response.Content.ReadAsStreamAsync();
-
-            var json = await JsonNode.ParseAsync(stream, cancellationToken: context.HttpContext.RequestAborted);
-            // Expected shape: { data: { user: { open_id, display_name, avatar_url, ... } } }
-            var user = json?["data"]?["user"] as JsonObject ?? json as JsonObject;
-            if (user is not null)
-            {
-              var principal = context.Identity;
-              string? GetString(string key) => user[key]?.GetValue<string>();
-
-              var openId = GetString("open_id");
-              var displayName = GetString("display_name");
-              var avatar = GetString("avatar_url") ?? GetString("avatar_url_100");
-
-              if (!string.IsNullOrEmpty(openId))
-                principal!.AddClaim(new Claim(ClaimTypes.NameIdentifier, openId, ClaimValueTypes.String, context.Options.ClaimsIssuer));
-              if (!string.IsNullOrEmpty(displayName))
-                principal!.AddClaim(new Claim(ClaimTypes.Name, displayName, ClaimValueTypes.String, context.Options.ClaimsIssuer));
-              if (!string.IsNullOrEmpty(avatar))
-                principal!.AddClaim(new Claim("urn:tiktok:avatar_url", avatar, ClaimValueTypes.String, context.Options.ClaimsIssuer));
-            }
-          }
-        };
-      });
-}
+      ValidateIssuer = true,
+      ValidateAudience = true,
+      ValidateIssuerSigningKey = true,
+      ValidIssuer = jwtOptions.Issuer,
+      ValidAudience = jwtOptions.Audience,
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret)),
+      ClockSkew = TimeSpan.FromMinutes(1),
+    };
+  });
 
 // builder.Services.AddAuthentication().AddGoogle(googleOptions =>
 // {
@@ -294,10 +174,6 @@ using (var scope = app.Services.CreateScope())
   }
   catch { /* ignore if not Postgres or table/sequence not present */ }
 }
-
-// blazor
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
 
 app.Run();
 

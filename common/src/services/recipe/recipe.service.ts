@@ -4,7 +4,7 @@ import type {
   RecipeDataResponse,
 } from './recipe.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
-import { ensureOwnerCookie, getOwnerIdFromCookies } from '../auth/owner.util';
+import { appendAuthHeader } from '../auth/token.storage';
 import {
   type Recipe,
   type RecipesData,
@@ -81,6 +81,14 @@ function getApiBases(): string[] {
   return Array.from(new Set(bases));
 }
 
+function withAuth(init?: RequestInit): RequestInit {
+  const headers = new Headers(
+    (init?.headers as HeadersInit | undefined) ?? undefined,
+  );
+  appendAuthHeader(headers);
+  return { ...(init ?? {}), headers };
+}
+
 async function fetchWithFallback(
   path: string,
   init?: RequestInit,
@@ -90,7 +98,7 @@ async function fetchWithFallback(
   let lastRes: Response | undefined;
   for (const base of bases) {
     try {
-      const res = await fetch(`${base}${path}`, init);
+      const res = await fetch(`${base}${path}`, withAuth(init));
       if (res.ok) return res;
       if ([401, 403, 404].includes(res.status)) {
         return res;
@@ -376,8 +384,6 @@ export function mapRecipesDataResponseToModel(
 
 export async function fetchRecipes(): Promise<RecipesData> {
   try {
-    await ensureOwnerCookie();
-    const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(`/api/recipe`, {
       headers: {},
       cache: 'no-store',
@@ -473,9 +479,7 @@ export async function saveRecipe(
   languageHeader?: Language,
 ): Promise<RecipesData> {
   try {
-    await ensureOwnerCookie();
     const url = recipe.id ? `/api/recipe/${recipe.id}` : `/api/recipe`;
-    const ownerId = getOwnerIdFromCookies();
     // Ensure backend receives string keys explicitly as `categoryKeys`
     const payload: any = {
       ...recipe,
@@ -516,8 +520,6 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
   if (!id) return RECIPES_DATA;
 
   try {
-    await ensureOwnerCookie();
-    const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(`/api/recipe/${id}`, {
       method: 'DELETE',
       headers: {},
@@ -551,8 +553,6 @@ export function mapRecipeDataResponseToModel(
 export async function fetchRecipeData(id: number): Promise<RecipeData | null> {
   if (!id) return null;
   try {
-    await ensureOwnerCookie();
-    const ownerId = getOwnerIdFromCookies();
     const res = await fetchWithFallback(`/api/Recipe/${id}`, {
       headers: {
         'Content-Type': 'application/json',

@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.Dtos.Auth;
 using Server.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
 using System;
+using System.Linq;
 
 namespace Server.Controllers;
 
@@ -16,11 +18,15 @@ public class AuthController : ControllerBase
 {
   private readonly GoogleAuthService googleAuthService;
   private readonly AppDbContext _context;
+  private readonly JwtTokenService _tokenService;
+  private readonly IClaimsTransformation _claimsTransformation;
 
-  public AuthController(GoogleAuthService googleAuthService, AppDbContext context)
+  public AuthController(GoogleAuthService googleAuthService, AppDbContext context, JwtTokenService tokenService, IClaimsTransformation claimsTransformation)
   {
     this.googleAuthService = googleAuthService;
     _context = context;
+    _tokenService = tokenService;
+    _claimsTransformation = claimsTransformation;
   }
 
   [HttpPost("google")]
@@ -53,17 +59,17 @@ public class AuthController : ControllerBase
     // Upsert UserProfile with data from Google
     try
     {
-      var ownerId = user.GoogleId?.Trim();
-      if (!string.IsNullOrWhiteSpace(ownerId))
+      var ownerIdValue = user.GoogleId?.Trim();
+      if (!string.IsNullOrWhiteSpace(ownerIdValue))
       {
         var now = DateTime.UtcNow;
-        var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerId, cancellationToken);
+        var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerIdValue, cancellationToken);
         if (profile is null)
         {
           profile = new UserProfile
           {
-            OwnerId = ownerId,
-            DisplayName = string.IsNullOrWhiteSpace(user.Name) ? ownerId : user.Name,
+            OwnerId = ownerIdValue,
+            DisplayName = string.IsNullOrWhiteSpace(user.Name) ? ownerIdValue : user.Name,
             PictureUrl = string.IsNullOrWhiteSpace(user.Picture) ? null : user.Picture,
             CreatedAt = now,
             UpdatedAt = now,
@@ -73,7 +79,7 @@ public class AuthController : ControllerBase
         }
         else
         {
-          profile.DisplayName = string.IsNullOrWhiteSpace(profile.DisplayName) ? (string.IsNullOrWhiteSpace(user.Name) ? ownerId : user.Name) : profile.DisplayName;
+          profile.DisplayName = string.IsNullOrWhiteSpace(profile.DisplayName) ? (string.IsNullOrWhiteSpace(user.Name) ? ownerIdValue : user.Name) : profile.DisplayName;
           profile.PictureUrl = profile.PictureUrl ?? (string.IsNullOrWhiteSpace(user.Picture) ? null : user.Picture);
           profile.UpdatedAt = now;
           profile.LastLoginAt = now;
@@ -122,27 +128,29 @@ public class AuthController : ControllerBase
     }
     catch { /* do not fail login if transfer fails */ }
 
-    // In development and in general, set a helper cookie with the owner id so the site at 5106 receives it
-    try
+    var ownerId = user.GoogleId?.Trim() ?? string.Empty;
+    var baseClaims = new List<Claim>
     {
-      var ownerId = user.GoogleId?.Trim();
-      if (!string.IsNullOrWhiteSpace(ownerId))
-      {
-        var opts = new CookieOptions
-        {
-          Path = "/",
-          HttpOnly = true,
-          SameSite = SameSiteMode.Lax,
-          Expires = DateTimeOffset.UtcNow.AddDays(30),
-          Secure = false, // allow http dev; adjust in prod if needed
-        };
-        // Unified owner cookie
-        Response.Cookies.Append("ownerId", ownerId!, opts);
-      }
-    }
-    catch { }
+      new Claim(ClaimTypes.NameIdentifier, ownerId),
+      new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+      new Claim(ClaimTypes.Name, user.Name ?? user.Email ?? ownerId),
+    };
+    var transformedPrincipal = await _claimsTransformation.TransformAsync(
+      new ClaimsPrincipal(new ClaimsIdentity(baseClaims, "google")));
+    var roleClaims = transformedPrincipal.Claims
+      .Where(c => c.Type == ClaimTypes.Role)
+      .Select(c => new Claim(ClaimTypes.Role, c.Value))
+      .ToList();
+    var roles = roleClaims.Select(c => c.Value).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+    var token = _tokenService.GenerateToken(
+      ownerId,
+      user.Email ?? string.Empty,
+      user.Name ?? user.Email ?? ownerId,
+      roleClaims);
 
-    return Ok(response);
+    response.Roles = roles;
+
+    return Ok(new { token, user = response });
   }
 
   [HttpGet("me")]
@@ -232,3 +240,9 @@ public class AuthController : ControllerBase
     }
   }
 }
+
+
+
+
+
+
