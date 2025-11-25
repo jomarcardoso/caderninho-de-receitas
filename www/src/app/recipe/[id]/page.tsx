@@ -88,7 +88,7 @@ export default async function RecipePage({
             editar <br /> receita
           </Link>
 
-          <ShareRecipeAction recipeId={recipe.id} />
+          <ShareRecipeAction recipeId={recipe.id} recipe={recipe} />
 
           <RecipeDeleteButton id={recipe.id} />
         </Navbar>

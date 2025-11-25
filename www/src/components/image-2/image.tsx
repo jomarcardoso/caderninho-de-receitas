@@ -8,6 +8,7 @@ interface Props {
   aspectRatio?: number;
   transparent?: boolean;
   srcs?: string[];
+  objectFitCompatible?: boolean;
 }
 
 type Image2Props = Props & ImgHTMLAttributes<HTMLImageElement>;
@@ -18,6 +19,7 @@ export const Image2: FC<Image2Props> = ({
   className = '',
   aspectRatio = 1,
   src = '',
+  objectFitCompatible = false,
   srcs = [],
   ...props
 }): ReactElement => {
@@ -42,14 +44,26 @@ export const Image2: FC<Image2Props> = ({
           className="image__padding"
           style={{ paddingBottom: `${(1 / aspectRatio) * 100}%` }}
         />
-        <img
-          key={sources.join('|')} // reset quando src mudar
-          alt={alt}
-          className="image__img"
-          src={current}
-          onError={handleError}
-          {...props}
-        />
+        {!objectFitCompatible ? (
+          <img
+            key={sources.join('|')} // reset quando src mudar
+            alt={alt}
+            className="image__img"
+            src={current}
+            onError={handleError}
+            {...props}
+          />
+        ) : (
+          <div
+            className="image__img"
+            key={sources.join('|')}
+            aria-label={alt}
+            role="img"
+            style={{ backgroundImage: current ? `url(${current})` : undefined }}
+            onError={handleError}
+            {...props}
+          />
+        )}
       </div>
     </div>
   );
