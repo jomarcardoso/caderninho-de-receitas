@@ -101,13 +101,10 @@ const FoodDetails: FC<FoodDetailsProps> = ({
   };
 
   return (
-    <div
-      className={`food-details grid columns-1 g-6 ${className}`}
-      {...props}
-    >
+    <div className={`food-details grid columns-1 g-6 ${className}`} {...props}>
       <div className="grid columns-1 g-3">
         <Image2
-          srcs={[...(food.icon ?? []), ...(food.imgs ?? [])]}
+          srcs={[...(food.imgs ?? []), ...(food.icon ?? [])]}
           alt={food.name?.[language] ?? ''}
           aspectRatio={1.25}
           transparent

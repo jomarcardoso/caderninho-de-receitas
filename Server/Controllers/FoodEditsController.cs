@@ -78,17 +78,28 @@ public class FoodEditsController : ControllerBase
 
     try
     {
+      static string KeepIfNotBlank(JsonElement el, string current)
+      {
+        var s = el.GetString();
+        return string.IsNullOrWhiteSpace(s) ? current : s!;
+      }
+
       using var doc = JsonDocument.Parse(item.Payload);
       var root = doc.RootElement;
       if (root.TryGetProperty("name", out var nameEl))
       {
-        if (nameEl.TryGetProperty("pt", out var pt)) food.Name.Pt = pt.GetString() ?? food.Name.Pt;
-        if (nameEl.TryGetProperty("en", out var en)) food.Name.En = en.GetString() ?? food.Name.En;
+        if (nameEl.TryGetProperty("pt", out var pt)) food.Name.Pt = KeepIfNotBlank(pt, food.Name.Pt);
+        if (nameEl.TryGetProperty("en", out var en)) food.Name.En = KeepIfNotBlank(en, food.Name.En);
       }
       if (root.TryGetProperty("description", out var descEl))
       {
-        if (descEl.TryGetProperty("pt", out var pt)) food.Description.Pt = pt.GetString() ?? food.Description.Pt;
-        if (descEl.TryGetProperty("en", out var en)) food.Description.En = en.GetString() ?? food.Description.En;
+        if (descEl.TryGetProperty("pt", out var pt)) food.Description.Pt = KeepIfNotBlank(pt, food.Description.Pt);
+        if (descEl.TryGetProperty("en", out var en)) food.Description.En = KeepIfNotBlank(en, food.Description.En);
+      }
+      if (root.TryGetProperty("keys", out var keysEl))
+      {
+        if (keysEl.TryGetProperty("pt", out var pt)) food.Keys.Pt = KeepIfNotBlank(pt, food.Keys.Pt);
+        if (keysEl.TryGetProperty("en", out var en)) food.Keys.En = KeepIfNotBlank(en, food.Keys.En);
       }
       if (root.TryGetProperty("icon", out var iconEl))
       {

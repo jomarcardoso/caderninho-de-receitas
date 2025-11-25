@@ -52,8 +52,12 @@ const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
   const initialValues = useMemo<FoodForm>(() => {
     const safeFood = food ?? ({} as Food);
     return {
-      name: safeFood?.name?.[language] || '',
-      description: safeFood?.description?.[language] || '',
+      namePt: safeFood?.name?.pt || '',
+      nameEn: safeFood?.name?.en || '',
+      descriptionPt: safeFood?.description?.pt || '',
+      descriptionEn: safeFood?.description?.en || '',
+      keysPt: (safeFood as any)?.keys?.pt || '',
+      keysEn: (safeFood as any)?.keys?.en || '',
       icon:
         ((safeFood as any)?.iconName as string) ||
         deriveIconName((((safeFood as any)?.icon?.[0] as string) || '') ?? ''),

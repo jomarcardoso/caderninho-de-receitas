@@ -7,16 +7,22 @@ function num(value: unknown): number {
 
 export function buildFoodPayloadForSave(
   form: FoodForm,
-  language: Language,
+  _language: Language,
 ) {
-  const lang = (language || 'pt') as Language;
-  const name: Record<Language, string> = { en: '', pt: '' } as any;
-  const description: Record<Language, string> = { en: '', pt: '' } as any;
-  const keys: Record<Language, string> = { en: '', pt: '' } as any;
+  const trim = (v: string | undefined) => (v || '').trim();
 
-  name[lang] = form.name?.trim?.() || '';
-  description[lang] = form.description?.trim?.() || '';
-  keys[lang] = '';
+  const name: Record<Language, string> = {
+    en: trim((form as any).nameEn),
+    pt: trim((form as any).namePt),
+  } as any;
+  const description: Record<Language, string> = {
+    en: trim((form as any).descriptionEn),
+    pt: trim((form as any).descriptionPt),
+  } as any;
+  const keys: Record<Language, string> = {
+    en: trim((form as any).keysEn),
+    pt: trim((form as any).keysPt),
+  } as any;
 
   const nutritionalInformation: Record<string, number> = {
     Gi: num(form.gi),
@@ -67,18 +73,25 @@ export function buildFoodPayloadForSave(
     Selenium: num((form as any).selenium),
   };
 
-  return {
+  const payload: any = {
     name,
     description,
     imgs: Array.isArray((form as any).imgs) ? (form as any).imgs : [],
     keys,
-    iconId: typeof (form as any).iconId === 'number' ? (form as any).iconId : 0,
-    icon: (form as any).icon || '',
     type: 0,
     measurementUnit: 0,
     nutritionalInformation,
     minerals,
     aminoAcids,
   };
-}
 
+  const iconTrimmed = trim((form as any).icon);
+  if (iconTrimmed) {
+    payload.icon = iconTrimmed;
+  }
+  if (typeof (form as any).iconId === 'number' && (form as any).iconId > 0) {
+    payload.iconId = (form as any).iconId;
+  }
+
+  return payload;
+}

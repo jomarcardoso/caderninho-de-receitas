@@ -27,8 +27,12 @@ export interface FoodRegisterFormProps {
 }
 
 export interface FoodForm {
-  name: string;
-  description: string;
+  namePt: string;
+  nameEn: string;
+  descriptionPt: string;
+  descriptionEn: string;
+  keysPt: string;
+  keysEn: string;
   iconId?: number;
   icon: string;
   imgs: string[];
@@ -144,7 +148,7 @@ export const FoodRegisterForm: FC<
   const renderInput = useCallback(
     (
       label = '',
-      name: keyof FoodForm = 'name',
+      name: keyof FoodForm = 'namePt',
       breakline = false,
       multiline = false,
       type: HTMLProps<HTMLInputElement>['type'] = 'number',
@@ -347,13 +351,15 @@ export const FoodRegisterForm: FC<
           )}
         </div>
 
-        {renderInput(translate('foodFormFoodName', language), 'name', false, false, 'text')}
-        {renderInput(
-          translate('descriptionLabel', language),
-          'description',
-          true,
-          true,
-        )}
+        <h3 className="h3" style={{ marginTop: 8 }}>Nome, descri��o e keys</h3>
+        <div style={{ display: 'grid', gap: 8 }}>
+          {renderInput('Nome (PT)', 'namePt', false, false, 'text')}
+          {renderInput('Nome (EN)', 'nameEn', false, false, 'text')}
+          {renderInput('Descri��o (PT)', 'descriptionPt', true, true)}
+          {renderInput('Descri��o (EN)', 'descriptionEn', true, true)}
+          {renderInput('Keys (PT)', 'keysPt', true, true)}
+          {renderInput('Keys (EN)', 'keysEn', true, true)}
+        </div>
         {renderInput(translate('foodFormGlycemicIndex', language), 'gi')}
         {renderInput(translate('foodFormCalories', language), 'calories')}
         {renderInput(translate('foodFormCarbohydrates', language), 'carbohydrates')}

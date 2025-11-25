@@ -8,6 +8,8 @@ import { Navbar } from '@/components/navbar/navbar';
 import UserBox from '@/components/user-box/user-box';
 import FoodBulkUploader from '@/components/food-bulk/food-bulk';
 import AdminPendingRecipes from '@/components/admin-pending-recipes/admin-pending-recipes';
+import AdminFoodEdits from '@/components/admin-food-edits/admin-food-edits';
+import { fetchServerUserRoles } from '@/services/auth/user-roles.server';
 
 export const metadata: Metadata = {
   title: 'Usuário',
@@ -15,16 +17,10 @@ export const metadata: Metadata = {
 
 export default async function UserPage() {
   // Decide on server whether to render admin block
-  let showAdmin = false;
-  try {
-    const res = await fetch('/api/me', { cache: 'no-store' });
-    if (res.ok) {
-      const me = (await res.json()) as { roles?: string[] } | null;
-      const roles = (me?.roles || []).map((r) => r.toLowerCase());
-      showAdmin =
-        roles.includes('admin') || roles.includes('owner') || roles.includes('keeper');
-    }
-  } catch {}
+  const roles = (await fetchServerUserRoles()) ?? [];
+  const showAdmin = roles.some((role) =>
+    ['admin', 'owner', 'keeper'].includes(role),
+  );
 
   return (
     <Layout2
@@ -72,9 +68,12 @@ export default async function UserPage() {
 
         {showAdmin && (
           <section className="py-5">
-            <div className="grid">
+            <div className="grid" style={{ gap: 32 }}>
               <div className="g-col-12">
                 <AdminPendingRecipes />
+              </div>
+              <div className="g-col-12">
+                <AdminFoodEdits />
               </div>
             </div>
           </section>
@@ -83,4 +82,3 @@ export default async function UserPage() {
     </Layout2>
   );
 }
-
