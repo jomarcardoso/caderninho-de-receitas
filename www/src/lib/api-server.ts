@@ -45,7 +45,7 @@ export async function fetchApiJson<T = any>(path: string, init?: RequestInit): P
 
   const headers = new Headers(init?.headers as HeadersInit | undefined);
   if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
-  appendServerAuthHeader(headers);
+  await appendServerAuthHeader(headers);
 
   // If calling local Next route (/api/*), forward browser cookies (e.g. theme)
   if (path.startsWith('/api/')) {
@@ -65,7 +65,7 @@ export async function fetchApiJson<T = any>(path: string, init?: RequestInit): P
   let lastErr: unknown;
   for (const base of bases) {
     try {
-      appendServerAuthHeader(headers);
+      await appendServerAuthHeader(headers);
       const options: RequestInit & { next?: any } = { ...(init || {}), headers } as any;
       if (!options.next) {
         options.cache = 'no-store';
@@ -86,7 +86,7 @@ export async function fetchApiJsonWithTags<T = any>(path: string, tags: string[]
 
   const headers = new Headers(init?.headers as HeadersInit | undefined);
   if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
-  appendServerAuthHeader(headers);
+  await appendServerAuthHeader(headers);
 
   if (path.startsWith('/api/')) {
     try {
@@ -102,7 +102,7 @@ export async function fetchApiJsonWithTags<T = any>(path: string, tags: string[]
   let lastErr: unknown;
   for (const base of bases) {
     try {
-      appendServerAuthHeader(headers);
+      await appendServerAuthHeader(headers);
       const res = await fetch(`${base}${path}`, { ...init, headers, next: { tags } });
       if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
       return (await res.json()) as T;

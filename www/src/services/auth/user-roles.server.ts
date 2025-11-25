@@ -13,7 +13,7 @@ const API_BASE_URL =
 function buildAuthHeaders(extra?: HeadersInit): Headers {
   const hdrs = new Headers(extra);
   hdrs.set('Accept', hdrs.get('Accept') ?? 'application/json');
-  appendServerAuthHeader(hdrs);
+  void appendServerAuthHeader(hdrs);
   return hdrs;
 }
 
@@ -59,7 +59,7 @@ async function fetchRolesViaNextRoute(): Promise<string[] | null> {
 }
 
 export async function fetchServerUserRoles(): Promise<string[] | null> {
-  const token = readAuthTokenFromCookies();
+  const token = await readAuthTokenFromCookies();
   if (!token) return null;
   return (
     (await fetchRolesFromBackend()) ??

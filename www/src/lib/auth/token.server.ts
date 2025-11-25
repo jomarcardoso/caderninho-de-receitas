@@ -12,17 +12,17 @@ export function readAuthTokenFromRequest(
   }
 }
 
-export function readAuthTokenFromCookies(): string | undefined {
+export async function readAuthTokenFromCookies(): Promise<string | undefined> {
   try {
-    const store = cookies();
+    const store = await cookies();
     return store.get(AUTH_COOKIE_NAME)?.value || undefined;
   } catch {
     return undefined;
   }
 }
 
-export function appendServerAuthHeader(headers: Headers): void {
+export async function appendServerAuthHeader(headers: Headers): Promise<void> {
   if (headers.has('authorization')) return;
-  const token = readAuthTokenFromCookies();
+  const token = await readAuthTokenFromCookies();
   if (token) headers.set('authorization', `Bearer ${token}`);
 }
