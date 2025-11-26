@@ -21,6 +21,7 @@ export const Image2: FC<Image2Props> = ({
   src = '',
   objectFitCompatible = false,
   srcs = [],
+  style,
   ...props
 }): ReactElement => {
   const sources = srcs?.length ? srcs : src ? [src] : [];
@@ -35,6 +36,7 @@ export const Image2: FC<Image2Props> = ({
 
   return (
     <div
+      style={style}
       className={`image ${className} ${
         transparent ? 'image--transparent' : ''
       }`}

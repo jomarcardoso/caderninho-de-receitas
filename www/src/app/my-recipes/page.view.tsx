@@ -24,7 +24,8 @@ import { Food } from '@common/services/food/food.model';
 import { hasKeeperPermission } from '@/services/auth/auth.service';
 import { ListItem } from '@/components/list-item/list-item';
 import FoodDialog from '@/components/food-dialog/food-dialog';
-import { createScrollspyItem, scrollspy } from 'ovos';
+import { scrollspy } from 'ovos';
+import Logo from '@/components/logo/logo';
 
 export interface MyRecipesViewProps {
   data: RecipesData;
@@ -35,6 +36,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   data,
   showFoodsSection = false,
 }) => {
+  // const showFoodsSection = false;
   const language: Language = 'pt';
   const { recipes, recipeLists, foods } = data;
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -42,9 +44,33 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   const [adding, setAdding] = useState(false);
   const [foodDialogOpen, setFoodDialogOpen] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
-  const [canSeeFoods, setCanSeeFoods] = useState(showFoodsSection);
 
   const lists = useMemo(() => recipeLists ?? [], [recipeLists]);
+
+  const tabs = useMemo(() => {
+    const items = [
+      {
+        children: 'RECEITAS',
+        href: '#recipes',
+        id: 'to-recipes',
+      },
+      {
+        children: 'LISTAS',
+        href: '#lists',
+        id: 'to-lists',
+      },
+    ];
+
+    if (showFoodsSection) {
+      items.push({
+        children: 'alimentos',
+        href: '#foods',
+        id: 'to-foods',
+      });
+    }
+
+    return items;
+  }, [showFoodsSection]);
 
   function openDialogForRecipe(id: number) {
     setSelectedId(id);
@@ -113,8 +139,9 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   function renderItem(recipe: Recipe) {
     return (
       <li key={recipe.id}>
-        <article aria-labelledby={String(recipe.id)}>
+        <article className="h-100" aria-labelledby={String(recipe.id)}>
           <Card
+            className="h-100"
             title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
             img={
               <Image2
@@ -222,39 +249,38 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   }
 
   useEffect(() => {
-    scrollspy({
+    // Re-initialize scrollspy whenever sections change and clean up old listeners
+    const controller = scrollspy({
       list: [
-        createScrollspyItem({
+        {
           elMenu: document.querySelector('#to-recipes') as HTMLElement,
           elContent: document.querySelector('#recipes') as HTMLElement,
-        }),
-        createScrollspyItem({
+        },
+        {
           elMenu: document.querySelector('#to-lists') as HTMLElement,
           elContent: document.querySelector('#lists') as HTMLElement,
-        }),
-        createScrollspyItem({
+        },
+        {
           elMenu: document.querySelector('#to-foods') as HTMLElement,
           elContent: document.querySelector('#foods') as HTMLElement,
-        }),
+        },
       ],
     });
-  }, []);
 
-  useEffect(() => {
-    // Client-side fallback: if SSR could not resolve roles, re-check once hydrated
-    if (showFoodsSection) return;
-    let alive = true;
-    hasKeeperPermission()
-      .then((allowed) => {
-        if (alive && allowed) setCanSeeFoods(true);
-      })
-      .catch(() => {
-        /* silent fallback */
-      });
-    return () => {
-      alive = false;
-    };
-  }, [showFoodsSection]);
+    return () => controller.destroy();
+  }, [
+    recipes.length,
+    recipeLists?.length,
+    foods.length,
+    showFoodsSection,
+    dialogOpen,
+    selectedId,
+    adding,
+    foodDialogOpen,
+    selectedFood,
+    showFoodsSection,
+    tabs,
+  ]);
 
   return (
     <Layout2
@@ -334,39 +360,31 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
           }
         />
 
-        <NotebookTabs
-          tabs={[
-            {
-              children: 'RECEITAS',
-              href: '#recipes',
-              id: 'to-recipes',
-            },
-            {
-              children: 'LISTAS',
-              href: '#lists',
-              id: 'to-lists',
-            },
-            {
-              children: 'alimentos',
-              href: '#foods',
-              id: 'to-foods',
-            },
-          ]}
-        />
+        <NotebookTabs tabs={tabs} />
 
         <section
-          className="grid"
+          className="pt-2 grid"
           aria-labelledby="my-recipes-title"
           id="recipes"
         >
           <div className="g-col-12">
-            <h1 className="h1" id="my-recipes-title">
+            <h1 className="h1 text-center" id="my-recipes-title">
               {translate('myRecipesHeading', language)}
             </h1>
           </div>
 
           <div className="g-col-12">
-            <ol className="d-grid gap-4">{recipes.map(renderItem)}</ol>
+            {recipes.length ? (
+              <ol className="d-grid gap-4">{recipes.map(renderItem)}</ol>
+            ) : (
+              <div className="d-flex justify-content-center">
+                <Image2
+                  srcs={['/logo.png']}
+                  style={{ maxWidth: 200 }}
+                  alt="Ícone do app"
+                />
+              </div>
+            )}
           </div>
 
           <div className="g-col-12">
@@ -379,7 +397,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
           </div>
         </section>
 
-        <section className="mt-5" id="lists">
+        <section className="pt-2 mt-5" id="lists">
           <h2 className="h2 mb-3" style={{ marginBottom: 8 }}>
             Minhas listas
           </h2>
@@ -425,8 +443,12 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
 
         {/* <ShoppingList /> */}
 
-        {canSeeFoods && (
-          <section className="mt-5" id="foods" aria-labelledby="foods-title">
+        {showFoodsSection && (
+          <section
+            className="pt-2 mt-5"
+            id="foods"
+            aria-labelledby="foods-title"
+          >
             <h2 className="section-title" id="foods-title">
               Alimentos usados em minhas receitas
             </h2>
