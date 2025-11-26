@@ -8,8 +8,8 @@
   font-size: 0.75rem;
   text-transform: lowercase;
 
-  a,
-  button {
+  > a,
+  > button {
     align-items: center;
     display: inline-flex;
     justify-content: center;
@@ -17,25 +17,25 @@
     gap: 4px;
   }
 
-  .button {
+  > .button {
     max-width: initial;
   }
 
-  .button:not([type='submit']) {
+  > .button:not([type='submit']) {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     flex: initial;
   }
 
-  .button[type='submit'] {
+  > .button[type='submit'] {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-left-radius: 0;
     flex: 1;
   }
 
-  &:has(.button) {
+  &:has(> .button) {
     padding: 0;
   }
 
@@ -45,8 +45,8 @@
     height: var(--bar-size);
     padding: 0 16px;
 
-    a,
-    button {
+    > a,
+    > button {
       height: 100%;
       // max-width: var(--action-size);
     }
@@ -58,8 +58,8 @@
     height: 100dvh;
     flex-direction: column-reverse;
 
-    a,
-    button {
+    > a,
+    > button {
       width: 100%;
       height: var(--bar-size);
     }

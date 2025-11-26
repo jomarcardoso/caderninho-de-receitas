@@ -67,6 +67,9 @@ const nextConfig: NextConfig = withPWAConfig({
       __dirname,
       '../common/src/services',
     );
+    // Point imports from "ovos" to the local source instead of the installed build
+    config.resolve.alias['ovos$'] = path.resolve(__dirname, '../ovos/src/ovos.ts');
+    config.resolve.alias['ovos'] = path.resolve(__dirname, '../ovos/src');
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg'),
     );

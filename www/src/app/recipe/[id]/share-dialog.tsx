@@ -1,6 +1,7 @@
 'use client';
 import type { ReactNode } from 'react';
 import Dialog from 'notebook-layout/components/dialog/dialog';
+import { Button } from 'notebook-layout';
 
 export type ShareDialogProps = {
   open: boolean;
@@ -36,7 +37,21 @@ export function ShareDialog({
   onSelectImage,
 }: ShareDialogProps) {
   return (
-    <Dialog open={open} onClose={onClose} title="Compartilhar receita">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      title="Compartilhar receita"
+      actions={
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onClose}
+          disabled={busy}
+        >
+          fechar
+        </Button>
+      }
+    >
       <div className="grid columns-1 g-3">
         <p>Escolha como deseja compartilhar esta receita.</p>
 
@@ -123,17 +138,6 @@ export function ShareDialog({
               </div>
             )}
           </div>
-        </div>
-
-        <div className="d-flex gap-2 justify-content-end w-100">
-          <button
-            type="button"
-            className="btn"
-            onClick={onClose}
-            disabled={busy}
-          >
-            Fechar
-          </button>
         </div>
       </div>
     </Dialog>

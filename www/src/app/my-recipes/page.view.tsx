@@ -17,12 +17,14 @@ import {
   createRecipeList,
   deleteRecipeList,
 } from '@/services/recipe-lists.service';
-import { FC, ReactElement, useMemo, useState } from 'react';
+import { FC, ReactElement, useEffect, useMemo, useState } from 'react';
 import { Image2 } from '@/components/image-2/image';
 import { Dialog } from 'notebook-layout';
 import { Food } from '@common/services/food/food.model';
+import { hasKeeperPermission } from '@/services/auth/auth.service';
 import { ListItem } from '@/components/list-item/list-item';
 import FoodDialog from '@/components/food-dialog/food-dialog';
+import { createScrollspyItem, scrollspy } from 'ovos';
 
 export interface MyRecipesViewProps {
   data: RecipesData;
@@ -40,6 +42,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   const [adding, setAdding] = useState(false);
   const [foodDialogOpen, setFoodDialogOpen] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
+  const [canSeeFoods, setCanSeeFoods] = useState(showFoodsSection);
 
   const lists = useMemo(() => recipeLists ?? [], [recipeLists]);
 
@@ -218,6 +221,41 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
     );
   }
 
+  useEffect(() => {
+    scrollspy({
+      list: [
+        createScrollspyItem({
+          elMenu: document.querySelector('#to-recipes') as HTMLElement,
+          elContent: document.querySelector('#recipes') as HTMLElement,
+        }),
+        createScrollspyItem({
+          elMenu: document.querySelector('#to-lists') as HTMLElement,
+          elContent: document.querySelector('#lists') as HTMLElement,
+        }),
+        createScrollspyItem({
+          elMenu: document.querySelector('#to-foods') as HTMLElement,
+          elContent: document.querySelector('#foods') as HTMLElement,
+        }),
+      ],
+    });
+  }, []);
+
+  useEffect(() => {
+    // Client-side fallback: if SSR could not resolve roles, re-check once hydrated
+    if (showFoodsSection) return;
+    let alive = true;
+    hasKeeperPermission()
+      .then((allowed) => {
+        if (alive && allowed) setCanSeeFoods(true);
+      })
+      .catch(() => {
+        /* silent fallback */
+      });
+    return () => {
+      alive = false;
+    };
+  }, [showFoodsSection]);
+
   return (
     <Layout2
       className="my-recipes-page"
@@ -276,6 +314,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
             </ul>
           )}
         </Dialog>
+
         <FoodDialog
           open={foodDialogOpen}
           onClose={closeFoodDialog}
@@ -284,7 +323,11 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
             <div
               style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}
             >
-              <Button variant="secondary" type="button" onClick={closeFoodDialog}>
+              <Button
+                variant="secondary"
+                type="button"
+                onClick={closeFoodDialog}
+              >
                 fechar
               </Button>
             </div>
@@ -296,21 +339,23 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
             {
               children: 'RECEITAS',
               href: '#recipes',
+              id: 'to-recipes',
             },
             {
               children: 'LISTAS',
               href: '#lists',
+              id: 'to-lists',
             },
             {
               children: 'alimentos',
               href: '#foods',
+              id: 'to-foods',
             },
           ]}
         />
 
         <section
           className="grid"
-          ovo-scrollspy-content="1"
           aria-labelledby="my-recipes-title"
           id="recipes"
         >
@@ -380,7 +425,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
 
         {/* <ShoppingList /> */}
 
-        {showFoodsSection && (
+        {canSeeFoods && (
           <section className="mt-5" id="foods" aria-labelledby="foods-title">
             <h2 className="section-title" id="foods-title">
               Alimentos usados em minhas receitas

@@ -22,7 +22,9 @@
       "@/*": ["./src/*"],
       "@common/*": ["../common/src/*"],
       "services/*": ["../common/src/services/*"],
-      "db/*": ["../common/src/db/*"]
+      "db/*": ["../common/src/db/*"],
+      "ovos": ["../ovos/src/ovos.ts"],
+      "ovos/*": ["../ovos/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

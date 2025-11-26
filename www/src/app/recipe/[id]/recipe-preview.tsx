@@ -17,7 +17,7 @@ export const RecipePreview: FC<RecipePreviewProps> = ({ recipe, cardRef }) => {
         objectFitCompatible
       />
 
-      <div className="p-4 pb-5">
+      <div className="px-4 pb-5">
         <div style={{ display: 'grid', gap: 8 }}>
           <strong className="h2 mt-3 text-center">{recipe.name}</strong>
           {/* {recipe.calories ? (
