@@ -27,5 +27,7 @@ export default async function MyRecipesPage() {
 
   const showFoodsSection = await hasKeeperOrHigherServer();
 
+  console.log('showFoodsSection', showFoodsSection);
+
   return <MyRecipesClient data={data} showFoodsSection={showFoodsSection} />;
 }

@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 import {
   appendServerAuthHeader,
   readAuthTokenFromCookies,
+  readAuthTokenFromHeaders,
 } from '@/lib/auth/token.server';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:5106';
@@ -10,16 +11,16 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   DEFAULT_API_BASE_URL;
 
-function buildAuthHeaders(extra?: HeadersInit): Headers {
+async function buildAuthHeaders(extra?: HeadersInit): Promise<Headers> {
   const hdrs = new Headers(extra);
   hdrs.set('Accept', hdrs.get('Accept') ?? 'application/json');
-  void appendServerAuthHeader(hdrs);
+  await appendServerAuthHeader(hdrs);
   return hdrs;
 }
 
 async function fetchRolesFromBackend(): Promise<string[] | null> {
   try {
-    const headers = buildAuthHeaders();
+    const headers = await buildAuthHeaders();
     if (!headers.has('authorization')) return null;
     const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
       method: 'GET',
@@ -37,7 +38,7 @@ async function fetchRolesFromBackend(): Promise<string[] | null> {
 
 async function fetchRolesViaNextRoute(): Promise<string[] | null> {
   try {
-    const hdrs = headers();
+    const hdrs = await headers();
     const host = hdrs.get('x-forwarded-host') ?? hdrs.get('host');
     if (!host) return null;
     const protocol =
@@ -46,7 +47,7 @@ async function fetchRolesViaNextRoute(): Promise<string[] | null> {
 
     const res = await fetch(`${protocol}://${host}/api/me`, {
       method: 'GET',
-      headers: buildAuthHeaders(),
+      headers: await buildAuthHeaders(),
       cache: 'no-store',
     });
     if (!res.ok) return null;
@@ -59,7 +60,8 @@ async function fetchRolesViaNextRoute(): Promise<string[] | null> {
 }
 
 export async function fetchServerUserRoles(): Promise<string[] | null> {
-  const token = await readAuthTokenFromCookies();
+  const token =
+    (await readAuthTokenFromHeaders()) ?? (await readAuthTokenFromCookies());
   if (!token) return null;
   return (
     (await fetchRolesFromBackend()) ??
