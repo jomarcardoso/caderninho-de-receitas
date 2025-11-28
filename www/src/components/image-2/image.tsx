@@ -24,11 +24,13 @@ export const Image2: FC<Image2Props> = ({
   style,
   ...props
 }): ReactElement => {
-  const sources = srcs?.length ? srcs : src ? [src] : [];
+  const sources = (srcs?.length ? srcs : src ? [src] : []).filter(Boolean);
   const [index, setIndex] = useState(0);
   const current = sources[index] ?? '';
+  const safeSrc = current || undefined;
 
   const handleError = () => {
+    if (!sources.length) return;
     if (index + 1 < sources.length) {
       setIndex(index + 1);
     }
@@ -51,7 +53,7 @@ export const Image2: FC<Image2Props> = ({
             key={sources.join('|')} // reset quando src mudar
             alt={alt}
             className="image__img"
-            src={current}
+            src={safeSrc}
             onError={handleError}
             {...props}
           />

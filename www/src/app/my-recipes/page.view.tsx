@@ -7,7 +7,7 @@ import { Header2 } from '@/components/header-2/header-2';
 import { Navbar } from '@/components/navbar/navbar';
 import { Language } from '@/contexts/language';
 import { translate } from '@common/services/language/language.service';
-import { Button, Card, NotebookTabs } from 'notebook-layout';
+import { Button, Card, Field, NotebookTabs } from 'notebook-layout';
 import { addRecipeToList } from '@/services/recipe-lists.service';
 import Link from 'next/link';
 import { NavLink } from '@/components/nav-link/nav-link';
@@ -17,15 +17,21 @@ import {
   createRecipeList,
   deleteRecipeList,
 } from '@/services/recipe-lists.service';
-import { FC, ReactElement, useEffect, useMemo, useState } from 'react';
+import {
+  ChangeEventHandler,
+  FC,
+  ReactElement,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Image2 } from '@/components/image-2/image';
 import { Dialog } from 'notebook-layout';
 import { Food } from '@common/services/food/food.model';
-import { hasKeeperPermission } from '@/services/auth/auth.service';
 import { ListItem } from '@/components/list-item/list-item';
 import FoodDialog from '@/components/food-dialog/food-dialog';
 import { scrollspy } from 'ovos';
-import Logo from '@/components/logo/logo';
+import { searchFoods } from '@/services/food-search.api';
 
 export interface MyRecipesViewProps {
   data: RecipesData;
@@ -44,8 +50,18 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   const [adding, setAdding] = useState(false);
   const [foodDialogOpen, setFoodDialogOpen] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
+  const [foodSearchInput, setFoodSearchInput] = useState('');
+  const [foodSearch, setFoodSearch] = useState('');
+  const [searchResults, setSearchResults] = useState<Food[]>([]);
+  const [searchingFoods, setSearchingFoods] = useState(false);
+  const [searchError, setSearchError] = useState<string | null>(null);
 
   const lists = useMemo(() => recipeLists ?? [], [recipeLists]);
+  const dedupedSearchResults = useMemo(() => {
+    if (!searchResults.length) return [];
+    const existingIds = new Set(foods.map((f) => f.id));
+    return searchResults.filter((f) => !existingIds.has(f.id));
+  }, [foods, searchResults]);
 
   const tabs = useMemo(() => {
     const items = [
@@ -91,6 +107,12 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
     setFoodDialogOpen(false);
     setSelectedFood(null);
   }
+
+  const handleFoodSearchChange: ChangeEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    setFoodSearchInput(event.target.value);
+  };
 
   async function handleAddNewList() {
     try {
@@ -282,6 +304,41 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
     tabs,
   ]);
 
+  useEffect(() => {
+    const timeout = setTimeout(() => setFoodSearch(foodSearchInput), 300);
+    return () => clearTimeout(timeout);
+  }, [foodSearchInput]);
+
+  useEffect(() => {
+    if (!foodSearch.trim()) {
+      setSearchResults([]);
+      setSearchError(null);
+      return;
+    }
+
+    let cancelled = false;
+    setSearchingFoods(true);
+    setSearchError(null);
+
+    (async () => {
+      try {
+        const list = await searchFoods(foodSearch.trim(), 25);
+        if (cancelled) return;
+        setSearchResults(Array.isArray(list) ? list : []);
+      } catch (e: any) {
+        if (cancelled) return;
+        setSearchError('N�o foi poss�vel buscar alimentos agora.');
+        setSearchResults([]);
+      } finally {
+        if (!cancelled) setSearchingFoods(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [foodSearch]);
+
   return (
     <Layout2
       className="my-recipes-page"
@@ -458,6 +515,54 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
             {foods.length > 0 && (
               <ol className="list mt-3">{foods.map(renderFood)}</ol>
             )}
+
+            {foods.length === 0 && (
+              <p className="mt-3" style={{ opacity: 0.7 }}>
+                Nenhum alimento encontrado nas receitas.
+              </p>
+            )}
+
+            <div className="mt-4">
+              <Field
+                placeholder={translate('searchPlaceholder', language)}
+                label="Buscar alimento (nome ou palavra-chave)"
+                value={foodSearchInput}
+                onChange={handleFoodSearchChange}
+                onErase={() => setFoodSearchInput('')}
+                breakline={false}
+                type="search"
+              />
+            </div>
+
+            {searchingFoods && (
+              <p className="mt-3" style={{ opacity: 0.7 }}>
+                Buscando alimentos...
+              </p>
+            )}
+
+            {searchError && (
+              <p className="mt-3" style={{ color: '#b22' }}>
+                {searchError}
+              </p>
+            )}
+
+            {foodSearch && !searchingFoods && dedupedSearchResults.length > 0 && (
+              <div className="mt-4">
+                <h3 className="section-title">Resultados adicionais</h3>
+                <ol className="list mt-2">
+                  {dedupedSearchResults.map(renderFood)}
+                </ol>
+              </div>
+            )}
+
+            {foodSearch &&
+              !searchingFoods &&
+              dedupedSearchResults.length === 0 &&
+              searchResults.length === 0 && (
+                <p className="mt-3" style={{ opacity: 0.7 }}>
+                  Nenhum alimento encontrado para esta busca.
+                </p>
+              )}
           </section>
         )}
 

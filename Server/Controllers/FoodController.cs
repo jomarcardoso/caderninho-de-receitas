@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
+using System;
 
 namespace Server.Controllers;
 
@@ -82,5 +83,33 @@ public class FoodController : ControllerBase
 
     await _context.SaveChangesAsync();
     return NoContent();
+  }
+
+  // GET: api/food/search?text=banana&limit=20
+  [HttpGet("search")]
+  public async Task<ActionResult<IEnumerable<Food>>> Search(
+    [FromQuery] string text = "",
+    [FromQuery] int limit = 25)
+  {
+    var query = (text ?? string.Empty).Trim();
+    if (string.IsNullOrWhiteSpace(query))
+      return Ok(new List<Food>());
+
+    limit = Math.Clamp(limit, 1, 100);
+    var lowered = query.ToLowerInvariant();
+
+    // Busca por nome ou key em ambos idiomas, sem tracking para economizar memória
+    var foods = await _context.Food
+      .AsNoTracking()
+      .Where(f =>
+        (f.Name.En != null && f.Name.En.ToLower().Contains(lowered)) ||
+        (f.Name.Pt != null && f.Name.Pt.ToLower().Contains(lowered)) ||
+        (f.Keys.En != null && f.Keys.En.ToLower().Contains(lowered)) ||
+        (f.Keys.Pt != null && f.Keys.Pt.ToLower().Contains(lowered)))
+      .OrderBy(f => f.Name.Pt ?? f.Name.En)
+      .Take(limit)
+      .ToListAsync();
+
+    return Ok(foods);
   }
 }

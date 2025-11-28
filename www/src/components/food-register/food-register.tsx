@@ -24,7 +24,7 @@ const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
     list: Nutrient[] | undefined,
     index: number | undefined,
   ): number | '' => {
-    if (!list || typeof index !== 'number') return '';
+    if (!Array.isArray(list) || typeof index !== 'number') return '';
     const item = list.find((n) => n.index === index);
     return typeof item?.quantity === 'number' && !Number.isNaN(item.quantity)
       ? item.quantity
@@ -51,6 +51,15 @@ const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
 
   const initialValues = useMemo<FoodForm>(() => {
     const safeFood = food ?? ({} as Food);
+    const safeNutritional = Array.isArray(safeFood?.nutritionalInformation)
+      ? safeFood.nutritionalInformation
+      : [];
+    const safeMinerals = Array.isArray(safeFood?.minerals)
+      ? safeFood.minerals
+      : [];
+    const safeAminoAcids = Array.isArray(safeFood?.aminoAcids)
+      ? safeFood.aminoAcids
+      : [];
     return {
       namePt: safeFood?.name?.pt || '',
       nameEn: safeFood?.name?.en || '',
@@ -63,163 +72,163 @@ const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
         deriveIconName((((safeFood as any)?.icon?.[0] as string) || '') ?? ''),
       imgs: Array.isArray(safeFood?.imgs) ? safeFood!.imgs : [],
       gi: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.Gi?.index,
       ),
       calories: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.Calories?.index,
       ),
       carbohydrates: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.Carbohydrates?.index,
       ),
       proteins: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.Proteins?.index,
       ),
       totalFat: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.TotalFat?.index,
       ),
       saturedFats: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.SaturedFats?.index,
       ),
       dietaryFiber: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.DietaryFiber?.index,
       ),
       sugar: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.Sugar?.index,
       ),
       monounsaturatedFats: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.MonounsaturatedFats?.index,
       ),
       polyunsaturatedFats: pickByIndex(
-        safeFood?.nutritionalInformation,
+        safeNutritional,
         NUTRITIONAL_INFO_FALLBACK.PolyunsaturatedFats?.index,
       ),
       tryptophan: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Tryptophan?.index,
       ),
       phenylalanine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Phenylalanine?.index,
       ),
       leucine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Leucine?.index,
       ),
       valine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Valine?.index,
       ),
       isoleucine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Isoleucine?.index,
       ),
       lysine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Lysine?.index,
       ),
       threonine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Threonine?.index,
       ),
       methionine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Methionine?.index,
       ),
       histidine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Histidine?.index,
       ),
       alanine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Alanine?.index,
       ),
       arginine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Arginine?.index,
       ),
       asparticAcid: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.AsparticAcid?.index,
       ),
       cystine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Cystine?.index,
       ),
       glutamicAcid: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.GlutamicAcid?.index,
       ),
       glutamine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Glutamine?.index,
       ),
       glycine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Glycine?.index,
       ),
       proline: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Proline?.index,
       ),
       serine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Serine?.index,
       ),
       tyrosine: pickByIndex(
-        safeFood?.aminoAcids,
+        safeAminoAcids,
         AMINO_ACIDS_FALLBACK.Tyrosine?.index,
       ),
       calcium: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Calcium?.index,
       ),
       copper: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Copper?.index,
       ),
       iron: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Iron?.index,
       ),
       manganese: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Manganese?.index,
       ),
       magnesium: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Magnesium?.index,
       ),
       phosphorus: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Phosphorus?.index,
       ),
       sodium: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Sodium?.index,
       ),
       potassium: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Potassium?.index,
       ),
       zinc: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Zinc?.index,
       ),
       fluoride: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Fluoride?.index,
       ),
       selenium: pickByIndex(
-        safeFood?.minerals,
+        safeMinerals,
         MINERALS_FALLBACK.Selenium?.index,
       ),
     };
