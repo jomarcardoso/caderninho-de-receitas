@@ -32,7 +32,7 @@ docker run -d \
 Backup in SQL
 
 ```sh
-docker exec -it caderninho-db pg_dump -U admin caderninho > backup/full_db_2025_11_14_2.sql
+docker exec -it caderninho-db pg_dump -U admin caderninho > backup/full_db_2025_11_27.sql
 
 # recreate
 # connect postgres db

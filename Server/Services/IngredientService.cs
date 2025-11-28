@@ -637,6 +637,9 @@ public static class MeasurePatterns
 
     public static double ConvertToLiteralQuantity(double quantity, MeasureType measureType, Food food)
   {
+    // Literal quantities like "a gosto" must remain untouched; don't expand them using food units.
+    if (measureType == MeasureType.Literal) return quantity;
+
     // Always return grams
     // Direct units
     if (measureType == MeasureType.Gram) return quantity;

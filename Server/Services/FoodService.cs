@@ -13,6 +13,7 @@ public class FoodService
   {
     "em ponto de pomada",
     "para untar",
+    "para fritar",
     "a forma", "a tigela", "as mãos",
     "para decorar", "para finalizar", "para regar",
     "para cobrir", "para rechear", "para guarnecer",
@@ -33,6 +34,7 @@ public class FoodService
     "inteiro", "inteira", "inteiros", "inteiras",
     "pelado", "pelados",
     "maduro", "maduros",
+    "amanhecido", "amanhecidos",
     "coado", "coados",
     "em cubo", "em cubos",
     "em rodela", "em rodelas",

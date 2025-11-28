@@ -44,7 +44,11 @@ Problemas que a aplicação resolve:
 - https://www.svgrepo.com/
 - https://www.flaticon.com/
 - https://freeicons.io/
+- https://www.freepik.com
 
+Imagens grátis
+
+- https://www.pexels.com/
 - https://pixabay.com/images/
 - https://unsplash.com/
 

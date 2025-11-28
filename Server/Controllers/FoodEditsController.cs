@@ -101,14 +101,36 @@ public class FoodEditsController : ControllerBase
         if (keysEl.TryGetProperty("pt", out var pt)) food.Keys.Pt = KeepIfNotBlank(pt, food.Keys.Pt);
         if (keysEl.TryGetProperty("en", out var en)) food.Keys.En = KeepIfNotBlank(en, food.Keys.En);
       }
+
+      // Icon updates: only apply when a valid iconId was explicitly provided, or when we have no iconId at all
+      // (text-only icons). This prevents untouched forms from overwriting existing icons with defaults.
+      string? incomingIcon = null;
       if (root.TryGetProperty("icon", out var iconEl))
       {
-        food.Icon = iconEl.GetString() ?? food.Icon;
+        incomingIcon = iconEl.GetString();
       }
+
+      bool iconUpdated = false;
       if (root.TryGetProperty("iconId", out var iconIdEl) && iconIdEl.TryGetInt32(out var iconId))
       {
-        food.IconId = iconId;
+        // Only persist positive icon ids; ignore zero/negative values coming from partial payloads
+        if (iconId > 0)
+        {
+          food.IconId = iconId;
+          if (!string.IsNullOrWhiteSpace(incomingIcon))
+          {
+            food.Icon = incomingIcon;
+          }
+          iconUpdated = true;
+        }
       }
+
+      // If there is no iconId yet (text/icon-only foods), allow setting a textual icon when provided.
+      if (!iconUpdated && food.IconId is null && !string.IsNullOrWhiteSpace(incomingIcon))
+      {
+        food.Icon = incomingIcon;
+      }
+
       if (root.TryGetProperty("imgs", out var imgsEl) && imgsEl.ValueKind == JsonValueKind.Array)
       {
         var list = new List<string>();
