@@ -86,6 +86,21 @@ public class FoodEditsController : ControllerBase
 
       using var doc = JsonDocument.Parse(item.Payload);
       var root = doc.RootElement;
+
+      bool isDeleteRequest = root.TryGetProperty("delete", out var delEl) &&
+        (delEl.ValueKind == JsonValueKind.True ||
+         (delEl.ValueKind == JsonValueKind.String && string.Equals(delEl.GetString(), "true", StringComparison.OrdinalIgnoreCase)));
+
+      if (isDeleteRequest)
+      {
+        _context.Food.Remove(food);
+        item.Status = FoodEditStatus.Approved;
+        item.ApprovedBy = User.FindFirstValue(ClaimTypes.Email) ?? "admin";
+        item.ApprovedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+        return Ok();
+      }
+
       if (root.TryGetProperty("name", out var nameEl))
       {
         if (nameEl.TryGetProperty("pt", out var pt)) food.Name.Pt = KeepIfNotBlank(pt, food.Name.Pt);
@@ -224,4 +239,3 @@ public class FoodEditsController : ControllerBase
     return Ok();
   }
 }
-

@@ -21,9 +21,12 @@ import {
   getFoodIconsMapById,
   type FoodIconByIdEntry,
 } from '@/services/icons.api';
+import { CiTrash } from 'react-icons/ci';
 
 export interface FoodRegisterFormProps {
   food: Food;
+  onRequestDelete?: () => void;
+  deleting?: boolean;
 }
 
 export interface FoodForm {
@@ -80,7 +83,15 @@ export interface FoodForm {
 
 export const FoodRegisterForm: FC<
   FormikProps<FoodForm> & FoodRegisterFormProps
-> = ({ values, handleChange, handleBlur, setFieldValue, food }) => {
+> = ({
+  values,
+  handleChange,
+  handleBlur,
+  setFieldValue,
+  food,
+  onRequestDelete,
+  deleting = false,
+}) => {
   const { language } = useContext(LanguageContext);
   const [imageLink, setImageLink] = useState('');
   const [iconQuery, setIconQuery] = useState('');
@@ -222,7 +233,9 @@ export const FoodRegisterForm: FC<
                     alignItems: 'center',
                   }}
                 >
-                  <div style={{ width: 120, borderRadius: 8, overflow: 'hidden' }}>
+                  <div
+                    style={{ width: 120, borderRadius: 8, overflow: 'hidden' }}
+                  >
                     <Image2 src={url} alt="" aspectRatio={1.25} />
                   </div>
                   <Button
@@ -321,7 +334,8 @@ export const FoodRegisterForm: FC<
                     key={it.name}
                     type="button"
                     onClick={() => {
-                      if (typeof it.id === 'number') setFieldValue('iconId', it.id);
+                      if (typeof it.id === 'number')
+                        setFieldValue('iconId', it.id);
                       setFieldValue('icon', it.name);
                     }}
                     style={{
@@ -351,7 +365,9 @@ export const FoodRegisterForm: FC<
           )}
         </div>
 
-        <h3 className="h3" style={{ marginTop: 8 }}>Nome, descri��o e keys</h3>
+        <h3 className="h3" style={{ marginTop: 8 }}>
+          Nome, descri��o e keys
+        </h3>
         <div style={{ display: 'grid', gap: 8 }}>
           {renderInput('Nome (PT)', 'namePt', false, false, 'text')}
           {renderInput('Nome (EN)', 'nameEn', false, false, 'text')}
@@ -362,11 +378,20 @@ export const FoodRegisterForm: FC<
         </div>
         {renderInput(translate('foodFormGlycemicIndex', language), 'gi')}
         {renderInput(translate('foodFormCalories', language), 'calories')}
-        {renderInput(translate('foodFormCarbohydrates', language), 'carbohydrates')}
+        {renderInput(
+          translate('foodFormCarbohydrates', language),
+          'carbohydrates',
+        )}
         {renderInput(translate('foodFormProteins', language), 'proteins')}
         {renderInput(translate('foodFormTotalFat', language), 'totalFat')}
-        {renderInput(translate('foodFormSaturatedFat', language), 'saturedFats')}
-        {renderInput(translate('foodFormDietaryFiber', language), 'dietaryFiber')}
+        {renderInput(
+          translate('foodFormSaturatedFat', language),
+          'saturedFats',
+        )}
+        {renderInput(
+          translate('foodFormDietaryFiber', language),
+          'dietaryFiber',
+        )}
         {renderInput(translate('foodFormSugar', language), 'sugar')}
         {renderInput(
           translate('foodFormMonounsaturatedFats', language),
@@ -391,9 +416,15 @@ export const FoodRegisterForm: FC<
         {renderInput(translate('foodFormHistidine', language), 'histidine')}
         {renderInput(translate('foodFormAlanine', language), 'alanine')}
         {renderInput(translate('foodFormArginine', language), 'arginine')}
-        {renderInput(translate('foodFormAsparticAcid', language), 'asparticAcid')}
+        {renderInput(
+          translate('foodFormAsparticAcid', language),
+          'asparticAcid',
+        )}
         {renderInput(translate('foodFormCystine', language), 'cystine')}
-        {renderInput(translate('foodFormGlutamicAcid', language), 'glutamicAcid')}
+        {renderInput(
+          translate('foodFormGlutamicAcid', language),
+          'glutamicAcid',
+        )}
         {renderInput(translate('foodFormGlutamine', language), 'glutamine')}
         {renderInput(translate('foodFormGlycine', language), 'glycine')}
         {renderInput(translate('foodFormProline', language), 'proline')}
@@ -413,6 +444,22 @@ export const FoodRegisterForm: FC<
         {renderInput(translate('foodFormSelenium', language), 'selenium')}
 
         <div style={{ marginTop: 12 }}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onRequestDelete}
+            disabled={deleting}
+            style={{
+              marginRight: 8,
+              background: '#b22222',
+              borderColor: '#b22222',
+              color: '#fff',
+            }}
+          >
+            <CiTrash className="svg-icon" />
+            {deleting ? 'Enviando...' : 'Solicitar exclusão'}
+          </Button>
+
           <SubmitComponent>
             {translate('sendForApproval', language) || 'Enviar para aprovacao'}
           </SubmitComponent>

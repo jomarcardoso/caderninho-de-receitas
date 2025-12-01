@@ -187,6 +187,7 @@ public class RecipeController : ControllerBase
   {
     var ownerId = GetUserId();
     if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
+
     RecipesDataResponse response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
     return Ok(response);
   }

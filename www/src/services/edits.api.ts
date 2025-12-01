@@ -45,3 +45,7 @@ export async function submitFoodEditPayload(
 ): Promise<boolean> {
   return postFoodEdit({ foodId, payload });
 }
+
+export async function submitFoodDeletion(foodId: number): Promise<boolean> {
+  return postFoodEdit({ foodId, payload: { delete: true } });
+}

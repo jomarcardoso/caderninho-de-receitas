@@ -55,11 +55,7 @@ async function requestWithFallback<T = any>(
       });
       return response.data;
     } catch (error) {
-      if (
-        axios.isAxiosError(error) &&
-        error.response &&
-        [401, 403, 404].includes(error.response.status)
-      ) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         throw error;
       }
       lastErr = error;

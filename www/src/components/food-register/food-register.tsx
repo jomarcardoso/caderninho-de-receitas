@@ -2,7 +2,7 @@
 import type { FC } from 'react';
 import { Formik, type FormikHelpers, type FormikProps } from 'formik';
 import type { Food } from '@common/services/food/food.model';
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { LanguageContext } from '@/contexts/language/language.context';
 import {
   AMINO_ACIDS_FALLBACK,
@@ -10,7 +10,10 @@ import {
   NUTRITIONAL_INFO_FALLBACK,
 } from 'services/nutrient/fallback';
 import type { Nutrient } from 'services/nutrient/nutrient.model';
-import { submitFoodEdit } from '@/services/edits.api';
+import {
+  submitFoodEdit,
+  submitFoodDeletion,
+} from '@/services/edits.api';
 import { FoodRegisterForm, type FoodForm } from './food-register-form';
 
 export interface FoodRegisterProps {
@@ -19,6 +22,7 @@ export interface FoodRegisterProps {
 
 const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
   const { language } = useContext(LanguageContext);
+  const [deleting, setDeleting] = useState(false);
 
   const pickByIndex = (
     list: Nutrient[] | undefined,
@@ -238,6 +242,25 @@ const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
     return <p>Selecione um alimento para editar.</p>;
   }
 
+  const handleDeleteRequest = async () => {
+    if (!food?.id) return;
+    const confirmed = typeof window !== 'undefined'
+      ? window.confirm('Deseja solicitar a exclusao deste alimento? Essa acao sera enviada para aprovacao.')
+      : false;
+    if (!confirmed) return;
+    try {
+      setDeleting(true);
+      const ok = await submitFoodDeletion(food.id);
+      alert(
+        ok
+          ? 'Solicitacao de exclusao enviada para aprovacao.'
+          : 'Nao foi possivel enviar a solicitacao de exclusao.',
+      );
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <Formik<FoodForm>
       enableReinitialize
@@ -259,7 +282,12 @@ const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
       }}
     >
       {(formik: FormikProps<FoodForm>) => (
-        <FoodRegisterForm food={food} {...formik} />
+        <FoodRegisterForm
+          food={food}
+          onRequestDelete={handleDeleteRequest}
+          deleting={deleting}
+          {...formik}
+        />
       )}
     </Formik>
   );

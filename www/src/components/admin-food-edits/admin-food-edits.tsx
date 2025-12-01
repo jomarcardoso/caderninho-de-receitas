@@ -89,6 +89,22 @@ function buildComparisonRows(edit: PendingFoodEditItem): ComparisonRow[] {
   const current = edit.currentFood ?? {};
   const proposed = safeParse(edit.payload);
 
+  const isDeleteRequest =
+    proposed?.delete === true ||
+    (typeof proposed?.delete === 'string' &&
+      proposed?.delete?.toLowerCase() === 'true');
+
+  if (isDeleteRequest) {
+    rows.push({
+      key: 'action-delete',
+      section: 'A��o',
+      label: 'Solicita apagar este alimento',
+      current: 'Manter alimento',
+      proposed: 'Excluir alimento',
+    });
+    return rows;
+  }
+
   const pushRow = (
     section: string,
     label: string,
@@ -219,6 +235,12 @@ export default function AdminFoodEdits() {
     return (
       <ul style={{ display: 'grid', gap: 16, listStyle: 'none', padding: 0 }}>
         {items.map((edit) => {
+          const proposed = safeParse(edit.payload);
+          const isDeleteRequest =
+            proposed?.delete === true ||
+            (typeof proposed?.delete === 'string' &&
+              proposed?.delete?.toLowerCase() === 'true');
+
           const rows = buildComparisonRows(edit);
           const grouped = rows.reduce<Record<string, ComparisonRow[]>>(
             (acc, row) => {
@@ -255,6 +277,21 @@ export default function AdminFoodEdits() {
                     Proposto por {edit.proposedBy} em{' '}
                     {new Date(edit.createdAt).toLocaleString()}
                   </div>
+                  {isDeleteRequest && (
+                    <div
+                      style={{
+                        marginTop: 4,
+                        padding: '4px 8px',
+                        borderRadius: 6,
+                        background: '#fde2e2',
+                        color: '#b22222',
+                        fontSize: 12,
+                        display: 'inline-block',
+                      }}
+                    >
+                      Pedido de exclus�o do alimento
+                    </div>
+                  )}
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   <button

@@ -57,12 +57,6 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const lists = useMemo(() => recipeLists ?? [], [recipeLists]);
-  const dedupedSearchResults = useMemo(() => {
-    if (!searchResults.length) return [];
-    const existingIds = new Set(foods.map((f) => f.id));
-    return searchResults.filter((f) => !existingIds.has(f.id));
-  }, [foods, searchResults]);
-
   const tabs = useMemo(() => {
     const items = [
       {
@@ -310,12 +304,6 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   }, [foodSearchInput]);
 
   useEffect(() => {
-    if (!foodSearch.trim()) {
-      setSearchResults([]);
-      setSearchError(null);
-      return;
-    }
-
     let cancelled = false;
     setSearchingFoods(true);
     setSearchError(null);
@@ -546,18 +534,17 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
               </p>
             )}
 
-            {foodSearch && !searchingFoods && dedupedSearchResults.length > 0 && (
+            {foodSearch && !searchingFoods && searchResults.length > 0 && (
               <div className="mt-4">
                 <h3 className="section-title">Resultados adicionais</h3>
                 <ol className="list mt-2">
-                  {dedupedSearchResults.map(renderFood)}
+                  {searchResults.map(renderFood)}
                 </ol>
               </div>
             )}
 
             {foodSearch &&
               !searchingFoods &&
-              dedupedSearchResults.length === 0 &&
               searchResults.length === 0 && (
                 <p className="mt-3" style={{ opacity: 0.7 }}>
                   Nenhum alimento encontrado para esta busca.

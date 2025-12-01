@@ -1,5 +1,13 @@
 import { appendAuthHeader } from '@common/services/auth/token.storage';
 import type { Food } from '@common/services/food/food.model';
+import {
+  AMINO_ACIDS_FALLBACK,
+  MINERALS_FALLBACK,
+  NUTRITIONAL_INFO_FALLBACK,
+  VITAMINS_FALLBACK,
+  mapRecordToNutrients,
+} from '@common/services/nutrient/fallback';
+import type { LanguageText, LanguageTextAndPlural } from '@common/services/language/language.types';
 
 const DEFAULT_API_BASE_URL = 'http://localhost:5106';
 
@@ -41,5 +49,36 @@ export async function searchFoods(
     withAuth(),
   );
   const data = await handleJson<Food[]>(res);
-  return Array.isArray(data) ? data : [];
+  if (!Array.isArray(data)) return [];
+  return data.map(normalizeFoodFromSearch);
+}
+
+const DEFAULT_MEASUREMENT_UNIT: LanguageTextAndPlural = {
+  text: { en: 'gram', pt: 'grama' } as LanguageText,
+  pluralText: { en: 'grams', pt: 'gramas' } as LanguageText,
+};
+
+function normalizeFoodFromSearch(raw: any): Food {
+  const typeText = typeof raw?.type === 'string' ? raw.type : 'food';
+  const measurementUnit =
+    typeof raw?.measurementUnit === 'object'
+      ? (raw.measurementUnit as LanguageTextAndPlural)
+      : DEFAULT_MEASUREMENT_UNIT;
+
+  return {
+    ...(raw as any),
+    type:
+      typeof raw?.type === 'object'
+        ? raw.type
+        : ({ en: typeText, pt: typeText } as LanguageText),
+    measurementUnit,
+    measures: Array.isArray(raw?.measures) ? raw.measures : [],
+    nutritionalInformation: mapRecordToNutrients(
+      raw?.nutritionalInformation,
+      NUTRITIONAL_INFO_FALLBACK,
+    ),
+    minerals: mapRecordToNutrients(raw?.minerals, MINERALS_FALLBACK),
+    vitamins: mapRecordToNutrients(raw?.vitamins, VITAMINS_FALLBACK),
+    aminoAcids: mapRecordToNutrients(raw?.aminoAcids, AMINO_ACIDS_FALLBACK),
+  } as Food;
 }

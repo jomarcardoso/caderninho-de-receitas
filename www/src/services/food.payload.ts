@@ -1,8 +1,19 @@
 import type { FoodForm } from '@/components/food-register/food-register-form';
 import type { Language } from 'services/language/language.types';
 
-function num(value: unknown): number {
-  return typeof value === 'number' ? value : 0;
+function toNumber(value: unknown): number | undefined {
+  if (value === '' || value === null || value === undefined) return undefined;
+  const n = typeof value === 'string' ? Number(value) : (value as number);
+  return Number.isFinite(n) ? n : undefined;
+}
+
+function buildNumericMap(entries: Array<[string, unknown]>): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (const [key, val] of entries) {
+    const n = toNumber(val);
+    if (n !== undefined) result[key] = n;
+  }
+  return result;
 }
 
 export function buildFoodPayloadForSave(
@@ -24,54 +35,54 @@ export function buildFoodPayloadForSave(
     pt: trim((form as any).keysPt),
   } as any;
 
-  const nutritionalInformation: Record<string, number> = {
-    Gi: num(form.gi),
-    Calories: num(form.calories),
-    Carbohydrates: num(form.carbohydrates),
-    Proteins: num(form.proteins),
-    TotalFat: num(form.totalFat),
-    SaturedFats: num((form as any).saturedFats),
-    DietaryFiber: num((form as any).dietaryFiber),
-    Sugar: num((form as any).sugar),
-    MonounsaturatedFats: num((form as any).monounsaturatedFats),
-    PolyunsaturatedFats: num((form as any).polyunsaturatedFats),
-  };
+  const nutritionalInformation = buildNumericMap([
+    ['Gi', form.gi],
+    ['Calories', form.calories],
+    ['Carbohydrates', form.carbohydrates],
+    ['Proteins', form.proteins],
+    ['TotalFat', form.totalFat],
+    ['SaturedFats', (form as any).saturedFats],
+    ['DietaryFiber', (form as any).dietaryFiber],
+    ['Sugar', (form as any).sugar],
+    ['MonounsaturatedFats', (form as any).monounsaturatedFats],
+    ['PolyunsaturatedFats', (form as any).polyunsaturatedFats],
+  ]);
 
-  const aminoAcids: Record<string, number> = {
-    Tryptophan: num((form as any).tryptophan),
-    Phenylalanine: num((form as any).phenylalanine),
-    Leucine: num((form as any).leucine),
-    Valine: num((form as any).valine),
-    Isoleucine: num((form as any).isoleucine),
-    Lysine: num((form as any).lysine),
-    Threonine: num((form as any).threonine),
-    Methionine: num((form as any).methionine),
-    Histidine: num((form as any).histidine),
-    Alanine: num((form as any).alanine),
-    Arginine: num((form as any).arginine),
-    AsparticAcid: num((form as any).asparticAcid),
-    Cystine: num((form as any).cystine),
-    GlutamicAcid: num((form as any).glutamicAcid),
-    Glutamine: num((form as any).glutamine),
-    Glycine: num((form as any).glycine),
-    Proline: num((form as any).proline),
-    Serine: num((form as any).serine),
-    Tyrosine: num((form as any).tyrosine),
-  };
+  const aminoAcids = buildNumericMap([
+    ['Tryptophan', (form as any).tryptophan],
+    ['Phenylalanine', (form as any).phenylalanine],
+    ['Leucine', (form as any).leucine],
+    ['Valine', (form as any).valine],
+    ['Isoleucine', (form as any).isoleucine],
+    ['Lysine', (form as any).lysine],
+    ['Threonine', (form as any).threonine],
+    ['Methionine', (form as any).methionine],
+    ['Histidine', (form as any).histidine],
+    ['Alanine', (form as any).alanine],
+    ['Arginine', (form as any).arginine],
+    ['AsparticAcid', (form as any).asparticAcid],
+    ['Cystine', (form as any).cystine],
+    ['GlutamicAcid', (form as any).glutamicAcid],
+    ['Glutamine', (form as any).glutamine],
+    ['Glycine', (form as any).glycine],
+    ['Proline', (form as any).proline],
+    ['Serine', (form as any).serine],
+    ['Tyrosine', (form as any).tyrosine],
+  ]);
 
-  const minerals: Record<string, number> = {
-    Calcium: num((form as any).calcium),
-    Copper: num((form as any).copper),
-    Iron: num((form as any).iron),
-    Manganese: num((form as any).manganese),
-    Magnesium: num((form as any).magnesium),
-    Phosphorus: num((form as any).phosphorus),
-    Sodium: num((form as any).sodium),
-    Potassium: num((form as any).potassium),
-    Zinc: num((form as any).zinc),
-    Fluoride: num((form as any).fluoride),
-    Selenium: num((form as any).selenium),
-  };
+  const minerals = buildNumericMap([
+    ['Calcium', (form as any).calcium],
+    ['Copper', (form as any).copper],
+    ['Iron', (form as any).iron],
+    ['Manganese', (form as any).manganese],
+    ['Magnesium', (form as any).magnesium],
+    ['Phosphorus', (form as any).phosphorus],
+    ['Sodium', (form as any).sodium],
+    ['Potassium', (form as any).potassium],
+    ['Zinc', (form as any).zinc],
+    ['Fluoride', (form as any).fluoride],
+    ['Selenium', (form as any).selenium],
+  ]);
 
   const payload: any = {
     name,
@@ -80,10 +91,17 @@ export function buildFoodPayloadForSave(
     keys,
     type: 0,
     measurementUnit: 0,
-    nutritionalInformation,
-    minerals,
-    aminoAcids,
   };
+
+  if (Object.keys(nutritionalInformation).length > 0) {
+    payload.nutritionalInformation = nutritionalInformation;
+  }
+  if (Object.keys(aminoAcids).length > 0) {
+    payload.aminoAcids = aminoAcids;
+  }
+  if (Object.keys(minerals).length > 0) {
+    payload.minerals = minerals;
+  }
 
   const iconTrimmed = trim((form as any).icon);
   if (iconTrimmed) {
