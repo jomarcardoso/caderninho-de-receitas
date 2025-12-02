@@ -2,8 +2,10 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
 using Server.Models;
-using Server.Shared;
 using System.Linq;
+using System.Text;
+using System.Globalization;
+using Server.Shared;
 
 namespace Server.Services;
 
@@ -49,8 +51,9 @@ public class RecipeService
 
     entity.Imgs = recipeDto.Imgs ?? new List<string>();
     entity.Language = recipeDto.Language;
-    // Convert transport string keys to enum list
-    entity.Categories = ParseCategoryKeys(recipeDto.Categories);
+    // Convert transport string keys (slugs) to normalized list
+    entity.Categories = NormalizeCategorySlugs(recipeDto.Categories);
+    await EnsureCategoriesExistAsync(entity.Categories);
     // New recipes require moderation
     entity.IsPublic = false;
     entity.Verified = false;
@@ -165,8 +168,9 @@ public class RecipeService
 
     recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     recipe.UpdatedAt = DateTime.UtcNow;
-    // Convert transport string keys to enum list
-    recipe.Categories = ParseCategoryKeys(recipeDto.Categories);
+    // Convert transport string keys (slugs) to normalized list
+    recipe.Categories = NormalizeCategorySlugs(recipeDto.Categories);
+    await EnsureCategoriesExistAsync(recipe.Categories);
     RecalculateRecipeNutrition(recipe);
   }
 
@@ -316,24 +320,100 @@ public class RecipeService
       .ToListAsync();
   }
 
-  private static RecipeCategory? TryParseCategoryKey(string key)
+  private static string NormalizeSlug(string key)
   {
-    if (string.IsNullOrWhiteSpace(key)) return null;
-    // Convert camelCase to PascalCase for Enum.Parse
-    string pascal = char.ToUpperInvariant(key[0]) + (key.Length > 1 ? key.Substring(1) : string.Empty);
-    if (Enum.TryParse<RecipeCategory>(pascal, ignoreCase: true, out var value)) return value;
-    return null;
+    if (string.IsNullOrWhiteSpace(key)) return string.Empty;
+    var normalized = key.Trim().ToLowerInvariant().Normalize(NormalizationForm.FormD);
+    var sb = new StringBuilder();
+    foreach (var ch in normalized)
+    {
+      var uc = CharUnicodeInfo.GetUnicodeCategory(ch);
+      if (uc == UnicodeCategory.NonSpacingMark) continue;
+      if (char.IsLetterOrDigit(ch)) sb.Append(ch);
+      else sb.Append('-');
+    }
+    var slug = sb.ToString();
+    while (slug.Contains("--")) slug = slug.Replace("--", "-");
+    slug = slug.Trim('-');
+    return slug;
   }
 
-  private static List<RecipeCategory> ParseCategoryKeys(IEnumerable<string>? keys)
+  private static List<string> NormalizeCategorySlugs(IEnumerable<string>? keys)
   {
-    var set = new HashSet<RecipeCategory>();
+    var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
     foreach (var key in (keys ?? Array.Empty<string>()))
     {
-      var parsed = TryParseCategoryKey(key);
-      if (parsed.HasValue) set.Add(parsed.Value);
+      var slug = NormalizeSlug(key);
+      if (!string.IsNullOrWhiteSpace(slug)) set.Add(slug);
     }
     return set.ToList();
+  }
+
+  private async Task EnsureCategoriesExistAsync(IEnumerable<string> slugs, string? createdBy = null)
+  {
+    var normalized = NormalizeCategorySlugs(slugs);
+    if (normalized.Count == 0) return;
+
+    try
+    {
+      var existing = await _context.RecipeCategoryOpen
+        .Where(c => normalized.Contains(c.Slug))
+        .Select(c => c.Slug)
+        .ToListAsync();
+
+      var missing = normalized.Except(existing, StringComparer.OrdinalIgnoreCase).ToList();
+      if (missing.Count == 0) return;
+
+      foreach (var slug in missing)
+      {
+        _context.RecipeCategoryOpen.Add(new RecipeCategoryOpen
+        {
+          Slug = slug,
+          Name = new LanguageText { Pt = slug, En = slug },
+          CreatedAt = DateTime.UtcNow
+        });
+      }
+
+      await _context.SaveChangesAsync();
+    }
+    catch
+    {
+      // Se tabela não existir ou falhar, ignora e deixa seguir com categorias principais
+    }
+  }
+
+  public async Task<Dictionary<string, CategoryItem>> BuildCategoryMapAsync()
+  {
+    var dict = new Dictionary<string, CategoryItem>(StringComparer.OrdinalIgnoreCase);
+
+    foreach (var item in RecipeCategoryDefaults.List)
+    {
+      if (!dict.ContainsKey(item.Key))
+        dict[item.Key] = item;
+    }
+
+    try
+    {
+      var open = await _context.RecipeCategoryOpen.AsNoTracking().ToListAsync();
+      foreach (var oc in open)
+      {
+        if (dict.ContainsKey(oc.Slug)) continue;
+        dict[oc.Slug] = new CategoryItem
+        {
+          Key = oc.Slug,
+          Url = oc.Slug,
+          Text = new LanguageTextBase { En = oc.Name.En, Pt = oc.Name.Pt },
+          PluralText = new LanguageTextBase { En = oc.Name.En, Pt = oc.Name.Pt },
+          Img = string.Empty
+        };
+      }
+    }
+    catch
+    {
+      // fallback apenas com defaults
+    }
+
+    return dict;
   }
 
   public async Task<List<Recipe>> SearchRecipesAsync(string? text, IEnumerable<string>? categoryKeys, int quantity, string? userId = null)
@@ -367,11 +447,7 @@ public class RecipeService
       );
     }
 
-    var cats = (categoryKeys ?? Array.Empty<string>())
-      .Select(TryParseCategoryKey)
-      .Where(v => v.HasValue)
-      .Select(v => v!.Value)
-      .ToHashSet();
+    var cats = NormalizeCategorySlugs(categoryKeys).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
     // NOTE: Filtering by categories persisted as CSV via value converter can be
     // tricky to translate portably across providers. To ensure correctness,
@@ -387,8 +463,8 @@ public class RecipeService
     if (cats.Count > 0)
     {
       superset = superset
-        .Where(r => (r.Categories ?? new List<RecipeCategory>())
-          .Any(c => cats.Contains(c)))
+        .Where(r => (r.Categories ?? new List<string>())
+          .Any(c => cats.Contains(NormalizeSlug(c))))
         .ToList();
     }
 
@@ -478,6 +554,7 @@ public class RecipeService
     };
 
     response.FoodIcons = icons;
+    response.RecipeCategories = await BuildCategoryMapAsync();
 
     // Attach user recipe lists as DTOs to avoid serialization cycles
     try

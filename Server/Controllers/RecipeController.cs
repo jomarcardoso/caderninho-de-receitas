@@ -205,6 +205,7 @@ public class RecipeController : ControllerBase
       ? Request.Query["categories"].ToList()
       : (categories ?? string.Empty)
           .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+          .Where(s => !string.IsNullOrWhiteSpace(s))
           .ToList();
 
     var recipes = await recipeService.SearchRecipesAsync(text, categoryKeys, quantity, string.IsNullOrWhiteSpace(userId) ? null : userId);
@@ -260,7 +261,8 @@ public class RecipeController : ControllerBase
     {
       Recipes = recipeResponses,
       Foods = foods,
-      FoodIcons = foodIcons
+      FoodIcons = foodIcons,
+      RecipeCategories = await recipeService.BuildCategoryMapAsync()
     };
 
     return Ok(response);
@@ -268,10 +270,11 @@ public class RecipeController : ControllerBase
 
   [HttpGet("categories")]
   [AllowAnonymous]
-  public IActionResult GetCategories()
+  public async Task<IActionResult> GetCategories()
   {
+    var map = await recipeService.BuildCategoryMapAsync();
     // Retorna a lista de categorias com metadados (key, url, textos e imagem)
-    return Ok(RecipeCategoryData.List);
+    return Ok(map.Values.ToList());
   }
 
   [HttpGet("{id}")]

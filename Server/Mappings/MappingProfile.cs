@@ -10,7 +10,7 @@ public class MappingProfile : Profile
     // Recipe → RecipeDto
     CreateMap<Recipe, RecipeResponse>()
       .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food != null ? src.Food.Id : 0))
-      .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => (src.Categories ?? new List<RecipeCategory>()).Select(c => c.ToString()).ToList()))
+      .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => (src.Categories ?? new List<string>()).ToList()))
       .ForMember(dest => dest.NutritionalInformation, opt => opt.MapFrom(src => src.NutritionalInformation))
       .ForMember(dest => dest.Minerals, opt => opt.MapFrom(src => src.Minerals))
       .ForMember(dest => dest.Vitamins, opt => opt.MapFrom(src => src.Vitamins))

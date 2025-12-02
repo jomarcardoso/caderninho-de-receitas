@@ -21,6 +21,8 @@ export function mapCommonResponseToModel(data: CommonDataResponse): CommonData {
       key,
       text: val.text,
       pluralText: val.pluralText,
+      img: (val as any)?.img || '',
+      url: (val as any)?.url || key,
     })),
     vitamins: Object.values(vitamins),
     aminoAcids: Object.values(aminoAcids),

@@ -57,6 +57,7 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
   const [categoryOptions, setCategoryOptions] = useState<
     Array<{ key: string; label: string }>
   >([]);
+  const [categoryInput, setCategoryInput] = useState('');
 
   useEffect(() => {
     let alive = true;
@@ -93,6 +94,27 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
       ? Array.from(new Set([...current, key]))
       : current.filter((k) => k !== key);
     setFieldValue('categories', next);
+  };
+
+  const slugify = (val: string) => {
+    return val
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9]+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+      .toLowerCase();
+  };
+
+  const handleAddCategory = () => {
+    const raw = categoryInput.trim();
+    if (!raw) return;
+    const slug = slugify(raw);
+    if (!slug) return;
+    const current = Array.isArray(values.categories) ? values.categories : [];
+    const next = Array.from(new Set([...current, slug]));
+    setFieldValue('categories', next);
+    setCategoryInput('');
   };
 
   const memoizedRenderInputIngredient = useCallback(
@@ -321,10 +343,8 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
                               if (typeof k !== 'string') continue;
                               const norm = k.trim();
                               if (!norm) continue;
-                              const camel = norm.length
-                                ? norm[0].toLowerCase() + norm.slice(1)
-                                : norm;
-                              if (camel === opt.key) return true;
+                              if (norm.toLowerCase() === opt.key.toLowerCase())
+                                return true;
                             }
                             return false;
                           })()}
@@ -334,6 +354,50 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
                         </Chip>
                       ))}
                     </Chips>
+
+                    <div style={{ marginTop: 12 }}>
+                      <Field
+                        label="Adicionar outra categoria"
+                        name="categoryInput"
+                        value={categoryInput}
+                        onChange={(e: any) => setCategoryInput(e?.target?.value ?? '')}
+                        onKeyDown={(e: any) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleAddCategory();
+                          }
+                        }}
+                        placeholder="Digite uma nova categoria"
+                      />
+                      <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={handleAddCategory}
+                        >
+                          adicionar categoria
+                        </Button>
+                        {Array.isArray(values.categories) && values.categories.length > 0 && (
+                          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', alignItems: 'center' }}>
+                            {values.categories.map((c) => (
+                              <Chip
+                                key={c}
+                                checked
+                                value={c}
+                                onChange={() =>
+                                  setFieldValue(
+                                    'categories',
+                                    (values.categories || []).filter((k) => k !== c),
+                                  )
+                                }
+                              >
+                                {c}
+                              </Chip>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   <div>

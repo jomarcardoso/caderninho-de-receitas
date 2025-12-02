@@ -20,6 +20,7 @@ public class AppDbContext : DbContext
   public DbSet<UserProfile> UserProfile { get; set; }
   public DbSet<RecipeList> RecipeList { get; set; }
   public DbSet<RecipeListItem> RecipeListItem { get; set; }
+  public DbSet<RecipeCategoryOpen> RecipeCategoryOpen { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -43,16 +44,18 @@ public class AppDbContext : DbContext
     // Recipe
     modelBuilder.Entity<Recipe>(entity =>
     {
-      // Persist Categories as a comma-separated enum names string
-      var categoriesConverter = new ValueConverter<List<RecipeCategory>, string>(
-        v => SerializeCategories(v),
-        v => DeserializeCategories(v)
+      // Persist Categories as a comma-separated slug list
+      var categoriesConverter = new ValueConverter<List<string>, string>(
+        v => string.Join(',', v ?? new List<string>()),
+        v => string.IsNullOrWhiteSpace(v)
+          ? new List<string>()
+          : v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x)).ToList()
       );
 
-      var categoriesComparer = new ValueComparer<List<RecipeCategory>>(
-        (a, b) => (a ?? new()).SequenceEqual(b ?? new()),
-        v => (v ?? new()).Aggregate(0, (acc, x) => HashCode.Combine(acc, x.GetHashCode())),
-        v => v == null ? new List<RecipeCategory>() : v.ToList()
+      var categoriesComparer = new ValueComparer<List<string>>(
+        (a, b) => (a ?? new()).SequenceEqual(b ?? new(), StringComparer.OrdinalIgnoreCase),
+        v => (v ?? new()).Aggregate(0, (acc, x) => HashCode.Combine(acc, x.ToLowerInvariant().GetHashCode())),
+        v => v == null ? new List<string>() : v.ToList()
       );
 
       entity.Property(r => r.Categories)
@@ -98,6 +101,18 @@ public class AppDbContext : DbContext
     {
       entity.HasKey(r => r.Id);
       entity.HasIndex(r => new { r.RecipeId, r.RelatedRecipeId }).IsUnique();
+    });
+
+    // RecipeCategoryOpen
+    modelBuilder.Entity<RecipeCategoryOpen>(entity =>
+    {
+      entity.HasKey(c => c.Id);
+      entity.Property(c => c.Slug)
+        .IsRequired()
+        .HasMaxLength(128);
+      entity.HasIndex(c => c.Slug).IsUnique();
+      entity.OwnsOne(c => c.Name);
+      entity.Property(c => c.CreatedAt).IsRequired();
     });
 
     // FoodIcon
@@ -169,33 +184,5 @@ public class AppDbContext : DbContext
         .OnDelete(DeleteBehavior.Cascade);
     });
   }
-
-  private static string SerializeCategories(List<RecipeCategory>? list)
-  {
-    var items = (list ?? new List<RecipeCategory>())
-      .Select(x => x.ToString())
-      .Distinct()
-      .ToArray();
-    return string.Join(',', items);
-  }
-
-  private static List<RecipeCategory> DeserializeCategories(string? data)
-  {
-    var result = new List<RecipeCategory>();
-    var raw = (data ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-    foreach (var s in raw)
-    {
-      try
-      {
-        var val = Enum.Parse<RecipeCategory>(s, ignoreCase: true);
-        if (!result.Contains(val)) result.Add(val);
-      }
-      catch { /* ignore invalid values */ }
-    }
-    return result;
-  }
 }
-
-
-
 

@@ -33,7 +33,7 @@ public class RecipeResponse
   public string? Additional { get; set; }
   public List<RecipeStepResponse> Steps { get; set; } = new();
   public Language Language { get; set; } = Language.En;
-  public List<string> Categories { get; set; } = new();
+  public List<string> Categories { get; set; } = new(); // slugs
   public int Food { get; set; }
   public List<string> Imgs { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;

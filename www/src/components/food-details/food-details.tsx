@@ -15,12 +15,14 @@ import { AminoAcidsTable } from '@/components/aminoacids-table/aminoacids-table'
 export interface FoodDetailsProps extends HTMLAttributes<HTMLDivElement> {
   food?: Food | null;
   quantity?: number;
+  showName?: boolean;
 }
 
 const FoodDetails: FC<FoodDetailsProps> = ({
   food,
   quantity = 100,
   className = '',
+  showName = false,
   ...props
 }) => {
   const language: Language = 'pt';
@@ -110,13 +112,13 @@ const FoodDetails: FC<FoodDetailsProps> = ({
           transparent
         />
 
-        <div className="grid columns-1 g-2">
+        <div className="grid columns-1 g-2 px-2">
           <div>
-            <h2 className="h2">{food.name?.[language]}</h2>
-            {description && <p className="body-small">{description}</p>}
+            {showName && <h2 className="h2">{food.name?.[language]}</h2>}
+            {description && <p className="mt-3">{description}</p>}
           </div>
 
-          <p className="body-small" style={{ opacity: 0.7 }}>
+          <p className="body-small mt-2">
             {translate('nutritionalInformation', language)} • {quantity}
             {unit}
           </p>
@@ -124,7 +126,7 @@ const FoodDetails: FC<FoodDetailsProps> = ({
       </div>
 
       {hasNutrients ? (
-        <div className="grid columns-1 g-5">
+        <div className="grid columns-1 g-5 px-2">
           {nutritionalInformation.length > 0 && (
             <div className="grid columns-1 g-2">
               <h3 className="section-title">

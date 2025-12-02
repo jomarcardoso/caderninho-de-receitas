@@ -12,7 +12,7 @@ public class Recipe
   public string? Additional { get; set; }
   public List<RecipeStep> Steps { get; set; } = new List<RecipeStep>();
   public Language Language { get; set; } = Language.En;
-  public List<RecipeCategory> Categories { get; set; } = new();
+  public List<string> Categories { get; set; } = new();
 
   // Former RecipeBase<TRecipeStep, TFood>
   public Food Food { get; set; }

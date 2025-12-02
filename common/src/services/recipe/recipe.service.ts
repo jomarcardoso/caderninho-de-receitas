@@ -119,8 +119,14 @@ ${stepsText}`;
 
 export function mapRecipeModelToDto(recipe: Recipe): RecipeDto {
   const categoryKeys = Array.isArray((recipe as any).categories)
-    ? ((recipe as any).categories as Array<{ key?: string }>)
-        .map((c) => c?.key)
+    ? ((recipe as any).categories as Array<string | { key?: string }>)
+        .map((c) =>
+          typeof c === 'string'
+            ? c
+            : typeof c?.key === 'string'
+            ? c.key
+            : '',
+        )
         .filter((k): k is string => typeof k === 'string' && k.length > 0)
     : [];
 
@@ -156,17 +162,13 @@ export function mapRecipeResponseToModel(
     ? ((recipeResponse as any).categories as string[])
     : [];
 
-  // Backend sends enum names (PascalCase). Our dictionaries are keyed by camelCase.
-  // Normalize to camelCase for lookup and store the normalized key in the model.
   const categories = categoryKeys
     .map((raw) => {
       const key = typeof raw === 'string' ? raw.trim() : '';
       if (!key) return null;
-      const camel = key.length ? (key[0].toLowerCase() + key.slice(1)) : key;
-      const entry = (dataResponse as any)?.recipeCategories?.[camel]
-        ?? (dataResponse as any)?.recipeCategories?.[key];
-      if (!entry) return null;
-      return { key: camel, text: entry.text, pluralText: entry.pluralText };
+      const entry = (dataResponse as any)?.recipeCategories?.[key];
+      if (!entry) return { key, text: { en: key, pt: key }, pluralText: { en: key, pt: key } };
+      return { key, text: entry.text, pluralText: entry.pluralText };
     })
     .filter((x): x is { key: string; text: any; pluralText: any } => Boolean(x));
 
@@ -424,11 +426,11 @@ export async function saveRecipe(
 ): Promise<RecipesData> {
   try {
     const url = recipe.id ? `/api/recipe/${recipe.id}` : `/api/recipe`;
-    // Ensure backend receives string keys explicitly as `categoryKeys`
+    // Ensure backend receives string keys explicitly as `categories`
     const payload: any = {
       ...recipe,
       ...(Array.isArray((recipe as any).categories)
-        ? { categoryKeys: (recipe as any).categories }
+        ? { categories: (recipe as any).categories }
         : {}),
     };
 
