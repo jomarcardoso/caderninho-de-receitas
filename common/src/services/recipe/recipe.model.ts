@@ -24,6 +24,7 @@ export interface RecipesData extends AllNutrientsData {
   measures: LanguageTextAndPlural[];
   foodTypes: LanguageText[];
   measurementUnits: LanguageTextAndPlural[];
+  recipeCategories?: import('../common/common.model').Category[];
   recipeLists?: RecipeList[];
 }
 

@@ -9,11 +9,13 @@ public class CategoryItem
   public LanguageTextBase Text { get; set; } = new LanguageTextBase();
   public LanguageTextBase PluralText { get; set; } = new LanguageTextBase();
   public string Img { get; set; } = string.Empty; // optional relative path
+  public LanguageTextBase Description { get; set; } = new LanguageTextBase();
+  public string BannerImg { get; set; } = string.Empty;
 }
 
 public static class RecipeCategoryDefaults
 {
-  private static CategoryItem C(string key, string url, string en, string pt, string enPlural, string ptPlural)
+  private static CategoryItem C(string key, string url, string en, string pt, string enPlural, string ptPlural, string? descEn = null, string? descPt = null, string? banner = null)
     => new CategoryItem
     {
       Key = key,
@@ -21,6 +23,8 @@ public static class RecipeCategoryDefaults
       Text = new LanguageTextBase { En = en, Pt = pt },
       PluralText = new LanguageTextBase { En = enPlural, Pt = ptPlural },
       Img = $"/img/categories/{url}.png",
+      Description = new LanguageTextBase { En = descEn ?? string.Empty, Pt = descPt ?? string.Empty },
+      BannerImg = banner ?? string.Empty,
     };
 
   public static readonly List<CategoryItem> List = new()

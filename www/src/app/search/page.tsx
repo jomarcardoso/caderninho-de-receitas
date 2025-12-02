@@ -109,6 +109,25 @@ export default async function RecipesPage({
   );
   const categoryEntries = Object.entries(categoryMap);
   const selectedLabels = selected.map((k) => categoryMap?.[k]?.text?.pt || k);
+  const selectedCategory =
+    selected.length === 1
+      ? categoriesList.find(
+          (c) =>
+            c.key === selected[0] ||
+            (c.url && c.url === selected[0]) ||
+            c.text?.pt === selected[0] ||
+            c.text?.en === selected[0],
+        ) || null
+      : null;
+
+  const formatCategoryLabel = (value: any): string => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') {
+      return value?.text?.pt || value?.text?.en || value?.key || '';
+    }
+    return String(value);
+  };
 
   function buildUrl(nextQuantity?: number, omitCategory?: string) {
     const params = new URLSearchParams();
@@ -182,6 +201,59 @@ export default async function RecipesPage({
         }
       >
         <main className="theme-light py-5">
+          {selectedCategory && (
+            <section
+              className="mb-4"
+              style={{
+                position: 'relative',
+                overflow: 'hidden',
+                borderRadius: 12,
+                minHeight: 180,
+                background: '#f5f5f5',
+              }}
+            >
+              {selectedCategory.bannerImg ? (
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundImage: `url(${selectedCategory.bannerImg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    filter: 'brightness(0.8)',
+                  }}
+                />
+              ) : null}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.65) 100%)',
+                }}
+              />
+              <div
+                style={{
+                  position: 'relative',
+                  color: '#fff',
+                  padding: '20px 16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 8,
+                }}
+              >
+                <span style={{ opacity: 0.8, fontSize: 12 }}>Categoria</span>
+                <h1 style={{ margin: 0, fontSize: 28 }}>
+                  {selectedCategory.text?.pt || selectedCategory.key}
+                </h1>
+                {selectedCategory.description?.pt && (
+                  <p style={{ margin: 0, maxWidth: 820 }}>
+                    {selectedCategory.description.pt}
+                  </p>
+                )}
+              </div>
+            </section>
+          )}
+
           <Field
             label="Buscar receita"
             type="search"
@@ -304,29 +376,34 @@ export default async function RecipesPage({
                         recipe.categories.length > 0 && (
                           <div
                             style={{
-                              display: 'flex',
-                              flexWrap: 'wrap',
-                              gap: 6,
-                              marginTop: 8,
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: 6,
+                          marginTop: 8,
+                        }}
+                      >
+                        {recipe.categories.map((key) => (
+                          <span
+                            key={
+                              typeof key === 'string'
+                                ? key
+                                : key?.key || JSON.stringify(key)
+                            }
+                            style={{
+                              fontSize: 11,
+                              padding: '3px 6px',
+                              borderRadius: 999,
+                              background: '#f7f7f7',
+                              border: '1px solid #eee',
                             }}
                           >
-                            {recipe.categories.map((key) => (
-                              <span
-                                key={key}
-                                style={{
-                                  fontSize: 11,
-                                  padding: '3px 6px',
-                                  borderRadius: 999,
-                                  background: '#f7f7f7',
-                                  border: '1px solid #eee',
-                                }}
-                              >
-                                {categoryMap?.[key]?.text?.pt || key}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                    </li>
+                            {categoryMap?.[typeof key === 'string' ? key : key?.key]?.text?.pt ||
+                              formatCategoryLabel(key)}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                </li>
                   ))}
                 </ul>
 

@@ -19,4 +19,6 @@ export interface Category extends LanguageTextAndPlural {
   key: string;
   url: string;
   img: string;
+  description?: LanguageText;
+  bannerImg?: string;
 }

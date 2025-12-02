@@ -23,6 +23,8 @@ export function mapCommonResponseToModel(data: CommonDataResponse): CommonData {
       pluralText: val.pluralText,
       img: (val as any)?.img || '',
       url: (val as any)?.url || key,
+      description: (val as any)?.description,
+      bannerImg: (val as any)?.bannerImg || '',
     })),
     vitamins: Object.values(vitamins),
     aminoAcids: Object.values(aminoAcids),

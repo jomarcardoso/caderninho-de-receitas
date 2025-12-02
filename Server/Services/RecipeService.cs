@@ -404,7 +404,9 @@ public class RecipeService
           Url = oc.Slug,
           Text = new LanguageTextBase { En = oc.Name.En, Pt = oc.Name.Pt },
           PluralText = new LanguageTextBase { En = oc.Name.En, Pt = oc.Name.Pt },
-          Img = string.Empty
+          Description = new LanguageTextBase { En = oc.Description.En, Pt = oc.Description.Pt },
+          Img = string.Empty,
+          BannerImg = oc.BannerImg ?? string.Empty
         };
       }
     }

@@ -10,7 +10,7 @@ export interface CommonDataResponse {
   measurementUnits: Record<string, LanguageTextAndPlural>;
   recipeCategories: Record<
     string,
-    LanguageTextAndPlural & { img?: string; url?: string; key?: string }
+    LanguageTextAndPlural & { img?: string; url?: string; key?: string; description?: LanguageText; bannerImg?: string }
   >;
   aminoAcids: Record<string, NutrientDataResponse>;
   minerals: Record<string, NutrientDataResponse>;

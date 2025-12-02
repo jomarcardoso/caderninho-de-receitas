@@ -7,6 +7,8 @@ export type CategoryItem = {
   text: CategoryText;
   pluralText: CategoryText;
   img: string;
+  description?: CategoryText;
+  bannerImg?: string;
 };
 
 export async function getCategories(): Promise<CategoryItem[]> {
