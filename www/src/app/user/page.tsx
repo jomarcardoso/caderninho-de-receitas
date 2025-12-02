@@ -9,6 +9,7 @@ import UserBox from '@/components/user-box/user-box';
 import FoodBulkUploader from '@/components/food-bulk/food-bulk';
 import AdminPendingRecipes from '@/components/admin-pending-recipes/admin-pending-recipes';
 import AdminFoodEdits from '@/components/admin-food-edits/admin-food-edits';
+import AdminCategoryEdits from '@/components/admin-category-edits/admin-category-edits';
 import { fetchServerUserRoles } from '@/services/auth/user-roles.server';
 
 export const metadata: Metadata = {
@@ -74,6 +75,9 @@ export default async function UserPage() {
               </div>
               <div className="g-col-12">
                 <AdminFoodEdits />
+              </div>
+              <div className="g-col-12">
+                <AdminCategoryEdits />
               </div>
             </div>
           </section>

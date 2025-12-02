@@ -22,6 +22,8 @@ import { fetchApiJson } from '@/lib/api-server';
 import { Categories } from '@/components/categories';
 import type { CategoryItem } from '@/services/categories.service';
 import { getCategories } from '@/services/categories.service';
+import { hasKeeperOrHigherServer } from '@/services/auth/user-roles.server';
+import { CategoryBanner } from '@/components/category-banner/category-banner';
 
 export const metadata = { title: 'Recipes Search' };
 
@@ -119,6 +121,7 @@ export default async function RecipesPage({
             c.text?.en === selected[0],
         ) || null
       : null;
+  const canEditCategory = await hasKeeperOrHigherServer();
 
   const formatCategoryLabel = (value: any): string => {
     if (!value) return '';
@@ -202,56 +205,7 @@ export default async function RecipesPage({
       >
         <main className="theme-light py-5">
           {selectedCategory && (
-            <section
-              className="mb-4"
-              style={{
-                position: 'relative',
-                overflow: 'hidden',
-                borderRadius: 12,
-                minHeight: 180,
-                background: '#f5f5f5',
-              }}
-            >
-              {selectedCategory.bannerImg ? (
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundImage: `url(${selectedCategory.bannerImg})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    filter: 'brightness(0.8)',
-                  }}
-                />
-              ) : null}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.65) 100%)',
-                }}
-              />
-              <div
-                style={{
-                  position: 'relative',
-                  color: '#fff',
-                  padding: '20px 16px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 8,
-                }}
-              >
-                <span style={{ opacity: 0.8, fontSize: 12 }}>Categoria</span>
-                <h1 style={{ margin: 0, fontSize: 28 }}>
-                  {selectedCategory.text?.pt || selectedCategory.key}
-                </h1>
-                {selectedCategory.description?.pt && (
-                  <p style={{ margin: 0, maxWidth: 820 }}>
-                    {selectedCategory.description.pt}
-                  </p>
-                )}
-              </div>
-            </section>
+            <CategoryBanner category={selectedCategory} canEdit={canEditCategory} />
           )}
 
           <Field

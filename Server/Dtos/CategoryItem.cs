@@ -4,6 +4,7 @@ namespace Server.Dtos;
 
 public class CategoryItem
 {
+  public int Id { get; set; } = 0;
   public string Key { get; set; } = string.Empty; // slug/camel
   public string Url { get; set; } = string.Empty; // kebab-case
   public LanguageTextBase Text { get; set; } = new LanguageTextBase();

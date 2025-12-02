@@ -395,18 +395,50 @@ public class RecipeService
     try
     {
       var open = await _context.RecipeCategoryOpen.AsNoTracking().ToListAsync();
+
+      // Se n�o houver registros (por exemplo, seeds n�o aplicados), crie as categorias padr�o
+      if (open.Count == 0)
+      {
+        foreach (var def in RecipeCategoryDefaults.List)
+        {
+          _context.RecipeCategoryOpen.Add(new RecipeCategoryOpen
+          {
+            Slug = def.Key,
+            Name = new LanguageText { En = def.Text.En, Pt = def.Text.Pt },
+            Description = new LanguageText { En = def.Description.En, Pt = def.Description.Pt },
+            BannerImg = def.BannerImg,
+            CreatedAt = DateTime.UtcNow,
+          });
+        }
+        await _context.SaveChangesAsync();
+        open = await _context.RecipeCategoryOpen.AsNoTracking().ToListAsync();
+      }
+
       foreach (var oc in open)
       {
-        if (dict.ContainsKey(oc.Slug)) continue;
+        var existing = dict.ContainsKey(oc.Slug) ? dict[oc.Slug] : null;
         dict[oc.Slug] = new CategoryItem
         {
+          Id = oc.Id,
           Key = oc.Slug,
-          Url = oc.Slug,
-          Text = new LanguageTextBase { En = oc.Name.En, Pt = oc.Name.Pt },
-          PluralText = new LanguageTextBase { En = oc.Name.En, Pt = oc.Name.Pt },
-          Description = new LanguageTextBase { En = oc.Description.En, Pt = oc.Description.Pt },
-          Img = string.Empty,
-          BannerImg = oc.BannerImg ?? string.Empty
+          Url = existing?.Url ?? oc.Slug,
+          Text = new LanguageTextBase
+          {
+            En = oc.Name.En,
+            Pt = oc.Name.Pt
+          },
+          PluralText = new LanguageTextBase
+          {
+            En = existing?.PluralText?.En ?? oc.Name.En,
+            Pt = existing?.PluralText?.Pt ?? oc.Name.Pt
+          },
+          Description = new LanguageTextBase
+          {
+            En = oc.Description.En,
+            Pt = oc.Description.Pt
+          },
+          Img = existing?.Img ?? string.Empty,
+          BannerImg = oc.BannerImg ?? existing?.BannerImg ?? string.Empty
         };
       }
     }

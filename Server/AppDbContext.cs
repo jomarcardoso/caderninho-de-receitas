@@ -21,6 +21,7 @@ public class AppDbContext : DbContext
   public DbSet<RecipeList> RecipeList { get; set; }
   public DbSet<RecipeListItem> RecipeListItem { get; set; }
   public DbSet<RecipeCategoryOpen> RecipeCategoryOpen { get; set; }
+  public DbSet<CategoryEditRequest> CategoryEditRequest { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -113,6 +114,16 @@ public class AppDbContext : DbContext
       entity.HasIndex(c => c.Slug).IsUnique();
       entity.OwnsOne(c => c.Name);
       entity.Property(c => c.CreatedAt).IsRequired();
+    });
+
+    // CategoryEditRequest
+    modelBuilder.Entity<CategoryEditRequest>(entity =>
+    {
+      entity.HasKey(e => e.Id);
+      entity.HasIndex(e => new { e.CategoryId, e.Status });
+      entity.Property(e => e.ProposedBy).IsRequired();
+      entity.Property(e => e.Payload).IsRequired();
+      entity.Property(e => e.CreatedAt).IsRequired();
     });
 
     // FoodIcon
