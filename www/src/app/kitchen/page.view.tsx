@@ -2,7 +2,6 @@
 import { CiCircleChevLeft, CiFloppyDisk } from 'react-icons/ci';
 import { Navbar } from '@/components/navbar/navbar';
 import { Layout2 } from '@/components/layout-2/layout-2';
-import { NavigationService } from '@/services/navigation.service';
 import { translate } from '@common/services/language/language.service';
 import { Button } from 'notebook-layout';
 import { Header2 } from '@/components/header-2/header-2';
@@ -137,7 +136,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
               navbar={
                 <Navbar>
                   <NavLink action="pop" className="button button--secondary">
-                    <CiCircleChevLeft className="svg-icon" />
+                    <CiCircleChevLeft />
                     {translate('cancel', language)}
                   </NavLink>
                   <Button
@@ -145,7 +144,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
                     // disabled={!serverUp}
                     // title={!serverUp ? 'Servidor offline' : undefined}
                   >
-                    <CiFloppyDisk className="svg-icon" />
+                    <CiFloppyDisk />
                     {translate('saveRecipe', language)}
                   </Button>
                 </Navbar>

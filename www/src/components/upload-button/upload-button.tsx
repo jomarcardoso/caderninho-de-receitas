@@ -81,7 +81,7 @@ export function UploadButton({
           onClick={() => inputRef.current?.click()}
           variant="secondary"
         >
-          <CiSaveUp2 className="svg-icon" />
+          <CiSaveUp2 />
           {loading ? 'Enviando...' : label}
         </Button>
       </div>

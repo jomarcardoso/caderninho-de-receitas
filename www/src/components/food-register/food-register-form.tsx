@@ -27,6 +27,8 @@ export interface FoodRegisterFormProps {
   food: Food;
   onRequestDelete?: () => void;
   deleting?: boolean;
+  hideActions?: boolean;
+  formId?: string;
 }
 
 export interface FoodForm {
@@ -91,6 +93,8 @@ export const FoodRegisterForm: FC<
   food,
   onRequestDelete,
   deleting = false,
+  hideActions = false,
+  formId,
 }) => {
   const { language } = useContext(LanguageContext);
   const [imageLink, setImageLink] = useState('');
@@ -179,7 +183,7 @@ export const FoodRegisterForm: FC<
   );
 
   return (
-    <Form className="pt-5" style={{ paddingBottom: 100 }}>
+    <Form id={formId} className="pt-5" style={{ paddingBottom: 100 }}>
       <div className="container" style={{ display: 'grid', gap: 12 }}>
         <div>
           <h3 className="h3">Links de imagens</h3>
@@ -443,28 +447,33 @@ export const FoodRegisterForm: FC<
         {renderInput(translate('foodFormFluoride', language), 'fluoride')}
         {renderInput(translate('foodFormSelenium', language), 'selenium')}
 
-        <div style={{ marginTop: 12 }}>
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={onRequestDelete}
-            disabled={deleting}
-            style={{
-              marginRight: 8,
-              background: '#b22222',
-              borderColor: '#b22222',
-              color: '#fff',
-            }}
-          >
-            <CiTrash className="svg-icon" />
-            {deleting ? 'Enviando...' : 'Solicitar exclusão'}
-          </Button>
+        {!hideActions && (
+          <div style={{ marginTop: 12 }}>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={onRequestDelete}
+              disabled={deleting}
+              style={{
+                marginRight: 8,
+                background: '#b22222',
+                borderColor: '#b22222',
+                color: '#fff',
+              }}
+            >
+              <CiTrash />
+              {deleting ? 'Enviando...' : 'Solicitar exclusao'}
+            </Button>
 
-          <SubmitComponent>
-            {translate('sendForApproval', language) || 'Enviar para aprovacao'}
-          </SubmitComponent>
-        </div>
+            <SubmitComponent>
+              {translate('sendForApproval', language) || 'Enviar para aprovacao'}
+            </SubmitComponent>
+          </div>
+        )}
       </div>
     </Form>
   );
 };
+
+
+

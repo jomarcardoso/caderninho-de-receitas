@@ -18,9 +18,11 @@ import { FoodRegisterForm, type FoodForm } from './food-register-form';
 
 export interface FoodRegisterProps {
   food?: Food | null;
+  hideActions?: boolean;
+  formId?: string;
 }
 
-const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
+const FoodRegister: FC<FoodRegisterProps> = ({ food, hideActions, formId }) => {
   const { language } = useContext(LanguageContext);
   const [deleting, setDeleting] = useState(false);
 
@@ -286,6 +288,8 @@ const FoodRegister: FC<FoodRegisterProps> = ({ food }) => {
           food={food}
           onRequestDelete={handleDeleteRequest}
           deleting={deleting}
+          hideActions={hideActions}
+          formId={formId}
           {...formik}
         />
       )}

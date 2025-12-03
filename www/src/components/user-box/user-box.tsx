@@ -258,9 +258,7 @@ export const UserBox: FC<UserBoxProps> = ({ className = '', ...props }) => {
         </p>
         {user?.displayName && (
           <Button variant="secondary" onClick={handleLogout}>
-            <span className="svg-icon">
-              <CiLogout />
-            </span>
+            <CiLogout />
             {translate('logout', language)}
           </Button>
         )}
