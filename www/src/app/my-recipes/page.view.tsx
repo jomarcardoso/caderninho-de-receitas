@@ -354,13 +354,15 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
           onClose={closeDialog}
           title="Adicionar em uma lista"
           actions={
-            <div
-              style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}
+            <Button
+              variant="secondary"
+              type="button"
+              size="small"
+              onClick={closeDialog}
             >
-              <Button variant="secondary" type="button" onClick={closeDialog}>
-                fechar
-              </Button>
-            </div>
+              <CiCircleChevLeft />
+              fechar
+            </Button>
           }
         >
           {lists.length === 0 ? (
@@ -390,19 +392,6 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
           open={foodDialogOpen}
           onClose={closeFoodDialog}
           food={selectedFood}
-          actions={
-            <div
-              style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}
-            >
-              <Button
-                variant="secondary"
-                type="button"
-                onClick={closeFoodDialog}
-              >
-                fechar
-              </Button>
-            </div>
-          }
         />
 
         <NotebookTabs tabs={tabs} />
@@ -537,19 +526,15 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
             {foodSearch && !searchingFoods && searchResults.length > 0 && (
               <div className="mt-4">
                 <h3 className="section-title">Resultados adicionais</h3>
-                <ol className="list mt-2">
-                  {searchResults.map(renderFood)}
-                </ol>
+                <ol className="list mt-2">{searchResults.map(renderFood)}</ol>
               </div>
             )}
 
-            {foodSearch &&
-              !searchingFoods &&
-              searchResults.length === 0 && (
-                <p className="mt-3" style={{ opacity: 0.7 }}>
-                  Nenhum alimento encontrado para esta busca.
-                </p>
-              )}
+            {foodSearch && !searchingFoods && searchResults.length === 0 && (
+              <p className="mt-3" style={{ opacity: 0.7 }}>
+                Nenhum alimento encontrado para esta busca.
+              </p>
+            )}
           </section>
         )}
 

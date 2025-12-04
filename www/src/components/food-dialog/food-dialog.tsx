@@ -7,6 +7,8 @@ import { Language } from '@/contexts/language';
 import FoodDetails from '@/components/food-details/food-details';
 import FoodRegister from '@/components/food-register/food-register';
 import { submitFoodDeletion } from '@/services/edits.api';
+import { CiCircleChevLeft, CiEdit, CiTrash } from 'react-icons/ci';
+import { IoSaveOutline } from 'react-icons/io5';
 
 export interface FoodDialogProps
   extends Omit<DialogProps, 'children' | 'actions'> {
@@ -74,20 +76,26 @@ const FoodDialog: FC<FoodDialogProps> = ({
   };
 
   const actionItems: ReactNode[] = [];
+
   if (actions) actionItems.push(actions);
 
   if (editEnabled && !editing) {
-    if (!actions) {
-      actionItems.push(
-        <Button key="close" type="button" variant="secondary" onClick={closeDialog}>
-          fechar
-        </Button>,
-      );
-    }
     actionItems.push(
-      <Button key="edit" type="button" variant="primary" onClick={() => setEditing(true)}>
-        editar alimento
-      </Button>,
+      <>
+        <Button
+          key="close"
+          type="button"
+          variant="secondary"
+          onClick={closeDialog}
+        >
+          <CiCircleChevLeft />
+          fechar
+        </Button>
+        <Button key="edit" type="button" onClick={() => setEditing(true)}>
+          <CiEdit />
+          editar alimento
+        </Button>
+      </>,
     );
   }
 
@@ -99,45 +107,34 @@ const FoodDialog: FC<FoodDialogProps> = ({
         variant="secondary"
         onClick={() => setEditing(false)}
       >
-        ver alimento
+        <CiCircleChevLeft />
+        voltar
       </Button>,
     );
     actionItems.push(
       <Button
         key="delete"
         type="button"
-        variant="secondary"
         onClick={handleDeleteRequest}
         disabled={deleting}
         style={{
           background: '#b22222',
           borderColor: '#b22222',
-          color: '#fff',
         }}
       >
-        {deleting ? 'Enviando...' : 'Solicitar exclusao'}
+        <CiTrash />
+        {deleting ? 'Enviando...' : 'excluir'}
       </Button>,
     );
     actionItems.push(
-      <Button key="submit" type="submit" variant="primary" form={formId}>
-        enviar para aprovacao
+      <Button key="submit" type="submit" form={formId}>
+        <IoSaveOutline />
+        salvar
       </Button>,
     );
   }
 
-  const mergedActions: DialogProps['actions'] = (
-    <div
-      style={{
-        display: 'flex',
-        gap: 8,
-        flexWrap: 'wrap',
-        justifyContent: 'flex-end',
-        width: '100%',
-      }}
-    >
-      {actionItems}
-    </div>
-  );
+  const mergedActions: DialogProps['actions'] = <>{actionItems}</>;
 
   const content =
     editEnabled && editing && food ? (

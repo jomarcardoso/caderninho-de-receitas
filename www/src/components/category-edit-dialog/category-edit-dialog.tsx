@@ -4,6 +4,8 @@ import { Dialog, Field, Button } from 'notebook-layout';
 import type { DialogProps } from 'notebook-layout/components/dialog/dialog';
 import type { CategoryItem } from '@/services/categories.service';
 import { submitCategoryEdit } from '@/services/category-edits.api';
+import { CiCircleChevLeft } from 'react-icons/ci';
+import { IoSaveOutline } from 'react-icons/io5';
 
 export interface CategoryEditDialogProps extends Omit<DialogProps, 'children'> {
   category: CategoryItem;
@@ -56,10 +58,38 @@ export function CategoryEditDialog({
   };
 
   return (
-    <Dialog {...dialogProps} title="Editar categoria">
+    <Dialog
+      {...dialogProps}
+      title="Editar categoria"
+      actions={
+        <>
+          <Button
+            variant="secondary"
+            type="button"
+            size="small"
+            onClick={dialogProps.onClose}
+          >
+            <CiCircleChevLeft />
+            Fechar
+          </Button>
+          <Button type="button" onClick={handleSubmit} disabled={submitting}>
+            <IoSaveOutline />
+            {submitting ? 'Enviando...' : 'Enviar para aprovação'}
+          </Button>
+        </>
+      }
+    >
       <div style={{ display: 'grid', gap: 12 }}>
-        <Field label="Nome (PT)" value={namePt} onChange={(e: any) => setNamePt(e.target.value)} />
-        <Field label="Nome (EN)" value={nameEn} onChange={(e: any) => setNameEn(e.target.value)} />
+        <Field
+          label="Nome (PT)"
+          value={namePt}
+          onChange={(e: any) => setNamePt(e.target.value)}
+        />
+        <Field
+          label="Nome (EN)"
+          value={nameEn}
+          onChange={(e: any) => setNameEn(e.target.value)}
+        />
         <Field
           multiline
           label="Descrição (PT)"
@@ -78,14 +108,6 @@ export function CategoryEditDialog({
           onChange={(e: any) => setBanner(e.target.value)}
           placeholder="https://..."
         />
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-          <Button variant="secondary" type="button" onClick={dialogProps.onClose}>
-            Fechar
-          </Button>
-          <Button type="button" onClick={handleSubmit} disabled={submitting}>
-            {submitting ? 'Enviando...' : 'Enviar para aprovação'}
-          </Button>
-        </div>
       </div>
     </Dialog>
   );
