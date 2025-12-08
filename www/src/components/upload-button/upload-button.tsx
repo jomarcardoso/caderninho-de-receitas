@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Button } from 'notebook-layout';
-import { uploadImageToAzure } from '../../services/upload/azure-blob.service';
+import { uploadRecipeImage } from '../../services/upload/recipe-image.service';
 import {
   isNativeCameraAvailable,
   takePhotoAsFile,
@@ -30,7 +30,7 @@ export function UploadButton({
     if (!file) return;
     setLoading(true);
     try {
-      const uploadedUrl = await uploadImageToAzure(file, { prefix });
+      const { url: uploadedUrl } = await uploadRecipeImage(file, { prefix });
       setUrl(uploadedUrl);
       onUploaded?.(uploadedUrl);
     } catch (e: any) {
@@ -46,7 +46,7 @@ export function UploadButton({
     setLoading(true);
     try {
       const file = await takePhotoAsFile({ quality: 85, width: 1280 });
-      const uploadedUrl = await uploadImageToAzure(file, { prefix });
+      const { url: uploadedUrl } = await uploadRecipeImage(file, { prefix });
       setUrl(uploadedUrl);
       onUploaded?.(uploadedUrl);
     } catch (e: any) {
