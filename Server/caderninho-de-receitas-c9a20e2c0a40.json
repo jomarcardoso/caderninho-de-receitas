@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "caderninho-de-receitas",
+  "private_key_id": "c9a20e2c0a4054a0e895f5b096526a0887f13d1e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDOwQGkFZ8C/wAD\nzjBwoyfURaW/YWY8VgZQ2U8E28lrnet1qDkbBtFSyIpR6gyHVrs4mZugTkQUt8OE\nELmfLv1oDl9gfa8rXZ+6joKRtfa7JK/XCdzLArf0fPivSiVTQ3/YXG9aEAx5ry2k\nEhA5F7OoKkoayDYCMLUrY+/oHfEVlE31zOpqncMbjysbZpF+K93EX4dAql4ZxyAI\nmGqSJa/7Q4MBSIFRYRI3EJuPWh+A+lqXbvFbarX+tkXTp36Z+KXqQfZzMxVk50BQ\ntkT/57lLJCT/TDau67+NMKFeprr+RoFbcx2Zb8wnK+j9/MKSsOxMqZXkZKQxyVaH\nnG0hFAJxAgMBAAECggEAJoM5ysaTQuPcrRjKmaSureIWXJaoTFtq3EMKbtmBBMib\nHGTMVF45/i1oZJdQI6Kyh7nHTT5e/Kv5Yb+a0A3Y+rnYptjqmQ2czAuxQzKtxdDw\n50HJTNCSExr3WPGbD84+QX+AZ3qfVEhfHFWYC4aAevX7rU73joNjr/Qy814mcxIC\nEozTPQjrb5oC9Jd/26ZMBEb1RAmz8FU3X+BlfzbOrMmXKMYiVIAneFMJEOwpvQIX\n26s5ylQ8yD549j7rjwaYMO9tss/dmmy+QevoE8fFm1d+DxqOodNbFaWdrSbZ+43+\n4E4NLHlWKxc1xHoZOoqst+EP8DOq8jEX+9Hx2D03ZQKBgQDrodbFSi9Xw9PSgsBs\nxQ89hU3ryAiMkzOOGveV6kAS2st20tSUaR4h8V6vFNrguUtsrK94xfL6TkcsQynm\nhPNylwpIleiQ5rukAL6GIUXyxRJu/arTDc2YX2qUdNdb4ZxdOnH87Xmgqp2PPdIX\n9J4MTFKj0Udkexiueat0nYJc7QKBgQDgoCNh4sJ4BM+o67lGTyKetsc23cnFyBWY\n4MCGUavVHZHI0+b4serVIGzrBvYyIEfzzIR7g2gON9ghZcFxOa2r1Ic7fMjUHxV0\n9/puB9DEWywhX0lZ2WRM74zzukZqwff1Q7eMb/8x0NvxkPyAVqP2hFzXkrtgoSMT\nv8lavCKPFQKBgEPtkumrOjy14oHEWc7BfGRC4rS/JN/Jq8oisg9QyYnl81Pc8ZWb\nPCmS2LXmcDbqk/jPS4KopiRMnq3+6rxexYPaUQed1762FY/w+vvV6cFT2L2QeUeA\nqi1sDGCh0lfVkWs65xOALlkH9oYNz1xCk7F96zD4qvknl3Ts9GWY5rT9AoGAPHzj\nCkj19TvWb7aKfdRxjivKGYw/+XKX3kMnlQQJMap0x4/Ics/2XM4OhnupcHYg6hX4\n1wnby3heSyALp2HQ0qS4hdxkeDqmnIjqdxbDsRycFaCDMB7KU61uV3Oh4r249+L0\nWm0OW2vSzoosdKLgJFIgbiylKLA7seXDYxumcsECgYAw1vfBO/isq4v7zZbBrGwM\n3ttR2rUuFEsNeY+x4a53TxXhztOsQbX441Y3rx+4cvWiqfbW5yv4el17lVbGhXD0\n9dxBNaOTGubvV041t6tTNGtlK1P6c4Hqbl3d+NUxXmHb+aemIYNXrNBUdRtGyq5D\nFQZSMJiM1zxhz6B+Z5yniw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "caderninho-de-receitas@appspot.gserviceaccount.com",
+  "client_id": "107716032498676952074",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/caderninho-de-receitas%40appspot.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

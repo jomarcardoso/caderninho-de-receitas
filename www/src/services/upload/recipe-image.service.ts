@@ -42,3 +42,35 @@ export async function uploadRecipeImage(
 
   return (await res.json()) as RecipeUploadResponse;
 }
+
+export async function uploadImageFromUrl(
+  imageUrl: string,
+  opts?: {
+    prefix?: string;
+    maxWidth?: number;
+    maxHeight?: number;
+    quality?: number;
+    nearLossless?: boolean;
+    stripMetadata?: boolean;
+  },
+): Promise<RecipeUploadResponse> {
+  const url = (imageUrl || '').trim();
+  if (!url) {
+    throw new Error('URL da imagem é obrigatória');
+  }
+
+  const res = await fetch(url);
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Falha ao baixar imagem: ${res.status} ${text}`);
+  }
+
+  const contentType = res.headers.get('content-type') || 'image/jpeg';
+  const blob = await res.blob();
+  const fileName =
+    (url.split('/').pop() || 'image').split('?')[0].split('#')[0] ||
+    'image';
+  const file = new File([blob], fileName, { type: contentType });
+
+  return uploadRecipeImage(file, opts);
+}

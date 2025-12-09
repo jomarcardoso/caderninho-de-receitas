@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Services;
 using SixLabors.ImageSharp.Formats.Webp;
+using System.Text.RegularExpressions;
 
 namespace Server.Controllers;
 
@@ -141,9 +142,28 @@ public class UploadsController : ControllerBase
       ? $"recipes/{DateTime.UtcNow:yyyy/MM/dd}"
       : request.Prefix.Trim('/');
 
-    var objectName = $"{prefix}/{Guid.NewGuid():N}.webp";
+    var baseName = SanitizeFileName(Path.GetFileNameWithoutExtension(request.File.FileName));
+    var objectName = $"{prefix}/{baseName}-{Guid.NewGuid():N}.webp";
     var url = await gcsStorage.UploadAsync(optimized.Output, objectName, optimized.ContentType, cancellationToken);
 
     return Ok(new RecipeUploadResponse(url, objectName, optimized.Width, optimized.Height));
+  }
+
+  private static string SanitizeFileName(string? name)
+  {
+    var fallback = "image";
+    if (string.IsNullOrWhiteSpace(name))
+    {
+      return fallback;
+    }
+
+    var normalized = name.Trim().ToLowerInvariant();
+    normalized = Regex.Replace(normalized, @"[^a-z0-9\-._]+", "-");
+    normalized = Regex.Replace(normalized, @"-+", "-").Trim('-');
+    if (normalized.Length > 80)
+    {
+      normalized = normalized[..80].Trim('-');
+    }
+    return string.IsNullOrWhiteSpace(normalized) ? fallback : normalized;
   }
 }

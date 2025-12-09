@@ -22,6 +22,8 @@ import {
   type FoodIconByIdEntry,
 } from '@/services/icons.api';
 import { CiTrash } from 'react-icons/ci';
+import UploadButton from '@/components/upload-button/upload-button';
+import { uploadImageFromUrl } from '@/services/upload/recipe-image.service';
 
 export interface FoodRegisterFormProps {
   food: Food;
@@ -98,6 +100,8 @@ export const FoodRegisterForm: FC<
 }) => {
   const { language } = useContext(LanguageContext);
   const [imageLink, setImageLink] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [iconQuery, setIconQuery] = useState('');
   const [iconLoading, setIconLoading] = useState(false);
   const [iconResults, setIconResults] = useState<FoodIconSearchItem[]>([]);
@@ -210,16 +214,43 @@ export const FoodRegisterForm: FC<
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => {
+                disabled={uploadingImage}
+                onClick={async () => {
                   const link = (imageLink || '').trim();
                   if (!link) return;
-                  setFieldValue('imgs', [...(values.imgs || []), link]);
-                  setImageLink('');
+                  setUploadError(null);
+                  setUploadingImage(true);
+                  try {
+                    const { url } = await uploadImageFromUrl(link, {
+                      prefix: 'foods',
+                      maxWidth: 1600,
+                      maxHeight: 1600,
+                      quality: 60,
+                    });
+                    setFieldValue('imgs', [...(values.imgs || []), url]);
+                    setImageLink('');
+                  } catch (err: any) {
+                    setUploadError(err?.message || 'Falha ao enviar imagem');
+                  } finally {
+                    setUploadingImage(false);
+                  }
                 }}
               >
-                Adicionar link
+                {uploadingImage ? 'Enviando...' : 'Enviar link'}
               </Button>
+              <UploadButton
+                label="Enviar arquivo"
+                prefix="foods"
+                onUploaded={(url) =>
+                  setFieldValue('imgs', [...(values.imgs || []), url])
+                }
+              />
             </div>
+            {uploadError && (
+              <div style={{ color: 'var(--color-danger)', marginTop: 6 }}>
+                {uploadError}
+              </div>
+            )}
           </div>
 
           {!!values.imgs?.length && (
@@ -235,13 +266,13 @@ export const FoodRegisterForm: FC<
                     flexDirection: 'column',
                     gap: 6,
                     alignItems: 'center',
+                    flexBasis: 'calc(100% / 3)',
+                    border: 'var(--interactive-border)',
+                    padding: '8px',
                   }}
                 >
-                  <div
-                    style={{ width: 120, borderRadius: 8, overflow: 'hidden' }}
-                  >
-                    <Image2 src={url} alt="" aspectRatio={1.25} />
-                  </div>
+                  <Image2 src={url} alt="" aspectRatio={1.25} />
+
                   <Button
                     variant="secondary"
                     contrast="light"
@@ -466,7 +497,8 @@ export const FoodRegisterForm: FC<
             </Button>
 
             <SubmitComponent>
-              {translate('sendForApproval', language) || 'Enviar para aprovacao'}
+              {translate('sendForApproval', language) ||
+                'Enviar para aprovacao'}
             </SubmitComponent>
           </div>
         )}
@@ -474,6 +506,3 @@ export const FoodRegisterForm: FC<
     </Form>
   );
 };
-
-
-
