@@ -17,7 +17,7 @@ import { translate } from 'services/language/language.service';
 import { generateId } from 'services/string.service';
 import { Language } from '@/contexts/language';
 import { Image2 } from '../image-2/image';
-import UploadButton from '../upload-button/upload-button';
+import ImageUploadField from '../image-upload-field/image-upload-field';
 import CookSvg from '@/assets/storyset/cook.svg';
 import PizzaSvg from '@/assets/storyset/pizza.svg';
 
@@ -258,48 +258,16 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
                   </div>
 
                   <div>
-                    <h3 className="h3">Imagem da receita</h3>
-                    <div
-                      className="d-flex gap-3 align-items-center"
-                      style={{ flexWrap: 'wrap' }}
-                    >
-                      <UploadButton
-                        label={
-                          values.imgs?.length
-                            ? 'Substituir imagem'
-                            : 'Enviar imagem'
-                        }
-                        prefix="recipes"
-                        onUploaded={(url) => setFieldValue('imgs', [url])}
-                      />
-                    </div>
-                    {!!values.imgs?.length && (
-                      <div
-                        className="d-flex gap-3 align-items-center"
-                        style={{ flexWrap: 'wrap', marginTop: 8 }}
-                      >
-                        <div
-                          style={{
-                            width: 120,
-                            borderRadius: 8,
-                            overflow: 'hidden',
-                          }}
-                        >
-                          <Image2
-                            src={values.imgs[0]}
-                            alt=""
-                            aspectRatio={1.25}
-                          />
-                        </div>
-                        <Button
-                          variant="secondary"
-                          type="button"
-                          onClick={() => setFieldValue('imgs', [])}
-                        >
-                          Remover imagem
-                        </Button>
-                      </div>
-                    )}
+                    <ImageUploadField
+                      prefix="recipes"
+                      imgs={values.imgs || []}
+                      onChange={(imgs) =>
+                        setFieldValue('imgs', imgs.slice(0, 1))
+                      }
+                      label="Imagem da receita"
+                      uploadOptions={{ maxWidth: 1600, maxHeight: 1600, quality: 60 }}
+                      allowMultiple={false}
+                    />
                   </div>
 
                   <div>

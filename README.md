@@ -51,6 +51,9 @@ Imagens grátis
 - https://www.pexels.com/
 - https://pixabay.com/images/
 - https://unsplash.com/
+- [comidas brasileiras](https://commons.wikimedia.org/wiki/Category:Food_of_Brazil)
+- https://www.flickr.com/search/?license=4%2C5%2C9%2C10&text=cuca
+- https://openverse.org/search?q=cuca&license=cc0
 
 ## Fontes
 

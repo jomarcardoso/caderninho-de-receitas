@@ -11,6 +11,7 @@ public class FoodService
 {
   public static readonly List<string> FoodModifiersPt = new()
   {
+    "air fryer", "na air fryer",
     "em ponto de pomada",
     "para untar",
     "para fritar",

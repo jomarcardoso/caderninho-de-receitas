@@ -5,6 +5,15 @@ export interface RecipeUploadResponse {
   height: number;
 }
 
+export interface UploadRecipeImageOptions {
+  prefix?: string;
+  maxWidth?: number;
+  maxHeight?: number;
+  quality?: number;
+  nearLossless?: boolean;
+  stripMetadata?: boolean;
+}
+
 function getApiBase(): string {
   const fromEnv = (import.meta as any)?.env?.VITE_API_BASE_URL as string | undefined;
   return (fromEnv || 'http://localhost:5106').replace(/\/$/, '');
@@ -12,14 +21,7 @@ function getApiBase(): string {
 
 export async function uploadRecipeImage(
   file: File,
-  opts?: {
-    prefix?: string;
-    maxWidth?: number;
-    maxHeight?: number;
-    quality?: number;
-    nearLossless?: boolean;
-    stripMetadata?: boolean;
-  },
+  opts?: UploadRecipeImageOptions,
 ): Promise<RecipeUploadResponse> {
   const form = new FormData();
   form.append('file', file);

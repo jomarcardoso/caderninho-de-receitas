@@ -6,17 +6,20 @@ import {
   takePhotoAsFile,
 } from '../../services/upload/camera';
 import { CiSaveUp2 } from 'react-icons/ci';
+import type { UploadRecipeImageOptions } from '../../services/upload/recipe-image.service';
 
 export interface UploadButtonProps {
   onUploaded?: (url: string) => void;
   prefix?: string;
   label?: string;
+  uploadOptions?: Omit<UploadRecipeImageOptions, 'prefix'>;
 }
 
 export function UploadButton({
   onUploaded,
   prefix,
   label = 'Enviar imagem',
+  uploadOptions,
 }: UploadButtonProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -30,7 +33,10 @@ export function UploadButton({
     if (!file) return;
     setLoading(true);
     try {
-      const { url: uploadedUrl } = await uploadRecipeImage(file, { prefix });
+      const { url: uploadedUrl } = await uploadRecipeImage(file, {
+        prefix,
+        ...uploadOptions,
+      });
       setUrl(uploadedUrl);
       onUploaded?.(uploadedUrl);
     } catch (e: any) {
@@ -46,7 +52,10 @@ export function UploadButton({
     setLoading(true);
     try {
       const file = await takePhotoAsFile({ quality: 85, width: 1280 });
-      const { url: uploadedUrl } = await uploadRecipeImage(file, { prefix });
+      const { url: uploadedUrl } = await uploadRecipeImage(file, {
+        prefix,
+        ...uploadOptions,
+      });
       setUrl(uploadedUrl);
       onUploaded?.(uploadedUrl);
     } catch (e: any) {

@@ -22,8 +22,7 @@ import {
   type FoodIconByIdEntry,
 } from '@/services/icons.api';
 import { CiTrash } from 'react-icons/ci';
-import UploadButton from '@/components/upload-button/upload-button';
-import { uploadImageFromUrl } from '@/services/upload/recipe-image.service';
+import ImageUploadField from '@/components/image-upload-field/image-upload-field';
 
 export interface FoodRegisterFormProps {
   food: Food;
@@ -99,9 +98,6 @@ export const FoodRegisterForm: FC<
   formId,
 }) => {
   const { language } = useContext(LanguageContext);
-  const [imageLink, setImageLink] = useState('');
-  const [uploadingImage, setUploadingImage] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
   const [iconQuery, setIconQuery] = useState('');
   const [iconLoading, setIconLoading] = useState(false);
   const [iconResults, setIconResults] = useState<FoodIconSearchItem[]>([]);
@@ -190,106 +186,14 @@ export const FoodRegisterForm: FC<
     <Form id={formId} className="pt-5" style={{ paddingBottom: 100 }}>
       <div className="container" style={{ display: 'grid', gap: 12 }}>
         <div>
-          <h3 className="h3">Links de imagens</h3>
-          <div
-            className="d-flex gap-3 align-items-center"
-            style={{ flexWrap: 'wrap' }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                gap: 8,
-                alignItems: 'center',
-                flexWrap: 'wrap',
-              }}
-            >
-              <Field
-                placeholder="colar link da imagem"
-                name={'imageLinkDraft' as any}
-                value={imageLink}
-                onChange={(e: any) => setImageLink(e?.target?.value ?? '')}
-                breakline={false}
-                type="text"
-              />
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={uploadingImage}
-                onClick={async () => {
-                  const link = (imageLink || '').trim();
-                  if (!link) return;
-                  setUploadError(null);
-                  setUploadingImage(true);
-                  try {
-                    const { url } = await uploadImageFromUrl(link, {
-                      prefix: 'foods',
-                      maxWidth: 1600,
-                      maxHeight: 1600,
-                      quality: 60,
-                    });
-                    setFieldValue('imgs', [...(values.imgs || []), url]);
-                    setImageLink('');
-                  } catch (err: any) {
-                    setUploadError(err?.message || 'Falha ao enviar imagem');
-                  } finally {
-                    setUploadingImage(false);
-                  }
-                }}
-              >
-                {uploadingImage ? 'Enviando...' : 'Enviar link'}
-              </Button>
-              <UploadButton
-                label="Enviar arquivo"
-                prefix="foods"
-                onUploaded={(url) =>
-                  setFieldValue('imgs', [...(values.imgs || []), url])
-                }
-              />
-            </div>
-            {uploadError && (
-              <div style={{ color: 'var(--color-danger)', marginTop: 6 }}>
-                {uploadError}
-              </div>
-            )}
-          </div>
-
-          {!!values.imgs?.length && (
-            <div
-              className="d-flex gap-3 align-items-center"
-              style={{ flexWrap: 'wrap', marginTop: 12 }}
-            >
-              {values.imgs.map((url, i) => (
-                <div
-                  key={url + i}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 6,
-                    alignItems: 'center',
-                    flexBasis: 'calc(100% / 3)',
-                    border: 'var(--interactive-border)',
-                    padding: '8px',
-                  }}
-                >
-                  <Image2 src={url} alt="" aspectRatio={1.25} />
-
-                  <Button
-                    variant="secondary"
-                    contrast="light"
-                    type="button"
-                    onClick={() =>
-                      setFieldValue(
-                        'imgs',
-                        values.imgs.filter((_, idx) => idx !== i),
-                      )
-                    }
-                  >
-                    Remover
-                  </Button>
-                </div>
-              ))}
-            </div>
-          )}
+          <ImageUploadField
+            prefix="foods"
+            imgs={values.imgs || []}
+            onChange={(imgs) => setFieldValue('imgs', imgs)}
+            label="Links de imagens"
+            uploadOptions={{ maxWidth: 1600, maxHeight: 1600, quality: 60 }}
+            allowMultiple
+          />
         </div>
 
         <div>

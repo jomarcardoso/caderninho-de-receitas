@@ -24,6 +24,10 @@ dotnet tool install --global dotnet-ef
 dotnet ef migrations add AdicionaDescricao
 dotnet ef database update
 
+## Server
+
+- [bucket](https://console.cloud.google.com/storage/browser?project=caderninho-de-receitas&prefix=&forceOnBucketsSortingFiltering=true&bucketType=live)
+
 ## Machine Learning
 
 Glossary:
