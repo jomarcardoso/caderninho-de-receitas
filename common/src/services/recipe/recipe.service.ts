@@ -136,6 +136,7 @@ export function mapRecipeModelToDto(recipe: Recipe): RecipeDto {
     name: recipe.name ?? '',
     additional: recipe.additional ?? '',
     description: recipe.description ?? '',
+    imgs: Array.isArray(recipe.imgs) ? recipe.imgs : [],
     categories: categoryKeys,
     steps: recipe.steps?.map(mapRecipeStepModelToDto) ?? [],
     // createdAt/updatedAt are server-managed; not required on save

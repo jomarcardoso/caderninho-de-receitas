@@ -127,6 +127,7 @@ export const KitchenPageView: FC<KitchenPageViewProps> = ({ recipeToEdit }) => {
             : [RECIPE_STEP_DTO_WITH_KEY_ID],
           // quantitySteps: recipe?.steps?.length || 1,
         }}
+        enableReinitialize
         onSubmit={memoizedHandleSubmit}
       >
         {(formik: FormikProps<RecipeForm>) => (
