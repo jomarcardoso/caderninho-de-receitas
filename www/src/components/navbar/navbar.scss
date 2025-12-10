@@ -61,7 +61,10 @@
     > a,
     > button {
       width: 100%;
-      height: var(--bar-size);
+      min-height: var(--bar-size);
+      flex-direction: column;
+      text-align: center;
+      padding: 8px;
     }
   }
 

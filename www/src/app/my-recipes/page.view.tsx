@@ -36,11 +36,13 @@ import { searchFoods } from '@/services/food-search.api';
 export interface MyRecipesViewProps {
   data: RecipesData;
   showFoodsSection?: boolean;
+  isMobile?: boolean;
 }
 
 export const MyRecipesView: FC<MyRecipesViewProps> = ({
   data,
   showFoodsSection = false,
+  isMobile = false,
 }) => {
   // const showFoodsSection = false;
   const language: Language = 'pt';
@@ -154,93 +156,91 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
 
   function renderItem(recipe: Recipe) {
     return (
-      <li key={recipe.id}>
-        <article className="h-100" aria-labelledby={String(recipe.id)}>
-          <Card
-            className="h-100"
-            title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
-            img={
-              <Image2
-                srcs={[...(recipe?.imgs ?? []), ...(recipe?.food?.imgs ?? [])]}
-              />
-            }
-            footer={
-              <>
-                <Button
-                  type="button"
-                  variant="tertiary"
-                  size="small"
-                  onClick={() => openDialogForRecipe(recipe.id)}
-                >
-                  adicionar em uma lista
-                </Button>
+      <article className="h-100" aria-labelledby={String(recipe.id)}>
+        <Card
+          className="h-100"
+          title={<h2 id={String(recipe.id)}>{capitalize(recipe.name)}</h2>}
+          img={
+            <Image2
+              srcs={[...(recipe?.imgs ?? []), ...(recipe?.food?.imgs ?? [])]}
+            />
+          }
+          footer={
+            <>
+              <Button
+                type="button"
+                variant="tertiary"
+                size="small"
+                onClick={() => openDialogForRecipe(recipe.id)}
+              >
+                adicionar em uma lista
+              </Button>
 
-                <Link
-                  className="button button--small button--secondary"
-                  href={`/recipe/${recipe.id}`}
-                >
-                  abrir receita
-                </Link>
-              </>
-            }
-          >
-            <ul className="row no-gutters g-2">
-              <li className="col-6">
-                <strong>{translate('foodFormCalories', language)}</strong>
-                <br />
-                {(
-                  (recipe.nutritionalInformation || []).find(
-                    (n: any) =>
-                      n?.shortName === 'Cal' ||
-                      n?.name?.en === 'Calories' ||
-                      n?.name?.pt === 'Calorias',
-                  )?.quantity ?? 0
-                ).toFixed(0)}
-                cal
-              </li>
-              <li className="col-6">
-                <strong>{translate('foodFormProteins', language)}</strong>
-                <br />
-                {(
-                  (recipe.nutritionalInformation || []).find(
-                    (n: any) =>
-                      n?.shortName === 'Prot' ||
-                      n?.name?.en === 'Proteins' ||
-                      n?.name?.pt === 'Proteínas',
-                  )?.quantity ?? 0
-                ).toFixed(0)}
-                g
-              </li>
-              <li className="col-6">
-                <strong>{translate('foodFormFat', language)}</strong>
-                <br />
-                {(
-                  (recipe.nutritionalInformation || []).find(
-                    (n: any) =>
-                      n?.shortName === 'Fat' ||
-                      n?.name?.en === 'Total Fat' ||
-                      n?.name?.pt === 'Gordura Total',
-                  )?.quantity ?? 0
-                ).toFixed(0)}
-                g
-              </li>
-              <li className="col-6">
-                <strong>{translate('foodFormDietaryFiber', language)}</strong>
-                <br />
-                {(
-                  (recipe.nutritionalInformation || []).find(
-                    (n: any) =>
-                      n?.shortName === 'Fiber' ||
-                      n?.name?.en === 'Dietary Fiber' ||
-                      n?.name?.pt === 'Fibra Alimentar',
-                  )?.quantity ?? 0
-                ).toFixed(0)}
-                g
-              </li>
-            </ul>
-          </Card>
-        </article>
-      </li>
+              <Link
+                className="button button--small button--secondary"
+                href={`/recipe/${recipe.id}`}
+              >
+                abrir receita
+              </Link>
+            </>
+          }
+        >
+          <ul className="row no-gutters g-2">
+            <li className="col-6">
+              <strong>{translate('foodFormCalories', language)}</strong>
+              <br />
+              {(
+                (recipe.nutritionalInformation || []).find(
+                  (n: any) =>
+                    n?.shortName === 'Cal' ||
+                    n?.name?.en === 'Calories' ||
+                    n?.name?.pt === 'Calorias',
+                )?.quantity ?? 0
+              ).toFixed(0)}
+              cal
+            </li>
+            <li className="col-6">
+              <strong>{translate('foodFormProteins', language)}</strong>
+              <br />
+              {(
+                (recipe.nutritionalInformation || []).find(
+                  (n: any) =>
+                    n?.shortName === 'Prot' ||
+                    n?.name?.en === 'Proteins' ||
+                    n?.name?.pt === 'Proteínas',
+                )?.quantity ?? 0
+              ).toFixed(0)}
+              g
+            </li>
+            <li className="col-6">
+              <strong>{translate('foodFormFat', language)}</strong>
+              <br />
+              {(
+                (recipe.nutritionalInformation || []).find(
+                  (n: any) =>
+                    n?.shortName === 'Fat' ||
+                    n?.name?.en === 'Total Fat' ||
+                    n?.name?.pt === 'Gordura Total',
+                )?.quantity ?? 0
+              ).toFixed(0)}
+              g
+            </li>
+            <li className="col-6">
+              <strong>{translate('foodFormDietaryFiber', language)}</strong>
+              <br />
+              {(
+                (recipe.nutritionalInformation || []).find(
+                  (n: any) =>
+                    n?.shortName === 'Fiber' ||
+                    n?.name?.en === 'Dietary Fiber' ||
+                    n?.name?.pt === 'Fibra Alimentar',
+                )?.quantity ?? 0
+              ).toFixed(0)}
+              g
+            </li>
+          </ul>
+        </Card>
+      </article>
     );
   }
 
@@ -265,6 +265,10 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
   }
 
   useEffect(() => {
+    if (!isMobile) {
+      return;
+    }
+
     // Re-initialize scrollspy whenever sections change and clean up old listeners
     const controller = scrollspy({
       list: [
@@ -348,7 +352,7 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
         </Navbar>
       }
     >
-      <main className="py-5" style={{ paddingLeft: 29 }}>
+      <main className="py-5">
         <Dialog
           open={dialogOpen}
           onClose={closeDialog}
@@ -394,7 +398,11 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
           food={selectedFood}
         />
 
-        <NotebookTabs tabs={tabs} />
+        {isMobile && (
+          <div className="mobile-only">
+            <NotebookTabs tabs={tabs} />
+          </div>
+        )}
 
         <section
           className="pt-2 grid"
@@ -409,7 +417,13 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
 
           <div className="g-col-12">
             {recipes.length ? (
-              <ol className="d-grid gap-4">{recipes.map(renderItem)}</ol>
+              <ol className="row g-4 g-md-3">
+                {recipes.map((recipe) => (
+                  <li className="col-12 col-md-6" key={recipe.id}>
+                    {renderItem(recipe)}
+                  </li>
+                ))}
+              </ol>
             ) : (
               <div className="d-flex justify-content-center">
                 <Image2
@@ -448,7 +462,9 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
 
                 {l.items?.length ? (
                   <ol className="horizontal-scroll">
-                    {l.items.map((it) => renderItem(it.recipe))}
+                    {l.items.map((it) => (
+                      <li key={it.recipe.id}>{renderItem(it.recipe)}</li>
+                    ))}
                   </ol>
                 ) : null}
 
