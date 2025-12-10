@@ -6,6 +6,7 @@ import type { CategoryItem } from '@/services/categories.service';
 import { submitCategoryEdit } from '@/services/category-edits.api';
 import { CiCircleChevLeft } from 'react-icons/ci';
 import { IoSaveOutline } from 'react-icons/io5';
+import ImageUploadField from '@/components/image-upload-field/image-upload-field';
 
 export interface CategoryEditDialogProps extends Omit<DialogProps, 'children'> {
   category: CategoryItem;
@@ -102,11 +103,13 @@ export function CategoryEditDialog({
           value={descEn}
           onChange={(e: any) => setDescEn(e.target.value)}
         />
-        <Field
-          label="Banner (URL)"
-          value={banner}
-          onChange={(e: any) => setBanner(e.target.value)}
-          placeholder="https://..."
+        <ImageUploadField
+          prefix="categories"
+          imgs={banner ? [banner] : []}
+          allowMultiple={false}
+          label="Banner"
+          uploadOptions={{ maxWidth: 1920, maxHeight: 1080, quality: 60 }}
+          onChange={(imgs) => setBanner(imgs[0] || '')}
         />
       </div>
     </Dialog>

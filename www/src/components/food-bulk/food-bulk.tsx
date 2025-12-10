@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from 'notebook-layout';
+import { Button, Field } from 'notebook-layout';
 import { useCallback, useMemo, useState } from 'react';
 
 function getApiBase(): string {
@@ -69,13 +69,14 @@ export default function FoodBulkUploader() {
           <label htmlFor="food-bulk-text">
             Cole abaixo o JSON (array ou item único):
           </label>
-          <textarea
+          <Field
+            multiline
             id="food-bulk-text"
             value={jsonText}
             onChange={(e) => setJsonText(e.target.value)}
             placeholder={placeholder}
             rows={10}
-            style={{ width: '100%', fontFamily: 'monospace' }}
+            style={{ fontFamily: 'monospace' }}
           />
 
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
