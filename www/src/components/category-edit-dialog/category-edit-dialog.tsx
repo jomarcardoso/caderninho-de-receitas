@@ -7,6 +7,7 @@ import { submitCategoryEdit } from '@/services/category-edits.api';
 import { CiCircleChevLeft } from 'react-icons/ci';
 import { IoSaveOutline } from 'react-icons/io5';
 import ImageUploadField from '@/components/image-upload-field/image-upload-field';
+import { searchFoodImages } from '@/services/food-search.api';
 
 export interface CategoryEditDialogProps extends Omit<DialogProps, 'children'> {
   category: CategoryItem;
@@ -110,6 +111,7 @@ export function CategoryEditDialog({
           label="Banner"
           uploadOptions={{ maxWidth: 1920, maxHeight: 1080, quality: 60 }}
           onChange={(imgs) => setBanner(imgs[0] || '')}
+          onSearchImages={searchFoodImages}
         />
       </div>
     </Dialog>

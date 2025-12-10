@@ -53,6 +53,29 @@ export async function searchFoods(
   return data.map(normalizeFoodFromSearch);
 }
 
+export interface FoodImageSearchResult {
+  foodId: number;
+  name?: string;
+  imgs: string[];
+}
+
+export async function searchFoodImages(
+  text: string,
+  limit = 20,
+): Promise<FoodImageSearchResult[]> {
+  if (!text || !text.trim()) return [];
+
+  const params = new URLSearchParams();
+  params.set('text', text.trim());
+  params.set('limit', String(limit));
+
+  const res = await fetch(
+    `${apiBase()}/api/food/search-images?${params.toString()}`,
+    withAuth(),
+  );
+  return await handleJson<FoodImageSearchResult[]>(res);
+}
+
 const DEFAULT_MEASUREMENT_UNIT: LanguageTextAndPlural = {
   text: { en: 'gram', pt: 'grama' } as LanguageText,
   pluralText: { en: 'grams', pt: 'gramas' } as LanguageText,

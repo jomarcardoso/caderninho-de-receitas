@@ -18,6 +18,7 @@ import { generateId } from 'services/string.service';
 import { Language } from '@/contexts/language';
 import { Image2 } from '../image-2/image';
 import ImageUploadField from '../image-upload-field/image-upload-field';
+import { searchFoodImages } from '@/services/food-search.api';
 import CookSvg from '@/assets/storyset/cook.svg';
 import PizzaSvg from '@/assets/storyset/pizza.svg';
 
@@ -267,6 +268,7 @@ export const RecipeRegister: FC<FormikProps<RecipeForm> & Props> = ({
                       label="Imagem da receita"
                       uploadOptions={{ maxWidth: 1600, maxHeight: 1600, quality: 60 }}
                       allowMultiple={false}
+                      onSearchImages={searchFoodImages}
                     />
                   </div>
 

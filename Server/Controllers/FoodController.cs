@@ -7,13 +7,19 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/food")]
-public class FoodController : ControllerBase
-{
-  private readonly AppDbContext _context;
-
-  public FoodController(AppDbContext context)
+  public class FoodController : ControllerBase
   {
-    _context = context;
+    private readonly AppDbContext _context;
+
+    public FoodController(AppDbContext context)
+    {
+      _context = context;
+    }
+  public class FoodImageSearchResult
+  {
+    public int FoodId { get; set; }
+    public string? Name { get; set; }
+    public List<string> Imgs { get; set; } = new();
   }
 
   // GET: api/food
@@ -108,6 +114,39 @@ public class FoodController : ControllerBase
         (f.Keys.Pt != null && f.Keys.Pt.ToLower().Contains(lowered)))
       .OrderBy(f => f.Name.Pt ?? f.Name.En)
       .Take(limit)
+      .ToListAsync();
+
+    return Ok(foods);
+  }
+
+  // GET: api/food/search-images?text=banana&limit=20
+  [HttpGet("search-images")]
+  public async Task<ActionResult<IEnumerable<FoodImageSearchResult>>> SearchImages(
+    [FromQuery] string text = "",
+    [FromQuery] int limit = 25)
+  {
+    var query = (text ?? string.Empty).Trim();
+    if (string.IsNullOrWhiteSpace(query))
+      return Ok(new List<FoodImageSearchResult>());
+
+    limit = Math.Clamp(limit, 1, 100);
+    var lowered = query.ToLowerInvariant();
+
+    var foods = await _context.Food
+      .AsNoTracking()
+      .Where(f =>
+        (f.Name.En != null && f.Name.En.ToLower().Contains(lowered)) ||
+        (f.Name.Pt != null && f.Name.Pt.ToLower().Contains(lowered)) ||
+        (f.Keys.En != null && f.Keys.En.ToLower().Contains(lowered)) ||
+        (f.Keys.Pt != null && f.Keys.Pt.ToLower().Contains(lowered)))
+      .OrderBy(f => f.Name.Pt ?? f.Name.En)
+      .Take(limit)
+      .Select(f => new FoodImageSearchResult
+      {
+        FoodId = f.Id,
+        Name = f.Name.Pt ?? f.Name.En,
+        Imgs = f.Imgs
+      })
       .ToListAsync();
 
     return Ok(foods);
