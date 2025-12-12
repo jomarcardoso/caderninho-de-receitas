@@ -55,7 +55,7 @@ const Dialog: FC<AlertEmptyRecipeProps> = ({
 
               {children && (
                 <div
-                  className="modal__content"
+                  className="modal__body"
                   id="alert-dialog-description"
                   {...contentProps}
                 >

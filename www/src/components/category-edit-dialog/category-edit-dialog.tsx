@@ -62,8 +62,8 @@ export function CategoryEditDialog({
   return (
     <Dialog
       {...dialogProps}
-      title="Editar categoria"
-      actions={
+      header="Editar categoria"
+      footer={
         <>
           <Button
             variant="secondary"

@@ -356,8 +356,8 @@ export const MyRecipesView: FC<MyRecipesViewProps> = ({
         <Dialog
           open={dialogOpen}
           onClose={closeDialog}
-          title="Adicionar em uma lista"
-          actions={
+          header="Adicionar em uma lista"
+          footer={
             <Button
               variant="secondary"
               type="button"

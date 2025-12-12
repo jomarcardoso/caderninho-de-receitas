@@ -40,8 +40,8 @@ export function ShareDialog({
     <Dialog
       open={open}
       onClose={onClose}
-      title="Compartilhar receita"
-      actions={
+      header="Compartilhar receita"
+      footer={
         <Button
           type="button"
           variant="secondary"

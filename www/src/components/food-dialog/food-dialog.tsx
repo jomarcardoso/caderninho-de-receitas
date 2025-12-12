@@ -147,9 +147,9 @@ const FoodDialog: FC<FoodDialogProps> = ({
     <Dialog
       {...dialogProps}
       open={open}
-      title={resolvedTitle}
+      header={resolvedTitle}
       noPadding={paddingless}
-      actions={mergedActions}
+      footer={mergedActions}
     >
       {content}
     </Dialog>
