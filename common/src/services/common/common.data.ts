@@ -9,4 +9,20 @@ export const COMMON_DATA: CommonData = {
   aminoAcids: [],
   minerals: [],
   nutritionalInformation: [],
+  dietaryRestrictionOptions: {
+    allergies: [],
+    intolerances: [],
+    medicalRestrictions: [],
+    dietStyles: [],
+    culturalRestrictions: [],
+    personalPreferences: [],
+  },
+  userDietaryRestrictions: {
+    allergies: [],
+    intolerances: [],
+    medicalRestrictions: [],
+    dietStyles: [],
+    culturalRestrictions: [],
+    personalPreferences: [],
+  },
 };

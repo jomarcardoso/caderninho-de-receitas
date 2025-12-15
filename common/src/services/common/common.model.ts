@@ -4,6 +4,30 @@ import type {
 } from '../language/language.types';
 import type { NutrientData } from '../nutrient-data/nutrient-data.model';
 
+export type DietaryRestrictionGroup =
+  | 'allergies'
+  | 'intolerances'
+  | 'medicalRestrictions'
+  | 'dietStyles'
+  | 'culturalRestrictions'
+  | 'personalPreferences';
+
+export interface DietaryRestrictionOption {
+  key: string;
+  group: DietaryRestrictionGroup;
+  text: LanguageText;
+  critical?: boolean;
+}
+
+export interface UserDietaryRestrictions {
+  allergies: string[];
+  intolerances: string[];
+  medicalRestrictions: string[];
+  dietStyles: string[];
+  culturalRestrictions: string[];
+  personalPreferences: string[];
+}
+
 export interface CommonData {
   measures: LanguageTextAndPlural[];
   foodTypes: LanguageText[];
@@ -13,6 +37,11 @@ export interface CommonData {
   aminoAcids: NutrientData[];
   minerals: NutrientData[];
   nutritionalInformation: NutrientData[];
+  dietaryRestrictionOptions: Record<
+    DietaryRestrictionGroup,
+    DietaryRestrictionOption[]
+  >;
+  userDietaryRestrictions: UserDietaryRestrictions;
 }
 
 export interface Category extends LanguageTextAndPlural {

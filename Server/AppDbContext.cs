@@ -3,6 +3,9 @@ using Server.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Shared;
+using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace Server;
 
@@ -26,6 +29,28 @@ public class AppDbContext : DbContext
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     base.OnModelCreating(modelBuilder);
+
+    static (ValueConverter<List<TEnum>, string> converter, ValueComparer<List<TEnum>> comparer) BuildEnumListPersistence<TEnum>() where TEnum : struct, Enum
+    {
+      var converter = new ValueConverter<List<TEnum>, string>(
+        v => string.Join(',', (v ?? new()).Select(x => x.ToString())),
+        v => string.IsNullOrWhiteSpace(v)
+          ? new List<TEnum>()
+          : v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => TryParseEnum<TEnum>(x))
+            .Where(x => x.HasValue)
+            .Select(x => x!.Value)
+            .ToList()
+      );
+
+      var comparer = new ValueComparer<List<TEnum>>(
+        (a, b) => (a ?? new()).SequenceEqual(b ?? new()),
+        v => (v ?? new()).Aggregate(0, (acc, x) => HashCode.Combine(acc, x.GetHashCode())),
+        v => v == null ? new List<TEnum>() : v.ToList()
+      );
+
+      return (converter, comparer);
+    }
 
     // Food
     modelBuilder.Entity<Food>(entity =>
@@ -171,6 +196,43 @@ public class AppDbContext : DbContext
       entity.HasIndex(u => u.OwnerId).IsUnique();
       entity.Property(u => u.CreatedAt).IsRequired();
       entity.Property(u => u.UpdatedAt).IsRequired();
+
+      // Persist enum lists as comma-separated strings
+      var (allergyConv, allergyCmp) = BuildEnumListPersistence<AllergyRestriction>();
+      entity.Property(u => u.Allergies)
+        .HasConversion(allergyConv)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(allergyCmp);
+
+      var (intConv, intCmp) = BuildEnumListPersistence<IntoleranceRestriction>();
+      entity.Property(u => u.Intolerances)
+        .HasConversion(intConv)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(intCmp);
+
+      var (medConv, medCmp) = BuildEnumListPersistence<MedicalRestriction>();
+      entity.Property(u => u.MedicalRestrictions)
+        .HasConversion(medConv)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(medCmp);
+
+      var (dietConv, dietCmp) = BuildEnumListPersistence<DietStyleRestriction>();
+      entity.Property(u => u.DietStyles)
+        .HasConversion(dietConv)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(dietCmp);
+
+      var (cultureConv, cultureCmp) = BuildEnumListPersistence<CulturalRestriction>();
+      entity.Property(u => u.CulturalRestrictions)
+        .HasConversion(cultureConv)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(cultureCmp);
+
+      var (prefConv, prefCmp) = BuildEnumListPersistence<PersonalPreferenceRestriction>();
+      entity.Property(u => u.PersonalPreferences)
+        .HasConversion(prefConv)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(prefCmp);
     });
 
     // RecipeList
@@ -195,5 +257,9 @@ public class AppDbContext : DbContext
         .OnDelete(DeleteBehavior.Cascade);
     });
   }
-}
 
+  private static TEnum? TryParseEnum<TEnum>(string value) where TEnum : struct, Enum
+  {
+    return Enum.TryParse<TEnum>(value, true, out var parsed) ? parsed : null;
+  }
+}

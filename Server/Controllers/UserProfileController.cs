@@ -34,6 +34,12 @@ public class UserProfileController : ControllerBase
     Theme = p.Theme,
     IsPublic = p.IsPublic,
     Verified = p.Verified,
+    Allergies = p.Allergies,
+    Intolerances = p.Intolerances,
+    MedicalRestrictions = p.MedicalRestrictions,
+    DietStyles = p.DietStyles,
+    CulturalRestrictions = p.CulturalRestrictions,
+    PersonalPreferences = p.PersonalPreferences,
   };
 
   // GET api/userprofile/me
@@ -70,6 +76,12 @@ public class UserProfileController : ControllerBase
     if (request.Bio is not null) profile.Bio = string.IsNullOrWhiteSpace(request.Bio) ? null : request.Bio.Trim();
     if (request.Theme.HasValue) profile.Theme = request.Theme.Value;
     if (request.IsPublic.HasValue) profile.IsPublic = request.IsPublic.Value;
+    if (request.Allergies is not null) profile.Allergies = request.Allergies;
+    if (request.Intolerances is not null) profile.Intolerances = request.Intolerances;
+    if (request.MedicalRestrictions is not null) profile.MedicalRestrictions = request.MedicalRestrictions;
+    if (request.DietStyles is not null) profile.DietStyles = request.DietStyles;
+    if (request.CulturalRestrictions is not null) profile.CulturalRestrictions = request.CulturalRestrictions;
+    if (request.PersonalPreferences is not null) profile.PersonalPreferences = request.PersonalPreferences;
 
     // Verified: only allow if user has an elevated role
     if (request.Verified.HasValue)

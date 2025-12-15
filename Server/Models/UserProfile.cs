@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Server.Models;
 
@@ -40,6 +41,14 @@ public class UserProfile
   // Controles de visibilidade e verificação (similar às receitas)
   public bool IsPublic { get; set; } = false;
   public bool Verified { get; set; } = false;
+
+  // Dietary restrictions / preferences
+  public List<AllergyRestriction> Allergies { get; set; } = new();
+  public List<IntoleranceRestriction> Intolerances { get; set; } = new();
+  public List<MedicalRestriction> MedicalRestrictions { get; set; } = new();
+  public List<DietStyleRestriction> DietStyles { get; set; } = new();
+  public List<CulturalRestriction> CulturalRestrictions { get; set; } = new();
+  public List<PersonalPreferenceRestriction> PersonalPreferences { get; set; } = new();
 
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

@@ -16,4 +16,17 @@ export interface CommonDataResponse {
   minerals: Record<string, NutrientDataResponse>;
   vitamins: Record<string, NutrientDataResponse>;
   nutritionalInformation: Record<string, NutrientDataResponse>;
+  dietaryRestrictionOptions?: Partial<
+    Record<
+      import('./common.model').DietaryRestrictionGroup,
+      Array<
+        import('./common.model').DietaryRestrictionOption & {
+          text: LanguageText;
+        }
+      >
+    >
+  >;
+  userDietaryRestrictions?: Partial<
+    import('./common.model').UserDietaryRestrictions
+  >;
 }
