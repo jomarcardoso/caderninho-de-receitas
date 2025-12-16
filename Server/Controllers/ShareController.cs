@@ -169,47 +169,11 @@ public class ShareController : ControllerBase
       .DistinctBy(f => f!.Id)
       .ToList()!;
 
-    // Resolve food icons (best-effort)
-    var iconIds = foods
-      .Select(f => f.IconId)
-      .Where(id => id.HasValue && id.Value > 0)
-      .Select(id => id!.Value)
-      .Distinct()
-      .ToList();
-
-    List<FoodIcon> icons;
-    if (iconIds.Count > 0)
-    {
-      icons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconIds.Contains(i.Id))
-        .ToListAsync();
-    }
-    else
-    {
-      var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-      foreach (var f in foods)
-      {
-        if (!string.IsNullOrWhiteSpace(f.Icon))
-        {
-          var n = f.Icon.Trim();
-          try { n = System.IO.Path.GetFileName(n); } catch { }
-          if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
-        }
-      }
-
-      icons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconNames.Contains(i.Name.En))
-        .ToListAsync();
-    }
-
     var response = new RecipeDataResponse
     {
       Recipes = recipeResponse,
       RelatedRecipes = new List<RecipeResponse>(),
       Foods = _mapper.Map<List<Food>>(foods),
-      FoodIcons = icons,
     };
 
     return Ok(response);

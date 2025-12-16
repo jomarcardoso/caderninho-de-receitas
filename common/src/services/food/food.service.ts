@@ -7,19 +7,13 @@ export function mapFoodResponseToModel(
   foodResponse: FoodResponse,
   commonResponse: FoodsDataResponse,
 ): Food {
-  const iconId = (foodResponse as any).iconId as number | undefined;
   const iconList: string[] = [];
-  const icons = (commonResponse.foodIcons ?? []) as Array<{
-    id: number;
-    mediaType?: string;
-    content?: string;
-  }>;
-
-  if (typeof iconId === 'number' && iconId > 0) {
-    const entry = icons.find((i) => i?.id === iconId);
-    const raw = (entry?.content ?? '').trim();
-    const media = (entry?.mediaType ?? '').toLowerCase();
-
+  const iconObj = (foodResponse as any).icon as
+    | { mediaType?: string; content?: string }
+    | undefined;
+  if (iconObj) {
+    const raw = (iconObj.content ?? '').trim();
+    const media = (iconObj.mediaType ?? '').toLowerCase();
     if (raw) {
       if (raw.startsWith('data:')) {
         iconList.push(raw);

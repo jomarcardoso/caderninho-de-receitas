@@ -9,7 +9,7 @@ export interface FoodBase {
   isRecipe: boolean;
   // New: numeric id referencing FoodIcon entity
   iconId?: number;
-  // Icon sources list (data:URI or URLs). If empty, UI may fallback to imgs
-  icon: string[];
+  // Icon sources list (data:URI or URLs) or inline object when coming directly from the API relation. If empty, UI may fallback to imgs
+  icon: string[] | import('./food.response').FoodIconResponse | null;
   categories?: string[];
 }

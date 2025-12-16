@@ -48,7 +48,7 @@ CREATE DATABASE caderninho;
 \q
 
 # restore
-cat backup/full_db_2025_10_28_icons.sql | docker exec -i caderninho-db psql -U admin -d caderninho
+cat backup/full_db_2025_12_16_with_food_categories_inline.sql | docker exec -i caderninho-db psql -U admin -d caderninho
 ```
 
 backup of Foods in JSON

@@ -55,6 +55,12 @@ public class AppDbContext : DbContext
     // Food
     modelBuilder.Entity<Food>(entity =>
     {
+      entity.HasOne(f => f.IconData)
+        .WithMany()
+        .HasForeignKey(f => f.IconId)
+        .OnDelete(DeleteBehavior.SetNull);
+      entity.Navigation(f => f.IconData).AutoInclude();
+
       var (foodCategoriesConverter, foodCategoriesComparer) = (
         new ValueConverter<List<string>, string>(
           v => string.Join(',', v ?? new List<string>()),

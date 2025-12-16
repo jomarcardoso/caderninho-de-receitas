@@ -221,47 +221,11 @@ public class RecipeController : ControllerBase
     // Collect Foods referenced by the recipes (including steps/ingredients)
     var foods = FoodService.GetFoodsFromRecipes(recipes);
 
-    // Attach referenced FoodIcons (prefer IconId when present; fallback to name-based)
-    var iconIds = foods
-      .Select(f => f.IconId)
-      .Where(id => id.HasValue && id.Value > 0)
-      .Select(id => id!.Value)
-      .Distinct()
-      .ToList();
-
-    List<FoodIcon> foodIcons;
-    if (iconIds.Count > 0)
-    {
-      foodIcons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconIds.Contains(i.Id))
-        .ToListAsync();
-    }
-    else
-    {
-      var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-      foreach (var f in foods)
-      {
-        if (!string.IsNullOrWhiteSpace(f.Icon))
-        {
-          var n = f.Icon.Trim();
-          try { n = System.IO.Path.GetFileName(n); } catch { }
-          if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
-        }
-      }
-
-      foodIcons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconNames.Contains(i.Name.En))
-        .ToListAsync();
-    }
-
     // Build full response including common dictionaries (via FoodsDataResponse inheritance)
     var response = new RecipesDataResponse
     {
       Recipes = recipeResponses,
       Foods = foods,
-      FoodIcons = foodIcons,
       RecipeCategories = await recipeService.BuildCategoryMapAsync()
     };
 
@@ -333,57 +297,6 @@ public class RecipeController : ControllerBase
       .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
       .ToList();
 
-    // Build icons dictionary for foods referenced in this recipe (and its steps)
-    var iconNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-    if (!string.IsNullOrWhiteSpace(recipe.Food?.Icon))
-    {
-      var name = recipe.Food.Icon.Trim();
-      try { name = System.IO.Path.GetFileName(name); } catch { }
-      if (!string.IsNullOrWhiteSpace(name)) iconNames.Add(name);
-    }
-
-    foreach (var s in recipe.Steps ?? new List<RecipeStep>())
-    {
-      foreach (var i in s.Ingredients ?? new List<Ingredient>())
-      {
-        var name = i.Food?.Icon;
-        if (!string.IsNullOrWhiteSpace(name))
-        {
-          var n = name.Trim();
-          try { n = System.IO.Path.GetFileName(n); } catch { }
-          if (!string.IsNullOrWhiteSpace(n)) iconNames.Add(n);
-        }
-      }
-    }
-
-    // Prefer lookup by IconId; fallback to name-based matching
-    var iconIds = new List<int>();
-    if (recipe.Food?.IconId is int rid && rid > 0) iconIds.Add(rid);
-    foreach (var s in recipe.Steps ?? new List<RecipeStep>())
-    {
-      foreach (var i in s.Ingredients ?? new List<Ingredient>())
-      {
-        if (i.Food?.IconId is int iid && iid > 0) iconIds.Add(iid);
-      }
-    }
-    iconIds = iconIds.Distinct().ToList();
-
-    List<FoodIcon> icons;
-    if (iconIds.Count > 0)
-    {
-      icons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconIds.Contains(i.Id))
-        .ToListAsync();
-    }
-    else
-    {
-      icons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconNames.Contains(i.Name.En))
-        .ToListAsync();
-    }
-
     // Map recipe and related to responses with AutoMapper
     var recipeResponse = _mapper.Map<RecipeResponse>(recipe);
     // Ownership flag for UI
@@ -407,7 +320,6 @@ public class RecipeController : ControllerBase
         .Where(f => f is not null)
         .DistinctBy(f => f!.Id)
         .ToList()!,
-      FoodIcons = icons
     };
 
     return Ok(response);

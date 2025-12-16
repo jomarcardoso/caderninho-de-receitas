@@ -232,7 +232,6 @@ public class RecipeService
   {
     public List<Recipe> Recipes { get; set; } = new();
     public List<Food> Foods { get; set; } = new();
-    public List<FoodIcon> FoodIcons { get; set; } = new();
   }
 
   public async Task<RecipesFoodsAndIcons> GetAllRecipesByUserId(string userId)
@@ -251,22 +250,6 @@ public class RecipeService
 
     // Distinct foods referenced by recipes (including ingredients)
     result.Foods = FoodService.GetFoodsFromRecipes(result.Recipes);
-
-    // Icons by IconId if available
-    var iconIds = result.Foods
-      .Select(f => f.IconId)
-      .Where(id => id.HasValue && id.Value > 0)
-      .Select(id => id!.Value)
-      .Distinct()
-      .ToList();
-
-    if (iconIds.Count > 0)
-    {
-      result.FoodIcons = await _context.FoodIcon
-        .AsNoTracking()
-        .Where(i => iconIds.Contains(i.Id))
-        .ToListAsync();
-    }
 
     return result;
   }
@@ -560,34 +543,11 @@ public class RecipeService
         .ToList();
     }
 
-    // Attach referenced food icons
-    // Prefer icons resolved by IconId collected above; fallback to name-based lookup only if none were found
-    var icons = data.FoodIcons;
-    if (icons.Count == 0 && foods.Count > 0)
-    {
-      var iconNames = foods
-        .Select(f => f.Icon)
-        .Where(s => !string.IsNullOrWhiteSpace(s))
-        .Select(s => s.Trim())
-        .Distinct()
-        .ToList();
-
-      if (iconNames.Count > 0)
-      {
-        icons = await _context.FoodIcon
-          .AsNoTracking()
-          .Where(i => iconNames.Contains(i.Name.En))
-          .ToListAsync();
-      }
-    }
-
     var response = new RecipesDataResponse
     {
       Recipes = recipeDtos,
       Foods = _mapper.Map<List<Food>>(foods)
     };
-
-    response.FoodIcons = icons;
     response.RecipeCategories = await BuildCategoryMapAsync();
 
     // Attach user recipe lists as DTOs to avoid serialization cycles
@@ -635,5 +595,4 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 }
-
 

@@ -7,5 +7,4 @@ public class FoodResponse : Food { }
 public class FoodsDataResponse : CommonDataResponse
 {
   public List<Food> Foods { get; set; } = new();
-  public List<FoodIcon> FoodIcons { get; set; } = new();
 }

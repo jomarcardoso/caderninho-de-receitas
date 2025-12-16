@@ -13,9 +13,9 @@ export interface FoodResponse extends FoodBase, AllNutrientsResponse {
   type: number;
   measures: Record<string, number>;
   categories?: string[];
+  icon?: FoodIconResponse | null;
 }
 
 export interface FoodsDataResponse extends CommonDataResponse {
   foods: FoodResponse[];
-  foodIcons?: FoodIconResponse[];
 }

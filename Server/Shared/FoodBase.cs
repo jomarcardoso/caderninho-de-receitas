@@ -12,7 +12,12 @@ public class FoodBase : ISearchable
   public List<string> Categories { get; set; } = new();
   // New preferred field: FK to FoodIcon
   public int? IconId { get; set; }
+  // Legacy icon filename. Kept for backward compatibility / migrations but not serialized.
+  [System.Text.Json.Serialization.JsonIgnore]
   public string Icon { get; set; } = string.Empty;
+  // Navigation with payload to be returned in API responses
+  [System.Text.Json.Serialization.JsonPropertyName("icon")]
+  public Models.FoodIcon? IconData { get; set; }
   public FoodType Type { get; set; } = FoodType.Solid;
   public NutritionalInformationBase NutritionalInformation { get; set; } = new();
   public MineralsBase Minerals { get; set; } = new();
