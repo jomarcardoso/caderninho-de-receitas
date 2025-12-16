@@ -11,4 +11,5 @@ export interface FoodBase {
   iconId?: number;
   // Icon sources list (data:URI or URLs). If empty, UI may fallback to imgs
   icon: string[];
+  categories?: string[];
 }

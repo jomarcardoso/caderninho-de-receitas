@@ -55,6 +55,23 @@ public class AppDbContext : DbContext
     // Food
     modelBuilder.Entity<Food>(entity =>
     {
+      var (foodCategoriesConverter, foodCategoriesComparer) = (
+        new ValueConverter<List<string>, string>(
+          v => string.Join(',', v ?? new List<string>()),
+          v => string.IsNullOrWhiteSpace(v)
+            ? new List<string>()
+            : v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+              .Select(x => x.Trim())
+              .Where(x => !string.IsNullOrWhiteSpace(x))
+              .ToList()
+        ),
+        new ValueComparer<List<string>>(
+          (a, b) => (a ?? new()).SequenceEqual(b ?? new(), StringComparer.OrdinalIgnoreCase),
+          v => (v ?? new()).Aggregate(0, (acc, x) => HashCode.Combine(acc, x.ToLowerInvariant().GetHashCode())),
+          v => v == null ? new List<string>() : v.ToList()
+        )
+      );
+
       entity.OwnsOne(f => f.Name);
       entity.OwnsOne(f => f.Description);
       entity.OwnsOne(f => f.Keys);
@@ -65,6 +82,10 @@ public class AppDbContext : DbContext
       entity.OwnsOne(f => f.Minerals);
       entity.OwnsOne(f => f.Name);
       entity.OwnsOne(f => f.Measures);
+      entity.Property(f => f.Categories)
+        .HasConversion(foodCategoriesConverter)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(foodCategoriesComparer);
     });
 
     // Recipe

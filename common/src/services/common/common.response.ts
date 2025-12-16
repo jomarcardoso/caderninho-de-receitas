@@ -29,4 +29,5 @@ export interface CommonDataResponse {
   userDietaryRestrictions?: Partial<
     import('./common.model').UserDietaryRestrictions
   >;
+  foodClassificationOptions?: import('./common.model').FoodClassificationOption[];
 }

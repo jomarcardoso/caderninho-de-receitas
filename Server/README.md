@@ -116,6 +116,7 @@ Json format to create new foods
   "keys": { "pt": "banana, fruta", "en": "banana, fruit" },
   "iconId": 12,
   "type": "fruit",
+  "categories": ["desserts", "healthyEating"],
   "nutritionalInformation": {
     "calories": 89,
     "carbohydrates": 23,
@@ -195,6 +196,10 @@ Enums:
 MeasurementUnit: "gram", "liter"
 
 FoodType: "liquid", "seed", "herb", "temper", "fruit", "solid", "oil", "legumen", "flake", "root", "meat", "vegetable", "cake", "cheese", "powder", "starch", "recipe"
+
+Categories: "OriginAnimal", "RedMeat", "WhiteMeat", "Fish", "Shellfish", "Eggs", "Dairy", "Honey", "OriginPlant", "Seeds", "Oilseeds", "Grains", "Legumes", "Fruits", "Vegetables", "Roots", "Tubers", "Leafy", "Stalk", "Flowers", "Herbs", "Spices", "Fungi", "OriginProcessed", "FoodAdditives", "RefinedSugars", "ProcessedFats", "FermentedOrigin", "UltraProcessed", "PlantRoot", "PlantTuber", "PlantRhizome", "PlantBulb", "PlantStem", "PlantLeaf", "PlantFlower", "PlantSeed", "FleshyFruit", "DryFruit", "PodLegume", "Citrus", "Solanaceae", "Cucurbitaceae", "Brassicas", "LegumeFamily", "NutFamily", "Cereals", "BotanicalFungi", "HighLactose", "LactoseFree", "HighGluten", "GlutenFreeNatural", "HighFiber", "HighGI", "LowGI", "HighProtein", "HighFat", "HighSodium", "ContainsCaffeine", "FermentedChem", "HighHistamine", "Raw", "MinimallyProcessed", "Smoked", "Cured", "Fried", "Baked", "Grilled", "Boiled", "Dehydrated", "Frozen", "Preserved", "BaseIngredient", "Condiment", "Seasoning", "Sauce", "Beverage", "SideDish", "Garnish", "Dessert", "MainProtein"
+
+Use `categories` as an array of these slugs. It can be empty when the food does not fit a recipe category.
 
 Notas
 

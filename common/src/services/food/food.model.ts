@@ -11,6 +11,8 @@ export interface Food extends FoodBase, AllNutrients {
   type: LanguageText;
   measurementUnit: LanguageTextAndPlural;
   measures: Array<Measure>;
+  categories?: string[];
+  classificationOptions?: import('../common/common.model').FoodClassificationOption[];
 }
 
 export interface FoodsData extends CommonData {

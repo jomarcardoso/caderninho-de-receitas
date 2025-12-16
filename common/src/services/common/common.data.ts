@@ -25,4 +25,5 @@ export const COMMON_DATA: CommonData = {
     culturalRestrictions: [],
     personalPreferences: [],
   },
+  foodClassificationOptions: [],
 };

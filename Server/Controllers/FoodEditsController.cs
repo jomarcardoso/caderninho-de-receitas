@@ -146,6 +146,56 @@ public class FoodEditsController : ControllerBase
         food.Icon = incomingIcon;
       }
 
+      if (root.TryGetProperty("categories", out var categoriesEl))
+      {
+        var categories = new List<string>();
+
+        if (categoriesEl.ValueKind == JsonValueKind.Array)
+        {
+          foreach (var el in categoriesEl.EnumerateArray())
+          {
+            string? slug = null;
+
+            if (el.ValueKind == JsonValueKind.String)
+            {
+              slug = el.GetString();
+            }
+            else if (el.ValueKind == JsonValueKind.Object && el.TryGetProperty("key", out var keyEl) && keyEl.ValueKind == JsonValueKind.String)
+            {
+              slug = keyEl.GetString();
+            }
+
+            if (!string.IsNullOrWhiteSpace(slug))
+            {
+              categories.Add(slug.Trim());
+            }
+          }
+        }
+        else if (categoriesEl.ValueKind == JsonValueKind.String)
+        {
+          var raw = categoriesEl.GetString();
+          if (!string.IsNullOrWhiteSpace(raw))
+          {
+            foreach (var part in raw.Split(',', StringSplitOptions.RemoveEmptyEntries))
+            {
+              var slug = part.Trim();
+              if (!string.IsNullOrWhiteSpace(slug))
+              {
+                categories.Add(slug);
+              }
+            }
+          }
+        }
+
+        // Explicit empty array/string clears categories; ignore other value kinds
+        if (categoriesEl.ValueKind == JsonValueKind.Array ||
+            categoriesEl.ValueKind == JsonValueKind.String ||
+            categoriesEl.ValueKind == JsonValueKind.Null)
+        {
+          food.Categories = categories;
+        }
+      }
+
       if (root.TryGetProperty("imgs", out var imgsEl) && imgsEl.ValueKind == JsonValueKind.Array)
       {
         var list = new List<string>();

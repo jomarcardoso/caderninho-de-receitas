@@ -40,6 +40,9 @@ export function mapFoodResponseToModel(
   return {
     ...foodResponse,
     ...mapAllNutrientsResponseToModel(foodResponse, commonResponse),
+    categories: Array.isArray((foodResponse as any).categories)
+      ? ((foodResponse as any).categories as string[])
+      : [],
     imgs: Array.isArray((foodResponse as any).imgs)
       ? ((foodResponse as any).imgs as string[])
       : (foodResponse as any).image

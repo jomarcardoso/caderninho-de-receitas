@@ -3,6 +3,7 @@ import {
   type UserDietaryRestrictions,
   type DietaryRestrictionGroup,
   type DietaryRestrictionOption,
+  type FoodClassificationOption,
 } from './common.model';
 import type { CommonDataResponse } from './common.response';
 
@@ -95,6 +96,105 @@ export const DEFAULT_RESTRICTION_OPTIONS: Record<
   ],
 };
 
+export const DEFAULT_FOOD_CLASSIFICATION_OPTIONS: FoodClassificationOption[] = [
+  // Origem biológica - animal
+  { key: 'OriginAnimal', group: 'originAnimal', text: { en: 'Animal origin', pt: 'Origem animal' } },
+  { key: 'RedMeat', group: 'originAnimal', text: { en: 'Red meat', pt: 'Carne vermelha' } },
+  { key: 'WhiteMeat', group: 'originAnimal', text: { en: 'White meat', pt: 'Carne branca' } },
+  { key: 'Fish', group: 'originAnimal', text: { en: 'Fish', pt: 'Peixe' } },
+  { key: 'Shellfish', group: 'originAnimal', text: { en: 'Shellfish / seafood', pt: 'Marisco / frutos do mar' } },
+  { key: 'Eggs', group: 'originAnimal', text: { en: 'Eggs', pt: 'Ovos' } },
+  { key: 'Dairy', group: 'originAnimal', text: { en: 'Dairy', pt: 'Laticínios' } },
+  { key: 'Honey', group: 'originAnimal', text: { en: 'Honey / bee products', pt: 'Mel / produtos apícolas' } },
+
+  // Origem biológica - vegetal
+  { key: 'OriginPlant', group: 'originPlant', text: { en: 'Plant origin', pt: 'Origem vegetal' } },
+  { key: 'Seeds', group: 'originPlant', text: { en: 'Seeds', pt: 'Sementes' } },
+  { key: 'Oilseeds', group: 'originPlant', text: { en: 'Oilseeds (nuts)', pt: 'Oleaginosas (nozes, amêndoas...)' } },
+  { key: 'Grains', group: 'originPlant', text: { en: 'Grains / cereals', pt: 'Grãos / cereais' } },
+  { key: 'Legumes', group: 'originPlant', text: { en: 'Legumes / pulses', pt: 'Leguminosas (feijão, lentilha...)' } },
+  { key: 'Fruits', group: 'originPlant', text: { en: 'Fruits', pt: 'Frutas' } },
+  { key: 'Vegetables', group: 'originPlant', text: { en: 'Vegetables', pt: 'Hortaliças / vegetais' } },
+  { key: 'Roots', group: 'originPlant', text: { en: 'Roots', pt: 'Raízes' } },
+  { key: 'Tubers', group: 'originPlant', text: { en: 'Tubers', pt: 'Tubérculos' } },
+  { key: 'Leafy', group: 'originPlant', text: { en: 'Leafy greens', pt: 'Folhosos' } },
+  { key: 'Stalk', group: 'originPlant', text: { en: 'Stalk / stem', pt: 'Caule (aspargo, aipo)' } },
+  { key: 'Flowers', group: 'originPlant', text: { en: 'Flowers', pt: 'Flores (brócolis, couve-flor)' } },
+  { key: 'Herbs', group: 'originPlant', text: { en: 'Herbs', pt: 'Ervas' } },
+  { key: 'Spices', group: 'originPlant', text: { en: 'Spices', pt: 'Especiarias' } },
+  { key: 'Fungi', group: 'originPlant', text: { en: 'Fungi (mushrooms)', pt: 'Fungos (cogumelos)' } },
+
+  // Origem não-biológica / processada
+  { key: 'OriginProcessed', group: 'originProcessed', text: { en: 'Processed / non-biological', pt: 'Origem não-biológica / processada' } },
+  { key: 'FoodAdditives', group: 'originProcessed', text: { en: 'Food additives', pt: 'Aditivos alimentares' } },
+  { key: 'RefinedSugars', group: 'originProcessed', text: { en: 'Refined sugars', pt: 'Açúcares refinados' } },
+  { key: 'ProcessedFats', group: 'originProcessed', text: { en: 'Processed fats', pt: 'Gorduras processadas' } },
+  { key: 'FermentedOrigin', group: 'originProcessed', text: { en: 'Fermented', pt: 'Fermentados' } },
+  { key: 'UltraProcessed', group: 'originProcessed', text: { en: 'Ultra-processed', pt: 'Ultraprocessados' } },
+
+  // Parte da planta
+  { key: 'PlantRoot', group: 'plantPart', text: { en: 'Root', pt: 'Raiz' } },
+  { key: 'PlantTuber', group: 'plantPart', text: { en: 'Tuber', pt: 'Tubérculo' } },
+  { key: 'PlantRhizome', group: 'plantPart', text: { en: 'Rhizome', pt: 'Rizoma' } },
+  { key: 'PlantBulb', group: 'plantPart', text: { en: 'Bulb', pt: 'Bulbo (alho, cebola)' } },
+  { key: 'PlantStem', group: 'plantPart', text: { en: 'Stem', pt: 'Caule' } },
+  { key: 'PlantLeaf', group: 'plantPart', text: { en: 'Leaf', pt: 'Folha' } },
+  { key: 'PlantFlower', group: 'plantPart', text: { en: 'Flower', pt: 'Flor' } },
+  { key: 'PlantSeed', group: 'plantPart', text: { en: 'Seed', pt: 'Semente' } },
+  { key: 'FleshyFruit', group: 'plantPart', text: { en: 'Fleshy fruit', pt: 'Fruto carnoso' } },
+  { key: 'DryFruit', group: 'plantPart', text: { en: 'Dry fruit', pt: 'Fruto seco' } },
+  { key: 'PodLegume', group: 'plantPart', text: { en: 'Pod legume', pt: 'Legume (vagem/ervilha/feijão verde)' } },
+
+  // Perfil botânico / grupo natural
+  { key: 'Citrus', group: 'botanical', text: { en: 'Citrus', pt: 'Cítricos' } },
+  { key: 'Solanaceae', group: 'botanical', text: { en: 'Solanaceae', pt: 'Solanáceas' } },
+  { key: 'Cucurbitaceae', group: 'botanical', text: { en: 'Cucurbitaceae', pt: 'Cucurbitáceas' } },
+  { key: 'Brassicas', group: 'botanical', text: { en: 'Brassicas', pt: 'Brássicas' } },
+  { key: 'LegumeFamily', group: 'botanical', text: { en: 'Legume family', pt: 'Leguminosas' } },
+  { key: 'NutFamily', group: 'botanical', text: { en: 'Nut family', pt: 'Oleaginosas' } },
+  { key: 'Cereals', group: 'botanical', text: { en: 'Cereals', pt: 'Cereais' } },
+  { key: 'BotanicalFungi', group: 'botanical', text: { en: 'Fungi', pt: 'Fungos' } },
+
+  // Propriedades químicas e nutricionais
+  { key: 'HighLactose', group: 'chemical', text: { en: 'High lactose', pt: 'Alto teor de lactose' } },
+  { key: 'LactoseFree', group: 'chemical', text: { en: 'Lactose-free', pt: 'Livre de lactose' } },
+  { key: 'HighGluten', group: 'chemical', text: { en: 'High gluten', pt: 'Alto teor de glúten' } },
+  { key: 'GlutenFreeNatural', group: 'chemical', text: { en: 'Naturally gluten-free', pt: 'Sem glúten natural' } },
+  { key: 'HighFiber', group: 'chemical', text: { en: 'High fiber', pt: 'Rico em fibras' } },
+  { key: 'HighGI', group: 'chemical', text: { en: 'High glycemic index', pt: 'Alto índice glicêmico' } },
+  { key: 'LowGI', group: 'chemical', text: { en: 'Low glycemic index', pt: 'Baixo índice glicêmico' } },
+  { key: 'HighProtein', group: 'chemical', text: { en: 'High protein', pt: 'Alto teor proteico' } },
+  { key: 'HighFat', group: 'chemical', text: { en: 'High fat', pt: 'Alto teor de gordura' } },
+  { key: 'HighSodium', group: 'chemical', text: { en: 'High sodium', pt: 'Alto teor de sódio' } },
+  { key: 'ContainsCaffeine', group: 'chemical', text: { en: 'Contains caffeine', pt: 'Contém cafeína' } },
+  { key: 'FermentedChem', group: 'chemical', text: { en: 'Fermented', pt: 'Fermentado' } },
+  { key: 'HighHistamine', group: 'chemical', text: { en: 'High histamine', pt: 'Rico em histamina' } },
+
+  // Processamento
+  { key: 'Raw', group: 'processing', text: { en: 'Raw', pt: 'Cru' } },
+  { key: 'MinimallyProcessed', group: 'processing', text: { en: 'Minimally processed', pt: 'Minimamente processado' } },
+  { key: 'Smoked', group: 'processing', text: { en: 'Smoked', pt: 'Defumado' } },
+  { key: 'Cured', group: 'processing', text: { en: 'Cured', pt: 'Curado' } },
+  { key: 'Fried', group: 'processing', text: { en: 'Fried', pt: 'Frito' } },
+  { key: 'Baked', group: 'processing', text: { en: 'Baked', pt: 'Assado' } },
+  { key: 'Grilled', group: 'processing', text: { en: 'Grilled', pt: 'Grelhado' } },
+  { key: 'Boiled', group: 'processing', text: { en: 'Boiled', pt: 'Cozido' } },
+  { key: 'Dehydrated', group: 'processing', text: { en: 'Dehydrated', pt: 'Desidratado' } },
+  { key: 'Frozen', group: 'processing', text: { en: 'Frozen', pt: 'Congelado' } },
+  { key: 'Preserved', group: 'processing', text: { en: 'Preserved (salt/oil/vinegar)', pt: 'Conservado (sal/óleo/vinagre)' } },
+
+  // Finalidade culinária
+  { key: 'BaseIngredient', group: 'culinaryRole', text: { en: 'Base ingredient', pt: 'Ingrediente base' } },
+  { key: 'Condiment', group: 'culinaryRole', text: { en: 'Condiment', pt: 'Condimento' } },
+  { key: 'Seasoning', group: 'culinaryRole', text: { en: 'Seasoning', pt: 'Tempero' } },
+  { key: 'Sauce', group: 'culinaryRole', text: { en: 'Sauce', pt: 'Molho' } },
+  { key: 'Beverage', group: 'culinaryRole', text: { en: 'Beverage', pt: 'Bebida' } },
+  { key: 'SideDish', group: 'culinaryRole', text: { en: 'Side dish', pt: 'Acompanhamento' } },
+  { key: 'Garnish', group: 'culinaryRole', text: { en: 'Garnish', pt: 'Guarnição' } },
+  { key: 'Dessert', group: 'culinaryRole', text: { en: 'Dessert', pt: 'Sobremesa' } },
+  { key: 'MainProtein', group: 'culinaryRole', text: { en: 'Main protein', pt: 'Proteína principal' } },
+];
+
 function mergeOptions(
   provided: CommonDataResponse['dietaryRestrictionOptions'],
 ): Record<DietaryRestrictionGroup, DietaryRestrictionOption[]> {
@@ -156,5 +256,10 @@ export function mapCommonResponseToModel(data: CommonDataResponse): CommonData {
     nutritionalInformation: Object.values(nutritionalInformation),
     dietaryRestrictionOptions: mergeOptions(dietaryRestrictionOptions),
     userDietaryRestrictions: mergeUserRestrictions(userDietaryRestrictions),
+    foodClassificationOptions:
+      Array.isArray(data?.foodClassificationOptions) &&
+      data!.foodClassificationOptions!.length > 0
+        ? data!.foodClassificationOptions!
+        : DEFAULT_FOOD_CLASSIFICATION_OPTIONS,
   };
 }

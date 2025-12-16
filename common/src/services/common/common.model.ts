@@ -28,6 +28,22 @@ export interface UserDietaryRestrictions {
   personalPreferences: string[];
 }
 
+export type FoodClassificationGroup =
+  | 'originAnimal'
+  | 'originPlant'
+  | 'originProcessed'
+  | 'plantPart'
+  | 'botanical'
+  | 'chemical'
+  | 'processing'
+  | 'culinaryRole';
+
+export interface FoodClassificationOption {
+  key: string;
+  group: FoodClassificationGroup;
+  text: LanguageText;
+}
+
 export interface CommonData {
   measures: LanguageTextAndPlural[];
   foodTypes: LanguageText[];
@@ -42,6 +58,7 @@ export interface CommonData {
     DietaryRestrictionOption[]
   >;
   userDietaryRestrictions: UserDietaryRestrictions;
+  foodClassificationOptions: FoodClassificationOption[];
 }
 
 export interface Category extends LanguageTextAndPlural {

@@ -9,6 +9,7 @@ public class FoodBase : ISearchable
   public MeasurementUnit MeasurementUnit { get; set; }
   public MeasureBase Measures { get; set; } = new();
   public LanguageTextBase Keys { get; set; } = new LanguageTextBase();
+  public List<string> Categories { get; set; } = new();
   // New preferred field: FK to FoodIcon
   public int? IconId { get; set; }
   public string Icon { get; set; } = string.Empty;

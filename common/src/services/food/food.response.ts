@@ -12,6 +12,7 @@ export interface FoodResponse extends FoodBase, AllNutrientsResponse {
   measurementUnit: number;
   type: number;
   measures: Record<string, number>;
+  categories?: string[];
 }
 
 export interface FoodsDataResponse extends CommonDataResponse {
