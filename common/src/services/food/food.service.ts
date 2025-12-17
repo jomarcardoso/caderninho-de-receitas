@@ -15,7 +15,11 @@ export function mapFoodResponseToModel(
     const raw = (iconObj.content ?? '').trim();
     const media = (iconObj.mediaType ?? '').toLowerCase();
     if (raw) {
-      if (raw.startsWith('data:')) {
+      if (
+        raw.startsWith('http://') ||
+        raw.startsWith('https://') ||
+        raw.startsWith('data:')
+      ) {
         iconList.push(raw);
       } else if (raw.startsWith('<') || media.includes('svg')) {
         iconList.push(`data:image/svg+xml;utf8,${encodeURIComponent(raw)}`);
