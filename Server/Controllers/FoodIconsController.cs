@@ -159,4 +159,54 @@ namespace Server.Controllers;
 
     return Ok(results);
   }
+
+  // GET: api/food-icons/all
+  [HttpGet("all")]
+  public async Task<IActionResult> GetAll()
+  {
+    var items = await _context.FoodIcon
+      .AsNoTracking()
+      .OrderBy(i => i.Id)
+      .Select(i => new
+      {
+        i.Id,
+        Name = i.Name,
+        i.Url,
+        Keys = i.Keys
+      })
+      .ToListAsync();
+    return Ok(items);
+  }
+
+  // PUT: api/food-icons/{id}
+  [HttpPut("{id:int}")]
+  public async Task<IActionResult> Update(int id, [FromBody] FoodIconDto dto)
+  {
+    if (id <= 0 || dto is null) return BadRequest();
+
+    var icon = await _context.FoodIcon.FirstOrDefaultAsync(i => i.Id == id);
+    if (icon is null) return NotFound();
+
+    if (!string.IsNullOrWhiteSpace(dto.Name))
+    {
+      var normalized = dto.Name.Trim();
+      icon.Name.En = normalized;
+      icon.Name.Pt = dto.Keys?.Pt?.Trim() ?? icon.Name.Pt;
+    }
+
+    if (!string.IsNullOrWhiteSpace(dto.Url))
+    {
+      icon.Url = dto.Url.Trim();
+    }
+
+    if (dto.Keys is not null)
+    {
+      icon.Keys ??= new Server.Models.LanguageText();
+      icon.Keys.Pt = dto.Keys.Pt?.Trim() ?? icon.Keys.Pt;
+      icon.Keys.En = dto.Keys.En?.Trim() ?? icon.Keys.En;
+    }
+
+    await _context.SaveChangesAsync();
+    return NoContent();
+  }
 }

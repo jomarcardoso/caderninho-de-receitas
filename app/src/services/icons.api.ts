@@ -39,6 +39,42 @@ export async function getFoodIconsMap(names: string[]): Promise<Record<string, s
 
 export interface FoodIconByIdEntry { url?: string }
 
+export interface FoodIconEntry {
+  id: number;
+  name: { en: string; pt?: string };
+  url: string;
+  keys?: { en?: string; pt?: string };
+}
+
+export async function fetchFoodIcons(): Promise<FoodIconEntry[]> {
+  try {
+    const res = await fetch(`${getApiBase()}/api/food-icons/all`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (!Array.isArray(data)) return [];
+    return data as FoodIconEntry[];
+  } catch {
+    return [];
+  }
+}
+
+export async function updateFoodIcon(
+  id: number,
+  payload: { name?: string; url?: string; keys?: { en?: string; pt?: string } },
+): Promise<boolean> {
+  if (!id || id <= 0) return false;
+  try {
+    const res = await fetch(`${getApiBase()}/api/food-icons/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 export async function getFoodIconsMapById(ids: number[]): Promise<Record<number, FoodIconByIdEntry>> {
   if (!Array.isArray(ids) || ids.length === 0) return {};
 
