@@ -29,8 +29,7 @@ namespace Server.Controllers;
       var item = new FoodIcon
       {
         Name = new Server.Models.LanguageText { En = normalizedName, Pt = string.Empty },
-        MediaType = icon.MediaType?.Trim() ?? string.Empty,
-        Content = icon.Content ?? string.Empty,
+        Url = icon.Url ?? string.Empty,
       };
       if (icon.Keys is not null)
       {
@@ -40,8 +39,7 @@ namespace Server.Controllers;
     }
     else
     {
-      existing.MediaType = icon.MediaType?.Trim() ?? existing.MediaType;
-      existing.Content = icon.Content ?? existing.Content;
+      existing.Url = icon.Url ?? existing.Url;
       if (icon.Keys is not null)
       {
         existing.Keys ??= new Server.Models.LanguageText();
@@ -75,8 +73,7 @@ namespace Server.Controllers;
         map[name] = item;
       }
 
-      item.MediaType = icon.MediaType?.Trim() ?? item.MediaType;
-      item.Content = icon.Content ?? item.Content;
+      item.Url = icon.Url ?? item.Url;
       if (icon.Keys is not null)
       {
         item.Keys ??= new Server.Models.LanguageText();
@@ -110,7 +107,7 @@ namespace Server.Controllers;
       query = query.Where(i => set.Contains(i.Name.En));
     }
 
-    var map = await query.ToDictionaryAsync(i => i.Name.En, i => i.Content);
+    var map = await query.ToDictionaryAsync(i => i.Name.En, i => i.Url);
     return Ok(map);
   }
 
@@ -131,7 +128,7 @@ namespace Server.Controllers;
       }
     }
 
-    var map = await query.ToDictionaryAsync(i => i.Id, i => new { i.MediaType, i.Content });
+    var map = await query.ToDictionaryAsync(i => i.Id, i => new { i.Url });
     return Ok(map);
   }
 
@@ -157,7 +154,7 @@ namespace Server.Controllers;
     var results = await query
       .OrderBy(i => i.Name.En)
       .Take(limit)
-      .Select(i => new { i.Id, Name = i.Name.En, i.MediaType, i.Content })
+      .Select(i => new { i.Id, Name = i.Name.En, i.Url })
       .ToListAsync();
 
     return Ok(results);

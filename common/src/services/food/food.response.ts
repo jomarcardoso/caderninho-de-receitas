@@ -4,8 +4,7 @@ import { type FoodBase } from './food.types';
 
 export interface FoodIconResponse {
   id: number;
-  mediaType?: string;
-  content?: string; // raw svg or base64 (png/webp), or data URI
+  url?: string; // public URL
 }
 
 export interface FoodResponse extends FoodBase, AllNutrientsResponse {

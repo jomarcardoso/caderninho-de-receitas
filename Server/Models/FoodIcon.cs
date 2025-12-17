@@ -9,8 +9,8 @@ public class FoodIcon : ISearchable
   // Localized name (En used as the canonical string previously stored in Name)
   public LanguageText Name { get; set; } = new();
 
-  public string MediaType { get; set; } = string.Empty; // e.g., image/svg+xml or image/png
-  public string Content { get; set; } = string.Empty; // raw SVG or base64 PNG
+  // Public URL to the icon file
+  public string Url { get; set; } = string.Empty;
 
   // Search support (similar to Food): optional keys in multiple languages
   public LanguageText Keys { get; set; } = new();

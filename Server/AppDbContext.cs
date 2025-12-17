@@ -190,8 +190,7 @@ public class AppDbContext : DbContext
         nb.HasIndex(n => n.En).IsUnique();
       });
 
-      entity.Property(i => i.MediaType).IsRequired();
-      entity.Property(i => i.Content).IsRequired();
+      entity.Property(i => i.Url).IsRequired();
       entity.OwnsOne(i => i.Keys);
     });
 

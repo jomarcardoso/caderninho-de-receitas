@@ -101,11 +101,15 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
         const map = await getFoodIconsMapById([id]);
         const entry = map[id];
         if (!entry) { setIconByIdPreview(undefined); return; }
-        const media = (entry.mediaType || '').toLowerCase();
-        const isSvg = media.includes('svg') || (entry.content || '').trim().startsWith('<');
+        const content = entry.url || '';
+        if (content.startsWith('http://') || content.startsWith('https://') || content.startsWith('data:')) {
+          setIconByIdPreview(content);
+          return;
+        }
+        const isSvg = content.trim().startsWith('<');
         const src = isSvg
-          ? `data:image/svg+xml;utf8,${encodeURIComponent(entry.content || '')}`
-          : `data:${entry.mediaType || 'image/png'};base64,${entry.content || ''}`;
+          ? `data:image/svg+xml;utf8,${encodeURIComponent(content)}`
+          : `data:image/png;base64,${content}`;
         setIconByIdPreview(src);
       } catch { setIconByIdPreview(undefined); }
     })();
@@ -201,11 +205,15 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
           {(() => {
             const selected = iconResults.find((it) => it.id && it.id === (values as any).iconId) ||
                              iconResults.find((it) => it.name === values.icon);
-            if (selected && selected.content) {
-              const isSvg = (selected.mediaType || '').toLowerCase().includes('svg') || selected.content.trim().startsWith('<');
-              const src = isSvg
-                ? `data:image/svg+xml;utf8,${encodeURIComponent(selected.content)}`
-                : `data:${selected.mediaType || 'image/png'};base64,${selected.content}`;
+            if (selected && selected.url) {
+              const content = selected.url;
+              const isUrl = content.startsWith('http://') || content.startsWith('https://') || content.startsWith('data:');
+              const isSvg = content.trim().startsWith('<');
+              const src = isUrl
+                ? content
+                : isSvg
+                  ? `data:image/svg+xml;utf8,${encodeURIComponent(content)}`
+                  : `data:image/png;base64,${content}`;
               return (
                 <div style={{ marginTop: 8 }}>
                   <img src={src} alt="" width={28} height={28} style={{ objectFit: 'contain' }} />
@@ -227,14 +235,21 @@ export const FoodRegisterForm: FC<FormikProps<FoodForm> & FoodRegisterFormProps>
           {iconLoading && <div style={{ opacity: 0.7, fontSize: 12 }}>buscando ícones...</div>}
           {!iconLoading && iconResults.length > 0 && (
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
-              {iconResults.map((it) => {
-                const isSvg = (it.mediaType || '').toLowerCase().includes('svg') || (it.content || '').trim().startsWith('<');
-                const src = isSvg
-                  ? `data:image/svg+xml;utf8,${encodeURIComponent(it.content || '')}`
-                  : `data:${it.mediaType || 'image/png'};base64,${it.content || ''}`;
+              {iconResults.map((it, idx) => {
+                const content = it.url || '';
+                const isUrl =
+                  content.startsWith('http://') ||
+                  content.startsWith('https://') ||
+                  content.startsWith('data:');
+                const isSvg = content.trim().startsWith('<');
+                const src = isUrl
+                  ? content
+                  : isSvg
+                    ? `data:image/svg+xml;utf8,${encodeURIComponent(content)}`
+                    : `data:image/png;base64,${content}`;
                 return (
                   <button
-                    key={it.name}
+                    key={it.id ?? it.name ?? idx}
                     type="button"
                     onClick={() => {
                       if (typeof it.id === 'number') setFieldValue('iconId', it.id);

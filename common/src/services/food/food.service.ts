@@ -9,11 +9,10 @@ export function mapFoodResponseToModel(
 ): Food {
   const iconList: string[] = [];
   const iconObj = (foodResponse as any).icon as
-    | { mediaType?: string; content?: string }
+    | { url?: string }
     | undefined;
   if (iconObj) {
-    const raw = (iconObj.content ?? '').trim();
-    const media = (iconObj.mediaType ?? '').toLowerCase();
+    const raw = (iconObj.url ?? '').trim();
     if (raw) {
       if (
         raw.startsWith('http://') ||
@@ -21,14 +20,8 @@ export function mapFoodResponseToModel(
         raw.startsWith('data:')
       ) {
         iconList.push(raw);
-      } else if (raw.startsWith('<') || media.includes('svg')) {
+      } else if (raw.startsWith('<')) {
         iconList.push(`data:image/svg+xml;utf8,${encodeURIComponent(raw)}`);
-      } else if (media.includes('webp')) {
-        iconList.push(`data:image/webp;base64,${raw}`);
-      } else if (media.includes('png')) {
-        iconList.push(`data:image/png;base64,${raw}`);
-      } else if (media) {
-        iconList.push(`data:${media};base64,${raw}`);
       } else {
         iconList.push(`data:image/png;base64,${raw}`);
       }

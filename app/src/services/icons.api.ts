@@ -6,8 +6,7 @@ function getApiBase(): string {
 export interface FoodIconSearchItem {
   id?: number;
   name: string;
-  mediaType?: string;
-  content?: string; // raw svg or base64 for png
+  url?: string; // public URL or inline svg/base64
 }
 
 export async function searchFoodIcons(q = '', limit = 25): Promise<FoodIconSearchItem[]> {
@@ -38,7 +37,7 @@ export async function getFoodIconsMap(names: string[]): Promise<Record<string, s
   }
 }
 
-export interface FoodIconByIdEntry { mediaType?: string; content?: string }
+export interface FoodIconByIdEntry { url?: string }
 
 export async function getFoodIconsMapById(ids: number[]): Promise<Record<number, FoodIconByIdEntry>> {
   if (!Array.isArray(ids) || ids.length === 0) return {};
