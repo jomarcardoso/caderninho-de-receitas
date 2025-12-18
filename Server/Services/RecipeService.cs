@@ -563,6 +563,7 @@ public class RecipeService
           OwnerId = l.OwnerId,
           Name = l.Name,
           Description = l.Description,
+          IsPublic = l.IsPublic,
           CreatedAt = l.CreatedAt,
           UpdatedAt = l.UpdatedAt,
           Items = l.Items
@@ -595,4 +596,3 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 }
-

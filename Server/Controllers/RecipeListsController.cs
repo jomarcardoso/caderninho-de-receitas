@@ -34,7 +34,7 @@ public class RecipeListsController : ControllerBase
     return Ok(lists);
   }
 
-  public record UpsertListPayload(string name, string? description);
+  public record UpsertListPayload(string name, string? description, bool? isPublic);
 
   [HttpPost]
   public async Task<IActionResult> Create([FromBody] UpsertListPayload payload)
@@ -47,6 +47,7 @@ public class RecipeListsController : ControllerBase
       OwnerId = userId,
       Name = payload.name.Trim(),
       Description = payload.description?.Trim(),
+      IsPublic = payload.isPublic ?? false,
       CreatedAt = DateTime.UtcNow,
       UpdatedAt = DateTime.UtcNow,
     };
@@ -64,6 +65,7 @@ public class RecipeListsController : ControllerBase
     if (list is null) return NotFound();
     if (!string.IsNullOrWhiteSpace(payload?.name)) list.Name = payload.name.Trim();
     list.Description = payload?.description?.Trim();
+    if (payload?.isPublic is not null) list.IsPublic = payload.isPublic.Value;
     list.UpdatedAt = DateTime.UtcNow;
     await _context.SaveChangesAsync();
     return Ok(list);
@@ -125,4 +127,3 @@ public class RecipeListsController : ControllerBase
     return Ok(new { removed = true });
   }
 }
-

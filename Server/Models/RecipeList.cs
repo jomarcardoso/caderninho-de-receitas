@@ -6,6 +6,7 @@ public class RecipeList
   public string OwnerId { get; set; } = string.Empty;
   public string Name { get; set; } = string.Empty;
   public string? Description { get; set; }
+  public bool IsPublic { get; set; } = false;
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
@@ -23,4 +24,3 @@ public class RecipeListItem
   public int Position { get; set; } = 0;
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
-

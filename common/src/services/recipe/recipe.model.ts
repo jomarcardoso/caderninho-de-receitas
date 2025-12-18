@@ -49,8 +49,8 @@ export type RecipeList = {
   ownerId: string;
   name: string;
   description?: string | null;
+  isPublic?: boolean;
   createdAt: string;
   updatedAt: string;
   items?: RecipeListItem[];
 };
-

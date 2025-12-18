@@ -78,6 +78,7 @@ public class RecipeListResponse
   public string OwnerId { get; set; } = string.Empty;
   public string Name { get; set; } = string.Empty;
   public string? Description { get; set; }
+  public bool IsPublic { get; set; } = false;
   public DateTime CreatedAt { get; set; }
   public DateTime UpdatedAt { get; set; }
   public List<RecipeListItemResponse> Items { get; set; } = new();

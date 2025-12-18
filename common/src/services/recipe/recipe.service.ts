@@ -302,6 +302,7 @@ export function mapRecipesDataResponseToModel(
       ownerId: l.ownerId,
       name: l.name,
       description: l.description ?? null,
+      isPublic: l.isPublic ?? false,
       createdAt: l.createdAt,
       updatedAt: l.updatedAt,
       items: (l.items ?? []).map((it) => ({

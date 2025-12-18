@@ -39,6 +39,7 @@ export interface RecipeListResponse {
   ownerId: string;
   name: string;
   description?: string;
+  isPublic?: boolean;
   createdAt: string;
   updatedAt: string;
   items?: RecipeListItemResponse[];
