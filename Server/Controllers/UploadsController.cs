@@ -54,6 +54,7 @@ public class UploadsController : ControllerBase
   }
 
   public record RecipeUploadResponse(string Url, string ObjectName, int Width, int Height);
+  public record IconUploadResponse(string Url, string ObjectName);
 
   [HttpPost("sas")]
   [AllowAnonymous]
@@ -147,6 +148,57 @@ public class UploadsController : ControllerBase
     var url = await gcsStorage.UploadAsync(optimized.Output, objectName, optimized.ContentType, cancellationToken);
 
     return Ok(new RecipeUploadResponse(url, objectName, optimized.Width, optimized.Height));
+  }
+
+  [HttpPost("icons")]
+  [RequestSizeLimit(10 * 1024 * 1024)]
+  public async Task<IActionResult> UploadIcon([FromForm] RecipeUploadRequest request, CancellationToken cancellationToken)
+  {
+    if (request.File is null || request.File.Length == 0)
+    {
+      return BadRequest(new { error = "File is required" });
+    }
+
+    var fileName = request.File.FileName ?? "icon";
+    var sanitized = SanitizeFileName(Path.GetFileNameWithoutExtension(fileName));
+    var prefix = string.IsNullOrWhiteSpace(request.Prefix)
+      ? "foodicons"
+      : request.Prefix.Trim('/');
+
+    var contentType = request.File.ContentType?.ToLowerInvariant() ?? string.Empty;
+    var isSvg = contentType.Contains("svg") || Path.GetExtension(fileName).ToLowerInvariant() == ".svg";
+
+    if (isSvg)
+    {
+      await using var stream = request.File.OpenReadStream();
+      var objectName = $"{prefix}/{sanitized}-{Guid.NewGuid():N}.svg";
+      var url = await gcsStorage.UploadAsync(stream, objectName, "image/svg+xml", cancellationToken);
+      return Ok(new IconUploadResponse(url, objectName));
+    }
+
+    await using var input = request.File.OpenReadStream();
+    var validation = await imageOptimization.ValidateAsync(input, cancellationToken);
+    if (!validation.IsValid)
+    {
+      return BadRequest(new { error = validation.Reason });
+    }
+
+    var options = new WebpOptions
+    {
+      Quality = request.Quality ?? 70,
+      Method = request.Method ?? WebpEncodingMethod.Default,
+      NearLossless = request.NearLossless ?? false,
+      StripMetadata = request.StripMetadata ?? true
+    };
+
+    var maxWidth = request.MaxWidth ?? 1024;
+    var maxHeight = request.MaxHeight ?? 1024;
+
+    var optimized = await imageOptimization.ResizeAndWebpAsync(input, maxWidth, maxHeight, options, cancellationToken);
+    var objectNameWebp = $"{prefix}/{sanitized}-{Guid.NewGuid():N}.webp";
+    var urlWebp = await gcsStorage.UploadAsync(optimized.Output, objectNameWebp, optimized.ContentType, cancellationToken);
+
+    return Ok(new IconUploadResponse(urlWebp, objectNameWebp));
   }
 
   private static string SanitizeFileName(string? name)
