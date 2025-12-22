@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
@@ -9,7 +9,6 @@ using Server.Serialization;
 using Server.Shared;
 using System.Security.Claims;
 using Server.Dtos;
-
 
 namespace Server.Controllers;
 
@@ -25,9 +24,6 @@ public class RecipeController : ControllerBase
   private readonly PlainTextRecipeParser plainTextRecipeParser;
   private readonly PlainTextRecipePreProcessor plainTextRecipePreProcessor;
   private readonly RecipeImageOcrService recipeImageOcrService;
-
-
-  // Unified owner uses authenticated claim or cookie only
 
   public RecipeController(
     AppDbContext context,
@@ -50,12 +46,11 @@ public class RecipeController : ControllerBase
   private string GetUserId()
   {
     var authId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    return string.IsNullOrWhiteSpace(authId) ? string.Empty : authId!.Trim();
+    return string.IsNullOrWhiteSpace(authId) ? string.Empty : authId.Trim();
   }
 
   [HttpPost]
-  public async Task<IActionResult> CreateRecipe(
-    [FromBody] RecipeDto recipeDto)
+  public async Task<IActionResult> CreateRecipe([FromBody] RecipeDto recipeDto)
   {
     if (recipeDto is null) return BadRequest("Recipe payload must be provided.");
     var ownerId = GetUserId();
@@ -64,8 +59,7 @@ public class RecipeController : ControllerBase
   }
 
   [HttpPost("many")]
-  public async Task<IActionResult> CreateRecipes(
-    [FromBody] List<RecipeDto> recipesDto)
+  public async Task<IActionResult> CreateRecipes([FromBody] List<RecipeDto> recipesDto)
   {
     if (recipesDto is null || recipesDto.Count == 0) return BadRequest("At least one recipe must be provided.");
     var ownerId = GetUserId();
@@ -76,12 +70,23 @@ public class RecipeController : ControllerBase
     {
       var recipe = await recipeService.DtoToEntity(dto);
       recipe.OwnerId = ownerId;
-      recipe.IsPublic = false;
-      recipe.Verified = false;
+      recipe.Visibility = RecipeVisibility.Private;
+      recipe.PublishedRevisionId = null;
       recipesToAdd.Add(recipe);
     }
 
     _context.Recipe.AddRange(recipesToAdd);
+    await _context.SaveChangesAsync();
+
+    foreach (var recipe in recipesToAdd)
+    {
+      var latest = recipe.Revisions.FirstOrDefault();
+      if (latest is not null)
+      {
+        recipe.LatestRevisionId = latest.Id;
+        recipe.LatestRevision = latest;
+      }
+    }
     await _context.SaveChangesAsync();
 
     var response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
@@ -89,86 +94,143 @@ public class RecipeController : ControllerBase
   }
 
   [HttpPut("{id}")]
-  public async Task<IActionResult> UpdateRecipe(
-    int id,
-    [FromBody] RecipeDto recipeDto)
+  public async Task<IActionResult> UpdateRecipe(int id, [FromBody] RecipeDto recipeDto)
   {
     if (recipeDto is null) return BadRequest("Recipe payload must be provided.");
     var ownerId = GetUserId();
     if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
     var recipe = await _context.Recipe
-      .Include(r => r.Steps)
-      .ThenInclude(s => s.Ingredients)
+      .Include(r => r.Revisions)
+      .Include(r => r.LatestRevision)
+        .ThenInclude(rv => rv.Steps)
+        .ThenInclude(s => s.Ingredients)
+        .ThenInclude(i => i.Food)
+      .Include(r => r.PublishedRevision)
+        .ThenInclude(rv => rv.Steps)
+        .ThenInclude(s => s.Ingredients)
+        .ThenInclude(i => i.Food)
       .FirstOrDefaultAsync(r => r.Id == id);
 
     if (recipe is null) return NotFound();
-    if (!string.Equals(recipe.OwnerId, ownerId, StringComparison.Ordinal))
-      return Forbid();
+    if (!string.Equals(recipe.OwnerId, ownerId, StringComparison.Ordinal)) return Forbid();
 
     await recipeService.UpdateEntityFromDto(recipe, recipeDto);
-    // Keep ownership as resolved ownerId; do not override on update
     recipe.OwnerId = ownerId;
-    // Any change requires re-approval
-    recipe.IsPublic = false;
-    recipe.Verified = false;
+    recipe.Visibility = RecipeVisibility.Private;
+    recipe.PublishedRevisionId = null;
+    if (recipe.LatestRevision is not null && recipe.LatestRevision.Status == RevisionStatus.Approved)
+      recipe.LatestRevision.Status = RevisionStatus.Draft;
 
-    await _context.SaveChangesAsync();
+    try
+    {
+      await _context.SaveChangesAsync();
+    }
+    catch (DbUpdateException ex)
+    {
+      return StatusCode(500, new
+      {
+        error = "db_update_failed_initial",
+        message = ex.Message,
+        inner = ex.InnerException?.Message ?? string.Empty,
+        stack = ex.InnerException?.StackTrace ?? string.Empty
+      });
+    }
+
+    // Após persistir a revisão, setar o FK LatestRevisionId com o id salvo
+    var latest = recipe.Revisions.FirstOrDefault();
+    if (latest is not null)
+    {
+      recipe.LatestRevisionId = latest.Id;
+      recipe.LatestRevision = latest;
+      _context.Recipe.Update(recipe);
+      try
+      {
+        await _context.SaveChangesAsync();
+      }
+      catch (DbUpdateException ex)
+      {
+        return StatusCode(500, new
+        {
+          error = "db_update_failed_set_latest",
+          message = ex.Message,
+          inner = ex.InnerException?.Message ?? string.Empty,
+          stack = ex.InnerException?.StackTrace ?? string.Empty
+        });
+      }
+    }
 
     var response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
     return Ok(response);
   }
 
-  // Admin moderation: list unverified recipes
   [HttpGet("pending")]
   [Authorize(Roles = "Admin")]
   public async Task<IActionResult> GetPendingRecipes()
   {
     var pending = await _context.Recipe
       .AsNoTracking()
-      .Where(r => !r.Verified)
-      .OrderByDescending(r => r.CreatedAt)
-      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic, r.Verified, r.CreatedAt })
+      .Include(r => r.LatestRevision)
+      .Where(r => r.LatestRevision != null && r.LatestRevision.Status == RevisionStatus.PendingReview)
+      .OrderByDescending(r => r.CreatedAtUtc)
+      .Select(r => new
+      {
+        r.Id,
+        Name = r.LatestRevision!.Name,
+        Imgs = r.Imgs,
+        OwnerId = r.OwnerId,
+        Visibility = r.Visibility,
+        Status = r.LatestRevision!.Status,
+        r.CreatedAtUtc
+      })
       .ToListAsync();
     return Ok(pending);
   }
 
-  // Admin moderation: approve
   [HttpPost("{id}/approve")]
   [Authorize(Roles = "Admin")]
   public async Task<IActionResult> ApproveRecipe(int id)
   {
-    var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
+    var recipe = await _context.Recipe
+      .Include(r => r.LatestRevision)
+      .FirstOrDefaultAsync(r => r.Id == id);
     if (recipe is null) return NotFound();
-    recipe.IsPublic = true;
-    recipe.Verified = true;
-    recipe.UpdatedAt = DateTime.UtcNow;
+    if (recipe.LatestRevision is null) return BadRequest(new { error = "No revision to approve." });
+
+    recipe.LatestRevision.Status = RevisionStatus.Approved;
+    recipe.PublishedRevisionId = recipe.LatestRevision.Id;
+    recipe.Visibility = RecipeVisibility.Public;
+    recipe.UpdatedAtUtc = DateTime.UtcNow;
     await _context.SaveChangesAsync();
-    return Ok(new { id = recipe.Id, isPublic = recipe.IsPublic, verified = recipe.Verified });
+    return Ok(new { id = recipe.Id, visibility = recipe.Visibility, publishedRevisionId = recipe.PublishedRevisionId });
   }
 
-  // Admin moderation: deny
   [HttpPost("{id}/deny")]
   [Authorize(Roles = "Admin")]
   public async Task<IActionResult> DenyRecipe(int id)
   {
-    var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == id);
+    var recipe = await _context.Recipe
+      .Include(r => r.LatestRevision)
+      .FirstOrDefaultAsync(r => r.Id == id);
     if (recipe is null) return NotFound();
-    recipe.IsPublic = false;
-    recipe.Verified = true;
-    recipe.UpdatedAt = DateTime.UtcNow;
+    if (recipe.LatestRevision is null) return BadRequest(new { error = "No revision to deny." });
+
+    recipe.LatestRevision.Status = RevisionStatus.Rejected;
+    recipe.Visibility = RecipeVisibility.Private;
+    recipe.UpdatedAtUtc = DateTime.UtcNow;
     await _context.SaveChangesAsync();
-    return Ok(new { id = recipe.Id, isPublic = recipe.IsPublic, verified = recipe.Verified });
+    return Ok(new { id = recipe.Id, status = recipe.LatestRevision.Status });
   }
 
   [HttpDelete("{id}")]
-  public async Task<IActionResult> DeleteRecipe(
-    int id)
+  public async Task<IActionResult> DeleteRecipe(int id)
   {
     var claimedUserId = GetUserId();
 
     var recipe = await _context.Recipe
-      .Include(r => r.Steps)
+      .Include(r => r.Revisions)
+      .Include(r => r.LatestRevision)
+      .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
       .FirstOrDefaultAsync(r => r.Id == id);
 
@@ -200,7 +262,6 @@ public class RecipeController : ControllerBase
     [FromQuery] int quantity = 20)
   {
     var userId = GetUserId();
-    // accept either comma-separated 'categories' or repeated ?categories= key
     var categoryKeys = Request.Query.ContainsKey("categories") && Request.Query["categories"].Count > 1
       ? Request.Query["categories"].ToList()
       : (categories ?? string.Empty)
@@ -209,19 +270,12 @@ public class RecipeController : ControllerBase
           .ToList();
 
     var recipes = await recipeService.SearchRecipesAsync(text, categoryKeys, quantity, string.IsNullOrWhiteSpace(userId) ? null : userId);
+    var recipeResponses = recipes
+      .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
+      .ToList();
 
-    // Map to API responses
-    var recipeResponses = _mapper.Map<List<RecipeResponse>>(recipes);
-    // Enrich with ownership flag for UI
-    foreach (var r in recipeResponses)
-    {
-      try { r.IsOwner = string.Equals(r.Author?.Id, userId, StringComparison.Ordinal); } catch { r.IsOwner = false; }
-    }
-
-    // Collect Foods referenced by the recipes (including steps/ingredients)
     var foods = FoodService.GetFoodsFromRecipes(recipes);
 
-    // Build full response including common dictionaries (via FoodsDataResponse inheritance)
     var response = new RecipesDataResponse
     {
       Recipes = recipeResponses,
@@ -237,29 +291,35 @@ public class RecipeController : ControllerBase
   public async Task<IActionResult> GetCategories()
   {
     var map = await recipeService.BuildCategoryMapAsync();
-    // Retorna a lista de categorias com metadados (key, url, textos e imagem)
     return Ok(map.Values.ToList());
   }
 
   [HttpGet("{id}")]
   [AllowAnonymous]
   public async Task<IActionResult> GetPublicRecipe(
-  int id,
-  [FromQuery] int count = 5,
-  [FromQuery] string? excludeIds = null,
-  [FromQuery] bool excludeSameOwner = true)
+    int id,
+    [FromQuery] int count = 5,
+    [FromQuery] string? excludeIds = null,
+    [FromQuery] bool excludeSameOwner = true)
   {
     var recipe = await _context.Recipe
-      .Include(r => r.Food)
       .Include(r => r.Owner)
-      .Include(r => r.Steps)
+      .Include(r => r.Revisions)
+      .Include(r => r.PublishedRevision)
+        .ThenInclude(rv => rv.Steps)
+        .ThenInclude(s => s.Ingredients)
+        .ThenInclude(i => i.Food)
+      .Include(r => r.LatestRevision)
+        .ThenInclude(rv => rv.Steps)
         .ThenInclude(s => s.Ingredients)
         .ThenInclude(i => i.Food)
       .FirstOrDefaultAsync(r => r.Id == id);
 
     if (recipe is null) return NotFound();
     var userId = GetUserId();
-    if (!recipe.IsPublic && !string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal)) return NotFound();
+    var revision = recipe.PublishedRevision ?? recipe.LatestRevision;
+    if (revision is null) return NotFound();
+    if (recipe.Visibility != RecipeVisibility.Public && !string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal)) return NotFound();
 
     count = Math.Clamp(count, 1, 5);
     var excluded = new HashSet<int>((excludeIds ?? string.Empty)
@@ -284,39 +344,45 @@ public class RecipeController : ControllerBase
 
     var candidates = await _context.Recipe
       .AsNoTracking()
+      .Include(r => r.PublishedRevision)
       .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
-      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description, r.OwnerId, r.IsPublic })
+      .Select(r => new
+      {
+        r.Id,
+        Name = r.PublishedRevision!.Name,
+        r.Imgs,
+        r.OwnerId,
+        r.Visibility
+      })
       .ToListAsync();
 
     var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
     var filtered = candidates
-      .Where(r => r.IsPublic)
+      .Where(r => r.Visibility == RecipeVisibility.Public)
       .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
       .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
       .Take(count)
-      .Select(r => new { r.Id, r.Name, r.Imgs, r.Description })
+      .Select(r => new { r.Id, r.Name, r.Imgs })
       .ToList();
 
-    // Map recipe and related to responses with AutoMapper
-    var recipeResponse = _mapper.Map<RecipeResponse>(recipe);
-    // Ownership flag for UI
-    try { recipeResponse.IsOwner = string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal); } catch { recipeResponse.IsOwner = false; }
+    var recipeResponse = recipeService.BuildRecipeResponse(recipe, RecipeService.RevisionView.PublishedPreferred, userId);
 
     var relatedIds = filtered.Select(r => r.Id).ToList();
     var relatedEntities = await _context.Recipe
       .AsNoTracking()
+      .Include(r => r.PublishedRevision)
       .Include(r => r.Owner)
       .Where(r => relatedIds.Contains(r.Id))
       .ToListAsync();
-    var relatedResponses = _mapper.Map<List<RecipeResponse>>(relatedEntities);
+    var relatedResponses = relatedEntities
+      .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
+      .ToList();
 
-    // Build full response including common dictionaries (via FoodsDataResponse inheritance)
     var response = new RecipeDataResponse
     {
       Recipes = recipeResponse,
       RelatedRecipes = relatedResponses,
-      Foods = new List<Food> { recipe.Food! }
-        .Concat(recipe.Steps.SelectMany(s => s.Ingredients).Select(i => i.Food))
+      Foods = FoodService.GetFoodsFromRecipes(new List<Recipe> { recipe })
         .Where(f => f is not null)
         .DistinctBy(f => f!.Id)
         .ToList()!,
@@ -325,39 +391,6 @@ public class RecipeController : ControllerBase
     return Ok(response);
   }
 
-  // Removed legacy public endpoint to unify access under GetRecipe
-
-  private static Language? TryMapLanguage(string? value)
-  {
-    if (string.IsNullOrWhiteSpace(value)) return null;
-    if (Enum.TryParse<Language>(value, true, out var parsed)) return parsed;
-
-    return value.ToLowerInvariant() switch
-    {
-      "en" or "eng" or "english" => Language.En,
-      "pt" or "por" or "pt-br" or "portuguese" => Language.Pt,
-      _ => null
-    };
-  }
-
-  private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string ownerId, bool? isPublic)
-  {
-    var recipe = await recipeService.DtoToEntity(recipeDto);
-    recipe.OwnerId = ownerId;
-
-    if (isPublic.HasValue) recipe.IsPublic = isPublic.Value;
-
-    _context.Recipe.Add(recipe);
-    await _context.SaveChangesAsync();
-
-    var response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
-    return Ok(response);
-  }
-
-  // Legacy owner resolution removed; unified GetUserId() now handles auth/cookie/header
-
-  // Admin/maintenance: rebuild precomputed recipe relations
-  // POST api/Recipe/relations/rebuild?topPerRecipe=10
   [HttpPost("relations/rebuild")]
   [HttpGet("relations/rebuild")]
   public async Task<IActionResult> RebuildRelations([FromQuery] int topPerRecipe = 10, CancellationToken cancellationToken = default)
@@ -366,6 +399,7 @@ public class RecipeController : ControllerBase
     var created = await relationService.RebuildAllRelationsAsync(topPerRecipe, cancellationToken);
     return Ok(new { created });
   }
+
   [HttpGet("most-copied")]
   [AllowAnonymous]
   public async Task<IActionResult> GetMostCopiedRecipes([FromQuery] int quantity = 6)
@@ -376,14 +410,32 @@ public class RecipeController : ControllerBase
     var userId = GetUserId();
     var recipes = await recipeService.GetMostCopiedRecipesAsync(quantity, userId);
 
-    // Return mapped RecipeResponse including Author information
-    var responses = _mapper.Map<List<RecipeResponse>>(recipes);
-    foreach (var r in responses)
-    {
-      try { r.IsOwner = string.Equals(r.Author?.Id, userId, StringComparison.Ordinal); } catch { r.IsOwner = false; }
-    }
+    var responses = recipes
+      .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
+      .ToList();
     return Ok(responses);
   }
-}
 
-// Removed legacy ClaimOwnerRequest used for temporary owner flows
+  private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string ownerId, bool? isPublic)
+  {
+    var recipe = await recipeService.DtoToEntity(recipeDto);
+    recipe.OwnerId = ownerId;
+    recipe.Visibility = RecipeVisibility.Private;
+    recipe.PublishedRevisionId = null;
+
+    _context.Recipe.Add(recipe);
+    await _context.SaveChangesAsync();
+
+    var persistedLatest = recipe.Revisions.FirstOrDefault();
+    if (persistedLatest is not null)
+    {
+      recipe.LatestRevisionId = persistedLatest.Id;
+      recipe.LatestRevision = persistedLatest;
+      _context.Recipe.Update(recipe);
+      await _context.SaveChangesAsync();
+    }
+
+    var response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
+    return Ok(response);
+  }
+}

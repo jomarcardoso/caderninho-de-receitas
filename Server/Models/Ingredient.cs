@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using Server.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models;
 
-[Owned]
+[NotMapped]
 public class Ingredient : IngredientBase<Food>
 {
   public Ingredient() { }

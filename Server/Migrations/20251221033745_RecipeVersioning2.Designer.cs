@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Server;
@@ -12,9 +13,11 @@ using Server;
 namespace Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251221033745_RecipeVersioning2")]
+    partial class RecipeVersioning2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,17 +176,17 @@ namespace Server.Migrations
                         .HasColumnType("text")
                         .HasColumnName("Categories");
 
-                    b.Property<int?>("CopiedFromRecipeId")
+                    b.Property<int>("CopiedFromRecipeId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("integer");
 
                     b.PrimitiveCollection<List<string>>("Imgs")
                         .IsRequired()
@@ -192,11 +195,22 @@ namespace Server.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Keys")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("integer");
+
                     b.Property<Guid?>("LatestRevisionId")
                         .HasColumnType("uuid");
 
                     b.Property<int?>("MergedIntoRecipeId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
@@ -218,9 +232,6 @@ namespace Server.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("UpdatedAtUtc")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<bool>("Verified")
                         .HasColumnType("boolean");
 
@@ -228,6 +239,8 @@ namespace Server.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FoodId");
 
                     b.HasIndex("LatestRevisionId");
 
@@ -385,18 +398,7 @@ namespace Server.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("character varying(80)");
 
-                    b.Property<string>("Keys")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("integer");
-
                     b.Property<string>("ModerationNotes")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("RecipeId")
@@ -1041,6 +1043,12 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Models.Recipe", b =>
                 {
+                    b.HasOne("Server.Models.Food", "Food")
+                        .WithMany()
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Server.Models.RecipeRevision", "LatestRevision")
                         .WithMany()
                         .HasForeignKey("LatestRevisionId")
@@ -1062,13 +1070,1052 @@ namespace Server.Migrations
                         .HasForeignKey("PublishedRevisionId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.OwnsOne("Server.Shared.AminoAcidsBase", "AminoAcids", b1 =>
+                        {
+                            b1.Property<int>("RecipeId")
+                                .HasColumnType("integer");
+
+                            b1.Property<double>("Alanine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Arginine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("AsparticAcid")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Cystine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("GlutamicAcid")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Glutamine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Glycine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Histidine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Isoleucine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Leucine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Lysine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Methionine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Phenylalanine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Proline")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Serine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Threonine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Tryptophan")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Tyrosine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Valine")
+                                .HasColumnType("double precision");
+
+                            b1.HasKey("RecipeId");
+
+                            b1.ToTable("Recipe");
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeId");
+                        });
+
+                    b.OwnsOne("Server.Shared.EssentialAminoAcidsBase", "EssentialAminoAcids", b1 =>
+                        {
+                            b1.Property<int>("RecipeId")
+                                .HasColumnType("integer");
+
+                            b1.Property<double>("Histidine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Isoleucine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Leucine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Lysine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Methionine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Phenylalanine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Threonine")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Tryptophan")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Valine")
+                                .HasColumnType("double precision");
+
+                            b1.HasKey("RecipeId");
+
+                            b1.ToTable("Recipe");
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeId");
+                        });
+
+                    b.OwnsOne("Server.Shared.MineralsBase", "Minerals", b1 =>
+                        {
+                            b1.Property<int>("RecipeId")
+                                .HasColumnType("integer");
+
+                            b1.Property<double>("Calcium")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Copper")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Fluoride")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Iron")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Magnesium")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Manganese")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Phosphorus")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Potassium")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Selenium")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Sodium")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Zinc")
+                                .HasColumnType("double precision");
+
+                            b1.HasKey("RecipeId");
+
+                            b1.ToTable("Recipe");
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeId");
+                        });
+
+                    b.OwnsOne("Server.Shared.NutritionalInformationBase", "NutritionalInformation", b1 =>
+                        {
+                            b1.Property<int>("RecipeId")
+                                .HasColumnType("integer");
+
+                            b1.Property<double>("Acidification")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Ashes")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Calories")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Carbohydrates")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Cholesterol")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("DietaryFiber")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Gi")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Gl")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("MonounsaturatedFats")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("PolyunsaturatedFats")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Proteins")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("SaturedFats")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Sugar")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("TotalFat")
+                                .HasColumnType("double precision");
+
+                            b1.HasKey("RecipeId");
+
+                            b1.ToTable("Recipe");
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeId");
+                        });
+
+                    b.OwnsOne("Server.Shared.VitaminsBase", "Vitamins", b1 =>
+                        {
+                            b1.Property<int>("RecipeId")
+                                .HasColumnType("integer");
+
+                            b1.Property<double>("A")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("AlphaCarotene")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B1")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B11")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B12")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B2")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B3")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B5")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B6")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B7")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("B9")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("BetaCarotene")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("C")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Choline")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("CryptoxanthinCarotene")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("D")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("D2")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("D3")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("E")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("K")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("Lycopene")
+                                .HasColumnType("double precision");
+
+                            b1.HasKey("RecipeId");
+
+                            b1.ToTable("Recipe");
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeId");
+                        });
+
+                    b.OwnsMany("Server.Models.RecipeStep", "Steps", b1 =>
+                        {
+                            b1.Property<int>("RecipeId")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<string>("Additional")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("IngredientsText")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Preparation")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Title")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("RecipeId", "Id");
+
+                            b1.ToTable("RecipeStep");
+
+                            b1.WithOwner()
+                                .HasForeignKey("RecipeId");
+
+                            b1.OwnsMany("Server.Models.Ingredient", "Ingredients", b2 =>
+                                {
+                                    b2.Property<int>("RecipeStepRecipeId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<int>("RecipeStepId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer");
+
+                                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b2.Property<int>("Id"));
+
+                                    b2.Property<int>("FoodId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<double>("MeasureQuantity")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<int>("MeasureType")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<double>("Quantity")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<string>("Text")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.HasKey("RecipeStepRecipeId", "RecipeStepId", "Id");
+
+                                    b2.HasIndex("FoodId");
+
+                                    b2.ToTable("Ingredient");
+
+                                    b2.HasOne("Server.Models.Food", "Food")
+                                        .WithMany()
+                                        .HasForeignKey("FoodId")
+                                        .OnDelete(DeleteBehavior.Cascade)
+                                        .IsRequired();
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("RecipeStepRecipeId", "RecipeStepId");
+
+                                    b2.OwnsOne("Server.Shared.AminoAcidsBase", "AminoAcids", b3 =>
+                                        {
+                                            b3.Property<int>("IngredientRecipeStepRecipeId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientRecipeStepId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<double>("Alanine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Arginine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("AsparticAcid")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Cystine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("GlutamicAcid")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Glutamine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Glycine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Histidine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Isoleucine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Leucine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Lysine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Methionine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Phenylalanine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Proline")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Serine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Threonine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Tryptophan")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Tyrosine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Valine")
+                                                .HasColumnType("double precision");
+
+                                            b3.HasKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+
+                                            b3.ToTable("Ingredient");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+                                        });
+
+                                    b2.OwnsOne("Server.Shared.EssentialAminoAcidsBase", "EssentialAminoAcids", b3 =>
+                                        {
+                                            b3.Property<int>("IngredientRecipeStepRecipeId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientRecipeStepId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<double>("Histidine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Isoleucine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Leucine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Lysine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Methionine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Phenylalanine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Threonine")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Tryptophan")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Valine")
+                                                .HasColumnType("double precision");
+
+                                            b3.HasKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+
+                                            b3.ToTable("Ingredient");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+                                        });
+
+                                    b2.OwnsOne("Server.Shared.MineralsBase", "Minerals", b3 =>
+                                        {
+                                            b3.Property<int>("IngredientRecipeStepRecipeId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientRecipeStepId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<double>("Calcium")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Copper")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Fluoride")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Iron")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Magnesium")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Manganese")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Phosphorus")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Potassium")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Selenium")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Sodium")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Zinc")
+                                                .HasColumnType("double precision");
+
+                                            b3.HasKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+
+                                            b3.ToTable("Ingredient");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+                                        });
+
+                                    b2.OwnsOne("Server.Shared.NutritionalInformationBase", "NutritionalInformation", b3 =>
+                                        {
+                                            b3.Property<int>("IngredientRecipeStepRecipeId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientRecipeStepId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<double>("Acidification")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Ashes")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Calories")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Carbohydrates")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Cholesterol")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("DietaryFiber")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Gi")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Gl")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("MonounsaturatedFats")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("PolyunsaturatedFats")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Proteins")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("SaturedFats")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Sugar")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("TotalFat")
+                                                .HasColumnType("double precision");
+
+                                            b3.HasKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+
+                                            b3.ToTable("Ingredient");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+                                        });
+
+                                    b2.OwnsOne("Server.Shared.VitaminsBase", "Vitamins", b3 =>
+                                        {
+                                            b3.Property<int>("IngredientRecipeStepRecipeId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientRecipeStepId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<int>("IngredientId")
+                                                .HasColumnType("integer");
+
+                                            b3.Property<double>("A")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("AlphaCarotene")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B1")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B11")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B12")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B2")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B3")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B5")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B6")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B7")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("B9")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("BetaCarotene")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("C")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Choline")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("CryptoxanthinCarotene")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("D")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("D2")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("D3")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("E")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("K")
+                                                .HasColumnType("double precision");
+
+                                            b3.Property<double>("Lycopene")
+                                                .HasColumnType("double precision");
+
+                                            b3.HasKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+
+                                            b3.ToTable("Ingredient");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("IngredientRecipeStepRecipeId", "IngredientRecipeStepId", "IngredientId");
+                                        });
+
+                                    b2.Navigation("AminoAcids")
+                                        .IsRequired();
+
+                                    b2.Navigation("EssentialAminoAcids")
+                                        .IsRequired();
+
+                                    b2.Navigation("Food");
+
+                                    b2.Navigation("Minerals")
+                                        .IsRequired();
+
+                                    b2.Navigation("NutritionalInformation")
+                                        .IsRequired();
+
+                                    b2.Navigation("Vitamins")
+                                        .IsRequired();
+                                });
+
+                            b1.OwnsOne("Server.Shared.AminoAcidsBase", "AminoAcids", b2 =>
+                                {
+                                    b2.Property<int>("RecipeStepRecipeId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<int>("RecipeStepId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<double>("Alanine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Arginine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("AsparticAcid")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Cystine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("GlutamicAcid")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Glutamine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Glycine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Histidine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Isoleucine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Leucine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Lysine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Methionine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Phenylalanine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Proline")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Serine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Threonine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Tryptophan")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Tyrosine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Valine")
+                                        .HasColumnType("double precision");
+
+                                    b2.HasKey("RecipeStepRecipeId", "RecipeStepId");
+
+                                    b2.ToTable("RecipeStep");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("RecipeStepRecipeId", "RecipeStepId");
+                                });
+
+                            b1.OwnsOne("Server.Shared.EssentialAminoAcidsBase", "EssentialAminoAcids", b2 =>
+                                {
+                                    b2.Property<int>("RecipeStepRecipeId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<int>("RecipeStepId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<double>("Histidine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Isoleucine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Leucine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Lysine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Methionine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Phenylalanine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Threonine")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Tryptophan")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Valine")
+                                        .HasColumnType("double precision");
+
+                                    b2.HasKey("RecipeStepRecipeId", "RecipeStepId");
+
+                                    b2.ToTable("RecipeStep");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("RecipeStepRecipeId", "RecipeStepId");
+                                });
+
+                            b1.OwnsOne("Server.Shared.MineralsBase", "Minerals", b2 =>
+                                {
+                                    b2.Property<int>("RecipeStepRecipeId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<int>("RecipeStepId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<double>("Calcium")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Copper")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Fluoride")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Iron")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Magnesium")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Manganese")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Phosphorus")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Potassium")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Selenium")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Sodium")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Zinc")
+                                        .HasColumnType("double precision");
+
+                                    b2.HasKey("RecipeStepRecipeId", "RecipeStepId");
+
+                                    b2.ToTable("RecipeStep");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("RecipeStepRecipeId", "RecipeStepId");
+                                });
+
+                            b1.OwnsOne("Server.Shared.NutritionalInformationBase", "NutritionalInformation", b2 =>
+                                {
+                                    b2.Property<int>("RecipeStepRecipeId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<int>("RecipeStepId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<double>("Acidification")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Ashes")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Calories")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Carbohydrates")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Cholesterol")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("DietaryFiber")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Gi")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Gl")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("MonounsaturatedFats")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("PolyunsaturatedFats")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Proteins")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("SaturedFats")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Sugar")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("TotalFat")
+                                        .HasColumnType("double precision");
+
+                                    b2.HasKey("RecipeStepRecipeId", "RecipeStepId");
+
+                                    b2.ToTable("RecipeStep");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("RecipeStepRecipeId", "RecipeStepId");
+                                });
+
+                            b1.OwnsOne("Server.Shared.VitaminsBase", "Vitamins", b2 =>
+                                {
+                                    b2.Property<int>("RecipeStepRecipeId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<int>("RecipeStepId")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<double>("A")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("AlphaCarotene")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B1")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B11")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B12")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B2")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B3")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B5")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B6")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B7")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("B9")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("BetaCarotene")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("C")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Choline")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("CryptoxanthinCarotene")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("D")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("D2")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("D3")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("E")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("K")
+                                        .HasColumnType("double precision");
+
+                                    b2.Property<double>("Lycopene")
+                                        .HasColumnType("double precision");
+
+                                    b2.HasKey("RecipeStepRecipeId", "RecipeStepId");
+
+                                    b2.ToTable("RecipeStep");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("RecipeStepRecipeId", "RecipeStepId");
+                                });
+
+                            b1.Navigation("AminoAcids")
+                                .IsRequired();
+
+                            b1.Navigation("EssentialAminoAcids")
+                                .IsRequired();
+
+                            b1.Navigation("Ingredients");
+
+                            b1.Navigation("Minerals")
+                                .IsRequired();
+
+                            b1.Navigation("NutritionalInformation")
+                                .IsRequired();
+
+                            b1.Navigation("Vitamins")
+                                .IsRequired();
+                        });
+
+                    b.Navigation("AminoAcids")
+                        .IsRequired();
+
+                    b.Navigation("EssentialAminoAcids")
+                        .IsRequired();
+
+                    b.Navigation("Food");
+
                     b.Navigation("LatestRevision");
 
                     b.Navigation("MergedIntoRecipe");
 
+                    b.Navigation("Minerals")
+                        .IsRequired();
+
+                    b.Navigation("NutritionalInformation")
+                        .IsRequired();
+
                     b.Navigation("Owner");
 
                     b.Navigation("PublishedRevision");
+
+                    b.Navigation("Steps");
+
+                    b.Navigation("Vitamins")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Server.Models.RecipeCategoryOpen", b =>
@@ -1154,700 +2201,9 @@ namespace Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("Server.Models.RecipeRevisionStep", "Steps", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<string>("Additional")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("IngredientsText")
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Preparation")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<Guid>("RecipeRevisionId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Title")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("RecipeRevisionId");
-
-                            b1.ToTable("RecipeRevisionStep");
-
-                            b1.WithOwner()
-                                .HasForeignKey("RecipeRevisionId");
-
-                            b1.OwnsMany("Server.Models.RecipeRevisionIngredient", "Ingredients", b2 =>
-                                {
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b2.Property<int>("Id"));
-
-                                    b2.Property<int>("FoodId")
-                                        .HasColumnType("integer");
-
-                                    b2.Property<double>("MeasureQuantity")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<int>("MeasureType")
-                                        .HasColumnType("integer");
-
-                                    b2.Property<double>("Quantity")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<int>("RecipeRevisionStepId")
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Text")
-                                        .IsRequired()
-                                        .HasColumnType("text");
-
-                                    b2.HasKey("Id");
-
-                                    b2.HasIndex("FoodId");
-
-                                    b2.HasIndex("RecipeRevisionStepId");
-
-                                    b2.ToTable("RecipeRevisionIngredient");
-
-                                    b2.HasOne("Server.Models.Food", "Food")
-                                        .WithMany()
-                                        .HasForeignKey("FoodId")
-                                        .OnDelete(DeleteBehavior.Cascade)
-                                        .IsRequired();
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("RecipeRevisionStepId");
-
-                                    b2.OwnsOne("Server.Shared.AminoAcidsBase", "AminoAcids", b3 =>
-                                        {
-                                            b3.Property<int>("RecipeRevisionIngredientId")
-                                                .HasColumnType("integer");
-
-                                            b3.Property<double>("Alanine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Arginine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("AsparticAcid")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Cystine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("GlutamicAcid")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Glutamine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Glycine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Histidine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Isoleucine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Leucine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Lysine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Methionine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Phenylalanine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Proline")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Serine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Threonine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Tryptophan")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Tyrosine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Valine")
-                                                .HasColumnType("double precision");
-
-                                            b3.HasKey("RecipeRevisionIngredientId");
-
-                                            b3.ToTable("RecipeRevisionIngredient");
-
-                                            b3.WithOwner()
-                                                .HasForeignKey("RecipeRevisionIngredientId");
-                                        });
-
-                                    b2.OwnsOne("Server.Shared.EssentialAminoAcidsBase", "EssentialAminoAcids", b3 =>
-                                        {
-                                            b3.Property<int>("RecipeRevisionIngredientId")
-                                                .HasColumnType("integer");
-
-                                            b3.Property<double>("Histidine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Isoleucine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Leucine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Lysine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Methionine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Phenylalanine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Threonine")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Tryptophan")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Valine")
-                                                .HasColumnType("double precision");
-
-                                            b3.HasKey("RecipeRevisionIngredientId");
-
-                                            b3.ToTable("RecipeRevisionIngredient");
-
-                                            b3.WithOwner()
-                                                .HasForeignKey("RecipeRevisionIngredientId");
-                                        });
-
-                                    b2.OwnsOne("Server.Shared.MineralsBase", "Minerals", b3 =>
-                                        {
-                                            b3.Property<int>("RecipeRevisionIngredientId")
-                                                .HasColumnType("integer");
-
-                                            b3.Property<double>("Calcium")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Copper")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Fluoride")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Iron")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Magnesium")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Manganese")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Phosphorus")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Potassium")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Selenium")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Sodium")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Zinc")
-                                                .HasColumnType("double precision");
-
-                                            b3.HasKey("RecipeRevisionIngredientId");
-
-                                            b3.ToTable("RecipeRevisionIngredient");
-
-                                            b3.WithOwner()
-                                                .HasForeignKey("RecipeRevisionIngredientId");
-                                        });
-
-                                    b2.OwnsOne("Server.Shared.NutritionalInformationBase", "NutritionalInformation", b3 =>
-                                        {
-                                            b3.Property<int>("RecipeRevisionIngredientId")
-                                                .HasColumnType("integer");
-
-                                            b3.Property<double>("Acidification")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Ashes")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Calories")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Carbohydrates")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Cholesterol")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("DietaryFiber")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Gi")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Gl")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("MonounsaturatedFats")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("PolyunsaturatedFats")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Proteins")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("SaturedFats")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Sugar")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("TotalFat")
-                                                .HasColumnType("double precision");
-
-                                            b3.HasKey("RecipeRevisionIngredientId");
-
-                                            b3.ToTable("RecipeRevisionIngredient");
-
-                                            b3.WithOwner()
-                                                .HasForeignKey("RecipeRevisionIngredientId");
-                                        });
-
-                                    b2.OwnsOne("Server.Shared.VitaminsBase", "Vitamins", b3 =>
-                                        {
-                                            b3.Property<int>("RecipeRevisionIngredientId")
-                                                .HasColumnType("integer");
-
-                                            b3.Property<double>("A")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("AlphaCarotene")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B1")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B11")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B12")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B2")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B3")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B5")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B6")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B7")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("B9")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("BetaCarotene")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("C")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Choline")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("CryptoxanthinCarotene")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("D")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("D2")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("D3")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("E")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("K")
-                                                .HasColumnType("double precision");
-
-                                            b3.Property<double>("Lycopene")
-                                                .HasColumnType("double precision");
-
-                                            b3.HasKey("RecipeRevisionIngredientId");
-
-                                            b3.ToTable("RecipeRevisionIngredient");
-
-                                            b3.WithOwner()
-                                                .HasForeignKey("RecipeRevisionIngredientId");
-                                        });
-
-                                    b2.Navigation("AminoAcids")
-                                        .IsRequired();
-
-                                    b2.Navigation("EssentialAminoAcids")
-                                        .IsRequired();
-
-                                    b2.Navigation("Food");
-
-                                    b2.Navigation("Minerals")
-                                        .IsRequired();
-
-                                    b2.Navigation("NutritionalInformation")
-                                        .IsRequired();
-
-                                    b2.Navigation("Vitamins")
-                                        .IsRequired();
-                                });
-
-                            b1.OwnsOne("Server.Shared.AminoAcidsBase", "AminoAcids", b2 =>
-                                {
-                                    b2.Property<int>("RecipeRevisionStepId")
-                                        .HasColumnType("integer");
-
-                                    b2.Property<double>("Alanine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Arginine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("AsparticAcid")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Cystine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("GlutamicAcid")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Glutamine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Glycine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Histidine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Isoleucine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Leucine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Lysine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Methionine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Phenylalanine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Proline")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Serine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Threonine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Tryptophan")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Tyrosine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Valine")
-                                        .HasColumnType("double precision");
-
-                                    b2.HasKey("RecipeRevisionStepId");
-
-                                    b2.ToTable("RecipeRevisionStep");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("RecipeRevisionStepId");
-                                });
-
-                            b1.OwnsOne("Server.Shared.EssentialAminoAcidsBase", "EssentialAminoAcids", b2 =>
-                                {
-                                    b2.Property<int>("RecipeRevisionStepId")
-                                        .HasColumnType("integer");
-
-                                    b2.Property<double>("Histidine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Isoleucine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Leucine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Lysine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Methionine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Phenylalanine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Threonine")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Tryptophan")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Valine")
-                                        .HasColumnType("double precision");
-
-                                    b2.HasKey("RecipeRevisionStepId");
-
-                                    b2.ToTable("RecipeRevisionStep");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("RecipeRevisionStepId");
-                                });
-
-                            b1.OwnsOne("Server.Shared.MineralsBase", "Minerals", b2 =>
-                                {
-                                    b2.Property<int>("RecipeRevisionStepId")
-                                        .HasColumnType("integer");
-
-                                    b2.Property<double>("Calcium")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Copper")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Fluoride")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Iron")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Magnesium")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Manganese")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Phosphorus")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Potassium")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Selenium")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Sodium")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Zinc")
-                                        .HasColumnType("double precision");
-
-                                    b2.HasKey("RecipeRevisionStepId");
-
-                                    b2.ToTable("RecipeRevisionStep");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("RecipeRevisionStepId");
-                                });
-
-                            b1.OwnsOne("Server.Shared.NutritionalInformationBase", "NutritionalInformation", b2 =>
-                                {
-                                    b2.Property<int>("RecipeRevisionStepId")
-                                        .HasColumnType("integer");
-
-                                    b2.Property<double>("Acidification")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Ashes")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Calories")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Carbohydrates")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Cholesterol")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("DietaryFiber")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Gi")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Gl")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("MonounsaturatedFats")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("PolyunsaturatedFats")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Proteins")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("SaturedFats")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Sugar")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("TotalFat")
-                                        .HasColumnType("double precision");
-
-                                    b2.HasKey("RecipeRevisionStepId");
-
-                                    b2.ToTable("RecipeRevisionStep");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("RecipeRevisionStepId");
-                                });
-
-                            b1.OwnsOne("Server.Shared.VitaminsBase", "Vitamins", b2 =>
-                                {
-                                    b2.Property<int>("RecipeRevisionStepId")
-                                        .HasColumnType("integer");
-
-                                    b2.Property<double>("A")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("AlphaCarotene")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B1")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B11")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B12")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B2")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B3")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B5")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B6")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B7")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("B9")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("BetaCarotene")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("C")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Choline")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("CryptoxanthinCarotene")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("D")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("D2")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("D3")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("E")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("K")
-                                        .HasColumnType("double precision");
-
-                                    b2.Property<double>("Lycopene")
-                                        .HasColumnType("double precision");
-
-                                    b2.HasKey("RecipeRevisionStepId");
-
-                                    b2.ToTable("RecipeRevisionStep");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("RecipeRevisionStepId");
-                                });
-
-                            b1.Navigation("AminoAcids")
-                                .IsRequired();
-
-                            b1.Navigation("EssentialAminoAcids")
-                                .IsRequired();
-
-                            b1.Navigation("Ingredients");
-
-                            b1.Navigation("Minerals")
-                                .IsRequired();
-
-                            b1.Navigation("NutritionalInformation")
-                                .IsRequired();
-
-                            b1.Navigation("Vitamins")
-                                .IsRequired();
-                        });
-
                     b.Navigation("BaseRevision");
 
                     b.Navigation("Recipe");
-
-                    b.Navigation("Steps");
                 });
 
             modelBuilder.Entity("Server.Models.Recipe", b =>

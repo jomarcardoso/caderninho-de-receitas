@@ -207,6 +207,8 @@ Cladis:
 - Pão de calabresa com requeijão
 - Pastel de milho com queijo defumado
 - Empanado de arroz com frango
+- Bolinho de chuva
+- Cueca virada
 
 Clarice
 Cléria

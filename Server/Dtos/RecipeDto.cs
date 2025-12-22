@@ -37,8 +37,6 @@ public class RecipeResponse
   public int Food { get; set; }
   public List<string> Imgs { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;
-  public bool IsPublic { get; set; } = false;
-  public bool Verified { get; set; } = false;
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
   // Nutrients (kept for transport as objects keyed by nutrient name)

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using Server.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models;
 
-[Owned]
+[NotMapped]
 public class RecipeStep : RecipeStepBase<Ingredient>
 {
   public RecipeStep() { }

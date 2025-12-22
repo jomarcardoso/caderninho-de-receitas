@@ -111,12 +111,7 @@ public class ShareController : ControllerBase
     var share = await _context.RecipeShare.AsNoTracking().FirstOrDefaultAsync(s => s.Slug == slug && s.IsPublic);
     if (share is null) return NotFound();
 
-    var source = await _context.Recipe
-      .Include(r => r.Steps)
-        .ThenInclude(s => s.Ingredients)
-          .ThenInclude(i => i.Food)
-      .Include(r => r.Food)
-      .FirstOrDefaultAsync(r => r.Id == share.RecipeId);
+    var source = await _recipeService.FindRecipeWithDetailsById(share.RecipeId);
 
     if (source is null) return NotFound();
 
@@ -126,6 +121,15 @@ public class ShareController : ControllerBase
     var clone = _recipeService.CloneRecipeForUser(source, userId);
     _context.Recipe.Add(clone);
     await _context.SaveChangesAsync();
+
+    var latest = clone.Revisions.FirstOrDefault();
+    if (latest is not null)
+    {
+      clone.LatestRevisionId = latest.Id;
+      clone.LatestRevision = latest;
+      _context.Recipe.Update(clone);
+      await _context.SaveChangesAsync();
+    }
 
     return Ok(new CopyRecipeResponse(clone.Id));
   }
@@ -142,32 +146,15 @@ public class ShareController : ControllerBase
     var share = await _context.RecipeShare.AsNoTracking().FirstOrDefaultAsync(s => s.Slug == slug);
     if (share is null) return NotFound();
 
-    var recipe = await _context.Recipe
-      .Include(r => r.Food)
-      .Include(r => r.Steps)
-        .ThenInclude(s => s.Ingredients)
-          .ThenInclude(i => i.Food)
-      .FirstOrDefaultAsync(r => r.Id == share.RecipeId);
+    var recipe = await _recipeService.FindRecipeWithDetailsById(share.RecipeId);
 
     if (recipe is null) return NotFound();
 
     // Map recipe
-    var recipeResponse = _mapper.Map<RecipeResponse>(recipe);
+    var recipeResponse = _recipeService.BuildRecipeResponse(recipe, RecipeService.RevisionView.PublishedPreferred, GetUserId());
 
     // Collect foods referenced by the recipe (including steps/ingredients)
-    var foods = new List<Food>();
-    if (recipe.Food is not null) foods.Add(recipe.Food);
-    foreach (var s in recipe.Steps ?? new List<RecipeStep>())
-    {
-      foreach (var i in s.Ingredients ?? new List<Ingredient>())
-      {
-        if (i.Food is not null) foods.Add(i.Food);
-      }
-    }
-    foods = foods
-      .Where(f => f is not null)
-      .DistinctBy(f => f!.Id)
-      .ToList()!;
+    var foods = FoodService.GetFoodsFromRecipes(new List<Recipe> { recipe });
 
     var response = new RecipeDataResponse
     {

@@ -10,6 +10,8 @@ export interface RecipeContract<TRecipeStep> {
   imgs?: string[];
   // Recipe category keys (EN enum keys from backend)
   categories?: string[];
+  // Legacy flag for publish state
+  isPublic?: boolean;
 }
 
 export interface RecipeBase<TRecipeStep> extends RecipeContract<TRecipeStep> {

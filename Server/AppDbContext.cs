@@ -21,6 +21,7 @@ public class AppDbContext : DbContext
   public DbSet<RecipeShare> RecipeShare { get; set; }
   public DbSet<Server.Models.FoodEditRequest> FoodEditRequest { get; set; }
   public DbSet<UserProfile> UserProfile { get; set; }
+  public DbSet<RecipeRevision> RecipeRevisions { get; set; }
   public DbSet<RecipeList> RecipeList { get; set; }
   public DbSet<RecipeListItem> RecipeListItem { get; set; }
   public DbSet<RecipeCategoryOpen> RecipeCategoryOpen { get; set; }
@@ -97,6 +98,18 @@ public class AppDbContext : DbContext
     // Recipe
     modelBuilder.Entity<Recipe>(entity =>
     {
+      entity.HasIndex(r => r.Slug);
+      entity.HasIndex(r => new { r.Visibility, r.TombstoneStatus });
+
+      // Ignorar propriedades legadas derivadas de revisões
+      entity.Ignore(r => r.NutritionalInformation);
+      entity.Ignore(r => r.AminoAcids);
+      entity.Ignore(r => r.EssentialAminoAcids);
+      entity.Ignore(r => r.Vitamins);
+      entity.Ignore(r => r.Minerals);
+      entity.Ignore(r => r.Steps);
+      entity.Ignore(r => r.Food);
+
       // Persist Categories as a comma-separated slug list
       var categoriesConverter = new ValueConverter<List<string>, string>(
         v => string.Join(',', v ?? new List<string>()),
@@ -117,36 +130,32 @@ public class AppDbContext : DbContext
         .HasColumnType("text")
         .Metadata.SetValueComparer(categoriesComparer);
 
-      entity.OwnsMany(r => r.Steps, step =>
-      {
-        step.OwnsMany(s => s.Ingredients, ingredient =>
-        {
-          ingredient.OwnsOne(i => i.NutritionalInformation);
-          ingredient.OwnsOne(i => i.AminoAcids);
-          ingredient.OwnsOne(i => i.EssentialAminoAcids);
-          ingredient.OwnsOne(i => i.Vitamins);
-          ingredient.OwnsOne(i => i.Minerals);
-        });
-
-        step.OwnsOne(s => s.NutritionalInformation);
-        step.OwnsOne(s => s.AminoAcids);
-        step.OwnsOne(s => s.EssentialAminoAcids);
-        step.OwnsOne(s => s.Vitamins);
-        step.OwnsOne(s => s.Minerals);
-      });
-
-      entity.OwnsOne(r => r.NutritionalInformation);
-      entity.OwnsOne(r => r.AminoAcids);
-      entity.OwnsOne(r => r.EssentialAminoAcids);
-      entity.OwnsOne(r => r.Vitamins);
-      entity.OwnsOne(r => r.Minerals);
-
       // Link Recipe.OwnerId -> UserProfile.OwnerId
       entity
         .HasOne(r => r.Owner)
         .WithMany()
         .HasForeignKey(r => r.OwnerId)
         .HasPrincipalKey(u => u.OwnerId);
+
+      entity.HasOne(r => r.PublishedRevision)
+        .WithMany()
+        .HasForeignKey(r => r.PublishedRevisionId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+      entity.HasOne(r => r.LatestRevision)
+        .WithMany()
+        .HasForeignKey(r => r.LatestRevisionId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+      entity.HasOne(r => r.MergedIntoRecipe)
+        .WithMany()
+        .HasForeignKey(r => r.MergedIntoRecipeId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+      entity.HasMany(r => r.Revisions)
+        .WithOne(rr => rr.Recipe)
+        .HasForeignKey(rr => rr.RecipeId)
+        .OnDelete(DeleteBehavior.Cascade);
     });
 
     // RecipeRelation
@@ -282,6 +291,45 @@ public class AppDbContext : DbContext
         .HasForeignKey(i => i.RecipeId)
         .OnDelete(DeleteBehavior.Cascade);
     });
+
+    modelBuilder.Entity<RecipeRevision>(entity =>
+    {
+      entity.HasKey(r => r.Id);
+      entity.HasIndex(r => new { r.RecipeId, r.Status });
+      entity.HasIndex(r => r.CreatedAtUtc);
+      entity.Property(r => r.ContentJson).IsRequired();
+      entity.Property(r => r.CreatedByUserId).IsRequired().HasMaxLength(80);
+      entity.Property(r => r.ReviewedByUserId).HasMaxLength(80);
+
+      entity.HasOne(r => r.BaseRevision)
+        .WithMany()
+        .HasForeignKey(r => r.BaseRevisionId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+      entity.OwnsMany(r => r.Steps, step =>
+      {
+        step.WithOwner().HasForeignKey("RecipeRevisionId");
+        step.HasKey("Id");
+
+        step.OwnsMany(s => s.Ingredients, ingredient =>
+        {
+          ingredient.WithOwner().HasForeignKey("RecipeRevisionStepId");
+          ingredient.HasKey("Id");
+          ingredient.OwnsOne(i => i.NutritionalInformation);
+          ingredient.OwnsOne(i => i.AminoAcids);
+          ingredient.OwnsOne(i => i.EssentialAminoAcids);
+          ingredient.OwnsOne(i => i.Vitamins);
+          ingredient.OwnsOne(i => i.Minerals);
+        });
+
+        step.OwnsOne(s => s.NutritionalInformation);
+        step.OwnsOne(s => s.AminoAcids);
+        step.OwnsOne(s => s.EssentialAminoAcids);
+        step.OwnsOne(s => s.Vitamins);
+        step.OwnsOne(s => s.Minerals);
+      });
+    });
+
   }
 
   private static TEnum? TryParseEnum<TEnum>(string value) where TEnum : struct, Enum

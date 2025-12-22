@@ -271,6 +271,13 @@ export function mapAllRecipesResponseToModel(
 export function mapRecipesDataResponseToModel(
   data: RecipesDataResponse,
 ): RecipesData {
+  // If the payload does not contain foods (revision-first minimal payload), map using revision content only.
+  const hasFoods =
+    data && Array.isArray((data as any).foods) && (data as any).foods.length >= 0;
+  if (!hasFoods) {
+    return mapRevisionsPayloadToModel(data as any);
+  }
+
   const foodsData = mapFoodsDataResponseToModel(data);
 
   // Pre-map all recipes and index by id for quick lookup when hydrating lists
@@ -323,6 +330,61 @@ export function mapRecipesDataResponseToModel(
     })),
   };
   // return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
+}
+
+function mapRevisionsPayloadToModel(raw: any): RecipesData {
+  const recipes: Recipe[] = Array.isArray(raw?.recipes)
+    ? raw.recipes
+        .map((item: any) => {
+          const content = normalizeContent(item?.content);
+          const id =
+            typeof item?.id === 'number'
+              ? item.id
+              : Number(item?.id) > 0
+                ? Number(item?.id)
+                : 0;
+          if (!id) return null;
+          return {
+            id,
+            name: content?.title || content?.name || 'Receita',
+            description: content?.description || content?.additional || '',
+            imgs: Array.isArray(content?.imgs)
+              ? content.imgs
+              : Array.isArray(content?.images)
+                ? content.images
+                : Array.isArray(content?.photos)
+                  ? content.photos
+                  : Array.isArray(content?.food?.imgs)
+                    ? content.food.imgs
+                    : [],
+            steps: [],
+            food: { imgs: [] } as any,
+            nutritionalInformation: [],
+            minerals: [],
+            vitamins: [],
+            aminoAcids: [],
+            essentialAminoAcids: [],
+            language: (content?.language as Language) ?? 'pt',
+          } as Recipe;
+        })
+        .filter((r): r is Recipe => Boolean(r))
+    : [];
+
+  return {
+    ...RECIPES_DATA,
+    recipes,
+    recipeLists: [],
+  };
+}
+
+function normalizeContent(raw: any) {
+  try {
+    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (parsed?.recipe) return parsed.recipe;
+    return parsed ?? {};
+  } catch {
+    return {};
+  }
 }
 
 // export async function fetchRecipeById(id = 0): Promise<Recipe | null> {

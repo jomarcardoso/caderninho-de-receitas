@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Server.Services;
+using AutoMapper;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+using System.Linq;
 using Server.Models;
 using Server.Dtos;
 
@@ -15,12 +16,14 @@ public class UsersController : ControllerBase
 {
   private readonly UserProfileService _profiles;
   private readonly AppDbContext _context;
+  private readonly RecipeService _recipeService;
   private readonly IMapper _mapper;
 
-  public UsersController(UserProfileService profiles, AppDbContext context, IMapper mapper)
+  public UsersController(UserProfileService profiles, AppDbContext context, RecipeService recipeService, IMapper mapper)
   {
     _profiles = profiles;
     _context = context;
+    _recipeService = recipeService;
     _mapper = mapper;
   }
 
@@ -54,29 +57,39 @@ public class UsersController : ControllerBase
     var profile = await _profiles.GetByOwnerIdAsync(ownerId);
     if (profile is null) return NotFound();
 
-    // Collect recipes the caller can see (public only, unless the caller is the owner)
-    bool includePrivate = isOwner;
+    // Public profile should always surface only published/active content.
     var recipes = await _context.Recipe
       .AsNoTracking()
       .Include(r => r.Owner)
-      .Include(r => r.Food)
-      .Where(r => r.OwnerId == ownerId && (r.IsPublic || includePrivate))
+      .Include(r => r.PublishedRevision)
+        .ThenInclude(rv => rv.Steps)
+        .ThenInclude(s => s.Ingredients)
+        .ThenInclude(i => i.Food)
+      .Include(r => r.Revisions)
+      .Where(r =>
+        r.OwnerId == ownerId &&
+        r.Visibility == RecipeVisibility.Public &&
+        r.TombstoneStatus == RecipeTombstoneStatus.Active &&
+        r.PublishedRevisionId != null)
       .ToListAsync();
 
-    var recipeDtos = _mapper.Map<List<RecipeResponse>>(recipes);
-    foreach (var r in recipeDtos)
-    {
-      try { r.IsOwner = isOwner && string.Equals(r.Author?.Id, ownerId, StringComparison.Ordinal); } catch { r.IsOwner = false; }
-    }
+    var recipeDtos = recipes
+      .Select(r => _recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, callerId))
+      .ToList();
 
-    var recipeMap = recipeDtos.ToDictionary(r => r.Id, r => r);
-
-    // Collect public (or own) lists with only allowed recipes
+    // Collect only public lists and keep only items pointing to public recipes with published revisions
     var lists = await _context.RecipeList
       .AsNoTracking()
-      .Where(l => l.OwnerId == ownerId && (l.IsPublic || includePrivate))
+      .Where(l => l.OwnerId == ownerId && l.IsPublic)
       .Include(l => l.Items)
       .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.Owner)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.PublishedRevision)
+      .ThenInclude(rv => rv.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .ThenInclude(i => i.Food)
       .ToListAsync();
 
     var listDtos = lists.Select(l => new PublicRecipeListResponse
@@ -89,20 +102,26 @@ public class UsersController : ControllerBase
       CreatedAt = l.CreatedAt,
       UpdatedAt = l.UpdatedAt,
       Items = l.Items
-        .Where(i => i.Recipe is not null && (i.Recipe!.IsPublic || includePrivate))
+        .Where(i => i.Recipe is not null)
         .OrderBy(i => i.Position)
         .Select(i =>
         {
-          recipeMap.TryGetValue(i.RecipeId, out var recipe);
+          var recipe = i.Recipe!;
+          if (recipe.Visibility != RecipeVisibility.Public || recipe.TombstoneStatus != RecipeTombstoneStatus.Active)
+          {
+            return null;
+          }
+          var recipePayload = _recipeService.BuildRecipeResponse(recipe, RecipeService.RevisionView.PublishedPreferred, callerId);
           return new PublicRecipeListItemResponse
           {
             RecipeListId = i.RecipeListId,
             Position = i.Position,
             CreatedAt = i.CreatedAt,
-            Recipe = recipe
+            Recipe = recipePayload
           };
         })
-        .Where(i => i.Recipe is not null)
+        .Where(i => i is not null)
+        .Select(i => i!)
         .ToList()
     }).ToList();
 
@@ -124,7 +143,7 @@ public class UsersController : ControllerBase
         CulturalRestrictions = profile.CulturalRestrictions,
         PersonalPreferences = profile.PersonalPreferences
       },
-      Recipes = recipeDtos.Where(r => includePrivate || r.IsPublic).ToList(),
+      Recipes = recipeDtos,
       RecipeLists = listDtos,
       IsOwner = isOwner
     };
@@ -149,6 +168,7 @@ public class UsersController : ControllerBase
     if (!ok) return NotFound();
     return NoContent();
   }
+
 }
 
 public class PublicUserResponse
