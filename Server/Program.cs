@@ -18,6 +18,7 @@ using Server.Options;
 using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
+var isSwaggerExport = string.Equals(Environment.GetEnvironmentVariable("SWAGGER_EXPORT"), "1", StringComparison.OrdinalIgnoreCase);
 
 // Add services to the container.
 
@@ -37,6 +38,8 @@ builder.Services.AddSwaggerGen(c =>
     Title = "Caderninho de Receitas - API",
     Version = "v1",
   });
+  // Evita colisão de nomes de schemas para tipos aninhados com o mesmo nome
+  c.CustomSchemaIds(type => type.FullName?.Replace('+', '.') ?? type.Name);
 });
 
 // builder.Services.AddDbContext<AppDbContext>(options =>
@@ -44,7 +47,16 @@ builder.Services.AddSwaggerGen(c =>
 
 // DB - dependency injection of dbContext in Controllers
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+{
+  if (isSwaggerExport)
+  {
+    options.UseInMemoryDatabase("SwaggerDocs");
+  }
+  else
+  {
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"));
+  }
+});
 
 // DB - dependency injection of dbContext in Controllers
 builder.Services.AddScoped<FoodService>();
@@ -195,19 +207,22 @@ app.UseAuthorization();
 app.MapControllers();
 
 // DB: ensure schema and reseed Food ID sequence (Postgres)
-using (var scope = app.Services.CreateScope())
+if (!isSwaggerExport)
 {
-  var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-  // Apply pending migrations (preferred over EnsureCreated for relational DBs)
-  try { db.Database.Migrate(); } catch { /* ignore on in-memory/dev */ }
-
-  // Reseed Food.Id sequence to avoid PK conflicts after restores
-  try
+  using (var scope = app.Services.CreateScope())
   {
-    var reseedSql = @"SELECT setval(pg_get_serial_sequence('""Food""', 'Id'), COALESCE((SELECT MAX(""Id"") FROM ""Food""), 0), true);";
-    db.Database.ExecuteSqlRaw(reseedSql);
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    // Apply pending migrations (preferred over EnsureCreated for relational DBs)
+    try { db.Database.Migrate(); } catch { /* ignore on in-memory/dev */ }
+
+    // Reseed Food.Id sequence to avoid PK conflicts after restores
+    try
+    {
+      var reseedSql = @"SELECT setval(pg_get_serial_sequence('""Food""', 'Id'), COALESCE((SELECT MAX(""Id"") FROM ""Food""), 0), true);";
+      db.Database.ExecuteSqlRaw(reseedSql);
+    }
+    catch { /* ignore if not Postgres or table/sequence not present */ }
   }
-  catch { /* ignore if not Postgres or table/sequence not present */ }
 }
 
 app.Run();

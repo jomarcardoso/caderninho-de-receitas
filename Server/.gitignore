@@ -7,6 +7,16 @@
 *.sln.docstates
 *.userprefs
 
+# dependencies
+node_modules
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
