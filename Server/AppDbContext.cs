@@ -17,7 +17,7 @@ public class AppDbContext : DbContext
   public DbSet<Recipe> Recipe { get; set; }
   public DbSet<Food> Food { get; set; }
   public DbSet<RecipeRelation> RecipeRelation { get; set; }
-  public DbSet<FoodIcon> FoodIcon { get; set; }
+  public DbSet<Icon> FoodIcon { get; set; }
   public DbSet<RecipeShare> RecipeShare { get; set; }
   public DbSet<Server.Models.FoodEditRequest> FoodEditRequest { get; set; }
   public DbSet<UserProfile> UserProfile { get; set; }
@@ -56,11 +56,11 @@ public class AppDbContext : DbContext
     // Food
     modelBuilder.Entity<Food>(entity =>
     {
-      entity.HasOne(f => f.IconData)
+      entity.HasOne(f => f.Icon)
         .WithMany()
         .HasForeignKey(f => f.IconId)
         .OnDelete(DeleteBehavior.SetNull);
-      entity.Navigation(f => f.IconData).AutoInclude();
+      entity.Navigation(f => f.Icon).AutoInclude();
 
       var (foodCategoriesConverter, foodCategoriesComparer) = (
         new ValueConverter<List<string>, string>(
@@ -187,10 +187,11 @@ public class AppDbContext : DbContext
       entity.Property(e => e.CreatedAt).IsRequired();
     });
 
-    // FoodIcon
-    modelBuilder.Entity<FoodIcon>(entity =>
+    // Icon
+    modelBuilder.Entity<Icon>(entity =>
     {
       entity.HasKey(i => i.Id);
+      entity.ToTable("FoodIcon");
       // Localized name is owned; enforce uniqueness on Name.En and require it
       entity.OwnsOne(i => i.Name, nb =>
       {

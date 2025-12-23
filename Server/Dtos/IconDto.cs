@@ -2,7 +2,7 @@ using Server.Shared;
 
 namespace Server.Dtos;
 
-public class FoodIconDto
+public class IconDto
 {
   public string Name { get; set; } = string.Empty; // filename with extension
   public string Url { get; set; } = string.Empty; // public URL
