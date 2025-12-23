@@ -1,10 +1,9 @@
 using Server.Models;
+using Server.Response;
 
 namespace Server.Dtos;
 
-public class FoodResponse : Food { }
-
 public class FoodsDataResponse : CommonDataResponse
 {
-  public List<Food> Foods { get; set; } = new();
+  public List<FoodResponse> Foods { get; set; } = new();
 }

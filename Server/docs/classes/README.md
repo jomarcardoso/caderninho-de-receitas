@@ -189,20 +189,6 @@ Output objects.
 ### FoodResponse
 
 - Namespace: [`Server.Response`](#response)
-- Inherits: `FoodSummaryResponse`
-- Properties:
-  - `int` id
-  - `LanguageText` name
-  - `LanguageText` keys
-  - `LanguageText?` description
-  - `MeasurementUnit` measurementUnit
-  - `FoodType` type
-  - `Record<string, double>` measures
-  - `string[]` categories
-  - Nutrients: `NutritionalInformation`, `Minerals`, `Vitamins`, `AminoAcids`, `EssentialAminoAcids`
-  - `double` aminoAcidsScore (optional, default 0)
-- Defaults: collections as `[]`; icon may be `null`; omit legacy/internal fields.
-- Mapping: from domain `Food`, flatten `measures`, build `icon` from `Icon`, keep `LanguageText`.
-- Collection wrapper: `FoodsDataResponse` with `foods: FoodResponse[]` (+ common metadata if any).
+- Inherits: `Food` (same shape as the entity)
 
 ## Controllers

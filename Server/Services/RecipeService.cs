@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Server.Dtos;
 using Server.Models;
+using Server.Response;
 using Server.Shared;
 using System.Globalization;
 using System.Text;
@@ -549,7 +550,7 @@ public class RecipeService
     var response = new RecipesDataResponse
     {
       Recipes = recipeDtos,
-      Foods = _mapper.Map<List<Food>>(foods)
+      Foods = _mapper.Map<List<FoodResponse>>(foods)
     };
     response.RecipeCategories = await BuildCategoryMapAsync();
 

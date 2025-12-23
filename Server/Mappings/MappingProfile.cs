@@ -1,6 +1,7 @@
 using AutoMapper;
 using Server.Models;
 using Server.Dtos;
+using Server.Response;
 using Server.Shared;
 
 public class MappingProfile : Profile
@@ -38,5 +39,8 @@ public class MappingProfile : Profile
       .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food.Id))
       .ReverseMap()
       .ForPath(src => src.Food.Id, opt => opt.MapFrom(dest => dest.Food));
+
+    CreateMap<Food, FoodResponse>();
+    CreateMap<Food, FoodSummaryResponse>();
   }
 }

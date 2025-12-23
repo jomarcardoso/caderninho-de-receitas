@@ -9,6 +9,7 @@ using Server.Serialization;
 using Server.Shared;
 using System.Security.Claims;
 using Server.Dtos;
+using Server.Response;
 
 namespace Server.Controllers;
 
@@ -279,7 +280,7 @@ public class RecipeController : ControllerBase
     var response = new RecipesDataResponse
     {
       Recipes = recipeResponses,
-      Foods = foods,
+      Foods = _mapper.Map<List<FoodResponse>>(foods),
       RecipeCategories = await recipeService.BuildCategoryMapAsync()
     };
 
@@ -378,14 +379,16 @@ public class RecipeController : ControllerBase
       .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
       .ToList();
 
+    var foodList = FoodService.GetFoodsFromRecipes(new List<Recipe> { recipe })
+      .Where(f => f is not null)
+      .DistinctBy(f => f!.Id)
+      .ToList()!;
+
     var response = new RecipeDataResponse
     {
       Recipes = recipeResponse,
       RelatedRecipes = relatedResponses,
-      Foods = FoodService.GetFoodsFromRecipes(new List<Recipe> { recipe })
-        .Where(f => f is not null)
-        .DistinctBy(f => f!.Id)
-        .ToList()!,
+      Foods = _mapper.Map<List<FoodResponse>>(foodList),
     };
 
     return Ok(response);

@@ -6,6 +6,7 @@ using Server.Services;
 using AutoMapper;
 using Server.Dtos;
 using Server.Models;
+using Server.Response;
 
 namespace Server.Controllers;
 
@@ -160,7 +161,7 @@ public class ShareController : ControllerBase
     {
       Recipes = recipeResponse,
       RelatedRecipes = new List<RecipeResponse>(),
-      Foods = _mapper.Map<List<Food>>(foods),
+      Foods = _mapper.Map<List<FoodResponse>>(foods),
     };
 
     return Ok(response);
