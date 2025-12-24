@@ -152,7 +152,7 @@ public class UsersController : ControllerBase
   }
 
   [HttpPost("feature/{ownerId}")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> Feature(string ownerId)
   {
     var ok = await _profiles.SetFeaturedAsync(ownerId, true);
@@ -161,7 +161,7 @@ public class UsersController : ControllerBase
   }
 
   [HttpDelete("feature/{ownerId}")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> Unfeature(string ownerId)
   {
     var ok = await _profiles.SetFeaturedAsync(ownerId, false);

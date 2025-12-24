@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
+using Server.Response;
 using System;
+using System.Linq;
 
 namespace Server.Controllers;
 
@@ -24,9 +26,19 @@ namespace Server.Controllers;
 
   // GET: api/food
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<Food>>> GetAll()
+  public async Task<ActionResult<IEnumerable<FoodSummaryResponse>>> GetAll()
   {
-    var foods = await _context.Food.ToListAsync();
+    var foods = await _context.Food
+      .AsNoTracking()
+      .Select(f => new FoodSummaryResponse
+      {
+        Id = f.Id,
+        Name = f.Name,
+        Icon = f.Icon != null ? f.Icon.Url : string.Empty,
+        Imgs = f.Imgs.ToArray()
+      })
+      .ToListAsync();
+
     return Ok(foods);
   }
 
@@ -93,13 +105,13 @@ namespace Server.Controllers;
 
   // GET: api/food/search?text=banana&limit=20
   [HttpGet("search")]
-  public async Task<ActionResult<IEnumerable<Food>>> Search(
+  public async Task<ActionResult<IEnumerable<FoodSummaryResponse>>> Search(
     [FromQuery] string text = "",
     [FromQuery] int limit = 25)
   {
     var query = (text ?? string.Empty).Trim();
     if (string.IsNullOrWhiteSpace(query))
-      return Ok(new List<Food>());
+      return Ok(new List<FoodSummaryResponse>());
 
     limit = Math.Clamp(limit, 1, 100);
     var lowered = query.ToLowerInvariant();
@@ -114,6 +126,13 @@ namespace Server.Controllers;
         (f.Keys.Pt != null && f.Keys.Pt.ToLower().Contains(lowered)))
       .OrderBy(f => f.Name.Pt ?? f.Name.En)
       .Take(limit)
+      .Select(f => new FoodSummaryResponse
+      {
+        Id = f.Id,
+        Name = f.Name,
+        Icon = f.Icon != null ? f.Icon.Url : string.Empty,
+        Imgs = f.Imgs.ToArray()
+      })
       .ToListAsync();
 
     return Ok(foods);

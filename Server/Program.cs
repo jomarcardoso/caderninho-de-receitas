@@ -109,6 +109,14 @@ if (string.IsNullOrWhiteSpace(jwtOptions.Audience))
 builder.Services.AddSingleton(jwtOptions);
 builder.Services.AddSingleton<JwtTokenService>();
 
+builder.Services.AddAuthorization(options =>
+{
+  options.AddPolicy("AdminOrHigher", policy =>
+    policy.RequireRole("Admin", "Owner"));
+  options.AddPolicy("KeeperOrHigher", policy =>
+    policy.RequireRole("Keeper", "Admin", "Owner"));
+});
+
 // blazor
 // Add http client
 builder.Services.AddHttpClient("Default", client =>

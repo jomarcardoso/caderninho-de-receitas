@@ -166,7 +166,7 @@ public class RecipeController : ControllerBase
   }
 
   [HttpGet("pending")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> GetPendingRecipes()
   {
     var pending = await _context.Recipe
@@ -189,7 +189,7 @@ public class RecipeController : ControllerBase
   }
 
   [HttpPost("{id}/approve")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> ApproveRecipe(int id)
   {
     var recipe = await _context.Recipe
@@ -207,7 +207,7 @@ public class RecipeController : ControllerBase
   }
 
   [HttpPost("{id}/deny")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> DenyRecipe(int id)
   {
     var recipe = await _context.Recipe

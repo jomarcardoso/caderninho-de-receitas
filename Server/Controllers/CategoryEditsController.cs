@@ -25,7 +25,7 @@ public class CategoryEditsController : ControllerBase
   }
 
   [HttpPost]
-  [Authorize(Roles = "Keeper,Admin,Owner")]
+  [Authorize(Policy = "KeeperOrHigher")]
   public async Task<IActionResult> Create([FromBody] CreateEditDto dto)
   {
     if (dto.CategoryId <= 0) return BadRequest("CategoryId is required");
@@ -46,7 +46,7 @@ public class CategoryEditsController : ControllerBase
   }
 
   [HttpGet("{id}")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> GetById(int id)
   {
     var item = await _context.CategoryEditRequest.FindAsync(id);
@@ -55,7 +55,7 @@ public class CategoryEditsController : ControllerBase
   }
 
   [HttpGet("pending")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> GetPending([FromQuery] int categoryId = 0)
   {
     IQueryable<CategoryEditRequest> q = _context.CategoryEditRequest.AsNoTracking().Where(e => e.Status == CategoryEditStatus.Pending);
@@ -65,7 +65,7 @@ public class CategoryEditsController : ControllerBase
   }
 
   [HttpPost("{id}/approve")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> Approve(int id)
   {
     var item = await _context.CategoryEditRequest.FindAsync(id);
@@ -118,7 +118,7 @@ public class CategoryEditsController : ControllerBase
   }
 
   [HttpPost("{id}/reject")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> Reject(int id)
   {
     var item = await _context.CategoryEditRequest.FindAsync(id);

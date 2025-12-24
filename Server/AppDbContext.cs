@@ -219,6 +219,9 @@ public class AppDbContext : DbContext
     {
       entity.HasKey(e => e.Id);
       entity.HasIndex(e => new { e.FoodId, e.Status });
+      entity.HasIndex(e => new { e.Status, e.CreatedAt })
+        .HasDatabaseName("IX_FoodEditRequest_Pending")
+        .HasFilter("\"Status\" = 0");
       entity.Property(e => e.ProposedBy).IsRequired();
       entity.Property(e => e.Payload).IsRequired();
       entity.Property(e => e.CreatedAt).IsRequired();

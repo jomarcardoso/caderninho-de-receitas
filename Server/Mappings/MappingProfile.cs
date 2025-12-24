@@ -40,6 +40,7 @@ public class MappingProfile : Profile
       .ReverseMap()
       .ForPath(src => src.Food.Id, opt => opt.MapFrom(dest => dest.Food));
 
+    CreateMap<Food, FoodDto>().ReverseMap();
     CreateMap<Food, FoodResponse>();
     CreateMap<Food, FoodSummaryResponse>();
   }

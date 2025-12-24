@@ -1,9 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Server.Dtos;
 using Server.Models;
+using Server.Response;
+using Server.Shared;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace Server.Controllers;
 
@@ -12,30 +18,60 @@ namespace Server.Controllers;
 public class FoodEditsController : ControllerBase
 {
   private readonly AppDbContext _context;
+  private readonly IMapper _mapper;
+  private readonly JsonSerializerOptions _jsonOptions = new()
+  {
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+  };
 
-  public FoodEditsController(AppDbContext context)
+  public FoodEditsController(AppDbContext context, IMapper mapper)
   {
     _context = context;
+    _mapper = mapper;
   }
 
-  public class CreateEditDto
+  [HttpPost("{foodId?}")]
+  [Authorize(Policy = "KeeperOrHigher")]
+  public async Task<IActionResult> Create(int? foodId, [FromBody] FoodDto dto)
   {
-    public int FoodId { get; set; }
-    public JsonElement Payload { get; set; }
-  }
+    var targetId = dto?.Id ?? 0;
+    if (targetId <= 0 && foodId.HasValue)
+      targetId = foodId.Value;
+    if (targetId > 0 && dto != null && dto.Id <= 0)
+      dto.Id = targetId;
 
-  [HttpPost]
-  [Authorize(Roles = "Keeper,Admin,Owner")]
-  public async Task<IActionResult> Create([FromBody] CreateEditDto dto)
-  {
-    if (dto.FoodId <= 0) return BadRequest("FoodId is required");
+    if (dto is null || targetId <= 0)
+      return BadRequest(Error(StatusCodes.Status400BadRequest, "food_edit.missing_id", "Invalid payload", "FoodId is required."));
     var proposedBy = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "unknown";
+
+    // Snapshot current food and compute a diff
+    var food = await _context.Food
+      .AsNoTracking()
+      .FirstOrDefaultAsync(f => f.Id == targetId);
+    if (food is null)
+      return NotFound(Error(StatusCodes.Status404NotFound, "food.not_found", "Food not found", $"Food {targetId} was not found."));
+
+    FoodDto currentDto;
+    try
+    {
+      currentDto = _mapper.Map<FoodDto>(food);
+    }
+    catch (AutoMapperMappingException ex)
+    {
+      return BadRequest(Error(StatusCodes.Status400BadRequest, "food_edit.map_error", "Mapping failed", ex.Message));
+    }
+    var diff = BuildDiff(dto, currentDto);
+    if (diff is null)
+      return BadRequest(Error(StatusCodes.Status400BadRequest, "food_edit.no_changes", "No changes detected", "The submitted payload does not change any field."));
+
+    var payloadJson = diff.ToJsonString(_jsonOptions);
 
     var req = new FoodEditRequest
     {
-      FoodId = dto.FoodId,
+      FoodId = targetId,
       ProposedBy = proposedBy,
-      Payload = dto.Payload.GetRawText(),
+      Payload = payloadJson,
       CreatedAt = DateTime.UtcNow,
       Status = FoodEditStatus.Pending,
     };
@@ -46,202 +82,67 @@ public class FoodEditsController : ControllerBase
   }
 
   [HttpGet("{id}")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> GetById(int id)
   {
     var item = await _context.FoodEditRequest.FindAsync(id);
-    if (item == null) return NotFound();
-    return Ok(item);
+    if (item == null)
+      return NotFound(Error(StatusCodes.Status404NotFound, "food_edit.not_found", "Food edit not found", $"Edit request {id} not found."));
+    return Ok(new FoodEditRequestResponse
+    {
+      Id = item.Id,
+      FoodId = item.FoodId,
+      ProposedBy = item.ProposedBy,
+      Payload = item.Payload,
+      CreatedAt = item.CreatedAt,
+      ApprovedAt = item.ApprovedAt,
+      ApprovedBy = item.ApprovedBy,
+      Status = item.Status
+    });
   }
 
   [HttpGet("pending")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> GetPending([FromQuery] int foodId = 0)
   {
     IQueryable<FoodEditRequest> q = _context.FoodEditRequest.AsNoTracking().Where(e => e.Status == FoodEditStatus.Pending);
     if (foodId > 0) q = q.Where(e => e.FoodId == foodId);
     var list = await q.OrderByDescending(e => e.CreatedAt).Take(200).ToListAsync();
-    return Ok(list);
+    var mapped = list.Select(item => new FoodEditRequestResponse
+    {
+      Id = item.Id,
+      FoodId = item.FoodId,
+      ProposedBy = item.ProposedBy,
+      Payload = item.Payload,
+      CreatedAt = item.CreatedAt,
+      ApprovedAt = item.ApprovedAt,
+      ApprovedBy = item.ApprovedBy,
+      Status = item.Status
+    }).ToList();
+    return Ok(mapped);
   }
 
   [HttpPost("{id}/approve")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> Approve(int id)
   {
     var item = await _context.FoodEditRequest.FindAsync(id);
-    if (item == null) return NotFound();
-    if (item.Status != FoodEditStatus.Pending) return BadRequest("Already processed");
+    if (item == null)
+      return NotFound(Error(StatusCodes.Status404NotFound, "food_edit.not_found", "Food edit not found", $"Edit request {id} not found."));
+    if (item.Status != FoodEditStatus.Pending)
+      return BadRequest(Error(StatusCodes.Status400BadRequest, "food_edit.already_processed", "Already processed", "This edit request has already been processed."));
 
-    // Apply minimal fields when present
     var food = await _context.Food.FindAsync(item.FoodId);
-    if (food is null) return NotFound("Food not found");
+    if (food is null)
+      return NotFound(Error(StatusCodes.Status404NotFound, "food.not_found", "Food not found", $"Food {item.FoodId} was not found."));
 
     try
     {
-      static string KeepIfNotBlank(JsonElement el, string current)
-      {
-        var s = el.GetString();
-        return string.IsNullOrWhiteSpace(s) ? current : s!;
-      }
+      var diffNode = JsonNode.Parse(item.Payload);
+      if (diffNode is null || diffNode is not JsonObject diffObj)
+        return BadRequest(Error(StatusCodes.Status400BadRequest, "food_edit.invalid_payload", "Invalid payload", "Could not parse stored diff."));
 
-      using var doc = JsonDocument.Parse(item.Payload);
-      var root = doc.RootElement;
-
-      bool isDeleteRequest = root.TryGetProperty("delete", out var delEl) &&
-        (delEl.ValueKind == JsonValueKind.True ||
-         (delEl.ValueKind == JsonValueKind.String && string.Equals(delEl.GetString(), "true", StringComparison.OrdinalIgnoreCase)));
-
-      if (isDeleteRequest)
-      {
-        _context.Food.Remove(food);
-        item.Status = FoodEditStatus.Approved;
-        item.ApprovedBy = User.FindFirstValue(ClaimTypes.Email) ?? "admin";
-        item.ApprovedAt = DateTime.UtcNow;
-        await _context.SaveChangesAsync();
-        return Ok();
-      }
-
-      if (root.TryGetProperty("name", out var nameEl))
-      {
-        if (nameEl.TryGetProperty("pt", out var pt)) food.Name.Pt = KeepIfNotBlank(pt, food.Name.Pt);
-        if (nameEl.TryGetProperty("en", out var en)) food.Name.En = KeepIfNotBlank(en, food.Name.En);
-      }
-      if (root.TryGetProperty("description", out var descEl))
-      {
-        if (descEl.TryGetProperty("pt", out var pt)) food.Description.Pt = KeepIfNotBlank(pt, food.Description.Pt);
-        if (descEl.TryGetProperty("en", out var en)) food.Description.En = KeepIfNotBlank(en, food.Description.En);
-      }
-      if (root.TryGetProperty("keys", out var keysEl))
-      {
-        if (keysEl.TryGetProperty("pt", out var pt)) food.Keys.Pt = KeepIfNotBlank(pt, food.Keys.Pt);
-        if (keysEl.TryGetProperty("en", out var en)) food.Keys.En = KeepIfNotBlank(en, food.Keys.En);
-      }
-
-      // Icon updates: only apply when a valid iconId was explicitly provided
-      if (root.TryGetProperty("iconId", out var iconIdEl) && iconIdEl.TryGetInt32(out var iconId))
-      {
-        // Only persist positive icon ids; ignore zero/negative values coming from partial payloads
-        if (iconId > 0)
-        {
-          food.IconId = iconId;
-          food.Icon = null;
-        }
-      }
-
-      if (root.TryGetProperty("categories", out var categoriesEl))
-      {
-        var categories = new List<string>();
-
-        if (categoriesEl.ValueKind == JsonValueKind.Array)
-        {
-          foreach (var el in categoriesEl.EnumerateArray())
-          {
-            string? slug = null;
-
-            if (el.ValueKind == JsonValueKind.String)
-            {
-              slug = el.GetString();
-            }
-            else if (el.ValueKind == JsonValueKind.Object && el.TryGetProperty("key", out var keyEl) && keyEl.ValueKind == JsonValueKind.String)
-            {
-              slug = keyEl.GetString();
-            }
-
-            if (!string.IsNullOrWhiteSpace(slug))
-            {
-              categories.Add(slug.Trim());
-            }
-          }
-        }
-        else if (categoriesEl.ValueKind == JsonValueKind.String)
-        {
-          var raw = categoriesEl.GetString();
-          if (!string.IsNullOrWhiteSpace(raw))
-          {
-            foreach (var part in raw.Split(',', StringSplitOptions.RemoveEmptyEntries))
-            {
-              var slug = part.Trim();
-              if (!string.IsNullOrWhiteSpace(slug))
-              {
-                categories.Add(slug);
-              }
-            }
-          }
-        }
-
-        // Explicit empty array/string clears categories; ignore other value kinds
-        if (categoriesEl.ValueKind == JsonValueKind.Array ||
-            categoriesEl.ValueKind == JsonValueKind.String ||
-            categoriesEl.ValueKind == JsonValueKind.Null)
-        {
-          food.Categories = categories;
-        }
-      }
-
-      if (root.TryGetProperty("imgs", out var imgsEl) && imgsEl.ValueKind == JsonValueKind.Array)
-      {
-        var list = new List<string>();
-        foreach (var el in imgsEl.EnumerateArray())
-        {
-          var s = el.GetString();
-          if (!string.IsNullOrWhiteSpace(s)) list.Add(s!);
-        }
-        food.Imgs = list;
-      }
-
-      // NutritionalInformation
-      if (root.TryGetProperty("nutritionalInformation", out var niEl))
-      {
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.Calories), out var c0) && c0.TryGetDouble(out var d0)) food.NutritionalInformation.Calories = d0;
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.DietaryFiber), out var c1) && c1.TryGetDouble(out var d1)) food.NutritionalInformation.DietaryFiber = d1;
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.Gi), out var c2) && c2.TryGetDouble(out var d2)) food.NutritionalInformation.Gi = d2;
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.MonounsaturatedFats), out var c3) && c3.TryGetDouble(out var d3)) food.NutritionalInformation.MonounsaturatedFats = d3;
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.PolyunsaturatedFats), out var c4) && c4.TryGetDouble(out var d4)) food.NutritionalInformation.PolyunsaturatedFats = d4;
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.Proteins), out var c5) && c5.TryGetDouble(out var d5)) food.NutritionalInformation.Proteins = d5;
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.SaturedFats), out var c6) && c6.TryGetDouble(out var d6)) food.NutritionalInformation.SaturedFats = d6;
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.Sugar), out var c7) && c7.TryGetDouble(out var d7)) food.NutritionalInformation.Sugar = d7;
-        if (niEl.TryGetProperty(nameof(food.NutritionalInformation.TotalFat), out var c8) && c8.TryGetDouble(out var d8)) food.NutritionalInformation.TotalFat = d8;
-      }
-
-      // Minerals
-      if (root.TryGetProperty("minerals", out var miEl))
-      {
-        if (miEl.TryGetProperty(nameof(food.Minerals.Calcium), out var m0) && m0.TryGetDouble(out var md0)) food.Minerals.Calcium = md0;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Copper), out var m1) && m1.TryGetDouble(out var md1)) food.Minerals.Copper = md1;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Fluoride), out var m2) && m2.TryGetDouble(out var md2)) food.Minerals.Fluoride = md2;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Iron), out var m3) && m3.TryGetDouble(out var md3)) food.Minerals.Iron = md3;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Magnesium), out var m4) && m4.TryGetDouble(out var md4)) food.Minerals.Magnesium = md4;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Manganese), out var m5) && m5.TryGetDouble(out var md5)) food.Minerals.Manganese = md5;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Phosphorus), out var m6) && m6.TryGetDouble(out var md6)) food.Minerals.Phosphorus = md6;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Potassium), out var m7) && m7.TryGetDouble(out var md7)) food.Minerals.Potassium = md7;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Sodium), out var m8) && m8.TryGetDouble(out var md8)) food.Minerals.Sodium = md8;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Zinc), out var m9) && m9.TryGetDouble(out var md9)) food.Minerals.Zinc = md9;
-        if (miEl.TryGetProperty(nameof(food.Minerals.Selenium), out var m10) && m10.TryGetDouble(out var md10)) food.Minerals.Selenium = md10;
-      }
-
-      // AminoAcids
-      if (root.TryGetProperty("aminoAcids", out var aaEl))
-      {
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Alanine), out var a0) && a0.TryGetDouble(out var ad0)) food.AminoAcids.Alanine = ad0;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Arginine), out var a1) && a1.TryGetDouble(out var ad1)) food.AminoAcids.Arginine = ad1;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.AsparticAcid), out var a2) && a2.TryGetDouble(out var ad2)) food.AminoAcids.AsparticAcid = ad2;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Cystine), out var a3) && a3.TryGetDouble(out var ad3)) food.AminoAcids.Cystine = ad3;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.GlutamicAcid), out var a4) && a4.TryGetDouble(out var ad4)) food.AminoAcids.GlutamicAcid = ad4;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Glutamine), out var a5) && a5.TryGetDouble(out var ad5)) food.AminoAcids.Glutamine = ad5;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Glycine), out var a6) && a6.TryGetDouble(out var ad6)) food.AminoAcids.Glycine = ad6;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Histidine), out var a7) && a7.TryGetDouble(out var ad7)) food.AminoAcids.Histidine = ad7;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Isoleucine), out var a8) && a8.TryGetDouble(out var ad8)) food.AminoAcids.Isoleucine = ad8;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Leucine), out var a9) && a9.TryGetDouble(out var ad9)) food.AminoAcids.Leucine = ad9;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Lysine), out var a10) && a10.TryGetDouble(out var ad10)) food.AminoAcids.Lysine = ad10;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Methionine), out var a11) && a11.TryGetDouble(out var ad11)) food.AminoAcids.Methionine = ad11;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Phenylalanine), out var a12) && a12.TryGetDouble(out var ad12)) food.AminoAcids.Phenylalanine = ad12;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Proline), out var a13) && a13.TryGetDouble(out var ad13)) food.AminoAcids.Proline = ad13;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Serine), out var a14) && a14.TryGetDouble(out var ad14)) food.AminoAcids.Serine = ad14;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Threonine), out var a15) && a15.TryGetDouble(out var ad15)) food.AminoAcids.Threonine = ad15;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Tryptophan), out var a16) && a16.TryGetDouble(out var ad16)) food.AminoAcids.Tryptophan = ad16;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Tyrosine), out var a17) && a17.TryGetDouble(out var ad17)) food.AminoAcids.Tyrosine = ad17;
-        if (aaEl.TryGetProperty(nameof(food.AminoAcids.Valine), out var a18) && a18.TryGetDouble(out var ad18)) food.AminoAcids.Valine = ad18;
-      }
+      ApplyDiff(diffObj, food);
 
       item.Status = FoodEditStatus.Approved;
       item.ApprovedBy = User.FindFirstValue(ClaimTypes.Email) ?? "admin";
@@ -252,17 +153,19 @@ public class FoodEditsController : ControllerBase
     }
     catch
     {
-      return BadRequest("Invalid payload");
+      return BadRequest(Error(StatusCodes.Status400BadRequest, "food_edit.invalid_payload", "Invalid payload", "Could not apply stored diff to the food entity."));
     }
   }
 
   [HttpPost("{id}/reject")]
-  [Authorize(Roles = "Admin")]
+  [Authorize(Policy = "AdminOrHigher")]
   public async Task<IActionResult> Reject(int id)
   {
     var item = await _context.FoodEditRequest.FindAsync(id);
-    if (item == null) return NotFound();
-    if (item.Status != FoodEditStatus.Pending) return BadRequest("Already processed");
+    if (item == null)
+      return NotFound(Error(StatusCodes.Status404NotFound, "food_edit.not_found", "Food edit not found", $"Edit request {id} not found."));
+    if (item.Status != FoodEditStatus.Pending)
+      return BadRequest(Error(StatusCodes.Status400BadRequest, "food_edit.already_processed", "Already processed", "This edit request has already been processed."));
 
     item.Status = FoodEditStatus.Rejected;
     item.ApprovedBy = User.FindFirstValue(ClaimTypes.Email) ?? "admin";
@@ -270,4 +173,161 @@ public class FoodEditsController : ControllerBase
     await _context.SaveChangesAsync();
     return Ok();
   }
+
+  private JsonNode? BuildDiff(FoodDto incoming, FoodDto current)
+  {
+    var incomingNode = JsonSerializer.SerializeToNode(incoming, _jsonOptions);
+    var currentNode = JsonSerializer.SerializeToNode(current, _jsonOptions);
+    return BuildDiff(incomingNode, currentNode);
+  }
+
+  private static JsonNode? BuildDiff(JsonNode? incoming, JsonNode? current)
+  {
+    if (incoming == null && current == null) return null;
+    if (incoming == null || current == null) return incoming?.DeepClone();
+
+    if (incoming is JsonValue iv && current is JsonValue cv)
+    {
+      if (JsonValueEquals(iv, cv)) return null;
+      return iv.DeepClone();
+    }
+
+    if (incoming is JsonArray ia && current is JsonArray ca)
+    {
+      if (ArrayEquals(ia, ca)) return null;
+      return ia.DeepClone();
+    }
+
+    if (incoming is JsonObject io && current is JsonObject co)
+    {
+      var result = new JsonObject();
+      foreach (var prop in io)
+      {
+        var cur = co.ContainsKey(prop.Key) ? co[prop.Key] : null;
+        var sub = BuildDiff(prop.Value, cur);
+        if (sub != null)
+          result[prop.Key] = sub;
+      }
+      return result.Count > 0 ? result : null;
+    }
+
+    return incoming.DeepClone();
+  }
+
+  private static bool JsonValueEquals(JsonValue a, JsonValue b)
+  {
+    var ae = a.GetValue<JsonElement>();
+    var be = b.GetValue<JsonElement>();
+    if (ae.ValueKind != be.ValueKind) return false;
+    return ae.ToString() == be.ToString();
+  }
+
+  private static bool ArrayEquals(JsonArray a, JsonArray b)
+  {
+    if (a.Count != b.Count) return false;
+    for (int i = 0; i < a.Count; i++)
+    {
+      if (BuildDiff(a[i], b[i]) != null) return false;
+    }
+    return true;
+  }
+
+  private void ApplyDiff(JsonObject diff, Food food)
+  {
+    bool updateAmino = false;
+
+    foreach (var kv in diff)
+    {
+      switch (kv.Key)
+      {
+        case "name":
+          food.Name = kv.Value?.Deserialize<LanguageText>(_jsonOptions) ?? food.Name;
+          break;
+        case "keys":
+          food.Keys = kv.Value?.Deserialize<LanguageText>(_jsonOptions) ?? food.Keys;
+          break;
+        case "description":
+          food.Description = kv.Value?.Deserialize<LanguageText>(_jsonOptions) ?? food.Description;
+          break;
+        case "imgs":
+          if (kv.Value is JsonArray imgs)
+            food.Imgs = imgs.Select(x => x?.GetValue<string>() ?? string.Empty)
+              .Where(s => !string.IsNullOrWhiteSpace(s))
+              .ToList();
+          break;
+        case "categories":
+          if (kv.Value is JsonArray cats)
+            food.Categories = cats.Select(x => x?.GetValue<string>() ?? string.Empty)
+              .Where(s => !string.IsNullOrWhiteSpace(s))
+              .ToList();
+          break;
+        case "measurementUnit":
+          if (kv.Value != null)
+            food.MeasurementUnit = kv.Value.Deserialize<MeasurementUnit>(_jsonOptions);
+          break;
+        case "measures":
+          var measure = kv.Value?.Deserialize<Measure>(_jsonOptions);
+          if (measure != null) food.Measures = measure;
+          break;
+        case "iconId":
+          if (kv.Value != null)
+          {
+            food.IconId = kv.Value.GetValue<int?>();
+            food.Icon = null;
+          }
+          break;
+        case "type":
+          if (kv.Value != null)
+            food.Type = kv.Value.Deserialize<FoodType>(_jsonOptions);
+          break;
+        case "nutritionalInformation":
+          var ni = kv.Value?.Deserialize<NutritionalInformation>(_jsonOptions);
+          if (ni != null) food.NutritionalInformation = ni;
+          break;
+        case "minerals":
+          var mi = kv.Value?.Deserialize<Minerals>(_jsonOptions);
+          if (mi != null) food.Minerals = mi;
+          break;
+        case "vitamins":
+          var vi = kv.Value?.Deserialize<Vitamins>(_jsonOptions);
+          if (vi != null) food.Vitamins = vi;
+          break;
+        case "aminoAcids":
+          var aa = kv.Value?.Deserialize<AminoAcids>(_jsonOptions);
+          if (aa != null)
+          {
+            food.AminoAcids = aa;
+            updateAmino = true;
+          }
+          break;
+        case "essentialAminoAcids":
+          var ea = kv.Value?.Deserialize<EssentialAminoAcids>(_jsonOptions);
+          if (ea != null)
+          {
+            food.EssentialAminoAcids = ea;
+            updateAmino = true;
+          }
+          break;
+        case "aminoAcidsScore":
+          if (kv.Value != null)
+            food.AminoAcidsScore = kv.Value.GetValue<double>();
+          break;
+      }
+    }
+
+    if (updateAmino)
+    {
+      food.EssentialAminoAcids = new EssentialAminoAcids(food.AminoAcids);
+      food.AminoAcidsScore = food.EssentialAminoAcids.GetScore();
+    }
+  }
+
+  private ApiError Error(int status, string code, string title, string detail) => new ApiError
+  {
+    Status = status,
+    Code = code,
+    Title = title,
+    Detail = detail,
+    CorrelationId = HttpContext.TraceIdentifier
+  };
 }
