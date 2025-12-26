@@ -17,15 +17,15 @@ public class EssentialAminoAcidsBase
 
   public EssentialAminoAcidsBase(AminoAcidsBase aminoAcids)
   {
-    Tryptophan = aminoAcids.Tryptophan / 280;
-    Phenylalanine = aminoAcids.Phenylalanine / 875;
-    Leucine = aminoAcids.Leucine / 2730;
-    Valine = aminoAcids.Valine / 1820;
-    Isoleucine = aminoAcids.Isoleucine / 1400;
-    Lysine = aminoAcids.Lysine / 2100;
-    Threonine = aminoAcids.Threonine / 1050;
-    Methionine = aminoAcids.Methionine / 728;
-    Histidine = aminoAcids.Histidine / 700;
+    Tryptophan = 2730 * aminoAcids.Tryptophan / 280;
+    Phenylalanine = 2730 * aminoAcids.Phenylalanine / 875;
+    Leucine = 2730 * aminoAcids.Leucine / 2730;
+    Valine = 2730 * aminoAcids.Valine / 1820;
+    Isoleucine = 2730 * aminoAcids.Isoleucine / 1400;
+    Lysine = 2730 * aminoAcids.Lysine / 2100;
+    Threonine = 2730 * aminoAcids.Threonine / 1050;
+    Methionine = 2730 * aminoAcids.Methionine / 728;
+    Histidine = 2730 * aminoAcids.Histidine / 700;
   }
   public EssentialAminoAcidsBase(EssentialAminoAcidsBase essentialAminoAcids, double quantity)
   {

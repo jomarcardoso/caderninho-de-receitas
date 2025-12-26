@@ -1,15 +1,15 @@
-export interface NutritionalInformation {
-  ashes: number;
-  acidification: number;
-  calories: number;
-  carbohydrates: number;
-  dietaryFiber: number;
-  proteins: number;
-  gi: number;
-  gl: number;
-  saturedFats: number;
-  monounsaturatedFats: number;
-  polyunsaturatedFats: number;
-  cholesterol: number;
-  totalFat: number;
-}
+export type NutritionalInformationType =
+  | 'Acidification'
+  | 'Ashes'
+  | 'Calories'
+  | 'Carbohydrates'
+  | 'Cholesterol'
+  | 'DietaryFiber'
+  | 'Gi'
+  | 'Gl'
+  | 'MonounsaturatedFats'
+  | 'PolyunsaturatedFats'
+  | 'Proteins'
+  | 'SaturedFats'
+  | 'Sugar'
+  | 'TotalFat';

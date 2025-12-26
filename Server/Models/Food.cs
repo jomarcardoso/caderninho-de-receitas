@@ -11,7 +11,7 @@ public class Food : INutrients
   public LanguageText Description { get; set; } = new();
   public List<string> Imgs { get; set; } = new();
   public MeasurementUnit MeasurementUnit { get; set; }
-  public Measure Measures { get; set; } = new();
+  public Measures Measures { get; set; } = new();
   public List<string> Categories { get; set; } = new();
   public int? IconId { get; set; }
   public Icon? Icon { get; set; }

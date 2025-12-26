@@ -10,7 +10,7 @@ export function mapIngredientResponseToModel(
   foodsDataResponse: FoodsDataResponse,
 ): Ingredient {
   const food = foodsData.foods.find(
-    (f) => f.id === ingredientResponse.food,
+    (f) => f.id === ingredientResponse.food.id,
   ) as Food;
   return {
     ...ingredientResponse,

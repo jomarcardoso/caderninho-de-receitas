@@ -14,7 +14,7 @@ public class FoodDto
   public List<string> Imgs { get; set; } = new();
   [JsonConverter(typeof(JsonStringEnumConverter))]
   public MeasurementUnit MeasurementUnit { get; set; }
-  public Measure Measures { get; set; } = new();
+  public Measures Measures { get; set; } = new();
   public List<string> Categories { get; set; } = new();
   public int? IconId { get; set; }
   [JsonConverter(typeof(JsonStringEnumConverter))]

@@ -28,6 +28,7 @@ public class RecipeStep : RecipeStepBase<Ingredient>
       AminoAcids.Add(ingredient.AminoAcids);
       EssentialAminoAcids.Add(ingredient.EssentialAminoAcids);
     }
+
+    AminoAcidsScore = EssentialAminoAcids.GetScore();
   }
 }
-

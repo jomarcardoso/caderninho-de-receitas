@@ -36,12 +36,11 @@ public class MappingProfile : Profile
     CreateMap<RecipeStep, RecipeStepResponse>().ReverseMap();
 
     CreateMap<Ingredient, IngredientResponse>()
-      .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food.Id))
-      .ReverseMap()
-      .ForPath(src => src.Food.Id, opt => opt.MapFrom(dest => dest.Food));
+      .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food))
+      .ReverseMap();
 
     CreateMap<Food, FoodDto>().ReverseMap();
     CreateMap<Food, FoodResponse>();
-    CreateMap<Food, FoodSummaryResponse>();
+    CreateMap<Food, FoodSummaryResponse>().ReverseMap();
   }
 }

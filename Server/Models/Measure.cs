@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Server.Shared;
 
 namespace Server.Models;
 
+// Legacy alias to keep existing migrations compiled.
 [Owned]
-public class Measure : MeasureBase { }
+public class Measure : Measures { }

@@ -26,6 +26,7 @@ public abstract class RecipeStepBase<TRecipeIngredient> : RecipeStepContract, IN
   public VitaminsBase Vitamins { get; set; } = new();
   public AminoAcidsBase AminoAcids { get; set; } = new();
   public EssentialAminoAcidsBase EssentialAminoAcids { get; set; } = new();
+  public double AminoAcidsScore { get; set; } = 0;
 
   public RecipeStepBase() { }
 

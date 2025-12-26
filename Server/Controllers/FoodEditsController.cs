@@ -266,7 +266,7 @@ public class FoodEditsController : ControllerBase
             food.MeasurementUnit = kv.Value.Deserialize<MeasurementUnit>(_jsonOptions);
           break;
         case "measures":
-          var measure = kv.Value?.Deserialize<Measure>(_jsonOptions);
+          var measure = kv.Value?.Deserialize<Measures>(_jsonOptions);
           if (measure != null) food.Measures = measure;
           break;
         case "iconId":

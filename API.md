@@ -34,6 +34,10 @@
 
 `Alanine` | `Arginine` | `AsparticAcid` | `Cystine` | `GlutamicAcid` | `Glutamine` | `Glycine` | `Histidine` | `Isoleucine` | `Leucine` | `Lysine` | `Methionine` | `Phenylalanine` | `Proline` | `Serine` | `Threonine` | `Tryptophan` | `Tyrosine` | `Valine`
 
+### EssentialAminoAcidType
+
+`Tryptophan` | `Phenylalanine` | `Leucine` | `Valine` | `Isoleucine` | `Lysine` | `Threonine` | `Methionine` | `Histidine`
+
 ### FoodCategory
 
 Use `categories` as an array of these slugs (may be empty).
@@ -56,46 +60,66 @@ Object map:
 - Key: [`Language`](#language)
 - Value: `string`
 
-### MeasuresDto
+### Measures
 
 Object map:
 
 - Key: [`MeasureType`](#measuretype)
 - Value: `number`
 
-### NutritionalInformationDto
+### NutritionalInformation
 
 Object map:
 
 - Key: [`NutritionalInformationType`](#nutritionalinformationtype)
 - Value: `number`
 
-### MineralsDto
+### Minerals
 
 Object map:
 
 - Key: [`MineralType`](#mineraltype)
 - Value: `number`
 
-### VitaminsDto
+### Vitamins
 
 Object map:
 
 - Key: [`VitaminType`](#vitamintype)
 - Value: `number`
 
-### AminoAcidsDto
+### AminoAcids
 
 Object map:
 
 - Key: [`AminoAcidType`](#aminoacidtype)
 - Value: `number`
 
-## FoodDto (request/response payload)
+### EssentialAminoAcids
+
+Object map:
+
+- Key: [`EssentialAminoAcidType`](#essentialaminoacidtype)
+- Value: `number`
+
+### Icon
+
+- `number` id
+- [`LanguageText`](#languagetext) name
+- `string` url
+- [`LanguageText`](#languagetext) keys
+
+### AuthorSummaryResponse
+
+- `string` id
+- `string` name
+- `string` img
+
+## Food Interfaces
+
+### FoodDto (request/response payload)
 
 Technical contract for create/update food endpoints and detailed responses.
-
-### Interface (conceptual)
 
 - `number` id
 - [`LanguageText`](#languagetext) name
@@ -106,11 +130,11 @@ Technical contract for create/update food endpoints and detailed responses.
 - [`MeasurementUnit`](#measurementunit) measurementUnit
 - [`FoodType`](#foodtype) type
 - [`FoodCategory[]`](#foodcategory) `| string` categories (slugs)
-- [`MeasuresDto`](#measuresdto) measures
-- [`NutritionalInformationDto`](#nutritionalinformationdto) nutritionalInformation
-- [`MineralsDto`](#mineralsdto) minerals
-- [`VitaminsDto`](#vitaminsdto) vitamins
-- [`AminoAcidsDto`](#aminoacidsdto) aminoAcids
+- [`Measures`](#measures) measures
+- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
+- [`Minerals`](#minerals) minerals
+- [`Vitamins`](#vitamins) vitamins
+- [`AminoAcids`](#aminoacids) aminoAcids
 
 <details>
   <summary>Example:</summary>
@@ -136,15 +160,110 @@ Technical contract for create/update food endpoints and detailed responses.
 
 </details>
 
-## FoodSummaryResponse
+### FoodSummaryResponse
 
 - `number` id
 - `string` name
 - `string` icon (url)
 - `string[]` imgs
 
-## FoodResponse
+### FoodResponse
 
----
+- `number` id
+- [`LanguageText`](#languagetext) name
+- [`LanguageText`](#languagetext) keys
+- [`LanguageText`](#languagetext) description
+- `string[]` imgs
+- [`MeasurementUnit`](#measurementunit) measurementUnit
+- [`Measures`](#measures) measures
+- [`Icon`](#icon) icon
+- [`FoodType`](#foodtype) type
+- [`FoodCategory[]`](#foodcategory) categories
+- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
+- [`Minerals`](#minerals) minerals
+- [`Vitamins`](#vitamins) vitamins
+- [`AminoAcids`](#aminoacids) aminoAcids
+- [`EssentialAminoAcids`](#essentialaminoacids) essentialAminoAcids (amino acids multiplied for daily value)
+- `number` AminoAcidsScore
 
-Keep this file as the source of truth for DTOs/responses exposed by the API. Add new DTOs here when endpoints are added or updated.
+## Recipe
+
+### IngredientResponse
+
+- `string` text
+- [`FoodSummaryResponse`](#foodsummaryresponse) food
+- `number` quantity (in grams)
+- [`MeasureType`](#measuretype) measureType
+- `number` measureQuantity
+- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
+- [`Minerals`](#minerals) minerals
+- [`Vitamins`](#vitamins) vitamins
+- [`AminoAcids`](#aminoacids) aminoAcids
+- [`EssentialAminoAcids`](#essentialaminoacids) essentialAminoAcids (amino acids multiplied for daily value)
+
+<details>
+  <summary>Example:</summary>
+
+```json
+{
+  "text": "3 xícaras de farinha",
+  "food": {
+    "id": 22,
+    "name": "Farinha de trigo",
+    "icon": "https://storage.googleapis.com/caderninho-de-receitas.appspot.com/foodicons/flour.webp",
+    "imgs": [
+      "https://storage.googleapis.com/caderninho-de-receitas.appspot.com/foods/pexels-pixabay-39303-e5e6a83675924510b33224b9782cf785.webp",
+      "https://storage.googleapis.com/caderninho-de-receitas.appspot.com/foods/kiwifruit-400143_1280-67d962802a244e4bb7f30fd31cc58cb6.webp",
+      "https://storage.googleapis.com/caderninho-de-receitas.appspot.com/foods/640px-pav-c3-aa_de_chocolate_close-up-cfb6414ca12c4ba9aa36e0c78c6941dd.webp"
+    ]
+  },
+  "quantity": 240,
+  "measureType": "Cup",
+  "measureQuantity": 3,
+  "nutritionalInformation": { "calories": 89, "carbohydrates": 23, "...": 0 },
+  "minerals": { "potassium": 358, "magnesium": 27, "...": 0 },
+  "vitamins": { "a": 3, "c": 8.7, "...": 0 },
+  "aminoAcids": { "alanine": 0.049, "arginine": 0.033, "...": 0 }
+}
+```
+
+</details>
+
+### RecipeStepResponse
+
+- `string` title
+- `string` preparation
+- `string` additional
+- `string` ingredientsText
+- `RecipeIngredient[]` Ingredients
+- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
+- [`Minerals`](#minerals) minerals
+- [`Vitamins`](#vitamins) vitamins
+- [`AminoAcids`](#aminoacids) aminoAcids
+- [`EssentialAminoAcids`](#essentialaminoacids) essentialAminoAcids (amino acids multiplied for daily value)
+- `number` AminoAcidsScore
+
+## RecipeResponse
+
+- `number` id
+- `string` name
+- `string` keys
+- `string` description
+- `string` additional
+- [`RecipeStepResponse[]`](#recipestepresponse) steps
+- [`Language`](#language) language
+- [`FoodCategory[]`](#foodcategory) `| string` categories (slugs)
+- [`FoodSummaryResponse`](#foodsummaryresponse) food
+- `string[]` imgs
+- `number` savedByOthersCount
+- `number`ownerId
+- `string` createdAt (ISO 8601)
+- `string` updatedAt (ISO 8601)
+- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
+- [`Minerals`](#minerals) minerals
+- [`Vitamins`](#vitamins) vitamins
+- [`AminoAcids`](#aminoacids) aminoAcids
+- [`EssentialAminoAcids`](#essentialaminoacids) essentialAminoAcids (amino acids multiplied for daily value)
+- `number` AminoAcidsScore
+- [`AuthorSummaryReponse`](#authorsummaryresponse) author
+- `boolean` isOwner

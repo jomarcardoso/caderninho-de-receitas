@@ -438,7 +438,13 @@ public class RecipeService
       .Select(i => new IngredientResponse
       {
         Text = i.Text ?? string.Empty,
-        Food = i.Food!.Id,
+        Food = new FoodSummaryResponse
+        {
+          Id = i.Food!.Id,
+          Name = i.Food.Name,
+          Icon = i.Food.Icon != null ? i.Food.Icon.Url : string.Empty,
+          Imgs = i.Food.Imgs.ToArray()
+        },
         Quantity = i.Quantity,
         MeasureType = i.MeasureType,
         MeasureQuantity = i.MeasureQuantity,
@@ -461,7 +467,8 @@ public class RecipeService
       Minerals = step.Minerals ?? new MineralsBase(),
       Vitamins = step.Vitamins ?? new VitaminsBase(),
       AminoAcids = step.AminoAcids ?? new AminoAcidsBase(),
-      EssentialAminoAcids = step.EssentialAminoAcids ?? new EssentialAminoAcidsBase()
+      EssentialAminoAcids = step.EssentialAminoAcids ?? new EssentialAminoAcidsBase(),
+      AminoAcidsScore = (step.EssentialAminoAcids ?? new EssentialAminoAcidsBase()).GetScore()
     };
   }
 
@@ -519,7 +526,7 @@ public class RecipeService
 
       response.Food = steps
         .SelectMany(s => s.Ingredients)
-        .Select(i => i.Food)
+        .Select(i => i.Food?.Id ?? 0)
         .FirstOrDefault();
 
       AggregateNutrientsFromSteps(revision.Steps, response);
