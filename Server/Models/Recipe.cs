@@ -23,6 +23,11 @@ public class Recipe
   public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 
+  // Compartilhamento
+  public string? ShareToken { get; set; }
+  public DateTime? ShareTokenCreatedAt { get; set; }
+  public DateTime? ShareTokenRevokedAt { get; set; }
+
   // Versionamento
   public RecipeVisibility Visibility { get; set; } = RecipeVisibility.Private;
   public RecipeTombstoneStatus TombstoneStatus { get; set; } = RecipeTombstoneStatus.Active;
