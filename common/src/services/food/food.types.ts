@@ -1,15 +1,10 @@
 import { type Language } from '../language/language.types';
 
-export interface FoodBase {
+export interface Icon {
   id: number;
   name: Record<Language, string>;
-  description: Record<Language, string>;
-  imgs: string[];
+  url: string;
   keys: Record<Language, string>;
-  isRecipe: boolean;
-  iconId?: number; // numeric id referencing FoodIcon entity
-  icon: string[] | import('./food.response').FoodIconResponse | null;
-  categories?: string[];
 }
 
 export type FoodType =

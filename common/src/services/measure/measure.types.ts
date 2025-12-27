@@ -18,6 +18,3 @@ export type MeasureType =
   | 'Gram'
   | 'Kilo'
   | 'Pinch';
-
-// Map of measure unit -> numeric quantity
-export type Measures = Partial<Record<MeasureType, number>>;

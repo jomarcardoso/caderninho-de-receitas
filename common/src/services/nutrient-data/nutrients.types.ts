@@ -5,4 +5,6 @@ export interface AllNutrients {
   minerals: Nutrient[];
   vitamins: Nutrient[];
   aminoAcids: Nutrient[];
+  essentialAminoAcids: Nutrient[];
+  aminoAcidsScore: number;
 }

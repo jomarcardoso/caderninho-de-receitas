@@ -21,29 +21,11 @@
 - **Measure**: map of unit keys to numeric quantities.
 - **Nutrient/NutrientResponse**: name (`LanguageText`), quantity, measurementUnit.
 - Nutrient groups: `NutritionalInformation`, `Minerals`, `Vitamins`, `AminoAcids`, `EssentialAminoAcids`.
+- Enum slugs: `MeasureType`, `NutritionalInformationType`, `MineralType`, `VitaminType`, `AminoAcidType`.
 
 ## Food
 
-### FoodDto
-
-- `int` id
-- `LanguageText` name, keys, description
-- `string[]` imgs
-- `int?` iconId
-- `FoodType` type
-- `MeasurementUnit` measurementUnit
-- `Measure` measures
-- `string[]` categories
-- Nutrients: `NutritionalInformation`, `Minerals`, `Vitamins`, `AminoAcids`, `EssentialAminoAcids`
-- `double` aminoAcidsScore
-- **FoodResponse**: same shape as `Food` entity (full), used in GET `/api/food/{id}`.
-- **FoodSummaryResponse**: `{ id: int; name: LanguageText; icon: string; imgs: string[] }` for listings/search.
-- **Food (model/UI)**: mirrors response but used in frontend domain.
-- **FoodForm**: flattened form state (namePt/nameEn, descriptionPt/En, keysPt/En, imgs, icon/iconId, categories, many numeric nutrient fields).
-- **FoodService** (common/src/services/food/food.service.ts)
-  - `mapFoodResponseToModel(response: FoodResponse): Food`
-  - `mapFoodToModelDto(food: Food): FoodDto`
-  - `buildFoodPayloadForSave(form: FoodForm, language: Language, foodId?): any`
+Same as `FoodResponse` from API.
 
 ## Recipe
 

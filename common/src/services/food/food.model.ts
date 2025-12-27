@@ -1,18 +1,21 @@
 ﻿import { type CommonData } from '../common/common.model';
-import type {
-  LanguageText,
-  LanguageTextAndPlural,
-} from '../language/language.types';
-import { type Measure } from '../measure/measure.model';
+import type { LanguageText } from '../language/language.types';
 import { type AllNutrients } from '../nutrient-data/nutrients.types';
-import { type FoodBase } from './food.types';
+import type { Icon, FoodType } from './food.types';
+import type { MeasurementUnit } from '../measure/measurement-unit.types';
+import { Measures } from '../measure';
 
-export interface Food extends FoodBase, AllNutrients {
-  type: LanguageText;
-  measurementUnit: LanguageTextAndPlural;
-  measures: Array<Measure>;
-  categories?: string[];
-  classificationOptions?: import('../common/common.model').FoodClassificationOption[];
+export interface Food extends AllNutrients {
+  id: number;
+  name: LanguageText;
+  keys: LanguageText;
+  description: LanguageText;
+  imgs: string[];
+  measurementUnit: MeasurementUnit;
+  measures: Measures;
+  icon: Icon;
+  type: FoodType;
+  categories: string[]; // slugs
 }
 
 export interface FoodsData extends CommonData {
@@ -21,28 +24,26 @@ export interface FoodsData extends CommonData {
 
 const EMPTY_LANGUAGE_TEXT: LanguageText = { en: '', pt: '' };
 
-const EMPTY_MEASUREMENT_UNIT: LanguageTextAndPlural = {
-  text: { ...EMPTY_LANGUAGE_TEXT },
-  pluralText: { ...EMPTY_LANGUAGE_TEXT },
-};
-
 export const FOOD: Food = {
   id: 0,
   name: { ...EMPTY_LANGUAGE_TEXT },
   description: { ...EMPTY_LANGUAGE_TEXT },
   imgs: [],
   keys: { ...EMPTY_LANGUAGE_TEXT },
-  isRecipe: false,
-  iconId: 0,
-  icon: [],
-  type: { ...EMPTY_LANGUAGE_TEXT },
-  measurementUnit: {
-    text: { ...EMPTY_MEASUREMENT_UNIT.text },
-    pluralText: { ...EMPTY_MEASUREMENT_UNIT.pluralText },
+  categories: [],
+  icon: {
+    id: 0,
+    name: { ...EMPTY_LANGUAGE_TEXT },
+    url: '',
+    keys: { ...EMPTY_LANGUAGE_TEXT },
   },
-  measures: [],
+  type: 'solid',
+  measurementUnit: 'gram',
+  measures: {} as Measures,
   nutritionalInformation: [],
   minerals: [],
   vitamins: [],
   aminoAcids: [],
+  essentialAminoAcids: [],
+  aminoAcidsScore: 0,
 };

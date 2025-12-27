@@ -1,3 +1,4 @@
+using Server.Response;
 using Server.Shared;
 
 namespace Server.Dtos;
@@ -16,11 +17,22 @@ public class RecipeDto
   public List<string> Imgs { get; set; } = new();
 }
 
-public class AuthorSummary
+public class AuthorSummaryResponse
 {
   public string Id { get; set; } = string.Empty;
-  public string? DisplayName { get; set; }
-  public string? PictureUrl { get; set; }
+  public string? Name { get; set; }
+  public string? Img { get; set; }
+}
+
+public class RecipeSummaryResponse
+{
+  public int Id { get; set; }
+  public string Name { get; set; } = string.Empty;
+  public List<string> Imgs { get; set; } = new();
+  public AuthorSummaryResponse? Author { get; set; }
+  public int SavedByOthersCount { get; set; } = 0;
+  public NutritionalInformationBase NutritionalInformation { get; set; } = new();
+  public bool IsOwner { get; set; }
 }
 
 // Transport response (categorias como strings)
@@ -34,7 +46,7 @@ public class RecipeResponse
   public List<RecipeStepResponse> Steps { get; set; } = new();
   public Language Language { get; set; } = Language.En;
   public List<string> Categories { get; set; } = new(); // slugs
-  public int Food { get; set; }
+  public FoodSummaryResponse Food { get; set; } = new();
   public List<string> Imgs { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -46,7 +58,7 @@ public class RecipeResponse
   public AminoAcidsBase AminoAcids { get; set; } = new();
   public EssentialAminoAcidsBase EssentialAminoAcids { get; set; } = new();
   public double AminoAcidsScore { get; set; } = 0;
-  public AuthorSummary? Author { get; set; }
+  public AuthorSummaryResponse? Author { get; set; }
   public bool IsOwner { get; set; } = false;
 }
 

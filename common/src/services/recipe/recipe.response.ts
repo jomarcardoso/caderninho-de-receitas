@@ -1,17 +1,35 @@
-import type { FoodsDataResponse } from '../food/food.response';
+import type {
+  FoodSummaryResponse,
+  FoodsDataResponse,
+} from '../food/food.response';
 import type { AllNutrientsResponse } from '../nutrient/nutrient.response';
+import type { NutrientsResponse } from '../nutrient/nutrient.response';
 import type { RecipeStepResponse } from '../recipe-step';
 import type { RecipeBase } from './recipe.types';
+
+export interface RecipeSummaryResponse {
+  id: number;
+  name: string;
+  imgs: string[];
+  author?: {
+    id: string;
+    name?: string;
+    img?: string;
+  };
+  savedByOthersCount: number;
+  nutritionalInformation: NutrientsResponse;
+  isOwner: boolean;
+}
 
 export interface RecipeResponse
   extends RecipeBase<RecipeStepResponse>,
     AllNutrientsResponse {
-  food: number;
+  food: FoodSummaryResponse;
   isOwner?: boolean;
   author?: {
     id: string;
-    displayName?: string;
-    pictureUrl?: string;
+    name?: string;
+    img?: string;
   };
 }
 

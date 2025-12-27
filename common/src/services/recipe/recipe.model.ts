@@ -13,9 +13,23 @@ export interface Recipe extends RecipeBase<RecipeStep>, AllNutrients {
   isOwner?: boolean;
   author?: {
     id: string;
-    displayName?: string;
-    pictureUrl?: string;
+    name?: string;
+    img?: string;
   };
+}
+
+export interface RecipeSummary {
+  id: number;
+  name: string;
+  imgs: string[];
+  author?: {
+    id: string;
+    name?: string;
+    img?: string;
+  };
+  savedByOthersCount: number;
+  nutritionalInformation: Record<string, number>;
+  isOwner: boolean;
 }
 
 export interface RecipesData extends AllNutrientsData {

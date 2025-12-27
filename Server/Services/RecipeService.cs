@@ -526,8 +526,8 @@ public class RecipeService
 
       response.Food = steps
         .SelectMany(s => s.Ingredients)
-        .Select(i => i.Food?.Id ?? 0)
-        .FirstOrDefault();
+        .Select(i => i.Food)
+        .FirstOrDefault() ?? new FoodSummaryResponse();
 
       AggregateNutrientsFromSteps(revision.Steps, response);
     }

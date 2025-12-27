@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Server.Dtos;
 using Server.Models;
 using Server.Response;
+using Server.Shared;
 using System;
 using System.Linq;
 
@@ -9,14 +13,17 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/food")]
-  public class FoodController : ControllerBase
-  {
-    private readonly AppDbContext _context;
+public class FoodController : ControllerBase
+{
+  private readonly AppDbContext _context;
+  private readonly IMapper _mapper;
 
-    public FoodController(AppDbContext context)
-    {
-      _context = context;
-    }
+  public FoodController(AppDbContext context, IMapper mapper)
+  {
+    _context = context;
+    _mapper = mapper;
+  }
+
   public class FoodImageSearchResult
   {
     public int FoodId { get; set; }
@@ -26,10 +33,39 @@ namespace Server.Controllers;
 
   // GET: api/food
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<FoodSummaryResponse>>> GetAll()
+  public async Task<ActionResult<IEnumerable<FoodSummaryResponse>>> GetAll(
+    [FromQuery] string? text = null,
+    [FromQuery] string? categories = null,
+    [FromQuery] int quantity = 20)
   {
-    var foods = await _context.Food
-      .AsNoTracking()
+    quantity = Math.Clamp(quantity <= 0 ? 20 : quantity, 1, 64);
+    var lowered = (text ?? string.Empty).Trim().ToLowerInvariant();
+    var categoryFilters = (categories ?? string.Empty)
+      .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+      .Where(s => !string.IsNullOrWhiteSpace(s))
+      .Select(s => s.ToLowerInvariant())
+      .ToList();
+
+    var query = _context.Food.AsNoTracking().AsQueryable();
+
+    if (!string.IsNullOrWhiteSpace(lowered))
+    {
+      query = query.Where(f =>
+        (f.Name.En != null && f.Name.En.ToLower().Contains(lowered)) ||
+        (f.Name.Pt != null && f.Name.Pt.ToLower().Contains(lowered)) ||
+        (f.Keys.En != null && f.Keys.En.ToLower().Contains(lowered)) ||
+        (f.Keys.Pt != null && f.Keys.Pt.ToLower().Contains(lowered)));
+    }
+
+    if (categoryFilters.Any())
+    {
+      query = query.Where(f => (f.Categories ?? new List<string>())
+        .Any(c => categoryFilters.Contains((c ?? string.Empty).ToLowerInvariant())));
+    }
+
+    var foods = await query
+      .OrderBy(f => f.Name.Pt ?? f.Name.En)
+      .Take(quantity)
       .Select(f => new FoodSummaryResponse
       {
         Id = f.Id,
@@ -44,98 +80,81 @@ namespace Server.Controllers;
 
   // GET: api/food/{id}
   [HttpGet("{id}")]
-  public async Task<ActionResult<Food>> GetById(int id)
+  public async Task<ActionResult<FoodResponse>> GetById(int id)
   {
-    var food = await _context.Food.FindAsync(id);
+    var food = await _context.Food.AsNoTracking().FirstOrDefaultAsync(f => f.Id == id);
     if (food == null)
       return NotFound();
-    return Ok(food);
+    return Ok(_mapper.Map<FoodResponse>(food));
   }
 
   // POST: api/food
   [HttpPost]
-  public async Task<ActionResult<Food>> Create([FromBody] Food food)
+  [Authorize(Policy = "AdminOrHigher")]
+  public async Task<ActionResult<FoodResponse>> Create([FromBody] FoodDto foodDto)
   {
-    // Ignore any incoming Id to avoid PK conflicts
+    var food = _mapper.Map<Food>(foodDto);
     food.Id = 0;
     food.Process();
     _context.Food.Add(food);
     await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(GetById), new { id = food.Id }, food);
+    var response = _mapper.Map<FoodResponse>(food);
+    return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
   }
 
   // POST: api/food/many
   [HttpPost("many")]
-  public async Task<ActionResult<Food>> CreateMany([FromBody] Food[] foods)
+  [Authorize(Policy = "AdminOrHigher")]
+  public async Task<ActionResult<IEnumerable<FoodResponse>>> CreateMany([FromBody] FoodDto[] foods)
   {
     if (foods is null || foods.Length == 0) return Ok();
 
-    foreach (var food in foods)
+    var entities = foods.Select(dto =>
     {
-      // Ignore any incoming Id to avoid PK conflicts
+      var food = _mapper.Map<Food>(dto);
       food.Id = 0;
       food.Process();
-    }
+      return food;
+    }).ToArray();
 
-    _context.Food.AddRange(foods);
+    _context.Food.AddRange(entities);
     await _context.SaveChangesAsync();
 
-    return Ok();
+    var response = entities.Select(_mapper.Map<FoodResponse>).ToList();
+    return Ok(response);
   }
 
-  // POST: api/food/{id}
-  [HttpPost("{id}")]
-  public async Task<IActionResult> Update(int id, [FromForm] Food food)
+  // PUT: api/food/{id}
+  [HttpPut("{id}")]
+  [Authorize(Policy = "AdminOrHigher")]
+  public async Task<ActionResult<FoodResponse>> Update(int id, [FromBody] FoodDto foodDto)
   {
-    if (id != food.Id)
-      return BadRequest();
-
     var existing = await _context.Food.FindAsync(id);
     if (existing == null)
       return NotFound();
 
-    // Update properties
-    existing.Name.Pt = food.Name.Pt;
-    // Add other properties as needed
+    _mapper.Map(foodDto, existing);
+    existing.Id = id;
+    existing.Process();
 
     await _context.SaveChangesAsync();
-    return NoContent();
+    return Ok(_mapper.Map<FoodResponse>(existing));
   }
 
-  // GET: api/food/search?text=banana&limit=20
-  [HttpGet("search")]
-  public async Task<ActionResult<IEnumerable<FoodSummaryResponse>>> Search(
-    [FromQuery] string text = "",
-    [FromQuery] int limit = 25)
+  // DELETE: api/food/{id}
+  [HttpDelete("{id}")]
+  [Authorize(Policy = "AdminOrHigher")]
+  public async Task<IActionResult> Delete(int id)
   {
-    var query = (text ?? string.Empty).Trim();
-    if (string.IsNullOrWhiteSpace(query))
-      return Ok(new List<FoodSummaryResponse>());
+    var existing = await _context.Food.FindAsync(id);
+    if (existing == null)
+      return NotFound();
 
-    limit = Math.Clamp(limit, 1, 100);
-    var lowered = query.ToLowerInvariant();
+    _context.Food.Remove(existing);
+    await _context.SaveChangesAsync();
 
-    // Busca por nome ou key em ambos idiomas, sem tracking para economizar memória
-    var foods = await _context.Food
-      .AsNoTracking()
-      .Where(f =>
-        (f.Name.En != null && f.Name.En.ToLower().Contains(lowered)) ||
-        (f.Name.Pt != null && f.Name.Pt.ToLower().Contains(lowered)) ||
-        (f.Keys.En != null && f.Keys.En.ToLower().Contains(lowered)) ||
-        (f.Keys.Pt != null && f.Keys.Pt.ToLower().Contains(lowered)))
-      .OrderBy(f => f.Name.Pt ?? f.Name.En)
-      .Take(limit)
-      .Select(f => new FoodSummaryResponse
-      {
-        Id = f.Id,
-        Name = f.Name,
-        Icon = f.Icon != null ? f.Icon.Url : string.Empty,
-        Imgs = f.Imgs.ToArray()
-      })
-      .ToListAsync();
-
-    return Ok(foods);
+    return Ok(new { id, deleted = true });
   }
 
   // GET: api/food/search-images?text=banana&limit=20
@@ -169,5 +188,27 @@ namespace Server.Controllers;
       .ToListAsync();
 
     return Ok(foods);
+  }
+
+  // GET: api/food/categories
+  [HttpGet("categories")]
+  public async Task<ActionResult<IEnumerable<string>>> GetCategories()
+  {
+    var categories = await _context.Food
+      .AsNoTracking()
+      .SelectMany(f => f.Categories ?? new List<string>())
+      .Distinct()
+      .OrderBy(c => c)
+      .ToListAsync();
+
+    return Ok(categories);
+  }
+
+  // GET: api/food/types
+  [HttpGet("types")]
+  public ActionResult<IEnumerable<string>> GetTypes()
+  {
+    var types = Enum.GetNames(typeof(FoodType)).ToList();
+    return Ok(types);
   }
 }

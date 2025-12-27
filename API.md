@@ -1,4 +1,4 @@
-# API DTOs & Responses
+# API endpoints, DTOs & Responses
 
 ## Common Types
 
@@ -104,16 +104,16 @@ Object map:
 
 ### Icon
 
-- `number` id
-- [`LanguageText`](#languagetext) name
-- `string` url
-- [`LanguageText`](#languagetext) keys
+- id: `number`
+- name: [`LanguageText`](#languagetext)
+- url: `string`
+- keys: [`LanguageText`](#languagetext)
 
 ### AuthorSummaryResponse
 
-- `string` id
-- `string` name
-- `string` img
+- id: `string`
+- name: `string`
+- img: `string`
 
 ## Food Interfaces
 
@@ -121,20 +121,20 @@ Object map:
 
 Technical contract for create/update food endpoints and detailed responses.
 
-- `number` id
-- [`LanguageText`](#languagetext) name
-- `number` iconId
-- `string[]` imgs
-- [`LanguageText`](#languagetext) keys
-- [`LanguageText`](#languagetext) description
-- [`MeasurementUnit`](#measurementunit) measurementUnit
-- [`FoodType`](#foodtype) type
+- id: `number`
+- name: [`LanguageText`](#languagetext)
+- iconId: `number`
+- imgs: `string[]`
+- keys: [`LanguageText`](#languagetext)
+- description: [`LanguageText`](#languagetext)
+- measurementUnit: [`MeasurementUnit`](#measurementunit)
+- type: [`FoodType`](#foodtype)
 - [`FoodCategory[]`](#foodcategory) `| string` categories (slugs)
-- [`Measures`](#measures) measures
-- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
-- [`Minerals`](#minerals) minerals
-- [`Vitamins`](#vitamins) vitamins
-- [`AminoAcids`](#aminoacids) aminoAcids
+- measures: [`Measures`](#measures)
+- nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
+- minerals: [`Minerals`](#minerals)
+- vitamins: [`Vitamins`](#vitamins)
+- aminoAcids: [`AminoAcids`](#aminoacids)
 
 <details>
   <summary>Example:</summary>
@@ -162,44 +162,44 @@ Technical contract for create/update food endpoints and detailed responses.
 
 ### FoodSummaryResponse
 
-- `number` id
-- `string` name
-- `string` icon (url)
-- `string[]` imgs
+- id: `number`
+- name: `string`
+- icon: `string` (url)
+- imgs: `string[]`
 
 ### FoodResponse
 
-- `number` id
-- [`LanguageText`](#languagetext) name
-- [`LanguageText`](#languagetext) keys
-- [`LanguageText`](#languagetext) description
-- `string[]` imgs
-- [`MeasurementUnit`](#measurementunit) measurementUnit
-- [`Measures`](#measures) measures
-- [`Icon`](#icon) icon
-- [`FoodType`](#foodtype) type
+- id: `number`
+- name: [`LanguageText`](#languagetext)
+- keys: [`LanguageText`](#languagetext)
+- description: [`LanguageText`](#languagetext)
+- imgs: `string[]`
+- measurementUnit: [`MeasurementUnit`](#measurementunit)
+- measures: [`Measures`](#measures)
+- icon: [`Icon`](#icon)
+- type: [`FoodType`](#foodtype)
 - [`FoodCategory[]`](#foodcategory) categories
-- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
-- [`Minerals`](#minerals) minerals
-- [`Vitamins`](#vitamins) vitamins
-- [`AminoAcids`](#aminoacids) aminoAcids
-- [`EssentialAminoAcids`](#essentialaminoacids) essentialAminoAcids (amino acids multiplied for daily value)
-- `number` AminoAcidsScore
+- nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
+- minerals: [`Minerals`](#minerals)
+- vitamins: [`Vitamins`](#vitamins)
+- aminoAcids: [`AminoAcids`](#aminoacids)
+- essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
+- aminoAcidsScore: `number`
 
 ## Recipe
 
 ### IngredientResponse
 
-- `string` text
-- [`FoodSummaryResponse`](#foodsummaryresponse) food
-- `number` quantity (in grams)
-- [`MeasureType`](#measuretype) measureType
-- `number` measureQuantity
-- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
-- [`Minerals`](#minerals) minerals
-- [`Vitamins`](#vitamins) vitamins
-- [`AminoAcids`](#aminoacids) aminoAcids
-- [`EssentialAminoAcids`](#essentialaminoacids) essentialAminoAcids (amino acids multiplied for daily value)
+- text: `string`
+- food: [`FoodSummaryResponse`](#foodsummaryresponse)
+- quantity: `number` (in grams)
+- measureType: [`MeasureType`](#measuretype)
+- measureQuantity: `number`
+- nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
+- minerals: [`Minerals`](#minerals)
+- vitamins: [`Vitamins`](#vitamins)
+- aminoAcids: [`AminoAcids`](#aminoacids)
+- essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 
 <details>
   <summary>Example:</summary>
@@ -231,39 +231,235 @@ Technical contract for create/update food endpoints and detailed responses.
 
 ### RecipeStepResponse
 
-- `string` title
-- `string` preparation
-- `string` additional
-- `string` ingredientsText
-- `RecipeIngredient[]` Ingredients
-- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
-- [`Minerals`](#minerals) minerals
-- [`Vitamins`](#vitamins) vitamins
-- [`AminoAcids`](#aminoacids) aminoAcids
-- [`EssentialAminoAcids`](#essentialaminoacids) essentialAminoAcids (amino acids multiplied for daily value)
-- `number` AminoAcidsScore
+- title: `string`
+- preparation: `string`
+- additional: `string`
+- ingredientsText: `string`
+- Ingredients: `RecipeIngredient[]`
+- nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
+- minerals: [`Minerals`](#minerals)
+- vitamins: [`Vitamins`](#vitamins)
+- aminoAcids: [`AminoAcids`](#aminoacids)
+- essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
+- AminoAcidsScore: `number`
+
+## RecipeSummaryResponse
+
+- id: `number`
+- name: `string`
+- imgs: `string[]`
+- author: [`AuthorSummaryReponse`](#authorsummaryresponse)
+- savedByOthersCount: `number`
+- nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
+- isOwner: `boolean`
 
 ## RecipeResponse
 
-- `number` id
-- `string` name
-- `string` keys
-- `string` description
-- `string` additional
+- id: `number`
+- name: `string`
+- keys: `string`
+- description: `string`
+- additional: `string`
 - [`RecipeStepResponse[]`](#recipestepresponse) steps
-- [`Language`](#language) language
+- language: [`Language`](#language)
 - [`FoodCategory[]`](#foodcategory) `| string` categories (slugs)
-- [`FoodSummaryResponse`](#foodsummaryresponse) food
-- `string[]` imgs
-- `number` savedByOthersCount
-- `number`ownerId
-- `string` createdAt (ISO 8601)
-- `string` updatedAt (ISO 8601)
-- [`NutritionalInformation`](#nutritionalinformation) nutritionalInformation
-- [`Minerals`](#minerals) minerals
-- [`Vitamins`](#vitamins) vitamins
-- [`AminoAcids`](#aminoacids) aminoAcids
-- [`EssentialAminoAcids`](#essentialaminoacids) essentialAminoAcids (amino acids multiplied for daily value)
-- `number` AminoAcidsScore
-- [`AuthorSummaryReponse`](#authorsummaryresponse) author
-- `boolean` isOwner
+- food: [`FoodSummaryResponse`](#foodsummaryresponse)
+- imgs: `string[]`
+- savedByOthersCount: `number`
+- createdAt: `string` (ISO 8601)
+- updatedAt: `string` (ISO 8601)
+- nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
+- minerals: [`Minerals`](#minerals)
+- vitamins: [`Vitamins`](#vitamins)
+- aminoAcids: [`AminoAcids`](#aminoacids)
+- essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
+- aminoAcidsScore: `number`
+- author: [`AuthorSummaryReponse`](#authorsummaryresponse)
+- isOwner: `boolean`
+
+## Endpoints
+
+### Food
+
+Base route: (`api/food`)
+
+`GET /api/food` — list foods (summary)
+
+- Query: `text` (string), `categories` (csv), `quantity` (int, default 20, max 64)
+- Response: [`FoodSummaryResponse[]`](#foodsummaryresponse)
+
+`GET /api/food/{id}` — get one food (full)
+
+- Path: `id` (int)
+- Response: [`FoodResponse`](#foodresponse)
+
+`POST /api/food` — create food
+
+- Auth: AdminOrHigher
+- Body: `FoodDto`
+- Response: [`FoodResponse`](#foodresponse)
+
+`POST /api/food/many` — create a list of food
+
+- Auth: AdminOrHigher
+- Body: `FoodDto[]`
+- Response: [`FoodResponse[]`](#foodresponse)
+
+`PUT /api/food/{id}` — update food
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Body: `FoodDto`
+- Response: [`FoodResponse`](#foodresponse)
+
+`DELETE /api/food/{id}` — delete food
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Response: `{ id: int, deleted: bool }`
+
+`GET /api/food/search-images` — search foods images
+
+- Query: `text` (string, required), `limit` (int, default 6, max 18)
+- Response: `string[]`
+
+`GET /api/food/categories` — category lookup
+
+- Response: `string[]` (slugs) or `CategoryItem[]`
+
+`GET /api/food/types` — type lookup
+
+- Response: `FoodType[]` (or map with translations)
+
+`GET /api/food/icons` — icon lookup
+
+- Auth: AdminOrHigher
+- Response: [`Icon`](#icon)[]
+
+### FoodEdits
+
+Route: (`api/food-edits`)
+
+`POST /api/food-edits` - create edit request
+
+- Auth: KeeperOrHigher
+- Body: `FoodDto`
+- Response: `{ id }`
+
+`GET /api/food-edits/{id}` - get one edit request
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Response: `FoodEditRequest`
+
+`GET /api/food-edits/pending` - list pending edit requests
+
+- Auth: AdminOrHigher
+- Query: `foodId` (optional filter)
+- Response: `FoodEditRequest[]`
+
+`POST /api/food-edits/{id}/approve` - approve and apply edit
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Response: `200 OK` (applied) or `404/400`
+
+`POST /api/food-edits/{id}/reject` - reject edit
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Response: `200 OK` or `404/400`
+
+### Recipe
+
+Base route: (`api/recipe`)
+
+`GET /api/recipe` — list my recipes
+
+- Auth: required (logged user)
+- Response: [`RecipeSummaryResponse[]`](#recipesdataresponse)
+
+`GET /api/recipe/data` — list my recipes
+
+- Auth: required (logged user)
+- Response: [`RecipesDataResponse`](#recipesdataresponse)
+
+`GET /api/recipe/{id}` — get one recipe (published-preferred)
+
+The owner sees the latest version. The other see the public version if available, if not 404.
+
+- Auth: optional (AllowAnonymous; owner can see private)
+- Path: `id` (int)
+- Query: `count` (int, default 5, max 5) related suggestions, `excludeIds` (csv), `excludeSameOwner` (bool, default true)
+- Response: [`RecipeDataResponse`](#recipedataresponse)
+
+`GET /api/recipe/search` — search public recipes
+
+- Auth: optional (AllowAnonymous)
+- Query: `text` (string), `categories` (csv or repeated), `quantity` (int, default 20, max 64)
+- Response: [`RecipesDataResponse`](#recipesdataresponse) (recipes + foods + categories map)
+
+`POST /api/recipe` — create recipe
+
+- Auth: required (logged user)
+- Body: `RecipeDto`
+- Response: [`RecipesDataResponse`](#recipesdataresponse) (recipes/foods for the user)
+
+`POST /api/recipe/many` — bulk create recipes
+
+- Auth: required (logged user)
+- Body: `RecipeDto[]`
+- Response: [`RecipesDataResponse`](#recipesdataresponse)
+
+`PUT /api/recipe/{id}` — update recipe
+
+- Auth: required (owner)
+- Path: `id` (int)
+- Body: `RecipeDto`
+- Response: [`RecipesDataResponse`](#recipesdataresponse)
+
+`DELETE /api/recipe/{id}` — delete recipe
+
+- Auth: required (owner)
+- Path: `id` (int)
+- Response: [`RecipesDataResponse`](#recipesdataresponse)
+
+`GET /api/recipe/categories` — recipe category lookup
+
+- Auth: optional (AllowAnonymous)
+- Response: `Category[]` (key/text/pluralText map entries)
+
+`GET /api/recipe/pending` — list pending recipes
+
+- Auth: AdminOrHigher
+- Response: array of `{ id, name, imgs, ownerId, visibility, status, createdAtUtc }`
+
+`POST /api/recipe/{id}/approve` — approve/publish recipe
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Response: `{ id, visibility, publishedRevisionId }`
+
+`POST /api/recipe/{id}/deny` — reject recipe
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Response: `{ id, status }`
+
+`GET /api/recipe/relations/rebuild` — rebuild recipe relations
+
+- Auth: required (logged user)
+- Query: `topPerRecipe` (int, default 10, max 50)
+- Response: `{ created }`
+
+`POST /api/recipe/relations/rebuild` — rebuild recipe relations (POST alias)
+
+- Auth: required (logged user)
+- Body/Query: `topPerRecipe` (int, default 10, max 50)
+- Response: `{ created }`
+
+`GET /api/recipe/most-copied` — list most copied recipes
+
+- Auth: optional (AllowAnonymous)
+- Query: `quantity` (int, default 6, max 64)
+- Response: [`RecipeResponse[]`](#reciperesponse)

@@ -123,6 +123,7 @@ public class RecipeRevisionStep : RecipeStepBase<RecipeRevisionIngredient>
     Vitamins ??= new VitaminsBase();
     AminoAcids ??= new AminoAcidsBase();
     EssentialAminoAcids ??= new EssentialAminoAcidsBase();
+    AminoAcidsScore = 0;
 
     foreach (var ingredient in Ingredients ?? new List<RecipeRevisionIngredient>())
     {
@@ -132,12 +133,25 @@ public class RecipeRevisionStep : RecipeStepBase<RecipeRevisionIngredient>
       AminoAcids.Add(ingredient.AminoAcids);
       EssentialAminoAcids.Add(ingredient.EssentialAminoAcids);
     }
+
+    AminoAcidsScore = EssentialAminoAcids.GetScore();
   }
 }
 
 [Owned]
-public class RecipeRevisionIngredient : IngredientBase<Food>
+public class RecipeRevisionIngredient : INutrientsBase
 {
+  public string Text { get; set; } = string.Empty;
+  public Food Food { get; set; } = default!;
+  public double Quantity { get; set; } = 0;
+  public MeasureType MeasureType { get; set; } = MeasureType.Unity;
+  public double MeasureQuantity { get; set; } = 0;
+  public NutritionalInformationBase NutritionalInformation { get; set; } = new();
+  public MineralsBase Minerals { get; set; } = new();
+  public VitaminsBase Vitamins { get; set; } = new();
+  public AminoAcidsBase AminoAcids { get; set; } = new();
+  public EssentialAminoAcidsBase EssentialAminoAcids { get; set; } = new();
+
   public RecipeRevisionIngredient() { }
 
   public RecipeRevisionIngredient(

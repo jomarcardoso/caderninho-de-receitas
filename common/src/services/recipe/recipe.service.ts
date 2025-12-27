@@ -152,7 +152,7 @@ export function mapRecipeResponseToModel(
   dataResponse: import('../food/food.response').FoodsDataResponse,
 ): Recipe {
   const foodResponse = dataResponse.foods.find(
-    (food) => food.id === recipeResponse.food,
+    (food) => food.id === recipeResponse.food?.id,
   );
 
   const food = foodResponse
@@ -228,8 +228,8 @@ export function mapRecipeResponseToModel(
     author: recipeResponse.author
       ? {
           id: recipeResponse.author.id,
-          displayName: recipeResponse.author.displayName,
-          pictureUrl: recipeResponse.author.pictureUrl,
+          displayName: recipeResponse.author.name,
+          pictureUrl: recipeResponse.author.img,
         }
       : undefined,
     categories,
