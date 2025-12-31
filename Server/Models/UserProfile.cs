@@ -12,7 +12,7 @@ public class UserProfile
 {
   [Key]
   [MaxLength(128)]
-  public string OwnerId { get; set; } = string.Empty; // matches ClaimTypes.NameIdentifier
+  public string Id { get; set; } = string.Empty; // matches ClaimTypes.NameIdentifier
 
   [MaxLength(256)]
   public string? DisplayName { get; set; }

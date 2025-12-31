@@ -23,7 +23,7 @@ public class UserProfileService
     var ownerId = GetClaim(user, ClaimTypes.NameIdentifier);
     if (string.IsNullOrWhiteSpace(ownerId)) return null;
 
-    var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerId);
+    var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.Id == ownerId);
     var now = DateTime.UtcNow;
 
     var displayName = GetClaim(user, ClaimTypes.Name) ?? string.Empty;
@@ -36,7 +36,7 @@ public class UserProfileService
     {
       profile = new UserProfile
       {
-        OwnerId = ownerId,
+        Id = ownerId,
         DisplayName = displayName,
         GivenName = givenName,
         FamilyName = familyName,
@@ -65,7 +65,7 @@ public class UserProfileService
 
   public async Task<UserProfile?> GetByOwnerIdAsync(string ownerId)
   {
-    return await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerId);
+    return await _context.UserProfile.FirstOrDefaultAsync(p => p.Id == ownerId);
   }
 
   public async Task<List<UserProfile>> GetFeaturedAsync(int quantity = 6)
@@ -82,7 +82,7 @@ public class UserProfileService
 
   public async Task<bool> SetFeaturedAsync(string ownerId, bool featured)
   {
-    var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerId);
+    var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.Id == ownerId);
     if (profile is null) return false;
     profile.IsFeatured = featured;
     profile.FeaturedAt = featured ? DateTime.UtcNow : null;
@@ -91,4 +91,3 @@ public class UserProfileService
     return true;
   }
 }
-

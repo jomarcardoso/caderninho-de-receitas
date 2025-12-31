@@ -20,6 +20,15 @@
 
 ## Shared
 
+### ThemeColor
+
+Enum:
+
+1. Primary
+2. Green
+3. Red
+4. Purple
+
 ### INutrientsBase
 
 - Namespace: [`Server.Shared`](#shared)
@@ -91,58 +100,119 @@
 - Methods:
   - `void Process()` — rebuilds `EssentialAminoAcids` from `AminoAcids` and updates `AminoAcidsScore` via `GetScore()`.
 
-### Recipe
+### UserProfile
 
-- Namespace: [`Server.Models`](#models)
-- Properties (core/identity):
-  - `int` Id
-  - `string` Slug
-  - `string` OwnerId; `UserProfile?` Owner
-  - `int` SavedByOthersCount
-  - `bool` IsPublic (legacy flag)
-  - `DateTime` CreatedAtUtc, `DateTime` UpdatedAtUtc
-  - `RecipeVisibility` Visibility
-  - `RecipeTombstoneStatus` TombstoneStatus
-  - `Guid?` PublishedRevisionId; `RecipeRevision?` PublishedRevision
-  - `Guid?` LatestRevisionId; `RecipeRevision?` LatestRevision
-  - `int?` MergedIntoRecipeId; `Recipe?` MergedIntoRecipe
-  - `List<RecipeRevision>` Revisions
-  - `int?` CopiedFromRecipeId
-- Legacy/indexable proxies (read-only derived from active revision):
-  - `string` Name, `string` Keys, `Language` Language
-  - `string?` Description, `string?` Additional
-  - `List<string>` Imgs, `List<string>` Categories
-  - `List<RecipeStep>` Steps (converted from active revision steps)
-  - `Food?` Food (first ingredient of first step, if any)
-  - Aggregates on-demand: `NutritionalInformationBase` NutritionalInformation, `MineralsBase` Minerals, `VitaminsBase` Vitamins, `AminoAcidsBase` AminoAcids, `EssentialAminoAcidsBase` EssentialAminoAcids
-  - `double` AminoAcidsScore (returns 0)
-  - Compatibility flags: `bool` Verified, `DateTime` UpdatedAt, `DateTime` CreatedAt
-- Constructors:
-  - Implicit default
-  - Legacy compatibility ctor `(int? id, string name, string keys, Food? food, string? description, string? additional, List<RecipeStep> steps, string? ownerId = null)`
-- Methods:
-  - `RecomputeAggregatesFromRevisions()` — placeholder for future aggregate logic.
-  - Static helper `ConvertLegacySteps(IEnumerable<RecipeStep>)` used by the legacy ctor.
+Namespace: [`Server.Models`](#models)
+
+- `String` Id
+- [`ThemeColor`](#themecolor) ThemeColor
+
+{
+[MaxLength(256)]
+public string? DisplayName { get; set; }
+
+[MaxLength(256)]
+public string? GivenName { get; set; }
+
+[MaxLength(256)]
+public string? FamilyName { get; set; }
+
+[MaxLength(1024)]
+public string? PictureUrl { get; set; }
+
+[MaxLength(16)]
+public string? Locale { get; set; }
+
+[MaxLength(280)]
+public string? Bio { get; set; }
+
+public bool IsFeatured { get; set; } = false;
+public DateTime? FeaturedAt { get; set; }
+
+// Controles de visibilidade e verificação (similar às receitas)
+public bool IsPublic { get; set; } = false;
+public bool Verified { get; set; } = false;
+
+// Dietary restrictions / preferences
+public List<AllergyRestriction> Allergies { get; set; } = new();
+public List<IntoleranceRestriction> Intolerances { get; set; } = new();
+public List<MedicalRestriction> MedicalRestrictions { get; set; } = new();
+public List<DietStyleRestriction> DietStyles { get; set; } = new();
+public List<CulturalRestriction> CulturalRestrictions { get; set; } = new();
+public List<PersonalPreferenceRestriction> PersonalPreferences { get; set; } = new();
+
+public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+public DateTime? LastLoginAt { get; set; }
+}
 
 ### RecipeRevision
 
-- Namespace: [`Server.Models`](#models)
-- Properties:
-  - `Guid` Id
-  - `int` RecipeId; `Recipe` Recipe
-  - `RevisionStatus` Status
-  - `Guid?` BaseRevisionId; `RecipeRevision?` BaseRevision
-  - Indexable fields: `string` Name, `string` Keys, `Language` Language
-  - Structured snapshot: `List<RecipeRevisionStep>` Steps
-  - Versioned content: `string` ContentJson
-  - Audit: `string` CreatedByUserId, `DateTime` CreatedAtUtc, `DateTime` UpdatedAtUtc
-  - Change tracking: `string?` ChangeSummary
-  - Review/moderation: `string?` ReviewedByUserId, `DateTime?` ReviewedAtUtc, `string?` ModerationNotes
-- Constructors:
-  - Implicit default
-  - Overload `(string name, string keys, Language language, List<RecipeRevisionStep> steps, string createdByUserId)`
-- Methods:
-  - `RecomputeAggregates()` — placeholder for future aggregate nutrient logic.
+Namespace: [`Server.Models`](#models)
+
+Properties:
+
+- `Guid` Id
+- `int` RecipeId; `Recipe` Recipe
+- `RevisionStatus` Status
+- `Guid?` BaseRevisionId; `RecipeRevision?` BaseRevision
+- Indexable fields: `string` Name, `string` Keys, `Language` Language
+- Structured snapshot: `List<RecipeRevisionStep>` Steps
+- Versioned content: `string` ContentJson
+- Audit: `string` CreatedByUserId, `DateTime` CreatedAtUtc, `DateTime` UpdatedAtUtc
+- Change tracking: `string?` ChangeSummary
+- Review/moderation: `string?` ReviewedByUserId, `DateTime?` ReviewedAtUtc, `string?` ModerationNotes
+
+Constructors:
+
+- Implicit default
+- Overload `(string name, string keys, Language language, List<RecipeRevisionStep> steps, string createdByUserId)`
+
+Methods:
+
+- `RecomputeAggregates()` — placeholder for future aggregate nutrient logic.
+
+### Recipe
+
+Namespace: [`Server.Models`](#models)
+
+Properties (core/identity):
+
+- `int` Id
+- `string` Slug
+- `string` OwnerId (same userId from Google and other authentication services)
+- `UserProfile` Owner
+- `int` SavedByOthersCount
+- `bool` IsPublic (legacy flag)
+- `DateTime` CreatedAtUtc, `DateTime` UpdatedAtUtc
+- `RecipeVisibility` Visibility
+- `RecipeTombstoneStatus` TombstoneStatus
+- `Guid?` PublishedRevisionId; `RecipeRevision?` PublishedRevision
+- `Guid?` LatestRevisionId; `RecipeRevision?` LatestRevision
+- `int?` MergedIntoRecipeId; `Recipe?` MergedIntoRecipe
+- `List<RecipeRevision>` Revisions
+- `int?` CopiedFromRecipeId
+
+Legacy/indexable proxies (read-only derived from active revision):
+
+- `string` Name, `string` Keys, `Language` Language
+- `string?` Description, `string?` Additional
+- `List<string>` Imgs, `List<string>` Categories
+- `List<RecipeStep>` Steps (converted from active revision steps)
+- `Food?` Food (first ingredient of first step, if any)
+- Aggregates on-demand: `NutritionalInformationBase` NutritionalInformation, `MineralsBase` Minerals, `VitaminsBase` Vitamins, `AminoAcidsBase` AminoAcids, `EssentialAminoAcidsBase` EssentialAminoAcids
+- `double` AminoAcidsScore (returns 0)
+- Compatibility flags: `bool` Verified, `DateTime` UpdatedAt, `DateTime` CreatedAt
+
+Constructors:
+
+- Implicit default
+- Legacy compatibility ctor `(int? id, string name, string keys, Food? food, string? description, string? additional, List<RecipeStep> steps, string? ownerId = null)`
+
+Methods:
+
+- `RecomputeAggregatesFromRevisions()` — placeholder for future aggregate logic.
+- Static helper `ConvertLegacySteps(IEnumerable<RecipeStep>)` used by the legacy ctor.
 
 ### RecipeRevisionStep (owned)
 

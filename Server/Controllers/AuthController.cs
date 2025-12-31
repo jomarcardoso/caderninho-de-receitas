@@ -62,12 +62,12 @@ public class AuthController : ControllerBase
       if (!string.IsNullOrWhiteSpace(ownerIdValue))
       {
         var now = DateTime.UtcNow;
-        var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerIdValue, cancellationToken);
+        var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.Id == ownerIdValue, cancellationToken);
         if (profile is null)
         {
           profile = new UserProfile
           {
-            OwnerId = ownerIdValue,
+            Id = ownerIdValue,
             DisplayName = string.IsNullOrWhiteSpace(user.Name) ? ownerIdValue : user.Name,
             PictureUrl = string.IsNullOrWhiteSpace(user.Picture) ? null : user.Picture,
             CreatedAt = now,

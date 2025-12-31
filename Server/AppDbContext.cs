@@ -130,12 +130,12 @@ public class AppDbContext : DbContext
         .HasColumnType("text")
         .Metadata.SetValueComparer(categoriesComparer);
 
-      // Link Recipe.OwnerId -> UserProfile.OwnerId
+      // Link Recipe.OwnerId -> UserProfile.Id
       entity
         .HasOne(r => r.Owner)
         .WithMany()
         .HasForeignKey(r => r.OwnerId)
-        .HasPrincipalKey(u => u.OwnerId);
+        .HasPrincipalKey(u => u.Id);
 
       entity.HasOne(r => r.PublishedRevision)
         .WithMany()
@@ -230,9 +230,9 @@ public class AppDbContext : DbContext
     // UserProfile
     modelBuilder.Entity<UserProfile>(entity =>
     {
-      entity.HasKey(u => u.OwnerId);
-      entity.Property(u => u.OwnerId).IsRequired();
-      entity.HasIndex(u => u.OwnerId).IsUnique();
+      entity.HasKey(u => u.Id);
+      entity.Property(u => u.Id).IsRequired();
+      entity.HasIndex(u => u.Id).IsUnique();
       entity.Property(u => u.CreatedAt).IsRequired();
       entity.Property(u => u.UpdatedAt).IsRequired();
 

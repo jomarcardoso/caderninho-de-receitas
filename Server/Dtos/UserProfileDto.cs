@@ -8,7 +8,7 @@ public class UserProfileDto
 {
   [Required]
   [MaxLength(128)]
-  public string OwnerId { get; set; } = string.Empty;
+  public string Id { get; set; } = string.Empty;
 
   [MaxLength(256)]
   public string? DisplayName { get; set; }

@@ -27,7 +27,7 @@ public class UserProfileController : ControllerBase
 
   private static UserProfileDto Map(UserProfile p) => new()
   {
-    OwnerId = p.OwnerId,
+    Id = p.Id,
     DisplayName = p.DisplayName,
     PictureUrl = p.PictureUrl,
     Bio = p.Bio,
@@ -49,11 +49,11 @@ public class UserProfileController : ControllerBase
     var ownerId = GetUserId();
     if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
-    var profile = await _context.UserProfile.AsNoTracking().FirstOrDefaultAsync(p => p.OwnerId == ownerId);
+    var profile = await _context.UserProfile.AsNoTracking().FirstOrDefaultAsync(p => p.Id == ownerId);
     if (profile is null)
     {
       // Return a default (not persisted) profile for convenience
-      return Ok(new UserProfileDto { OwnerId = ownerId, Theme = ThemeColor.Primary, IsPublic = false, Verified = false });
+      return Ok(new UserProfileDto { Id = ownerId, Theme = ThemeColor.Primary, IsPublic = false, Verified = false });
     }
     return Ok(Map(profile));
   }
@@ -66,10 +66,10 @@ public class UserProfileController : ControllerBase
     if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
     var now = DateTime.UtcNow;
-    var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.OwnerId == ownerId);
+    var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.Id == ownerId);
     if (profile is null)
     {
-      profile = new UserProfile { OwnerId = ownerId, CreatedAt = now, UpdatedAt = now };
+      profile = new UserProfile { Id = ownerId, CreatedAt = now, UpdatedAt = now };
       _context.UserProfile.Add(profile);
     }
 

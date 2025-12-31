@@ -129,7 +129,7 @@ public class UsersController : ControllerBase
     {
       Profile = new UserProfileDto
       {
-        OwnerId = profile.OwnerId,
+        Id = profile.Id,
         DisplayName = profile.DisplayName,
         PictureUrl = profile.PictureUrl,
         Bio = profile.Bio,

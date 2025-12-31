@@ -27,8 +27,8 @@ public class MappingProfile : Profile
       .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Owner != null
         ? new AuthorSummaryResponse
         {
-          Id = src.Owner.OwnerId,
-          Name = string.IsNullOrWhiteSpace(src.Owner.DisplayName) ? src.Owner.OwnerId : src.Owner.DisplayName,
+          Id = src.Owner.Id,
+          Name = string.IsNullOrWhiteSpace(src.Owner.DisplayName) ? src.Owner.Id : src.Owner.DisplayName,
           Img = src.Owner.PictureUrl
         }
         : new AuthorSummaryResponse { Id = src.OwnerId, Name = src.OwnerId }));
@@ -42,8 +42,8 @@ public class MappingProfile : Profile
       .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Owner != null
         ? new AuthorSummaryResponse
         {
-          Id = src.Owner.OwnerId,
-          Name = string.IsNullOrWhiteSpace(src.Owner.DisplayName) ? src.Owner.OwnerId : src.Owner.DisplayName,
+          Id = src.Owner.Id,
+          Name = string.IsNullOrWhiteSpace(src.Owner.DisplayName) ? src.Owner.Id : src.Owner.DisplayName,
           Img = src.Owner.PictureUrl
         }
         : new AuthorSummaryResponse { Id = src.OwnerId, Name = src.OwnerId }))
