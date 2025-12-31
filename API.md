@@ -16,40 +16,64 @@
 
 ### MeasureType
 
-`Cup` | `SmallCup` | `Spoon` | `TeaSpoon` | `Unity` | `UnitySmall` | `UnityLarge` | `Literal` | `Can` | `Glass` | `Breast` | `Clove` | `Slice` | `Bunch` | `Ml` | `Liter` | `Gram` | `Kilo` | `Pinch`
+`cup` | `smallCup` | `spoon` | `teaSpoon` | `unity` | `unitySmall` | `unityLarge` | `literal` | `can` | `glass` | `breast` | `clove` | `slice` | `bunch` | `ml` | `liter` | `gram` | `kilo` | `pinch`
 
 ### NutritionalInformationType
 
-`Acidification` | `Ashes` | `Calories` | `Carbohydrates` | `Cholesterol` | `DietaryFiber` | `Gi` | `Gl` | `MonounsaturatedFats` | `PolyunsaturatedFats` | `Proteins` | `SaturedFats` | `Sugar` | `TotalFat`
+`acidification` | `ashes` | `calories` | `carbohydrates` | `cholesterol` | `dietaryFiber` | `gi` | `gl` | `monounsaturatedFats` | `polyunsaturatedFats` | `proteins` | `saturedFats` | `sugar` | `totalFat`
 
 ### MineralType
 
-`Calcium` | `Copper` | `Fluoride` | `Iron` | `Magnesium` | `Manganese` | `Phosphorus` | `Potassium` | `Selenium` | `Sodium` | `Zinc`
+`calcium` | `copper` | `fluoride` | `iron` | `magnesium` | `manganese` | `phosphorus` | `potassium` | `selenium` | `sodium` | `zinc`
 
 ### VitaminType
 
-`A` | `AlphaCarotene` | `B1` | `B11` | `B12` | `B2` | `B3` | `B5` | `B6` | `B7` | `B9` | `BetaCarotene` | `C` | `Choline` | `CryptoxanthinCarotene` | `D` | `D2` | `D3` | `E` | `K` | `Lycopene`
+`a` | `alphaCarotene` | `b1` | `b11` | `b12` | `b2` | `b3` | `b5` | `b6` | `b7` | `b9` | `betaCarotene` | `c` | `choline` | `cryptoxanthinCarotene` | `d` | `d2` | `d3` | `e` | `k` | `lycopene`
 
 ### AminoAcidType
 
-`Alanine` | `Arginine` | `AsparticAcid` | `Cystine` | `GlutamicAcid` | `Glutamine` | `Glycine` | `Histidine` | `Isoleucine` | `Leucine` | `Lysine` | `Methionine` | `Phenylalanine` | `Proline` | `Serine` | `Threonine` | `Tryptophan` | `Tyrosine` | `Valine`
+`alanine` | `arginine` | `asparticAcid` | `cystine` | `glutamicAcid` | `glutamine` | `glycine` | `histidine` | `isoleucine` | `leucine` | `lysine` | `methionine` | `phenylalanine` | `proline` | `serine` | `threonine` | `tryptophan` | `tyrosine` | `valine`
 
 ### EssentialAminoAcidType
 
-`Tryptophan` | `Phenylalanine` | `Leucine` | `Valine` | `Isoleucine` | `Lysine` | `Threonine` | `Methionine` | `Histidine`
+`tryptophan` | `phenylalanine` | `leucine` | `valine` | `isoleucine` | `lysine` | `threonine` | `methionine` | `histidine`
 
 ### FoodCategory
 
 Use `categories` as an array of these slugs (may be empty).
 
-- `OriginAnimal`, `RedMeat`, `WhiteMeat`, `Fish`, `Shellfish`, `Eggs`, `Dairy`, `Honey`,
-- `OriginPlant`, `Seeds`, `Oilseeds`, `Grains`, `Legumes`, `Fruits`, `Vegetables`, `Roots`, `Tubers`, `Leafy`, `Stalk`, `Flowers`, `Herbs`, `Spices`, `Fungi`,
-- `OriginProcessed`, `FoodAdditives`, `RefinedSugars`, `ProcessedFats`, `FermentedOrigin`, `UltraProcessed`,
-- `PlantRoot`, `PlantTuber`, `PlantRhizome`, `PlantBulb`, `PlantStem`, `PlantLeaf`, `PlantFlower`, `PlantSeed`,
-- `FleshyFruit`, `DryFruit`, `PodLegume`, `Citrus`, `Solanaceae`, `Cucurbitaceae`, `Brassicas`, `LegumeFamily`, `NutFamily`, `Cereals`, `BotanicalFungi`,
-- `HighLactose`, `LactoseFree`, `HighGluten`, `GlutenFreeNatural`, `HighFiber`, `HighGI`, `LowGI`, `HighProtein`, `HighFat`, `HighSodium`, `ContainsCaffeine`, `FermentedChem`, `HighHistamine`,
-- `Raw`, `MinimallyProcessed`, `Smoked`, `Cured`, `Fried`, `Baked`, `Grilled`, `Boiled`, `Dehydrated`, `Frozen`, `Preserved`,
-- `BaseIngredient`, `Condiment`, `Seasoning`, `Sauce`, `Beverage`, `SideDish`, `Garnish`, `Dessert`, `MainProtein`
+- `originAnimal`, `redMeat`, `whiteMeat`, `fish`, `shellfish`, `eggs`, `dairy`, `honey`,
+- `originPlant`, `seeds`, `oilseeds`, `grains`, `legumes`, `fruits`, `vegetables`, `roots`, `tubers`, `leafy`, `stalk`, `flowers`, `herbs`, `spices`, `fungi`,
+- `originProcessed`, `foodAdditives`, `refinedSugars`, `processedFats`, `fermentedOrigin`, `ultraProcessed`,
+- `plantRoot`, `plantTuber`, `plantRhizome`, `plantBulb`, `plantStem`, `plantLeaf`, `plantFlower`, `plantSeed`,
+- `fleshyFruit`, `dryFruit`, `podLegume`, `citrus`, `solanaceae`, `cucurbitaceae`, `brassicas`, `legumeFamily`, `nutFamily`, `cereals`, `botanicalFungi`,
+- `highLactose`, `lactoseFree`, `highGluten`, `glutenFreeNatural`, `highFiber`, `highGi`, `lowGi`, `highProtein`, `highFat`, `highSodium`, `containsCaffeine`, `fermentedChem`, `highHistamine`,
+- `raw`, `minimallyProcessed`, `smoked`, `cured`, `fried`, `baked`, `grilled`, `boiled`, `dehydrated`, `frozen`, `preserved`,
+- `baseIngredient`, `condiment`, `seasoning`, `sauce`, `beverage`, `sideDish`, `garnish`, `dessert`, `mainProtein`
+
+### AllergyRestriction
+
+`peanut` | `treeNuts` | `milk` | `egg` | `wheat` | `soy` | `fish` | `shellfish` | `sesame` | `corn` | `mustard` | `celery` | `sulfite` | `cocoa` | `gelatin`
+
+### IntoleranceRestriction
+
+`lactose` | `glutenSensitive` | `fructose` | `histamine` | `friedFatty` | `simpleSugars` | `caffeine`
+
+### MedicalRestriction
+
+`diabetes` | `prediabetes` | `highCholesterol` | `highTriglycerides` | `hypertension` | `kidneyDisease` | `celiac` | `ibs` | `gerd` | `gastritis` | `crohn` | `ulcerativeColitis`
+
+### DietStyleRestriction
+
+`vegetarian` | `vegan` | `ovoLacto` | `pescetarian` | `lowCarb` | `keto` | `paleo` | `mediterranean` | `whole30` | `lowFodmap` | `highProtein` | `plantBased`
+
+### CulturalRestriction
+
+`kosher` | `halal` | `hindu` | `buddhist` | `adventist`
+
+### PersonalPreferenceRestriction
+
+`noSpicy` | `noVerySweet` | `noFried` | `noAlcohol` | `noRedMeat` | `noWhiteMeat`
 
 ## Common Interfaces
 

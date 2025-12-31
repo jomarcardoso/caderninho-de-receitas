@@ -29,6 +29,93 @@ Enum:
 3. Red
 4. Purple
 
+### AllergyRestriction
+
+Enum:
+
+1. Peanut
+2. TreeNuts
+3. Milk
+4. Egg
+5. Wheat
+6. Soy
+7. Fish
+8. Shellfish
+9. Sesame
+10. Corn
+11. Mustard
+12. Celery
+13. Sulfite
+14. Cocoa
+15. Gelatin
+
+### IntoleranceRestriction
+
+Enum:
+
+1. Lactose
+2. GlutenSensitive
+3. Fructose
+4. Histamine
+5. FriedFatty
+6. SimpleSugars
+7. Caffeine
+
+### MedicalRestriction
+
+Enum:
+
+1. Diabetes
+2. Prediabetes
+3. HighCholesterol
+4. HighTriglycerides
+5. Hypertension
+6. KidneyDisease
+7. Celiac
+8. Ibs
+9. Gerd
+10. Gastritis
+11. Crohn
+12. UlcerativeColitis
+
+### DietStyleRestriction
+
+Enum:
+
+1. Vegetarian
+2. Vegan
+3. OvoLacto
+4. Pescetarian
+5. LowCarb
+6. Keto
+7. Paleo
+8. Mediterranean
+9. Whole30
+10. LowFodmap
+11. HighProtein
+12. PlantBased
+
+### CulturalRestriction
+
+Enum:
+
+1. Kosher
+2. Halal
+3. Hindu
+4. Buddhist
+5. Adventist
+
+### PersonalPreferenceRestriction
+
+Enum:
+
+1. NoSpicy
+2. NoVerySweet
+3. NoFried
+4. NoAlcohol
+5. NoRedMeat
+6. NoWhiteMeat
+
 ### INutrientsBase
 
 - Namespace: [`Server.Shared`](#shared)
@@ -104,47 +191,32 @@ Enum:
 
 Namespace: [`Server.Models`](#models)
 
-- `String` Id
+- `string` Id
 - [`ThemeColor`](#themecolor) ThemeColor
-
-{
-[MaxLength(256)]
-public string? DisplayName { get; set; }
-
-[MaxLength(256)]
-public string? GivenName { get; set; }
-
-[MaxLength(256)]
-public string? FamilyName { get; set; }
-
-[MaxLength(1024)]
-public string? PictureUrl { get; set; }
-
-[MaxLength(16)]
-public string? Locale { get; set; }
-
-[MaxLength(280)]
-public string? Bio { get; set; }
-
-public bool IsFeatured { get; set; } = false;
-public DateTime? FeaturedAt { get; set; }
-
-// Controles de visibilidade e verificação (similar às receitas)
-public bool IsPublic { get; set; } = false;
-public bool Verified { get; set; } = false;
-
-// Dietary restrictions / preferences
-public List<AllergyRestriction> Allergies { get; set; } = new();
-public List<IntoleranceRestriction> Intolerances { get; set; } = new();
-public List<MedicalRestriction> MedicalRestrictions { get; set; } = new();
-public List<DietStyleRestriction> DietStyles { get; set; } = new();
-public List<CulturalRestriction> CulturalRestrictions { get; set; } = new();
-public List<PersonalPreferenceRestriction> PersonalPreferences { get; set; } = new();
+- `string` DisplayName
+- `string` GivenName
+- `string` FamilyName
+- `string` PictureUrl
+- `string` Locale
+- `string` Language
+- `string` Description (max 280)
+- `bool` IsFeatured (max 280)
+- `DateTime` FeaturedAt (max 280)
+- `DateTime` FeaturedUntil (max 280)
+- [`AllergyRestriction[]`](#allergyrestriction) Allergies
+- [`IntoleranceRestriction[]`](#intolerancerestriction) Intolerances
+- [`MedicalRestriction[]`](#medicalrestriction) MedicalRestrictions
+- [`DietStyleRestriction[]`](#dietstylerestriction) DietStyles
+- [`CulturalRestriction[]`](#culturalrestriction) CulturalRestrictions
+- [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction) PersonalPreferences
 
 public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 public DateTime? LastLoginAt { get; set; }
-}
+
+// Controles de visibilidade e verificação (similar às receitas)
+public bool IsPublic { get; set; } = false;
+public bool Verified { get; set; } = false;
 
 ### RecipeRevision
 

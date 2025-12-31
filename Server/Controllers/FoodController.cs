@@ -8,6 +8,7 @@ using Server.Response;
 using Server.Shared;
 using System;
 using System.Linq;
+using System.Text.Json;
 
 namespace Server.Controllers;
 
@@ -197,18 +198,25 @@ public class FoodController : ControllerBase
     var categories = await _context.Food
       .AsNoTracking()
       .SelectMany(f => f.Categories ?? new List<string>())
-      .Distinct()
-      .OrderBy(c => c)
       .ToListAsync();
 
-    return Ok(categories);
+    var camel = categories
+      .Where(c => !string.IsNullOrWhiteSpace(c))
+      .Select(c => JsonNamingPolicy.CamelCase.ConvertName(c))
+      .Distinct()
+      .OrderBy(c => c)
+      .ToList();
+
+    return Ok(camel);
   }
 
   // GET: api/food/types
   [HttpGet("types")]
   public ActionResult<IEnumerable<string>> GetTypes()
   {
-    var types = Enum.GetNames(typeof(FoodType)).ToList();
+    var types = Enum.GetNames(typeof(FoodType))
+      .Select(n => JsonNamingPolicy.CamelCase.ConvertName(n))
+      .ToList();
     return Ok(types);
   }
 }
