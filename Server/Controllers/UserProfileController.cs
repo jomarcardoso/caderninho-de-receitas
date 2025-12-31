@@ -34,6 +34,7 @@ public class UserProfileController : ControllerBase
     Theme = p.Theme,
     IsPublic = p.IsPublic,
     Verified = p.Verified,
+    Language = p.Language,
     Allergies = p.Allergies,
     Intolerances = p.Intolerances,
     MedicalRestrictions = p.MedicalRestrictions,
@@ -76,6 +77,7 @@ public class UserProfileController : ControllerBase
     if (request.Bio is not null) profile.Bio = string.IsNullOrWhiteSpace(request.Bio) ? null : request.Bio.Trim();
     if (request.Theme.HasValue) profile.Theme = request.Theme.Value;
     if (request.IsPublic.HasValue) profile.IsPublic = request.IsPublic.Value;
+    if (request.Language.HasValue) profile.Language = request.Language.Value;
     if (request.Allergies is not null) profile.Allergies = request.Allergies;
     if (request.Intolerances is not null) profile.Intolerances = request.Intolerances;
     if (request.MedicalRestrictions is not null) profile.MedicalRestrictions = request.MedicalRestrictions;

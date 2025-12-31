@@ -25,6 +25,8 @@ public class UserProfileDto
 
   public bool Verified { get; set; } = false;
 
+  public Server.Shared.Language Language { get; set; } = Server.Shared.Language.En;
+
   public List<AllergyRestriction> Allergies { get; set; } = new();
   public List<IntoleranceRestriction> Intolerances { get; set; } = new();
   public List<MedicalRestriction> MedicalRestrictions { get; set; } = new();
@@ -44,6 +46,8 @@ public class UpdateUserProfileRequest
 
   // Optionally allow admin to toggle verification
   public bool? Verified { get; set; }
+
+  public Server.Shared.Language? Language { get; set; }
 
   public List<AllergyRestriction>? Allergies { get; set; }
   public List<IntoleranceRestriction>? Intolerances { get; set; }
