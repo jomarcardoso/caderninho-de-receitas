@@ -11,5 +11,5 @@ public class CommonDataResponse
   public Dictionary<AminoAcidType, NutrientDataResponse> AminoAcids { get; set; } = AminoAcidsData.Map;
   public Dictionary<MineralType, NutrientDataResponse> Minerals { get; set; } = MineralsData.Map;
   public Dictionary<NutritionalInformationType, NutrientDataResponse> NutritionalInformation { get; set; } = NutritionalInformationData.Map;
-  public Dictionary<string, CategoryItem> RecipeCategories { get; set; } = new();
+  public Dictionary<string, RecipeCategoryResponse> RecipeCategories { get; set; } = new();
 }

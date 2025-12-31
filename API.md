@@ -102,12 +102,17 @@ Object map:
 - Key: [`EssentialAminoAcidType`](#essentialaminoacidtype)
 - Value: `number`
 
-### Icon
+### IconDto
 
 - id: `number`
 - name: [`LanguageText`](#languagetext)
 - url: `string`
 - keys: [`LanguageText`](#languagetext)
+
+### IconResponse
+
+- [`...IconDto`](#icondto)
+- id: `number`
 
 ### AuthorSummaryResponse
 
@@ -243,7 +248,18 @@ Technical contract for create/update food endpoints and detailed responses.
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - AminoAcidsScore: `number`
 
-## RecipeSummaryResponse
+### RecipeCategoryResponse
+
+- id: `number`
+- name: [`LanguageText`](#languagetext)
+- namePlural: [`LanguageText`](#languagetext)
+- description: [`LanguageText`](#languagetext)
+- key: `string` (slug/camel) ?category=recipeCategory
+- url: `string` (kebab-case)
+- img: `string` (url)
+- bannerImg: `string` (url)
+
+### RecipeSummaryResponse
 
 - id: `number`
 - name: `string`
@@ -253,7 +269,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
 - isOwner: `boolean`
 
-## RecipeResponse
+### RecipeResponse
 
 - id: `number`
 - name: `string`
@@ -276,8 +292,49 @@ Technical contract for create/update food endpoints and detailed responses.
 - aminoAcidsScore: `number`
 - author: [`AuthorSummaryReponse`](#authorsummaryresponse)
 - isOwner: `boolean`
+- shareToken: `string | null` (only for the owner)
+- relatedRecipes: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
 
 ## Endpoints
+
+### Icons
+
+Base route: (`api/icon`)
+
+`GET /api/icon` — icon lookup
+
+- Auth: AdminOrHigher
+- Response: [`IconResponse[]`](#iconresponse)
+
+`GET /api/icon/{id}` — icon lookup
+
+- Auth: AdminOrHigher
+- Response: [`IconResponse[]`](#iconresponse)
+
+`POST /api/icon` — create icon
+
+- Auth: AdminOrHigher
+- Body: `IconDto`
+- Response: `201 Created`
+
+`POST /api/icon/bulk` — create many icons
+
+- Auth: AdminOrHigher
+- Body: `IconDto[]`
+- Response: `201 Created`
+
+`PUT /api/icon/{id}` — update icon
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Body: `IconDto`
+- Response: `201 Created | 204 No Content`
+
+`DELETE /api/icon/{id}` — delete icon
+
+- Auth: AdminOrHigher
+- Path: `id` (int)
+- Response: `200 OK` (empty body)
 
 ### Food
 
@@ -285,11 +342,16 @@ Base route: (`api/food`)
 
 `GET /api/food` — list foods (summary)
 
-- Query: `text` (string), `categories` (csv), `quantity` (int, default 20, max 64)
+- Auth: KeeperOrHigher
+- Query:
+  - `text` (string)
+  - `categories` (csv)
+  - `limit` (int, default 20, max 64)
 - Response: [`FoodSummaryResponse[]`](#foodsummaryresponse)
 
 `GET /api/food/{id}` — get one food (full)
 
+- Auth: KeeperOrHigher
 - Path: `id` (int)
 - Response: [`FoodResponse`](#foodresponse)
 
@@ -316,7 +378,7 @@ Base route: (`api/food`)
 
 - Auth: AdminOrHigher
 - Path: `id` (int)
-- Response: `{ id: int, deleted: bool }`
+- Response: `200 OK` (empty body)
 
 `GET /api/food/search-images` — search foods images
 
@@ -330,11 +392,6 @@ Base route: (`api/food`)
 `GET /api/food/types` — type lookup
 
 - Response: `FoodType[]` (or map with translations)
-
-`GET /api/food/icons` — icon lookup
-
-- Auth: AdminOrHigher
-- Response: [`Icon`](#icon)[]
 
 ### FoodEdits
 
@@ -379,87 +436,88 @@ Base route: (`api/recipe`)
 - Auth: required (logged user)
 - Response: [`RecipeSummaryResponse[]`](#recipesdataresponse)
 
-`GET /api/recipe/data` — list my recipes
+<!-- `GET /api/recipe/data` — list my recipes with complementary data
 
 - Auth: required (logged user)
-- Response: [`RecipesDataResponse`](#recipesdataresponse)
+- Response: [`RecipesDataResponse`](#recipesdataresponse) -->
 
 `GET /api/recipe/{id}` — get one recipe (published-preferred)
 
-The owner sees the latest version. The other see the public version if available, if not 404.
+The owner sees the latest version of the recipe.
+The other users see the public version if available, if not 404.
+Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest version.
 
-- Auth: optional (AllowAnonymous; owner can see private)
+- Auth: optional (AllowAnonymous; owner can see private version)
 - Path: `id` (int)
-- Query: `count` (int, default 5, max 5) related suggestions, `excludeIds` (csv), `excludeSameOwner` (bool, default true)
-- Response: [`RecipeDataResponse`](#recipedataresponse)
+- Query:
+  - `relatedRecipesLimit` (int, default 5, max 5) related suggestions
+  - `relatedRecipesExcludeSameOwner` (bool, default false)
+- Response: [`RecipeResponse`](#reciperesponse)
 
 `GET /api/recipe/search` — search public recipes
 
 - Auth: optional (AllowAnonymous)
-- Query: `text` (string), `categories` (csv or repeated), `quantity` (int, default 20, max 64)
-- Response: [`RecipesDataResponse`](#recipesdataresponse) (recipes + foods + categories map)
+- Query:
+  - `text` (string)
+  - `categories` (csv or repeated)
+  - `limit` (int, default 20, max 64)
+- Response: [`RecipeResponse[]`](#reciperesponse)
 
 `POST /api/recipe` — create recipe
 
 - Auth: required (logged user)
 - Body: `RecipeDto`
-- Response: [`RecipesDataResponse`](#recipesdataresponse) (recipes/foods for the user)
+- Response: [`RecipeResponse`](#reciperesponse)
 
 `POST /api/recipe/many` — bulk create recipes
 
 - Auth: required (logged user)
 - Body: `RecipeDto[]`
-- Response: [`RecipesDataResponse`](#recipesdataresponse)
+- Response: [`RecipeResponse[]`](#reciperesponse)
 
 `PUT /api/recipe/{id}` — update recipe
 
 - Auth: required (owner)
 - Path: `id` (int)
 - Body: `RecipeDto`
-- Response: [`RecipesDataResponse`](#recipesdataresponse)
+- Response: [`RecipeResponse`](#reciperesponse)
 
 `DELETE /api/recipe/{id}` — delete recipe
 
 - Auth: required (owner)
 - Path: `id` (int)
-- Response: [`RecipesDataResponse`](#recipesdataresponse)
+- Response: `200 OK` (empty body)
 
 `GET /api/recipe/categories` — recipe category lookup
 
 - Auth: optional (AllowAnonymous)
-- Response: `Category[]` (key/text/pluralText map entries)
+- Response: [`RecipeCategoryResponse[]`](#recipecategoryresponse)
 
 `GET /api/recipe/pending` — list pending recipes
 
 - Auth: AdminOrHigher
-- Response: array of `{ id, name, imgs, ownerId, visibility, status, createdAtUtc }`
+- Response: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
 
 `POST /api/recipe/{id}/approve` — approve/publish recipe
 
 - Auth: AdminOrHigher
 - Path: `id` (int)
-- Response: `{ id, visibility, publishedRevisionId }`
+- Response: `200 OK` (empty body)
 
 `POST /api/recipe/{id}/deny` — reject recipe
 
 - Auth: AdminOrHigher
 - Path: `id` (int)
-- Response: `{ id, status }`
-
-`GET /api/recipe/relations/rebuild` — rebuild recipe relations
-
-- Auth: required (logged user)
-- Query: `topPerRecipe` (int, default 10, max 50)
-- Response: `{ created }`
+- Response: `200 OK` (empty body)
 
 `POST /api/recipe/relations/rebuild` — rebuild recipe relations (POST alias)
 
-- Auth: required (logged user)
+- Auth: AdminOrHigher
 - Body/Query: `topPerRecipe` (int, default 10, max 50)
-- Response: `{ created }`
+- Response: `200 OK` (empty body)
 
 `GET /api/recipe/most-copied` — list most copied recipes
 
 - Auth: optional (AllowAnonymous)
-- Query: `quantity` (int, default 6, max 64)
-- Response: [`RecipeResponse[]`](#reciperesponse)
+- Query: `limit` (int, default 6, max 64)
+- Response: [`RecipeSummaryResponse[]`](#recipesummaryresponse)

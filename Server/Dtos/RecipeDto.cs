@@ -60,6 +60,9 @@ public class RecipeResponse
   public double AminoAcidsScore { get; set; } = 0;
   public AuthorSummaryResponse? Author { get; set; }
   public bool IsOwner { get; set; } = false;
+  public string? ShareToken { get; set; }
+  public DateTime? ShareTokenCreatedAt { get; set; }
+  public DateTime? ShareTokenRevokedAt { get; set; }
 }
 
 public class RecipesDataResponse : FoodsDataResponse

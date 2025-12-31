@@ -47,7 +47,9 @@ public class RecipeService
       Imgs = recipeDto.Imgs ?? new List<string>(),
       Categories = NormalizeCategorySlugs(recipeDto.Categories),
       CreatedAtUtc = DateTime.UtcNow,
-      UpdatedAtUtc = DateTime.UtcNow
+      UpdatedAtUtc = DateTime.UtcNow,
+      ShareToken = Guid.NewGuid().ToString("N"),
+      ShareTokenCreatedAt = DateTime.UtcNow
     };
 
     revision.Recipe = entity;
@@ -114,7 +116,9 @@ public class RecipeService
       Imgs = source.Imgs,
       Categories = source.Categories,
       CopiedFromRecipeId = source.Id,
-      IsPublic = source.IsPublic
+      IsPublic = source.IsPublic,
+      ShareToken = Guid.NewGuid().ToString("N"),
+      ShareTokenCreatedAt = DateTime.UtcNow
     };
 
     newRevision.Recipe = recipe;
@@ -274,7 +278,7 @@ public class RecipeService
     }
   }
 
-  public async Task<Dictionary<string, CategoryItem>> BuildCategoryMapAsync()
+  public async Task<Dictionary<string, RecipeCategoryResponse>> BuildCategoryMapAsync()
   {
     var dict = new Dictionary<string, CategoryItem>(StringComparer.OrdinalIgnoreCase);
 
@@ -338,7 +342,20 @@ public class RecipeService
       // fallback apenas com defaults
     }
 
-    return dict;
+    return dict.ToDictionary(
+      kvp => kvp.Key,
+      kvp => new RecipeCategoryResponse
+      {
+        Id = kvp.Value.Id,
+        Key = kvp.Value.Key,
+        Url = kvp.Value.Url,
+        Name = kvp.Value.Text,
+        NamePlural = kvp.Value.PluralText,
+        Description = kvp.Value.Description,
+        Img = kvp.Value.Img,
+        BannerImg = kvp.Value.BannerImg
+      },
+      StringComparer.OrdinalIgnoreCase);
   }
 
   public async Task<List<Recipe>> SearchRecipesAsync(string? text, IEnumerable<string>? categoryKeys, int quantity, string? userId = null)
@@ -533,70 +550,49 @@ public class RecipeService
     }
 
     response.IsOwner = !string.IsNullOrWhiteSpace(callerUserId) && string.Equals(recipe.OwnerId, callerUserId, StringComparison.Ordinal);
+
+    if (response.IsOwner)
+    {
+      response.ShareToken = recipe.ShareToken;
+      response.ShareTokenCreatedAt = recipe.ShareTokenCreatedAt;
+      response.ShareTokenRevokedAt = recipe.ShareTokenRevokedAt;
+    }
+    else
+    {
+      response.ShareToken = null;
+      response.ShareTokenCreatedAt = null;
+      response.ShareTokenRevokedAt = null;
+    }
     return response;
   }
 
-  public async Task<RecipesDataResponse> GetRecipesAndFoodsByUserId(string userId)
+  public RecipeSummaryResponse BuildRecipeSummaryResponse(Recipe recipe, RevisionView view, string? callerUserId = null)
+  {
+    var summary = _mapper.Map<RecipeSummaryResponse>(recipe);
+    var revision = SelectRevision(recipe, view);
+
+    if (revision is not null)
+    {
+      summary.Name = revision.Name;
+      summary.NutritionalInformation = new NutritionalInformationBase();
+      foreach (var step in revision.Steps ?? Enumerable.Empty<RecipeRevisionStep>())
+      {
+        summary.NutritionalInformation.Add(step.NutritionalInformation);
+      }
+    }
+
+    summary.IsOwner = !string.IsNullOrWhiteSpace(callerUserId) && string.Equals(recipe.OwnerId, callerUserId, StringComparison.Ordinal);
+    return summary;
+  }
+
+  public async Task<List<RecipeSummaryResponse>> GetRecipeSummariesByUserId(string userId)
   {
     var data = await GetAllRecipesByUserId(userId);
     var recipes = data.Recipes;
-    List<RecipeResponse> recipeDtos = recipes
-      .Select(r => BuildRecipeResponse(r, RevisionView.LatestPreferred, userId))
+    List<RecipeSummaryResponse> recipeDtos = recipes
+      .Select(r => BuildRecipeSummaryResponse(r, RevisionView.LatestPreferred, userId))
       .ToList();
-    List<Food> foods = data.Foods;
-
-    if (foods.Count == 0)
-    {
-      var fallbackFoods = await foodService.GetAllAsync();
-      foods = fallbackFoods
-        .OrderBy(_ => System.Random.Shared.NextDouble())
-        .Take(30)
-        .ToList();
-    }
-
-    var response = new RecipesDataResponse
-    {
-      Recipes = recipeDtos,
-      Foods = _mapper.Map<List<FoodResponse>>(foods)
-    };
-    response.RecipeCategories = await BuildCategoryMapAsync();
-
-    try
-    {
-      var lists = await _context.RecipeList
-        .AsNoTracking()
-        .Where(l => l.OwnerId == userId)
-        .Include(l => l.Items)
-        .Select(l => new RecipeListResponse
-        {
-          Id = l.Id,
-          OwnerId = l.OwnerId,
-          Name = l.Name,
-          Description = l.Description,
-          IsPublic = l.IsPublic,
-          CreatedAt = l.CreatedAt,
-          UpdatedAt = l.UpdatedAt,
-          Items = l.Items
-            .OrderBy(i => i.Position)
-            .Select(i => new RecipeListItemResponse
-            {
-              RecipeListId = i.RecipeListId,
-              RecipeId = i.RecipeId,
-              Position = i.Position,
-              CreatedAt = i.CreatedAt,
-            })
-            .ToList()
-        })
-        .ToListAsync();
-
-      response.RecipeLists = lists;
-    }
-    catch
-    {
-      // ignore
-    }
-
-    return response;
+    return recipeDtos;
   }
 
   public async Task DeleteStepsAsync(Recipe recipe)

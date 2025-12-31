@@ -90,7 +90,7 @@ public class RecipeController : ControllerBase
     }
     await _context.SaveChangesAsync();
 
-    var response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
+    var response = await recipeService.GetRecipeSummariesByUserId(ownerId);
     return Ok(response);
   }
 
@@ -161,7 +161,7 @@ public class RecipeController : ControllerBase
       }
     }
 
-    var response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
+    var response = await recipeService.GetRecipeSummariesByUserId(ownerId);
     return Ok(response);
   }
 
@@ -241,7 +241,7 @@ public class RecipeController : ControllerBase
     _context.Recipe.Remove(recipe);
     await _context.SaveChangesAsync();
 
-    var response = await recipeService.GetRecipesAndFoodsByUserId(claimedUserId);
+    var response = await recipeService.GetRecipeSummariesByUserId(claimedUserId);
     return Ok(response);
   }
 
@@ -251,7 +251,7 @@ public class RecipeController : ControllerBase
     var ownerId = GetUserId();
     if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
-    RecipesDataResponse response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
+    var response = await recipeService.GetRecipeSummariesByUserId(ownerId);
     return Ok(response);
   }
 
@@ -438,7 +438,7 @@ public class RecipeController : ControllerBase
       await _context.SaveChangesAsync();
     }
 
-    var response = await recipeService.GetRecipesAndFoodsByUserId(ownerId);
+    var response = await recipeService.GetRecipeSummariesByUserId(ownerId);
     return Ok(response);
   }
 }
