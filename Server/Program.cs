@@ -73,6 +73,7 @@ builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenVal
 builder.Services.AddScoped<GoogleAuthService>();
 builder.Services.AddSingleton<AzureBlobSasService>();
 builder.Services.AddScoped<UserProfileService>();
+builder.Services.AddHostedService<FeaturedExpiryService>();
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
 if (string.IsNullOrWhiteSpace(jwtOptions.Secret))
 {

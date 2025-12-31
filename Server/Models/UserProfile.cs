@@ -35,6 +35,7 @@ public class UserProfile
 
   public bool IsFeatured { get; set; } = false;
   public DateTime? FeaturedAt { get; set; }
+  public DateTime? FeaturedUntil { get; set; }
 
   // Preferência de tema do usuário
   public ThemeColor Theme { get; set; } = ThemeColor.Primary;

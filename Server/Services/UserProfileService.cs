@@ -80,12 +80,13 @@ public class UserProfileService
       .ToListAsync();
   }
 
-  public async Task<bool> SetFeaturedAsync(string ownerId, bool featured)
+  public async Task<bool> SetFeaturedAsync(string ownerId, bool featured, DateTime? featuredUntil = null)
   {
     var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.Id == ownerId);
     if (profile is null) return false;
     profile.IsFeatured = featured;
     profile.FeaturedAt = featured ? DateTime.UtcNow : null;
+    profile.FeaturedUntil = featured ? featuredUntil : null;
     profile.UpdatedAt = DateTime.UtcNow;
     await _context.SaveChangesAsync();
     return true;
