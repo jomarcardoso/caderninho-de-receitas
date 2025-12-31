@@ -31,7 +31,7 @@ public class UserProfile
   public string? Locale { get; set; }
 
   [MaxLength(280)]
-  public string? Bio { get; set; }
+  public string? Description { get; set; }
 
   public bool IsFeatured { get; set; } = false;
   public DateTime? FeaturedAt { get; set; }

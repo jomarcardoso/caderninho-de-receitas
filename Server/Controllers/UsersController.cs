@@ -132,7 +132,7 @@ public class UsersController : ControllerBase
         Id = profile.Id,
         DisplayName = profile.DisplayName,
         PictureUrl = profile.PictureUrl,
-        Bio = profile.Bio,
+        Description = profile.Description,
         Theme = profile.Theme,
         IsPublic = profile.IsPublic,
         Verified = profile.Verified,

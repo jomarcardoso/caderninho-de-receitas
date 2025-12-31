@@ -17,7 +17,7 @@ public class UserProfileDto
   public string? PictureUrl { get; set; }
 
   [MaxLength(280)]
-  public string? Bio { get; set; }
+  public string? Description { get; set; }
 
   public ThemeColor Theme { get; set; } = ThemeColor.Primary;
 
@@ -38,7 +38,7 @@ public class UserProfileDto
 public class UpdateUserProfileRequest
 {
   [MaxLength(280)]
-  public string? Bio { get; set; }
+  public string? Description { get; set; }
 
   public ThemeColor? Theme { get; set; }
 

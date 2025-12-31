@@ -30,7 +30,7 @@ public class UserProfileController : ControllerBase
     Id = p.Id,
     DisplayName = p.DisplayName,
     PictureUrl = p.PictureUrl,
-    Bio = p.Bio,
+    Description = p.Description,
     Theme = p.Theme,
     IsPublic = p.IsPublic,
     Verified = p.Verified,
@@ -74,7 +74,7 @@ public class UserProfileController : ControllerBase
       _context.UserProfile.Add(profile);
     }
 
-    if (request.Bio is not null) profile.Bio = string.IsNullOrWhiteSpace(request.Bio) ? null : request.Bio.Trim();
+    if (request.Description is not null) profile.Description = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description.Trim();
     if (request.Theme.HasValue) profile.Theme = request.Theme.Value;
     if (request.IsPublic.HasValue) profile.IsPublic = request.IsPublic.Value;
     if (request.Language.HasValue) profile.Language = request.Language.Value;
