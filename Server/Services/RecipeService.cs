@@ -103,9 +103,7 @@ public class RecipeService
       baseRevision.Language,
       clonedSteps,
       ownerId)
-    {
-      ContentJson = baseRevision.ContentJson
-    };
+    ;
 
     var recipe = new Recipe
     {
@@ -524,18 +522,6 @@ public class RecipeService
       response.Keys = revision.Keys;
       response.Language = revision.Language;
 
-      // Try to recover description/additional from the revision payload (ContentJson holds the full DTO)
-      try
-      {
-        if (!string.IsNullOrWhiteSpace(revision.ContentJson))
-        {
-          var dto = JsonUtil.FromJson<RecipeDto>(revision.ContentJson);
-          response.Description = dto.Description ?? response.Description;
-          response.Additional = dto.Additional ?? response.Additional;
-        }
-      }
-      catch { /* ignore malformed content json */ }
-
       var steps = (revision.Steps ?? new List<RecipeRevisionStep>())
         .Select(ToStepResponse)
         .ToList();
@@ -652,10 +638,7 @@ public class RecipeService
       recipeDto.Keys,
       lang,
       steps,
-      string.Empty)
-    {
-      ContentJson = JsonUtil.ToJson(recipeDto)
-    };
+      string.Empty);
 
     return revision;
   }

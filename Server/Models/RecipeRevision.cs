@@ -49,9 +49,6 @@ public class RecipeRevision
   // Snapshot estruturado para buscas/joins rápidos (foods/ingredients/steps)
   public List<RecipeRevisionStep> Steps { get; set; } = new();
 
-  // Conteúdo completo versionável
-  public string ContentJson { get; set; } = "{}";
-
   [MaxLength(80)]
   public string CreatedByUserId { get; set; } = string.Empty;
 

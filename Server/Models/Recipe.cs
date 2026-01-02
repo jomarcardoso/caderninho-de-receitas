@@ -75,10 +75,7 @@ public class Recipe
       Language,
       revSteps,
       ownerId ?? string.Empty
-    )
-    {
-      ContentJson = "{}"
-    };
+    );
 
     LatestRevision = revision;
     LatestRevisionId = revision.Id;
@@ -120,9 +117,7 @@ public class Recipe
   public string Keys => ActiveRevision?.Keys ?? string.Empty;
   public Language Language => ActiveRevision?.Language ?? Language.En;
 
-  // Conteúdo não indexável (mantido para compatibilidade; origem real no ContentJson)
-  // Esses campos não são persistidos diretamente e servem apenas para evitar que
-  // código legível dependa de propriedades removidas.
+  // Conteúdo não indexável (compatibilidade)
   public string? Description { get; set; }
   public string? Additional { get; set; }
   public List<string> Imgs { get; set; } = new();

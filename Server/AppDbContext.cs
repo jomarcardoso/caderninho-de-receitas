@@ -301,7 +301,6 @@ public class AppDbContext : DbContext
       entity.HasKey(r => r.Id);
       entity.HasIndex(r => new { r.RecipeId, r.Status });
       entity.HasIndex(r => r.CreatedAtUtc);
-      entity.Property(r => r.ContentJson).IsRequired();
       entity.Property(r => r.CreatedByUserId).IsRequired().HasMaxLength(80);
       entity.Property(r => r.ReviewedByUserId).HasMaxLength(80);
 
