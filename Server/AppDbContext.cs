@@ -304,11 +304,6 @@ public class AppDbContext : DbContext
       entity.Property(r => r.CreatedByUserId).IsRequired().HasMaxLength(80);
       entity.Property(r => r.ReviewedByUserId).HasMaxLength(80);
 
-      entity.HasOne(r => r.BaseRevision)
-        .WithMany()
-        .HasForeignKey(r => r.BaseRevisionId)
-        .OnDelete(DeleteBehavior.Restrict);
-
       entity.OwnsMany(r => r.Steps, step =>
       {
         step.WithOwner().HasForeignKey("RecipeRevisionId");

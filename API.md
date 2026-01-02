@@ -75,6 +75,18 @@ Use `categories` as an array of these slugs (may be empty).
 
 `noSpicy` | `noVerySweet` | `noFried` | `noAlcohol` | `noRedMeat` | `noWhiteMeat`
 
+### ThemeColor
+
+`primary` | `green` | `red` | `purple`
+
+### TombstoneStatus
+
+`active` | `removedByAuthor` | `merged` | `policyRemoved`
+
+### Visibility
+
+`private` | `unlisted` | `public`
+
 ## Common Interfaces
 
 ### LanguageText
@@ -214,6 +226,36 @@ Technical contract for create/update food endpoints and detailed responses.
 - aminoAcids: [`AminoAcids`](#aminoacids)
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
+
+## UserProfile
+
+### UserProfileDto
+
+- id: `string`
+- themeColor: [`ThemeColor`](#themecolor)
+- locale: `string`
+- language: [`Language`](#language)
+- allergies: [`AllergyRestriction[]`](#allergyrestriction)
+- intolerances: [`IntoleranceRestriction[]`](#intolerancerestriction)
+- medicalRestrictions: [`MedicalRestriction[]`](#medicalrestriction)
+- dietStyles: [`DietStyleRestriction[]`](#dietstylerestriction)
+- culturalRestrictions: [`CulturalRestriction[]`](#culturalrestriction)
+- personalPreferences: [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction)
+- tombstoneStatus: [`TombstoneStatus`](#tombstonestatus)
+- visibility: [`Visibility`](#visibility)
+- displayName: `string`
+- givenName: `string`
+- familyName: `string`
+- pictureUrl: `string`
+- description (max 280): `string`
+- featuredUntil: `string` (ISO 8601) only can send this value
+
+### UserProfileResponse
+
+- [`...UserProfileDto`](#userprofiledto)
+- `string?` ModerationNotes
+- `bool` IsFeatured (max 280)
+- featuredAt: `string` (ISO 8601)
 
 ## Recipe
 

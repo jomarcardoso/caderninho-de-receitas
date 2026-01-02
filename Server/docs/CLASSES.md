@@ -116,6 +116,26 @@ Enum:
 5. NoRedMeat
 6. NoWhiteMeat
 
+### TombstoneStatus
+
+1. Active
+2. RemovedByAuthor
+3. Merged
+4. PolicyRemoved
+
+### Visibility
+
+1. Private
+2. Unlisted
+3. Public
+
+### RevisionStatus
+
+1. Draft
+2. PendingReview
+3. Approved
+4. Rejected
+
 ### INutrientsBase
 
 - Namespace: [`Server.Shared`](#shared)
@@ -187,36 +207,49 @@ Enum:
 - Methods:
   - `void Process()` — rebuilds `EssentialAminoAcids` from `AminoAcids` and updates `AminoAcidsScore` via `GetScore()`.
 
+### UserProfileRevision
+
+- `Guid` Id
+- `string` DisplayName
+- `string` GivenName
+- `string` FamilyName
+- `string` PictureUrl
+- `string` Description (max 280)
+- `string` UserProfileId
+- [`UserProfile`](#userprofile) UserProfile
+- [`RevisionStatus`](#revisionstatus) Status
+- `DateTime` CreatedAt
+- `DateTime` UpdatedAt
+- `string?` ReviewedByUserId
+- `DateTime?` ReviewedAtUtc
+- `string?` ModerationNotes
+
 ### UserProfile
 
 Namespace: [`Server.Models`](#models)
 
 - `string` Id
 - [`ThemeColor`](#themecolor) ThemeColor
-- `string` DisplayName
-- `string` GivenName
-- `string` FamilyName
-- `string` PictureUrl
 - `string` Locale
 - `string` Language
-- `string` Description (max 280)
 - `bool` IsFeatured (max 280)
-- `DateTime` FeaturedAt (max 280)
-- `DateTime` FeaturedUntil (max 280)
+- `DateTime` FeaturedAt
+- `DateTime` FeaturedUntil
 - [`AllergyRestriction[]`](#allergyrestriction) Allergies
 - [`IntoleranceRestriction[]`](#intolerancerestriction) Intolerances
 - [`MedicalRestriction[]`](#medicalrestriction) MedicalRestrictions
 - [`DietStyleRestriction[]`](#dietstylerestriction) DietStyles
 - [`CulturalRestriction[]`](#culturalrestriction) CulturalRestrictions
 - [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction) PersonalPreferences
-
-public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-public DateTime? LastLoginAt { get; set; }
-
-// Controles de visibilidade e verificação (similar às receitas)
-public bool IsPublic { get; set; } = false;
-public bool Verified { get; set; } = false;
+- `DateTime` CreatedAt
+- `DateTime` UpdatedAt
+- `DateTime` LastLoginAt
+- `Guid?` PublishedRevisionId
+- `UserProfileRevision?` PublishedRevision
+- `Guid?` LatestRevisionId
+- `UserProfileRevision?` LatestRevision
+- [`TombstoneStatus`](#tombstonestatus) TombstoneStatus
+- [`Visibility`](#visibility) Visibility
 
 ### RecipeRevision
 
@@ -226,13 +259,10 @@ Properties:
 
 - `Guid` Id
 - `int` RecipeId; `Recipe` Recipe
-- `RevisionStatus` Status
-- `Guid?` BaseRevisionId; `RecipeRevision?` BaseRevision
+- [`RevisionStatus`](#revisionstatus) Status
 - Indexable fields: `string` Name, `string` Keys, `Language` Language
 - Structured snapshot: `List<RecipeRevisionStep>` Steps
-- Versioned content: `string` ContentJson
 - Audit: `string` CreatedByUserId, `DateTime` CreatedAtUtc, `DateTime` UpdatedAtUtc
-- Change tracking: `string?` ChangeSummary
 - Review/moderation: `string?` ReviewedByUserId, `DateTime?` ReviewedAtUtc, `string?` ModerationNotes
 
 Constructors:
@@ -257,8 +287,8 @@ Properties (core/identity):
 - `int` SavedByOthersCount
 - `bool` IsPublic (legacy flag)
 - `DateTime` CreatedAtUtc, `DateTime` UpdatedAtUtc
-- `RecipeVisibility` Visibility
-- `RecipeTombstoneStatus` TombstoneStatus
+- [`Visibility`](#visibility) Visibility
+- [`TombstoneStatus`](#tombstonestatus) TombstoneStatus
 - `Guid?` PublishedRevisionId; `RecipeRevision?` PublishedRevision
 - `Guid?` LatestRevisionId; `RecipeRevision?` LatestRevision
 - `int?` MergedIntoRecipeId; `Recipe?` MergedIntoRecipe

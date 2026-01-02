@@ -38,9 +38,6 @@ public class RecipeRevision
 
   public RevisionStatus Status { get; set; } = RevisionStatus.Draft;
 
-  public Guid? BaseRevisionId { get; set; }
-  public RecipeRevision? BaseRevision { get; set; }
-
   // Campos indexáveis (fora do JSON para busca/ordenar)
   public string Name { get; set; } = string.Empty;
   public string Keys { get; set; } = string.Empty;
