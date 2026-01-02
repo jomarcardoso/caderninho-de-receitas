@@ -29,8 +29,8 @@ public class Recipe
   public DateTime? ShareTokenRevokedAt { get; set; }
 
   // Versionamento
-  public RecipeVisibility Visibility { get; set; } = RecipeVisibility.Private;
-  public RecipeTombstoneStatus TombstoneStatus { get; set; } = RecipeTombstoneStatus.Active;
+  public Visibility Visibility { get; set; } = Visibility.Private;
+  public TombstoneStatus TombstoneStatus { get; set; } = TombstoneStatus.Active;
 
   public Guid? PublishedRevisionId { get; set; }
   public RecipeRevision? PublishedRevision { get; set; }

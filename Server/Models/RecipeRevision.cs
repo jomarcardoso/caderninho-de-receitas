@@ -6,21 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Server.Models;
 
-public enum RecipeVisibility
-{
-  Private = 0,
-  Unlisted = 1,
-  Public = 2,
-}
-
-public enum RecipeTombstoneStatus
-{
-  Active = 0,
-  RemovedByAuthor = 1,
-  Merged = 2,
-  PolicyRemoved = 3,
-}
-
 public enum RevisionStatus
 {
   Draft = 0,

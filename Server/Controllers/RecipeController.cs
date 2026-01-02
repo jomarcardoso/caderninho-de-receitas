@@ -71,7 +71,7 @@ public class RecipeController : ControllerBase
     {
       var recipe = await recipeService.DtoToEntity(dto);
       recipe.OwnerId = ownerId;
-      recipe.Visibility = RecipeVisibility.Private;
+      recipe.Visibility = Visibility.Private;
       recipe.PublishedRevisionId = null;
       recipesToAdd.Add(recipe);
     }
@@ -118,7 +118,7 @@ public class RecipeController : ControllerBase
 
     await recipeService.UpdateEntityFromDto(recipe, recipeDto);
     recipe.OwnerId = ownerId;
-    recipe.Visibility = RecipeVisibility.Private;
+    recipe.Visibility = Visibility.Private;
     recipe.PublishedRevisionId = null;
     if (recipe.LatestRevision is not null && recipe.LatestRevision.Status == RevisionStatus.Approved)
       recipe.LatestRevision.Status = RevisionStatus.Draft;
@@ -200,7 +200,7 @@ public class RecipeController : ControllerBase
 
     recipe.LatestRevision.Status = RevisionStatus.Approved;
     recipe.PublishedRevisionId = recipe.LatestRevision.Id;
-    recipe.Visibility = RecipeVisibility.Public;
+    recipe.Visibility = Visibility.Public;
     recipe.UpdatedAtUtc = DateTime.UtcNow;
     await _context.SaveChangesAsync();
     return Ok(new { id = recipe.Id, visibility = recipe.Visibility, publishedRevisionId = recipe.PublishedRevisionId });
@@ -217,7 +217,7 @@ public class RecipeController : ControllerBase
     if (recipe.LatestRevision is null) return BadRequest(new { error = "No revision to deny." });
 
     recipe.LatestRevision.Status = RevisionStatus.Rejected;
-    recipe.Visibility = RecipeVisibility.Private;
+    recipe.Visibility = Visibility.Private;
     recipe.UpdatedAtUtc = DateTime.UtcNow;
     await _context.SaveChangesAsync();
     return Ok(new { id = recipe.Id, status = recipe.LatestRevision.Status });
@@ -320,7 +320,7 @@ public class RecipeController : ControllerBase
     var userId = GetUserId();
     var revision = recipe.PublishedRevision ?? recipe.LatestRevision;
     if (revision is null) return NotFound();
-    if (recipe.Visibility != RecipeVisibility.Public && !string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal)) return NotFound();
+    if (recipe.Visibility != Visibility.Public && !string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal)) return NotFound();
 
     count = Math.Clamp(count, 1, 5);
     var excluded = new HashSet<int>((excludeIds ?? string.Empty)
@@ -359,7 +359,7 @@ public class RecipeController : ControllerBase
 
     var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
     var filtered = candidates
-      .Where(r => r.Visibility == RecipeVisibility.Public)
+      .Where(r => r.Visibility == Visibility.Public)
       .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
       .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
       .Take(count)
@@ -423,7 +423,7 @@ public class RecipeController : ControllerBase
   {
     var recipe = await recipeService.DtoToEntity(recipeDto);
     recipe.OwnerId = ownerId;
-    recipe.Visibility = RecipeVisibility.Private;
+    recipe.Visibility = Visibility.Private;
     recipe.PublishedRevisionId = null;
 
     _context.Recipe.Add(recipe);

@@ -218,8 +218,8 @@ Enum:
 - `string` UserProfileId
 - [`UserProfile`](#userprofile) UserProfile
 - [`RevisionStatus`](#revisionstatus) Status
-- `DateTime` CreatedAt
-- `DateTime` UpdatedAt
+- `DateTime` CreatedAtUtc
+- `DateTime` UpdatedAtUtc
 - `string?` ReviewedByUserId
 - `DateTime?` ReviewedAtUtc
 - `string?` ModerationNotes
@@ -231,8 +231,8 @@ Namespace: [`Server.Models`](#models)
 - `string` Id
 - [`ThemeColor`](#themecolor) ThemeColor
 - `string` Locale
-- `string` Language
-- `bool` IsFeatured (max 280)
+- `Language` Language
+- `bool` IsFeatured
 - `DateTime` FeaturedAt
 - `DateTime` FeaturedUntil
 - [`AllergyRestriction[]`](#allergyrestriction) Allergies
@@ -241,9 +241,9 @@ Namespace: [`Server.Models`](#models)
 - [`DietStyleRestriction[]`](#dietstylerestriction) DietStyles
 - [`CulturalRestriction[]`](#culturalrestriction) CulturalRestrictions
 - [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction) PersonalPreferences
-- `DateTime` CreatedAt
-- `DateTime` UpdatedAt
-- `DateTime` LastLoginAt
+- `DateTime` CreatedAtUtc
+- `DateTime` UpdatedAtUtc
+- `DateTime` LastLoginAtUtc
 - `Guid?` PublishedRevisionId
 - `UserProfileRevision?` PublishedRevision
 - `Guid?` LatestRevisionId
