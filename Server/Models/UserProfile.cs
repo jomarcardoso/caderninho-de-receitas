@@ -15,34 +15,26 @@ public class UserProfile
   [MaxLength(128)]
   public string Id { get; set; } = string.Empty; // matches ClaimTypes.NameIdentifier
 
-  [MaxLength(256)]
-  public string? DisplayName { get; set; }
-
-  [MaxLength(256)]
-  public string? GivenName { get; set; }
-
-  [MaxLength(256)]
-  public string? FamilyName { get; set; }
-
-  [MaxLength(1024)]
-  public string? PictureUrl { get; set; }
-
   [MaxLength(16)]
   public string? Locale { get; set; }
 
-  [MaxLength(280)]
-  public string? Description { get; set; }
+  // Preferred language for UI/content
+  public Language Language { get; set; } = Language.En;
 
   public bool IsFeatured { get; set; } = false;
   public DateTime? FeaturedAt { get; set; }
   public DateTime? FeaturedUntil { get; set; }
 
-  // Preferência de tema do usuário
-  public ThemeColor Theme { get; set; } = ThemeColor.Primary;
+  public ThemeColor ThemeColor { get; set; } = ThemeColor.Primary;
 
-  // Controles de visibilidade e verificação (similar às receitas)
-  public bool IsPublic { get; set; } = false;
-  public bool Verified { get; set; } = false;
+  // Controles de visibilidade/estado (similar às receitas)
+  public Visibility Visibility { get; set; } = Visibility.Private;
+  public TombstoneStatus TombstoneStatus { get; set; } = TombstoneStatus.Active;
+  public List<string> Emails { get; set; } = new();
+  [MaxLength(256)]
+  public string? GoogleId { get; set; }
+  public bool GoogleEmailVerified { get; set; } = false;
+  public List<Role> Roles { get; set; } = new();
 
   // Dietary restrictions / preferences
   public List<AllergyRestriction> Allergies { get; set; } = new();
@@ -52,10 +44,19 @@ public class UserProfile
   public List<CulturalRestriction> CulturalRestrictions { get; set; } = new();
   public List<PersonalPreferenceRestriction> PersonalPreferences { get; set; } = new();
 
-  public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-  public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-  public DateTime? LastLoginAt { get; set; }
+  // Versionamento de perfil
+  public Guid? PublishedRevisionId { get; set; }
+  public UserProfileRevision? PublishedRevision { get; set; }
+  public Guid? LatestRevisionId { get; set; }
+  public UserProfileRevision? LatestRevision { get; set; }
+  public List<UserProfileRevision> Revisions { get; set; } = new();
 
-  // Preferred language for UI/content
-  public Language Language { get; set; } = Language.En;
+  // Compartilhamento
+  public string? ShareToken { get; set; }
+  public DateTime? ShareTokenCreatedAt { get; set; }
+  public DateTime? ShareTokenRevokedAt { get; set; }
+
+  public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+  public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+  public DateTime? LastLoginAtUtc { get; set; }
 }

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Server.Services;
 using AutoMapper;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Server.Models;
 using Server.Dtos;
+using Server.Services;
+using Server.Shared;
 
 namespace Server.Controllers;
 
@@ -27,13 +28,16 @@ public class UsersController : ControllerBase
     _mapper = mapper;
   }
 
+  private bool IsAdmin() => User.IsInRole("admin");
+
   [HttpGet("me")]
   [Authorize]
   public async Task<IActionResult> Me()
   {
     var profile = await _profiles.UpsertFromClaimsAsync(User);
     if (profile is null) return Unauthorized();
-    return Ok(profile);
+    var ctx = new UserProfileViewContext(true, IsAdmin(), false);
+    return Ok(UserProfileResponseBuilder.Build(profile, ctx));
   }
 
   [HttpGet("featured")]
@@ -41,21 +45,36 @@ public class UsersController : ControllerBase
   public async Task<IActionResult> Featured([FromQuery] int quantity = 6)
   {
     var list = await _profiles.GetFeaturedAsync(quantity);
-    return Ok(list);
+    var ctx = new UserProfileViewContext(false, false, false);
+    return Ok(list.Select(p => UserProfileResponseBuilder.Build(p, ctx)).ToList());
   }
 
   [HttpGet("{ownerId}")]
   [AllowAnonymous]
-  public async Task<IActionResult> GetById(string ownerId)
+  public async Task<IActionResult> GetById(string ownerId, [FromQuery] string? shareToken = null)
   {
     if (string.IsNullOrWhiteSpace(ownerId)) return BadRequest();
     ownerId = ownerId.Trim();
 
     var callerId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value?.Trim();
     var isOwner = !string.IsNullOrWhiteSpace(callerId) && string.Equals(ownerId, callerId, StringComparison.Ordinal);
+    var isAdmin = IsAdmin();
 
     var profile = await _profiles.GetByOwnerIdAsync(ownerId);
     if (profile is null) return NotFound();
+
+    var hasValidShareToken = !string.IsNullOrWhiteSpace(shareToken)
+      && !string.IsNullOrWhiteSpace(profile.ShareToken)
+      && string.Equals(profile.ShareToken, shareToken, StringComparison.Ordinal)
+      && (profile.ShareTokenRevokedAt is null);
+
+    if (!isOwner && !isAdmin && !hasValidShareToken && (profile.Visibility != Visibility.Public || profile.TombstoneStatus != TombstoneStatus.Active))
+    {
+      return NotFound();
+    }
+
+    var profileCtx = new UserProfileViewContext(isOwner, isAdmin, hasValidShareToken);
+    var profilePayload = UserProfileResponseBuilder.Build(profile, profileCtx);
 
     // Public profile should always surface only published/active content.
     var recipes = await _context.Recipe
@@ -68,8 +87,8 @@ public class UsersController : ControllerBase
       .Include(r => r.Revisions)
       .Where(r =>
         r.OwnerId == ownerId &&
-        r.Visibility == RecipeVisibility.Public &&
-        r.TombstoneStatus == RecipeTombstoneStatus.Active &&
+        r.Visibility == Visibility.Public &&
+        r.TombstoneStatus == TombstoneStatus.Active &&
         r.PublishedRevisionId != null)
       .ToListAsync();
 
@@ -97,7 +116,6 @@ public class UsersController : ControllerBase
       Id = l.Id,
       OwnerId = l.OwnerId,
       Name = l.Name,
-      Description = l.Description,
       IsPublic = l.IsPublic,
       CreatedAt = l.CreatedAt,
       UpdatedAt = l.UpdatedAt,
@@ -107,7 +125,7 @@ public class UsersController : ControllerBase
         .Select(i =>
         {
           var recipe = i.Recipe!;
-          if (recipe.Visibility != RecipeVisibility.Public || recipe.TombstoneStatus != RecipeTombstoneStatus.Active)
+          if (recipe.Visibility != Visibility.Public || recipe.TombstoneStatus != TombstoneStatus.Active)
           {
             return null;
           }
@@ -127,22 +145,7 @@ public class UsersController : ControllerBase
 
     var response = new PublicUserResponse
     {
-      Profile = new UserProfileDto
-      {
-        Id = profile.Id,
-        DisplayName = profile.DisplayName,
-        PictureUrl = profile.PictureUrl,
-        Description = profile.Description,
-        Theme = profile.Theme,
-        IsPublic = profile.IsPublic,
-        Verified = profile.Verified,
-        Allergies = profile.Allergies,
-        Intolerances = profile.Intolerances,
-        MedicalRestrictions = profile.MedicalRestrictions,
-        DietStyles = profile.DietStyles,
-        CulturalRestrictions = profile.CulturalRestrictions,
-        PersonalPreferences = profile.PersonalPreferences
-      },
+      Profile = profilePayload,
       Recipes = recipeDtos,
       RecipeLists = listDtos,
       IsOwner = isOwner
@@ -173,7 +176,7 @@ public class UsersController : ControllerBase
 
 public class PublicUserResponse
 {
-  public UserProfileDto Profile { get; set; } = new();
+  public UserProfileResponse Profile { get; set; } = new();
   public List<RecipeResponse> Recipes { get; set; } = new();
   public List<PublicRecipeListResponse> RecipeLists { get; set; } = new();
   public bool IsOwner { get; set; } = false;

@@ -225,11 +225,11 @@ export function mapRecipeResponseToModel(
     ...recipeResponse,
     ...allNutrients,
     food,
-    author: recipeResponse.author
+    owner: recipeResponse.owner
       ? {
-          id: recipeResponse.author.id,
-          displayName: recipeResponse.author.name,
-          pictureUrl: recipeResponse.author.img,
+          id: recipeResponse.owner.id,
+          displayName: recipeResponse.owner.displayName,
+          pictureUrl: recipeResponse.owner.pictureUrl,
         }
       : undefined,
     categories,

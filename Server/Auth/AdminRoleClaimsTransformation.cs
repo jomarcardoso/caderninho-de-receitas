@@ -8,6 +8,7 @@ public class AdminRoleClaimsTransformation : IClaimsTransformation
   private readonly IConfiguration configuration;
   private readonly HashSet<string> admins;
   private readonly HashSet<string> owners;
+  private readonly HashSet<string> moderators;
   private readonly HashSet<string> keepers;
 
   public AdminRoleClaimsTransformation(IConfiguration configuration)
@@ -16,6 +17,7 @@ public class AdminRoleClaimsTransformation : IClaimsTransformation
     string[] toSet(string path) => configuration.GetSection(path).Get<string[]>() ?? Array.Empty<string>();
     admins = new HashSet<string>(toSet("Authorization:Admins").Select(e => e.Trim().ToLowerInvariant()));
     owners = new HashSet<string>(toSet("Authorization:Owners").Select(e => e.Trim().ToLowerInvariant()));
+    moderators = new HashSet<string>(toSet("Authorization:Moderators").Select(e => e.Trim().ToLowerInvariant()));
     keepers = new HashSet<string>(toSet("Authorization:Keepers").Select(e => e.Trim().ToLowerInvariant()));
   }
 
@@ -29,21 +31,36 @@ public class AdminRoleClaimsTransformation : IClaimsTransformation
       var id = principal.Identity as ClaimsIdentity;
       if (id is null) return Task.FromResult(principal);
 
-      // Owner implies Admin
+      void EnsureRole(string role)
+      {
+        if (!id.HasClaim(ClaimTypes.Role, role)) id.AddClaim(new Claim(ClaimTypes.Role, role));
+      }
+
+      // Owner implies Admin -> Moderator -> Keeper
       if (owners.Contains(email))
       {
-        if (!id.HasClaim(ClaimTypes.Role, "Owner")) id.AddClaim(new Claim(ClaimTypes.Role, "Owner"));
-        if (!id.HasClaim(ClaimTypes.Role, "Admin")) id.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+        EnsureRole("Owner");
+        EnsureRole("Admin");
+        EnsureRole("Moderator");
+        EnsureRole("Keeper");
       }
 
-      if (admins.Contains(email) && !id.HasClaim(ClaimTypes.Role, "Admin"))
+      if (admins.Contains(email))
       {
-        id.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+        EnsureRole("Admin");
+        EnsureRole("Moderator");
+        EnsureRole("Keeper");
       }
 
-      if (keepers.Contains(email) && !id.HasClaim(ClaimTypes.Role, "Keeper"))
+      if (moderators.Contains(email))
       {
-        id.AddClaim(new Claim(ClaimTypes.Role, "Keeper"));
+        EnsureRole("Moderator");
+        EnsureRole("Keeper");
+      }
+
+      if (keepers.Contains(email))
+      {
+        EnsureRole("Keeper");
       }
     }
     catch { }

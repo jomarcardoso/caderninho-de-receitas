@@ -1,17 +1,13 @@
-import { appendAuthHeader } from './token.storage';
-
-export interface GoogleLoginResponse {
-  displayName: string;
-  email: string;
-  picture: string;
-  googleId: string;
-  emailVerified: boolean;
-  roles?: string[];
-}
+import type { UserProfileOwnerResponse } from '../user/user.response';
+import {
+  appendAuthHeader,
+  decodeTokenPayload,
+  getAuthToken,
+} from './token.storage';
 
 export interface GoogleLoginSuccess {
   token: string;
-  user: GoogleLoginResponse;
+  user: UserProfileOwnerResponse;
 }
 
 interface GoogleLoginErrorResponse {
@@ -54,23 +50,25 @@ export async function authenticateWithGoogle(
   return (await response.json()) as GoogleLoginSuccess;
 }
 
-export interface MeResponse {
-  displayName: string;
-  email: string;
-  picture: string;
-  roles: string[];
-}
+export async function fetchMe(): Promise<UserProfileOwnerResponse | null> {
+  const token = getAuthToken();
+  const payload = decodeTokenPayload<{ nameid?: string; sub?: string }>(token);
+  const ownerId =
+    (payload?.nameid || payload?.sub || '').trim() || undefined;
+  if (!ownerId) return null;
 
-export async function fetchMe(): Promise<MeResponse | null> {
   try {
     const headers = new Headers({ Accept: 'application/json' });
     appendAuthHeader(headers);
-    const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-      method: 'GET',
-      headers,
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/api/userprofile/${encodeURIComponent(ownerId)}`,
+      {
+        method: 'GET',
+        headers,
+      },
+    );
     if (!response.ok) return null;
-    return (await response.json()) as MeResponse;
+    return (await response.json()) as UserProfileOwnerResponse;
   } catch {
     return null;
   }
@@ -82,6 +80,7 @@ export async function hasKeeperPermission(): Promise<boolean> {
   const roles = (me.roles || []).map((r) => r.toLowerCase());
   return (
     roles.includes('keeper') ||
+    roles.includes('moderator') ||
     roles.includes('admin') ||
     roles.includes('owner')
   );

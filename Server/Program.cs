@@ -115,7 +115,7 @@ builder.Services.AddAuthorization(options =>
   options.AddPolicy("AdminOrHigher", policy =>
     policy.RequireRole("Admin", "Owner"));
   options.AddPolicy("KeeperOrHigher", policy =>
-    policy.RequireRole("Keeper", "Admin", "Owner"));
+    policy.RequireRole("Keeper", "Moderator", "Admin", "Owner"));
 });
 
 // blazor

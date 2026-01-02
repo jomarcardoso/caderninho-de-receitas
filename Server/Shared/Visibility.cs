@@ -11,6 +11,5 @@ public enum TombstoneStatus
 {
   Active = 0,
   RemovedByAuthor = 1,
-  Merged = 2,
   PolicyRemoved = 3,
 }

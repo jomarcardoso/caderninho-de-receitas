@@ -38,7 +38,7 @@ public class FeaturedExpiryService : BackgroundService
             profile.IsFeatured = false;
             profile.FeaturedAt = null;
             profile.FeaturedUntil = null;
-            profile.UpdatedAt = now;
+            profile.UpdatedAtUtc = now;
           }
           await db.SaveChangesAsync(stoppingToken);
           _logger.LogInformation("FeaturedExpiryService: cleared {Count} expired profiles", expired.Count);

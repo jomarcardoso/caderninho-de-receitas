@@ -1,5 +1,7 @@
 # API endpoints, DTOs & Responses
 
+<!-- THIS FILE IS SOURCE OF TRUTH. DO NOT EDIT TO BE LIKE THE CODE! -->
+
 ## Common Types
 
 ### MeasurementUnit
@@ -75,13 +77,17 @@ Use `categories` as an array of these slugs (may be empty).
 
 `noSpicy` | `noVerySweet` | `noFried` | `noAlcohol` | `noRedMeat` | `noWhiteMeat`
 
+### Role
+
+`keeper` | `moderator` | `admin` | `owner`
+
 ### ThemeColor
 
 `primary` | `green` | `red` | `purple`
 
 ### TombstoneStatus
 
-`active` | `removedByAuthor` | `merged` | `policyRemoved`
+`active` | `removedByAuthor` | `policyRemoved`
 
 ### Visibility
 
@@ -149,12 +155,6 @@ Object map:
 
 - [`...IconDto`](#icondto)
 - id: `number`
-
-### AuthorSummaryResponse
-
-- id: `string`
-- name: `string`
-- img: `string`
 
 ## Food Interfaces
 
@@ -227,37 +227,78 @@ Technical contract for create/update food endpoints and detailed responses.
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
 
-## UserProfile
+## UserProfile Interfaces
 
 ### UserProfileDto
 
-- id: `string`
 - themeColor: [`ThemeColor`](#themecolor)
 - locale: `string`
 - language: [`Language`](#language)
+- visibility: [`Visibility`](#visibility)
+- displayName: `string`
+- pictureUrl: `string`
+- description: `string` (max 280)
+- givenName: `string` only admins and owners can see this value not empty
+- familyName: `string` only admins and owners can see this value not empty
 - allergies: [`AllergyRestriction[]`](#allergyrestriction)
 - intolerances: [`IntoleranceRestriction[]`](#intolerancerestriction)
 - medicalRestrictions: [`MedicalRestriction[]`](#medicalrestriction)
 - dietStyles: [`DietStyleRestriction[]`](#dietstylerestriction)
 - culturalRestrictions: [`CulturalRestriction[]`](#culturalrestriction)
 - personalPreferences: [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction)
-- tombstoneStatus: [`TombstoneStatus`](#tombstonestatus)
-- visibility: [`Visibility`](#visibility)
-- displayName: `string`
-- givenName: `string`
-- familyName: `string`
-- pictureUrl: `string`
-- description (max 280): `string`
-- featuredUntil: `string` (ISO 8601) only can send this value
+
+### UserProfileAdminDto
+
+**Extends:** [UserProfileOwner](#userprofileowner)
+
+- featuredUntil: `string` (date: ISO 8601)
 
 ### UserProfileResponse
 
-- [`...UserProfileDto`](#userprofiledto)
-- `string?` ModerationNotes
-- `bool` IsFeatured (max 280)
-- featuredAt: `string` (ISO 8601)
+- id: `string`
+- themeColor: [`ThemeColor`](#themecolor)
+- locale: `string`
+- language: [`Language`](#language)
+- visibility: [`Visibility`](#visibility)
+- displayName: `string`
+- pictureUrl: `string`
+- description: `string` (max 280)
 
-## Recipe
+### UserProfileOwnerResponse
+
+**Extends:** [UserProfileResponse](#userprofileresponse)
+
+- emails: `string[]`
+- googleId: `string`
+- googleEmailVerified: `boolean`
+- roles: [`Role[]`](#role)
+- givenName: `string`
+- familyName: `string`
+- allergies: [`AllergyRestriction[]`](#allergyrestriction)
+- intolerances: [`IntoleranceRestriction[]`](#intolerancerestriction)
+- medicalRestrictions: [`MedicalRestriction[]`](#medicalrestriction)
+- dietStyles: [`DietStyleRestriction[]`](#dietstylerestriction)
+- culturalRestrictions: [`CulturalRestriction[]`](#culturalrestriction)
+- personalPreferences: [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction)
+- shareToken: `string | null`
+- moderationNotes: `string`
+- isFeatured: `boolean`
+- featuredUntil: `string` (date: ISO 8601)
+
+### UserProfileAdminResponse
+
+**Extends:** [UserProfileOwnerResponse](#userprofileownerresponse)
+
+- featuredAt: `string` (date: ISO 8601)
+
+### UserProfileSummaryResponse
+
+- id: `string`
+- displayName: `string`
+- pictureUrl: `string`
+- isFeatured: `boolean` only admins and owners can see this option true
+
+## Recipe Interfaces
 
 ### IngredientResponse
 
@@ -330,7 +371,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - id: `number`
 - name: `string`
 - imgs: `string[]`
-- author: [`AuthorSummaryReponse`](#authorsummaryresponse)
+- owner: [`UserProfileSummaryResponse`](#userprofilesummaryresponse)
 - savedByOthersCount: `number`
 - nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
 - isOwner: `boolean`
@@ -348,22 +389,20 @@ Technical contract for create/update food endpoints and detailed responses.
 - food: [`FoodSummaryResponse`](#foodsummaryresponse)
 - imgs: `string[]`
 - savedByOthersCount: `number`
-- createdAt: `string` (ISO 8601)
-- updatedAt: `string` (ISO 8601)
+- createdAt: `string` (date: ISO 8601)
+- updatedAt: `string` (date: ISO 8601)
 - nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
 - minerals: [`Minerals`](#minerals)
 - vitamins: [`Vitamins`](#vitamins)
 - aminoAcids: [`AminoAcids`](#aminoacids)
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
-- author: [`AuthorSummaryReponse`](#authorsummaryresponse)
+- owner: [`UserProfileSummaryResponse`](#userprofilesummaryresponse)
 - isOwner: `boolean`
 - shareToken: `string | null` (only for the owner)
 - relatedRecipes: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
 
-## Endpoints
-
-### Icons
+## Icon Endpoints
 
 Base route: (`api/icon`)
 
@@ -402,7 +441,7 @@ Base route: (`api/icon`)
 - Path: `id` (int)
 - Response: `200 OK` (empty body)
 
-### Food
+## Food Endpoints
 
 Base route: (`api/food`)
 
@@ -493,7 +532,57 @@ Route: (`api/food-edits`)
 - Path: `id` (int)
 - Response: `200 OK` or `404/400`
 
-### Recipe
+## User Endpoints
+
+### Auth Endpoints
+
+Base route: (`api/auth`)
+
+`POST /api/auth/google` — login with Google
+
+- Auth: AllowAnonymous
+- Body: `{ idToken: string }`
+- Response: `{ token: string, user: { displayName: string, email: string, picture: string, googleId: string, emailVerified: boolean, roles: string[] } }`
+
+`POST /api/auth/refresh` — refresh JWT
+
+- Auth: Any authenticated
+- Response: `{ token: string }`
+
+`POST /api/auth/logout` — logout
+
+- Auth: Any authenticated
+- Response: `void`
+
+### UserProfile Endpoints
+
+Route: (`api/userprofile`)
+
+`GET /api/userprofile`
+
+Show public profiles for any user and show private profiles only for admin users.
+
+- Auth: AdminOrHigher | (AllowAnonymous; only see public revisions)
+- Query:
+  - `text` (string)
+  - `limit` (int, default 20, max 64)
+  - `isFeatured` (boolean)
+- Response: [`UserProfileSummaryResponse[]`](#userprofilesummaryresponse)
+
+`GET /api/userprofile/{id}`
+
+The owner sees the latest version of the UserProfile.
+The other users see the public version if available, if not 404.
+Users with shareToken `/api/userprofile/{id}?shareToken=…` can also see the latest version.
+
+- Auth: AdminOrHigher | logged user (owner) | (AllowAnonymous; only see public revisions)
+- Path: `id` (int)
+- Response: (one of)
+  - [`UserProfileResponse`](#userprofileresponse) Anonymous
+  - [`UserProfileOwnerResponse`](#userprofileownerresponse) Owner
+  - [`UserProfileAdminResponse`](#userprofileadminresponse) Admin or higher
+
+## Recipe Endpoints
 
 Base route: (`api/recipe`)
 

@@ -5,17 +5,14 @@ import type {
 import type { AllNutrientsResponse } from '../nutrient/nutrient.response';
 import type { NutrientsResponse } from '../nutrient/nutrient.response';
 import type { RecipeStepResponse } from '../recipe-step';
+import type { UserProfileSummaryResponse } from '../user/user.response';
 import type { RecipeBase } from './recipe.types';
 
 export interface RecipeSummaryResponse {
   id: number;
   name: string;
   imgs: string[];
-  author?: {
-    id: string;
-    name?: string;
-    img?: string;
-  };
+  owner?: UserProfileSummaryResponse;
   savedByOthersCount: number;
   nutritionalInformation: NutrientsResponse;
   isOwner: boolean;
@@ -26,11 +23,7 @@ export interface RecipeResponse
     AllNutrientsResponse {
   food: FoodSummaryResponse;
   isOwner?: boolean;
-  author?: {
-    id: string;
-    name?: string;
-    img?: string;
-  };
+  owner?: UserProfileSummaryResponse;
 }
 
 export interface RecipesDataResponse extends FoodsDataResponse {

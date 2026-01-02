@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
+using Server.Shared;
 
 namespace Server.Services;
 
@@ -23,7 +24,11 @@ public class UserProfileService
     var ownerId = GetClaim(user, ClaimTypes.NameIdentifier);
     if (string.IsNullOrWhiteSpace(ownerId)) return null;
 
-    var profile = await _context.UserProfile.FirstOrDefaultAsync(p => p.Id == ownerId);
+    var profile = await _context.UserProfile
+      .Include(p => p.Revisions)
+      .Include(p => p.PublishedRevision)
+      .Include(p => p.LatestRevision)
+      .FirstOrDefaultAsync(p => p.Id == ownerId);
     var now = DateTime.UtcNow;
 
     var displayName = GetClaim(user, ClaimTypes.Name) ?? string.Empty;
@@ -31,32 +36,134 @@ public class UserProfileService
     var familyName = GetClaim(user, ClaimTypes.Surname);
     var locale = GetClaim(user, ClaimTypes.Locality) ?? GetClaim(user, "locale");
     var picture = GetClaim(user, "picture") ?? GetClaim(user, "urn:google:picture");
+    var email = GetClaim(user, ClaimTypes.Email);
+    var googleId = GetClaim(user, ClaimTypes.NameIdentifier);
+    var emailVerified = string.Equals(GetClaim(user, "email_verified"), "true", StringComparison.OrdinalIgnoreCase);
+    var roles = user?.FindAll(ClaimTypes.Role)
+      ?.Select(c => Enum.TryParse<Role>(c.Value, true, out var r) ? r : (Role?)null)
+      ?.Where(r => r.HasValue)
+      ?.Select(r => r!.Value)
+      ?.Distinct()
+      .ToList() ?? new List<Role>();
 
     if (profile is null)
     {
       profile = new UserProfile
       {
         Id = ownerId,
-        DisplayName = displayName,
+        Locale = locale,
+        CreatedAtUtc = now,
+        UpdatedAtUtc = now,
+        LastLoginAtUtc = now,
+        Visibility = Visibility.Private,
+        TombstoneStatus = TombstoneStatus.Active,
+        ShareToken = Guid.NewGuid().ToString("N"),
+        ShareTokenCreatedAt = now,
+        GoogleId = googleId,
+        GoogleEmailVerified = emailVerified,
+        Roles = roles
+      };
+      if (!string.IsNullOrWhiteSpace(email)) profile.Emails.Add(email);
+      var revision = new UserProfileRevision
+      {
+        UserProfileId = ownerId,
+        DisplayName = string.IsNullOrWhiteSpace(displayName) ? ownerId : displayName,
         GivenName = givenName,
         FamilyName = familyName,
-        Locale = locale,
         PictureUrl = picture,
-        CreatedAt = now,
-        UpdatedAt = now,
-        LastLoginAt = now,
+        Description = null,
+        Status = RevisionStatus.Approved,
+        CreatedByUserId = ownerId,
+        CreatedAtUtc = now,
+        UpdatedAtUtc = now
       };
+      profile.Revisions = new List<UserProfileRevision> { revision };
+      profile.PublishedRevision = revision;
+      profile.PublishedRevisionId = revision.Id;
+      profile.LatestRevision = revision;
+      profile.LatestRevisionId = revision.Id;
       _context.UserProfile.Add(profile);
     }
     else
     {
-      profile.DisplayName = string.IsNullOrWhiteSpace(profile.DisplayName) ? displayName : profile.DisplayName;
-      profile.GivenName = profile.GivenName ?? givenName;
-      profile.FamilyName = profile.FamilyName ?? familyName;
       profile.Locale = profile.Locale ?? locale;
-      profile.PictureUrl = profile.PictureUrl ?? picture;
-      profile.UpdatedAt = now;
-      profile.LastLoginAt = now;
+      profile.UpdatedAtUtc = now;
+      profile.LastLoginAtUtc = now;
+      if (!string.IsNullOrWhiteSpace(email) && !profile.Emails.Contains(email, StringComparer.OrdinalIgnoreCase))
+      {
+        profile.Emails.Add(email);
+      }
+      profile.GoogleId = profile.GoogleId ?? googleId;
+      profile.GoogleEmailVerified = emailVerified || profile.GoogleEmailVerified;
+      if (roles.Count > 0)
+      {
+        profile.Roles = roles;
+      }
+
+      var revision = profile.LatestRevision ?? profile.PublishedRevision ?? profile.Revisions.FirstOrDefault();
+      if (revision is null)
+      {
+        revision = new UserProfileRevision
+        {
+          UserProfileId = ownerId,
+          DisplayName = string.IsNullOrWhiteSpace(displayName) ? ownerId : displayName,
+          GivenName = givenName,
+          FamilyName = familyName,
+          PictureUrl = picture,
+          Description = null,
+          Status = RevisionStatus.Approved,
+          CreatedByUserId = ownerId,
+          CreatedAtUtc = now,
+          UpdatedAtUtc = now
+        };
+        profile.Revisions.Add(revision);
+        profile.LatestRevision = revision;
+        profile.LatestRevisionId = revision.Id;
+        if (profile.PublishedRevision is null)
+        {
+          profile.PublishedRevision = revision;
+          profile.PublishedRevisionId = revision.Id;
+        }
+      }
+      else
+      {
+        bool changed = false;
+        if (string.IsNullOrWhiteSpace(revision.DisplayName) && !string.IsNullOrWhiteSpace(displayName))
+        {
+          revision.DisplayName = displayName;
+          changed = true;
+        }
+        if (revision.GivenName is null && givenName is not null)
+        {
+          revision.GivenName = givenName;
+          changed = true;
+        }
+        if (revision.FamilyName is null && familyName is not null)
+        {
+          revision.FamilyName = familyName;
+          changed = true;
+        }
+        if (revision.PictureUrl is null && picture is not null)
+        {
+          revision.PictureUrl = picture;
+          changed = true;
+        }
+        if (changed)
+        {
+          revision.UpdatedAtUtc = now;
+        }
+      }
+
+      profile.LatestRevision = revision;
+      profile.LatestRevisionId = revision.Id;
+      profile.PublishedRevision ??= revision;
+      profile.PublishedRevisionId ??= revision.Id;
+
+      if (string.IsNullOrWhiteSpace(profile.ShareToken))
+      {
+        profile.ShareToken = Guid.NewGuid().ToString("N");
+        profile.ShareTokenCreatedAt = now;
+      }
     }
 
     await _context.SaveChangesAsync();
@@ -65,7 +172,11 @@ public class UserProfileService
 
   public async Task<UserProfile?> GetByOwnerIdAsync(string ownerId)
   {
-    return await _context.UserProfile.FirstOrDefaultAsync(p => p.Id == ownerId);
+    return await _context.UserProfile
+      .Include(p => p.PublishedRevision)
+      .Include(p => p.LatestRevision)
+      .Include(p => p.Revisions)
+      .FirstOrDefaultAsync(p => p.Id == ownerId);
   }
 
   public async Task<List<UserProfile>> GetFeaturedAsync(int quantity = 6)
@@ -73,9 +184,11 @@ public class UserProfileService
     quantity = Math.Clamp(quantity, 1, 24);
     return await _context.UserProfile
       .AsNoTracking()
+      .Include(p => p.PublishedRevision)
+      .Include(p => p.LatestRevision)
       .Where(u => u.IsFeatured)
       .OrderByDescending(u => u.FeaturedAt)
-      .ThenByDescending(u => u.LastLoginAt)
+      .ThenByDescending(u => u.LastLoginAtUtc)
       .Take(quantity)
       .ToListAsync();
   }
@@ -87,7 +200,7 @@ public class UserProfileService
     profile.IsFeatured = featured;
     profile.FeaturedAt = featured ? DateTime.UtcNow : null;
     profile.FeaturedUntil = featured ? featuredUntil : null;
-    profile.UpdatedAt = DateTime.UtcNow;
+    profile.UpdatedAtUtc = DateTime.UtcNow;
     await _context.SaveChangesAsync();
     return true;
   }

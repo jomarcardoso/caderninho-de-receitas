@@ -43,7 +43,7 @@ public class RecipeService
       Id = recipeDto.Id,
       OwnerId = string.Empty,
       Slug = NormalizeSlug(recipeDto.Name),
-      Visibility = RecipeVisibility.Private,
+      Visibility = Visibility.Private,
       Imgs = recipeDto.Imgs ?? new List<string>(),
       Categories = NormalizeCategorySlugs(recipeDto.Categories),
       CreatedAtUtc = DateTime.UtcNow,
@@ -109,7 +109,7 @@ public class RecipeService
     {
       OwnerId = ownerId,
       Slug = source.Slug,
-      Visibility = RecipeVisibility.Private,
+      Visibility = Visibility.Private,
       Revisions = new List<RecipeRevision> { newRevision },
       Imgs = source.Imgs,
       Categories = source.Categories,
@@ -186,7 +186,7 @@ public class RecipeService
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .Where(r => r.Visibility == RecipeVisibility.Public || (includePrivate && r.OwnerId == userId))
+      .Where(r => r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId))
       .OrderByDescending(r => r.SavedByOthersCount)
       .ThenBy(r => r.Id)
       .Take(quantity)
@@ -208,7 +208,7 @@ public class RecipeService
       .ThenInclude(i => i.Food)
       .Where(r =>
         (EF.Functions.ILike(r.LatestRevision!.Name, pattern) || EF.Functions.ILike(r.LatestRevision!.Keys, pattern))
-        && (r.Visibility == RecipeVisibility.Public || (includePrivate && r.OwnerId == userId)))
+        && (r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId)))
       .OrderBy(r => r.Id)
       .Take(quantity)
       .ToListAsync();
@@ -368,7 +368,7 @@ public class RecipeService
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .Where(r => r.Visibility == RecipeVisibility.Public || (includePrivate && r.OwnerId == userId));
+      .Where(r => r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId));
 
     var hasText = !string.IsNullOrWhiteSpace(text);
     if (hasText)

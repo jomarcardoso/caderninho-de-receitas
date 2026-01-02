@@ -21,6 +21,7 @@ public class AppDbContext : DbContext
   public DbSet<RecipeShare> RecipeShare { get; set; }
   public DbSet<Server.Models.FoodEditRequest> FoodEditRequest { get; set; }
   public DbSet<UserProfile> UserProfile { get; set; }
+  public DbSet<UserProfileRevision> UserProfileRevision { get; set; }
   public DbSet<RecipeRevision> RecipeRevisions { get; set; }
   public DbSet<RecipeList> RecipeList { get; set; }
   public DbSet<RecipeListItem> RecipeListItem { get; set; }
@@ -233,8 +234,14 @@ public class AppDbContext : DbContext
       entity.HasKey(u => u.Id);
       entity.Property(u => u.Id).IsRequired();
       entity.HasIndex(u => u.Id).IsUnique();
-      entity.Property(u => u.CreatedAt).IsRequired();
-      entity.Property(u => u.UpdatedAt).IsRequired();
+      entity.Property(u => u.CreatedAtUtc).IsRequired();
+      entity.Property(u => u.UpdatedAtUtc).IsRequired();
+      entity.Property(u => u.LastLoginAtUtc);
+      entity.Property(u => u.ShareToken);
+      entity.Property(u => u.ShareTokenCreatedAt);
+      entity.Property(u => u.ShareTokenRevokedAt);
+      entity.Property(u => u.GoogleId);
+      entity.Property(u => u.GoogleEmailVerified);
 
       // Persist enum lists as comma-separated strings
       var (allergyConv, allergyCmp) = BuildEnumListPersistence<AllergyRestriction>();
@@ -272,6 +279,34 @@ public class AppDbContext : DbContext
         .HasConversion(prefConv)
         .HasColumnType("text")
         .Metadata.SetValueComparer(prefCmp);
+
+      // Roles persistence
+      var (roleConv, roleCmp) = BuildEnumListPersistence<Role>();
+      entity.Property(u => u.Roles)
+        .HasConversion(roleConv)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(roleCmp);
+
+      // Emails persistence
+      var emailConverter = new ValueConverter<List<string>, string>(
+        v => string.Join(',', v ?? new List<string>()),
+        v => string.IsNullOrWhiteSpace(v)
+          ? new List<string>()
+          : v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim())
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .ToList()
+      );
+      var emailComparer = new ValueComparer<List<string>>(
+        (a, b) => (a ?? new()).SequenceEqual(b ?? new(), StringComparer.OrdinalIgnoreCase),
+        v => (v ?? new()).Aggregate(0, (acc, x) => HashCode.Combine(acc, x.ToLowerInvariant().GetHashCode())),
+        v => v == null ? new List<string>() : v.ToList()
+      );
+
+      entity.Property(u => u.Emails)
+        .HasConversion(emailConverter)
+        .HasColumnType("text")
+        .Metadata.SetValueComparer(emailComparer);
     });
 
     // RecipeList
@@ -326,6 +361,20 @@ public class AppDbContext : DbContext
         step.OwnsOne(s => s.Vitamins);
         step.OwnsOne(s => s.Minerals);
       });
+    });
+
+    modelBuilder.Entity<UserProfileRevision>(entity =>
+    {
+      entity.HasKey(r => r.Id);
+      entity.HasIndex(r => new { r.UserProfileId, r.Status });
+      entity.HasIndex(r => r.CreatedAtUtc);
+      entity.Property(r => r.CreatedByUserId).HasMaxLength(80);
+      entity.Property(r => r.ReviewedByUserId).HasMaxLength(80);
+
+      entity.HasOne(r => r.UserProfile)
+        .WithMany(p => p.Revisions)
+        .HasForeignKey(r => r.UserProfileId)
+        .OnDelete(DeleteBehavior.Cascade);
     });
 
   }

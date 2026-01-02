@@ -129,6 +129,13 @@ Enum:
 2. Unlisted
 3. Public
 
+### Role
+
+1. Keeper
+2. Admin
+3. Moderator
+4. Owner
+
 ### RevisionStatus
 
 1. Draft
@@ -232,7 +239,7 @@ Namespace: [`Server.Models`](#models)
 - [`ThemeColor`](#themecolor) ThemeColor
 - `string` Locale
 - `Language` Language
-- `bool` IsFeatured
+- `bool` IsFeatured (There is a daily routine to review this value.)
 - `DateTime` FeaturedAt
 - `DateTime` FeaturedUntil
 - [`AllergyRestriction[]`](#allergyrestriction) Allergies
@@ -240,7 +247,7 @@ Namespace: [`Server.Models`](#models)
 - [`MedicalRestriction[]`](#medicalrestriction) MedicalRestrictions
 - [`DietStyleRestriction[]`](#dietstylerestriction) DietStyles
 - [`CulturalRestriction[]`](#culturalrestriction) CulturalRestrictions
-- [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction) PersonalPreferences
+- [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction)
 - `DateTime` CreatedAtUtc
 - `DateTime` UpdatedAtUtc
 - `DateTime` LastLoginAtUtc
@@ -250,6 +257,13 @@ Namespace: [`Server.Models`](#models)
 - `UserProfileRevision?` LatestRevision
 - [`TombstoneStatus`](#tombstonestatus) TombstoneStatus
 - [`Visibility`](#visibility) Visibility
+- ShareToken: `string`
+- ShareTokenCreatedAt: `DateTime`
+- ShareTokenRevokedAt: `DateTime`
+- `string[]` emails
+- `string` googleId
+- `bool` googleEmailVerified
+- [`Role[]`](#role) roles
 
 ### RecipeRevision
 

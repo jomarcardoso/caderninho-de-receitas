@@ -1,5 +1,5 @@
-using Server.Response;
 using Server.Shared;
+using Server.Response;
 
 namespace Server.Dtos;
 
@@ -17,19 +17,13 @@ public class RecipeDto
   public List<string> Imgs { get; set; } = new();
 }
 
-public class AuthorSummaryResponse
-{
-  public string Id { get; set; } = string.Empty;
-  public string? Name { get; set; }
-  public string? Img { get; set; }
-}
-
 public class RecipeSummaryResponse
 {
   public int Id { get; set; }
+  public string OwnerId { get; set; } = string.Empty;
   public string Name { get; set; } = string.Empty;
   public List<string> Imgs { get; set; } = new();
-  public AuthorSummaryResponse? Author { get; set; }
+  public UserProfileSummaryResponse? Owner { get; set; }
   public int SavedByOthersCount { get; set; } = 0;
   public NutritionalInformationBase NutritionalInformation { get; set; } = new();
   public bool IsOwner { get; set; }
@@ -39,6 +33,7 @@ public class RecipeSummaryResponse
 public class RecipeResponse
 {
   public int Id { get; set; }
+  public string OwnerId { get; set; } = string.Empty;
   public string Name { get; set; } = string.Empty;
   public string Keys { get; set; } = string.Empty;
   public string? Description { get; set; }
@@ -58,7 +53,7 @@ public class RecipeResponse
   public AminoAcidsBase AminoAcids { get; set; } = new();
   public EssentialAminoAcidsBase EssentialAminoAcids { get; set; } = new();
   public double AminoAcidsScore { get; set; } = 0;
-  public AuthorSummaryResponse? Author { get; set; }
+  public UserProfileSummaryResponse? Owner { get; set; }
   public bool IsOwner { get; set; } = false;
   public string? ShareToken { get; set; }
   public DateTime? ShareTokenCreatedAt { get; set; }
