@@ -58,9 +58,6 @@ public class RecipeRevision
   public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 
-  [MaxLength(200)]
-  public string? ChangeSummary { get; set; }
-
   [MaxLength(80)]
   public string? ReviewedByUserId { get; set; }
   public DateTime? ReviewedAtUtc { get; set; }

@@ -38,6 +38,7 @@ public class Recipe
   public Guid? LatestRevisionId { get; set; }
   public RecipeRevision? LatestRevision { get; set; }
 
+  // used to retire a recipe and point to another one
   public int? MergedIntoRecipeId { get; set; }
   public Recipe? MergedIntoRecipe { get; set; }
 
