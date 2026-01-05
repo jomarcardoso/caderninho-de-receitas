@@ -129,13 +129,6 @@ Enum:
 2. Unlisted
 3. Public
 
-### Role
-
-1. Keeper
-2. Admin
-3. Moderator
-4. Owner
-
 ### RevisionStatus
 
 1. Draft
@@ -239,7 +232,7 @@ Namespace: [`Server.Models`](#models)
 - [`ThemeColor`](#themecolor) ThemeColor
 - `string` Locale
 - `Language` Language
-- `bool` IsFeatured (There is a daily routine to review this value.)
+- `bool` IsFeatured
 - `DateTime` FeaturedAt
 - `DateTime` FeaturedUntil
 - [`AllergyRestriction[]`](#allergyrestriction) Allergies
@@ -247,7 +240,7 @@ Namespace: [`Server.Models`](#models)
 - [`MedicalRestriction[]`](#medicalrestriction) MedicalRestrictions
 - [`DietStyleRestriction[]`](#dietstylerestriction) DietStyles
 - [`CulturalRestriction[]`](#culturalrestriction) CulturalRestrictions
-- [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction)
+- [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction) PersonalPreferences
 - `DateTime` CreatedAtUtc
 - `DateTime` UpdatedAtUtc
 - `DateTime` LastLoginAtUtc
@@ -257,13 +250,6 @@ Namespace: [`Server.Models`](#models)
 - `UserProfileRevision?` LatestRevision
 - [`TombstoneStatus`](#tombstonestatus) TombstoneStatus
 - [`Visibility`](#visibility) Visibility
-- ShareToken: `string`
-- ShareTokenCreatedAt: `DateTime`
-- ShareTokenRevokedAt: `DateTime`
-- `string[]` emails
-- `string` googleId
-- `bool` googleEmailVerified
-- [`Role[]`](#role) roles
 
 ### RecipeRevision
 
@@ -356,3 +342,48 @@ Methods:
 - ISearchable (explicit): `LanguageTextBase` Name/Keys mapped to `LanguageText`.
 
 ## Services
+
+## Data Transfer Objects (DTOs)
+
+Input objects (request payloads). Not documented yet.
+
+### FoodDto
+
+- Properties:
+  - `int` Id
+  - `LanguageText` Name
+  - `LanguageText` Keys
+  - `LanguageText` Description
+  - `List<string>` Imgs
+  - `MeasurementUnit` MeasurementUnit
+  - `Measure` Measures
+  - `List<string>` Categories
+  - `int?` IconId
+  - `FoodType` Type
+  - `NutritionalInformation` NutritionalInformation
+  - `Minerals` Minerals
+  - `Vitamins` Vitamins
+  - `AminoAcids` AminoAcids
+  - `EssentialAminoAcids` EssentialAminoAcids
+  - `double` AminoAcidsScore
+- Constructors:
+  - Implicit default
+
+## Response
+
+Output objects.
+
+### FoodSummaryResponse
+
+- Namespace: [`Server.Response`](#response)
+- Properties:
+  - `int` id
+  - `LanguageText` name
+  - `string` icon (public URL to the icon)
+  - `string[]` imgs
+
+### FoodResponse
+
+- Namespace: [`Server.Response`](#response)
+- Inherits: `Food` (same shape as the entity)
+

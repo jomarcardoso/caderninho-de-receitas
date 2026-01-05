@@ -6,7 +6,6 @@ namespace Server.Dtos;
 // Transport DTO para criar/editar receita (categorias como strings)
 public class RecipeDto
 {
-  public int Id { get; set; }
   public string Name { get; set; } = string.Empty;
   public string Keys { get; set; } = string.Empty;
   public string? Description { get; set; }
@@ -24,6 +23,17 @@ public class RecipeSummaryResponse
   public string Name { get; set; } = string.Empty;
   public List<string> Imgs { get; set; } = new();
   public UserProfileSummaryResponse? Owner { get; set; }
+  public int SavedByOthersCount { get; set; } = 0;
+  public NutritionalInformationBase NutritionalInformation { get; set; } = new();
+  public bool IsOwner { get; set; }
+}
+
+// Item de lista (sem owner, pois a lista já tem contexto de dono)
+public class RecipeItemSummaryResponse
+{
+  public int Id { get; set; }
+  public string Name { get; set; } = string.Empty;
+  public List<string> Imgs { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;
   public NutritionalInformationBase NutritionalInformation { get; set; } = new();
   public bool IsOwner { get; set; }
@@ -58,36 +68,46 @@ public class RecipeResponse
   public string? ShareToken { get; set; }
   public DateTime? ShareTokenCreatedAt { get; set; }
   public DateTime? ShareTokenRevokedAt { get; set; }
+  public List<RecipeSummaryResponse> RelatedRecipes { get; set; } = new();
 }
 
-public class RecipesDataResponse : FoodsDataResponse
+public class RecipeListDto
 {
-  public List<RecipeResponse> Recipes { get; set; } = new();
-  public List<RecipeListResponse> RecipeLists { get; set; } = new();
-}
-
-public class RecipeDataResponse : FoodsDataResponse
-{
-  public RecipeResponse Recipes { get; set; } = new();
-  public List<RecipeResponse> RelatedRecipes { get; set; } = new();
-}
-
-public class RecipeListItemResponse
-{
-  public int RecipeListId { get; set; }
-  public int RecipeId { get; set; }
-  public int Position { get; set; }
-  public DateTime CreatedAt { get; set; }
+  public string Name { get; set; } = string.Empty;
+  public string? Description { get; set; }
+  public bool? IsPublic { get; set; }
 }
 
 public class RecipeListResponse
 {
   public int Id { get; set; }
-  public string OwnerId { get; set; } = string.Empty;
   public string Name { get; set; } = string.Empty;
   public string? Description { get; set; }
   public bool IsPublic { get; set; } = false;
   public DateTime CreatedAt { get; set; }
   public DateTime UpdatedAt { get; set; }
-  public List<RecipeListItemResponse> Items { get; set; } = new();
+  public UserProfileSummaryResponse? Owner { get; set; }
+  public List<RecipeItemSummaryResponse> Items { get; set; } = new();
+}
+
+public class RecipeListSummaryResponse
+{
+  public int Id { get; set; }
+  public string Name { get; set; } = string.Empty;
+  public string? Description { get; set; }
+  public bool IsPublic { get; set; }
+  public List<RecipeItemSummaryResponse> Items { get; set; } = new();
+}
+
+public class RecipeIndexResponse
+{
+  public int Id { get; set; }
+  public string Name { get; set; } = string.Empty;
+}
+
+public class RecipeListIndexResponse
+{
+  public int Id { get; set; }
+  public string Name { get; set; } = string.Empty;
+  public List<RecipeIndexResponse> Items { get; set; } = new();
 }

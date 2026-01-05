@@ -40,7 +40,6 @@ public class RecipeService
     var revision = await BuildRevisionAsync(recipeDto);
     var entity = new Recipe
     {
-      Id = recipeDto.Id,
       OwnerId = string.Empty,
       Slug = NormalizeSlug(recipeDto.Name),
       Visibility = Visibility.Private,

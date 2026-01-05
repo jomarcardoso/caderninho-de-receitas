@@ -1,12 +1,26 @@
+import type { FoodSummaryResponse } from '../food/food.response';
 import type {
-  FoodSummaryResponse,
-  FoodsDataResponse,
-} from '../food/food.response';
-import type { AllNutrientsResponse } from '../nutrient/nutrient.response';
-import type { NutrientsResponse } from '../nutrient/nutrient.response';
+  AllNutrientsResponse,
+  NutrientsResponse,
+} from '../nutrient/nutrient.response';
 import type { RecipeStepResponse } from '../recipe-step';
 import type { UserProfileSummaryResponse } from '../user/user.response';
-import type { RecipeBase } from './recipe.types';
+import type { Language } from '../language/language.types';
+import type { LanguageText } from '../language/language.types';
+
+export interface RecipeIndexResponse {
+  id: number;
+  name: string;
+}
+
+export interface RecipeItemSummaryResponse {
+  id: number;
+  name: string;
+  imgs: string[];
+  savedByOthersCount: number;
+  nutritionalInformation: NutrientsResponse;
+  isOwner: boolean;
+}
 
 export interface RecipeSummaryResponse {
   id: number;
@@ -18,40 +32,33 @@ export interface RecipeSummaryResponse {
   isOwner: boolean;
 }
 
-export interface RecipeResponse
-  extends RecipeBase<RecipeStepResponse>,
-    AllNutrientsResponse {
-  food: FoodSummaryResponse;
-  isOwner?: boolean;
-  owner?: UserProfileSummaryResponse;
-}
-
-export interface RecipesDataResponse extends FoodsDataResponse {
-  recipes: RecipeResponse[];
-  // Optional: user recipe lists included in the bulk payload
-  recipeLists?: RecipeListResponse[];
-}
-
-export interface RecipeDataResponse extends FoodsDataResponse {
-  recipes: RecipeResponse;
-  relatedRecipes: RecipeResponse[];
-}
-
-// Recipe lists (shared minimal shape)
-export interface RecipeListItemResponse {
-  recipeListId: number;
-  recipeId: number;
-  position: number;
-  createdAt: string;
-}
-
-export interface RecipeListResponse {
+export interface RecipeResponse extends AllNutrientsResponse {
   id: number;
-  ownerId: string;
   name: string;
-  description?: string;
-  isPublic?: boolean;
-  createdAt: string;
-  updatedAt: string;
-  items?: RecipeListItemResponse[];
+  keys: string;
+  description?: string | null;
+  additional?: string | null;
+  steps: RecipeStepResponse[];
+  language: Language;
+  categories?: string[]; // slugs
+  food: FoodSummaryResponse;
+  imgs: string[];
+  savedByOthersCount: number;
+  createdAt?: string;
+  updatedAt?: string;
+  owner?: UserProfileSummaryResponse;
+  isOwner?: boolean;
+  shareToken?: string | null;
+  relatedRecipes?: RecipeSummaryResponse[];
+}
+
+export interface RecipeCategoryResponse {
+  id: number;
+  name: LanguageText;
+  namePlural: LanguageText;
+  description: LanguageText;
+  key: string; // slug/camel
+  url: string; // kebab-case
+  img: string;
+  bannerImg: string;
 }

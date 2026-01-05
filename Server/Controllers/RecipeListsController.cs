@@ -1,24 +1,132 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+
+using Server.Dtos;
+using Server.Models;
+using Server.Response;
+using Server.Services;
 
 namespace Server.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/recipelist")]
 [Authorize]
 public class RecipeListsController : ControllerBase
 {
   private readonly AppDbContext _context;
-  public RecipeListsController(AppDbContext context)
+  private readonly RecipeService _recipeService;
+  public RecipeListsController(AppDbContext context, RecipeService recipeService)
   {
     _context = context;
+    _recipeService = recipeService;
   }
 
   private string GetUserId()
   {
     var id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
     return string.IsNullOrWhiteSpace(id) ? string.Empty : id!.Trim();
+  }
+
+  private RecipeSummaryResponse MapRecipeSummary(Recipe recipe, string callerUserId)
+  {
+    return _recipeService.BuildRecipeSummaryResponse(
+      recipe,
+      RecipeService.RevisionView.LatestPreferred,
+      callerUserId
+    );
+  }
+
+  private static RecipeItemSummaryResponse ToItemSummary(RecipeSummaryResponse summary)
+  {
+    return new RecipeItemSummaryResponse
+    {
+      Id = summary.Id,
+      Name = summary.Name,
+      Imgs = summary.Imgs,
+      SavedByOthersCount = summary.SavedByOthersCount,
+      NutritionalInformation = summary.NutritionalInformation,
+      IsOwner = summary.IsOwner
+    };
+  }
+
+  private RecipeListSummaryResponse MapSummary(RecipeList entity, UserProfile? owner, string callerUserId, bool includeItems = false)
+  {
+    var summary = new RecipeListSummaryResponse
+    {
+      Id = entity.Id,
+      Name = entity.Name,
+      Description = entity.Description,
+      IsPublic = entity.IsPublic,
+      Items = new()
+    };
+
+    if (includeItems && entity.Items?.Any() == true)
+    {
+      summary.Items = entity.Items
+        .OrderBy(i => i.Position)
+        .Where(i => i.Recipe is not null)
+        .Select(i => ToItemSummary(MapRecipeSummary(i.Recipe!, callerUserId)))
+        .ToList();
+    }
+
+    return summary;
+  }
+
+  private RecipeListResponse MapResponse(RecipeList entity, UserProfile? owner, string callerUserId, bool includeItems = false)
+  {
+    var response = new RecipeListResponse
+    {
+      Id = entity.Id,
+      Name = entity.Name,
+      Description = entity.Description,
+      IsPublic = entity.IsPublic,
+      CreatedAt = entity.CreatedAt,
+      UpdatedAt = entity.UpdatedAt,
+      Owner = owner is null
+        ? new UserProfileSummaryResponse { Id = entity.OwnerId, DisplayName = entity.OwnerId }
+        : UserProfileResponseBuilder.BuildSummary(owner, isAdmin: false, callerUserId),
+      Items = new()
+    };
+
+    if (includeItems && entity.Items?.Any() == true)
+    {
+      response.Items = entity.Items
+        .OrderBy(i => i.Position)
+        .Where(i => i.Recipe is not null)
+        .Select(i => ToItemSummary(MapRecipeSummary(i.Recipe!, callerUserId)))
+        .ToList();
+    }
+
+    return response;
+  }
+
+  private static RecipeIndexResponse MapRecipeIndex(Recipe recipe)
+  {
+    var name = recipe.LatestRevision?.Name ?? recipe.PublishedRevision?.Name ?? string.Empty;
+    return new RecipeIndexResponse { Id = recipe.Id, Name = name };
+  }
+
+  private static RecipeListIndexResponse MapIndexSummary(RecipeList entity)
+  {
+    var summary = new RecipeListIndexResponse
+    {
+      Id = entity.Id,
+      Name = entity.Name,
+      Items = new()
+    };
+
+    if (entity.Items?.Any() == true)
+    {
+      summary.Items = entity.Items
+        .OrderBy(i => i.Position)
+        .Where(i => i.Recipe is not null)
+        .Select(i => MapRecipeIndex(i.Recipe!))
+        .ToList();
+    }
+
+    return summary;
   }
 
   [HttpGet]
@@ -28,47 +136,93 @@ public class RecipeListsController : ControllerBase
     if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var lists = await _context.RecipeList
       .AsNoTracking()
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.Owner)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.LatestRevision)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.PublishedRevision)
       .Where(l => l.OwnerId == userId)
       .OrderBy(l => l.Name)
       .ToListAsync();
-    return Ok(lists);
+
+    // owner profile is the caller
+    var ownerProfile = await _context.UserProfile
+      .Include(p => p.Revisions)
+      .FirstOrDefaultAsync(p => p.Id == userId);
+
+    return Ok(lists.Select(l => MapSummary(l, ownerProfile, userId, includeItems: true)));
   }
 
-  public record UpsertListPayload(string name, string? description, bool? isPublic);
-
-  [HttpPost]
-  public async Task<IActionResult> Create([FromBody] UpsertListPayload payload)
+  [HttpGet("index")]
+  public async Task<IActionResult> GetMyListsAsIndex()
   {
     var userId = GetUserId();
     if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
-    if (string.IsNullOrWhiteSpace(payload?.name)) return BadRequest("Name is required");
-    var entity = new Server.Models.RecipeList
+
+    var lists = await _context.RecipeList
+      .AsNoTracking()
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.LatestRevision)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.PublishedRevision)
+      .Where(l => l.OwnerId == userId)
+      .OrderBy(l => l.Name)
+      .ToListAsync();
+
+    return Ok(lists.Select(MapIndexSummary));
+  }
+
+  [HttpPost]
+  public async Task<IActionResult> Create([FromBody] RecipeListDto dto)
+  {
+    var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
+    if (string.IsNullOrWhiteSpace(dto?.Name))
+      return BadRequest(new ApiError { Title = "Validation failed", Status = 400, Detail = "Name is required" });
+    var entity = new RecipeList
     {
       OwnerId = userId,
-      Name = payload.name.Trim(),
-      Description = payload.description?.Trim(),
-      IsPublic = payload.isPublic ?? false,
+      Name = dto.Name.Trim(),
+      Description = dto.Description?.Trim(),
+      IsPublic = dto.IsPublic ?? false,
       CreatedAt = DateTime.UtcNow,
       UpdatedAt = DateTime.UtcNow,
     };
     _context.RecipeList.Add(entity);
     await _context.SaveChangesAsync();
-    return Ok(entity);
+
+    // refetch owner (single)
+    var ownerProfile = await _context.UserProfile
+      .Include(p => p.Revisions)
+      .FirstOrDefaultAsync(p => p.Id == userId);
+
+    return Ok(MapResponse(entity, ownerProfile, userId));
   }
 
   [HttpPut("{id}")]
-  public async Task<IActionResult> Update(int id, [FromBody] UpsertListPayload payload)
+  public async Task<IActionResult> Update(int id, [FromBody] RecipeListDto dto)
   {
     var userId = GetUserId();
     if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var list = await _context.RecipeList.FirstOrDefaultAsync(l => l.Id == id && l.OwnerId == userId);
     if (list is null) return NotFound();
-    if (!string.IsNullOrWhiteSpace(payload?.name)) list.Name = payload.name.Trim();
-    list.Description = payload?.description?.Trim();
-    if (payload?.isPublic is not null) list.IsPublic = payload.isPublic.Value;
+    if (!string.IsNullOrWhiteSpace(dto?.Name)) list.Name = dto.Name.Trim();
+    list.Description = dto?.Description?.Trim();
+    if (dto?.IsPublic is not null) list.IsPublic = dto.IsPublic.Value;
     list.UpdatedAt = DateTime.UtcNow;
     await _context.SaveChangesAsync();
-    return Ok(list);
+
+    var ownerProfile = await _context.UserProfile
+      .Include(p => p.Revisions)
+      .FirstOrDefaultAsync(p => p.Id == userId);
+
+    return Ok(MapResponse(list, ownerProfile, userId));
   }
 
   [HttpDelete("{id}")]
@@ -91,9 +245,21 @@ public class RecipeListsController : ControllerBase
     var list = await _context.RecipeList
       .Include(l => l.Items)
       .ThenInclude(i => i.Recipe!)
+      .ThenInclude(r => r.Owner)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe!)
+      .ThenInclude(r => r.LatestRevision)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe!)
+      .ThenInclude(r => r.PublishedRevision)
       .FirstOrDefaultAsync(l => l.Id == id && l.OwnerId == userId);
     if (list is null) return NotFound();
-    return Ok(list);
+
+    var ownerProfile = await _context.UserProfile
+      .Include(p => p.Revisions)
+      .FirstOrDefaultAsync(p => p.Id == userId);
+
+    return Ok(MapResponse(list, ownerProfile, userId, includeItems: true));
   }
 
   [HttpPost("{id}/recipes/{recipeId}")]

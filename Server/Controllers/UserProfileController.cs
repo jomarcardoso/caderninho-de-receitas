@@ -120,24 +120,28 @@ public class UserProfileController : ControllerBase
     return Ok(result);
   }
 
-  // PUT api/userprofile/me
-  [HttpPut("me")]
-  public async Task<IActionResult> UpdateMe([FromBody] UserProfileDto request)
+  // PUT api/userprofile/{id}
+  [HttpPut("{id}")]
+  public async Task<IActionResult> Update([FromRoute] string id, [FromBody] UserProfileAdminDto request)
   {
-    var ownerId = GetUserId();
-    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
+    if (string.IsNullOrWhiteSpace(id)) return NotFound();
+
+    var callerId = GetUserId();
+    var isAdmin = IsAdmin();
+    var isOwner = !string.IsNullOrWhiteSpace(callerId) && string.Equals(callerId, id, StringComparison.Ordinal);
+    if (!isOwner && !isAdmin) return Forbid();
 
     var now = DateTime.UtcNow;
     var profile = await _context.UserProfile
       .Include(p => p.Revisions)
       .Include(p => p.PublishedRevision)
       .Include(p => p.LatestRevision)
-      .FirstOrDefaultAsync(p => p.Id == ownerId);
+      .FirstOrDefaultAsync(p => p.Id == id.Trim());
     if (profile is null)
     {
       profile = new UserProfile
       {
-        Id = ownerId,
+        Id = id.Trim(),
         CreatedAtUtc = now,
         UpdatedAtUtc = now,
         LastLoginAtUtc = now,
@@ -151,14 +155,14 @@ public class UserProfileController : ControllerBase
       };
       var revision = new UserProfileRevision
       {
-        UserProfileId = ownerId,
-        DisplayName = string.IsNullOrWhiteSpace(request.DisplayName) ? ownerId : request.DisplayName!.Trim(),
+        UserProfileId = profile.Id,
+        DisplayName = string.IsNullOrWhiteSpace(request.DisplayName) ? profile.Id : request.DisplayName!.Trim(),
         PictureUrl = string.IsNullOrWhiteSpace(request.PictureUrl) ? null : request.PictureUrl!.Trim(),
         Description = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description!.Trim(),
         GivenName = string.IsNullOrWhiteSpace(request.GivenName) ? null : request.GivenName!.Trim(),
         FamilyName = string.IsNullOrWhiteSpace(request.FamilyName) ? null : request.FamilyName!.Trim(),
         Status = RevisionStatus.Approved,
-        CreatedByUserId = ownerId,
+        CreatedByUserId = profile.Id,
         CreatedAtUtc = now,
         UpdatedAtUtc = now
       };
@@ -184,8 +188,8 @@ public class UserProfileController : ControllerBase
       {
         revision = new UserProfileRevision
         {
-          UserProfileId = ownerId,
-          CreatedByUserId = ownerId,
+          UserProfileId = profile.Id,
+          CreatedByUserId = callerId,
           CreatedAtUtc = now,
           UpdatedAtUtc = now,
           Status = RevisionStatus.Approved
@@ -226,6 +230,17 @@ public class UserProfileController : ControllerBase
       profile.UpdatedAtUtc = now;
     }
 
+    if (isAdmin && request is not null)
+    {
+      // Admin-only fields
+      if (request.FeaturedUntil.HasValue)
+      {
+        profile.FeaturedUntil = request.FeaturedUntil;
+        profile.IsFeatured = request.FeaturedUntil > now;
+        profile.FeaturedAt ??= now;
+      }
+    }
+
     await _context.SaveChangesAsync();
 
     try
@@ -245,7 +260,8 @@ public class UserProfileController : ControllerBase
     }
     catch { /* best-effort */ }
 
-    var ctx = new UserProfileViewContext(true, IsAdmin(), false);
-    return Ok(UserProfileResponseBuilder.Build(profile, ctx));
+    var ctx = new UserProfileViewContext(isOwner, isAdmin, false);
+    var response = UserProfileResponseBuilder.Build(profile, ctx);
+    return Ok(response);
   }
 }

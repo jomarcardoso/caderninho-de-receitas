@@ -1,70 +1,35 @@
-import type { Food } from '../food/food.model';
-import type {
-  LanguageText,
-  LanguageTextAndPlural,
-} from '../language/language.types';
-import type { AllNutrientsData } from '../nutrient-data/nutrient-data.model';
+import { FoodSummaryResponse } from '../food/food.response';
+import type { Language } from '../language/language.types';
 import type { AllNutrients } from '../nutrient/nutrient.model';
 import type { RecipeStep } from '../recipe-step';
-import type { RecipeBase } from './recipe.types';
-export interface Recipe extends RecipeBase<RecipeStep>, AllNutrients {
-  food: Food;
+import type { UserProfileSummaryResponse } from '../user/user.response';
+
+export interface Recipe extends AllNutrients {
+  id: number;
+  name: string;
+  keys: string;
+  description?: string | null;
+  additional?: string | null;
+  steps: RecipeStep[];
+  language: Language;
   categories?: string[];
+  food: FoodSummaryResponse;
+  imgs: string[];
+  savedByOthersCount: number;
+  createdAt?: string;
+  updatedAt?: string;
+  owner?: UserProfileSummaryResponse;
   isOwner?: boolean;
-  author?: {
-    id: string;
-    name?: string;
-    img?: string;
-  };
+  shareToken?: string | null;
+  relatedRecipes?: RecipeSummary[];
 }
 
 export interface RecipeSummary {
   id: number;
   name: string;
   imgs: string[];
-  author?: {
-    id: string;
-    name?: string;
-    img?: string;
-  };
+  owner?: UserProfileSummaryResponse;
   savedByOthersCount: number;
   nutritionalInformation: Record<string, number>;
   isOwner: boolean;
 }
-
-export interface RecipesData extends AllNutrientsData {
-  recipes: Recipe[];
-  foods: Food[];
-  measures: LanguageTextAndPlural[];
-  foodTypes: LanguageText[];
-  measurementUnits: LanguageTextAndPlural[];
-  recipeCategories?: import('../common/common.model').Category[];
-  recipeLists?: RecipeList[];
-}
-
-export interface RecipeData extends AllNutrientsData {
-  recipe: Recipe;
-  relatedRecipes: Recipe[];
-  foods: Food[];
-  measures: LanguageTextAndPlural[];
-  foodTypes: LanguageText[];
-  measurementUnits: LanguageTextAndPlural[];
-}
-
-export type RecipeListItem = {
-  recipeListId: number;
-  recipe: Recipe;
-  position: number;
-  createdAt: string;
-};
-
-export type RecipeList = {
-  id: number;
-  ownerId: string;
-  name: string;
-  description?: string | null;
-  isPublic?: boolean;
-  createdAt: string;
-  updatedAt: string;
-  items?: RecipeListItem[];
-};

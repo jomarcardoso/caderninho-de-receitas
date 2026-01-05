@@ -1,17 +1,7 @@
-import type {
-  RecipeResponse,
-  RecipesDataResponse,
-  RecipeDataResponse,
-} from './recipe.response';
+import type { RecipeResponse, RecipeSummaryResponse } from './recipe.response';
 import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import axios from 'axios';
-import {
-  type Recipe,
-  type RecipesData,
-  type RecipeData,
-  type RecipeList,
-  type RecipeListItem,
-} from './recipe.model';
+import { RecipeSummary, type Recipe } from './recipe.model';
 import type { RecipeDto } from './recipe.dto';
 import { translate } from '../language/language.service';
 import { type Language } from '../language/language.types';
@@ -19,23 +9,16 @@ import {
   mapFoodResponseToModel,
   mapFoodsDataResponseToModel,
 } from '../food/food.service';
-import { RECIPES_DATA } from './recipe.data';
 import { type RecipeStepDto } from '../recipe-step';
 import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
-import type {
-  AllNutrients,
-  Nutrient,
-} from '../nutrient/nutrient.model';
+import type { AllNutrients, Nutrient } from '../nutrient/nutrient.model';
 import type {
   AllNutrientsResponse,
   NutrientsResponse,
 } from '../nutrient/nutrient.response';
 import { FOOD } from '../food/food.model';
 import { mapRecipeStepModelToDto } from '../recipe-step/recipe-step.service';
-import {
-  getApiBase,
-  getApiBases,
-} from '../http/api-base';
+import { getApiBases } from '../http/api-base';
 import {
   httpRequest,
   type AuthenticatedRequestConfig,
@@ -121,11 +104,7 @@ export function mapRecipeModelToDto(recipe: Recipe): RecipeDto {
   const categoryKeys = Array.isArray((recipe as any).categories)
     ? ((recipe as any).categories as Array<string | { key?: string }>)
         .map((c) =>
-          typeof c === 'string'
-            ? c
-            : typeof c?.key === 'string'
-            ? c.key
-            : '',
+          typeof c === 'string' ? c : typeof c?.key === 'string' ? c.key : '',
         )
         .filter((k): k is string => typeof k === 'string' && k.length > 0)
     : [];
@@ -147,260 +126,6 @@ export function mapRecipesModelToDto(recipes: Recipe[]): RecipeDto[] {
   return recipes.map(mapRecipeModelToDto);
 }
 
-export function mapRecipeResponseToModel(
-  recipeResponse: RecipeResponse,
-  dataResponse: import('../food/food.response').FoodsDataResponse,
-): Recipe {
-  const foodResponse = dataResponse.foods.find(
-    (food) => food.id === recipeResponse.food?.id,
-  );
-
-  const food = foodResponse
-    ? mapFoodResponseToModel(foodResponse, dataResponse)
-    : FOOD;
-
-  const categoryKeys: string[] = Array.isArray((recipeResponse as any).categories)
-    ? ((recipeResponse as any).categories as string[])
-    : [];
-
-  const categories = categoryKeys
-    .map((raw) => {
-      const key = typeof raw === 'string' ? raw.trim() : '';
-      if (!key) return null;
-      const entry = (dataResponse as any)?.recipeCategories?.[key];
-      if (!entry) return { key, text: { en: key, pt: key }, pluralText: { en: key, pt: key } };
-      return { key, text: entry.text, pluralText: entry.pluralText };
-    })
-    .filter((x): x is { key: string; text: any; pluralText: any } => Boolean(x));
-
-  // Fallback: aggregate nutrients from steps when top-level nutrients are missing
-  const topLevel: AllNutrients = mapAllNutrientsResponseToModel(
-    recipeResponse as unknown as AllNutrientsResponse,
-    dataResponse,
-  );
-
-  function aggregateFromSteps(): AllNutrients {
-    const zero = {} as Record<string, number>;
-    const addInto = (acc: Record<string, number>, src?: Record<string, number>) => {
-      if (!src) return acc;
-      for (const [k, v] of Object.entries(src)) {
-        const n = typeof v === 'number' ? v : 0;
-        acc[k] = (acc[k] ?? 0) + n;
-      }
-      return acc;
-    };
-
-    const sums = (recipeResponse.steps ?? []).reduce(
-      (acc, s: any) => {
-        addInto(acc.ni, s?.nutritionalInformation);
-        addInto(acc.mi, s?.minerals);
-        addInto(acc.vi, s?.vitamins);
-        addInto(acc.aa, s?.aminoAcids);
-        addInto(acc.eaa, s?.essentialAminoAcids);
-        return acc;
-      },
-      { ni: { ...zero }, mi: { ...zero }, vi: { ...zero }, aa: { ...zero }, eaa: { ...zero } },
-    );
-
-    const agg: AllNutrientsResponse = {
-      nutritionalInformation: sums.ni as NutrientsResponse,
-      minerals: sums.mi as NutrientsResponse,
-      vitamins: sums.vi as NutrientsResponse,
-      aminoAcids: sums.aa as NutrientsResponse,
-      essentialAminoAcids: sums.eaa as NutrientsResponse,
-      aminoAcidsScore: 0,
-    };
-
-    return mapAllNutrientsResponseToModel(agg, dataResponse);
-  }
-
-  const needsFallback =
-    (topLevel?.nutritionalInformation?.length ?? 0) === 0 &&
-    Array.isArray(recipeResponse?.steps) &&
-    recipeResponse.steps.length > 0;
-
-  const allNutrients: AllNutrients = needsFallback ? aggregateFromSteps() : topLevel;
-
-  return {
-    ...recipeResponse,
-    ...allNutrients,
-    food,
-    owner: recipeResponse.owner
-      ? {
-          id: recipeResponse.owner.id,
-          displayName: recipeResponse.owner.displayName,
-          pictureUrl: recipeResponse.owner.pictureUrl,
-        }
-      : undefined,
-    categories,
-    steps: recipeResponse.steps.map((stepResponse) => ({
-      ...stepResponse,
-      ...mapAllNutrientsResponseToModel(stepResponse, dataResponse),
-      ingredients: stepResponse.ingredients.map((ingredient) =>
-        mapIngredientResponseToModel(
-          ingredient,
-          mapFoodsDataResponseToModel(dataResponse),
-          dataResponse,
-        ),
-      ),
-    })),
-  };
-}
-
-// export async function fetchRecipeById(id = 0): Promise<Recipe | null> {
-//   if (!id) return null;
-
-//   try {
-//     const res = await fetch('http://localhost:5106/api/recipe/' + id);
-//     const data: RecipeResponse = await res.json();
-
-//     return mapRecipeResponseToModel(data);
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-//   return null;
-// }
-
-export function mapAllRecipesResponseToModel(
-  data: RecipesDataResponse,
-): Recipe[] {
-  return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
-}
-
-export function mapRecipesDataResponseToModel(
-  data: RecipesDataResponse,
-): RecipesData {
-  // If the payload does not contain foods (revision-first minimal payload), map using revision content only.
-  const hasFoods =
-    data && Array.isArray((data as any).foods) && (data as any).foods.length >= 0;
-  if (!hasFoods) {
-    return mapRevisionsPayloadToModel(data as any);
-  }
-
-  const foodsData = mapFoodsDataResponseToModel(data);
-
-  // Pre-map all recipes and index by id for quick lookup when hydrating lists
-  const mappedRecipesAll = mapAllRecipesResponseToModel(data);
-  const byId = new Map<number, Recipe>();
-  for (const r of mappedRecipesAll) {
-    if (typeof r.id === 'number') byId.set(r.id, r);
-  }
-
-  // Compute the set of recipe ids that appear in any list
-  const listedIds = new Set<number>();
-  for (const l of data.recipeLists ?? []) {
-    for (const it of l.items ?? []) {
-      if (typeof (it as any)?.recipeId === 'number')
-        listedIds.add((it as any).recipeId);
-    }
-  }
-
-  // Business rule: do not show recipes "soltas" that are already organized in some list
-  const mappedRecipes = mappedRecipesAll.filter(
-    (r) => !listedIds.has(r.id as number),
-  );
-
-  return {
-    ...foodsData,
-    recipes: mappedRecipes,
-    recipeLists: (data.recipeLists ?? []).map((l) => ({
-      id: l.id,
-      ownerId: l.ownerId,
-      name: l.name,
-      description: l.description ?? null,
-      isPublic: l.isPublic ?? false,
-      createdAt: l.createdAt,
-      updatedAt: l.updatedAt,
-      items: (l.items ?? []).map((it) => ({
-        recipeListId: it.recipeListId,
-        recipe:
-          byId.get(it.recipeId) ??
-          (() => {
-            const fromResp = (data.recipes || []).find(
-              (rr: any) => rr?.id === it.recipeId,
-            );
-            return fromResp
-              ? mapRecipeResponseToModel(fromResp, data as any)
-              : ({} as Recipe);
-          })(),
-        position: it.position,
-        createdAt: it.createdAt,
-      })),
-    })),
-  };
-  // return data.recipes.map((recipe) => mapRecipeResponseToModel(recipe, data));
-}
-
-function mapRevisionsPayloadToModel(raw: any): RecipesData {
-  const recipes: Recipe[] = Array.isArray(raw?.recipes)
-    ? raw.recipes
-        .map((item: any) => {
-          const content = normalizeContent(item?.content);
-          const id =
-            typeof item?.id === 'number'
-              ? item.id
-              : Number(item?.id) > 0
-                ? Number(item?.id)
-                : 0;
-          if (!id) return null;
-          return {
-            id,
-            name: content?.title || content?.name || 'Receita',
-            description: content?.description || content?.additional || '',
-            imgs: Array.isArray(content?.imgs)
-              ? content.imgs
-              : Array.isArray(content?.images)
-                ? content.images
-                : Array.isArray(content?.photos)
-                  ? content.photos
-                  : Array.isArray(content?.food?.imgs)
-                    ? content.food.imgs
-                    : [],
-            steps: [],
-            food: { imgs: [] } as any,
-            nutritionalInformation: [],
-            minerals: [],
-            vitamins: [],
-            aminoAcids: [],
-            essentialAminoAcids: [],
-            language: (content?.language as Language) ?? 'pt',
-          } as Recipe;
-        })
-        .filter((r): r is Recipe => Boolean(r))
-    : [];
-
-  return {
-    ...RECIPES_DATA,
-    recipes,
-    recipeLists: [],
-  };
-}
-
-function normalizeContent(raw: any) {
-  try {
-    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
-    if (parsed?.recipe) return parsed.recipe;
-    return parsed ?? {};
-  } catch {
-    return {};
-  }
-}
-
-// export async function fetchRecipeById(id = 0): Promise<Recipe | null> {
-//   if (!id) return null;
-
-//   try {
-//     const res = await fetch('http://localhost:5106/api/recipe/' + id);
-//     const data: RecipeResponse = await res.json();
-//     const recipe = mapRecipeResponseToModel(data, {
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   return null;
-// }
-
 export async function fetchRecipes(): Promise<RecipesData> {
   try {
     const data = await requestWithFallback<RecipesDataResponse>(`/api/recipe`, {
@@ -411,7 +136,7 @@ export async function fetchRecipes(): Promise<RecipesData> {
     console.error(error);
   }
 
-  return RECIPES_DATA;
+  return [];
 }
 
 /**
@@ -527,17 +252,6 @@ export async function removeRecipeById(id = 0): Promise<RecipesData> {
   }
 
   return RECIPES_DATA;
-}
-
-export function mapRecipeDataResponseToModel(
-  data: RecipeDataResponse,
-): RecipeData {
-  const foodsData = mapFoodsDataResponseToModel(data);
-  const recipe = mapRecipeResponseToModel(data.recipes, data as any);
-  const relatedRecipes = (data.relatedRecipes ?? []).map((r) =>
-    mapRecipeResponseToModel(r, data as any),
-  );
-  return { ...foodsData, recipe, relatedRecipes };
 }
 
 export async function fetchRecipeData(id: number): Promise<RecipeData | null> {

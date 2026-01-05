@@ -41,6 +41,12 @@ public class UserProfileDto
   public List<PersonalPreferenceRestriction>? PersonalPreferences { get; set; }
 }
 
+// Admin-only extra fields
+public class UserProfileAdminDto : UserProfileDto
+{
+  public DateTime? FeaturedUntil { get; set; }
+}
+
 // Public response
 public class UserProfileResponse
 {

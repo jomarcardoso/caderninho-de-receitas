@@ -1,4 +1,13 @@
 import type { RecipeStepDto } from '../recipe-step';
-import type { RecipeContract } from './recipe.types';
+import type { Language } from '../language/language.types';
 
-export type RecipeDto = RecipeContract<RecipeStepDto>;
+export interface RecipeDto {
+  name: string;
+  keys: string;
+  description?: string;
+  additional?: string;
+  steps: RecipeStepDto[];
+  language: Language;
+  imgs?: string[];
+  categories?: string[];
+}

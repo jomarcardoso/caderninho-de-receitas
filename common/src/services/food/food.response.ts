@@ -1,4 +1,3 @@
-import type { CommonDataResponse } from '../common/common.response';
 import type { Food } from './food.model';
 
 export interface FoodIconResponse {
@@ -14,7 +13,3 @@ export interface FoodSummaryResponse {
 }
 
 export type FoodResponse = Food;
-
-export interface FoodsDataResponse extends CommonDataResponse {
-  foods: FoodResponse[];
-}

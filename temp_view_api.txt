@@ -1,7 +1,5 @@
 # API endpoints, DTOs & Responses
 
-<!-- THIS FILE IS SOURCE OF TRUTH. DO NOT EDIT TO BE LIKE THE CODE! -->
-
 ## Common Types
 
 ### MeasurementUnit
@@ -18,80 +16,64 @@
 
 ### MeasureType
 
-`cup` | `smallCup` | `spoon` | `teaSpoon` | `unity` | `unitySmall` | `unityLarge` | `literal` | `can` | `glass` | `breast` | `clove` | `slice` | `bunch` | `ml` | `liter` | `gram` | `kilo` | `pinch`
+`Cup` | `SmallCup` | `Spoon` | `TeaSpoon` | `Unity` | `UnitySmall` | `UnityLarge` | `Literal` | `Can` | `Glass` | `Breast` | `Clove` | `Slice` | `Bunch` | `Ml` | `Liter` | `Gram` | `Kilo` | `Pinch`
 
 ### NutritionalInformationType
 
-`acidification` | `ashes` | `calories` | `carbohydrates` | `cholesterol` | `dietaryFiber` | `gi` | `gl` | `monounsaturatedFats` | `polyunsaturatedFats` | `proteins` | `saturedFats` | `sugar` | `totalFat`
+`Acidification` | `Ashes` | `Calories` | `Carbohydrates` | `Cholesterol` | `DietaryFiber` | `Gi` | `Gl` | `MonounsaturatedFats` | `PolyunsaturatedFats` | `Proteins` | `SaturedFats` | `Sugar` | `TotalFat`
 
 ### MineralType
 
-`calcium` | `copper` | `fluoride` | `iron` | `magnesium` | `manganese` | `phosphorus` | `potassium` | `selenium` | `sodium` | `zinc`
+`Calcium` | `Copper` | `Fluoride` | `Iron` | `Magnesium` | `Manganese` | `Phosphorus` | `Potassium` | `Selenium` | `Sodium` | `Zinc`
 
 ### VitaminType
 
-`a` | `alphaCarotene` | `b1` | `b11` | `b12` | `b2` | `b3` | `b5` | `b6` | `b7` | `b9` | `betaCarotene` | `c` | `choline` | `cryptoxanthinCarotene` | `d` | `d2` | `d3` | `e` | `k` | `lycopene`
+`A` | `AlphaCarotene` | `B1` | `B11` | `B12` | `B2` | `B3` | `B5` | `B6` | `B7` | `B9` | `BetaCarotene` | `C` | `Choline` | `CryptoxanthinCarotene` | `D` | `D2` | `D3` | `E` | `K` | `Lycopene`
 
 ### AminoAcidType
 
-`alanine` | `arginine` | `asparticAcid` | `cystine` | `glutamicAcid` | `glutamine` | `glycine` | `histidine` | `isoleucine` | `leucine` | `lysine` | `methionine` | `phenylalanine` | `proline` | `serine` | `threonine` | `tryptophan` | `tyrosine` | `valine`
+`Alanine` | `Arginine` | `AsparticAcid` | `Cystine` | `GlutamicAcid` | `Glutamine` | `Glycine` | `Histidine` | `Isoleucine` | `Leucine` | `Lysine` | `Methionine` | `Phenylalanine` | `Proline` | `Serine` | `Threonine` | `Tryptophan` | `Tyrosine` | `Valine`
 
 ### EssentialAminoAcidType
 
-`tryptophan` | `phenylalanine` | `leucine` | `valine` | `isoleucine` | `lysine` | `threonine` | `methionine` | `histidine`
+`Tryptophan` | `Phenylalanine` | `Leucine` | `Valine` | `Isoleucine` | `Lysine` | `Threonine` | `Methionine` | `Histidine`
 
 ### FoodCategory
 
 Use `categories` as an array of these slugs (may be empty).
 
-- `originAnimal`, `redMeat`, `whiteMeat`, `fish`, `shellfish`, `eggs`, `dairy`, `honey`,
-- `originPlant`, `seeds`, `oilseeds`, `grains`, `legumes`, `fruits`, `vegetables`, `roots`, `tubers`, `leafy`, `stalk`, `flowers`, `herbs`, `spices`, `fungi`,
-- `originProcessed`, `foodAdditives`, `refinedSugars`, `processedFats`, `fermentedOrigin`, `ultraProcessed`,
-- `plantRoot`, `plantTuber`, `plantRhizome`, `plantBulb`, `plantStem`, `plantLeaf`, `plantFlower`, `plantSeed`,
-- `fleshyFruit`, `dryFruit`, `podLegume`, `citrus`, `solanaceae`, `cucurbitaceae`, `brassicas`, `legumeFamily`, `nutFamily`, `cereals`, `botanicalFungi`,
-- `highLactose`, `lactoseFree`, `highGluten`, `glutenFreeNatural`, `highFiber`, `highGi`, `lowGi`, `highProtein`, `highFat`, `highSodium`, `containsCaffeine`, `fermentedChem`, `highHistamine`,
-- `raw`, `minimallyProcessed`, `smoked`, `cured`, `fried`, `baked`, `grilled`, `boiled`, `dehydrated`, `frozen`, `preserved`,
-- `baseIngredient`, `condiment`, `seasoning`, `sauce`, `beverage`, `sideDish`, `garnish`, `dessert`, `mainProtein`
+- `OriginAnimal`, `RedMeat`, `WhiteMeat`, `Fish`, `Shellfish`, `Eggs`, `Dairy`, `Honey`,
+- `OriginPlant`, `Seeds`, `Oilseeds`, `Grains`, `Legumes`, `Fruits`, `Vegetables`, `Roots`, `Tubers`, `Leafy`, `Stalk`, `Flowers`, `Herbs`, `Spices`, `Fungi`,
+- `OriginProcessed`, `FoodAdditives`, `RefinedSugars`, `ProcessedFats`, `FermentedOrigin`, `UltraProcessed`,
+- `PlantRoot`, `PlantTuber`, `PlantRhizome`, `PlantBulb`, `PlantStem`, `PlantLeaf`, `PlantFlower`, `PlantSeed`,
+- `FleshyFruit`, `DryFruit`, `PodLegume`, `Citrus`, `Solanaceae`, `Cucurbitaceae`, `Brassicas`, `LegumeFamily`, `NutFamily`, `Cereals`, `BotanicalFungi`,
+- `HighLactose`, `LactoseFree`, `HighGluten`, `GlutenFreeNatural`, `HighFiber`, `HighGI`, `LowGI`, `HighProtein`, `HighFat`, `HighSodium`, `ContainsCaffeine`, `FermentedChem`, `HighHistamine`,
+- `Raw`, `MinimallyProcessed`, `Smoked`, `Cured`, `Fried`, `Baked`, `Grilled`, `Boiled`, `Dehydrated`, `Frozen`, `Preserved`,
+- `BaseIngredient`, `Condiment`, `Seasoning`, `Sauce`, `Beverage`, `SideDish`, `Garnish`, `Dessert`, `MainProtein`
 
 ### AllergyRestriction
 
-`peanut` | `treeNuts` | `milk` | `egg` | `wheat` | `soy` | `fish` | `shellfish` | `sesame` | `corn` | `mustard` | `celery` | `sulfite` | `cocoa` | `gelatin`
+`Peanut` | `TreeNuts` | `Milk` | `Egg` | `Wheat` | `Soy` | `Fish` | `Shellfish` | `Sesame` | `Corn` | `Mustard` | `Celery` | `Sulfite` | `Cocoa` | `Gelatin`
 
 ### IntoleranceRestriction
 
-`lactose` | `glutenSensitive` | `fructose` | `histamine` | `friedFatty` | `simpleSugars` | `caffeine`
+`Lactose` | `GlutenSensitive` | `Fructose` | `Histamine` | `FriedFatty` | `SimpleSugars` | `Caffeine`
 
 ### MedicalRestriction
 
-`diabetes` | `prediabetes` | `highCholesterol` | `highTriglycerides` | `hypertension` | `kidneyDisease` | `celiac` | `ibs` | `gerd` | `gastritis` | `crohn` | `ulcerativeColitis`
+`Diabetes` | `Prediabetes` | `HighCholesterol` | `HighTriglycerides` | `Hypertension` | `KidneyDisease` | `Celiac` | `Ibs` | `Gerd` | `Gastritis` | `Crohn` | `UlcerativeColitis`
 
 ### DietStyleRestriction
 
-`vegetarian` | `vegan` | `ovoLacto` | `pescetarian` | `lowCarb` | `keto` | `paleo` | `mediterranean` | `whole30` | `lowFodmap` | `highProtein` | `plantBased`
+`Vegetarian` | `Vegan` | `OvoLacto` | `Pescetarian` | `LowCarb` | `Keto` | `Paleo` | `Mediterranean` | `Whole30` | `LowFodmap` | `HighProtein` | `PlantBased`
 
 ### CulturalRestriction
 
-`kosher` | `halal` | `hindu` | `buddhist` | `adventist`
+`Kosher` | `Halal` | `Hindu` | `Buddhist` | `Adventist`
 
 ### PersonalPreferenceRestriction
 
-`noSpicy` | `noVerySweet` | `noFried` | `noAlcohol` | `noRedMeat` | `noWhiteMeat`
-
-### Role
-
-`keeper` | `moderator` | `admin` | `owner`
-
-### ThemeColor
-
-`primary` | `green` | `red` | `purple`
-
-### TombstoneStatus
-
-`active` | `removedByAuthor` | `policyRemoved`
-
-### Visibility
-
-`private` | `unlisted` | `public`
+`NoSpicy` | `NoVerySweet` | `NoFried` | `NoAlcohol` | `NoRedMeat` | `NoWhiteMeat`
 
 ## Common Interfaces
 
@@ -155,6 +137,12 @@ Object map:
 
 - [`...IconDto`](#icondto)
 - id: `number`
+
+### AuthorSummaryResponse
+
+- id: `string`
+- name: `string`
+- img: `string`
 
 ## Food Interfaces
 
@@ -227,78 +215,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
 
-## UserProfile Interfaces
-
-### UserProfileDto
-
-- themeColor: [`ThemeColor`](#themecolor)
-- locale: `string`
-- language: [`Language`](#language)
-- visibility: [`Visibility`](#visibility)
-- displayName: `string`
-- pictureUrl: `string`
-- description: `string` (max 280)
-- givenName: `string` only admins and owners can see this value not empty
-- familyName: `string` only admins and owners can see this value not empty
-- allergies: [`AllergyRestriction[]`](#allergyrestriction)
-- intolerances: [`IntoleranceRestriction[]`](#intolerancerestriction)
-- medicalRestrictions: [`MedicalRestriction[]`](#medicalrestriction)
-- dietStyles: [`DietStyleRestriction[]`](#dietstylerestriction)
-- culturalRestrictions: [`CulturalRestriction[]`](#culturalrestriction)
-- personalPreferences: [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction)
-
-### UserProfileAdminDto
-
-**Extends:** [UserProfileOwner](#userprofileowner)
-
-- featuredUntil: `string` (date: ISO 8601)
-
-### UserProfileResponse
-
-- id: `string`
-- themeColor: [`ThemeColor`](#themecolor)
-- locale: `string`
-- language: [`Language`](#language)
-- visibility: [`Visibility`](#visibility)
-- displayName: `string`
-- pictureUrl: `string`
-- description: `string` (max 280)
-
-### UserProfileOwnerResponse
-
-**Extends:** [UserProfileResponse](#userprofileresponse)
-
-- emails: `string[]`
-- googleId: `string`
-- googleEmailVerified: `boolean`
-- roles: [`Role[]`](#role)
-- givenName: `string`
-- familyName: `string`
-- allergies: [`AllergyRestriction[]`](#allergyrestriction)
-- intolerances: [`IntoleranceRestriction[]`](#intolerancerestriction)
-- medicalRestrictions: [`MedicalRestriction[]`](#medicalrestriction)
-- dietStyles: [`DietStyleRestriction[]`](#dietstylerestriction)
-- culturalRestrictions: [`CulturalRestriction[]`](#culturalrestriction)
-- personalPreferences: [`PersonalPreferenceRestriction[]`](#personalpreferencerestriction)
-- shareToken: `string | null`
-- moderationNotes: `string`
-- isFeatured: `boolean`
-- featuredUntil: `string` (date: ISO 8601)
-
-### UserProfileAdminResponse
-
-**Extends:** [UserProfileOwnerResponse](#userprofileownerresponse)
-
-- featuredAt: `string` (date: ISO 8601)
-
-### UserProfileSummaryResponse
-
-- id: `string`
-- displayName: `string`
-- pictureUrl: `string`
-- isFeatured: `boolean` only admins and owners can see this option true
-
-## Recipe Interfaces
+## Recipe
 
 ### IngredientResponse
 
@@ -341,13 +258,6 @@ Technical contract for create/update food endpoints and detailed responses.
 
 </details>
 
-### RecipeStepDto
-
-- title: `string`
-- preparation?: `string`
-- additional?: `string`
-- ingredientsText: `string`
-
 ### RecipeStepResponse
 
 - title: `string`
@@ -373,39 +283,15 @@ Technical contract for create/update food endpoints and detailed responses.
 - img: `string` (url)
 - bannerImg: `string` (url)
 
-### RecipeDto
-
-- name: `string`
-- keys: `string`
-- description: `string`
-- additional: `string`
-- language: [`Language`](#language)
-- categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
-- imgs: `string[]`
-- steps: [`RecipeStepDto`](#recipestepdto)
-
 ### RecipeSummaryResponse
 
 - id: `number`
 - name: `string`
 - imgs: `string[]`
-- owner: [`UserProfileSummaryResponse`](#userprofilesummaryresponse)
+- author: [`AuthorSummaryReponse`](#authorsummaryresponse)
 - savedByOthersCount: `number`
 - nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
 - isOwner: `boolean`
-
-### RecipeItemSummaryResponse
-
-- id: `number`
-- name: `string`
-- imgs: `string[]`
-- savedByOthersCount: `number`
-- nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
-
-### RecipeIndexResponse
-
-- id: `number`
-- name: `string`
 
 ### RecipeResponse
 
@@ -416,75 +302,26 @@ Technical contract for create/update food endpoints and detailed responses.
 - additional: `string`
 - [`RecipeStepResponse[]`](#recipestepresponse) steps
 - language: [`Language`](#language)
-- categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
+- [`FoodCategory[]`](#foodcategory) `| string` categories (slugs)
 - food: [`FoodSummaryResponse`](#foodsummaryresponse)
 - imgs: `string[]`
 - savedByOthersCount: `number`
-- createdAt: `string` (date: ISO 8601)
-- updatedAt: `string` (date: ISO 8601)
+- createdAt: `string` (ISO 8601)
+- updatedAt: `string` (ISO 8601)
 - nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
 - minerals: [`Minerals`](#minerals)
 - vitamins: [`Vitamins`](#vitamins)
 - aminoAcids: [`AminoAcids`](#aminoacids)
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
-- owner: [`UserProfileSummaryResponse`](#userprofilesummaryresponse)
+- author: [`AuthorSummaryReponse`](#authorsummaryresponse)
 - isOwner: `boolean`
 - shareToken: `string | null` (only for the owner)
 - relatedRecipes: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
 
-## Recipe List Interfaces
+## Endpoints
 
-### RecipeListDto
-
-- name: `string`
-- description: `string | null`
-- isPublic: `boolean`
-
-### RecipeListResponse
-
-- id: `number`
-- name: `string`
-- description: `string | null`
-- isPublic: `boolean`
-- owner: [`UserProfileSummaryResponse`](#userprofilesummaryresponse)
-- createdAt: `string` (date: ISO 8601)
-- updatedAt: `string` (date: ISO 8601)
-- items: [`RecipeItemSummaryResponse[]`](#recipeitemsummaryresponse)
-
-### RecipeListSummaryResponse
-
-- id: `number`
-- name: `string`
-- description: `string | null`
-- isPublic: `boolean`
-- items: [`RecipeItemSummaryResponse[]`](#recipeitemsummaryresponse)
-
-### RecipeListIndexResponse
-
-- id: `number`
-- name: `string`
-- items: [`RecipeIndexResponse[]`](#recipeindexresponse)
-
-## Workspace Interfaces
-
-### WorkspaceResponse
-
-The lists bring the recipes and "recipes" brings the rest of recipes out of any list.
-
-- userProfile: [`UserProfileResponse`](#userprofileresponse)
-- recipeLists: [`RecipeListSummaryResponse`](#recipelistsummaryresponse)
-- recipes: [`RecipeItemSummaryResponse[]`](#recipeitemsummaryresponse)
-
-### WorkspaceIndexResponse
-
-The lists bring the recipes and "recipes" brings the rest of recipes out of any list.
-
-- userProfile: [`UserProfileResponse`](#userprofileresponse)
-- recipeLists: [`RecipeListIndexResponse`](#recipelistindexresponse)
-- recipes: [`RecipeIndexResponse[]`](#recipeindexresponse)
-
-## Icon Endpoints
+### Icons
 
 Base route: (`api/icon`)
 
@@ -523,7 +360,7 @@ Base route: (`api/icon`)
 - Path: `id` (int)
 - Response: `200 OK` (empty body)
 
-## Food Endpoints
+### Food
 
 Base route: (`api/food`)
 
@@ -614,78 +451,19 @@ Route: (`api/food-edits`)
 - Path: `id` (int)
 - Response: `200 OK` or `404/400`
 
-## User Endpoints
-
-### Auth Endpoints
-
-Base route: (`api/auth`)
-
-`POST /api/auth/google` — login with Google
-
-- Auth: AllowAnonymous
-- Body: `{ idToken: string }`
-- Response: [`UserProfileOwnerResponse`](#userprofileownerresponse)
-
-`POST /api/auth/refresh` — refresh JWT
-
-- Auth: Any authenticated
-- Response: `{ token: string }`
-
-`POST /api/auth/logout` — logout
-
-- Auth: Any authenticated
-- Response: `204 No Content`
-
-### UserProfile Endpoints
-
-Route: (`api/userprofile`)
-
-`GET /api/userprofile`
-
-Show public profiles for any user and show private profiles only for admin users.
-
-- Auth: AdminOrHigher | (AllowAnonymous; only see public revisions)
-- Query:
-  - `text` (string)
-  - `limit` (int, default 20, max 64)
-  - `isFeatured` (boolean)
-- Response: [`UserProfileSummaryResponse[]`](#userprofilesummaryresponse)
-
-`GET /api/userprofile/{id}`
-
-The owner sees the latest version of the UserProfile.
-The other users see the public version if available, if not 404.
-Users with shareToken `/api/userprofile/{id}?shareToken=…` can also see the latest version.
-
-- Auth: AdminOrHigher | logged user (owner) | (AllowAnonymous; only see public revisions)
-- Path: `id` (int)
-- Response: (one of)
-  - [`UserProfileResponse`](#userprofileresponse) Anonymous
-  - [`UserProfileOwnerResponse`](#userprofileownerresponse) Owner or user with share token
-  - [`UserProfileAdminResponse`](#userprofileadminresponse) Admin or higher
-
-`PUT /api/userprofile/{id}`
-
-The owner can edit their own data.
-The admin can edit even more data of other user.
-
-- Auth: AdminOrHigher | logged user (owner)
-- Path: `id` (int)
-- Body:
-  - [`UserProfileDto`](#userprofiledto) Owner
-  - [`UserProfileAdminDto`](#userprofileadmindto) Admin or higher
-- Response:
-  - [`UserProfileOwnerResponse`](#userprofileownerresponse) Owner or user with share token
-  - [`UserProfileAdminResponse`](#userprofileadminresponse) Admin or higher
-
-## Recipe Endpoints
+### Recipe
 
 Base route: (`api/recipe`)
 
 `GET /api/recipe` — list my recipes
 
 - Auth: required (logged user)
-- Response: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
+- Response: [`RecipeSummaryResponse[]`](#recipesdataresponse)
+
+<!-- `GET /api/recipe/data` — list my recipes with complementary data
+
+- Auth: required (logged user)
+- Response: [`RecipesDataResponse`](#recipesdataresponse) -->
 
 `GET /api/recipe/{id}` — get one recipe (published-preferred)
 
@@ -712,20 +490,20 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
 `POST /api/recipe` — create recipe
 
 - Auth: required (logged user)
-- Body: [`RecipeDto`](#recipedto)
+- Body: `RecipeDto`
 - Response: [`RecipeResponse`](#reciperesponse)
 
 `POST /api/recipe/many` — bulk create recipes
 
 - Auth: required (logged user)
-- Body: [`RecipeDto[]`](#recipedto)
+- Body: `RecipeDto[]`
 - Response: [`RecipeResponse[]`](#reciperesponse)
 
 `PUT /api/recipe/{id}` — update recipe
 
 - Auth: required (owner)
 - Path: `id` (int)
-- Body: [`RecipeDto`](#recipedto)
+- Body: `RecipeDto`
 - Response: [`RecipeResponse`](#reciperesponse)
 
 `DELETE /api/recipe/{id}` — delete recipe
@@ -768,69 +546,3 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
 - Query: `limit` (int, default 6, max 64)
 - Response: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
 
-## Recipe List Endpoints
-
-Base route: (`api/recipelist`)
-
-`GET /api/recipelist` — list my recipe lists
-
-- Auth: required (logged user)
-- Response: [`RecipeListSummaryResponse[]`](#recipelistsummaryresponse)
-
-`GET /api/recipelist/index` — list my recipe lists like index
-
-- Auth: required (logged user)
-- Response: [`RecipeListIndexResponse[]`](#recipelistindexresponse)
-
-`GET /api/recipelist/{id}`
-
-This endpoint is going to be evolved. For now only admins can use.
-
-- Auth: AdminOrHigher
-- Path: `id` (int)
-- Response: [`RecipeListResponse`](#recipelistresponse)
-
-`POST /api/recipelist` — create list
-
-- Auth: required (logged user)
-- Body: [`RecipeListDto`](#recipelistdto)
-- Response: [`RecipeListSummaryResponse[]`](#recipelistsummaryresponse)
-
-`PUT /api/recipelist/{id}` — update list
-
-- Auth: required (owner)
-- Path: `id` (int)
-- Body: [`RecipeListDto`](#recipelistdto)
-- Response: [`RecipeListSummaryResponse[]`](#recipelistsummaryresponse)
-
-`DELETE /api/recipelist/{id}` — delete list
-
-- Auth: required (owner)
-- Path: `id` (int)
-- Response: `204 No Content`
-
-`POST /api/recipelist/{id}/recipes/{recipeId}` — add recipe to list
-
-- Auth: required (owner)
-- Path: `id` (int), `recipeId` (int)
-- Response: `201 Created` (false if already present)
-
-`DELETE /api/recipelist/{id}/recipes/{recipeId}` — remove recipe from list
-
-- Auth: required (owner)
-- Path: `id` (int), `recipeId` (int)
-- Response: `204 No Content`
-
-## Workspace Endpoints
-
-Base route: (`api/workspace`)
-
-`GET /api/workspace` — owner workspace (full summaries)
-
-- Auth: required (logged user)
-- Response: [`WorkspaceResponse`](#workspaceresponse)
-
-`GET /api/workspace/index` — owner workspace index (compact for print/export)
-
-- Auth: required (logged user)
-- Response: [`WorkspaceIndexResponse`](#workspaceindexresponse)

@@ -90,8 +90,10 @@ public class RecipeController : ControllerBase
     }
     await _context.SaveChangesAsync();
 
-    var response = await recipeService.GetRecipeSummariesByUserId(ownerId);
-    return Ok(response);
+    var responses = recipesToAdd
+      .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.LatestPreferred, ownerId))
+      .ToList();
+    return Ok(responses);
   }
 
   [HttpPut("{id}")]
@@ -161,7 +163,7 @@ public class RecipeController : ControllerBase
       }
     }
 
-    var response = await recipeService.GetRecipeSummariesByUserId(ownerId);
+    var response = recipeService.BuildRecipeResponse(recipe, RecipeService.RevisionView.LatestPreferred, ownerId);
     return Ok(response);
   }
 
@@ -174,16 +176,7 @@ public class RecipeController : ControllerBase
       .Include(r => r.LatestRevision)
       .Where(r => r.LatestRevision != null && r.LatestRevision.Status == RevisionStatus.PendingReview)
       .OrderByDescending(r => r.CreatedAtUtc)
-      .Select(r => new
-      {
-        r.Id,
-        Name = r.LatestRevision!.Name,
-        Imgs = r.Imgs,
-        OwnerId = r.OwnerId,
-        Visibility = r.Visibility,
-        Status = r.LatestRevision!.Status,
-        r.CreatedAtUtc
-      })
+      .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.LatestPreferred, GetUserId()))
       .ToListAsync();
     return Ok(pending);
   }
@@ -241,8 +234,7 @@ public class RecipeController : ControllerBase
     _context.Recipe.Remove(recipe);
     await _context.SaveChangesAsync();
 
-    var response = await recipeService.GetRecipeSummariesByUserId(claimedUserId);
-    return Ok(response);
+    return Ok();
   }
 
   [HttpGet]
@@ -275,16 +267,7 @@ public class RecipeController : ControllerBase
       .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
       .ToList();
 
-    var foods = FoodService.GetFoodsFromRecipes(recipes);
-
-    var response = new RecipesDataResponse
-    {
-      Recipes = recipeResponses,
-      Foods = _mapper.Map<List<FoodResponse>>(foods),
-      RecipeCategories = await recipeService.BuildCategoryMapAsync()
-    };
-
-    return Ok(response);
+    return Ok(recipeResponses);
   }
 
   [HttpGet("categories")]
@@ -376,22 +359,12 @@ public class RecipeController : ControllerBase
       .Where(r => relatedIds.Contains(r.Id))
       .ToListAsync();
     var relatedResponses = relatedEntities
-      .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
+      .Select(r => recipeService.BuildRecipeSummaryResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
       .ToList();
 
-    var foodList = FoodService.GetFoodsFromRecipes(new List<Recipe> { recipe })
-      .Where(f => f is not null)
-      .DistinctBy(f => f!.Id)
-      .ToList()!;
+    recipeResponse.RelatedRecipes = relatedResponses;
 
-    var response = new RecipeDataResponse
-    {
-      Recipes = recipeResponse,
-      RelatedRecipes = relatedResponses,
-      Foods = _mapper.Map<List<FoodResponse>>(foodList),
-    };
-
-    return Ok(response);
+    return Ok(recipeResponse);
   }
 
   [HttpPost("relations/rebuild")]
@@ -438,7 +411,7 @@ public class RecipeController : ControllerBase
       await _context.SaveChangesAsync();
     }
 
-    var response = await recipeService.GetRecipeSummariesByUserId(ownerId);
+    var response = recipeService.BuildRecipeResponse(recipe, RecipeService.RevisionView.LatestPreferred, ownerId);
     return Ok(response);
   }
 }

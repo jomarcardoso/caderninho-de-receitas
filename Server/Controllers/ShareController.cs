@@ -157,14 +157,11 @@ public class ShareController : ControllerBase
     // Collect foods referenced by the recipe (including steps/ingredients)
     var foods = FoodService.GetFoodsFromRecipes(new List<Recipe> { recipe });
 
-    var response = new RecipeDataResponse
+    return Ok(new
     {
-      Recipes = recipeResponse,
-      RelatedRecipes = new List<RecipeResponse>(),
-      Foods = _mapper.Map<List<FoodResponse>>(foods),
-    };
-
-    return Ok(response);
+      recipe = recipeResponse,
+      foods = _mapper.Map<List<FoodResponse>>(foods),
+    });
   }
 
   private static string GenerateSlug()
