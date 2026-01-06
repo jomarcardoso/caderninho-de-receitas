@@ -83,6 +83,12 @@ public class UserProfileOwnerResponse : UserProfileResponse
   public DateTime? FeaturedUntil { get; set; }
 }
 
+public class UserResponse
+{
+  public string? token { get; set; }
+  public UserProfileOwnerResponse profile { get; set; } = new();
+}
+
 // Admin response (extends owner)
 public class UserProfileAdminResponse : UserProfileOwnerResponse
 {

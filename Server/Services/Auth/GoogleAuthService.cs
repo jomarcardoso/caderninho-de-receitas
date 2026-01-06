@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Google.Apis.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -10,21 +11,28 @@ namespace Server.Services.Auth;
 
 public class GoogleAuthService
 {
-  private readonly IGoogleTokenValidator tokenValidator;
   private readonly ILogger<GoogleAuthService> logger;
   private readonly string[] audiences;
+  private readonly Func<string, GoogleJsonWebSignature.ValidationSettings, CancellationToken, Task<GoogleJsonWebSignature.Payload>> validateAsync;
 
   public GoogleAuthService(
-    IGoogleTokenValidator tokenValidator,
     ILogger<GoogleAuthService> logger,
     IConfiguration configuration)
+    : this(logger, configuration, (token, settings, ct) => GoogleJsonWebSignature.ValidateAsync(token, settings))
   {
-    this.tokenValidator = tokenValidator;
+  }
+
+  internal GoogleAuthService(
+    ILogger<GoogleAuthService> logger,
+    IConfiguration configuration,
+    Func<string, GoogleJsonWebSignature.ValidationSettings, CancellationToken, Task<GoogleJsonWebSignature.Payload>> validateAsync)
+  {
     this.logger = logger;
+    this.validateAsync = validateAsync;
     audiences = ResolveAudiences(configuration);
   }
 
-  public async Task<GoogleUserInfo?> ValidateAsync(
+  public async Task<GoogleJsonWebSignature.Payload?> ValidateAsync(
     string idToken,
     CancellationToken cancellationToken = default)
   {
@@ -35,18 +43,12 @@ public class GoogleAuthService
 
     try
     {
-      var payload = await tokenValidator.ValidateAsync(idToken, audiences, cancellationToken);
-      if (payload is null)
+      var settings = new GoogleJsonWebSignature.ValidationSettings
       {
-        return null;
-      }
+        Audience = audiences.Length > 0 ? audiences : null
+      };
 
-      return new GoogleUserInfo(
-        payload.Name,
-        payload.Email,
-        payload.Picture,
-        payload.GoogleSubject,
-        payload.EmailVerified);
+      return await validateAsync(idToken, settings, cancellationToken);
     }
     catch (Exception exception)
     {
@@ -75,10 +77,3 @@ public class GoogleAuthService
     return normalized.ToArray();
   }
 }
-
-public record GoogleUserInfo(
-  string Name,
-  string Email,
-  string Picture,
-  string GoogleId,
-  bool EmailVerified);

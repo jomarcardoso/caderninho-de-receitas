@@ -16,7 +16,7 @@ export function getApiBase(): string {
       (process.env as any)?.NEXT_PUBLIC_API_BASE_URL) ??
     undefined;
 
-  return trimBase(vite) ?? trimBase(next) ?? FALLBACK_BASES[0];
+  return trimBase(vite) ?? trimBase(next) ?? FALLBACK_BASES[1];
 }
 
 export function getApiBases(): string[] {

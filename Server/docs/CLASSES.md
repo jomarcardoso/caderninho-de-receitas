@@ -355,4 +355,17 @@ Methods:
   - `LanguageText` Keys (search terms)
 - ISearchable (explicit): `LanguageTextBase` Name/Keys mapped to `LanguageText`.
 
+## Factories
+
+### UserProfileFactory
+
+#### FromGooglePayload (static)
+
+Arguments:
+
+- `GoogleJsonWebSignature.Payload` payload,
+- `DateTime?` nowOverride = null
+
+Return: `UserProfile`
+
 ## Services

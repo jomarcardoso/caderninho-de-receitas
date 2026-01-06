@@ -284,6 +284,11 @@ Technical contract for create/update food endpoints and detailed responses.
 - isFeatured: `boolean`
 - featuredUntil: `string` (date: ISO 8601)
 
+### User
+
+- token: `string`
+- profile: [UserProfileOwner](#userprofileowner)
+
 ### UserProfileAdmin
 
 **Extends:** [UserProfileOwner](#userprofileowner)
@@ -623,7 +628,7 @@ Base route: (`api/auth`)
 
 - Auth: AllowAnonymous
 - Body: `{ idToken: string }`
-- Response: [`UserProfileOwner`](#userprofileowner)
+- Response: [`User`](#user)
 
 `POST /api/auth/refresh` — refresh JWT
 

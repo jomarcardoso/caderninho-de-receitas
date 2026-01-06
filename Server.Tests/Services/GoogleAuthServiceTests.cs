@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Google.Apis.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
@@ -13,14 +14,14 @@ namespace Server.Tests.Services;
 [TestFixture]
 public class GoogleAuthServiceTests
 {
-  private FakeGoogleTokenValidator validator = null!;
+  private FakeValidator validator = null!;
   private GoogleAuthService service = null!;
   private ILoggerFactory loggerFactory = null!;
 
   [SetUp]
   public void SetUp()
   {
-    validator = new FakeGoogleTokenValidator();
+    validator = new FakeValidator();
     loggerFactory = LoggerFactory.Create(static builder => { });
     var configuration = new ConfigurationBuilder()
       .AddInMemoryCollection(new Dictionary<string, string?>
@@ -30,9 +31,9 @@ public class GoogleAuthServiceTests
       .Build();
 
     service = new GoogleAuthService(
-      validator,
       loggerFactory.CreateLogger<GoogleAuthService>(),
-      configuration);
+      configuration,
+      validator.ValidateAsync);
   }
 
   [TearDown]
@@ -61,12 +62,19 @@ public class GoogleAuthServiceTests
   [Test]
   public async Task ValidateAsync_ReturnsUserInfo_WhenValidatorSucceeds()
   {
-    validator.PayloadToReturn = new GoogleTokenPayload("sub", "user@email", "User", "picture", true);
+    validator.PayloadToReturn = new GoogleJsonWebSignature.Payload
+    {
+      Subject = "sub",
+      Email = "user@email",
+      Name = "User",
+      Picture = "picture",
+      EmailVerified = true
+    };
 
     var result = await service.ValidateAsync("token");
 
     Assert.That(result, Is.Not.Null);
-    Assert.That(result!.GoogleId, Is.EqualTo("sub"));
+    Assert.That(result!.Subject, Is.EqualTo("sub"));
     Assert.That(result.Email, Is.EqualTo("user@email"));
     Assert.That(result.Name, Is.EqualTo("User"));
     Assert.That(result.Picture, Is.EqualTo("picture"));
@@ -92,20 +100,20 @@ public class GoogleAuthServiceTests
     Assert.That(result, Is.Null);
   }
 
-  private sealed class FakeGoogleTokenValidator : IGoogleTokenValidator
+  private sealed class FakeValidator
   {
     public string? LastToken { get; private set; }
     public IReadOnlyList<string>? LastAudiences { get; private set; }
-    public GoogleTokenPayload? PayloadToReturn { get; set; }
+    public GoogleJsonWebSignature.Payload? PayloadToReturn { get; set; }
     public Exception? ExceptionToThrow { get; set; }
 
-    public Task<GoogleTokenPayload?> ValidateAsync(
+    public Task<GoogleJsonWebSignature.Payload?> ValidateAsync(
       string idToken,
-      IEnumerable<string> audiences,
+      GoogleJsonWebSignature.ValidationSettings settings,
       CancellationToken cancellationToken = default)
     {
       LastToken = idToken;
-      LastAudiences = audiences?.ToList();
+      LastAudiences = settings.Audience?.ToList();
 
       if (ExceptionToThrow is not null)
       {

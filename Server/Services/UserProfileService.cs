@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Server.Models;
 using Server.Shared;
@@ -7,11 +8,13 @@ namespace Server.Services;
 
 public class UserProfileService
 {
+  private readonly IClaimsTransformation claimsTransformation;
   private readonly AppDbContext _context;
 
-  public UserProfileService(AppDbContext context)
+  public UserProfileService(AppDbContext context, IClaimsTransformation claimsTransformation)
   {
     _context = context;
+    this.claimsTransformation = claimsTransformation;
   }
 
   public static string? GetClaim(ClaimsPrincipal user, string type)
@@ -170,13 +173,13 @@ public class UserProfileService
     return profile;
   }
 
-  public async Task<UserProfile?> GetByOwnerIdAsync(string ownerId)
+  public async Task<UserProfile?> GetByOwnerIdAsync(string ownerId, CancellationToken ct = default)
   {
     return await _context.UserProfile
       .Include(p => p.PublishedRevision)
       .Include(p => p.LatestRevision)
       .Include(p => p.Revisions)
-      .FirstOrDefaultAsync(p => p.Id == ownerId);
+      .FirstOrDefaultAsync(p => p.Id == ownerId, ct);
   }
 
   public async Task<List<UserProfile>> GetFeaturedAsync(int quantity = 6)
@@ -203,5 +206,31 @@ public class UserProfileService
     profile.UpdatedAtUtc = DateTime.UtcNow;
     await _context.SaveChangesAsync();
     return true;
+  }
+
+  public async Task<List<Role>> GetRolesAsync(UserProfile profile, CancellationToken ct = default)
+  {
+    if (profile is null) return [];
+
+    // Base claims: id + all known emails (from profile)
+    var baseClaims = new List<Claim>
+    {
+      new Claim(ClaimTypes.NameIdentifier, profile.Id)
+    };
+    foreach (var email in profile.Emails.Where(e => !string.IsNullOrWhiteSpace(e)))
+    {
+      baseClaims.Add(new Claim(ClaimTypes.Email, email));
+    }
+
+    var principal = new ClaimsPrincipal(new ClaimsIdentity(baseClaims, "profile"));
+    var transformed = await claimsTransformation.TransformAsync(principal);
+
+    return transformed.Claims
+      .Where(c => c.Type == ClaimTypes.Role)
+      .Select(c => Enum.TryParse<Role>(c.Value, true, out var parsed) ? parsed : (Role?)null)
+      .Where(r => r.HasValue)
+      .Select(r => r!.Value)
+      .Distinct()
+      .ToList();
   }
 }

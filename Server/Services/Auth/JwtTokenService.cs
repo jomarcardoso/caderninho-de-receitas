@@ -21,7 +21,7 @@ public class JwtTokenService
     _key = Encoding.UTF8.GetBytes(_options.Secret);
   }
 
-  public string GenerateToken(string subject, string email, string? name, IEnumerable<Claim>? extraClaims = null)
+  public string GenerateToken(string subject, string email, string? name)
   {
     var claims = new List<Claim>
     {
@@ -31,10 +31,6 @@ public class JwtTokenService
     if (!string.IsNullOrWhiteSpace(name))
     {
       claims.Add(new Claim(ClaimTypes.Name, name!));
-    }
-    if (extraClaims is not null)
-    {
-      claims.AddRange(extraClaims);
     }
 
     var credentials = new SigningCredentials(new SymmetricSecurityKey(_key), SecurityAlgorithms.HmacSha256);

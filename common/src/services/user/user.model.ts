@@ -43,6 +43,11 @@ export interface UserProfileOwner extends UserProfile {
   featuredUntil?: string | null;
 }
 
+export interface User {
+  token: string;
+  profile: UserProfileOwner;
+}
+
 export interface UserProfileAdmin extends UserProfileOwner {
   featuredAt?: string | null;
 }

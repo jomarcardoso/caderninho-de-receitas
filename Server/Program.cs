@@ -69,7 +69,6 @@ builder.Services.AddSingleton<RecipeImageOcrService>();
 builder.Services.AddScoped<IImageOptimizationService, ImageOptimizationService>();
 builder.Services.Configure<GcsOptions>(builder.Configuration.GetSection("Gcs"));
 builder.Services.AddSingleton<GcsStorageService>();
-builder.Services.AddScoped<IGoogleTokenValidator, GoogleJsonWebSignatureTokenValidator>();
 builder.Services.AddScoped<GoogleAuthService>();
 builder.Services.AddSingleton<AzureBlobSasService>();
 builder.Services.AddScoped<UserProfileService>();

@@ -75,6 +75,15 @@ public static class UserProfileResponseBuilder
     return response;
   }
 
+  public static UserProfileOwnerResponse BuildOwnerResponse(UserProfile profile)
+  {
+    var ctx = new UserProfileViewContext(
+      IsOwner: true,
+      IsAdmin: false,
+      HasShareToken: !string.IsNullOrWhiteSpace(profile.ShareToken));
+    return (UserProfileOwnerResponse)Build(profile, ctx);
+  }
+
   public static UserProfileSummaryResponse BuildSummary(UserProfile profile, bool isAdmin, string? callerId)
   {
     var revision = PickRevision(profile, preferLatest: false);
