@@ -1,4 +1,4 @@
-import type { UserProfileOwnerResponse } from '../user/user.response';
+import type { UserProfileOwner } from '../user/user.model';
 import {
   appendAuthHeader,
   decodeTokenPayload,
@@ -7,7 +7,7 @@ import {
 
 export interface GoogleLoginSuccess {
   token: string;
-  user: UserProfileOwnerResponse;
+  user: UserProfileOwner;
 }
 
 interface GoogleLoginErrorResponse {
@@ -50,11 +50,10 @@ export async function authenticateWithGoogle(
   return (await response.json()) as GoogleLoginSuccess;
 }
 
-export async function fetchMe(): Promise<UserProfileOwnerResponse | null> {
+export async function fetchMe(): Promise<UserProfileOwner | null> {
   const token = getAuthToken();
   const payload = decodeTokenPayload<{ nameid?: string; sub?: string }>(token);
-  const ownerId =
-    (payload?.nameid || payload?.sub || '').trim() || undefined;
+  const ownerId = (payload?.nameid || payload?.sub || '').trim() || undefined;
   if (!ownerId) return null;
 
   try {
@@ -68,7 +67,7 @@ export async function fetchMe(): Promise<UserProfileOwnerResponse | null> {
       },
     );
     if (!response.ok) return null;
-    return (await response.json()) as UserProfileOwnerResponse;
+    return (await response.json()) as UserProfileOwner;
   } catch {
     return null;
   }
@@ -85,5 +84,3 @@ export async function hasKeeperPermission(): Promise<boolean> {
     roles.includes('owner')
   );
 }
-
-

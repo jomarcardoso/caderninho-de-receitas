@@ -146,12 +146,11 @@ Object map:
 
 ### IconDto
 
-- id: `number`
 - name: [`LanguageText`](#languagetext)
 - url: `string`
 - keys: [`LanguageText`](#languagetext)
 
-### IconResponse
+### Icon
 
 - [`...IconDto`](#icondto)
 - id: `number`
@@ -253,7 +252,7 @@ Technical contract for create/update food endpoints and detailed responses.
 
 - featuredUntil: `string` (date: ISO 8601)
 
-### UserProfileResponse
+### UserProfile
 
 - id: `string`
 - themeColor: [`ThemeColor`](#themecolor)
@@ -264,9 +263,9 @@ Technical contract for create/update food endpoints and detailed responses.
 - pictureUrl: `string`
 - description: `string` (max 280)
 
-### UserProfileOwnerResponse
+### UserProfileOwner
 
-**Extends:** [UserProfileResponse](#userprofileresponse)
+**Extends:** [UserProfile](#userprofile)
 
 - emails: `string[]`
 - googleId: `string`
@@ -285,13 +284,13 @@ Technical contract for create/update food endpoints and detailed responses.
 - isFeatured: `boolean`
 - featuredUntil: `string` (date: ISO 8601)
 
-### UserProfileAdminResponse
+### UserProfileAdmin
 
-**Extends:** [UserProfileOwnerResponse](#userprofileownerresponse)
+**Extends:** [UserProfileOwner](#userprofileowner)
 
 - featuredAt: `string` (date: ISO 8601)
 
-### UserProfileSummaryResponse
+### UserProfileSummary
 
 - id: `string`
 - displayName: `string`
@@ -303,7 +302,7 @@ Technical contract for create/update food endpoints and detailed responses.
 ### IngredientResponse
 
 - text: `string`
-- food: [`FoodSummaryResponse`](#foodsummaryresponse)
+- food: [`FoodSummaryResponse`](#foodsummary)
 - quantity: `number` (in grams)
 - measureType: [`MeasureType`](#measuretype)
 - measureQuantity: `number`
@@ -348,7 +347,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - additional?: `string`
 - ingredientsText: `string`
 
-### RecipeStepResponse
+### RecipeStep
 
 - title: `string`
 - preparation: `string`
@@ -362,7 +361,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - AminoAcidsScore: `number`
 
-### RecipeCategoryResponse
+### RecipeCategory
 
 - id: `number`
 - name: [`LanguageText`](#languagetext)
@@ -384,17 +383,17 @@ Technical contract for create/update food endpoints and detailed responses.
 - imgs: `string[]`
 - steps: [`RecipeStepDto`](#recipestepdto)
 
-### RecipeSummaryResponse
+### RecipeSummary
 
 - id: `number`
 - name: `string`
 - imgs: `string[]`
-- owner: [`UserProfileSummaryResponse`](#userprofilesummaryresponse)
+- owner: [`UserProfileSummary`](#userprofilesummary)
 - savedByOthersCount: `number`
 - nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
 - isOwner: `boolean`
 
-### RecipeItemSummaryResponse
+### RecipeItemSummary
 
 - id: `number`
 - name: `string`
@@ -402,22 +401,22 @@ Technical contract for create/update food endpoints and detailed responses.
 - savedByOthersCount: `number`
 - nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
 
-### RecipeIndexResponse
+### RecipeIndex
 
 - id: `number`
 - name: `string`
 
-### RecipeResponse
+### Recipe
 
 - id: `number`
 - name: `string`
 - keys: `string`
 - description: `string`
 - additional: `string`
-- [`RecipeStepResponse[]`](#recipestepresponse) steps
+- [`RecipeStep[]`](#recipestep) steps
 - language: [`Language`](#language)
 - categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
-- food: [`FoodSummaryResponse`](#foodsummaryresponse)
+- food: [`FoodSummaryResponse`](#foodsummary)
 - imgs: `string[]`
 - savedByOthersCount: `number`
 - createdAt: `string` (date: ISO 8601)
@@ -428,10 +427,10 @@ Technical contract for create/update food endpoints and detailed responses.
 - aminoAcids: [`AminoAcids`](#aminoacids)
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
-- owner: [`UserProfileSummaryResponse`](#userprofilesummaryresponse)
+- owner: [`UserProfileSummary`](#userprofilesummary)
 - isOwner: `boolean`
 - shareToken: `string | null` (only for the owner)
-- relatedRecipes: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
+- relatedRecipes: [`RecipeSummary[]`](#recipesummary)
 
 ## Recipe List Interfaces
 
@@ -441,48 +440,48 @@ Technical contract for create/update food endpoints and detailed responses.
 - description: `string | null`
 - isPublic: `boolean`
 
-### RecipeListResponse
+### RecipeList
 
 - id: `number`
 - name: `string`
 - description: `string | null`
 - isPublic: `boolean`
-- owner: [`UserProfileSummaryResponse`](#userprofilesummaryresponse)
+- owner: [`UserProfileSummary`](#userprofilesummary)
 - createdAt: `string` (date: ISO 8601)
 - updatedAt: `string` (date: ISO 8601)
-- items: [`RecipeItemSummaryResponse[]`](#recipeitemsummaryresponse)
+- items: [`RecipeItemSummary[]`](#recipeitemsummary)
 
-### RecipeListSummaryResponse
+### RecipeListSummary
 
 - id: `number`
 - name: `string`
 - description: `string | null`
 - isPublic: `boolean`
-- items: [`RecipeItemSummaryResponse[]`](#recipeitemsummaryresponse)
+- items: [`RecipeItemSummary[]`](#recipeitemsummary)
 
-### RecipeListIndexResponse
+### RecipeListIndex
 
 - id: `number`
 - name: `string`
-- items: [`RecipeIndexResponse[]`](#recipeindexresponse)
+- items: [`RecipeIndex[]`](#recipeindex)
 
 ## Workspace Interfaces
 
-### WorkspaceResponse
+### Workspace
 
 The lists bring the recipes and "recipes" brings the rest of recipes out of any list.
 
-- userProfile: [`UserProfileResponse`](#userprofileresponse)
-- recipeLists: [`RecipeListSummaryResponse`](#recipelistsummaryresponse)
-- recipes: [`RecipeItemSummaryResponse[]`](#recipeitemsummaryresponse)
+- userProfile: [`UserProfile`](#userprofile)
+- recipeLists: [`RecipeListSummary`](#recipelistsummary)
+- recipes: [`RecipeItemSummary[]`](#recipeitemsummary)
 
-### WorkspaceIndexResponse
+### WorkspaceIndex
 
 The lists bring the recipes and "recipes" brings the rest of recipes out of any list.
 
-- userProfile: [`UserProfileResponse`](#userprofileresponse)
-- recipeLists: [`RecipeListIndexResponse`](#recipelistindexresponse)
-- recipes: [`RecipeIndexResponse[]`](#recipeindexresponse)
+- userProfile: [`UserProfile`](#userprofile)
+- recipeLists: [`RecipeListIndex`](#recipelistindex)
+- recipes: [`RecipeIndex[]`](#recipeindex)
 
 ## Icon Endpoints
 
@@ -491,12 +490,12 @@ Base route: (`api/icon`)
 `GET /api/icon` — icon lookup
 
 - Auth: AdminOrHigher
-- Response: [`IconResponse[]`](#iconresponse)
+- Response: [`Icon[]`](#icon)
 
 `GET /api/icon/{id}` — icon lookup
 
 - Auth: AdminOrHigher
-- Response: [`IconResponse[]`](#iconresponse)
+- Response: [`Icon[]`](#icon)
 
 `POST /api/icon` — create icon
 
@@ -534,32 +533,32 @@ Base route: (`api/food`)
   - `text` (string)
   - `categories` (csv)
   - `limit` (int, default 20, max 64)
-- Response: [`FoodSummaryResponse[]`](#foodsummaryresponse)
+- Response: [`FoodSummaryResponse[]`](#foodsummary)
 
 `GET /api/food/{id}` — get one food (full)
 
 - Auth: KeeperOrHigher
 - Path: `id` (int)
-- Response: [`FoodResponse`](#foodresponse)
+- Response: [`FoodResponse`](#food)
 
 `POST /api/food` — create food
 
 - Auth: AdminOrHigher
 - Body: `FoodDto`
-- Response: [`FoodResponse`](#foodresponse)
+- Response: [`FoodResponse`](#food)
 
 `POST /api/food/many` — create a list of food
 
 - Auth: AdminOrHigher
 - Body: `FoodDto[]`
-- Response: [`FoodResponse[]`](#foodresponse)
+- Response: [`FoodResponse[]`](#food)
 
 `PUT /api/food/{id}` — update food
 
 - Auth: AdminOrHigher
 - Path: `id` (int)
 - Body: `FoodDto`
-- Response: [`FoodResponse`](#foodresponse)
+- Response: [`FoodResponse`](#food)
 
 `DELETE /api/food/{id}` — delete food
 
@@ -624,7 +623,7 @@ Base route: (`api/auth`)
 
 - Auth: AllowAnonymous
 - Body: `{ idToken: string }`
-- Response: [`UserProfileOwnerResponse`](#userprofileownerresponse)
+- Response: [`UserProfileOwner`](#userprofileowner)
 
 `POST /api/auth/refresh` — refresh JWT
 
@@ -649,7 +648,7 @@ Show public profiles for any user and show private profiles only for admin users
   - `text` (string)
   - `limit` (int, default 20, max 64)
   - `isFeatured` (boolean)
-- Response: [`UserProfileSummaryResponse[]`](#userprofilesummaryresponse)
+- Response: [`UserProfileSummary[]`](#userprofilesummary)
 
 `GET /api/userprofile/{id}`
 
@@ -660,9 +659,9 @@ Users with shareToken `/api/userprofile/{id}?shareToken=…` can also see the la
 - Auth: AdminOrHigher | logged user (owner) | (AllowAnonymous; only see public revisions)
 - Path: `id` (int)
 - Response: (one of)
-  - [`UserProfileResponse`](#userprofileresponse) Anonymous
-  - [`UserProfileOwnerResponse`](#userprofileownerresponse) Owner or user with share token
-  - [`UserProfileAdminResponse`](#userprofileadminresponse) Admin or higher
+  - [`UserProfile`](#userprofile) Anonymous
+  - [`UserProfileOwner`](#userprofileowner) Owner or user with share token
+  - [`UserProfileAdmin`](#userprofileadmin) Admin or higher
 
 `PUT /api/userprofile/{id}`
 
@@ -675,8 +674,8 @@ The admin can edit even more data of other user.
   - [`UserProfileDto`](#userprofiledto) Owner
   - [`UserProfileAdminDto`](#userprofileadmindto) Admin or higher
 - Response:
-  - [`UserProfileOwnerResponse`](#userprofileownerresponse) Owner or user with share token
-  - [`UserProfileAdminResponse`](#userprofileadminresponse) Admin or higher
+  - [`UserProfileOwner`](#userprofileowner) Owner or user with share token
+  - [`UserProfileAdmin`](#userprofileadmin) Admin or higher
 
 ## Recipe Endpoints
 
@@ -685,7 +684,7 @@ Base route: (`api/recipe`)
 `GET /api/recipe` — list my recipes
 
 - Auth: required (logged user)
-- Response: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
+- Response: [`RecipeSummary[]`](#recipesummary)
 
 `GET /api/recipe/{id}` — get one recipe (published-preferred)
 
@@ -698,7 +697,7 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
 - Query:
   - `relatedRecipesLimit` (int, default 5, max 5) related suggestions
   - `relatedRecipesExcludeSameOwner` (bool, default false)
-- Response: [`RecipeResponse`](#reciperesponse)
+- Response: [`Recipe`](#recipe)
 
 `GET /api/recipe/search` — search public recipes
 
@@ -707,26 +706,26 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
   - `text` (string)
   - `categories` (csv or repeated)
   - `limit` (int, default 20, max 64)
-- Response: [`RecipeResponse[]`](#reciperesponse)
+- Response: [`Recipe[]`](#recipe)
 
 `POST /api/recipe` — create recipe
 
 - Auth: required (logged user)
 - Body: [`RecipeDto`](#recipedto)
-- Response: [`RecipeResponse`](#reciperesponse)
+- Response: [`Recipe`](#recipe)
 
 `POST /api/recipe/many` — bulk create recipes
 
 - Auth: required (logged user)
 - Body: [`RecipeDto[]`](#recipedto)
-- Response: [`RecipeResponse[]`](#reciperesponse)
+- Response: [`Recipe[]`](#recipe)
 
 `PUT /api/recipe/{id}` — update recipe
 
 - Auth: required (owner)
 - Path: `id` (int)
 - Body: [`RecipeDto`](#recipedto)
-- Response: [`RecipeResponse`](#reciperesponse)
+- Response: [`Recipe`](#recipe)
 
 `DELETE /api/recipe/{id}` — delete recipe
 
@@ -737,12 +736,12 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
 `GET /api/recipe/categories` — recipe category lookup
 
 - Auth: optional (AllowAnonymous)
-- Response: [`RecipeCategoryResponse[]`](#recipecategoryresponse)
+- Response: [`RecipeCategory[]`](#recipecategory)
 
 `GET /api/recipe/pending` — list pending recipes
 
 - Auth: AdminOrHigher
-- Response: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
+- Response: [`RecipeSummary[]`](#recipesummary)
 
 `POST /api/recipe/{id}/approve` — approve/publish recipe
 
@@ -766,7 +765,7 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
 
 - Auth: optional (AllowAnonymous)
 - Query: `limit` (int, default 6, max 64)
-- Response: [`RecipeSummaryResponse[]`](#recipesummaryresponse)
+- Response: [`RecipeSummary[]`](#recipesummary)
 
 ## Recipe List Endpoints
 
@@ -775,12 +774,12 @@ Base route: (`api/recipelist`)
 `GET /api/recipelist` — list my recipe lists
 
 - Auth: required (logged user)
-- Response: [`RecipeListSummaryResponse[]`](#recipelistsummaryresponse)
+- Response: [`RecipeListSummary[]`](#recipelistsummary)
 
 `GET /api/recipelist/index` — list my recipe lists like index
 
 - Auth: required (logged user)
-- Response: [`RecipeListIndexResponse[]`](#recipelistindexresponse)
+- Response: [`RecipeListIndex[]`](#recipelistindex)
 
 `GET /api/recipelist/{id}`
 
@@ -788,20 +787,20 @@ This endpoint is going to be evolved. For now only admins can use.
 
 - Auth: AdminOrHigher
 - Path: `id` (int)
-- Response: [`RecipeListResponse`](#recipelistresponse)
+- Response: [`RecipeList`](#recipelist)
 
 `POST /api/recipelist` — create list
 
 - Auth: required (logged user)
 - Body: [`RecipeListDto`](#recipelistdto)
-- Response: [`RecipeListSummaryResponse[]`](#recipelistsummaryresponse)
+- Response: [`RecipeListSummary[]`](#recipelistsummary)
 
 `PUT /api/recipelist/{id}` — update list
 
 - Auth: required (owner)
 - Path: `id` (int)
 - Body: [`RecipeListDto`](#recipelistdto)
-- Response: [`RecipeListSummaryResponse[]`](#recipelistsummaryresponse)
+- Response: [`RecipeListSummary[]`](#recipelistsummary)
 
 `DELETE /api/recipelist/{id}` — delete list
 
@@ -828,9 +827,9 @@ Base route: (`api/workspace`)
 `GET /api/workspace` — owner workspace (full summaries)
 
 - Auth: required (logged user)
-- Response: [`WorkspaceResponse`](#workspaceresponse)
+- Response: [`Workspace`](#workspace)
 
 `GET /api/workspace/index` — owner workspace index (compact for print/export)
 
 - Auth: required (logged user)
-- Response: [`WorkspaceIndexResponse`](#workspaceindexresponse)
+- Response: [`WorkspaceIndex`](#workspaceindex)

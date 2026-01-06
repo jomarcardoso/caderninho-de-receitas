@@ -1,2 +1,2 @@
-export * from './workspace.response';
+export * from './workspace.model';
 export * from './workspace.api';

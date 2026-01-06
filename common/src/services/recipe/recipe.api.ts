@@ -2,12 +2,12 @@ import { getApiBase } from '../http/api-base';
 import { httpRequest } from '../http/http-client';
 import type { Category } from '../common/common.model';
 import type { RecipeDto } from './recipe.dto';
-import type { RecipeResponse, RecipeSummaryResponse } from './recipe.response';
+import { RecipeSummary } from '@/components/recipe-lists/recipe-lists';
 
 const API_BASE = () => `${getApiBase()}/api/recipe`;
 
-export async function listMyRecipes(): Promise<RecipeSummaryResponse[]> {
-  const res = await httpRequest<RecipeSummaryResponse[]>({
+export async function listMyRecipes(): Promise<RecipeSummary[]> {
+  const res = await httpRequest<RecipeSummary[]>({
     url: API_BASE(),
     method: 'GET',
   });
@@ -21,7 +21,7 @@ export async function getRecipeById(
     relatedRecipesExcludeSameOwner?: boolean;
     shareToken?: string;
   },
-): Promise<RecipeResponse> {
+): Promise<Recipe> {
   const params = new URLSearchParams();
   if (opts?.relatedRecipesLimit !== undefined)
     params.set('count', String(opts.relatedRecipesLimit));
@@ -32,7 +32,7 @@ export async function getRecipeById(
     );
   if (opts?.shareToken) params.set('shareToken', opts.shareToken);
 
-  const res = await httpRequest<RecipeResponse>({
+  const res = await httpRequest<Recipe>({
     url: `${API_BASE()}/${id}${params.toString() ? `?${params}` : ''}`,
     method: 'GET',
     skipAuth: !opts?.shareToken,
@@ -44,14 +44,14 @@ export async function searchRecipes(params: {
   text?: string;
   categories?: string[];
   limit?: number;
-}): Promise<RecipeResponse[]> {
+}): Promise<Recipe[]> {
   const sp = new URLSearchParams();
   if (params.text) sp.set('text', params.text);
   if (params.categories?.length)
     sp.set('categories', params.categories.join(','));
   if (params.limit !== undefined) sp.set('quantity', String(params.limit));
 
-  const res = await httpRequest<RecipeResponse[]>({
+  const res = await httpRequest<Recipe[]>({
     url: `${API_BASE()}/search${sp.toString() ? `?${sp}` : ''}`,
     method: 'GET',
     skipAuth: true,
@@ -59,8 +59,8 @@ export async function searchRecipes(params: {
   return res.data;
 }
 
-export async function createRecipe(dto: RecipeDto): Promise<RecipeResponse> {
-  const res = await httpRequest<RecipeResponse>({
+export async function createRecipe(dto: RecipeDto): Promise<Recipe> {
+  const res = await httpRequest<Recipe>({
     url: API_BASE(),
     method: 'POST',
     data: dto,
@@ -68,10 +68,8 @@ export async function createRecipe(dto: RecipeDto): Promise<RecipeResponse> {
   return res.data;
 }
 
-export async function createRecipes(
-  dtos: RecipeDto[],
-): Promise<RecipeResponse[]> {
-  const res = await httpRequest<RecipeResponse[]>({
+export async function createRecipes(dtos: RecipeDto[]): Promise<Recipe[]> {
+  const res = await httpRequest<Recipe[]>({
     url: `${API_BASE()}/many`,
     method: 'POST',
     data: dtos,
@@ -82,8 +80,8 @@ export async function createRecipes(
 export async function updateRecipe(
   id: number,
   dto: RecipeDto,
-): Promise<RecipeResponse> {
-  const res = await httpRequest<RecipeResponse>({
+): Promise<Recipe> {
+  const res = await httpRequest<Recipe>({
     url: `${API_BASE()}/${id}`,
     method: 'PUT',
     data: dto,
@@ -107,8 +105,8 @@ export async function getRecipeCategories(): Promise<Category[]> {
   return res.data;
 }
 
-export async function listPendingRecipes(): Promise<RecipeResponse[]> {
-  const res = await httpRequest<RecipeResponse[]>({
+export async function listPendingRecipes(): Promise<Recipe[]> {
+  const res = await httpRequest<Recipe[]>({
     url: `${API_BASE()}/pending`,
     method: 'GET',
   });
@@ -144,8 +142,8 @@ export async function rebuildRecipeRelations(
 
 export async function getMostCopiedRecipes(
   limit = 6,
-): Promise<RecipeSummaryResponse[]> {
-  const res = await httpRequest<RecipeSummaryResponse[]>({
+): Promise<RecipeSummary[]> {
+  const res = await httpRequest<RecipeSummary[]>({
     url: `${API_BASE()}/most-copied?quantity=${limit}`,
     method: 'GET',
     skipAuth: true,

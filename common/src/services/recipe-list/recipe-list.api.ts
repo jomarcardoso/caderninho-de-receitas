@@ -1,34 +1,32 @@
 import { getApiBase } from '../http/api-base';
 import { httpRequest } from '../http/http-client';
 import type { RecipeListDto } from './recipe-list.dto';
-import type {
-  RecipeListResponse,
-  RecipeListSummaryResponse,
-  RecipeListIndexResponse,
-} from './recipe-list.response';
+import {
+  RecipeList,
+  RecipeListIndex,
+  RecipeListSummary,
+} from './recipe-list.model';
 
 const API_BASE = () => `${getApiBase()}/api/recipelist`;
 
-export async function listRecipeLists(): Promise<RecipeListSummaryResponse[]> {
-  const res = await httpRequest<RecipeListSummaryResponse[]>({
+export async function listRecipeLists(): Promise<RecipeListSummary[]> {
+  const res = await httpRequest<RecipeListSummary[]>({
     url: API_BASE(),
     method: 'GET',
   });
   return res.data;
 }
 
-export async function getRecipeList(id: number): Promise<RecipeListResponse> {
-  const res = await httpRequest<RecipeListResponse>({
+export async function getRecipeList(id: number): Promise<RecipeList> {
+  const res = await httpRequest<RecipeList>({
     url: `${API_BASE()}/${id}`,
     method: 'GET',
   });
   return res.data;
 }
 
-export async function listRecipeListIndex(): Promise<
-  RecipeListIndexResponse[]
-> {
-  const res = await httpRequest<RecipeListIndexResponse[]>({
+export async function listRecipeListIndex(): Promise<RecipeListIndex[]> {
+  const res = await httpRequest<RecipeListIndex[]>({
     url: `${API_BASE()}/index`,
     method: 'GET',
   });
@@ -37,8 +35,8 @@ export async function listRecipeListIndex(): Promise<
 
 export async function createRecipeList(
   dto: RecipeListDto,
-): Promise<RecipeListResponse> {
-  const res = await httpRequest<RecipeListResponse>({
+): Promise<RecipeList> {
+  const res = await httpRequest<RecipeList>({
     url: API_BASE(),
     method: 'POST',
     data: dto,
@@ -49,8 +47,8 @@ export async function createRecipeList(
 export async function updateRecipeList(
   id: number,
   dto: RecipeListDto,
-): Promise<RecipeListResponse> {
-  const res = await httpRequest<RecipeListResponse>({
+): Promise<RecipeList> {
+  const res = await httpRequest<RecipeList>({
     url: `${API_BASE()}/${id}`,
     method: 'PUT',
     data: dto,

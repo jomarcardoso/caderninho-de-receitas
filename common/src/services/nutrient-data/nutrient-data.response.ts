@@ -1,14 +1,14 @@
-import type { NutrientsResponse } from '../nutrient/nutrient.response';
+import type { Nutrients } from '../nutrient/nutrient.response';
 import type { NutrientBase } from '../nutrient/nutrient.types';
 
 export type NutrientDataResponse = NutrientBase;
 
-export interface AllNutrientsResponse {
-  nutritionalInformation: NutrientsResponse;
-  minerals: NutrientsResponse;
-  vitamins: NutrientsResponse;
-  aminoAcids: NutrientsResponse;
-  essentialAminoAcids: NutrientsResponse;
+export interface AllNutrients {
+  nutritionalInformation: Nutrients;
+  minerals: Nutrients;
+  vitamins: Nutrients;
+  aminoAcids: Nutrients;
+  essentialAminoAcids: Nutrients;
   aminoAcidsScore: number;
 }
 

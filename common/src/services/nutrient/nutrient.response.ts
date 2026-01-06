@@ -2,16 +2,16 @@ import type { NutrientDataResponse } from '../nutrient-data/nutrient-data.respon
 
 export type NutrientResponse = number;
 
-export type NutrientsResponse = Record<string, NutrientResponse>;
+export type Nutrients = Record<string, NutrientResponse>;
 
 export type NutrientsDataResponse = Record<string, NutrientDataResponse>;
 
-export interface AllNutrientsResponse {
-  nutritionalInformation: NutrientsResponse;
-  minerals: NutrientsResponse;
-  vitamins: NutrientsResponse;
-  aminoAcids: NutrientsResponse;
-  essentialAminoAcids: NutrientsResponse;
+export interface AllNutrients {
+  nutritionalInformation: Nutrients;
+  minerals: Nutrients;
+  vitamins: Nutrients;
+  aminoAcids: Nutrients;
+  essentialAminoAcids: Nutrients;
   aminoAcidsScore: number;
 }
 

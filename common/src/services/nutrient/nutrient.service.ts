@@ -1,13 +1,10 @@
 import type { CommonDataResponse } from '../common/common.response';
 import type { NutrientDataResponse } from '../nutrient-data/nutrient-data.response';
 import type { AllNutrients, Nutrient } from './nutrient.model';
-import type {
-  AllNutrientsResponse,
-  NutrientsResponse,
-} from './nutrient.response';
+import type { AllNutrients, Nutrients } from './nutrient.response';
 
 export function mapNutrientResponseToModel(
-  nutrientsResponse: NutrientsResponse | undefined | null,
+  nutrientsResponse: Nutrients | undefined | null,
   nutrientsData: Record<string, NutrientDataResponse>,
 ): Nutrient[] {
   const entries = Object.entries(nutrientsResponse || {});
@@ -23,8 +20,8 @@ export function mapNutrientResponseToModel(
   });
 }
 
-export function mapAllNutrientsResponseToModel(
-  allNutrientsResponse: AllNutrientsResponse | undefined | null,
+export function mapAllNutrientsToModel(
+  allNutrients: AllNutrients | undefined | null,
   {
     nutritionalInformation,
     minerals,
@@ -34,25 +31,19 @@ export function mapAllNutrientsResponseToModel(
 ): AllNutrients {
   return {
     nutritionalInformation: mapNutrientResponseToModel(
-      allNutrientsResponse?.nutritionalInformation,
+      allNutrients?.nutritionalInformation,
       nutritionalInformation,
     ),
-    minerals: mapNutrientResponseToModel(
-      allNutrientsResponse?.minerals,
-      minerals,
-    ),
-    vitamins: mapNutrientResponseToModel(
-      allNutrientsResponse?.vitamins,
-      vitamins,
-    ),
+    minerals: mapNutrientResponseToModel(allNutrients?.minerals, minerals),
+    vitamins: mapNutrientResponseToModel(allNutrients?.vitamins, vitamins),
     aminoAcids: mapNutrientResponseToModel(
-      allNutrientsResponse?.aminoAcids,
+      allNutrients?.aminoAcids,
       aminoAcids,
     ),
     essentialAminoAcids: mapNutrientResponseToModel(
-      allNutrientsResponse?.essentialAminoAcids,
+      allNutrients?.essentialAminoAcids,
       aminoAcids,
     ),
-    aminoAcidsScore: allNutrientsResponse?.aminoAcidsScore ?? 0,
+    aminoAcidsScore: allNutrients?.aminoAcidsScore ?? 0,
   };
 }

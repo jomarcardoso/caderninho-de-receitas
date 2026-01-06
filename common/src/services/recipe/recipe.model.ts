@@ -1,8 +1,25 @@
-import { FoodSummaryResponse } from '../food/food.response';
-import type { Language } from '../language/language.types';
+import { FoodSummary } from '../food/food.model';
+import type { Language, LanguageText } from '../language/language.types';
 import type { AllNutrients } from '../nutrient/nutrient.model';
+import { Nutrients } from '../nutrient/nutrient.response';
 import type { RecipeStep } from '../recipe-step';
-import type { UserProfileSummaryResponse } from '../user/user.response';
+import type { UserProfileSummary } from '../user/user.model';
+
+export interface RecipeIndex {
+  id: number;
+  name: string;
+}
+
+export interface RecipeItemSummary extends RecipeIndex {
+  imgs: string[];
+  savedByOthersCount: number;
+  nutritionalInformation: Nutrients;
+  isOwner: boolean;
+}
+
+export interface RecipeSummary extends RecipeItemSummary {
+  owner?: UserProfileSummary;
+}
 
 export interface Recipe extends AllNutrients {
   id: number;
@@ -12,24 +29,25 @@ export interface Recipe extends AllNutrients {
   additional?: string | null;
   steps: RecipeStep[];
   language: Language;
-  categories?: string[];
-  food: FoodSummaryResponse;
+  categories?: string[]; // slugs
+  food: FoodSummary;
   imgs: string[];
   savedByOthersCount: number;
   createdAt?: string;
   updatedAt?: string;
-  owner?: UserProfileSummaryResponse;
+  owner?: UserProfileSummary;
   isOwner?: boolean;
   shareToken?: string | null;
   relatedRecipes?: RecipeSummary[];
 }
 
-export interface RecipeSummary {
+export interface RecipeCategory {
   id: number;
-  name: string;
-  imgs: string[];
-  owner?: UserProfileSummaryResponse;
-  savedByOthersCount: number;
-  nutritionalInformation: Record<string, number>;
-  isOwner: boolean;
+  name: LanguageText;
+  namePlural: LanguageText;
+  description: LanguageText;
+  key: string; // slug/camel
+  url: string; // kebab-case
+  img: string;
+  bannerImg: string;
 }

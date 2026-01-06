@@ -44,23 +44,6 @@ export interface FoodClassificationOption {
   text: LanguageText;
 }
 
-export interface CommonData {
-  measures: LanguageTextAndPlural[];
-  foodTypes: LanguageText[];
-  measurementUnits: LanguageTextAndPlural[];
-  recipeCategories: Category[];
-  vitamins: NutrientData[];
-  aminoAcids: NutrientData[];
-  minerals: NutrientData[];
-  nutritionalInformation: NutrientData[];
-  dietaryRestrictionOptions: Record<
-    DietaryRestrictionGroup,
-    DietaryRestrictionOption[]
-  >;
-  userDietaryRestrictions: UserDietaryRestrictions;
-  foodClassificationOptions: FoodClassificationOption[];
-}
-
 export interface Category extends LanguageTextAndPlural {
   key: string;
   url: string;

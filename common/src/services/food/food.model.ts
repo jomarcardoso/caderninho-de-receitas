@@ -1,9 +1,8 @@
-﻿import { type CommonData } from '../common/common.model';
-import type { LanguageText } from '../language/language.types';
+﻿import type { LanguageText } from '../language/language.types';
 import { type AllNutrients } from '../nutrient-data/nutrients.types';
 import type { Icon, FoodType } from './food.types';
-import type { MeasurementUnit } from '../measure/measurement-unit.types';
 import { Measures } from '../measure';
+import { MeasurementUnit } from '../measurement-unit/measurement-unit.types';
 
 export interface Food extends AllNutrients {
   id: number;
@@ -18,8 +17,11 @@ export interface Food extends AllNutrients {
   categories: string[]; // slugs
 }
 
-export interface FoodsData extends CommonData {
-  foods: Food[];
+export interface FoodSummary {
+  id: number;
+  name: string;
+  icon: string;
+  imgs: string[];
 }
 
 const EMPTY_LANGUAGE_TEXT: LanguageText = { en: '', pt: '' };

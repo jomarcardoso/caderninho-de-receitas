@@ -1,22 +1,9 @@
-import type { RecipeResponse, RecipeSummaryResponse } from './recipe.response';
-import { mapAllNutrientsResponseToModel } from '../nutrient/nutrient.service';
 import axios from 'axios';
-import { RecipeSummary, type Recipe } from './recipe.model';
+import { type Recipe } from './recipe.model';
 import type { RecipeDto } from './recipe.dto';
 import { translate } from '../language/language.service';
 import { type Language } from '../language/language.types';
-import {
-  mapFoodResponseToModel,
-  mapFoodsDataResponseToModel,
-} from '../food/food.service';
 import { type RecipeStepDto } from '../recipe-step';
-import { mapIngredientResponseToModel } from '../ingredient/ingredient.service';
-import type { AllNutrients, Nutrient } from '../nutrient/nutrient.model';
-import type {
-  AllNutrientsResponse,
-  NutrientsResponse,
-} from '../nutrient/nutrient.response';
-import { FOOD } from '../food/food.model';
 import { mapRecipeStepModelToDto } from '../recipe-step/recipe-step.service';
 import { getApiBases } from '../http/api-base';
 import {
@@ -51,7 +38,7 @@ async function requestWithFallback<T = any>(
 
 // OwnerId resolve is centralized in ../auth/owner.util
 
-interface ApiRecipeResponse {
+interface ApiRecipe {
   id?: number;
   name?: string;
   description?: string;
@@ -157,7 +144,7 @@ export async function fetchMostCopiedRecipes(
         headers: { 'Content-Type': 'application/json' },
       });
       if (res.ok) {
-        const data = (await res.json()) as ApiRecipeResponse[];
+        const data = (await res.json()) as ApiRecipe[];
         return (Array.isArray(data) ? data : []).map<RecipeDto>(
           (recipe, index) => ({
             id: recipe.id ?? index,
@@ -182,7 +169,7 @@ export async function fetchMostCopiedRecipes(
   }
 
   try {
-    const data = await requestWithFallback<ApiRecipeResponse[]>(path, {
+    const data = await requestWithFallback<ApiRecipe[]>(path, {
       method: 'GET',
       skipAuth: true,
     });

@@ -1,11 +1,55 @@
+import type { Language } from '../language/language.types';
 import type {
-  UserProfileAdminResponse,
-  UserProfileOwnerResponse,
-  UserProfileResponse,
-  UserProfileSummaryResponse,
-} from './user.response';
+  AllergyRestriction,
+  CulturalRestriction,
+  DietStyleRestriction,
+  IntoleranceRestriction,
+  MedicalRestriction,
+  PersonalPreferenceRestriction,
+  Role,
+  ThemeColor,
+  Visibility,
+} from '../common/common.types';
 
-// For the UI model, reuse the richest shape (admin view) so consumers
-// can handle all possible fields without widening types later.
-export type UserProfile = UserProfileAdminResponse;
-export type UserProfileSummary = UserProfileSummaryResponse;
+export interface UserProfile {
+  id: string;
+  themeColor: ThemeColor;
+  locale?: string | null;
+  language: Language;
+  visibility: Visibility;
+  displayName?: string | null;
+  pictureUrl?: string | null;
+  description?: string | null;
+}
+
+export interface UserProfileOwner extends UserProfile {
+  emails: string[];
+  googleId?: string | null;
+  googleEmailVerified: boolean;
+  roles: Role[];
+  givenName?: string | null;
+  familyName?: string | null;
+  allergies: AllergyRestriction[];
+  intolerances: IntoleranceRestriction[];
+  medicalRestrictions: MedicalRestriction[];
+  dietStyles: DietStyleRestriction[];
+  culturalRestrictions: CulturalRestriction[];
+  personalPreferences: PersonalPreferenceRestriction[];
+  shareToken?: string | null;
+  shareTokenCreatedAt?: string | null;
+  shareTokenRevokedAt?: string | null;
+  moderationNotes?: string | null;
+  isFeatured: boolean;
+  featuredUntil?: string | null;
+}
+
+export interface UserProfileAdmin extends UserProfileOwner {
+  featuredAt?: string | null;
+}
+
+export interface UserProfileSummary {
+  id: string;
+  displayName: string;
+  pictureUrl?: string | null;
+  isFeatured: boolean;
+}
