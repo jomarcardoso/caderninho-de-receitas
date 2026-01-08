@@ -14,6 +14,7 @@ public class RecipeDto
   public Language Language { get; set; } = Language.En;
   public List<string> Categories { get; set; } = new();
   public List<string> Imgs { get; set; } = new();
+  public bool? IsPublic { get; set; }
 }
 
 public class RecipeSummaryResponse
@@ -26,6 +27,7 @@ public class RecipeSummaryResponse
   public int SavedByOthersCount { get; set; } = 0;
   public NutritionalInformationBase NutritionalInformation { get; set; } = new();
   public bool IsOwner { get; set; }
+  public bool IsPublic { get; set; } = false;
 }
 
 // Item de lista (sem owner, pois a lista já tem contexto de dono)
@@ -37,6 +39,7 @@ public class RecipeItemSummaryResponse
   public int SavedByOthersCount { get; set; } = 0;
   public NutritionalInformationBase NutritionalInformation { get; set; } = new();
   public bool IsOwner { get; set; }
+  public bool IsPublic { get; set; } = false;
 }
 
 // Transport response (categorias como strings)
@@ -65,6 +68,7 @@ public class RecipeResponse
   public double AminoAcidsScore { get; set; } = 0;
   public UserProfileSummaryResponse? Owner { get; set; }
   public bool IsOwner { get; set; } = false;
+  public bool IsPublic { get; set; } = false;
   public string? ShareToken { get; set; }
   public DateTime? ShareTokenCreatedAt { get; set; }
   public DateTime? ShareTokenRevokedAt { get; set; }

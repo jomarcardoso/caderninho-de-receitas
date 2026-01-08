@@ -15,6 +15,7 @@ export interface RecipeItemSummary extends RecipeIndex {
   savedByOthersCount: number;
   nutritionalInformation: Nutrients;
   isOwner: boolean;
+  isPublic?: boolean;
 }
 
 export interface RecipeSummary extends RecipeItemSummary {
@@ -37,6 +38,7 @@ export interface Recipe extends AllNutrients {
   updatedAt?: string;
   owner?: UserProfileSummary;
   isOwner?: boolean;
+  isPublic?: boolean;
   shareToken?: string | null;
   relatedRecipes?: RecipeSummary[];
 }

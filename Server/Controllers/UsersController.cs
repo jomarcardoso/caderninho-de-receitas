@@ -68,7 +68,7 @@ public class UsersController : ControllerBase
       && string.Equals(profile.ShareToken, shareToken, StringComparison.Ordinal)
       && (profile.ShareTokenRevokedAt is null);
 
-    if (!isOwner && !isAdmin && !hasValidShareToken && (profile.Visibility != Visibility.Public || profile.TombstoneStatus != TombstoneStatus.Active))
+    if (!isOwner && !isAdmin && !hasValidShareToken && (!profile.IsPublic || profile.TombstoneStatus != TombstoneStatus.Active))
     {
       return NotFound();
     }
@@ -87,7 +87,7 @@ public class UsersController : ControllerBase
       .Include(r => r.Revisions)
       .Where(r =>
         r.OwnerId == ownerId &&
-        r.Visibility == Visibility.Public &&
+        r.IsPublic &&
         r.TombstoneStatus == TombstoneStatus.Active &&
         r.PublishedRevisionId != null)
       .ToListAsync();
@@ -125,7 +125,7 @@ public class UsersController : ControllerBase
         .Select(i =>
         {
           var recipe = i.Recipe!;
-          if (recipe.Visibility != Visibility.Public || recipe.TombstoneStatus != TombstoneStatus.Active)
+          if (!recipe.IsPublic || recipe.TombstoneStatus != TombstoneStatus.Active)
           {
             return null;
           }

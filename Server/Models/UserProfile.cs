@@ -27,8 +27,8 @@ public class UserProfile
 
   public ThemeColor ThemeColor { get; set; } = ThemeColor.Primary;
 
-  // Controles de visibilidade/estado (similar às receitas)
-  public Visibility Visibility { get; set; } = Visibility.Private;
+  // Visibilidade pública
+  public bool IsPublic { get; set; } = false;
   public TombstoneStatus TombstoneStatus { get; set; } = TombstoneStatus.Active;
   public List<string> Emails { get; set; } = new();
   [MaxLength(256)]

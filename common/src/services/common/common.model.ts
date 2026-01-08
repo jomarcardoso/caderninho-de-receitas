@@ -2,7 +2,14 @@ import type {
   LanguageText,
   LanguageTextAndPlural,
 } from '../language/language.types';
-import type { NutrientData } from '../nutrient-data/nutrient-data.model';
+import type {
+  AllergyRestriction,
+  CulturalRestriction,
+  DietStyleRestriction,
+  IntoleranceRestriction,
+  MedicalRestriction,
+  PersonalPreferenceRestriction,
+} from './common.types';
 
 export type DietaryRestrictionGroup =
   | 'allergies'
@@ -20,12 +27,12 @@ export interface DietaryRestrictionOption {
 }
 
 export interface UserDietaryRestrictions {
-  allergies: string[];
-  intolerances: string[];
-  medicalRestrictions: string[];
-  dietStyles: string[];
-  culturalRestrictions: string[];
-  personalPreferences: string[];
+  allergies: AllergyRestriction[];
+  intolerances: IntoleranceRestriction[];
+  medicalRestrictions: MedicalRestriction[];
+  dietStyles: DietStyleRestriction[];
+  culturalRestrictions: CulturalRestriction[];
+  personalPreferences: PersonalPreferenceRestriction[];
 }
 
 export type FoodClassificationGroup =

@@ -33,6 +33,7 @@ public class MappingProfile : Profile
       .ForMember(dest => dest.Vitamins, opt => opt.MapFrom(src => src.Vitamins))
       .ForMember(dest => dest.AminoAcids, opt => opt.MapFrom(src => src.AminoAcids))
       .ForMember(dest => dest.EssentialAminoAcids, opt => opt.MapFrom(src => src.EssentialAminoAcids))
+      .ForMember(dest => dest.IsPublic, opt => opt.MapFrom(src => src.IsPublic))
       .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => MapUserSummary(src.Owner, src.OwnerId)));
 
     CreateMap<Recipe, RecipeSummaryResponse>()
@@ -43,6 +44,7 @@ public class MappingProfile : Profile
       .ForMember(dest => dest.Imgs, opt => opt.MapFrom(src => src.Imgs ?? new List<string>()))
       .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => MapUserSummary(src.Owner, src.OwnerId)))
       .ForMember(dest => dest.NutritionalInformation, opt => opt.MapFrom(src => src.NutritionalInformation))
+      .ForMember(dest => dest.IsPublic, opt => opt.MapFrom(src => src.IsPublic))
       .ForMember(dest => dest.IsOwner, opt => opt.Ignore());
 
     CreateMap<RecipeStep, RecipeStepResponse>().ReverseMap();

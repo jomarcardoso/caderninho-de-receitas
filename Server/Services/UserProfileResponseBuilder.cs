@@ -34,7 +34,7 @@ public static class UserProfileResponseBuilder
     response.Id = profile.Id;
     response.Locale = profile.Locale;
     response.ThemeColor = profile.ThemeColor;
-    response.Visibility = profile.Visibility;
+    response.IsPublic = profile.IsPublic;
     response.Language = profile.Language;
     response.DisplayName = string.IsNullOrWhiteSpace(revision?.DisplayName) ? profile.Id : revision!.DisplayName!;
     response.PictureUrl = revision?.PictureUrl;

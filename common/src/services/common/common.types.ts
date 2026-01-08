@@ -1,6 +1,5 @@
 // Shared enums used across multiple service interfaces
 export type ThemeColor = 'primary' | 'green' | 'red' | 'purple';
-export type Visibility = 'private' | 'unlisted' | 'public';
 export type Role = 'keeper' | 'moderator' | 'admin' | 'owner';
 
 export type AllergyRestriction =
@@ -57,7 +56,12 @@ export type DietStyleRestriction =
   | 'highProtein'
   | 'plantBased';
 
-export type CulturalRestriction = 'kosher' | 'halal' | 'hindu' | 'buddhist' | 'adventist';
+export type CulturalRestriction =
+  | 'kosher'
+  | 'halal'
+  | 'hindu'
+  | 'buddhist'
+  | 'adventist';
 
 export type PersonalPreferenceRestriction =
   | 'noSpicy'

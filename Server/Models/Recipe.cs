@@ -17,7 +17,7 @@ public class Recipe
   // Métricas / dados não versionáveis
   public int SavedByOthersCount { get; set; } = 0;
 
-  // Legacy flag (mantida apenas para compatibilidade/migração)
+  // Flag de publicação
   public bool IsPublic { get; set; } = false;
 
   public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
@@ -29,7 +29,6 @@ public class Recipe
   public DateTime? ShareTokenRevokedAt { get; set; }
 
   // Versionamento
-  public Visibility Visibility { get; set; } = Visibility.Private;
   public TombstoneStatus TombstoneStatus { get; set; } = TombstoneStatus.Active;
 
   public Guid? PublishedRevisionId { get; set; }

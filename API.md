@@ -89,10 +89,6 @@ Use `categories` as an array of these slugs (may be empty).
 
 `active` | `removedByAuthor` | `policyRemoved`
 
-### Visibility
-
-`private` | `unlisted` | `public`
-
 ## Common Interfaces
 
 ### LanguageText
@@ -233,7 +229,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - themeColor: [`ThemeColor`](#themecolor)
 - locale: `string`
 - language: [`Language`](#language)
-- visibility: [`Visibility`](#visibility)
+- isPublic: `boolean`
 - displayName: `string`
 - pictureUrl: `string`
 - description: `string` (max 280)
@@ -258,7 +254,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - themeColor: [`ThemeColor`](#themecolor)
 - locale: `string`
 - language: [`Language`](#language)
-- visibility: [`Visibility`](#visibility)
+- isPublic: `boolean`
 - displayName: `string`
 - pictureUrl: `string`
 - description: `string` (max 280)
@@ -383,6 +379,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - keys: `string`
 - description: `string`
 - additional: `string`
+- isPublic: `boolean`
 - language: [`Language`](#language)
 - categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
 - imgs: `string[]`
@@ -418,6 +415,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - keys: `string`
 - description: `string`
 - additional: `string`
+- isPublic: `boolean`
 - [`RecipeStep[]`](#recipestep) steps
 - language: [`Language`](#language)
 - categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)

@@ -13,7 +13,7 @@ public class UserProfileDto
 
   public Language? Language { get; set; }
 
-  public Visibility? Visibility { get; set; }
+  public bool? IsPublic { get; set; }
 
   [MaxLength(16)]
   public string? Locale { get; set; }
@@ -54,7 +54,7 @@ public class UserProfileResponse
   public ThemeColor ThemeColor { get; set; } = ThemeColor.Primary;
   public string? Locale { get; set; }
   public Language Language { get; set; } = Language.En;
-  public Visibility Visibility { get; set; } = Visibility.Private;
+  public bool IsPublic { get; set; } = false;
   public string? DisplayName { get; set; }
   public string? PictureUrl { get; set; }
   public string? Description { get; set; }

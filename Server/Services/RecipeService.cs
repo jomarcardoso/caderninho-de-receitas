@@ -42,7 +42,7 @@ public class RecipeService
     {
       OwnerId = string.Empty,
       Slug = NormalizeSlug(recipeDto.Name),
-      Visibility = Visibility.Private,
+      IsPublic = recipeDto.IsPublic ?? false,
       Imgs = recipeDto.Imgs ?? new List<string>(),
       Categories = NormalizeCategorySlugs(recipeDto.Categories),
       CreatedAtUtc = DateTime.UtcNow,
@@ -108,7 +108,6 @@ public class RecipeService
     {
       OwnerId = ownerId,
       Slug = source.Slug,
-      Visibility = Visibility.Private,
       Revisions = new List<RecipeRevision> { newRevision },
       Imgs = source.Imgs,
       Categories = source.Categories,
@@ -142,6 +141,7 @@ public class RecipeService
     recipe.LatestRevisionId = null;
     recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     recipe.Categories = NormalizeCategorySlugs(recipeDto.Categories);
+    recipe.IsPublic = recipeDto.IsPublic ?? false;
     recipe.UpdatedAtUtc = DateTime.UtcNow;
     await EnsureCategoriesExistAsync(recipe.Categories);
   }
@@ -185,7 +185,7 @@ public class RecipeService
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .Where(r => r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId))
+      .Where(r => r.IsPublic || (includePrivate && r.OwnerId == userId))
       .OrderByDescending(r => r.SavedByOthersCount)
       .ThenBy(r => r.Id)
       .Take(quantity)
@@ -207,7 +207,7 @@ public class RecipeService
       .ThenInclude(i => i.Food)
       .Where(r =>
         (EF.Functions.ILike(r.LatestRevision!.Name, pattern) || EF.Functions.ILike(r.LatestRevision!.Keys, pattern))
-        && (r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId)))
+        && (r.IsPublic || (includePrivate && r.OwnerId == userId)))
       .OrderBy(r => r.Id)
       .Take(quantity)
       .ToListAsync();
@@ -367,7 +367,7 @@ public class RecipeService
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .Where(r => r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId));
+      .Where(r => r.IsPublic || (includePrivate && r.OwnerId == userId));
 
     var hasText = !string.IsNullOrWhiteSpace(text);
     if (hasText)

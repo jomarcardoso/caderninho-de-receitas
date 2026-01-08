@@ -100,7 +100,7 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<Recipe>(entity =>
     {
       entity.HasIndex(r => r.Slug);
-      entity.HasIndex(r => new { r.Visibility, r.TombstoneStatus });
+      entity.HasIndex(r => new { r.IsPublic, r.TombstoneStatus });
 
       // Ignorar propriedades legadas derivadas de revisões
       entity.Ignore(r => r.NutritionalInformation);

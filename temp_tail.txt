@@ -1,0 +1,120 @@
+        .ThenInclude(s => s.Ingredients)
+        .ThenInclude(i => i.Food)
+      .FirstOrDefaultAsync(r => r.Id == id);
+
+    if (recipe is null) return NotFound();
+    var userId = GetUserId();
+    var revision = recipe.PublishedRevision ?? recipe.LatestRevision;
+    if (revision is null) return NotFound();
+    if (!recipe.IsPublic && !string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal)) return NotFound();
+
+    count = Math.Clamp(count, 1, 5);
+    var excluded = new HashSet<int>((excludeIds ?? string.Empty)
+      .Split(',', StringSplitOptions.RemoveEmptyEntries)
+      .Select(s => int.TryParse(s.Trim(), out var v) ? v : 0)
+      .Where(v => v > 0));
+
+    var baseRelations = await _context.RecipeRelation
+      .AsNoTracking()
+      .Where(r => r.RecipeId == id)
+      .OrderByDescending(r => r.Weight)
+      .Take(50)
+      .ToListAsync();
+
+    var rand = new Random();
+    var candidateIds = baseRelations
+      .Where(r => !excluded.Contains(r.RelatedRecipeId) && r.RelatedRecipeId != id)
+      .Select(r => new { r.RelatedRecipeId, Score = r.Weight + rand.NextDouble() * 0.05 })
+      .OrderByDescending(x => x.Score)
+      .Take(20)
+      .ToList();
+
+    var candidates = await _context.Recipe
+      .AsNoTracking()
+      .Include(r => r.PublishedRevision)
+      .Where(r => candidateIds.Select(x => x.RelatedRecipeId).Contains(r.Id))
+      .Select(r => new
+      {
+        r.Id,
+        Name = r.PublishedRevision!.Name,
+        r.Imgs,
+        r.OwnerId,
+        r.Visibility
+      })
+      .ToListAsync();
+
+    var candidateMap = candidateIds.ToDictionary(x => x.RelatedRecipeId, x => x.Score);
+    var filtered = candidates
+      .Where(r => r.IsPublic)
+      .Where(r => !excludeSameOwner || r.OwnerId != recipe.OwnerId)
+      .OrderByDescending(r => candidateMap.GetValueOrDefault(r.Id, 0))
+      .Take(count)
+      .Select(r => new { r.Id, r.Name, r.Imgs })
+      .ToList();
+
+    var recipeResponse = recipeService.BuildRecipeResponse(recipe, RecipeService.RevisionView.PublishedPreferred, userId);
+
+    var relatedIds = filtered.Select(r => r.Id).ToList();
+    var relatedEntities = await _context.Recipe
+      .AsNoTracking()
+      .Include(r => r.PublishedRevision)
+      .Include(r => r.Owner)
+      .Where(r => relatedIds.Contains(r.Id))
+      .ToListAsync();
+    var relatedResponses = relatedEntities
+      .Select(r => recipeService.BuildRecipeSummaryResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
+      .ToList();
+
+    recipeResponse.RelatedRecipes = relatedResponses;
+
+    return Ok(recipeResponse);
+  }
+
+  [HttpPost("relations/rebuild")]
+  [HttpGet("relations/rebuild")]
+  public async Task<IActionResult> RebuildRelations([FromQuery] int topPerRecipe = 10, CancellationToken cancellationToken = default)
+  {
+    topPerRecipe = Math.Clamp(topPerRecipe, 1, 50);
+    var created = await relationService.RebuildAllRelationsAsync(topPerRecipe, cancellationToken);
+    return Ok(new { created });
+  }
+
+  [HttpGet("most-copied")]
+  [AllowAnonymous]
+  public async Task<IActionResult> GetMostCopiedRecipes([FromQuery] int quantity = 6)
+  {
+    if (quantity < 1) return BadRequest("Quantity must be greater than zero.");
+    if (quantity > 64) return BadRequest("Quantity must not exceed 64.");
+
+    var userId = GetUserId();
+    var recipes = await recipeService.GetMostCopiedRecipesAsync(quantity, userId);
+
+    var responses = recipes
+      .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
+      .ToList();
+    return Ok(responses);
+  }
+
+  private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string ownerId, bool? isPublic)
+  {
+    var recipe = await recipeService.DtoToEntity(recipeDto);
+    recipe.OwnerId = ownerId;
+    recipe.IsPublic = recipeDto.IsPublic ?? false;
+    recipe.PublishedRevisionId = null;
+
+    _context.Recipe.Add(recipe);
+    await _context.SaveChangesAsync();
+
+    var persistedLatest = recipe.Revisions.FirstOrDefault();
+    if (persistedLatest is not null)
+    {
+      recipe.LatestRevisionId = persistedLatest.Id;
+      recipe.LatestRevision = persistedLatest;
+      _context.Recipe.Update(recipe);
+      await _context.SaveChangesAsync();
+    }
+
+    var response = recipeService.BuildRecipeResponse(recipe, RecipeService.RevisionView.LatestPreferred, ownerId);
+    return Ok(response);
+  }
+}
