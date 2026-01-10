@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using Server.Shared;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models;
 
-[NotMapped]
 public class RecipeStep : RecipeStepBase<Ingredient>
 {
+  public int Id { get; set; }
+
   public RecipeStep() { }
 
   public RecipeStep(string title, string preparation, string additional, string ingredientsText, List<Ingredient> ingredients)

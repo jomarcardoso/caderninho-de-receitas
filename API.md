@@ -415,7 +415,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - keys: `string`
 - description: `string`
 - additional: `string`
-- isPublic: `boolean`
+- isPublic: `boolean` (if no more public, show the message "outdated")
 - [`RecipeStep[]`](#recipestep) steps
 - language: [`Language`](#language)
 - categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
@@ -430,10 +430,18 @@ Technical contract for create/update food endpoints and detailed responses.
 - aminoAcids: [`AminoAcids`](#aminoacids)
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
+
+### RecipeForGuest
+
+- [`...Recipe`](#recipe)
 - owner: [`UserProfileSummary`](#userprofilesummary)
-- isOwner: `boolean`
-- shareToken: `string | null` (only for the owner)
 - relatedRecipes: [`RecipeSummary[]`](#recipesummary)
+
+### RecipeForOwner
+
+- [`...Recipe`](#recipe)
+- shareToken: `string | null` (only for the owner)
+- isOwner: `true`
 
 ## Recipe List Interfaces
 
@@ -550,7 +558,7 @@ Base route: (`api/food`)
 - Body: `FoodDto`
 - Response: [`FoodResponse`](#food)
 
-`POST /api/food/many` — create a list of food
+`POST /api/food/bulk` — create a list of food
 
 - Auth: AdminOrHigher
 - Body: `FoodDto[]`
@@ -717,7 +725,7 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
 - Body: [`RecipeDto`](#recipedto)
 - Response: [`Recipe`](#recipe)
 
-`POST /api/recipe/many` — bulk create recipes
+`POST /api/recipe/bulk` — bulk create recipes
 
 - Auth: required (logged user)
 - Body: [`RecipeDto[]`](#recipedto)

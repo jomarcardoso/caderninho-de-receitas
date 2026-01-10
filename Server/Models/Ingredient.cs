@@ -1,11 +1,11 @@
 using Server.Shared;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models;
 
-[NotMapped]
 public class Ingredient : INutrients
 {
+  public int Id { get; set; }
+
   public string Text { get; set; } = string.Empty;
   public Food Food { get; set; } = default!;
   // literal quantity, in liters or grams

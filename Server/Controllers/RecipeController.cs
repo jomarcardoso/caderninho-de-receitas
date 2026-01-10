@@ -415,7 +415,6 @@ public class RecipeController : ControllerBase
   {
     var recipe = await recipeService.DtoToEntity(recipeDto);
     recipe.OwnerId = ownerId;
-    recipe.IsPublic = recipeDto.IsPublic ?? false;
     recipe.PublishedRevisionId = null;
 
     _context.Recipe.Add(recipe);

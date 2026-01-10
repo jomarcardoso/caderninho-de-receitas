@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Server.Shared;
 using Microsoft.EntityFrameworkCore;
+using Server.Shared;
 
 namespace Server.Models;
 
@@ -29,7 +29,7 @@ public class RecipeRevision
   public Language Language { get; set; } = Language.En;
 
   // Snapshot estruturado para buscas/joins rápidos (foods/ingredients/steps)
-  public List<RecipeRevisionStep> Steps { get; set; } = new();
+  public List<RecipeStep> Steps { get; set; } = new();
 
   [MaxLength(80)]
   public string CreatedByUserId { get; set; } = string.Empty;
@@ -48,13 +48,13 @@ public class RecipeRevision
     string name,
     string keys,
     Language language,
-    List<RecipeRevisionStep> steps,
+    List<RecipeStep> steps,
     string createdByUserId)
   {
     Name = name;
     Keys = keys;
     Language = language;
-    Steps = steps ?? new List<RecipeRevisionStep>();
+    Steps = steps ?? new List<RecipeStep>();
     CreatedByUserId = createdByUserId;
     CreatedAtUtc = DateTime.UtcNow;
     UpdatedAtUtc = DateTime.UtcNow;
@@ -65,87 +65,5 @@ public class RecipeRevision
   {
     // Aggregate nutrient data from steps/ingredients (if needed for future fields)
     // Placeholder for future aggregate logic; currently nutrients live in ingredients/steps only.
-  }
-}
-
-[Owned]
-public class RecipeRevisionStep : RecipeStepBase<RecipeRevisionIngredient>
-{
-  public RecipeRevisionStep() { }
-
-  public RecipeRevisionStep(
-    string title,
-    string preparation,
-    string additional,
-    string ingredientsText,
-    List<RecipeRevisionIngredient> ingredients)
-    : base(title, preparation, additional, ingredientsText)
-  {
-    NutritionalInformation = new NutritionalInformationBase();
-    Minerals = new MineralsBase();
-    Vitamins = new VitaminsBase();
-    AminoAcids = new AminoAcidsBase();
-    EssentialAminoAcids = new EssentialAminoAcidsBase();
-
-    Ingredients = ingredients ?? new List<RecipeRevisionIngredient>();
-
-    RecomputeAggregates();
-  }
-
-  public void RecomputeAggregates()
-  {
-    NutritionalInformation ??= new NutritionalInformationBase();
-    Minerals ??= new MineralsBase();
-    Vitamins ??= new VitaminsBase();
-    AminoAcids ??= new AminoAcidsBase();
-    EssentialAminoAcids ??= new EssentialAminoAcidsBase();
-    AminoAcidsScore = 0;
-
-    foreach (var ingredient in Ingredients ?? new List<RecipeRevisionIngredient>())
-    {
-      NutritionalInformation.Add(ingredient.NutritionalInformation);
-      Minerals.Add(ingredient.Minerals);
-      Vitamins.Add(ingredient.Vitamins);
-      AminoAcids.Add(ingredient.AminoAcids);
-      EssentialAminoAcids.Add(ingredient.EssentialAminoAcids);
-    }
-
-    AminoAcidsScore = EssentialAminoAcids.GetScore();
-  }
-}
-
-[Owned]
-public class RecipeRevisionIngredient : INutrientsBase
-{
-  public string Text { get; set; } = string.Empty;
-  public Food Food { get; set; } = default!;
-  public double Quantity { get; set; } = 0;
-  public MeasureType MeasureType { get; set; } = MeasureType.Unity;
-  public double MeasureQuantity { get; set; } = 0;
-  public NutritionalInformationBase NutritionalInformation { get; set; } = new();
-  public MineralsBase Minerals { get; set; } = new();
-  public VitaminsBase Vitamins { get; set; } = new();
-  public AminoAcidsBase AminoAcids { get; set; } = new();
-  public EssentialAminoAcidsBase EssentialAminoAcids { get; set; } = new();
-
-  public RecipeRevisionIngredient() { }
-
-  public RecipeRevisionIngredient(
-    string text,
-    Food food,
-    double quantity,
-    MeasureType measureType,
-    double measureQuantity)
-  {
-    Text = text;
-    Food = food;
-    Quantity = quantity;
-    MeasureType = measureType;
-    MeasureQuantity = measureQuantity;
-    NutritionalInformation = new NutritionalInformationBase(food.NutritionalInformation, quantity);
-    Minerals = new MineralsBase(food.Minerals, quantity);
-    Vitamins = new VitaminsBase(food.Vitamins, quantity);
-    AminoAcids = new AminoAcidsBase(food.AminoAcids, quantity);
-    EssentialAminoAcids = new EssentialAminoAcidsBase(food.EssentialAminoAcids, quantity);
   }
 }

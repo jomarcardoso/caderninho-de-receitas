@@ -55,6 +55,7 @@ public class RecipeService
     entity.Revisions = new List<RecipeRevision> { revision };
 
     await EnsureCategoriesExistAsync(entity.Categories);
+
     return entity;
   }
 
@@ -79,14 +80,14 @@ public class RecipeService
     if (string.IsNullOrWhiteSpace(ownerId)) throw new ArgumentException("Owner id must be provided.", nameof(ownerId));
 
     var baseRevision = source.LatestRevision ?? source.PublishedRevision ?? new RecipeRevision();
-    var clonedSteps = (baseRevision.Steps ?? new List<RecipeRevisionStep>())
-      .Select(s => new RecipeRevisionStep(
+    var clonedSteps = (baseRevision.Steps ?? new List<RecipeStep>())
+      .Select(s => new RecipeStep(
         s.Title ?? string.Empty,
         s.Preparation ?? string.Empty,
         s.Additional ?? string.Empty,
         s.IngredientsText ?? string.Empty,
-        (s.Ingredients ?? new List<RecipeRevisionIngredient>())
-          .Select(i => new RecipeRevisionIngredient(
+        (s.Ingredients ?? new List<Ingredient>())
+          .Select(i => new Ingredient(
             i.Text ?? string.Empty,
             i.Food,
             i.Quantity,
@@ -445,9 +446,9 @@ public class RecipeService
       : recipe.LatestRevision ?? recipe.PublishedRevision;
   }
 
-  private static RecipeStepResponse ToStepResponse(RecipeRevisionStep step)
+  private static RecipeStepResponse ToStepResponse(RecipeStep step)
   {
-    var ingredients = (step.Ingredients ?? new List<RecipeRevisionIngredient>())
+    var ingredients = (step.Ingredients ?? new List<Ingredient>())
       .Where(i => i.Food is not null)
       .Select(i => new IngredientResponse
       {
@@ -486,7 +487,7 @@ public class RecipeService
     };
   }
 
-  private static void AggregateNutrientsFromSteps(IEnumerable<RecipeRevisionStep> steps, RecipeResponse response)
+  private static void AggregateNutrientsFromSteps(IEnumerable<RecipeStep> steps, RecipeResponse response)
   {
     var ni = new NutritionalInformationBase();
     var minerals = new MineralsBase();
@@ -494,7 +495,7 @@ public class RecipeService
     var amino = new AminoAcidsBase();
     var essential = new EssentialAminoAcidsBase();
 
-    foreach (var s in steps ?? Enumerable.Empty<RecipeRevisionStep>())
+    foreach (var s in steps ?? Enumerable.Empty<RecipeStep>())
     {
       ni.Add(s.NutritionalInformation);
       minerals.Add(s.Minerals);
@@ -521,7 +522,7 @@ public class RecipeService
       response.Keys = revision.Keys;
       response.Language = revision.Language;
 
-      var steps = (revision.Steps ?? new List<RecipeRevisionStep>())
+      var steps = (revision.Steps ?? new List<RecipeStep>())
         .Select(ToStepResponse)
         .ToList();
       response.Steps = steps;
@@ -560,7 +561,7 @@ public class RecipeService
     {
       summary.Name = revision.Name;
       summary.NutritionalInformation = new NutritionalInformationBase();
-      foreach (var step in revision.Steps ?? Enumerable.Empty<RecipeRevisionStep>())
+      foreach (var step in revision.Steps ?? Enumerable.Empty<RecipeStep>())
       {
         summary.NutritionalInformation.Add(step.NutritionalInformation);
       }
@@ -591,15 +592,15 @@ public class RecipeService
 
   private async Task<RecipeRevision> BuildRevisionAsync(RecipeDto recipeDto)
   {
-    var lang = recipeDto.Language;
+    Language lang = recipeDto.Language;
     ingredientService.LanguagePreference = lang;
     foodService.LanguagePreference = lang;
 
-    var steps = new List<RecipeRevisionStep>();
+    var steps = new List<RecipeStep>();
 
     foreach (RecipeStepDto stepDto in recipeDto.Steps)
     {
-      var ingredients = new List<RecipeRevisionIngredient>();
+      var ingredients = new List<Ingredient>();
       var lines = (stepDto.IngredientsText ?? string.Empty)
         .Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
@@ -609,21 +610,16 @@ public class RecipeService
         if (string.IsNullOrWhiteSpace(normalizedText)) continue;
 
         ingredientService.Text = normalizedText;
-        ingredientService.LanguagePreference = recipeDto.Language;
-        var ingredient = await ingredientService.ToEntity();
+
+        Ingredient ingredient = await ingredientService.ToEntity();
+
         if (ingredient.Food is not null)
         {
-          ingredients.Add(new RecipeRevisionIngredient(
-            ingredient.Text ?? string.Empty,
-            ingredient.Food,
-            ingredient.Quantity,
-            ingredient.MeasureType,
-            ingredient.MeasureQuantity
-          ));
+          ingredients.Add(ingredient);
         }
       }
 
-      steps.Add(new RecipeRevisionStep(
+      steps.Add(new RecipeStep(
         stepDto.Title ?? string.Empty,
         stepDto.Preparation ?? string.Empty,
         stepDto.Additional ?? string.Empty,

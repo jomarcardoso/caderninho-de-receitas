@@ -51,7 +51,7 @@ public class Recipe
 
   public Recipe() { }
 
-  // Construtor de compatibilidade com a API antiga (RecipeStep -> RecipeRevisionStep)
+  // Construtor de compatibilidade com a API antiga (RecipeStep -> revision)
   public Recipe(
     int? id,
     string name,
@@ -67,48 +67,17 @@ public class Recipe
     Description = description;
     Additional = additional;
 
-    var revSteps = ConvertLegacySteps(steps);
     var revision = new RecipeRevision(
       name,
       keys,
       Language,
-      revSteps,
+      steps ?? new(),
       ownerId ?? string.Empty
     );
 
     LatestRevision = revision;
     LatestRevisionId = revision.Id;
     Revisions.Add(revision);
-  }
-
-  private static List<RecipeRevisionStep> ConvertLegacySteps(IEnumerable<RecipeStep> steps)
-  {
-    var result = new List<RecipeRevisionStep>();
-    foreach (var step in steps ?? Enumerable.Empty<RecipeStep>())
-    {
-      var ingredients = new List<RecipeRevisionIngredient>();
-      foreach (var ing in step.Ingredients ?? new List<Ingredient>())
-      {
-        if (ing.Food is null) continue;
-        ingredients.Add(new RecipeRevisionIngredient(
-          ing.Text ?? string.Empty,
-          ing.Food,
-          ing.Quantity,
-          ing.MeasureType,
-          ing.MeasureQuantity
-        ));
-      }
-
-      var newStep = new RecipeRevisionStep(
-        step.Title ?? string.Empty,
-        step.Preparation ?? string.Empty,
-        step.Additional ?? string.Empty,
-        step.IngredientsText ?? string.Empty,
-        ingredients
-      );
-      result.Add(newStep);
-    }
-    return result;
   }
 
   // Campos indexáveis
@@ -127,36 +96,7 @@ public class Recipe
   {
     get
     {
-      var steps = new List<RecipeStep>();
-      var revSteps = ActiveRevision?.Steps ?? new List<RecipeRevisionStep>();
-      foreach (var s in revSteps)
-      {
-        var ingredients = (s.Ingredients ?? new List<RecipeRevisionIngredient>())
-          .Where(i => i.Food is not null)
-          .Select(i => new Ingredient(
-            i.Text ?? string.Empty,
-            i.Food!,
-            i.Quantity,
-            i.MeasureType,
-            i.MeasureQuantity))
-          .ToList();
-
-        var legacyStep = new RecipeStep(
-          s.Title ?? string.Empty,
-          s.Preparation ?? string.Empty,
-          s.Additional ?? string.Empty,
-          s.IngredientsText ?? string.Empty,
-          ingredients)
-        {
-          NutritionalInformation = s.NutritionalInformation,
-          Minerals = s.Minerals,
-          Vitamins = s.Vitamins,
-          AminoAcids = s.AminoAcids,
-          EssentialAminoAcids = s.EssentialAminoAcids
-        };
-        steps.Add(legacyStep);
-      }
-      return steps;
+      return ActiveRevision?.Steps ?? new List<RecipeStep>();
     }
   }
 

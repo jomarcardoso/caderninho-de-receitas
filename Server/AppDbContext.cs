@@ -343,11 +343,13 @@ public class AppDbContext : DbContext
       {
         step.WithOwner().HasForeignKey("RecipeRevisionId");
         step.HasKey("Id");
+        step.ToTable("RecipeStep");
 
         step.OwnsMany(s => s.Ingredients, ingredient =>
         {
           ingredient.WithOwner().HasForeignKey("RecipeRevisionStepId");
           ingredient.HasKey("Id");
+          ingredient.ToTable("Ingredient");
           ingredient.OwnsOne(i => i.NutritionalInformation);
           ingredient.OwnsOne(i => i.AminoAcids);
           ingredient.OwnsOne(i => i.EssentialAminoAcids);
