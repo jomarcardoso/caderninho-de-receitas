@@ -22,7 +22,7 @@ public static class UserProfileFactory
       CreatedAtUtc = now,
       UpdatedAtUtc = now,
       LastLoginAtUtc = now,
-      IsPublic = false,
+      Visibility = Visibility.Private,
       TombstoneStatus = TombstoneStatus.Active,
       ShareToken = Guid.NewGuid().ToString("N"),
       ShareTokenCreatedAt = now

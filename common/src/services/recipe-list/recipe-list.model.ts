@@ -3,6 +3,7 @@ import type {
   RecipeItemSummary,
   RecipeSummary,
 } from '../recipe/recipe.model';
+import type { Visibility } from '../common/common.types';
 import type { UserProfileSummary } from '../user/user.model';
 
 export type RecipeListIndex = {
@@ -15,7 +16,7 @@ export type RecipeList = {
   id: number;
   name: string;
   description?: string | null;
-  isPublic: boolean;
+  visibility: Visibility;
   owner?: UserProfileSummary;
   createdAt: string;
   updatedAt: string;
@@ -26,6 +27,6 @@ export interface RecipeListSummary {
   id: number;
   name: string;
   description?: string;
-  isPublic: boolean;
+  visibility: Visibility;
   items?: RecipeItemSummary[];
 }

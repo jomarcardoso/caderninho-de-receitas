@@ -68,7 +68,7 @@ public class UsersController : ControllerBase
       && string.Equals(profile.ShareToken, shareToken, StringComparison.Ordinal)
       && (profile.ShareTokenRevokedAt is null);
 
-    if (!isOwner && !isAdmin && !hasValidShareToken && (!profile.IsPublic || profile.TombstoneStatus != TombstoneStatus.Active))
+    if (!isOwner && !isAdmin && !hasValidShareToken && (profile.Visibility != Visibility.Public || profile.TombstoneStatus != TombstoneStatus.Active))
     {
       return NotFound();
     }
@@ -87,7 +87,7 @@ public class UsersController : ControllerBase
       .Include(r => r.Revisions)
       .Where(r =>
         r.OwnerId == ownerId &&
-        r.IsPublic &&
+        r.Visibility == Visibility.Public &&
         r.TombstoneStatus == TombstoneStatus.Active &&
         r.PublishedRevisionId != null)
       .ToListAsync();
@@ -99,7 +99,7 @@ public class UsersController : ControllerBase
     // Collect only public lists and keep only items pointing to public recipes with published revisions
     var lists = await _context.RecipeList
       .AsNoTracking()
-      .Where(l => l.OwnerId == ownerId && l.IsPublic)
+      .Where(l => l.OwnerId == ownerId && l.Visibility == Visibility.Public)
       .Include(l => l.Items)
       .ThenInclude(i => i.Recipe)
       .ThenInclude(r => r.Owner)
@@ -116,7 +116,7 @@ public class UsersController : ControllerBase
       Id = l.Id,
       OwnerId = l.OwnerId,
       Name = l.Name,
-      IsPublic = l.IsPublic,
+      Visibility = l.Visibility,
       CreatedAt = l.CreatedAt,
       UpdatedAt = l.UpdatedAt,
       Items = l.Items
@@ -125,7 +125,7 @@ public class UsersController : ControllerBase
         .Select(i =>
         {
           var recipe = i.Recipe!;
-          if (!recipe.IsPublic || recipe.TombstoneStatus != TombstoneStatus.Active)
+          if (recipe.Visibility != Visibility.Public || recipe.TombstoneStatus != TombstoneStatus.Active)
           {
             return null;
           }
@@ -188,7 +188,7 @@ public class PublicRecipeListResponse
   public string OwnerId { get; set; } = string.Empty;
   public string Name { get; set; } = string.Empty;
   public string? Description { get; set; }
-  public bool IsPublic { get; set; } = false;
+  public Visibility Visibility { get; set; } = Visibility.Private;
   public DateTime CreatedAt { get; set; }
   public DateTime UpdatedAt { get; set; }
   public List<PublicRecipeListItemResponse> Items { get; set; } = new();

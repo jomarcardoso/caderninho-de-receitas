@@ -17,8 +17,11 @@ public class Recipe
   // Métricas / dados não versionáveis
   public int SavedByOthersCount { get; set; } = 0;
 
+  // Estado de publicação/aprovação
+  public RevisionStatus Status { get; set; } = RevisionStatus.Draft;
+
   // Flag de publicação
-  public bool IsPublic { get; set; } = false;
+  public Visibility Visibility { get; set; } = Visibility.Private;
 
   public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;

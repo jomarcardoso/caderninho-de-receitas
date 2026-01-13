@@ -1,6 +1,7 @@
 // Shared enums used across multiple service interfaces
 export type ThemeColor = 'primary' | 'green' | 'red' | 'purple';
 export type Role = 'keeper' | 'moderator' | 'admin' | 'owner';
+export type Visibility = 'private' | 'public';
 
 export type AllergyRestriction =
   | 'peanut'

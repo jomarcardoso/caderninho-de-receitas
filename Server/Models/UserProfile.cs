@@ -28,7 +28,7 @@ public class UserProfile
   public ThemeColor ThemeColor { get; set; } = ThemeColor.Primary;
 
   // Visibilidade pública
-  public bool IsPublic { get; set; } = false;
+  public Visibility Visibility { get; set; } = Visibility.Private;
   public TombstoneStatus TombstoneStatus { get; set; } = TombstoneStatus.Active;
   public List<string> Emails { get; set; } = new();
   [MaxLength(256)]

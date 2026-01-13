@@ -100,7 +100,7 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<Recipe>(entity =>
     {
       entity.HasIndex(r => r.Slug);
-      entity.HasIndex(r => new { r.IsPublic, r.TombstoneStatus });
+      entity.HasIndex(r => new { r.Visibility, r.TombstoneStatus });
 
       // Ignorar propriedades legadas derivadas de revisões
       entity.Ignore(r => r.NutritionalInformation);
@@ -234,6 +234,7 @@ public class AppDbContext : DbContext
       entity.HasKey(u => u.Id);
       entity.Property(u => u.Id).IsRequired();
       entity.HasIndex(u => u.Id).IsUnique();
+      entity.HasIndex(u => new { u.Visibility, u.TombstoneStatus });
       entity.Property(u => u.CreatedAtUtc).IsRequired();
       entity.Property(u => u.UpdatedAtUtc).IsRequired();
       entity.Property(u => u.LastLoginAtUtc);
@@ -334,10 +335,8 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<RecipeRevision>(entity =>
     {
       entity.HasKey(r => r.Id);
-      entity.HasIndex(r => new { r.RecipeId, r.Status });
       entity.HasIndex(r => r.CreatedAtUtc);
       entity.Property(r => r.CreatedByUserId).IsRequired().HasMaxLength(80);
-      entity.Property(r => r.ReviewedByUserId).HasMaxLength(80);
 
       entity.OwnsMany(r => r.Steps, step =>
       {

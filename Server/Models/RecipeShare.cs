@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Server.Shared;
 
 namespace Server.Models;
 
@@ -11,6 +12,5 @@ public class RecipeShare
   public string Slug { get; set; } = string.Empty; // used in link
   public string OwnerId { get; set; } = string.Empty;
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-  public bool IsPublic { get; set; } = false;
+  public Visibility Visibility { get; set; } = Visibility.Private;
 }
-

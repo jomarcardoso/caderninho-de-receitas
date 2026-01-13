@@ -2,6 +2,12 @@
 
 <!-- THIS FILE IS SOURCE OF TRUTH. DO NOT EDIT TO BE LIKE THE CODE! -->
 
+## Rules
+
+### Avoid boolean
+
+Boolean does not scale well.
+
 ## Common Types
 
 ### MeasurementUnit
@@ -88,6 +94,10 @@ Use `categories` as an array of these slugs (may be empty).
 ### TombstoneStatus
 
 `active` | `removedByAuthor` | `policyRemoved`
+
+### Visibility
+
+"public" | "private"
 
 ## Common Interfaces
 
@@ -229,7 +239,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - themeColor: [`ThemeColor`](#themecolor)
 - locale: `string`
 - language: [`Language`](#language)
-- isPublic: `boolean`
+- visibility: [`Visibility`](#visibility)
 - displayName: `string`
 - pictureUrl: `string`
 - description: `string` (max 280)
@@ -254,7 +264,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - themeColor: [`ThemeColor`](#themecolor)
 - locale: `string`
 - language: [`Language`](#language)
-- isPublic: `boolean`
+- visibility: [`Visibility`](#visibility)
 - displayName: `string`
 - pictureUrl: `string`
 - description: `string` (max 280)
@@ -379,7 +389,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - keys: `string`
 - description: `string`
 - additional: `string`
-- isPublic: `boolean`
+- visibility: [`Visibility`](#visibility)
 - language: [`Language`](#language)
 - categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
 - imgs: `string[]`
@@ -415,7 +425,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - keys: `string`
 - description: `string`
 - additional: `string`
-- isPublic: `boolean` (if no more public, show the message "outdated")
+- visibility: [`Visibility`] (if no more public, show the message "outdated")(#visibility)
 - [`RecipeStep[]`](#recipestep) steps
 - language: [`Language`](#language)
 - categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
@@ -449,14 +459,14 @@ Technical contract for create/update food endpoints and detailed responses.
 
 - name: `string`
 - description: `string | null`
-- isPublic: `boolean`
+- visibility: [`Visibility`](#visibility)
 
 ### RecipeList
 
 - id: `number`
 - name: `string`
 - description: `string | null`
-- isPublic: `boolean`
+- visibility: [`Visibility`](#visibility)
 - owner: [`UserProfileSummary`](#userprofilesummary)
 - createdAt: `string` (date: ISO 8601)
 - updatedAt: `string` (date: ISO 8601)
@@ -467,7 +477,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - id: `number`
 - name: `string`
 - description: `string | null`
-- isPublic: `boolean`
+- visibility: [`Visibility`](#visibility)
 - items: [`RecipeItemSummary[]`](#recipeitemsummary)
 
 ### RecipeListIndex

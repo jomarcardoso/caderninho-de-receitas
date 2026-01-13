@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Server.Shared;
 
 namespace Server.Models;
 

@@ -13,7 +13,7 @@ namespace Server.Tests.Services;
 [TestFixture]
 public class FoodServiceTests
 {
-  private AppDbContext context = null!;
+  private FoodTestAppDbContext context = null!;
   private FoodService service = null!;
 
   private sealed class FoodFixtureFull
@@ -74,7 +74,7 @@ public class FoodServiceTests
       .UseInMemoryDatabase(databaseName: "TestDb")
       .Options;
 
-    context = new AppDbContext(options);
+    context = new FoodTestAppDbContext(options);
     context.Food.AddRange(foods);
     context.SaveChanges();
 
@@ -216,6 +216,26 @@ public class FoodServiceTests
     var foods = FoodService.GetFoodsFromRecipes(new List<Recipe>());
 
     Assert.That(foods, Is.Empty);
+  }
+}
+
+public sealed class FoodTestAppDbContext : AppDbContext
+{
+  public FoodTestAppDbContext(DbContextOptions<AppDbContext> options)
+    : base(options)
+  {
+  }
+
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    base.OnModelCreating(modelBuilder);
+
+    // Avoid EF tracking conflicts for owned nutrient types in these tests.
+    modelBuilder.Entity<Food>().Ignore(f => f.NutritionalInformation);
+    modelBuilder.Entity<Food>().Ignore(f => f.Minerals);
+    modelBuilder.Entity<Food>().Ignore(f => f.Vitamins);
+    modelBuilder.Entity<Food>().Ignore(f => f.AminoAcids);
+    modelBuilder.Entity<Food>().Ignore(f => f.EssentialAminoAcids);
   }
 }
 

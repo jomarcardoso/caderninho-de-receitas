@@ -4,6 +4,7 @@ import type { AllNutrients } from '../nutrient/nutrient.model';
 import { Nutrients } from '../nutrient/nutrient.response';
 import type { RecipeStep } from '../recipe-step';
 import type { UserProfileSummary } from '../user/user.model';
+import type { Visibility } from '../common/common.types';
 
 export interface RecipeIndex {
   id: number;
@@ -15,7 +16,7 @@ export interface RecipeItemSummary extends RecipeIndex {
   savedByOthersCount: number;
   nutritionalInformation: Nutrients;
   isOwner: boolean;
-  isPublic?: boolean;
+  visibility?: Visibility;
 }
 
 export interface RecipeSummary extends RecipeItemSummary {
@@ -38,7 +39,7 @@ export interface Recipe extends AllNutrients {
   updatedAt?: string;
   owner?: UserProfileSummary;
   isOwner?: boolean;
-  isPublic?: boolean;
+  visibility?: Visibility;
   shareToken?: string | null;
   relatedRecipes?: RecipeSummary[];
 }

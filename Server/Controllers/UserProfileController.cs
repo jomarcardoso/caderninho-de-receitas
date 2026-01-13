@@ -55,7 +55,7 @@ public class UserProfileController : ControllerBase
       && string.Equals(profile.ShareToken, shareToken, StringComparison.Ordinal)
       && (!profile.ShareTokenRevokedAt.HasValue || profile.ShareTokenRevokedAt > DateTime.UtcNow);
 
-    var isVisible = profile.IsPublic || isOwner || isAdmin || hasShareToken;
+    var isVisible = profile.Visibility == Visibility.Public || isOwner || isAdmin || hasShareToken;
     if (!isVisible) return NotFound();
 
     var viewCtx = new UserProfileViewContext(isOwner, isAdmin, hasShareToken);
@@ -83,7 +83,7 @@ public class UserProfileController : ControllerBase
 
     if (!isAdmin)
     {
-      query = query.Where(p => p.IsPublic && p.TombstoneStatus == TombstoneStatus.Active);
+      query = query.Where(p => p.Visibility == Visibility.Public && p.TombstoneStatus == TombstoneStatus.Active);
     }
 
     if (isFeatured.HasValue)
@@ -147,7 +147,7 @@ public class UserProfileController : ControllerBase
         LastLoginAtUtc = now,
         ShareToken = Guid.NewGuid().ToString("N"),
         ShareTokenCreatedAt = now,
-        IsPublic = request.IsPublic ?? false,
+        Visibility = request.Visibility ?? Visibility.Private,
         ThemeColor = request.ThemeColor ?? ThemeColor.Primary,
         Language = request.Language ?? Language.En,
         Locale = request.Locale,
@@ -201,7 +201,7 @@ public class UserProfileController : ControllerBase
 
       if (request.Locale is not null) profile.Locale = string.IsNullOrWhiteSpace(request.Locale) ? null : request.Locale.Trim();
       if (request.ThemeColor.HasValue) profile.ThemeColor = request.ThemeColor.Value;
-      if (request.IsPublic.HasValue) profile.IsPublic = request.IsPublic.Value;
+      if (request.Visibility.HasValue) profile.Visibility = request.Visibility.Value;
       if (request.Language.HasValue) profile.Language = request.Language.Value;
       if (request.Allergies is not null) profile.Allergies = request.Allergies;
       if (request.Intolerances is not null) profile.Intolerances = request.Intolerances;

@@ -6,6 +6,6 @@ public class RecipeImageRequest
 {
   public IFormFile? Image { get; set; }
   public string? Language { get; set; }
-  public bool? IsPublic { get; set; }
+  public Server.Shared.Visibility? Visibility { get; set; }
 }
 

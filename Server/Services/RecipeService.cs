@@ -42,7 +42,7 @@ public class RecipeService
     {
       OwnerId = string.Empty,
       Slug = NormalizeSlug(recipeDto.Name),
-      IsPublic = recipeDto.IsPublic ?? false,
+      Visibility = recipeDto.Visibility ?? Visibility.Private,
       Imgs = recipeDto.Imgs ?? new List<string>(),
       Categories = NormalizeCategorySlugs(recipeDto.Categories),
       CreatedAtUtc = DateTime.UtcNow,
@@ -113,7 +113,7 @@ public class RecipeService
       Imgs = source.Imgs,
       Categories = source.Categories,
       CopiedFromRecipeId = source.Id,
-      IsPublic = source.IsPublic,
+      Visibility = source.Visibility,
       ShareToken = Guid.NewGuid().ToString("N"),
       ShareTokenCreatedAt = DateTime.UtcNow
     };
@@ -122,7 +122,7 @@ public class RecipeService
     return recipe;
   }
 
-  public async Task UpdateEntityFromDto(Recipe recipe, RecipeDto recipeDto)
+  public async Task<RecipeRevision> UpdateEntityFromDto(Recipe recipe, RecipeDto recipeDto)
   {
     if (recipe is null) throw new ArgumentNullException(nameof(recipe));
     if (recipeDto is null) throw new ArgumentNullException(nameof(recipeDto));
@@ -133,8 +133,6 @@ public class RecipeService
 
     if (recipe.Revisions is null)
       recipe.Revisions = new List<RecipeRevision>();
-    else
-      recipe.Revisions.Clear();
     recipe.Revisions.Add(revision);
     _context.RecipeRevisions.Add(revision);
 
@@ -142,9 +140,9 @@ public class RecipeService
     recipe.LatestRevisionId = null;
     recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     recipe.Categories = NormalizeCategorySlugs(recipeDto.Categories);
-    recipe.IsPublic = recipeDto.IsPublic ?? false;
     recipe.UpdatedAtUtc = DateTime.UtcNow;
     await EnsureCategoriesExistAsync(recipe.Categories);
+    return revision;
   }
 
   public class RecipesFoodsAndIcons
@@ -186,7 +184,7 @@ public class RecipeService
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .Where(r => r.IsPublic || (includePrivate && r.OwnerId == userId))
+      .Where(r => r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId))
       .OrderByDescending(r => r.SavedByOthersCount)
       .ThenBy(r => r.Id)
       .Take(quantity)
@@ -208,7 +206,7 @@ public class RecipeService
       .ThenInclude(i => i.Food)
       .Where(r =>
         (EF.Functions.ILike(r.LatestRevision!.Name, pattern) || EF.Functions.ILike(r.LatestRevision!.Keys, pattern))
-        && (r.IsPublic || (includePrivate && r.OwnerId == userId)))
+        && (r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId)))
       .OrderBy(r => r.Id)
       .Take(quantity)
       .ToListAsync();
@@ -368,7 +366,7 @@ public class RecipeService
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
       .ThenInclude(i => i.Food)
-      .Where(r => r.IsPublic || (includePrivate && r.OwnerId == userId));
+      .Where(r => r.Visibility == Visibility.Public || (includePrivate && r.OwnerId == userId));
 
     var hasText = !string.IsNullOrWhiteSpace(text);
     if (hasText)

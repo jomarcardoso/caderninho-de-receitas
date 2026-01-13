@@ -7,6 +7,7 @@ using Server.Dtos;
 using Server.Models;
 using Server.Response;
 using Server.Services;
+using Server.Shared;
 
 namespace Server.Controllers;
 
@@ -58,7 +59,7 @@ public class RecipeListsController : ControllerBase
       Id = entity.Id,
       Name = entity.Name,
       Description = entity.Description,
-      IsPublic = entity.IsPublic,
+      Visibility = entity.Visibility,
       Items = new()
     };
 
@@ -81,7 +82,7 @@ public class RecipeListsController : ControllerBase
       Id = entity.Id,
       Name = entity.Name,
       Description = entity.Description,
-      IsPublic = entity.IsPublic,
+      Visibility = entity.Visibility,
       CreatedAt = entity.CreatedAt,
       UpdatedAt = entity.UpdatedAt,
       Owner = owner is null
@@ -190,7 +191,7 @@ public class RecipeListsController : ControllerBase
       OwnerId = userId,
       Name = dto.Name.Trim(),
       Description = dto.Description?.Trim(),
-      IsPublic = dto.IsPublic ?? false,
+      Visibility = dto.Visibility ?? Shared.Visibility.Private,
       CreatedAt = DateTime.UtcNow,
       UpdatedAt = DateTime.UtcNow,
     };
@@ -214,7 +215,7 @@ public class RecipeListsController : ControllerBase
     if (list is null) return NotFound();
     if (!string.IsNullOrWhiteSpace(dto?.Name)) list.Name = dto.Name.Trim();
     list.Description = dto?.Description?.Trim();
-    if (dto?.IsPublic is not null) list.IsPublic = dto.IsPublic.Value;
+    if (dto?.Visibility is not null) list.Visibility = dto.Visibility.Value;
     list.UpdatedAt = DateTime.UtcNow;
     await _context.SaveChangesAsync();
 

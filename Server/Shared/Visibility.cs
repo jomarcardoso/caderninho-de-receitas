@@ -1,8 +1,7 @@
 namespace Server.Shared;
 
-public enum TombstoneStatus
+public enum Visibility
 {
-  Active = 0,
-  RemovedByAuthor = 1,
-  PolicyRemoved = 3,
+  Private = 0,
+  Public = 1
 }

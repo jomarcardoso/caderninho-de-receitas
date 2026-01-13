@@ -5,8 +5,8 @@ using System.Linq;
 using System.Security.Claims;
 using Server.Dtos;
 using Server.Services;
-using Server.Dtos;
 using Server.Models;
+using Server.Shared;
 
 namespace Server.Controllers;
 
@@ -50,7 +50,7 @@ public class WorkspaceController : ControllerBase
       Id = entity.Id,
       Name = entity.Name,
       Description = entity.Description,
-      IsPublic = entity.IsPublic,
+      Visibility = entity.Visibility,
       Items = new()
     };
 

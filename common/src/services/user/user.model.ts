@@ -8,6 +8,7 @@ import type {
   PersonalPreferenceRestriction,
   Role,
   ThemeColor,
+  Visibility,
 } from '../common/common.types';
 
 export interface UserProfile {
@@ -15,7 +16,7 @@ export interface UserProfile {
   themeColor: ThemeColor;
   locale?: string | null;
   language: Language;
-  isPublic?: boolean;
+  visibility?: Visibility;
   displayName?: string | null;
   pictureUrl?: string | null;
   description?: string | null;

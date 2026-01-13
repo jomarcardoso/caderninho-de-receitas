@@ -7,6 +7,7 @@ using AutoMapper;
 using Server.Dtos;
 using Server.Models;
 using Server.Response;
+using Server.Shared;
 
 namespace Server.Controllers;
 
@@ -38,7 +39,7 @@ public class ShareController : ControllerBase
     if (string.IsNullOrWhiteSpace(slug)) return NotFound();
 
     var share = await _context.RecipeShare.AsNoTracking().FirstOrDefaultAsync(s => s.Slug == slug);
-    if (share is null || !share.IsPublic) return NotFound();
+    if (share is null || share.Visibility != Visibility.Public) return NotFound();
 
     // Redirect to a public share page handled by the frontend (e.g., /share/{slug})
     var target = Url.RouteUrl(null, new { }, Request.Scheme) ?? string.Empty;
@@ -50,10 +51,10 @@ public class ShareController : ControllerBase
   public class RecipeShareCreateRequest
   {
     public int RecipeId { get; set; }
-    public bool? IsPublic { get; set; }
+    public Visibility? Visibility { get; set; }
   }
 
-  public record RecipeShareResponse(string Slug, string Url, string PublicUrl, int RecipeId, DateTime CreatedAt, bool IsPublic);
+  public record RecipeShareResponse(string Slug, string Url, string PublicUrl, int RecipeId, DateTime CreatedAt, Visibility Visibility);
 
   [HttpPost("recipe")]
   [Authorize]
@@ -76,7 +77,7 @@ public class ShareController : ControllerBase
     {
       var existingUrl = $"{baseUrl}/api/share/recipe/{existing.Slug}";
       var publicUrlExisting = $"{baseUrl}/recipe/{recipe.Id}?ref={recipe.OwnerId}";
-      return Ok(new RecipeShareResponse(existing.Slug, existingUrl, publicUrlExisting, recipe.Id, existing.CreatedAt, existing.IsPublic));
+      return Ok(new RecipeShareResponse(existing.Slug, existingUrl, publicUrlExisting, recipe.Id, existing.CreatedAt, existing.Visibility));
     }
 
     string slug = GenerateSlug();
@@ -92,7 +93,7 @@ public class ShareController : ControllerBase
       Slug = slug,
       OwnerId = recipe.OwnerId ?? string.Empty,
       CreatedAt = DateTime.UtcNow,
-      IsPublic = request.IsPublic ?? true,
+      Visibility = request.Visibility ?? Visibility.Public,
     };
 
     _context.RecipeShare.Add(share);
@@ -100,7 +101,7 @@ public class ShareController : ControllerBase
 
     var url = $"{baseUrl}/api/share/recipe/{slug}";
     var publicUrl = $"{baseUrl}/recipe/{recipe.Id}?ref={recipe.OwnerId}";
-    return Ok(new RecipeShareResponse(slug, url, publicUrl, recipe.Id, share.CreatedAt, share.IsPublic));
+    return Ok(new RecipeShareResponse(slug, url, publicUrl, recipe.Id, share.CreatedAt, share.Visibility));
   }
 
   public record CopyRecipeResponse(int NewRecipeId);
@@ -109,7 +110,7 @@ public class ShareController : ControllerBase
   [Authorize]
   public async Task<IActionResult> CopyFromShare(string slug)
   {
-    var share = await _context.RecipeShare.AsNoTracking().FirstOrDefaultAsync(s => s.Slug == slug && s.IsPublic);
+    var share = await _context.RecipeShare.AsNoTracking().FirstOrDefaultAsync(s => s.Slug == slug && s.Visibility == Visibility.Public);
     if (share is null) return NotFound();
 
     var source = await _recipeService.FindRecipeWithDetailsById(share.RecipeId);

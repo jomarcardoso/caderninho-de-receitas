@@ -10,7 +10,7 @@ namespace Server.Tests.Services;
 public class IngredientServiceTests
 {
   private IngredientService service;
-  private AppDbContext context = null!;
+  private TestAppDbContext context = null!;
   private FoodService foodService;
 
   [SetUp]
@@ -20,7 +20,7 @@ public class IngredientServiceTests
         .UseInMemoryDatabase(databaseName: "TestDb")
         .Options;
 
-    context = new AppDbContext(options);
+    context = new TestAppDbContext(options);
     foodService = new FoodService(context);
     service = new IngredientService(foodService);
   }
@@ -41,7 +41,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -112,7 +112,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -174,7 +174,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -529,7 +529,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -572,7 +572,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -597,7 +597,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -644,7 +644,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -721,7 +721,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -743,7 +743,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
 
     var foods = LoadFoodsWithMeasures();
@@ -761,7 +761,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -792,7 +792,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService);
 
@@ -815,7 +815,7 @@ public class IngredientServiceTests
       .UseInMemoryDatabase(databaseName: $"TestDb-{Guid.NewGuid()}")
       .Options;
 
-    using var localContext = new AppDbContext(options);
+    using var localContext = new TestAppDbContext(options);
     var localFoodService = new FoodService(localContext);
     var localService = new IngredientService(localFoodService)
     {
@@ -934,3 +934,25 @@ public class IngredientServiceTests
     };
   }
 }
+
+public sealed class TestAppDbContext : AppDbContext
+{
+  public TestAppDbContext(DbContextOptions<AppDbContext> options)
+    : base(options)
+  {
+  }
+
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    base.OnModelCreating(modelBuilder);
+
+    // Avoid EF tracking conflicts for owned nutrient types in these tests.
+    modelBuilder.Entity<Food>().Ignore(f => f.NutritionalInformation);
+    modelBuilder.Entity<Food>().Ignore(f => f.Minerals);
+    modelBuilder.Entity<Food>().Ignore(f => f.Vitamins);
+    modelBuilder.Entity<Food>().Ignore(f => f.AminoAcids);
+    modelBuilder.Entity<Food>().Ignore(f => f.EssentialAminoAcids);
+  }
+}
+
+

@@ -1,18 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 using Server.Shared;
 
 namespace Server.Models;
-
-public enum RevisionStatus
-{
-  Draft = 0,
-  PendingReview = 1,
-  Approved = 2,
-  Rejected = 3,
-}
 
 public class RecipeRevision
 {
@@ -20,8 +11,6 @@ public class RecipeRevision
 
   public int RecipeId { get; set; }
   public Recipe Recipe { get; set; } = default!;
-
-  public RevisionStatus Status { get; set; } = RevisionStatus.Draft;
 
   // Campos indexáveis (fora do JSON para busca/ordenar)
   public string Name { get; set; } = string.Empty;
@@ -37,9 +26,6 @@ public class RecipeRevision
   public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 
-  [MaxLength(80)]
-  public string? ReviewedByUserId { get; set; }
-  public DateTime? ReviewedAtUtc { get; set; }
   public string? ModerationNotes { get; set; }
 
   public RecipeRevision() { }
