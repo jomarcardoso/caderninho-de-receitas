@@ -63,6 +63,8 @@ builder.Services.AddScoped<FoodService>();
 builder.Services.AddScoped<IngredientService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<RelationService>();
+builder.Services.AddScoped<WorkspaceService>();
+builder.Services.AddScoped<RecipeCopyService>();
 builder.Services.AddScoped<PlainTextRecipeParser>();
 builder.Services.AddScoped<PlainTextRecipePreProcessor>();
 builder.Services.AddSingleton<RecipeImageOcrService>();

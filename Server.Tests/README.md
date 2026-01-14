@@ -71,6 +71,66 @@ file: `Server.Tests/Controllers/RecipeControllerTests.cs`
 - params: none (Visibility.Public).
 - return: status PendingReview, PublishedRevisionId preserved, LatestRevisionId new.
 
+### CopyRecipe
+
+- **Should add public version of the recipe to your workspace**
+- params: recipeId
+- return: WorkspaceResponse with the SummaryRecipe in WorkspaceResponse.Recipes
+
+- **Should add latest version of the recipe to your workspace if also send the token**
+- params: recipeId
+- return: WorkspaceResponse with the SummaryRecipe with latest revision content in WorkspaceResponse.Recipes
+
+- **Should return error if try to add a recipe with no public revision and no token**
+- params: recipeId
+- return: ApiError
+
+### RecipeCopyService
+
+file: `Server.Tests/Services/RecipeCopyServiceTests.cs`
+
+#### ResolveCopySourceAsync
+
+- **Returns NotFound when recipe is missing.**
+- params: recipeId.
+- return: CopySourceResult.NotFound true.
+
+- **Returns error for private recipe without token.**
+- params: recipeId.
+- return: ApiError with code recipe.not_public.
+
+- **Returns error when public without published revision.**
+- params: recipeId.
+- return: ApiError with code recipe.no_published_revision.
+
+- **With share token returns latest revision.**
+- params: recipeId, shareToken.
+- return: BaseRevision with latest name and CanCopyLatest true.
+
+- **Owner returns latest revision.**
+- params: recipeId.
+- return: BaseRevision with latest name and IsOwner true.
+
+- **Public without token returns published revision.**
+- params: recipeId.
+- return: BaseRevision with published name and CanCopyLatest false.
+
+#### CreateCloneAsync
+
+- **Creates a clone with latest revision and copied from id.**
+- params: source recipe, new owner id.
+- return: persisted clone with LatestRevision and CopiedFromRecipeId.
+
+#### IncrementSavedByOthersAsync
+
+- **Increments when copier is not owner.**
+- params: source recipe, copier id.
+- return: SavedByOthersCount +1.
+
+- **Does not increment for owner.**
+- params: source recipe, owner id.
+- return: SavedByOthersCount unchanged.
+
 ### FoodService
 
 file: `Server.Tests/Services/FoodServiceTests.cs`

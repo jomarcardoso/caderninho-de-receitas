@@ -716,6 +716,7 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
 - Auth: optional (AllowAnonymous; owner can see private version)
 - Path: `id` (int)
 - Query:
+  - `shareToken` (string)
   - `relatedRecipesLimit` (int, default 5, max 5) related suggestions
   - `relatedRecipesExcludeSameOwner` (bool, default false)
 - Response: [`Recipe`](#recipe)
@@ -787,6 +788,16 @@ Users with shareToken `/api/recipe/{id}?shareToken=…` can also see the latest 
 - Auth: optional (AllowAnonymous)
 - Query: `limit` (int, default 6, max 64)
 - Response: [`RecipeSummary[]`](#recipesummary)
+
+`GET /api/recipe/copy/{id}` — copy recipe to your workspace
+
+Users with shareToken `/api/recipe/copy/{id}?shareToken=…` can also copy the latest version.
+
+- Auth: required (logged user)
+- Path: `id` (int) recipe id
+- Query:
+  - `shareToken` (string)
+- Response: [`Workspace`](#workspace)
 
 ## Recipe List Endpoints
 

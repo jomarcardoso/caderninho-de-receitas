@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using System.Linq;
 
 using Server.Dtos;
@@ -18,10 +19,12 @@ public class RecipeListsController : ControllerBase
 {
   private readonly AppDbContext _context;
   private readonly RecipeService _recipeService;
-  public RecipeListsController(AppDbContext context, RecipeService recipeService)
+  private readonly IMapper _mapper;
+  public RecipeListsController(AppDbContext context, RecipeService recipeService, IMapper mapper)
   {
     _context = context;
     _recipeService = recipeService;
+    _mapper = mapper;
   }
 
   private string GetUserId()
@@ -37,19 +40,6 @@ public class RecipeListsController : ControllerBase
       RecipeService.RevisionView.LatestPreferred,
       callerUserId
     );
-  }
-
-  private static RecipeItemSummaryResponse ToItemSummary(RecipeSummaryResponse summary)
-  {
-    return new RecipeItemSummaryResponse
-    {
-      Id = summary.Id,
-      Name = summary.Name,
-      Imgs = summary.Imgs,
-      SavedByOthersCount = summary.SavedByOthersCount,
-      NutritionalInformation = summary.NutritionalInformation,
-      IsOwner = summary.IsOwner
-    };
   }
 
   private RecipeListSummaryResponse MapSummary(RecipeList entity, UserProfile? owner, string callerUserId, bool includeItems = false)
@@ -68,7 +58,7 @@ public class RecipeListsController : ControllerBase
       summary.Items = entity.Items
         .OrderBy(i => i.Position)
         .Where(i => i.Recipe is not null)
-        .Select(i => ToItemSummary(MapRecipeSummary(i.Recipe!, callerUserId)))
+        .Select(i => _mapper.Map<RecipeItemSummaryResponse>(MapRecipeSummary(i.Recipe!, callerUserId)))
         .ToList();
     }
 
@@ -96,7 +86,7 @@ public class RecipeListsController : ControllerBase
       response.Items = entity.Items
         .OrderBy(i => i.Position)
         .Where(i => i.Recipe is not null)
-        .Select(i => ToItemSummary(MapRecipeSummary(i.Recipe!, callerUserId)))
+        .Select(i => _mapper.Map<RecipeItemSummaryResponse>(MapRecipeSummary(i.Recipe!, callerUserId)))
         .ToList();
     }
 

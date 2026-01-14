@@ -22,6 +22,8 @@ public class RecipeController : ControllerBase
   private readonly IMapper _mapper;
   private readonly RecipeService recipeService;
   private readonly RelationService relationService;
+  private readonly RecipeCopyService recipeCopyService;
+  private readonly WorkspaceService workspaceService;
   private readonly PlainTextRecipeParser plainTextRecipeParser;
   private readonly PlainTextRecipePreProcessor plainTextRecipePreProcessor;
   private readonly RecipeImageOcrService recipeImageOcrService;
@@ -30,6 +32,8 @@ public class RecipeController : ControllerBase
     AppDbContext context,
     RecipeService recipeService,
     RelationService relationService,
+    RecipeCopyService recipeCopyService,
+    WorkspaceService workspaceService,
     PlainTextRecipeParser plainTextRecipeParser,
     PlainTextRecipePreProcessor plainTextRecipePreProcessor,
     RecipeImageOcrService recipeImageOcrService,
@@ -38,6 +42,8 @@ public class RecipeController : ControllerBase
     _context = context;
     this.recipeService = recipeService ?? throw new ArgumentNullException(nameof(recipeService));
     this.relationService = relationService ?? throw new ArgumentNullException(nameof(relationService));
+    this.recipeCopyService = recipeCopyService ?? throw new ArgumentNullException(nameof(recipeCopyService));
+    this.workspaceService = workspaceService ?? throw new ArgumentNullException(nameof(workspaceService));
     this.plainTextRecipeParser = plainTextRecipeParser ?? throw new ArgumentNullException(nameof(plainTextRecipeParser));
     this.plainTextRecipePreProcessor = plainTextRecipePreProcessor ?? throw new ArgumentNullException(nameof(plainTextRecipePreProcessor));
     this.recipeImageOcrService = recipeImageOcrService ?? throw new ArgumentNullException(nameof(recipeImageOcrService));
@@ -49,6 +55,7 @@ public class RecipeController : ControllerBase
     var authId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     return string.IsNullOrWhiteSpace(authId) ? string.Empty : authId.Trim();
   }
+
 
   [HttpPost]
   public async Task<IActionResult> CreateRecipe([FromBody] RecipeDto recipeDto)
@@ -417,6 +424,23 @@ public class RecipeController : ControllerBase
       .Select(r => recipeService.BuildRecipeResponse(r, RecipeService.RevisionView.PublishedPreferred, userId))
       .ToList();
     return Ok(responses);
+  }
+
+  [HttpGet("copy/{id}")]
+  public async Task<IActionResult> CopyRecipe(int id, [FromQuery] string? shareToken = null)
+  {
+    var userId = GetUserId();
+    if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
+    var result = await recipeCopyService.ResolveCopySourceAsync(id, userId, shareToken);
+    if (result.NotFound) return NotFound();
+    if (result.Error is not null) return NotFound(result.Error);
+    if (result.Source is null || result.BaseRevision is null) return NotFound();
+
+    await recipeCopyService.CreateCloneAsync(result.Source, userId);
+    await recipeCopyService.IncrementSavedByOthersAsync(result.Source, userId);
+
+    var workspace = await workspaceService.BuildWorkspaceResponseAsync(userId);
+    return workspace is null ? NotFound() : Ok(workspace);
   }
 
   private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string ownerId, bool? isPublic)

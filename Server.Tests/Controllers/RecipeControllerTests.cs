@@ -13,6 +13,7 @@ using Server.PreProcessing;
 using Server.Serialization;
 using Server.Services;
 using Server.Shared;
+using Server.Response;
 
 namespace Server.Tests.Controllers;
 
@@ -36,6 +37,8 @@ public class RecipeControllerTests
     var ingredientService = new IngredientService(foodService);
     var recipeService = new RecipeService(ingredientService, foodService, mapper, context);
     var relationService = new RelationService(context);
+    var recipeCopyService = new RecipeCopyService(context, recipeService);
+    var workspaceService = new WorkspaceService(context, recipeService, mapper);
     var parser = new PlainTextRecipeParser();
     var preProcessor = new PlainTextRecipePreProcessor();
     var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>()).Build();
@@ -46,6 +49,8 @@ public class RecipeControllerTests
       context,
       recipeService,
       relationService,
+      recipeCopyService,
+      workspaceService,
       parser,
       preProcessor,
       ocrService,
@@ -75,6 +80,18 @@ public class RecipeControllerTests
       Steps = new List<RecipeStepDto>(),
       Visibility = visibility
     };
+  }
+
+  private static void SeedUserProfile(AppDbContext context, string userId)
+  {
+    context.UserProfile.Add(new UserProfile
+    {
+      Id = userId,
+      Visibility = Visibility.Public,
+      CreatedAtUtc = DateTime.UtcNow,
+      UpdatedAtUtc = DateTime.UtcNow
+    });
+    context.SaveChanges();
   }
 
   private static RecipeRevision NewRevision(string name, string userId)
@@ -290,6 +307,83 @@ public class RecipeControllerTests
     Assert.That(persisted.LatestRevision, Is.Not.Null);
     Assert.That(persisted.LatestRevision!.Steps.Count, Is.EqualTo(2));
     Assert.That(persisted.LatestRevision!.Steps[0].Ingredients.Count, Is.EqualTo(3));
+  }
+
+  [Test]
+  // Public copy adds published revision to workspace.
+  public async Task CopyRecipe_public_adds_published_to_workspace()
+  {
+    using var context = BuildContext();
+    SeedUserProfile(context, "user-1");
+    var source = SeedRecipe(context, "user-2", RevisionStatus.Approved, Visibility.Public, hasPublished: true, hasLatest: false, latestEqualsPublished: false);
+    var controller = BuildController(context, "user-1");
+
+    var result = await controller.CopyRecipe(source.Id);
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var workspace = ok!.Value as WorkspaceResponse;
+    Assert.That(workspace, Is.Not.Null);
+
+    var clone = await context.Recipe
+      .Include(r => r.LatestRevision)
+      .FirstOrDefaultAsync(r => r.OwnerId == "user-1" && r.CopiedFromRecipeId == source.Id);
+    Assert.That(clone, Is.Not.Null);
+    Assert.That(clone!.LatestRevision!.Name, Is.EqualTo("published"));
+    Assert.That(workspace!.Recipes.Any(r => r.Id == clone.Id), Is.True);
+
+    var updatedSource = await context.Recipe.AsNoTracking().FirstAsync(r => r.Id == source.Id);
+    Assert.That(updatedSource.SavedByOthersCount, Is.EqualTo(1));
+  }
+
+  [Test]
+  // Copy with share token uses latest revision content.
+  public async Task CopyRecipe_with_share_token_adds_latest_to_workspace()
+  {
+    using var context = BuildContext();
+    SeedUserProfile(context, "user-1");
+    var source = SeedRecipe(context, "user-2", RevisionStatus.PendingReview, Visibility.Public, hasPublished: true, hasLatest: true, latestEqualsPublished: false);
+    source.ShareToken = "token-1";
+    source.ShareTokenCreatedAt = DateTime.UtcNow;
+    context.Recipe.Update(source);
+    context.SaveChanges();
+
+    var controller = BuildController(context, "user-1");
+
+    var result = await controller.CopyRecipe(source.Id, "token-1");
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var workspace = ok!.Value as WorkspaceResponse;
+    Assert.That(workspace, Is.Not.Null);
+
+    var clone = await context.Recipe
+      .Include(r => r.LatestRevision)
+      .FirstOrDefaultAsync(r => r.OwnerId == "user-1" && r.CopiedFromRecipeId == source.Id);
+    Assert.That(clone, Is.Not.Null);
+    Assert.That(clone!.LatestRevision!.Name, Is.EqualTo("latest"));
+    Assert.That(workspace!.Recipes.Any(r => r.Id == clone.Id), Is.True);
+
+    var updatedSource = await context.Recipe.AsNoTracking().FirstAsync(r => r.Id == source.Id);
+    Assert.That(updatedSource.SavedByOthersCount, Is.EqualTo(1));
+  }
+
+  [Test]
+  // Public copy without published revision returns error.
+  public async Task CopyRecipe_public_without_published_returns_error()
+  {
+    using var context = BuildContext();
+    SeedUserProfile(context, "user-1");
+    var source = SeedRecipe(context, "user-2", RevisionStatus.PendingReview, Visibility.Public, hasPublished: false, hasLatest: true, latestEqualsPublished: false);
+    var controller = BuildController(context, "user-1");
+
+    var result = await controller.CopyRecipe(source.Id);
+
+    Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+    var notFound = result as NotFoundObjectResult;
+    var error = notFound!.Value as ApiError;
+    Assert.That(error, Is.Not.Null);
+    Assert.That(error!.Code, Is.EqualTo("recipe.no_published_revision"));
   }
 
   [Test]

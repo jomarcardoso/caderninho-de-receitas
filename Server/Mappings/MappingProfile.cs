@@ -45,6 +45,8 @@ public class MappingProfile : Profile
       .ForMember(dest => dest.NutritionalInformation, opt => opt.MapFrom(src => src.NutritionalInformation))
       .ForMember(dest => dest.IsOwner, opt => opt.Ignore());
 
+    CreateMap<RecipeSummaryResponse, RecipeItemSummaryResponse>();
+
     CreateMap<RecipeStep, RecipeStepResponse>().ReverseMap();
 
     CreateMap<Ingredient, IngredientResponse>()
