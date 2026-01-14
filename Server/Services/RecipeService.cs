@@ -509,6 +509,16 @@ public class RecipeService
     response.EssentialAminoAcids = essential;
   }
 
+  private static UserProfileSummaryResponse BuildUserSummary(UserProfile? owner, string fallbackId)
+  {
+    if (owner is null)
+    {
+      return new UserProfileSummaryResponse { Id = fallbackId, DisplayName = fallbackId };
+    }
+
+    return UserProfileResponseBuilder.BuildSummary(owner, isAdmin: false, callerId: null);
+  }
+
   public RecipeResponse BuildRecipeResponse(Recipe recipe, RevisionView view, string? callerUserId = null)
   {
     var response = _mapper.Map<RecipeResponse>(recipe);
@@ -547,6 +557,40 @@ public class RecipeService
       response.ShareTokenCreatedAt = null;
       response.ShareTokenRevokedAt = null;
     }
+
+    response.Author = response.Owner ?? BuildUserSummary(recipe.Owner, recipe.OwnerId);
+    response.CopiedFromRecipeId = recipe.CopiedFromRecipeId;
+
+    if (recipe.CopiedFromRecipeId is not null)
+    {
+      var original = _context.Recipe.Local
+        .FirstOrDefault(r => r.Id == recipe.CopiedFromRecipeId.Value)
+        ?? _context.Recipe
+          .AsNoTracking()
+          .Include(r => r.Owner)
+          .FirstOrDefault(r => r.Id == recipe.CopiedFromRecipeId.Value);
+
+      var viewerId = string.IsNullOrWhiteSpace(callerUserId) ? null : callerUserId.Trim();
+      var isCopyOwner = !string.IsNullOrWhiteSpace(viewerId)
+        && string.Equals(recipe.OwnerId, viewerId, StringComparison.Ordinal);
+      var isOriginalOwner = original is not null
+        && !string.IsNullOrWhiteSpace(viewerId)
+        && string.Equals(original.OwnerId, viewerId, StringComparison.Ordinal);
+      var canSeeOriginal = original is not null
+        && (isCopyOwner || isOriginalOwner || original.Visibility == Visibility.Public);
+
+      if (!canSeeOriginal)
+      {
+        response.Author = null;
+        response.CopiedFromRecipeId = null;
+      }
+      else
+      {
+        response.Author = BuildUserSummary(original!.Owner, original.OwnerId);
+        response.CopiedFromRecipeId = recipe.CopiedFromRecipeId;
+      }
+    }
+
     return response;
   }
 

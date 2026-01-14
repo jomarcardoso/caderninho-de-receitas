@@ -67,6 +67,8 @@ public class RecipeResponse
   public EssentialAminoAcidsBase EssentialAminoAcids { get; set; } = new();
   public double AminoAcidsScore { get; set; } = 0;
   public UserProfileSummaryResponse? Owner { get; set; }
+  public UserProfileSummaryResponse? Author { get; set; }
+  public int? CopiedFromRecipeId { get; set; }
   public bool IsOwner { get; set; } = false;
   public Visibility Visibility { get; set; } = Visibility.Private;
   public string? ShareToken { get; set; }

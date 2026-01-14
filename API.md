@@ -440,6 +440,8 @@ Technical contract for create/update food endpoints and detailed responses.
 - aminoAcids: [`AminoAcids`](#aminoacids)
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
+- author: [`UserProfileSummary`](#userprofilesummary)
+- copiedFromRecipeId: `number`
 
 ### RecipeForGuest
 

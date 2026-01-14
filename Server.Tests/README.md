@@ -119,7 +119,7 @@ file: `Server.Tests/Services/RecipeCopyServiceTests.cs`
 
 - **Creates a clone with latest revision and copied from id.**
 - params: source recipe, new owner id.
-- return: persisted clone with LatestRevision and CopiedFromRecipeId.
+- return: persisted clone with LatestRevision and CopiedFromRecipeId; RecipeResponse includes author and copiedFromRecipeId.
 
 #### IncrementSavedByOthersAsync
 

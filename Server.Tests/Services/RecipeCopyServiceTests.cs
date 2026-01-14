@@ -29,6 +29,17 @@ public class RecipeCopyServiceTests
     return new RecipeCopyService(context, recipeService);
   }
 
+  private static RecipeService BuildRecipeService(AppDbContext context)
+  {
+    var services = new ServiceCollection();
+    services.AddLogging();
+    services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
+    var mapper = services.BuildServiceProvider().GetRequiredService<IMapper>();
+    var foodService = new FoodService(context);
+    var ingredientService = new IngredientService(foodService);
+    return new RecipeService(ingredientService, foodService, mapper, context);
+  }
+
   private static RecipeRevision NewRevision(string name, string userId)
   {
     return new RecipeRevision(name, "keys", Language.En, new List<RecipeStep>(), userId);
@@ -201,6 +212,17 @@ public class RecipeCopyServiceTests
       .FirstAsync(r => r.Id == clone.Id);
     Assert.That(persisted.LatestRevision, Is.Not.Null);
     Assert.That(persisted.LatestRevision!.Name, Is.EqualTo("latest"));
+    Assert.That(persisted.CopiedFromRecipeId, Is.EqualTo(recipe.Id));
+
+    var original = await context.Recipe.AsNoTracking().FirstOrDefaultAsync(r => r.Id == recipe.Id);
+    Assert.That(original, Is.Not.Null);
+    Assert.That(original!.Visibility, Is.EqualTo(Visibility.Public));
+
+    var recipeService = BuildRecipeService(context);
+    var response = recipeService.BuildRecipeResponse(persisted, RecipeService.RevisionView.LatestPreferred, "user-2");
+    Assert.That(response.CopiedFromRecipeId, Is.EqualTo(recipe.Id));
+    Assert.That(response.Author, Is.Not.Null);
+    Assert.That(response.Author!.Id, Is.EqualTo("owner-1"));
   }
 
   [Test]

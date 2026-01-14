@@ -38,6 +38,8 @@ export interface Recipe extends AllNutrients {
   createdAt?: string;
   updatedAt?: string;
   owner?: UserProfileSummary;
+  author?: UserProfileSummary | null;
+  copiedFromRecipeId?: number | null;
   isOwner?: boolean;
   visibility?: Visibility;
   shareToken?: string | null;
