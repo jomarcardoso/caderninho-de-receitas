@@ -20,6 +20,7 @@ export async function getRecipeById(
     relatedRecipesLimit?: number;
     relatedRecipesExcludeSameOwner?: boolean;
     shareToken?: string;
+    authToken?: string;
   },
 ): Promise<Recipe> {
   const params = new URLSearchParams();
@@ -32,10 +33,17 @@ export async function getRecipeById(
     );
   if (opts?.shareToken) params.set('shareToken', opts.shareToken);
 
+  const headers = opts?.authToken
+    ? {
+        Authorization: `Bearer ${opts.authToken}`,
+        Accept: 'application/json',
+      }
+    : undefined;
   const res = await httpRequest<Recipe>({
     url: `${API_BASE()}/${id}${params.toString() ? `?${params}` : ''}`,
     method: 'GET',
-    skipAuth: !opts?.shareToken,
+    skipAuth: opts?.authToken ? true : !opts?.shareToken,
+    headers,
   });
   return res.data;
 }
