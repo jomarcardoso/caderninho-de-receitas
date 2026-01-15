@@ -314,12 +314,18 @@ public class RecipeController : ControllerBase
 
   [HttpGet("{id}")]
   [AllowAnonymous]
-  public async Task<IActionResult> GetPublicRecipe(
+  public async Task<IActionResult> GetRecipeById(
     int id,
     [FromQuery] int count = 5,
     [FromQuery] string? excludeIds = null,
-    [FromQuery] bool excludeSameOwner = true)
+    [FromQuery] bool excludeSameOwner = true,
+    [FromQuery] int? relatedRecipesLimit = null,
+    [FromQuery] bool? relatedRecipesExcludeSameOwner = null,
+    [FromQuery] string? shareToken = null)
   {
+    if (relatedRecipesLimit.HasValue) count = relatedRecipesLimit.Value;
+    if (relatedRecipesExcludeSameOwner.HasValue) excludeSameOwner = relatedRecipesExcludeSameOwner.Value;
+
     var recipe = await _context.Recipe
       .Include(r => r.Owner)
       .Include(r => r.Revisions)
@@ -335,9 +341,19 @@ public class RecipeController : ControllerBase
 
     if (recipe is null) return NotFound();
     var userId = GetUserId();
-    var revision = recipe.PublishedRevision ?? recipe.LatestRevision;
+    var hasShareToken = !string.IsNullOrWhiteSpace(shareToken)
+      && !string.IsNullOrWhiteSpace(recipe.ShareToken)
+      && string.Equals(recipe.ShareToken, shareToken, StringComparison.Ordinal)
+      && (!recipe.ShareTokenRevokedAt.HasValue || recipe.ShareTokenRevokedAt > DateTime.UtcNow);
+    var isOwner = !string.IsNullOrWhiteSpace(userId)
+      && string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal);
+    var canSeeLatest = isOwner || hasShareToken;
+    var view = canSeeLatest
+      ? RecipeService.RevisionView.LatestPreferred
+      : RecipeService.RevisionView.PublishedPreferred;
+    var revision = recipeService.SelectRevision(recipe, view);
     if (revision is null) return NotFound();
-    if (recipe.Visibility != Visibility.Public && !string.Equals(recipe.OwnerId, userId, StringComparison.Ordinal)) return NotFound();
+    if (!canSeeLatest && recipe.Visibility != Visibility.Public) return NotFound();
 
     count = Math.Clamp(count, 1, 5);
     var excluded = new HashSet<int>((excludeIds ?? string.Empty)
@@ -383,7 +399,7 @@ public class RecipeController : ControllerBase
       .Select(r => new { r.Id, r.Name, r.Imgs })
       .ToList();
 
-    var recipeResponse = recipeService.BuildRecipeResponse(recipe, RecipeService.RevisionView.PublishedPreferred, userId);
+    var recipeResponse = recipeService.BuildRecipeResponse(recipe, view, userId);
 
     var relatedIds = filtered.Select(r => r.Id).ToList();
     var relatedEntities = await _context.Recipe

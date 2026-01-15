@@ -41,6 +41,24 @@ file: `Server.Tests/Controllers/RecipeControllerTests.cs`
 - params: none (Visibility.Public).
 - return: status PendingReview, PublishedRevisionId null, Visibility Public.
 
+#### GetRecipeById
+
+- **Owner sees latest revision when fetching a recipe by id.**
+- params: recipeId (owner user).
+- return: RecipeResponse with latest revision name and IsOwner true.
+
+- **Non-owner sees published revision for public recipes.**
+- params: recipeId (public recipe).
+- return: RecipeResponse with published revision name and IsOwner false.
+
+- **Share token grants access to latest revision even for private recipes.**
+- params: recipeId + shareToken.
+- return: RecipeResponse with latest revision name for non-owner.
+
+- **Private recipes are hidden from non-owners without a share token.**
+- params: recipeId (private recipe, no token).
+- return: NotFound.
+
 #### GetPendingRecipes
 
 - **Pending endpoint returns only PendingReview items.**

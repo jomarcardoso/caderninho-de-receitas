@@ -486,6 +486,82 @@ public class RecipeControllerTests
   }
 
   [Test]
+  // Owner sees latest revision when fetching a recipe by id.
+  public async Task GetRecipeById_owner_sees_latest_revision()
+  {
+    using var context = BuildContext();
+    SeedUserProfile(context, "user-1");
+    var recipe = SeedRecipe(context, "user-1", RevisionStatus.Approved, Visibility.Public, hasPublished: true, hasLatest: true, latestEqualsPublished: false);
+    var controller = BuildController(context, "user-1");
+
+    var result = await controller.GetRecipeById(recipe.Id);
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var response = ok!.Value as RecipeResponse;
+    Assert.That(response, Is.Not.Null);
+    Assert.That(response!.Name, Is.EqualTo("latest"));
+    Assert.That(response.IsOwner, Is.True);
+  }
+
+  [Test]
+  // Non-owner sees published revision for public recipes.
+  public async Task GetRecipeById_non_owner_sees_published_revision()
+  {
+    using var context = BuildContext();
+    SeedUserProfile(context, "user-1");
+    var recipe = SeedRecipe(context, "user-1", RevisionStatus.Approved, Visibility.Public, hasPublished: true, hasLatest: true, latestEqualsPublished: false);
+    var controller = BuildController(context, "viewer-1");
+
+    var result = await controller.GetRecipeById(recipe.Id);
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var response = ok!.Value as RecipeResponse;
+    Assert.That(response, Is.Not.Null);
+    Assert.That(response!.Name, Is.EqualTo("published"));
+    Assert.That(response.IsOwner, Is.False);
+  }
+
+  [Test]
+  // Share token grants access to latest revision even for private recipes.
+  public async Task GetRecipeById_with_share_token_sees_latest_revision()
+  {
+    using var context = BuildContext();
+    SeedUserProfile(context, "user-1");
+    var recipe = SeedRecipe(context, "user-1", RevisionStatus.Draft, Visibility.Private, hasPublished: false, hasLatest: true, latestEqualsPublished: false);
+    recipe.ShareToken = "token-1";
+    recipe.ShareTokenCreatedAt = DateTime.UtcNow;
+    context.Recipe.Update(recipe);
+    context.SaveChanges();
+
+    var controller = BuildController(context, "viewer-1");
+
+    var result = await controller.GetRecipeById(recipe.Id, shareToken: "token-1");
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var response = ok!.Value as RecipeResponse;
+    Assert.That(response, Is.Not.Null);
+    Assert.That(response!.Name, Is.EqualTo("latest"));
+    Assert.That(response.IsOwner, Is.False);
+  }
+
+  [Test]
+  // Private recipes are hidden from non-owners without a share token.
+  public async Task GetRecipeById_private_without_share_token_returns_not_found()
+  {
+    using var context = BuildContext();
+    SeedUserProfile(context, "user-1");
+    var recipe = SeedRecipe(context, "user-1", RevisionStatus.Draft, Visibility.Private, hasPublished: false, hasLatest: true, latestEqualsPublished: false);
+    var controller = BuildController(context, "viewer-1");
+
+    var result = await controller.GetRecipeById(recipe.Id);
+
+    Assert.That(result, Is.InstanceOf<NotFoundResult>());
+  }
+
+  [Test]
   // Approving when Published != Latest replaces Published and removes the old revision.
   public async Task ApproveRecipe_replaces_published_and_removes_old_revision()
   {

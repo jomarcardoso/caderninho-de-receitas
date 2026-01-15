@@ -2,30 +2,22 @@ import { recipeDtoToText, mapRecipeModelToDto } from 'services/recipe/recipe.ser
 import type { Recipe } from 'services/recipe/recipe.model';
 import type { RecipeDto } from 'services/recipe/recipe.dto';
 
-function getApiBase(): string {
-  const fromEnv = (import.meta as any)?.env?.VITE_API_BASE_URL as string | undefined;
-  return (fromEnv || 'http://localhost:5106').replace(/\/$/, '');
-}
-
-async function createShare(recipeId: number): Promise<{ url: string; publicUrl: string; slug: string } | null> {
-  try {
-    const res = await fetch(`${getApiBase()}/api/share/recipe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ recipeId }),
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return { url: data.url as string, publicUrl: data.publicUrl as string, slug: data.slug as string };
-  } catch {
-    return null;
+function buildShareLink(recipe: Recipe | RecipeDto): string {
+  const dto = mapRecipeModelToDto(recipe as any);
+  const id = (recipe as any)?.id ?? (dto as any)?.id ?? 0;
+  const origin = window.location.origin;
+  if (!id) return origin;
+  const base = `${origin}/recipe/${id}`;
+  const shareToken = (recipe as any)?.shareToken;
+  if (shareToken) {
+    return `${base}?shareToken=${encodeURIComponent(String(shareToken))}`;
   }
+  return base;
 }
 
 async function shareLinkWithBody(recipe: Recipe | RecipeDto, language: 'pt' | 'en' = 'pt'): Promise<void> {
   const dto = mapRecipeModelToDto(recipe as any);
-  const share = await createShare(dto.id || 0);
-  const url = share?.url || `${window.location.origin}/recipe/${dto.id}`;
+  const url = buildShareLink(recipe);
   const title = dto.name || 'Receita';
   const text = recipeDtoToText(dto, language);
 
@@ -47,8 +39,7 @@ async function shareLinkWithBody(recipe: Recipe | RecipeDto, language: 'pt' | 'e
 
 async function shareLinkOnly(recipe: Recipe | RecipeDto): Promise<void> {
   const dto = mapRecipeModelToDto(recipe as any);
-  const share = await createShare(dto.id || 0);
-  const url = share?.url || `${window.location.origin}/recipe/${dto.id}`;
+  const url = buildShareLink(recipe);
   const title = dto.name || 'Receita';
 
   try {
@@ -64,5 +55,4 @@ async function shareLinkOnly(recipe: Recipe | RecipeDto): Promise<void> {
   try { await navigator.clipboard.writeText(url); } catch {}
 }
 
-export const AppShareService = { createShare, shareLinkWithBody, shareLinkOnly };
-
+export const AppShareService = { shareLinkWithBody, shareLinkOnly };
