@@ -27,6 +27,14 @@ public class RecipeControllerTests
     return new RecipeTestAppDbContext(options);
   }
 
+  private static AppDbContext BuildFullContext()
+  {
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+      .UseInMemoryDatabase(Guid.NewGuid().ToString())
+      .Options;
+    return new AppDbContext(options);
+  }
+
   private static RecipeController BuildController(AppDbContext context, string ownerId)
   {
     var services = new ServiceCollection();
@@ -210,6 +218,38 @@ public class RecipeControllerTests
   }
 
   [Test]
+  // Create persists description and additional fields.
+  public async Task CreateRecipe_persists_description_and_additional()
+  {
+    using var context = BuildContext();
+    var controller = BuildController(context, "user-1");
+
+    var dto = new RecipeDto
+    {
+      Name = "Carrot Cake",
+      Keys = "carrot,cake",
+      Language = Language.En,
+      Steps = new List<RecipeStepDto>(),
+      Visibility = Visibility.Private,
+      Description = "A classic carrot cake.",
+      Additional = "Serve chilled."
+    };
+
+    var result = await controller.CreateRecipe(dto);
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var response = ok!.Value as RecipeResponse;
+    Assert.That(response, Is.Not.Null);
+    Assert.That(response!.Description, Is.EqualTo("A classic carrot cake."));
+    Assert.That(response.Additional, Is.EqualTo("Serve chilled."));
+
+    var persisted = await context.Recipe.AsNoTracking().FirstAsync(r => r.Id == response.Id);
+    Assert.That(persisted.Description, Is.EqualTo("A classic carrot cake."));
+    Assert.That(persisted.Additional, Is.EqualTo("Serve chilled."));
+  }
+
+  [Test]
   // Create with multiple steps and ingredients returns a persisted RecipeResponse.
   public async Task CreateRecipe_with_steps_and_ingredients_returns_recipe_response_with_persisted_data()
   {
@@ -307,6 +347,55 @@ public class RecipeControllerTests
     Assert.That(persisted.LatestRevision, Is.Not.Null);
     Assert.That(persisted.LatestRevision!.Steps.Count, Is.EqualTo(2));
     Assert.That(persisted.LatestRevision!.Steps[0].Ingredients.Count, Is.EqualTo(3));
+  }
+
+  [Test]
+  // Create persists owned nutrient types without tracking errors.
+  public async Task CreateRecipe_with_owned_nutrients_persists_successfully()
+  {
+    using var context = BuildFullContext();
+
+    context.Food.Add(new Food
+    {
+      Id = 2001,
+      Name = new LanguageText { En = "Flour", Pt = "Farinha" },
+      Keys = new LanguageText { En = "flour", Pt = "farinha" },
+      Description = new LanguageText { En = "Flour", Pt = "Farinha" },
+      MeasurementUnit = MeasurementUnit.Gram,
+      Measures = new Measure { Cup = 100 }
+    });
+    context.SaveChanges();
+
+    var controller = BuildController(context, "user-1");
+    var dto = new RecipeDto
+    {
+      Name = "Bread",
+      Keys = "bread,flour",
+      Language = Language.En,
+      Visibility = Visibility.Private,
+      Steps = new List<RecipeStepDto>
+      {
+        new()
+        {
+          Title = "Mix",
+          Preparation = "Mix ingredients.",
+          IngredientsText = "1 cup flour"
+        }
+      }
+    };
+
+    var result = await controller.CreateRecipe(dto);
+    Assert.That(result, Is.InstanceOf<OkObjectResult>());
+
+    var persisted = await context.Recipe
+      .Include(r => r.LatestRevision)
+      .ThenInclude(rv => rv.Steps)
+      .ThenInclude(s => s.Ingredients)
+      .FirstAsync();
+
+    Assert.That(persisted.LatestRevision, Is.Not.Null);
+    Assert.That(persisted.LatestRevision!.Steps, Has.Count.EqualTo(1));
+    Assert.That(persisted.LatestRevision!.Steps[0].Ingredients, Has.Count.EqualTo(1));
   }
 
   [Test]
@@ -483,6 +572,39 @@ public class RecipeControllerTests
     Assert.That(updated.Status, Is.EqualTo(RevisionStatus.PendingReview));
     Assert.That(updated.PublishedRevisionId, Is.EqualTo(publishedId));
     Assert.That(updated.LatestRevisionId, Is.Not.EqualTo(publishedId));
+  }
+
+  [Test]
+  // Update persists description and additional fields.
+  public async Task UpdateRecipe_persists_description_and_additional()
+  {
+    using var context = BuildContext();
+    var recipe = SeedRecipe(context, "user-1", RevisionStatus.Draft, Visibility.Private, hasPublished: false, hasLatest: true, latestEqualsPublished: false);
+    var controller = BuildController(context, "user-1");
+
+    var dto = new RecipeDto
+    {
+      Name = "Updated Recipe",
+      Keys = "updated,recipe",
+      Language = Language.En,
+      Steps = new List<RecipeStepDto>(),
+      Visibility = Visibility.Private,
+      Description = "Updated description.",
+      Additional = "Updated additional."
+    };
+
+    var result = await controller.UpdateRecipe(recipe.Id, dto);
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var response = ok!.Value as RecipeResponse;
+    Assert.That(response, Is.Not.Null);
+    Assert.That(response!.Description, Is.EqualTo("Updated description."));
+    Assert.That(response.Additional, Is.EqualTo("Updated additional."));
+
+    var persisted = await context.Recipe.AsNoTracking().FirstAsync(r => r.Id == recipe.Id);
+    Assert.That(persisted.Description, Is.EqualTo("Updated description."));
+    Assert.That(persisted.Additional, Is.EqualTo("Updated additional."));
   }
 
   [Test]

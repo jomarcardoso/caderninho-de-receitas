@@ -42,6 +42,8 @@ public class RecipeService
     {
       OwnerId = string.Empty,
       Slug = NormalizeSlug(recipeDto.Name),
+      Description = recipeDto.Description,
+      Additional = recipeDto.Additional,
       Visibility = recipeDto.Visibility ?? Visibility.Private,
       Imgs = recipeDto.Imgs ?? new List<string>(),
       Categories = NormalizeCategorySlugs(recipeDto.Categories),
@@ -112,6 +114,8 @@ public class RecipeService
       Revisions = new List<RecipeRevision> { newRevision },
       Imgs = source.Imgs,
       Categories = source.Categories,
+      Description = source.Description,
+      Additional = source.Additional,
       CopiedFromRecipeId = source.Id,
       Visibility = source.Visibility,
       ShareToken = Guid.NewGuid().ToString("N"),
@@ -138,6 +142,8 @@ public class RecipeService
 
     recipe.LatestRevision = null;
     recipe.LatestRevisionId = null;
+    recipe.Description = recipeDto.Description;
+    recipe.Additional = recipeDto.Additional;
     recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     recipe.Categories = NormalizeCategorySlugs(recipeDto.Categories);
     recipe.UpdatedAtUtc = DateTime.UtcNow;

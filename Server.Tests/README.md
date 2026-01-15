@@ -25,9 +25,17 @@ file: `Server.Tests/Controllers/RecipeControllerTests.cs`
 - params: none (Visibility.Private).
 - return: RecipeResponse fields match persisted recipe.
 
+- **Create persists description and additional fields.**
+- params: RecipeDto with Description and Additional.
+- return: RecipeResponse and persisted recipe contain those fields.
+
 - **Create a recipe with multiple steps and ingredients returns a RecipeResponse with persisted data.**
 - params: RecipeDto (Visibility.Private, 2 steps, ingredients text).
 - return: RecipeResponse has steps/ingredients and matches persisted recipe.
+
+- **Create persists owned nutrient types without tracking errors.**
+- params: RecipeDto (1 step, ingredients text) using full AppDbContext.
+- return: Ok result and persisted revision/ingredients.
 
 - **Create a recipe with multiple steps and ingredients returns a RecipeResponse with persisted data.**
 - params: RecipeDto (Visibility.Private).
@@ -80,6 +88,10 @@ file: `Server.Tests/Controllers/RecipeControllerTests.cs`
 - **Private update keeps Published revision and resets status to Draft.**
 - params: none (Visibility.Private).
 - return: status Draft, PublishedRevisionId unchanged, Visibility Private.
+
+- **Update persists description and additional fields.**
+- params: RecipeDto with Description and Additional.
+- return: RecipeResponse and persisted recipe contain those fields.
 
 - **Public update without Published revision becomes PendingReview and stays unpublished.**
 - params: none (Visibility.Public).
