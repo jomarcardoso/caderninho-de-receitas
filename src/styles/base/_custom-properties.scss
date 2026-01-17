@@ -1,0 +1,49 @@
+@use "../utils/utils" as *;
+
+:root {
+  // color
+  --color-primary-light: #{$color-primary-light};
+  --color-primary-main: #{$color-primary-main};
+  --color-primary-dark: #{$color-primary-dark};
+  --color-primary-weak: #{$color-primary-weak};
+  --color-primary-medium: #{$color-primary-medium};
+  --color-primary-strong: #{$color-primary-strong};
+  --color-secondary-light: #{$color-secondary-light};
+  --color-secondary-main: #{$color-secondary-main};
+  --color-secondary-dark: #{$color-secondary-dark};
+  --color-secondary-weak: #{$color-secondary-weak};
+  --color-secondary-medium: #{$color-secondary-medium};
+  --color-secondary-strong: #{$color-secondary-strong};
+  --color-dark-light: #{$color-dark-light};
+  --color-dark-main: #{$color-dark-main};
+  --color-dark-dark: #{$color-dark-dark};
+  --color-dark-weak: #{$color-dark-weak};
+  --color-dark-medium: #{$color-dark-medium};
+  --color-dark-strong: #{$color-dark-strong};
+  --color-light-light: #{$color-light-light};
+  --color-light-main: #{$color-light-main};
+  --color-light-dark: #{$color-light-dark};
+  --color-light-weak: #{$color-light-weak};
+  --color-white: #{$color-white};
+  --color-white-weak: #{$color-white-weak};
+
+  // font
+  --font-family-title: #{$font-family-title};
+  --font-family-text: #{$font-family-text};
+  --font-family-input: #{$font-family-input};
+
+  // border
+  --border-radius-primary: #{$border-radius-primary};
+  --border-radius-secondary: #{$border-radius-secondary};
+  --border-width: #{$border-width};
+
+  // box shadow
+  --shadow-primary:
+    0 2px 4px -1px rgb(0 0 0 / 20%),
+    0 4px 5px 0 rgb(0 0 0 / 14%),
+    0 1px 10px 0 rgb(0 0 0 / 12%);
+
+  --shadow-primary-inset: inset 0 0 3px 0 rgb(0 0 0 / 20%);
+  // components;
+  --header-height: 44px;
+}

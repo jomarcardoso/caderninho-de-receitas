@@ -1,0 +1,22 @@
+.root-header {
+  background-color: white;
+  box-shadow: var(--shadow-primary);
+  position: relative;
+  z-index: 2;
+
+  &__wrapper {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  &__button {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

@@ -1,0 +1,38 @@
+@forward "typography";
+@forward "buttons";
+@forward "paper";
+@forward "table";
+@forward "modal";
+
+.svg-icon {
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentcolor;
+  flex-shrink: 0;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 24px;
+
+  &.large {
+    font-size: 32px;
+  }
+}
+
+.paper-bg {
+  background-image: url("/images/textures/paper-texture.png");
+  position: relative;
+
+  &::before {
+    backdrop-filter: contrast(1.08);
+    box-shadow: var(--shadow-primary-inset);
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+}

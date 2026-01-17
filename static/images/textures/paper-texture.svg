@@ -1,0 +1,12 @@
+<svg width="800px" height="800px" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="roughpaper">
+      <feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="5" result="noise"/>
+      <feDiffuseLighting lighting-color="#e4dbde" diffuseConstant="1" surfaceScale=".7" result="diffLight">
+        <feDistantLight azimuth="100" elevation="80"/>
+      </feDiffuseLighting>
+    </filter>
+  </defs>
+
+  <rect filter="url(#roughpaper)" width="800px" height="800px" fill="#e4dbde"/>
+</svg>

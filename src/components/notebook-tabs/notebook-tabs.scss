@@ -1,0 +1,30 @@
+.notebook-tabs {
+  left: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  ul {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+  }
+
+  a {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    background-color: white;
+    border-bottom-right-radius: var(--border-radius-primary);
+    border-top-right-radius: var(--border-radius-primary);
+    box-shadow: var(--shadow-primary);
+    padding: 8px 5px 12px 3px;
+    letter-spacing: -5px;
+    line-height: 1;
+
+    &.ovo-active {
+      background-color: var(--color-primary-dark);
+      color: white;
+      font-weight: bold;
+    }
+  }
+}

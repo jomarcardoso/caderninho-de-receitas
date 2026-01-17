@@ -1,0 +1,43 @@
+.interactive-field {
+  overflow: hidden;
+  position: relative;
+
+  .checkbox {
+    transform: translateX(6px);
+    align-items: flex-end;
+  }
+
+  .field__label {
+    font-size: 17px;
+    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .field__input {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  &__foods {
+    position: absolute;
+    left: 0;
+    top: 68px;
+  }
+
+  &__checks {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__img {
+    height: 44px;
+    width: 24px;
+    mix-blend-mode: multiply;
+  }
+}

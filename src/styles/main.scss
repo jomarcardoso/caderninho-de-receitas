@@ -1,0 +1,36 @@
+@use "utils/utils";
+@use "base/base";
+@use "components/components";
+@use "helpers/helpers";
+
+$enable-cssgrid: true;
+
+@import "bootstrap/scss/bootstrap-grid";
+@import "bootstrap/scss/bootstrap-utilities";
+
+@media (min-width: 768px) {
+  html {
+    overflow: hidden;
+
+    body {
+      background-color: black;
+      filter: brightness(.2);
+    }
+
+    &::after {
+      content: 'So far, this application is only available on mobile devices.';
+      display: block;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 4px solid black;
+      font-size: 28px;
+      max-width: 280px;
+      padding: 24px;
+      text-align: center;
+      font-family: 'Trebuchet MS', sans-serif;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+@use "../../styles/utils/variables";
+
+.logo {
+  color: var(--color-dark-main);
+  font-family: var(--font-family-title);
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: justify;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &__text-large {
+    font-size: 17px;
+    letter-spacing: 0.1px;
+  }
+
+  &.-active {
+    text-shadow: 0 0 1px currentcolor;
+
+    .logo__text-small {
+      color: var(--color-primary-main);
+    }
+  }
+
+  &--contrast {
+    color: #fff;
+  }
+}

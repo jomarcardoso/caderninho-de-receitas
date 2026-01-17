@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "./types/",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "target" : "esnext",
+    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "skipLibCheck": true
+  },
+  "include": [
+    "src",
+    "index.d.ts"
+  ]
+}

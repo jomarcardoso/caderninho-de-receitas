@@ -1,0 +1,22 @@
+.h2 {
+  font-family: var(--font-family-title);
+  font-size: 19px;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.section-title {
+  @extend .h2;
+
+  background-color: var(--color-primary-light);
+  border-radius: var(--border-radius-secondary);
+  color: white;
+  font-size: 17px;
+  mix-blend-mode: multiply;
+  padding: 7px 14px;
+  text-align: center;
+}
+
+.link {
+  text-decoration: underline;
+}

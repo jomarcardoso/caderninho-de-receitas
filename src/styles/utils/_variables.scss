@@ -1,0 +1,39 @@
+// color
+$color-primary-light: #947368;
+$color-primary-main: #87695e;
+$color-primary-dark: #6E564D;
+$color-primary-strong: #{$color-primary-dark}e8;
+$color-primary-medium: #{$color-primary-dark}b8;
+$color-primary-weak: #{$color-primary-dark}88;
+$color-secondary-light: #a9b9d4;
+$color-secondary-main: #5e6d87;
+$color-secondary-dark: #232c3b;
+$color-secondary-strong: #{$color-secondary-dark}e8;
+$color-secondary-medium: #{$color-secondary-dark}b8;
+$color-secondary-weak: #{$color-secondary-dark}88;
+$color-dark-light: #4a4a4a;
+$color-dark-main: #191919;
+$color-dark-dark: #000;
+$color-dark-strong: #{$color-dark-main}e8;
+$color-dark-medium: #{$color-dark-main}b8;
+$color-dark-weak: #{$color-dark-main}88;
+$color-light-light: #f8f8f8;
+$color-light-main: #f2f2f2;
+$color-light-dark: #ededed;
+$color-light-strong: #{$color-light-dark}cf;
+$color-light-weak: #{$color-light-dark}88;
+$color-white: #fff;
+$color-white-weak: #fff8;
+
+// border
+$border-radius-primary: 7px;
+$border-radius-secondary: 3px;
+$border-width: 3px;
+$border-secondary: 2px;
+$border-primary: 2px dashed $color-primary-light;
+
+// font
+
+$font-family-title: 'Cinzel', serif;
+$font-family-text: 'Dosis', sans-serif;
+$font-family-input: 'Vibur', cursive;

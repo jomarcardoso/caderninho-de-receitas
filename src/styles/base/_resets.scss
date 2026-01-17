@@ -1,0 +1,38 @@
+@import "the-new-css-reset/css/reset.css";
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  color: var(--color-dark-main);
+  font-family: var(--font-family-text);
+  font-size: 1rem;
+  letter-spacing: 0.0093em;
+  font-weight: 200;
+  position: fixed;
+  top: 0;
+}
+
+.d-none {
+  display: none;
+}
+
+html {
+  height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+
+th,
+td {
+  border: 0;
+}
+
+gatsby-qod {
+  display: none;
+}

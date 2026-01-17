@@ -1,0 +1,136 @@
+@use "../../styles/utils/variables";
+
+.field {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    color: variables.$color-white;
+    border-top-left-radius: var(--border-radius-secondary);
+    border-top-right-radius: var(--border-radius-secondary);
+    background-color: var(--color-primary-light);
+    padding: 5px 24px 3px;
+    align-self: flex-start;
+    font-size: 15px;
+    font-family: variables.$font-family-title;
+    letter-spacing: 0.5px;
+    mix-blend-mode: multiply;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  &__box {
+    border: 2px dashed var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    padding: 12px 10px 0;
+    border-radius: var(--border-radius-primary);
+    border-top-left-radius: 0;
+    transition: border-color 0.2s ease-in-out;
+  }
+
+  &__input {
+    background-color: transparent;
+    font-family: variables.$font-family-input;
+    line-height: 31px;
+    font-size: 23px;
+    color: var(--color-dark-main);
+    resize: none;
+    width: 100%;
+    border: 0;
+    padding: 0;
+
+    &::placeholder {
+      color: var(--color-dark-light);
+      font-family: variables.$font-family-text;
+      letter-spacing: 1px;
+    }
+
+    &::selection {
+      color: var(--color-dark-dark);
+      background: var(--color-secondary-light);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__hint {
+    font-family: var(--font-family-text);
+    margin-top: 2px;
+    font-size: 13px;
+  }
+
+  &__action {
+    display: flex;
+    padding-left: 1rem;
+  }
+
+  &__icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  &--multiline {
+    .field__label {
+      align-self: stretch;
+      text-align: center;
+    }
+
+    .field__box {
+      border: 0;
+      padding: 12px 0 0;
+    }
+
+    .field__input {
+      background-image: url("/images/textures/linned-sheet-texture.svg");
+      font-size: 21px;
+    }
+
+    &.field--large {
+      .field__box {
+        padding-top: 24px;
+      }
+
+      .field__input {
+        line-height: 44px;
+        font-size: 25px;
+        background-image: url("/images/textures/linned-sheet-texture-large.svg");
+      }
+    }
+  }
+
+  &--focused {
+    .field__box {
+      border-color: variables.$color-primary-dark;
+    }
+
+    .field__label {
+      background-color: variables.$color-primary-dark;
+    }
+
+    &.field--multiline {
+      .field__input {
+        background-image: url("/images/textures/linned-sheet-texture-focus.svg");
+      }
+
+      &.field--large {
+        .field__input {
+          background-image: url("/images/textures/linned-sheet-texture-focus-large.svg");
+        }
+      }
+    }
+  }
+
+  &--no-label {
+    .field__box {
+      border-radius: var(--border-radius-primary);
+    }
+  }
+
+  &--no-breakline {
+    .field__box {
+      padding: 10px;
+    }
+  }
+}
