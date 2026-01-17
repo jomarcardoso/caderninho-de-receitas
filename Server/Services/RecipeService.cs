@@ -38,6 +38,7 @@ public class RecipeService
   public async Task<Recipe> DtoToEntity(RecipeDto recipeDto)
   {
     var revision = await BuildRevisionAsync(recipeDto);
+    var food = await ResolveMainFoodAsync(recipeDto);
     var entity = new Recipe
     {
       OwnerId = string.Empty,
@@ -47,6 +48,8 @@ public class RecipeService
       Visibility = recipeDto.Visibility ?? Visibility.Private,
       Imgs = recipeDto.Imgs ?? new List<string>(),
       Categories = NormalizeCategorySlugs(recipeDto.Categories),
+      Food = food,
+      FoodId = food?.Id,
       CreatedAtUtc = DateTime.UtcNow,
       UpdatedAtUtc = DateTime.UtcNow,
       ShareToken = Guid.NewGuid().ToString("N"),
@@ -65,6 +68,7 @@ public class RecipeService
   {
     return await _context.Recipe
       .Include(r => r.Owner)
+      .Include(r => r.Food)
       .Include(r => r.LatestRevision)
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
@@ -116,6 +120,8 @@ public class RecipeService
       Categories = source.Categories,
       Description = source.Description,
       Additional = source.Additional,
+      FoodId = source.FoodId,
+      Food = source.Food,
       CopiedFromRecipeId = source.Id,
       Visibility = source.Visibility,
       ShareToken = Guid.NewGuid().ToString("N"),
@@ -132,6 +138,7 @@ public class RecipeService
     if (recipeDto is null) throw new ArgumentNullException(nameof(recipeDto));
 
     var revision = await BuildRevisionAsync(recipeDto);
+    var mainFood = await ResolveMainFoodAsync(recipeDto);
     revision.Recipe = recipe;
     revision.RecipeId = recipe.Id;
 
@@ -146,6 +153,8 @@ public class RecipeService
     recipe.Additional = recipeDto.Additional;
     recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     recipe.Categories = NormalizeCategorySlugs(recipeDto.Categories);
+    recipe.Food = mainFood;
+    recipe.FoodId = mainFood?.Id;
     recipe.UpdatedAtUtc = DateTime.UtcNow;
     await EnsureCategoriesExistAsync(recipe.Categories);
     return revision;
@@ -164,6 +173,7 @@ public class RecipeService
     result.Recipes = await _context.Recipe
       .Where(r => r.OwnerId == userId)
       .Include(r => r.Owner)
+      .Include(r => r.Food)
       .Include(r => r.PublishedRevision)
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
@@ -186,6 +196,7 @@ public class RecipeService
     return await _context.Recipe
       .AsNoTracking()
       .Include(r => r.Owner)
+      .Include(r => r.Food)
       .Include(r => r.LatestRevision)
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
@@ -206,6 +217,7 @@ public class RecipeService
 
     return await _context.Recipe
       .AsNoTracking()
+      .Include(r => r.Food)
       .Include(r => r.LatestRevision)
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
@@ -368,6 +380,7 @@ public class RecipeService
     IQueryable<Recipe> query = _context.Recipe
       .AsNoTracking()
       .Include(r => r.Owner)
+      .Include(r => r.Food)
       .Include(r => r.LatestRevision)
       .ThenInclude(rv => rv.Steps)
       .ThenInclude(s => s.Ingredients)
@@ -541,10 +554,9 @@ public class RecipeService
         .ToList();
       response.Steps = steps;
 
-      response.Food = steps
-        .SelectMany(s => s.Ingredients)
-        .Select(i => i.Food)
-        .FirstOrDefault() ?? new FoodSummaryResponse();
+      response.Food = recipe.Food is not null
+        ? _mapper.Map<FoodSummaryResponse>(recipe.Food)
+        : new FoodSummaryResponse();
 
       AggregateNutrientsFromSteps(revision.Steps, response);
     }
@@ -637,6 +649,13 @@ public class RecipeService
     await _context.SaveChangesAsync();
   }
 
+
+  private async Task<Food?> ResolveMainFoodAsync(RecipeDto recipeDto)
+  {
+    if (string.IsNullOrWhiteSpace(recipeDto.Name)) return null;
+    if (!await _context.Food.AsNoTracking().AnyAsync()) return null;
+    return await foodService.FindFoodByPossibleName(recipeDto.Name);
+  }
 
   private async Task<RecipeRevision> BuildRevisionAsync(RecipeDto recipeDto)
   {

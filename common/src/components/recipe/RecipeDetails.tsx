@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import type { FC, ReactElement } from 'react';
 import type { Food } from '../../services/food/food.model';
@@ -64,7 +64,14 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
   nutrientSectionsWithCards = true,
   components,
 }) => {
-  const { Ingredients, Preparation, NutrientDisplay, ListItem, AminoAcidsTable, SectionCard } = components;
+  const {
+    Ingredients,
+    Preparation,
+    NutrientDisplay,
+    ListItem,
+    AminoAcidsTable,
+    SectionCard,
+  } = components;
 
   const renderNutrient = (nutrient: Nutrient): ReactElement | null => {
     if (!nutrient.quantity) return null;
@@ -76,11 +83,18 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
     );
   };
 
-  const renderNutritionalInformation = ({ name, quantity, measurementUnit }: Nutrient) => {
+  const renderNutritionalInformation = ({
+    name,
+    quantity,
+    measurementUnit,
+  }: Nutrient) => {
     if (!quantity) return null;
 
     const roundedQuantity = roundToMaximumDecimals(quantity);
-    const formattedQuantity = formatNumber(roundedQuantity ?? quantity, language);
+    const formattedQuantity = formatNumber(
+      roundedQuantity ?? quantity,
+      language,
+    );
 
     return (
       <ListItem noGutters noBorder>
@@ -109,11 +123,14 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
         <SectionCard title={step.title} key={step.ingredientsText}>
           <div className="grid columns-1 g-6">
             {step.ingredients.length ? (
-              <Ingredients
-                ingredients={step.ingredients}
-                setCurrentFood={setCurrentFood}
-                setCurrentFoodQuantity={setCurrentFoodQuantity}
-              />
+              <>
+                <h3 className="h3">Ingredientes</h3>
+                <Ingredients
+                  ingredients={step.ingredients}
+                  setCurrentFood={setCurrentFood}
+                  setCurrentFoodQuantity={setCurrentFoodQuantity}
+                />
+              </>
             ) : (
               ''
             )}
@@ -132,23 +149,27 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
 
       {recipe?.additional && <div>{recipe.additional}</div>}
 
-      {nutritionalInformation.length > 0 && (
-        nutrientSectionsWithCards ? (
+      {nutritionalInformation.length > 0 &&
+        (nutrientSectionsWithCards ? (
           <SectionCard title={translate('nutritionalInformation', language)}>
             <div className="grid columns-1 g-3">
-              <ul>{nutritionalInformation.map(renderNutritionalInformation)}</ul>
+              <ul>
+                {nutritionalInformation.map(renderNutritionalInformation)}
+              </ul>
             </div>
           </SectionCard>
         ) : (
           <div className="grid columns-1 g-3">
-            <h2 className="h2">{translate('nutritionalInformation', language)}</h2>
+            <h2 className="h2">
+              {translate('nutritionalInformation', language)}
+            </h2>
             <ul>{nutritionalInformation.map(renderNutritionalInformation)}</ul>
           </div>
-        )
-      )}
+        ))}
 
-      {Array.isArray(recipe?.vitamins) && recipe!.vitamins.length > 0 && (
-        nutrientSectionsWithCards ? (
+      {Array.isArray(recipe?.vitamins) &&
+        recipe!.vitamins.length > 0 &&
+        (nutrientSectionsWithCards ? (
           <SectionCard title={translate('vitamins', language)}>
             <div className="grid columns-1 g-3">
               <ul className="list">{recipe?.vitamins.map(renderNutrient)}</ul>
@@ -159,11 +180,11 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
             <h3 className="section-title">{translate('vitamins', language)}</h3>
             <ul className="list">{recipe?.vitamins.map(renderNutrient)}</ul>
           </div>
-        )
-      )}
+        ))}
 
-      {Array.isArray(recipe?.minerals) && recipe!.minerals.length > 0 && (
-        nutrientSectionsWithCards ? (
+      {Array.isArray(recipe?.minerals) &&
+        recipe!.minerals.length > 0 &&
+        (nutrientSectionsWithCards ? (
           <SectionCard title={translate('minerals', language)}>
             <div className="grid columns-1 g-3">
               <ul className="list">{recipe?.minerals.map(renderNutrient)}</ul>
@@ -174,18 +195,23 @@ export const RecipeDetails: FC<RecipeDetailsProps> = ({
             <h3 className="section-title">{translate('minerals', language)}</h3>
             <ul className="list">{recipe?.minerals.map(renderNutrient)}</ul>
           </div>
-        )
-      )}
+        ))}
 
-      {Array.isArray(recipe?.aminoAcids) && recipe!.aminoAcids.length > 0 && (
-        nutrientSectionsWithCards ? (
+      {Array.isArray(recipe?.aminoAcids) &&
+        recipe!.aminoAcids.length > 0 &&
+        (nutrientSectionsWithCards ? (
           <SectionCard title={translate('aminoAcidsTableTitle', language)}>
-            <AminoAcidsTable contrast="light" essentialAminoAcids={recipe.aminoAcids} />
+            <AminoAcidsTable
+              contrast="light"
+              essentialAminoAcids={recipe.aminoAcids}
+            />
           </SectionCard>
         ) : (
-          <AminoAcidsTable contrast="light" essentialAminoAcids={recipe.aminoAcids} />
-        )
-      )}
+          <AminoAcidsTable
+            contrast="light"
+            essentialAminoAcids={recipe.aminoAcids}
+          />
+        ))}
     </div>
   );
 };

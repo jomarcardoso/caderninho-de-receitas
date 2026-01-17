@@ -73,7 +73,7 @@ public class RecipeController : ControllerBase
 
     var ownerId = GetUserId();
     if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
-    return await CreateRecipeInternalAsync(recipeDto, ownerId, null);
+    return await createRecipeInternalAsync(recipeDto, ownerId, null);
   }
 
   [HttpPost("many")]
@@ -134,6 +134,7 @@ public class RecipeController : ControllerBase
 
     var recipe = await _context.Recipe
       .Include(r => r.Revisions)
+      .Include(r => r.Food)
       .Include(r => r.LatestRevision)
         .ThenInclude(rv => rv.Steps)
         .ThenInclude(s => s.Ingredients)
@@ -201,6 +202,7 @@ public class RecipeController : ControllerBase
   {
     var pending = await _context.Recipe
       .AsNoTracking()
+      .Include(r => r.Food)
       .Include(r => r.LatestRevision)
       .Where(r => r.Status == RevisionStatus.PendingReview)
       .OrderByDescending(r => r.CreatedAtUtc)
@@ -328,6 +330,7 @@ public class RecipeController : ControllerBase
 
     var recipe = await _context.Recipe
       .Include(r => r.Owner)
+      .Include(r => r.Food)
       .Include(r => r.Revisions)
       .Include(r => r.PublishedRevision)
         .ThenInclude(rv => rv.Steps)
@@ -459,7 +462,7 @@ public class RecipeController : ControllerBase
     return workspace is null ? NotFound() : Ok(workspace);
   }
 
-  private async Task<IActionResult> CreateRecipeInternalAsync(RecipeDto recipeDto, string ownerId, bool? isPublic)
+  private async Task<IActionResult> createRecipeInternalAsync(RecipeDto recipeDto, string ownerId, bool? isPublic)
   {
     var recipe = await recipeService.DtoToEntity(recipeDto);
     recipe.OwnerId = ownerId;

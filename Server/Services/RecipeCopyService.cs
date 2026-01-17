@@ -29,6 +29,7 @@ public class RecipeCopyService
   public async Task<CopySourceResult> ResolveCopySourceAsync(int id, string userId, string? shareToken, CancellationToken cancellationToken = default)
   {
     var recipe = await _context.Recipe
+      .Include(r => r.Food)
       .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
     if (recipe is null) return new CopySourceResult { NotFound = true };
 

@@ -80,6 +80,7 @@ public class UsersController : ControllerBase
     var recipes = await _context.Recipe
       .AsNoTracking()
       .Include(r => r.Owner)
+      .Include(r => r.Food)
       .Include(r => r.PublishedRevision)
         .ThenInclude(rv => rv.Steps)
         .ThenInclude(s => s.Ingredients)
@@ -103,6 +104,9 @@ public class UsersController : ControllerBase
       .Include(l => l.Items)
       .ThenInclude(i => i.Recipe)
       .ThenInclude(r => r.Owner)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.Food)
       .Include(l => l.Items)
       .ThenInclude(i => i.Recipe)
       .ThenInclude(r => r.PublishedRevision)

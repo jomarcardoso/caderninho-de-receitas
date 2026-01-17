@@ -109,7 +109,6 @@ public class AppDbContext : DbContext
       entity.Ignore(r => r.Vitamins);
       entity.Ignore(r => r.Minerals);
       entity.Ignore(r => r.Steps);
-      entity.Ignore(r => r.Food);
 
       // Persist Categories as a comma-separated slug list
       var categoriesConverter = new ValueConverter<List<string>, string>(
@@ -130,6 +129,11 @@ public class AppDbContext : DbContext
         .HasColumnName("Categories")
         .HasColumnType("text")
         .Metadata.SetValueComparer(categoriesComparer);
+
+      entity.HasOne(r => r.Food)
+        .WithMany()
+        .HasForeignKey(r => r.FoodId)
+        .OnDelete(DeleteBehavior.SetNull);
 
       // Link Recipe.OwnerId -> UserProfile.Id
       entity

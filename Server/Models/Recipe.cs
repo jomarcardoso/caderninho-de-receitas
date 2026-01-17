@@ -69,6 +69,8 @@ public class Recipe
     OwnerId = ownerId ?? OwnerId;
     Description = description;
     Additional = additional;
+    Food = food;
+    FoodId = food?.Id;
 
     var revision = new RecipeRevision(
       name,
@@ -93,6 +95,8 @@ public class Recipe
   public string? Additional { get; set; }
   public List<string> Imgs { get; set; } = new();
   public List<string> Categories { get; set; } = new();
+  public int? FoodId { get; set; }
+  public Food? Food { get; set; }
 
   // Snapshot de passos/ingredientes derivados da revisão ativa convertidos para o modelo legado
   public List<RecipeStep> Steps
@@ -102,12 +106,6 @@ public class Recipe
       return ActiveRevision?.Steps ?? new List<RecipeStep>();
     }
   }
-
-  // Compat: tenta expor um "Food" principal (primeiro ingrediente do primeiro passo)
-  public Food? Food => Steps
-    .SelectMany(s => s.Ingredients ?? Enumerable.Empty<Ingredient>())
-    .Select(i => i.Food)
-    .FirstOrDefault();
 
   // Agregados nutricionais calculados on-demand para compatibilidade
   public NutritionalInformationBase NutritionalInformation
