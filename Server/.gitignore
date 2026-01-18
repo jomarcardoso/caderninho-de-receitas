@@ -121,6 +121,9 @@ StyleCopReport.xml
 # User-specific files
 *.rsuser
 
+# Credentials
+caderninho-de-receitas-c9a20e2c0a40.json
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
