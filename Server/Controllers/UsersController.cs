@@ -32,9 +32,11 @@ public class UsersController : ControllerBase
 
   [HttpGet("me")]
   [Authorize]
-  public async Task<IActionResult> Me()
+  public async Task<IActionResult> Me(CancellationToken cancellationToken)
   {
-    var profile = await _profiles.UpsertFromClaimsAsync(User);
+    var ownerId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value?.Trim();
+    if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
+    var profile = await _profiles.GetByOwnerIdAsync(ownerId, cancellationToken);
     if (profile is null) return Unauthorized();
     var ctx = new UserProfileViewContext(true, IsAdmin(), false);
     return Ok(UserProfileResponseBuilder.Build(profile, ctx));

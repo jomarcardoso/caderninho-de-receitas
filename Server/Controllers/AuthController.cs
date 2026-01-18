@@ -1,19 +1,11 @@
-using Google.Apis.Auth;
+using System.Security.Claims;
+using FirebaseAdmin.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Dtos;
 using Server.Dtos.Auth;
-using Server.Services.Auth;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using Server.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Server.Shared;
-using Server.Response;
 using Server.Services;
+using Server.Services.Auth;
 
 namespace Server.Controllers;
 
@@ -21,122 +13,92 @@ namespace Server.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-  private readonly GoogleAuthService googleAuthService;
-  private readonly AppDbContext _context;
-  private readonly JwtTokenService _tokenService;
-  private readonly IClaimsTransformation _claimsTransformation;
-  private readonly UserProfileService _userProfileService;
+  private readonly FirebaseSessionCookieService _cookies;
+  private readonly FirebaseUserProfileService _profiles;
+  private readonly UserProfileService _userProfiles;
 
-  public AuthController(GoogleAuthService googleAuthService, AppDbContext context, JwtTokenService tokenService, IClaimsTransformation claimsTransformation, UserProfileService userProfileService)
+  public AuthController(
+    FirebaseSessionCookieService cookies,
+    FirebaseUserProfileService profiles,
+    UserProfileService userProfiles)
   {
-    this.googleAuthService = googleAuthService;
-    _context = context;
-    _tokenService = tokenService;
-    _claimsTransformation = claimsTransformation;
-    _userProfileService = userProfileService;
+    _cookies = cookies;
+    _profiles = profiles;
+    _userProfiles = userProfiles;
   }
 
-  [HttpPost("google")]
-  [ProducesResponseType(typeof(UserProfileOwnerResponse), StatusCodes.Status200OK)]
-  [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-  public async Task<IActionResult> GoogleLogin(
-    [FromBody] GoogleLoginRequestDto request,
+  [HttpPost("session")]
+  [AllowAnonymous]
+  [ProducesResponseType(typeof(AuthSessionResponseDto), StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status400BadRequest)]
+  public async Task<IActionResult> CreateSession(
+    [FromBody] CreateSessionRequestDto request,
     CancellationToken cancellationToken)
   {
-    if (!ModelState.IsValid)
+    if (!ModelState.IsValid || string.IsNullOrWhiteSpace(request.IdToken))
     {
-      return Unauthorized(new { error = "Invalid token" });
+      return BadRequest(new { error = "id_token_required" });
     }
 
-    // Verify token and get Google user info
-    GoogleJsonWebSignature.Payload? googleUserInfo =
-      await googleAuthService.ValidateAsync(request.IdToken, cancellationToken);
-
-    if (googleUserInfo is null)
-    {
-      return Unauthorized(new { error = "Invalid token" });
-    }
-
-    var googleUserId = googleUserInfo.Subject?.Trim() ?? string.Empty;
-
-    UserProfile googleUserProfile = UserProfileFactory.FromGooglePayload(googleUserInfo);
-
-    List<Role> roles = await _userProfileService.GetRolesAsync(googleUserProfile, cancellationToken);
-    var isAdmin = roles.Contains(Role.Admin);
-
-    googleUserProfile.Roles = roles;
-
-    UserProfile? persistedProfile = null;
-
-    // Upsert UserProfile with data from Google
+    FirebaseToken decoded;
     try
     {
-      var ownerIdValue = googleUserProfile.Id;
-
-      if (!string.IsNullOrWhiteSpace(googleUserProfile.Id))
-      {
-        UserProfile? profile = await _userProfileService.GetByOwnerIdAsync(googleUserProfile.Id, cancellationToken);
-
-        if (profile is null)
-        {
-          profile = googleUserProfile;
-          _context.UserProfile.Add(profile);
-        }
-        else
-        {
-          profile = UserProfileFactory.Update(profile, googleUserProfile);
-        }
-
-        persistedProfile = profile;
-        await _context.SaveChangesAsync(cancellationToken);
-      }
+      decoded = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(request.IdToken, false, cancellationToken);
     }
-    catch { /* ignore profile upsert issues during login */ }
-
-    if (persistedProfile is null)
+    catch
     {
-      var error = new ApiError
-      {
-        Status = StatusCodes.Status500InternalServerError,
-        Title = "Login failed",
-        Detail = "Unable to load or update user profile",
-        Code = "auth.profile_upsert_failed",
-        CorrelationId = HttpContext.TraceIdentifier
-      };
-
-      return StatusCode(StatusCodes.Status500InternalServerError, error);
+      return Unauthorized(new { error = "invalid_id_token" });
     }
 
-    var token = _tokenService.GenerateToken(
-      googleUserId,
-      googleUserInfo.Email ?? string.Empty,
-      googleUserInfo.Name ?? googleUserInfo.Email ?? googleUserId);
+    var sessionCookie = await _cookies.CreateSessionCookieAsync(request.IdToken);
+    _cookies.AppendSessionCookie(Response, sessionCookie);
 
-    UserProfileOwnerResponse response = UserProfileResponseBuilder.BuildOwnerResponse(persistedProfile);
+    var profile = await _profiles.UpsertFromFirebaseAsync(decoded, cancellationToken);
+    var payload = UserProfileResponseBuilder.BuildOwnerResponse(profile);
 
-    return Ok(new UserResponse { token = token, profile = response });
+    return Ok(new AuthSessionResponseDto
+    {
+      Uid = decoded.Uid,
+      Profile = payload
+    });
   }
 
   [HttpPost("logout")]
   [ProducesResponseType(StatusCodes.Status200OK)]
-  public IActionResult Logout()
+  public async Task<IActionResult> Logout(CancellationToken cancellationToken)
   {
-    return Ok();
+    if (Request.Cookies.TryGetValue(_cookies.CookieName, out var sessionCookie))
+    {
+      var decoded = await _cookies.VerifySessionCookieAsync(sessionCookie, checkRevoked: false);
+      if (decoded is not null)
+      {
+        try
+        {
+          await FirebaseAuth.DefaultInstance.RevokeRefreshTokensAsync(decoded.Uid, cancellationToken);
+        }
+        catch
+        {
+          // best-effort
+        }
+      }
+    }
+
+    _cookies.DeleteSessionCookie(Response);
+    return Ok(new { ok = true });
   }
 
-  [HttpPost("refresh")]
+  [HttpGet("me")]
   [Authorize]
-  [ProducesResponseType(StatusCodes.Status200OK)]
+  [ProducesResponseType(typeof(UserProfileOwnerResponse), StatusCodes.Status200OK)]
   [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-  public IActionResult RefreshToken()
+  public async Task<IActionResult> Me(CancellationToken cancellationToken)
   {
     var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
     if (string.IsNullOrWhiteSpace(ownerId)) return Unauthorized();
 
-    var email = User.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
-    var name = User.FindFirstValue(ClaimTypes.Name) ?? email;
+    var profile = await _userProfiles.GetByOwnerIdAsync(ownerId, cancellationToken);
+    if (profile is null) return Unauthorized();
 
-    var token = _tokenService.GenerateToken(ownerId, email, name);
-    return Ok(new { token });
+    return Ok(UserProfileResponseBuilder.BuildOwnerResponse(profile));
   }
 }

@@ -34,6 +34,10 @@ public class UserProfile
   [MaxLength(256)]
   public string? GoogleId { get; set; }
   public bool GoogleEmailVerified { get; set; } = false;
+  [MaxLength(128)]
+  public string? FirebaseUid { get; set; }
+  public bool IsGuest { get; set; } = false;
+  public List<UserAuthIdentity> AuthIdentities { get; set; } = new();
   public List<Role> Roles { get; set; } = new();
 
   // Dietary restrictions / preferences

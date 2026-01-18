@@ -21,6 +21,7 @@ public class AppDbContext : DbContext
   public DbSet<RecipeShare> RecipeShare { get; set; }
   public DbSet<Server.Models.FoodEditRequest> FoodEditRequest { get; set; }
   public DbSet<UserProfile> UserProfile { get; set; }
+  public DbSet<UserAuthIdentity> UserAuthIdentity { get; set; }
   public DbSet<UserProfileRevision> UserProfileRevision { get; set; }
   public DbSet<RecipeRevision> RecipeRevisions { get; set; }
   public DbSet<RecipeList> RecipeList { get; set; }
@@ -238,6 +239,7 @@ public class AppDbContext : DbContext
       entity.HasKey(u => u.Id);
       entity.Property(u => u.Id).IsRequired();
       entity.HasIndex(u => u.Id).IsUnique();
+      entity.HasIndex(u => u.FirebaseUid).IsUnique();
       entity.HasIndex(u => new { u.Visibility, u.TombstoneStatus });
       entity.Property(u => u.CreatedAtUtc).IsRequired();
       entity.Property(u => u.UpdatedAtUtc).IsRequired();
@@ -247,6 +249,8 @@ public class AppDbContext : DbContext
       entity.Property(u => u.ShareTokenRevokedAt);
       entity.Property(u => u.GoogleId);
       entity.Property(u => u.GoogleEmailVerified);
+      entity.Property(u => u.FirebaseUid);
+      entity.Property(u => u.IsGuest);
 
       // Persist enum lists as comma-separated strings
       var (allergyConv, allergyCmp) = BuildEnumListPersistence<AllergyRestriction>();
@@ -312,6 +316,21 @@ public class AppDbContext : DbContext
         .HasConversion(emailConverter)
         .HasColumnType("text")
         .Metadata.SetValueComparer(emailComparer);
+    });
+
+    // UserAuthIdentity
+    modelBuilder.Entity<UserAuthIdentity>(entity =>
+    {
+      entity.HasKey(i => i.Id);
+      entity.Property(i => i.UserProfileId).IsRequired();
+      entity.Property(i => i.Provider).IsRequired();
+      entity.Property(i => i.ProviderUserId).IsRequired();
+      entity.HasIndex(i => new { i.Provider, i.ProviderUserId }).IsUnique();
+      entity.HasIndex(i => i.UserProfileId);
+      entity.HasOne(i => i.UserProfile)
+        .WithMany(u => u.AuthIdentities)
+        .HasForeignKey(i => i.UserProfileId)
+        .OnDelete(DeleteBehavior.Cascade);
     });
 
     // RecipeList

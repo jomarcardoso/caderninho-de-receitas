@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Server;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Security.Claims;
-using System.Net.Http.Headers;
-using System.Text.Json.Nodes;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Server.Services;
@@ -15,7 +11,6 @@ using Server.Serialization;
 using Server.PreProcessing;
 using Server.Auth;
 using Server.Options;
-using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 var isSwaggerExport = string.Equals(Environment.GetEnvironmentVariable("SWAGGER_EXPORT"), "1", StringComparison.OrdinalIgnoreCase);
@@ -71,45 +66,14 @@ builder.Services.AddSingleton<RecipeImageOcrService>();
 builder.Services.AddScoped<IImageOptimizationService, ImageOptimizationService>();
 builder.Services.Configure<GcsOptions>(builder.Configuration.GetSection("Gcs"));
 builder.Services.AddSingleton<GcsStorageService>();
-builder.Services.AddScoped<GoogleAuthService>();
 builder.Services.AddSingleton<AzureBlobSasService>();
 builder.Services.AddScoped<UserProfileService>();
+builder.Services.AddScoped<FirebaseUserProfileService>();
+builder.Services.Configure<FirebaseOptions>(builder.Configuration.GetSection("Firebase"));
+builder.Services.AddSingleton<FirebaseSessionCookieService>();
 builder.Services.AddHostedService<FeaturedExpiryService>();
-var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
-if (string.IsNullOrWhiteSpace(jwtOptions.Secret))
-{
-  if (builder.Environment.IsDevelopment())
-  {
-    // Generate an ephemeral secret to keep development running, but warn the developer
-    var fallbackKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
-    jwtOptions.Secret = fallbackKey;
-    Console.WriteLine("[Auth] Warning: Jwt:Secret is not configured. Generated a temporary development key for this run.");
-  }
-  else
-  {
-    throw new InvalidOperationException("Jwt:Secret must be configured via appsettings or environment variables.");
-  }
-}
-else
-{
-  var secretBytes = Encoding.UTF8.GetBytes(jwtOptions.Secret);
-  if (secretBytes.Length < 32)
-  {
-    var normalized = Convert.ToBase64String(SHA256.HashData(secretBytes));
-    jwtOptions.Secret = normalized;
-    Console.WriteLine("[Auth] Warning: Jwt:Secret was shorter than 256 bits. Normalized via SHA256 hash for this process.");
-  }
-}
-if (string.IsNullOrWhiteSpace(jwtOptions.Issuer))
-{
-  jwtOptions.Issuer = "caderninho";
-}
-if (string.IsNullOrWhiteSpace(jwtOptions.Audience))
-{
-  jwtOptions.Audience = jwtOptions.Issuer;
-}
-builder.Services.AddSingleton(jwtOptions);
-builder.Services.AddSingleton<JwtTokenService>();
+var firebaseOptions = builder.Configuration.GetSection("Firebase").Get<FirebaseOptions>() ?? new FirebaseOptions();
+EnsureFirebaseApp(firebaseOptions);
 
 builder.Services.AddAuthorization(options =>
 {
@@ -147,23 +111,10 @@ builder.Services.AddCors(options =>
 builder.Services
   .AddAuthentication(options =>
   {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = "FirebaseSession";
+    options.DefaultChallengeScheme = "FirebaseSession";
   })
-  .AddJwtBearer(options =>
-  {
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-      ValidateIssuer = true,
-      ValidateAudience = true,
-      ValidateIssuerSigningKey = true,
-      ValidIssuer = jwtOptions.Issuer,
-      ValidAudience = jwtOptions.Audience,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret)),
-      ClockSkew = TimeSpan.FromMinutes(1),
-    };
-  });
+  .AddScheme<AuthenticationSchemeOptions, FirebaseSessionAuthHandler>("FirebaseSession", _ => { });
 
 // builder.Services.AddAuthentication().AddGoogle(googleOptions =>
 // {
@@ -236,6 +187,44 @@ if (!isSwaggerExport)
 }
 
 app.Run();
+
+static void EnsureFirebaseApp(FirebaseOptions options)
+{
+  try
+  {
+    _ = FirebaseApp.DefaultInstance;
+    return;
+  }
+  catch
+  {
+    // ignore and create a new instance
+  }
+
+  GoogleCredential credential;
+  if (!string.IsNullOrWhiteSpace(options.ServiceAccountJson))
+  {
+    credential = GoogleCredential.FromJson(options.ServiceAccountJson);
+  }
+  else if (!string.IsNullOrWhiteSpace(options.ServiceAccountPath))
+  {
+    if (!File.Exists(options.ServiceAccountPath))
+    {
+      throw new FileNotFoundException(
+        $"Firebase service account file not found: {options.ServiceAccountPath}",
+        options.ServiceAccountPath);
+    }
+    credential = GoogleCredential.FromFile(options.ServiceAccountPath);
+  }
+  else
+  {
+    credential = GoogleCredential.GetApplicationDefault();
+  }
+
+  FirebaseApp.Create(new AppOptions
+  {
+    Credential = credential
+  });
+}
 
 
 
