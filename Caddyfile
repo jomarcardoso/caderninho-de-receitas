@@ -1,0 +1,12 @@
+local.myapp.test {
+  encode zstd gzip
+
+  @api path /api/*
+  handle @api {
+    reverse_proxy http://localhost:5106
+  }
+
+  handle {
+    reverse_proxy http://localhost:3000
+  }
+}
