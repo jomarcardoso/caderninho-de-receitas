@@ -1,17 +1,15 @@
-Azure Blob Upload (Server)
+Uploads (GCS)
 
 Configure these settings (appsettings.json, appsettings.Development.json or User Secrets):
 
-- `AzureBlob:AccountName`
-- `AzureBlob:AccountKey`
-- `AzureBlob:Container` (e.g., `images`)
-- `AzureBlob:CdnBaseUrl` (optional, if using a CDN/front door; fallback is the blob endpoint)
+- `Gcs:BucketName`
+- `Gcs:CredentialsPath`
+- `Gcs:PublicBaseUrl` (optional)
 
-Endpoint available:
+Endpoints available:
 
-- `POST /api/uploads/sas` body `{ fileName, contentType?, prefix? }`
-  - Returns `{ uploadUrl, blobUrl, expiresOn }`
-  - Upload the file with `PUT` to `uploadUrl` setting headers:
-    - `x-ms-blob-type: BlockBlob`
-    - `Content-Type: <file content type>`
-
+- `POST /api/uploads/recipes` (multipart form)
+  - Returns `{ url, objectName, width, height }`
+- `POST /api/uploads/icons` (multipart form)
+  - Returns `{ url, objectName }`
+- `POST /api/uploads/optimize-webp` (multipart form)

@@ -66,7 +66,6 @@ builder.Services.AddSingleton<RecipeImageOcrService>();
 builder.Services.AddScoped<IImageOptimizationService, ImageOptimizationService>();
 builder.Services.Configure<GcsOptions>(builder.Configuration.GetSection("Gcs"));
 builder.Services.AddSingleton<GcsStorageService>();
-builder.Services.AddSingleton<AzureBlobSasService>();
 builder.Services.AddScoped<UserProfileService>();
 builder.Services.AddScoped<FirebaseUserProfileService>();
 builder.Services.Configure<FirebaseOptions>(builder.Configuration.GetSection("Firebase"));

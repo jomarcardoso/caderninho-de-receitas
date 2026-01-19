@@ -1,5 +1,6 @@
 local.myapp.test {
   encode zstd gzip
+  tls internal
 
   @api path /api/*
   handle @api {

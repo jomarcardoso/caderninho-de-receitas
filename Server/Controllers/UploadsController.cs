@@ -10,25 +10,14 @@ namespace Server.Controllers;
 [Route("api/[controller]")]
 public class UploadsController : ControllerBase
 {
-  private readonly AzureBlobSasService sasService;
   private readonly IImageOptimizationService imageOptimization;
   private readonly GcsStorageService gcsStorage;
 
-  public UploadsController(AzureBlobSasService sasService, IImageOptimizationService imageOptimization, GcsStorageService gcsStorage)
+  public UploadsController(IImageOptimizationService imageOptimization, GcsStorageService gcsStorage)
   {
-    this.sasService = sasService;
     this.imageOptimization = imageOptimization;
     this.gcsStorage = gcsStorage;
   }
-
-  public class SasRequest
-  {
-    public string FileName { get; set; } = string.Empty;
-    public string? ContentType { get; set; }
-    public string? Prefix { get; set; }
-  }
-
-  public record SasResponse(string UploadUrl, string BlobUrl, DateTimeOffset ExpiresOn);
 
   public class OptimizeRequest
   {
@@ -55,28 +44,6 @@ public class UploadsController : ControllerBase
 
   public record RecipeUploadResponse(string Url, string ObjectName, int Width, int Height);
   public record IconUploadResponse(string Url, string ObjectName);
-
-  [HttpPost("sas")]
-  [AllowAnonymous]
-  [ProducesResponseType(typeof(SasResponse), StatusCodes.Status200OK)]
-  public IActionResult CreateSas([FromBody] SasRequest request)
-  {
-    if (string.IsNullOrWhiteSpace(request.FileName))
-    {
-      return BadRequest(new { error = "FileName is required" });
-    }
-
-    // Normalize blob path: optional prefix/date/user folders could be here
-    var safeName = request.FileName.Replace("\\", "/").TrimStart('/')
-      .Replace("..", string.Empty);
-    var prefix = string.IsNullOrWhiteSpace(request.Prefix)
-      ? $"recipes/{DateTime.UtcNow:yyyy/MM/dd}"
-      : request.Prefix.Trim('/');
-    var blobName = string.IsNullOrWhiteSpace(prefix) ? safeName : $"{prefix}/{safeName}";
-
-    var (uploadUri, publicUri, expiresOn) = sasService.CreateWriteSas(blobName, request.ContentType);
-    return Ok(new SasResponse(uploadUri.ToString(), publicUri.ToString(), expiresOn));
-  }
 
   [HttpPost("optimize-webp")]
   [AllowAnonymous]
