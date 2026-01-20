@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +14,18 @@ namespace Server.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
+  private readonly ILogger<AuthController> _logger;
   private readonly FirebaseSessionCookieService _cookies;
   private readonly FirebaseUserProfileService _profiles;
   private readonly UserProfileService _userProfiles;
 
   public AuthController(
+    ILogger<AuthController> logger,
     FirebaseSessionCookieService cookies,
     FirebaseUserProfileService profiles,
     UserProfileService userProfiles)
   {
+    _logger = logger;
     _cookies = cookies;
     _profiles = profiles;
     _userProfiles = userProfiles;
@@ -45,8 +49,15 @@ public class AuthController : ControllerBase
     {
       decoded = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(request.IdToken, false, cancellationToken);
     }
-    catch
+    catch (Exception ex)
     {
+      var appInfo = GetFirebaseAppInfo();
+      _logger.LogWarning(
+        ex,
+        "Failed to verify Firebase ID token. FirebaseApp={AppName} ProjectId={ProjectId} CredentialType={CredentialType}",
+        appInfo.AppName,
+        appInfo.ProjectId,
+        appInfo.CredentialType);
       return Unauthorized(new { error = "invalid_id_token" });
     }
 
@@ -100,5 +111,18 @@ public class AuthController : ControllerBase
     if (profile is null) return Unauthorized();
 
     return Ok(UserProfileResponseBuilder.BuildOwnerResponse(profile));
+  }
+
+  private static (string? AppName, string? ProjectId, string? CredentialType) GetFirebaseAppInfo()
+  {
+    try
+    {
+      var app = FirebaseApp.DefaultInstance;
+      return (app.Name, app.Options.ProjectId, app.Options.Credential?.GetType().Name);
+    }
+    catch
+    {
+      return (null, null, null);
+    }
   }
 }

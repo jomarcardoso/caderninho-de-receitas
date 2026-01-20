@@ -1,4 +1,4 @@
-local.myapp.test {
+localhost {
   encode zstd gzip
   tls internal
 

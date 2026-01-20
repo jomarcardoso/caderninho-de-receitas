@@ -189,14 +189,28 @@ app.Run();
 
 static void EnsureFirebaseApp(FirebaseOptions options)
 {
+  FirebaseApp? existing = null;
   try
   {
-    _ = FirebaseApp.DefaultInstance;
-    return;
+    existing = FirebaseApp.DefaultInstance;
   }
   catch
   {
     // ignore and create a new instance
+  }
+
+  if (existing is not null)
+  {
+    var existingProjectId = existing.Options.ProjectId;
+    var projectMatches = string.IsNullOrWhiteSpace(options.ProjectId)
+      || string.Equals(existingProjectId, options.ProjectId, StringComparison.OrdinalIgnoreCase);
+    var hasCredential = existing.Options.Credential is not null;
+    if (projectMatches && hasCredential)
+    {
+      return;
+    }
+
+    existing.Delete();
   }
 
   GoogleCredential credential;
@@ -221,7 +235,8 @@ static void EnsureFirebaseApp(FirebaseOptions options)
 
   FirebaseApp.Create(new AppOptions
   {
-    Credential = credential
+    Credential = credential,
+    ProjectId = options.ProjectId
   });
 }
 
