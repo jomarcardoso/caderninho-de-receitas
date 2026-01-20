@@ -15,10 +15,9 @@ public class FirebaseSessionAuthHandler : AuthenticationHandler<AuthenticationSc
     IOptionsMonitor<AuthenticationSchemeOptions> options,
     ILoggerFactory logger,
     UrlEncoder encoder,
-    ISystemClock clock,
     FirebaseSessionCookieService cookieService,
     FirebaseUserProfileService profiles)
-    : base(options, logger, encoder, clock)
+    : base(options, logger, encoder)
   {
     _cookieService = cookieService;
     _profiles = profiles;
