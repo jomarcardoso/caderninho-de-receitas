@@ -25,7 +25,7 @@ public class AppDbContext : DbContext
   public DbSet<UserProfileRevision> UserProfileRevision { get; set; }
   public DbSet<RecipeRevision> RecipeRevisions { get; set; }
   public DbSet<RecipeList> RecipeList { get; set; }
-  public DbSet<RecipeListItem> RecipeListItem { get; set; }
+  public DbSet<RecipeItem> RecipeItem { get; set; }
   public DbSet<RecipeCategoryOpen> RecipeCategoryOpen { get; set; }
   public DbSet<CategoryEditRequest> CategoryEditRequest { get; set; }
 
@@ -346,8 +346,9 @@ public class AppDbContext : DbContext
         .OnDelete(DeleteBehavior.Cascade);
     });
 
-    modelBuilder.Entity<RecipeListItem>(entity =>
+    modelBuilder.Entity<RecipeItem>(entity =>
     {
+      entity.ToTable("RecipeListItem");
       entity.HasKey(i => new { i.RecipeListId, i.RecipeId });
       entity.HasOne(i => i.Recipe)
         .WithMany()

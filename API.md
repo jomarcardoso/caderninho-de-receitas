@@ -2,6 +2,8 @@
 
 <!-- THIS FILE IS SOURCE OF TRUTH. DO NOT EDIT TO BE LIKE THE CODE! -->
 
+API.md is the source of truth for DTOs/responses. Backend response types use the \*Response suffix.
+
 ## Rules
 
 ### Avoid boolean
@@ -412,6 +414,7 @@ Technical contract for create/update food endpoints and detailed responses.
 - imgs: `string[]`
 - savedByOthersCount: `number`
 - nutritionalInformation: [`NutritionalInformation`](#nutritionalinformation)
+- position: `number`
 
 ### RecipeIndex
 

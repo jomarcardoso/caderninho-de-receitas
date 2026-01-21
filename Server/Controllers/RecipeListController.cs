@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
@@ -15,12 +16,12 @@ namespace Server.Controllers;
 [ApiController]
 [Route("api/recipelist")]
 [Authorize]
-public class RecipeListsController : ControllerBase
+public class RecipeListController : ControllerBase
 {
   private readonly AppDbContext _context;
   private readonly RecipeService _recipeService;
   private readonly IMapper _mapper;
-  public RecipeListsController(AppDbContext context, RecipeService recipeService, IMapper mapper)
+  public RecipeListController(AppDbContext context, RecipeService recipeService, IMapper mapper)
   {
     _context = context;
     _recipeService = recipeService;
@@ -58,7 +59,12 @@ public class RecipeListsController : ControllerBase
       summary.Items = entity.Items
         .OrderBy(i => i.Position)
         .Where(i => i.Recipe is not null)
-        .Select(i => _mapper.Map<RecipeItemSummaryResponse>(MapRecipeSummary(i.Recipe!, callerUserId)))
+        .Select(i =>
+        {
+          var item = _mapper.Map<RecipeItemSummaryResponse>(MapRecipeSummary(i.Recipe!, callerUserId));
+          item.Position = i.Position;
+          return item;
+        })
         .ToList();
     }
 
@@ -86,7 +92,12 @@ public class RecipeListsController : ControllerBase
       response.Items = entity.Items
         .OrderBy(i => i.Position)
         .Where(i => i.Recipe is not null)
-        .Select(i => _mapper.Map<RecipeItemSummaryResponse>(MapRecipeSummary(i.Recipe!, callerUserId)))
+        .Select(i =>
+        {
+          var item = _mapper.Map<RecipeItemSummaryResponse>(MapRecipeSummary(i.Recipe!, callerUserId));
+          item.Position = i.Position;
+          return item;
+        })
         .ToList();
     }
 
@@ -125,27 +136,8 @@ public class RecipeListsController : ControllerBase
   {
     var userId = GetUserId();
     if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
-    var lists = await _context.RecipeList
-      .AsNoTracking()
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.Owner)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.LatestRevision)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.PublishedRevision)
-      .Where(l => l.OwnerId == userId)
-      .OrderBy(l => l.Name)
-      .ToListAsync();
-
-    // owner profile is the caller
-    var ownerProfile = await _context.UserProfile
-      .Include(p => p.Revisions)
-      .FirstOrDefaultAsync(p => p.Id == userId);
-
-    return Ok(lists.Select(l => MapSummary(l, ownerProfile, userId, includeItems: true)));
+    var summaries = await LoadMyListSummaries(userId);
+    return Ok(summaries);
   }
 
   [HttpGet("index")]
@@ -181,19 +173,14 @@ public class RecipeListsController : ControllerBase
       OwnerId = userId,
       Name = dto.Name.Trim(),
       Description = dto.Description?.Trim(),
-      Visibility = dto.Visibility ?? Shared.Visibility.Private,
+      Visibility = dto.Visibility,
       CreatedAt = DateTime.UtcNow,
       UpdatedAt = DateTime.UtcNow,
     };
     _context.RecipeList.Add(entity);
     await _context.SaveChangesAsync();
-
-    // refetch owner (single)
-    var ownerProfile = await _context.UserProfile
-      .Include(p => p.Revisions)
-      .FirstOrDefaultAsync(p => p.Id == userId);
-
-    return Ok(MapResponse(entity, ownerProfile, userId));
+    var summaries = await LoadMyListSummaries(userId);
+    return Ok(summaries);
   }
 
   [HttpPut("{id}")]
@@ -205,15 +192,11 @@ public class RecipeListsController : ControllerBase
     if (list is null) return NotFound();
     if (!string.IsNullOrWhiteSpace(dto?.Name)) list.Name = dto.Name.Trim();
     list.Description = dto?.Description?.Trim();
-    if (dto?.Visibility is not null) list.Visibility = dto.Visibility.Value;
+    list.Visibility = dto.Visibility;
     list.UpdatedAt = DateTime.UtcNow;
     await _context.SaveChangesAsync();
-
-    var ownerProfile = await _context.UserProfile
-      .Include(p => p.Revisions)
-      .FirstOrDefaultAsync(p => p.Id == userId);
-
-    return Ok(MapResponse(list, ownerProfile, userId));
+    var summaries = await LoadMyListSummaries(userId);
+    return Ok(summaries);
   }
 
   [HttpDelete("{id}")]
@@ -225,7 +208,7 @@ public class RecipeListsController : ControllerBase
     if (list is null) return NotFound();
     _context.RecipeList.Remove(list);
     await _context.SaveChangesAsync();
-    return Ok(new { deleted = true });
+    return NoContent();
   }
 
   [HttpGet("{id}")]
@@ -262,12 +245,12 @@ public class RecipeListsController : ControllerBase
     if (list is null) return NotFound();
     var recipe = await _context.Recipe.FirstOrDefaultAsync(r => r.Id == recipeId && r.OwnerId == userId);
     if (recipe is null) return NotFound();
-    var exists = await _context.RecipeListItem.AnyAsync(i => i.RecipeListId == id && i.RecipeId == recipeId);
-    if (exists) return Ok(new { added = false });
-    var pos = await _context.RecipeListItem.Where(i => i.RecipeListId == id).MaxAsync(i => (int?)i.Position) ?? 0;
-    _context.RecipeListItem.Add(new Server.Models.RecipeListItem { RecipeListId = id, RecipeId = recipeId, Position = pos + 1 });
+    var exists = await _context.RecipeItem.AnyAsync(i => i.RecipeListId == id && i.RecipeId == recipeId);
+    if (exists) return Ok(false);
+    var pos = await _context.RecipeItem.Where(i => i.RecipeListId == id).MaxAsync(i => (int?)i.Position) ?? 0;
+    _context.RecipeItem.Add(new Server.Models.RecipeItem { RecipeListId = id, RecipeId = recipeId, Position = pos + 1 });
     await _context.SaveChangesAsync();
-    return Ok(new { added = true });
+    return StatusCode(StatusCodes.Status201Created, true);
   }
 
   [HttpDelete("{id}/recipes/{recipeId}")]
@@ -277,10 +260,34 @@ public class RecipeListsController : ControllerBase
     if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var list = await _context.RecipeList.FirstOrDefaultAsync(l => l.Id == id && l.OwnerId == userId);
     if (list is null) return NotFound();
-    var item = await _context.RecipeListItem.FirstOrDefaultAsync(i => i.RecipeListId == id && i.RecipeId == recipeId);
+    var item = await _context.RecipeItem.FirstOrDefaultAsync(i => i.RecipeListId == id && i.RecipeId == recipeId);
     if (item is null) return NotFound();
-    _context.RecipeListItem.Remove(item);
+    _context.RecipeItem.Remove(item);
     await _context.SaveChangesAsync();
-    return Ok(new { removed = true });
+    return NoContent();
+  }
+
+  private async Task<List<RecipeListSummaryResponse>> LoadMyListSummaries(string userId)
+  {
+    var lists = await _context.RecipeList
+      .AsNoTracking()
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.Owner)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.LatestRevision)
+      .Include(l => l.Items)
+      .ThenInclude(i => i.Recipe)
+      .ThenInclude(r => r.PublishedRevision)
+      .Where(l => l.OwnerId == userId)
+      .OrderBy(l => l.Name)
+      .ToListAsync();
+
+    var ownerProfile = await _context.UserProfile
+      .Include(p => p.Revisions)
+      .FirstOrDefaultAsync(p => p.Id == userId);
+
+    return lists.Select(l => MapSummary(l, ownerProfile, userId, includeItems: true)).ToList();
   }
 }

@@ -34,11 +34,16 @@ public class WorkspaceService
       list.Items = entity.Items
         .OrderBy(i => i.Position)
         .Where(i => i.Recipe is not null)
-        .Select(i => _mapper.Map<RecipeItemSummaryResponse>(
-          _recipeService.BuildRecipeSummaryResponse(
-            i.Recipe!,
-            RecipeService.RevisionView.LatestPreferred,
-            callerUserId)))
+        .Select(i =>
+        {
+          var item = _mapper.Map<RecipeItemSummaryResponse>(
+            _recipeService.BuildRecipeSummaryResponse(
+              i.Recipe!,
+              RecipeService.RevisionView.LatestPreferred,
+              callerUserId));
+          item.Position = i.Position;
+          return item;
+        })
         .ToList();
     }
 
@@ -99,7 +104,7 @@ public class WorkspaceService
       .ToListAsync();
 
     var recipeIdsInLists = lists
-      .SelectMany(l => l.Items ?? new List<RecipeListItem>())
+      .SelectMany(l => l.Items ?? new List<RecipeItem>())
       .Select(i => i.RecipeId)
       .Distinct()
       .ToHashSet();
@@ -117,11 +122,16 @@ public class WorkspaceService
       UserProfile = profileResponse,
       RecipeLists = lists.Select(l => MapListSummary(l, userId)).ToList(),
       Recipes = otherRecipes
-        .Select(r => _mapper.Map<RecipeItemSummaryResponse>(
-          _recipeService.BuildRecipeSummaryResponse(
-            r,
-            RecipeService.RevisionView.LatestPreferred,
-            userId)))
+        .Select(r =>
+        {
+          var item = _mapper.Map<RecipeItemSummaryResponse>(
+            _recipeService.BuildRecipeSummaryResponse(
+              r,
+              RecipeService.RevisionView.LatestPreferred,
+              userId));
+          item.Position = 0;
+          return item;
+        })
         .ToList()
     };
   }
@@ -150,7 +160,7 @@ public class WorkspaceService
       .ToListAsync();
 
     var recipeIdsInLists = lists
-      .SelectMany(l => l.Items ?? new List<RecipeListItem>())
+      .SelectMany(l => l.Items ?? new List<RecipeItem>())
       .Select(i => i.RecipeId)
       .Distinct()
       .ToHashSet();

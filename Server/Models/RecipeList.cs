@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Server.Shared;
 
 namespace Server.Models;
@@ -12,11 +13,14 @@ public class RecipeList
   public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-  public ICollection<RecipeListItem> Items { get; set; } = new List<RecipeListItem>();
+  public ICollection<RecipeItem> Items { get; set; } = new List<RecipeItem>();
 }
 
-public class RecipeListItem
+public class RecipeItem
 {
+  [NotMapped]
+  public int Id { get; set; }
+
   public int RecipeListId { get; set; }
   public RecipeList? RecipeList { get; set; }
 

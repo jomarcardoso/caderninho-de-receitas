@@ -20,14 +20,12 @@ public class RecipeDto
 public class RecipeSummaryResponse
 {
   public int Id { get; set; }
-  public string OwnerId { get; set; } = string.Empty;
   public string Name { get; set; } = string.Empty;
   public List<string> Imgs { get; set; } = new();
-  public UserProfileSummaryResponse? Owner { get; set; }
+  public UserProfileSummaryResponse Owner { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;
   public NutritionalInformationBase NutritionalInformation { get; set; } = new();
   public bool IsOwner { get; set; }
-  public Visibility Visibility { get; set; } = Visibility.Private;
 }
 
 // Item de lista (sem owner, pois a lista já tem contexto de dono)
@@ -38,8 +36,7 @@ public class RecipeItemSummaryResponse
   public List<string> Imgs { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;
   public NutritionalInformationBase NutritionalInformation { get; set; } = new();
-  public bool IsOwner { get; set; }
-  public Visibility Visibility { get; set; } = Visibility.Private;
+  public int Position { get; set; } = 0;
 }
 
 // Transport response (categorias como strings)
@@ -81,7 +78,7 @@ public class RecipeListDto
 {
   public string Name { get; set; } = string.Empty;
   public string? Description { get; set; }
-  public Visibility? Visibility { get; set; }
+  public Visibility Visibility { get; set; } = Visibility.Private;
 }
 
 public class RecipeListResponse
@@ -92,7 +89,7 @@ public class RecipeListResponse
   public Visibility Visibility { get; set; } = Visibility.Private;
   public DateTime CreatedAt { get; set; }
   public DateTime UpdatedAt { get; set; }
-  public UserProfileSummaryResponse? Owner { get; set; }
+  public UserProfileSummaryResponse Owner { get; set; } = new();
   public List<RecipeItemSummaryResponse> Items { get; set; } = new();
 }
 

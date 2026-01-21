@@ -2,6 +2,8 @@
 
 <!-- THIS FILE IS SOURCE OF TRUTH. DO NOT EDIT TO BE LIKE THE CODE! -->
 
+CLASSES.md is the source of truth for model shapes; keep entities aligned.
+
 ## Index
 
 - [Shared](#shared)
@@ -343,6 +345,26 @@ Methods:
 - Inherits: `IngredientBase<Food>`
 - Constructors: default; `(string text, Food food, double quantity, MeasureType measureType, double measureQuantity)`
 - Sets nutrient bases from the provided Food scaled by quantity: `NutritionalInformation`, `Minerals`, `Vitamins`, `AminoAcids`, `EssentialAminoAcids`.
+
+### RecipeItem
+
+- Properties:
+  - `int` Id
+  - `int` RecipeId { get; set; }
+  - `Recipe` Recipe { get; set; }
+  - `int` Position { get; set; } = 0;
+
+### RecipeList
+
+- Properties:
+  - `int` Id
+  - `string` Name
+  - `string?` Description
+  - `Visibility` Visibility
+  - `string` OwnerId
+  - `DateTime` CreatedAt
+  - `DateTime` UpdatedAt
+  - List<RecipeItem> Items
 
 ### Icon
 
