@@ -676,6 +676,100 @@ public class RecipeControllerTests
   }
 
   [Test]
+  // GetRecipeById prefers revision images when available.
+  public async Task GetRecipeById_returns_revision_images_when_present()
+  {
+    using var context = BuildContext();
+    const string ownerId = "user-1";
+    SeedUserProfile(context, ownerId);
+
+    var food = new Food
+    {
+      Id = 9101,
+      Name = new LanguageText { En = "Apple", Pt = "Maca" },
+      Imgs = new List<string> { "food-img-1" }
+    };
+
+    var recipe = new Recipe
+    {
+      OwnerId = ownerId,
+      Visibility = Visibility.Private,
+      CreatedAtUtc = DateTime.UtcNow,
+      UpdatedAtUtc = DateTime.UtcNow,
+      Food = food,
+      FoodId = food.Id
+    };
+
+    var revision = NewRevision("Recipe With Imgs", ownerId);
+    revision.Imgs = new List<string> { "recipe-img-1", "recipe-img-2" };
+    revision.Recipe = recipe;
+    recipe.Revisions = new List<RecipeRevision> { revision };
+    recipe.LatestRevision = revision;
+    recipe.LatestRevisionId = revision.Id;
+
+    context.Food.Add(food);
+    context.Recipe.Add(recipe);
+    context.SaveChanges();
+
+    var controller = BuildController(context, ownerId);
+
+    var result = await controller.GetRecipeById(recipe.Id);
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var response = ok!.Value as RecipeResponse;
+    Assert.That(response, Is.Not.Null);
+    Assert.That(response!.Imgs, Is.EqualTo(new List<string> { "recipe-img-1", "recipe-img-2" }));
+  }
+
+  [Test]
+  // GetRecipeById falls back to Food images when revision has none.
+  public async Task GetRecipeById_falls_back_to_food_images_when_revision_is_empty()
+  {
+    using var context = BuildContext();
+    const string ownerId = "user-1";
+    SeedUserProfile(context, ownerId);
+
+    var food = new Food
+    {
+      Id = 9102,
+      Name = new LanguageText { En = "Banana", Pt = "Banana" },
+      Imgs = new List<string> { "food-img-2", "food-img-3" }
+    };
+
+    var recipe = new Recipe
+    {
+      OwnerId = ownerId,
+      Visibility = Visibility.Private,
+      CreatedAtUtc = DateTime.UtcNow,
+      UpdatedAtUtc = DateTime.UtcNow,
+      Food = food,
+      FoodId = food.Id
+    };
+
+    var revision = NewRevision("Recipe Without Imgs", ownerId);
+    revision.Imgs = new List<string>();
+    revision.Recipe = recipe;
+    recipe.Revisions = new List<RecipeRevision> { revision };
+    recipe.LatestRevision = revision;
+    recipe.LatestRevisionId = revision.Id;
+
+    context.Food.Add(food);
+    context.Recipe.Add(recipe);
+    context.SaveChanges();
+
+    var controller = BuildController(context, ownerId);
+
+    var result = await controller.GetRecipeById(recipe.Id);
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var response = ok!.Value as RecipeResponse;
+    Assert.That(response, Is.Not.Null);
+    Assert.That(response!.Imgs, Is.EqualTo(new List<string> { "food-img-2", "food-img-3" }));
+  }
+
+  [Test]
   // Share token grants access to latest revision even for private recipes.
   public async Task GetRecipeById_with_share_token_sees_latest_revision()
   {
@@ -711,6 +805,83 @@ public class RecipeControllerTests
     var result = await controller.GetRecipeById(recipe.Id);
 
     Assert.That(result, Is.InstanceOf<NotFoundResult>());
+  }
+
+  [Test]
+  // GetMyRecipes returns revision imgs, or falls back to Food imgs when empty.
+  public async Task GetMyRecipes_uses_food_images_when_revision_is_empty()
+  {
+    using var context = BuildContext();
+    const string ownerId = "user-1";
+    SeedUserProfile(context, ownerId);
+
+    var foodWithFallbackImgs = new Food
+    {
+      Id = 9001,
+      Name = new LanguageText { En = "Tomato", Pt = "Tomate" },
+      Imgs = new List<string> { "food-img-1", "food-img-2" }
+    };
+
+    var foodWithOwnImgs = new Food
+    {
+      Id = 9002,
+      Name = new LanguageText { En = "Potato", Pt = "Batata" },
+      Imgs = new List<string> { "food-img-3" }
+    };
+
+    var recipeWithImgs = new Recipe
+    {
+      OwnerId = ownerId,
+      Visibility = Visibility.Private,
+      CreatedAtUtc = DateTime.UtcNow,
+      UpdatedAtUtc = DateTime.UtcNow,
+      Food = foodWithOwnImgs,
+      FoodId = foodWithOwnImgs.Id
+    };
+
+    var revisionWithImgs = NewRevision("Recipe With Imgs", ownerId);
+    revisionWithImgs.Imgs = new List<string> { "recipe-img-1" };
+    revisionWithImgs.Recipe = recipeWithImgs;
+    recipeWithImgs.Revisions = new List<RecipeRevision> { revisionWithImgs };
+    recipeWithImgs.LatestRevision = revisionWithImgs;
+    recipeWithImgs.LatestRevisionId = revisionWithImgs.Id;
+
+    var recipeWithoutImgs = new Recipe
+    {
+      OwnerId = ownerId,
+      Visibility = Visibility.Private,
+      CreatedAtUtc = DateTime.UtcNow,
+      UpdatedAtUtc = DateTime.UtcNow,
+      Food = foodWithFallbackImgs,
+      FoodId = foodWithFallbackImgs.Id
+    };
+
+    var revisionWithoutImgs = NewRevision("Recipe Without Imgs", ownerId);
+    revisionWithoutImgs.Imgs = new List<string>();
+    revisionWithoutImgs.Recipe = recipeWithoutImgs;
+    recipeWithoutImgs.Revisions = new List<RecipeRevision> { revisionWithoutImgs };
+    recipeWithoutImgs.LatestRevision = revisionWithoutImgs;
+    recipeWithoutImgs.LatestRevisionId = revisionWithoutImgs.Id;
+
+    context.Food.AddRange(foodWithFallbackImgs, foodWithOwnImgs);
+    context.Recipe.AddRange(recipeWithImgs, recipeWithoutImgs);
+    context.SaveChanges();
+
+    var controller = BuildController(context, ownerId);
+
+    var result = await controller.GetMyRecipes();
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var payload = ok!.Value as List<RecipeSummaryResponse>;
+    Assert.That(payload, Is.Not.Null);
+    Assert.That(payload!.Count, Is.EqualTo(2));
+
+    var withImgs = payload.Single(r => r.Name == "Recipe With Imgs");
+    Assert.That(withImgs.Imgs, Is.EqualTo(new List<string> { "recipe-img-1" }));
+
+    var withoutImgs = payload.Single(r => r.Name == "Recipe Without Imgs");
+    Assert.That(withoutImgs.Imgs, Is.EqualTo(new List<string> { "food-img-1", "food-img-2" }));
   }
 
   [Test]

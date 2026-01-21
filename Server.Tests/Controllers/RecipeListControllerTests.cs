@@ -265,4 +265,106 @@ public class RecipeListControllerTests
     Assert.That(response!.Items.Count, Is.EqualTo(2));
     Assert.That(response.Items.Select(i => i.Position).ToList(), Is.EqualTo(new List<int> { 1, 2 }));
   }
+
+  [Test]
+  public async Task GetMyLists_returns_recipe_images_from_revision()
+  {
+    using var context = BuildContext();
+    const string ownerId = "user-1";
+    var list = SeedList(context, ownerId, "Favorites");
+
+    var food = new Food
+    {
+      Id = 9301,
+      Name = new LanguageText { En = "Apple", Pt = "Maca" },
+      Imgs = new List<string> { "food-img-1" }
+    };
+
+    var recipe = new Recipe
+    {
+      OwnerId = ownerId,
+      Visibility = Visibility.Private,
+      CreatedAtUtc = DateTime.UtcNow,
+      UpdatedAtUtc = DateTime.UtcNow,
+      Food = food,
+      FoodId = food.Id
+    };
+
+    var revision = new RecipeRevision("Recipe With Imgs", "keys", Language.En, new List<RecipeStep>(), ownerId)
+    {
+      Imgs = new List<string> { "recipe-img-1" },
+      Recipe = recipe
+    };
+    recipe.Revisions.Add(revision);
+    recipe.LatestRevision = revision;
+    recipe.LatestRevisionId = revision.Id;
+
+    context.Food.Add(food);
+    context.Recipe.Add(recipe);
+    context.SaveChanges();
+
+    SeedListItem(context, list, recipe, 1);
+    var controller = BuildController(context, ownerId);
+
+    var result = await controller.GetMyLists();
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var payload = ok!.Value as List<RecipeListSummaryResponse>;
+    Assert.That(payload, Is.Not.Null);
+    Assert.That(payload!.Count, Is.EqualTo(1));
+    Assert.That(payload[0].Items.Count, Is.EqualTo(1));
+    Assert.That(payload[0].Items[0].Imgs, Is.EqualTo(new List<string> { "recipe-img-1" }));
+  }
+
+  [Test]
+  public async Task GetMyLists_falls_back_to_food_images_when_revision_is_empty()
+  {
+    using var context = BuildContext();
+    const string ownerId = "user-1";
+    var list = SeedList(context, ownerId, "Favorites");
+
+    var food = new Food
+    {
+      Id = 9302,
+      Name = new LanguageText { En = "Banana", Pt = "Banana" },
+      Imgs = new List<string> { "food-img-2", "food-img-3" }
+    };
+
+    var recipe = new Recipe
+    {
+      OwnerId = ownerId,
+      Visibility = Visibility.Private,
+      CreatedAtUtc = DateTime.UtcNow,
+      UpdatedAtUtc = DateTime.UtcNow,
+      Food = food,
+      FoodId = food.Id
+    };
+
+    var revision = new RecipeRevision("Recipe Without Imgs", "keys", Language.En, new List<RecipeStep>(), ownerId)
+    {
+      Imgs = new List<string>(),
+      Recipe = recipe
+    };
+    recipe.Revisions.Add(revision);
+    recipe.LatestRevision = revision;
+    recipe.LatestRevisionId = revision.Id;
+
+    context.Food.Add(food);
+    context.Recipe.Add(recipe);
+    context.SaveChanges();
+
+    SeedListItem(context, list, recipe, 1);
+    var controller = BuildController(context, ownerId);
+
+    var result = await controller.GetMyLists();
+    var ok = result as OkObjectResult;
+
+    Assert.That(ok, Is.Not.Null);
+    var payload = ok!.Value as List<RecipeListSummaryResponse>;
+    Assert.That(payload, Is.Not.Null);
+    Assert.That(payload!.Count, Is.EqualTo(1));
+    Assert.That(payload[0].Items.Count, Is.EqualTo(1));
+    Assert.That(payload[0].Items[0].Imgs, Is.EqualTo(new List<string> { "food-img-2", "food-img-3" }));
+  }
 }

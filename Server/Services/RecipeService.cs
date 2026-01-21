@@ -233,6 +233,65 @@ public class RecipeService
     return result;
   }
 
+  private IQueryable<Recipe> BuildRecipeSummaryQuery(bool includeSteps)
+  {
+    IQueryable<Recipe> query = _context.Recipe.AsNoTracking();
+    query = query
+      .Include(r => r.Owner)
+      .Include(r => r.Food);
+
+    if (includeSteps)
+    {
+      query = query
+        .Include(r => r.LatestRevision)
+        .ThenInclude(rv => rv.Steps)
+        .Include(r => r.PublishedRevision)
+        .ThenInclude(rv => rv.Steps);
+    }
+    else
+    {
+      query = query
+        .Include(r => r.LatestRevision)
+        .Include(r => r.PublishedRevision);
+    }
+
+    return query;
+  }
+
+  public async Task<List<Recipe>> GetRecipesForSummaryByIdsAsync(IEnumerable<int> recipeIds, bool includeSteps = false)
+  {
+    var ids = recipeIds
+      .Where(id => id > 0)
+      .Distinct()
+      .ToList();
+
+    if (ids.Count == 0) return new List<Recipe>();
+
+    return await BuildRecipeSummaryQuery(includeSteps)
+      .Where(r => ids.Contains(r.Id))
+      .ToListAsync();
+  }
+
+  public async Task<List<Recipe>> GetRecipesForSummaryByOwnerAsync(string ownerId, ISet<int>? excludedIds = null, bool includeSteps = false)
+  {
+    if (string.IsNullOrWhiteSpace(ownerId)) return new List<Recipe>();
+
+    var query = BuildRecipeSummaryQuery(includeSteps)
+      .Where(r => r.OwnerId == ownerId);
+
+    var excluded = excludedIds?
+      .Where(id => id > 0)
+      .Distinct()
+      .ToList() ?? new List<int>();
+
+    if (excluded.Count > 0)
+    {
+      query = query.Where(r => !excluded.Contains(r.Id));
+    }
+
+    return await query.ToListAsync();
+  }
+
   public async Task<List<Recipe>> GetMostCopiedRecipesAsync(int quantity, string? userId = null)
   {
     if (quantity <= 0) return new List<Recipe>();
@@ -583,11 +642,28 @@ public class RecipeService
     return UserProfileResponseBuilder.BuildSummary(owner, isAdmin: false, callerId: null);
   }
 
+  private static List<string> ResolveRecipeImages(Recipe recipe, RecipeRevision? revision)
+  {
+    var revisionImgs = revision?.Imgs;
+    if (revisionImgs is not null && revisionImgs.Count > 0)
+    {
+      return revisionImgs.ToList();
+    }
+
+    var foodImgs = recipe.Food?.Imgs;
+    if (foodImgs is not null && foodImgs.Count > 0)
+    {
+      return foodImgs.ToList();
+    }
+
+    return new List<string>();
+  }
+
   public RecipeResponse BuildRecipeResponse(Recipe recipe, RevisionView view, string? callerUserId = null)
   {
     var response = _mapper.Map<RecipeResponse>(recipe);
     var revision = SelectRevision(recipe, view);
-    response.Imgs = revision?.Imgs?.ToList() ?? new List<string>();
+    response.Imgs = ResolveRecipeImages(recipe, revision);
 
     if (revision is not null)
     {
@@ -662,7 +738,7 @@ public class RecipeService
   {
     var summary = _mapper.Map<RecipeSummaryResponse>(recipe);
     var revision = SelectRevision(recipe, view);
-    summary.Imgs = revision?.Imgs?.ToList() ?? new List<string>();
+    summary.Imgs = ResolveRecipeImages(recipe, revision);
 
     if (revision is not null)
     {
@@ -680,8 +756,7 @@ public class RecipeService
 
   public async Task<List<RecipeSummaryResponse>> GetRecipeSummariesByUserId(string userId)
   {
-    var data = await GetAllRecipesByUserId(userId);
-    var recipes = data.Recipes;
+    var recipes = await GetRecipesForSummaryByOwnerAsync(userId, includeSteps: true);
     List<RecipeSummaryResponse> recipeDtos = recipes
       .Select(r => BuildRecipeSummaryResponse(r, RevisionView.LatestPreferred, userId))
       .ToList();

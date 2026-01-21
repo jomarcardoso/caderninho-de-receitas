@@ -91,14 +91,6 @@ public class WorkspaceService
     var lists = await _context.RecipeList
       .AsNoTracking()
       .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.Owner)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.LatestRevision)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.PublishedRevision)
       .Where(l => l.OwnerId == userId)
       .OrderBy(l => l.Name)
       .ToListAsync();
@@ -109,13 +101,24 @@ public class WorkspaceService
       .Distinct()
       .ToHashSet();
 
-    var otherRecipes = await _context.Recipe
-      .AsNoTracking()
-      .Include(r => r.Owner)
-      .Include(r => r.LatestRevision)
-      .Include(r => r.PublishedRevision)
-      .Where(r => r.OwnerId == userId && !recipeIdsInLists.Contains(r.Id))
-      .ToListAsync();
+    if (recipeIdsInLists.Count > 0)
+    {
+      var listRecipes = await _recipeService.GetRecipesForSummaryByIdsAsync(recipeIdsInLists);
+      var listRecipesById = listRecipes.ToDictionary(r => r.Id);
+
+      foreach (var list in lists)
+      {
+        foreach (var item in list.Items ?? new List<RecipeItem>())
+        {
+          if (listRecipesById.TryGetValue(item.RecipeId, out var recipe))
+          {
+            item.Recipe = recipe;
+          }
+        }
+      }
+    }
+
+    var otherRecipes = await _recipeService.GetRecipesForSummaryByOwnerAsync(userId, recipeIdsInLists);
 
     return new WorkspaceResponse
     {
@@ -150,11 +153,6 @@ public class WorkspaceService
     var lists = await _context.RecipeList
       .AsNoTracking()
       .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.LatestRevision)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.PublishedRevision)
       .Where(l => l.OwnerId == userId)
       .OrderBy(l => l.Name)
       .ToListAsync();
@@ -165,12 +163,24 @@ public class WorkspaceService
       .Distinct()
       .ToHashSet();
 
-    var otherRecipes = await _context.Recipe
-      .AsNoTracking()
-      .Include(r => r.LatestRevision)
-      .Include(r => r.PublishedRevision)
-      .Where(r => r.OwnerId == userId && !recipeIdsInLists.Contains(r.Id))
-      .ToListAsync();
+    if (recipeIdsInLists.Count > 0)
+    {
+      var listRecipes = await _recipeService.GetRecipesForSummaryByIdsAsync(recipeIdsInLists);
+      var listRecipesById = listRecipes.ToDictionary(r => r.Id);
+
+      foreach (var list in lists)
+      {
+        foreach (var item in list.Items ?? new List<RecipeItem>())
+        {
+          if (listRecipesById.TryGetValue(item.RecipeId, out var recipe))
+          {
+            item.Recipe = recipe;
+          }
+        }
+      }
+    }
+
+    var otherRecipes = await _recipeService.GetRecipesForSummaryByOwnerAsync(userId, recipeIdsInLists);
 
     return new WorkspaceIndexResponse
     {

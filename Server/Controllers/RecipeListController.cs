@@ -131,6 +131,44 @@ public class RecipeListController : ControllerBase
     return summary;
   }
 
+  private async Task AttachRecipesAsync(IEnumerable<RecipeList> lists, bool includeSteps = false)
+  {
+    var listArray = lists.ToList();
+    foreach (var list in listArray)
+    {
+      var itemsEntry = _context.Entry(list).Collection(l => l.Items);
+      if (!itemsEntry.IsLoaded)
+      {
+        await itemsEntry.LoadAsync();
+      }
+    }
+
+    var listItems = listArray
+      .SelectMany(l => l.Items ?? Enumerable.Empty<RecipeItem>())
+      .ToList();
+
+    var recipeIds = listItems
+      .Select(i => i.RecipeId)
+      .Distinct()
+      .ToList();
+
+    if (recipeIds.Count == 0) return;
+
+    var recipes = await _recipeService.GetRecipesForSummaryByIdsAsync(recipeIds, includeSteps);
+    var recipeMap = recipes.ToDictionary(r => r.Id);
+
+    foreach (var list in listArray)
+    {
+      foreach (var item in list.Items ?? Enumerable.Empty<RecipeItem>())
+      {
+        if (recipeMap.TryGetValue(item.RecipeId, out var recipe))
+        {
+          item.Recipe = recipe;
+        }
+      }
+    }
+  }
+
   [HttpGet]
   public async Task<IActionResult> GetMyLists()
   {
@@ -147,17 +185,12 @@ public class RecipeListController : ControllerBase
     if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
 
     var lists = await _context.RecipeList
-      .AsNoTracking()
       .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.LatestRevision)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.PublishedRevision)
       .Where(l => l.OwnerId == userId)
       .OrderBy(l => l.Name)
       .ToListAsync();
 
+    await AttachRecipesAsync(lists);
     return Ok(lists.Select(MapIndexSummary));
   }
 
@@ -218,17 +251,10 @@ public class RecipeListController : ControllerBase
     if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
     var list = await _context.RecipeList
       .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe!)
-      .ThenInclude(r => r.Owner)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe!)
-      .ThenInclude(r => r.LatestRevision)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe!)
-      .ThenInclude(r => r.PublishedRevision)
       .FirstOrDefaultAsync(l => l.Id == id && l.OwnerId == userId);
     if (list is null) return NotFound();
 
+    await AttachRecipesAsync(new[] { list });
     var ownerProfile = await _context.UserProfile
       .Include(p => p.Revisions)
       .FirstOrDefaultAsync(p => p.Id == userId);
@@ -270,20 +296,12 @@ public class RecipeListController : ControllerBase
   private async Task<List<RecipeListSummaryResponse>> LoadMyListSummaries(string userId)
   {
     var lists = await _context.RecipeList
-      .AsNoTracking()
       .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.Owner)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.LatestRevision)
-      .Include(l => l.Items)
-      .ThenInclude(i => i.Recipe)
-      .ThenInclude(r => r.PublishedRevision)
       .Where(l => l.OwnerId == userId)
       .OrderBy(l => l.Name)
       .ToListAsync();
 
+    await AttachRecipesAsync(lists);
     var ownerProfile = await _context.UserProfile
       .Include(p => p.Revisions)
       .FirstOrDefaultAsync(p => p.Id == userId);
