@@ -85,9 +85,9 @@ file: `Server.Tests/Controllers/RecipeControllerTests.cs`
 
 #### UpdateRecipe
 
-- **Private update keeps Published revision and resets status to Draft.**
-- params: none (Visibility.Private).
-- return: status Draft, PublishedRevisionId unchanged, Visibility Private.
+ - **Private update keeps a single revision and resets status to Draft.**
+ - params: none (Visibility.Private).
+ - return: status Draft, PublishedRevisionId null, Visibility Private.
 
 - **Update persists description and additional fields.**
 - params: RecipeDto with Description and Additional.
@@ -97,9 +97,13 @@ file: `Server.Tests/Controllers/RecipeControllerTests.cs`
 - params: none (Visibility.Public).
 - return: status PendingReview, PublishedRevisionId null, Visibility Public.
 
-- **Public update with Published keeps Published and creates a new Latest.**
-- params: none (Visibility.Public).
-- return: status PendingReview, PublishedRevisionId preserved, LatestRevisionId new.
+ - **Public update with Published keeps Published and creates a new Latest.**
+ - params: none (Visibility.Public).
+ - return: status PendingReview, PublishedRevisionId preserved, LatestRevisionId new.
+
+ - **Public update keeps at most two revisions when Published exists.**
+ - params: repeated updates (Visibility.Public).
+ - return: PublishedRevisionId preserved and only two revisions remain.
 
 ### CopyRecipe
 

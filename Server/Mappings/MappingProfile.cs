@@ -40,7 +40,10 @@ public class MappingProfile : Profile
         src.LatestRevision != null ? src.LatestRevision.Name :
         src.PublishedRevision != null ? src.PublishedRevision.Name :
         src.Name))
-      .ForMember(dest => dest.Imgs, opt => opt.MapFrom(src => src.Imgs ?? new List<string>()))
+      .ForMember(dest => dest.Imgs, opt => opt.MapFrom(src =>
+        src.LatestRevision != null ? src.LatestRevision.Imgs :
+        src.PublishedRevision != null ? src.PublishedRevision.Imgs :
+        new List<string>()))
       .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => MapUserSummary(src.Owner, src.OwnerId)))
       .ForMember(dest => dest.NutritionalInformation, opt => opt.MapFrom(src => src.NutritionalInformation))
       .ForMember(dest => dest.IsOwner, opt => opt.Ignore());

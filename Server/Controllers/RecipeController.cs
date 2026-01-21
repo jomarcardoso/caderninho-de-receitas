@@ -387,7 +387,7 @@ public class RecipeController : ControllerBase
       {
         r.Id,
         Name = r.PublishedRevision!.Name,
-        r.Imgs,
+        Imgs = r.PublishedRevision!.Imgs,
         r.OwnerId,
         Visibility = r.Visibility
       })

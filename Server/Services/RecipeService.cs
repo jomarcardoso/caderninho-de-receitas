@@ -46,7 +46,6 @@ public class RecipeService
       Description = recipeDto.Description,
       Additional = recipeDto.Additional,
       Visibility = recipeDto.Visibility ?? Visibility.Private,
-      Imgs = recipeDto.Imgs ?? new List<string>(),
       Categories = NormalizeCategorySlugs(recipeDto.Categories),
       Food = food,
       FoodId = food?.Id,
@@ -110,13 +109,13 @@ public class RecipeService
       clonedSteps,
       ownerId)
     ;
+    newRevision.Imgs = new List<string>(baseRevision.Imgs ?? new List<string>());
 
     var recipe = new Recipe
     {
       OwnerId = ownerId,
       Slug = source.Slug,
       Revisions = new List<RecipeRevision> { newRevision },
-      Imgs = source.Imgs,
       Categories = source.Categories,
       Description = source.Description,
       Additional = source.Additional,
@@ -137,26 +136,72 @@ public class RecipeService
     if (recipe is null) throw new ArgumentNullException(nameof(recipe));
     if (recipeDto is null) throw new ArgumentNullException(nameof(recipeDto));
 
-    var revision = await BuildRevisionAsync(recipeDto);
+    var effectiveVisibility = recipeDto.Visibility ?? Visibility.Private;
+    var published = recipe.PublishedRevision;
+    var latest = recipe.LatestRevision;
+    var keepPublished = effectiveVisibility == Visibility.Public && published is not null;
+    var latestIsPublished = published is not null && latest is not null && latest.Id == published.Id;
+
+    RecipeRevision revision;
+    var createdNew = false;
+
+    if (keepPublished)
+    {
+      if (latest is null || latestIsPublished)
+      {
+        revision = await BuildRevisionAsync(recipeDto);
+        createdNew = true;
+      }
+      else
+      {
+        revision = latest;
+        await ApplyDtoToRevisionAsync(revision, recipeDto);
+      }
+    }
+    else
+    {
+      if (latest is not null)
+      {
+        revision = latest;
+        await ApplyDtoToRevisionAsync(revision, recipeDto);
+      }
+      else if (published is not null)
+      {
+        revision = published;
+        await ApplyDtoToRevisionAsync(revision, recipeDto);
+      }
+      else
+      {
+        revision = await BuildRevisionAsync(recipeDto);
+        createdNew = true;
+      }
+
+      recipe.PublishedRevision = null;
+      recipe.PublishedRevisionId = null;
+    }
+
+    if (createdNew)
+    {
+      revision.Recipe = recipe;
+      revision.RecipeId = recipe.Id;
+
+      recipe.Revisions ??= new List<RecipeRevision>();
+      recipe.Revisions.Add(revision);
+      _context.RecipeRevisions.Add(revision);
+
+      recipe.LatestRevision = null;
+      recipe.LatestRevisionId = null;
+    }
+
     var mainFood = await ResolveMainFoodAsync(recipeDto);
-    revision.Recipe = recipe;
-    revision.RecipeId = recipe.Id;
-
-    if (recipe.Revisions is null)
-      recipe.Revisions = new List<RecipeRevision>();
-    recipe.Revisions.Add(revision);
-    _context.RecipeRevisions.Add(revision);
-
-    recipe.LatestRevision = null;
-    recipe.LatestRevisionId = null;
     recipe.Description = recipeDto.Description;
     recipe.Additional = recipeDto.Additional;
-    recipe.Imgs = recipeDto.Imgs ?? new List<string>();
     recipe.Categories = NormalizeCategorySlugs(recipeDto.Categories);
     recipe.Food = mainFood;
     recipe.FoodId = mainFood?.Id;
     recipe.UpdatedAtUtc = DateTime.UtcNow;
     await EnsureCategoriesExistAsync(recipe.Categories);
+    PruneRevisions(recipe, revision, keepPublished ? published : null);
     return revision;
   }
 
@@ -542,6 +587,7 @@ public class RecipeService
   {
     var response = _mapper.Map<RecipeResponse>(recipe);
     var revision = SelectRevision(recipe, view);
+    response.Imgs = revision?.Imgs?.ToList() ?? new List<string>();
 
     if (revision is not null)
     {
@@ -616,6 +662,7 @@ public class RecipeService
   {
     var summary = _mapper.Map<RecipeSummaryResponse>(recipe);
     var revision = SelectRevision(recipe, view);
+    summary.Imgs = revision?.Imgs?.ToList() ?? new List<string>();
 
     if (revision is not null)
     {
@@ -701,7 +748,37 @@ public class RecipeService
       lang,
       steps,
       string.Empty);
+    revision.Imgs = recipeDto.Imgs ?? new List<string>();
 
     return revision;
+  }
+
+  private async Task ApplyDtoToRevisionAsync(RecipeRevision revision, RecipeDto recipeDto)
+  {
+    var rebuilt = await BuildRevisionAsync(recipeDto);
+    revision.Name = rebuilt.Name;
+    revision.Keys = rebuilt.Keys;
+    revision.Language = rebuilt.Language;
+    revision.Steps = rebuilt.Steps;
+    revision.Imgs = rebuilt.Imgs ?? new List<string>();
+    revision.UpdatedAtUtc = DateTime.UtcNow;
+  }
+
+  private void PruneRevisions(Recipe recipe, RecipeRevision latest, RecipeRevision? published)
+  {
+    recipe.Revisions ??= new List<RecipeRevision>();
+    var keep = new HashSet<Guid> { latest.Id };
+    if (published is not null)
+    {
+      keep.Add(published.Id);
+    }
+
+    var extra = recipe.Revisions.Where(r => !keep.Contains(r.Id)).ToList();
+    foreach (var rev in extra)
+    {
+      _context.RecipeRevisions.Remove(rev);
+    }
+
+    recipe.Revisions = recipe.Revisions.Where(r => keep.Contains(r.Id)).ToList();
   }
 }

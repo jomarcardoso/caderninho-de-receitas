@@ -26,6 +26,8 @@ public class RecipeRevision
   public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
   public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 
+  public List<string> Imgs { get; set; } = new();
+
   public string? ModerationNotes { get; set; }
 
   public RecipeRevision() { }

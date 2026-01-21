@@ -280,6 +280,7 @@ Properties:
 - Structured snapshot: `List<RecipeRevisionStep>` Steps
 - Audit: `string` CreatedByUserId, `DateTime` CreatedAtUtc, `DateTime` UpdatedAtUtc
 - Review/moderation: `string?` ReviewedByUserId, `DateTime?` ReviewedAtUtc, `string?` ModerationNotes
+- `List<string>` Imgs
 
 Constructors:
 
@@ -310,12 +311,12 @@ Properties (core/identity):
 - `int?` MergedIntoRecipeId; `Recipe?` MergedIntoRecipe
 - `List<RecipeRevision>` Revisions
 - `int?` CopiedFromRecipeId
+- `List<string>` Categories
 
 Legacy/indexable proxies (read-only derived from active revision):
 
 - `string` Name, `string` Keys, `Language` Language
 - `string?` Description, `string?` Additional
-- `List<string>` Imgs, `List<string>` Categories
 - `List<RecipeStep>` Steps (converted from active revision steps)
 - `Food?` Food (first ingredient of first step, if any)
 - Aggregates on-demand: `NutritionalInformationBase` NutritionalInformation, `MineralsBase` Minerals, `VitaminsBase` Vitamins, `AminoAcidsBase` AminoAcids, `EssentialAminoAcidsBase` EssentialAminoAcids
