@@ -316,6 +316,16 @@ public class AppDbContext : DbContext
         .HasConversion(emailConverter)
         .HasColumnType("text")
         .Metadata.SetValueComparer(emailComparer);
+
+      entity.HasOne(u => u.PublishedRevision)
+        .WithMany()
+        .HasForeignKey(u => u.PublishedRevisionId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+      entity.HasOne(u => u.LatestRevision)
+        .WithMany()
+        .HasForeignKey(u => u.LatestRevisionId)
+        .OnDelete(DeleteBehavior.Restrict);
     });
 
     // UserAuthIdentity

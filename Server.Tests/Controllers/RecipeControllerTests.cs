@@ -515,23 +515,28 @@ public class RecipeControllerTests
   }
 
   [Test]
-  // Private update keeps Published revision and resets status to Draft.
-  public async Task UpdateRecipe_private_sets_draft_and_preserves_published()
+  // Private update keeps a single revision and resets status to Draft.
+  public async Task UpdateRecipe_private_keeps_single_revision()
   {
     using var context = BuildContext();
     var recipe = SeedRecipe(context, "user-1", RevisionStatus.Approved, Visibility.Public, hasPublished: true, hasLatest: true, latestEqualsPublished: true);
-    var publishedId = recipe.PublishedRevisionId;
     var controller = BuildController(context, "user-1");
 
     var result = await controller.UpdateRecipe(recipe.Id, BuildDto(Visibility.Private));
     Assert.That(result, Is.InstanceOf<OkObjectResult>());
+    result = await controller.UpdateRecipe(recipe.Id, BuildDto(Visibility.Private));
+    Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
     var updated = await context.Recipe
+      .Include(r => r.Revisions)
+      .Include(r => r.LatestRevision)
       .Include(r => r.PublishedRevision)
       .FirstAsync(r => r.Id == recipe.Id);
 
     Assert.That(updated.Status, Is.EqualTo(RevisionStatus.Draft));
-    Assert.That(updated.PublishedRevisionId, Is.EqualTo(publishedId));
+    Assert.That(updated.Revisions.Count, Is.EqualTo(1));
+    Assert.That(updated.PublishedRevisionId, Is.Null);
+    Assert.That(updated.LatestRevisionId, Is.Not.Null);
     Assert.That(updated.Visibility, Is.EqualTo(Visibility.Private));
   }
 
@@ -572,6 +577,31 @@ public class RecipeControllerTests
     Assert.That(updated.Status, Is.EqualTo(RevisionStatus.PendingReview));
     Assert.That(updated.PublishedRevisionId, Is.EqualTo(publishedId));
     Assert.That(updated.LatestRevisionId, Is.Not.EqualTo(publishedId));
+  }
+
+  [Test]
+  // Public update keeps at most two revisions when a Published version exists.
+  public async Task UpdateRecipe_public_with_published_keeps_two_revisions_on_repeated_update()
+  {
+    using var context = BuildContext();
+    var recipe = SeedRecipe(context, "user-1", RevisionStatus.Approved, Visibility.Public, hasPublished: true, hasLatest: true, latestEqualsPublished: true);
+    var publishedId = recipe.PublishedRevisionId;
+    var controller = BuildController(context, "user-1");
+
+    var result = await controller.UpdateRecipe(recipe.Id, BuildDto(Visibility.Public));
+    Assert.That(result, Is.InstanceOf<OkObjectResult>());
+    result = await controller.UpdateRecipe(recipe.Id, BuildDto(Visibility.Public));
+    Assert.That(result, Is.InstanceOf<OkObjectResult>());
+
+    var updated = await context.Recipe
+      .Include(r => r.Revisions)
+      .Include(r => r.PublishedRevision)
+      .Include(r => r.LatestRevision)
+      .FirstAsync(r => r.Id == recipe.Id);
+
+    Assert.That(updated.Revisions.Count, Is.EqualTo(2));
+    Assert.That(updated.PublishedRevisionId, Is.EqualTo(publishedId));
+    Assert.That(updated.LatestRevisionId, Is.Not.EqualTo(updated.PublishedRevisionId));
   }
 
   [Test]
