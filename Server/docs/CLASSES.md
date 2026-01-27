@@ -145,6 +145,12 @@ Enum:
 3. Approved
 4. Rejected
 
+### RevisionType
+
+1. Create
+2. Update
+3. Delete
+
 ### INutrientsBase
 
 - Namespace: [`Server.Shared`](#shared)
@@ -311,7 +317,8 @@ Properties (core/identity):
 - `int?` MergedIntoRecipeId; `Recipe?` MergedIntoRecipe
 - `List<RecipeRevision>` Revisions
 - `int?` CopiedFromRecipeId
-- `List<string>` Categories
+- `List<RecipeCategory>` Categories
+- `List<int>` CategoryIds (optional; persistence/lookup)
 
 Legacy/indexable proxies (read-only derived from active revision):
 
@@ -332,6 +339,44 @@ Methods:
 
 - `RecomputeAggregatesFromRevisions()` — placeholder for future aggregate logic.
 - Static helper `ConvertLegacySteps(IEnumerable<RecipeStep>)` used by the legacy ctor.
+
+### FoodRevision
+
+Namespace: [`Server.Models`](#models)
+
+Properties:
+
+- `int` Id
+- `int?` FoodId
+- `string` Payload (JSON snapshot of FoodDto)
+- [`RevisionStatus`](#revisionstatus) Status
+- [`RevisionType`](#revisiontype) Type
+- `string` CreatedByUserId
+- `UserProfile?` CreatedByUser
+- `DateTime` CreatedAtUtc
+- `DateTime` UpdatedAtUtc
+- `string?` ReviewedByUserId
+- `UserProfile?` ReviewedByUser
+- `DateTime?` ReviewedAtUtc
+
+### RecipeCategoryRevision
+
+Namespace: [`Server.Models`](#models)
+
+Properties:
+
+- `int` Id
+- `int?` RecipeCategoryId
+- `string` Payload (JSON snapshot of RecipeCategoryDto)
+- [`RevisionStatus`](#revisionstatus) Status
+- [`RevisionType`](#revisiontype) Type
+- `string` CreatedByUserId
+- `UserProfile?` CreatedByUser
+- `DateTime` CreatedAtUtc
+- `DateTime` UpdatedAtUtc
+- `string?` ReviewedByUserId
+- `UserProfile?` ReviewedByUser
+- `DateTime?` ReviewedAtUtc
 
 ### RecipeRevisionStep (owned)
 

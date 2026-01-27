@@ -3,7 +3,7 @@ using Server.Response;
 
 namespace Server.Dtos;
 
-// Transport DTO para criar/editar receita (categorias como strings)
+// Transport DTO para criar/editar receita (categorias por id + novas categorias por texto)
 public class RecipeDto
 {
   public string Name { get; set; } = string.Empty;
@@ -12,7 +12,8 @@ public class RecipeDto
   public string? Additional { get; set; }
   public List<RecipeStepDto> Steps { get; set; } = new();
   public Language Language { get; set; } = Language.En;
-  public List<string> Categories { get; set; } = new();
+  public List<int> Categories { get; set; } = new();
+  public List<string> NewCategories { get; set; } = new();
   public List<string> Imgs { get; set; } = new();
   public Visibility? Visibility { get; set; }
 }
@@ -39,7 +40,7 @@ public class RecipeItemSummaryResponse
   public int Position { get; set; } = 0;
 }
 
-// Transport response (categorias como strings)
+// Transport response (categorias completas)
 public class RecipeResponse
 {
   public int Id { get; set; }
@@ -50,7 +51,7 @@ public class RecipeResponse
   public string? Additional { get; set; }
   public List<RecipeStepResponse> Steps { get; set; } = new();
   public Language Language { get; set; } = Language.En;
-  public List<string> Categories { get; set; } = new(); // slugs
+  public List<RecipeCategoryResponse> Categories { get; set; } = new();
   public FoodSummaryResponse Food { get; set; } = new();
   public List<string> Imgs { get; set; } = new();
   public int SavedByOthersCount { get; set; } = 0;

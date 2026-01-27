@@ -93,7 +93,7 @@ public class Recipe
   // Conteúdo não indexável (compatibilidade)
   public string? Description { get; set; }
   public string? Additional { get; set; }
-  public List<string> Categories { get; set; } = new();
+  public List<int> CategoryIds { get; set; } = new();
   public int? FoodId { get; set; }
   public Food? Food { get; set; }
 

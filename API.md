@@ -101,7 +101,32 @@ Use `categories` as an array of these slugs (may be empty).
 
 "public" | "private"
 
+### RevisionStatus
+
+"draft" | "pendingReview" | "approved" | "rejected"
+
+### RevisionType
+
+"create" | "update" | "delete"
+
 ## Common Interfaces
+
+### Revision<T>
+
+- id: `number`
+- original: `T?` (null when `type = "create"`)
+- proposed: `T?` (null when `type = "delete"`)
+- createdAt: `string` (date: ISO 8601)
+- updatedAt: `string` (date: ISO 8601)
+- createdByUser: [`UserProfile`](#userprofile)
+- status: [`RevisionStatus`](#revisionstatus)
+- type: [`RevisionType`](#revisiontype)
+
+Private fields (do not return to frontend):
+
+- reviewedByUser: [`UserProfile`](#userprofile)
+- reviewedAt: `string` (date: ISO 8601)
+- payload: `string` JSON to be persisted
 
 ### LanguageText
 
@@ -208,14 +233,14 @@ Technical contract for create/update food endpoints and detailed responses.
 
 </details>
 
-### FoodSummaryResponse
+### FoodSummary
 
 - id: `number`
 - name: `string`
 - icon: `string` (url)
 - imgs: `string[]`
 
-### FoodResponse
+### Food
 
 - id: `number`
 - name: [`LanguageText`](#languagetext)
@@ -233,6 +258,14 @@ Technical contract for create/update food endpoints and detailed responses.
 - aminoAcids: [`AminoAcids`](#aminoacids)
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - aminoAcidsScore: `number`
+
+### FoodRevision
+
+[`Revision<Food>`](#revisiont)
+
+Notes:
+
+- If creating, `proposed.id` is 0.
 
 ## UserProfile Interfaces
 
@@ -312,10 +345,10 @@ Technical contract for create/update food endpoints and detailed responses.
 
 ## Recipe Interfaces
 
-### IngredientResponse
+### Ingredient
 
 - text: `string`
-- food: [`FoodSummaryResponse`](#foodsummary)
+- food: [`FoodSummary`](#foodsummary)
 - quantity: `number` (in grams)
 - measureType: [`MeasureType`](#measuretype)
 - measureQuantity: `number`
@@ -374,16 +407,38 @@ Technical contract for create/update food endpoints and detailed responses.
 - essentialAminoAcids: [`EssentialAminoAcids`](#essentialaminoacids) (amino acids multiplied for daily value)
 - AminoAcidsScore: `number`
 
+### RecipeCategoryDto
+
+- name: [`LanguageText`](#languagetext)
+- namePlural: [`LanguageText?`](#languagetext)
+- description: [`LanguageText?`](#languagetext)
+- img: `string?` (url)
+- bannerImg: `string?` (url)
+- featured: `boolean?` (true to highlight on home pages)
+
 ### RecipeCategory
 
 - id: `number`
 - name: [`LanguageText`](#languagetext)
 - namePlural: [`LanguageText`](#languagetext)
 - description: [`LanguageText`](#languagetext)
-- key: `string` (slug/camel) ?category=recipeCategory
-- url: `string` (kebab-case)
+- key: `string` (slug/camel) ?category=recipeCategory. Generated at backend.
+- url: `string` (kebab-case) Generated at backend.
 - img: `string` (url)
 - bannerImg: `string` (url)
+- featured: `boolean` (highlighted categories on home pages)
+
+Private fields (do not return to frontend):
+
+- visibility: [`Visibility`](#visibility)
+
+### RecipeCategoryRevision
+
+[`Revision<RecipeCategory>`](#revisiont)
+
+Notes:
+
+- If creating, `proposed.id` is 0.
 
 ### RecipeDto
 
@@ -393,7 +448,8 @@ Technical contract for create/update food endpoints and detailed responses.
 - additional: `string`
 - visibility: [`Visibility`](#visibility)
 - language: [`Language`](#language)
-- categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
+- categories: `number[]` category IDs
+- newCategories: `string[]` The backend matches existing categories case-insensitively. Changing only the case will not create a new category. If none match, it creates a new category with `visibility: private`.
 - imgs: `string[]`
 - steps: [`RecipeStepDto`](#recipestepdto)
 
@@ -431,8 +487,8 @@ Technical contract for create/update food endpoints and detailed responses.
 - visibility: [`Visibility`] (if no more public, show the message "outdated")(#visibility)
 - [`RecipeStep[]`](#recipestep) steps
 - language: [`Language`](#language)
-- categories: [`FoodCategory[]`](#foodcategory) `| string` (slugs)
-- food: [`FoodSummaryResponse`](#foodsummary)
+- categories: [`RecipeCategory[]`](#recipecategory)
+- food: [`FoodSummary`](#foodsummary)
 - imgs: `string[]`
 - savedByOthersCount: `number`
 - createdAt: `string` (date: ISO 8601)
@@ -559,85 +615,89 @@ Base route: (`api/food`)
   - `text` (string)
   - `categories` (csv)
   - `limit` (int, default 20, max 64)
-- Response: [`FoodSummaryResponse[]`](#foodsummary)
+- Response: [`FoodSummary[]`](#foodsummary)
 
 `GET /api/food/{id}` — get one food (full)
 
 - Auth: KeeperOrHigher
 - Path: `id` (int)
-- Response: [`FoodResponse`](#food)
+- Response: [`Food`](#food)
 
-`POST /api/food` — create food
+`POST /api/food` — Create food.
 
-- Auth: AdminOrHigher
+Admin does not require approval. It will create a revision and approve at the same time.
+If the user is a keeper, it will go to a review queue. In the backend it will create a FoodRevision and it will be listed at "list pending edit requests".
+
+- Auth: KeeperOrHigher
 - Body: `FoodDto`
-- Response: [`FoodResponse`](#food)
+- Response: [`FoodRevision`](#foodrevision)
 
-`POST /api/food/bulk` — create a list of food
+`POST /api/food/bulk` — Create a list of food.
+
+Admin does not require approval. It will create a revision and approve at the same time.
 
 - Auth: AdminOrHigher
 - Body: `FoodDto[]`
-- Response: [`FoodResponse[]`](#food)
+- Response: [`FoodRevision[]`](#foodrevision)
 
-`PUT /api/food/{id}` — update food
+`PUT /api/food/{id}` — Update food.
 
-- Auth: AdminOrHigher
+Admin does not require approval. It will create a revision and approve at the same time.
+If the user is a keeper, it will go to a review queue. In the backend it will create a FoodRevision and it will be listed at "list pending edit requests".
+
+- Auth: KeeperOrHigher
 - Path: `id` (int)
 - Body: `FoodDto`
-- Response: [`FoodResponse`](#food)
+- Response: [`FoodRevision`](#foodrevision)
 
-`DELETE /api/food/{id}` — delete food
+`DELETE /api/food/{id}` — Delete food.
+
+Admin does not require approval. It will create a revision and approve at the same time.
+If the user is a keeper, it will go to a review queue. In the backend it will create a FoodRevision and it will be listed at "list pending edit requests".
+
+- Auth: KeeperOrHigher
+- Path: `id` (int)
+- Response: [`FoodRevision`](#foodrevision)
+
+`GET /api/food/revisions` — list food revision queue
+
+Keepers can see their submitted requests.
+
+- Auth: KeeperOrHigher (owner)
+- Response: [`FoodRevision[]`](#foodrevision)
+
+`GET /api/food/pending` - list pending edit requests
 
 - Auth: AdminOrHigher
-- Path: `id` (int)
-- Response: `200 OK` (empty body)
+- Response: [`FoodRevision[]`](#foodrevision)
+
+`POST /api/food/{revisionId}/approve` - approve and apply edit by FoodRevision.id
+
+- Auth: AdminOrHigher
+- Path: `revisionId` (int)
+- Response: `200 OK` (applied) or `404/400`
+
+`POST /api/food/{revisionId}/reject` - reject edit by FoodRevision.id
+
+- Auth: AdminOrHigher
+- Path: `revisionId` (int)
+- Response: `200 OK` or `404/400`
 
 `GET /api/food/search-images` — search foods images
 
+- Auth: AllowAnonymous
 - Query: `text` (string, required), `limit` (int, default 6, max 18)
 - Response: `string[]`
 
 `GET /api/food/categories` — category lookup
 
-- Response: `string[]` (slugs) or `CategoryItem[]`
+- Auth: AllowAnonymous
+- Response: `string[]` (slugs) or `FoodCategory[]`
 
 `GET /api/food/types` — type lookup
 
+- Auth: AllowAnonymous
 - Response: `FoodType[]` (or map with translations)
-
-### FoodEdits
-
-Route: (`api/food-edits`)
-
-`POST /api/food-edits` - create edit request
-
-- Auth: KeeperOrHigher
-- Body: `FoodDto`
-- Response: `{ id }`
-
-`GET /api/food-edits/{id}` - get one edit request
-
-- Auth: AdminOrHigher
-- Path: `id` (int)
-- Response: `FoodEditRequest`
-
-`GET /api/food-edits/pending` - list pending edit requests
-
-- Auth: AdminOrHigher
-- Query: `foodId` (optional filter)
-- Response: `FoodEditRequest[]`
-
-`POST /api/food-edits/{id}/approve` - approve and apply edit
-
-- Auth: AdminOrHigher
-- Path: `id` (int)
-- Response: `200 OK` (applied) or `404/400`
-
-`POST /api/food-edits/{id}/reject` - reject edit
-
-- Auth: AdminOrHigher
-- Path: `id` (int)
-- Response: `200 OK` or `404/400`
 
 ## User Endpoints
 
@@ -702,6 +762,72 @@ The admin can edit even more data of other user.
 - Response:
   - [`UserProfileOwner`](#userprofileowner) Owner or user with share token
   - [`UserProfileAdmin`](#userprofileadmin) Admin or higher
+
+## Recipe Category Endpoints
+
+Base route: (`api/recipe-category`)
+
+`GET /api/recipe-category` — load recipe categories from DB
+
+This data is used to create a datalist of suggestions to new recipes. It avoids creating duplicated categories.
+Only categories with `visibility = "public"` appear in this list.
+
+- Auth: optional (AllowAnonymous)
+- Query:
+  - `featured` (boolean, optional) filter by featured status
+- Response: [`RecipeCategory[]`](#recipecategory)
+
+`POST /api/recipe-category` — create recipe category
+
+Admins can edit the final version.
+Keepers can create recipe categories, but it will create a recipe category revision to be approved by an admin.
+
+- Auth: KeeperOrHigher
+- Body: [`RecipeCategoryDto`](#recipecategorydto)
+- Response: [`RecipeCategoryRevision`](#recipecategoryrevision)
+
+`PUT /api/recipe-category/{id}` — update recipe category
+
+Admins can edit the final version.
+Keepers can edit recipe categories, but it will create a recipe category revision to be approved by an admin.
+
+- Auth: KeeperOrHigher
+- Path: `id` (int)
+- Body: [`RecipeCategoryDto`](#recipecategorydto)
+- Response: [`RecipeCategoryRevision`](#recipecategoryrevision)
+
+`DELETE /api/recipe-category/{id}` — delete recipe category
+
+Admins can edit the final version.
+Keepers can delete recipe categories, but it will create a recipe category revision to be approved by an admin.
+
+- Auth: KeeperOrHigher
+- Path: `id` (int)
+- Response: [`RecipeCategoryRevision`](#recipecategoryrevision)
+
+`GET /api/recipe-category/revisions` — list recipe category revision queue
+
+Keepers can see their submitted requests.
+
+- Auth: KeeperOrHigher (owner)
+- Response: [`RecipeCategoryRevision[]`](#recipecategoryrevision)
+
+`GET /api/recipe-category/pending` — list pending recipe categories
+
+- Auth: AdminOrHigher
+- Response: [`RecipeCategoryRevision[]`](#recipecategoryrevision)
+
+`POST /api/recipe-category/{revisionId}/approve` — approve/publish recipe category by RecipeCategoryRevision.id
+
+- Auth: AdminOrHigher
+- Path: `revisionId` (int)
+- Response: `200 OK` (empty body)
+
+`POST /api/recipe-category/{revisionId}/deny` — reject recipe category by RecipeCategoryRevision.id
+
+- Auth: AdminOrHigher
+- Path: `revisionId` (int)
+- Response: `200 OK` (empty body)
 
 ## Recipe Endpoints
 

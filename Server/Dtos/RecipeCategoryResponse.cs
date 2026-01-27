@@ -12,4 +12,5 @@ public class RecipeCategoryResponse
   public LanguageTextBase Description { get; set; } = new LanguageTextBase();
   public string Img { get; set; } = string.Empty;
   public string BannerImg { get; set; } = string.Empty;
+  public bool Featured { get; set; } = false;
 }
