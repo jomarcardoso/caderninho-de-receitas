@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Server;
@@ -12,9 +13,11 @@ using Server;
 namespace Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260126161903_RenameRecipeCategories")]
+    partial class RenameRecipeCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,6 +25,79 @@ namespace Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Server.Models.CategoryEditRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("ApprovedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ApprovedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProposedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId", "Status");
+
+                    b.ToTable("CategoryEditRequest");
+                });
+
+            modelBuilder.Entity("Server.Models.CustomRecipeCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BannerImg")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Img")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int>("Visibility")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("CustomRecipeCategory", (string)null);
+                });
 
             modelBuilder.Entity("Server.Models.Food", b =>
                 {
@@ -194,6 +270,11 @@ namespace Server.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CustomCategoryIds")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("CustomCategories");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -281,9 +362,6 @@ namespace Server.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Featured")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Img")
                         .IsRequired()
                         .HasColumnType("text");
@@ -301,7 +379,7 @@ namespace Server.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("RecipeCategory");
+                    b.ToTable("RecipeCategory", (string)null);
                 });
 
             modelBuilder.Entity("Server.Models.RecipeCategoryRevision", b =>
@@ -747,6 +825,81 @@ namespace Server.Migrations
                     b.HasIndex("UserProfileId", "Status");
 
                     b.ToTable("UserProfileRevision");
+                });
+
+            modelBuilder.Entity("Server.Models.CustomRecipeCategory", b =>
+                {
+                    b.OwnsOne("Server.Models.LanguageText", "Description", b1 =>
+                        {
+                            b1.Property<int>("CustomRecipeCategoryId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Pt")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("CustomRecipeCategoryId");
+
+                            b1.ToTable("CustomRecipeCategory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomRecipeCategoryId");
+                        });
+
+                    b.OwnsOne("Server.Models.LanguageText", "Name", b1 =>
+                        {
+                            b1.Property<int>("CustomRecipeCategoryId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Pt")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("CustomRecipeCategoryId");
+
+                            b1.ToTable("CustomRecipeCategory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomRecipeCategoryId");
+                        });
+
+                    b.OwnsOne("Server.Models.LanguageText", "NamePlural", b1 =>
+                        {
+                            b1.Property<int>("CustomRecipeCategoryId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("En")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Pt")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("CustomRecipeCategoryId");
+
+                            b1.ToTable("CustomRecipeCategory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomRecipeCategoryId");
+                        });
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+
+                    b.Navigation("NamePlural")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Server.Models.Food", b =>

@@ -27,7 +27,7 @@ public class MappingProfile : Profile
         src.PublishedRevision != null ? src.PublishedRevision.Keys :
         src.Keys))
       .ForMember(dest => dest.Food, opt => opt.MapFrom(src => src.Food))
-      .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => (src.Categories ?? new List<string>()).ToList()))
+      .ForMember(dest => dest.Categories, opt => opt.Ignore())
       .ForMember(dest => dest.NutritionalInformation, opt => opt.MapFrom(src => src.NutritionalInformation))
       .ForMember(dest => dest.Minerals, opt => opt.MapFrom(src => src.Minerals))
       .ForMember(dest => dest.Vitamins, opt => opt.MapFrom(src => src.Vitamins))

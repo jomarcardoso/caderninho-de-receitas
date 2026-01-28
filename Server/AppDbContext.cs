@@ -20,14 +20,15 @@ public class AppDbContext : DbContext
   public DbSet<Icon> FoodIcon { get; set; }
   public DbSet<RecipeShare> RecipeShare { get; set; }
   public DbSet<Server.Models.FoodEditRequest> FoodEditRequest { get; set; }
+  public DbSet<FoodRevision> FoodRevision { get; set; }
   public DbSet<UserProfile> UserProfile { get; set; }
   public DbSet<UserAuthIdentity> UserAuthIdentity { get; set; }
   public DbSet<UserProfileRevision> UserProfileRevision { get; set; }
   public DbSet<RecipeRevision> RecipeRevisions { get; set; }
   public DbSet<RecipeList> RecipeList { get; set; }
   public DbSet<RecipeItem> RecipeItem { get; set; }
-  public DbSet<RecipeCategoryOpen> RecipeCategoryOpen { get; set; }
-  public DbSet<CategoryEditRequest> CategoryEditRequest { get; set; }
+  public DbSet<RecipeCategory> RecipeCategory { get; set; }
+  public DbSet<RecipeCategoryRevision> RecipeCategoryRevision { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -111,25 +112,29 @@ public class AppDbContext : DbContext
       entity.Ignore(r => r.Minerals);
       entity.Ignore(r => r.Steps);
 
-      // Persist Categories as a comma-separated slug list
-      var categoriesConverter = new ValueConverter<List<string>, string>(
-        v => string.Join(',', v ?? new List<string>()),
+      // Persist category ids as comma-separated list
+      var categoriesConverter = new ValueConverter<List<int>, string>(
+        v => string.Join(',', v ?? new List<int>()),
         v => string.IsNullOrWhiteSpace(v)
-          ? new List<string>()
-          : v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x)).ToList()
+          ? new List<int>()
+          : v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(ParsePositiveInt)
+            .Where(id => id > 0)
+            .ToList()
       );
 
-      var categoriesComparer = new ValueComparer<List<string>>(
-        (a, b) => (a ?? new()).SequenceEqual(b ?? new(), StringComparer.OrdinalIgnoreCase),
-        v => (v ?? new()).Aggregate(0, (acc, x) => HashCode.Combine(acc, x.ToLowerInvariant().GetHashCode())),
-        v => v == null ? new List<string>() : v.ToList()
+      var categoriesComparer = new ValueComparer<List<int>>(
+        (a, b) => (a ?? new()).SequenceEqual(b ?? new()),
+        v => (v ?? new()).Aggregate(0, (acc, x) => HashCode.Combine(acc, x.GetHashCode())),
+        v => v == null ? new List<int>() : v.ToList()
       );
 
-      entity.Property(r => r.Categories)
+      entity.Property(r => r.CategoryIds)
         .HasConversion(categoriesConverter)
         .HasColumnName("Categories")
         .HasColumnType("text")
         .Metadata.SetValueComparer(categoriesComparer);
+
 
       entity.HasOne(r => r.Food)
         .WithMany()
@@ -171,8 +176,8 @@ public class AppDbContext : DbContext
       entity.HasIndex(r => new { r.RecipeId, r.RelatedRecipeId }).IsUnique();
     });
 
-    // RecipeCategoryOpen
-    modelBuilder.Entity<RecipeCategoryOpen>(entity =>
+    // RecipeCategory
+    modelBuilder.Entity<RecipeCategory>(entity =>
     {
       entity.HasKey(c => c.Id);
       entity.Property(c => c.Slug)
@@ -180,17 +185,38 @@ public class AppDbContext : DbContext
         .HasMaxLength(128);
       entity.HasIndex(c => c.Slug).IsUnique();
       entity.OwnsOne(c => c.Name);
+      entity.OwnsOne(c => c.NamePlural);
+      entity.OwnsOne(c => c.Description);
       entity.Property(c => c.CreatedAt).IsRequired();
+      entity.Property(c => c.Img).HasColumnType("text");
+      entity.Property(c => c.BannerImg).HasColumnType("text");
+      entity.Property(c => c.Visibility).HasColumnType("integer");
+      entity.Property(c => c.Featured).HasColumnType("boolean");
     });
 
-    // CategoryEditRequest
-    modelBuilder.Entity<CategoryEditRequest>(entity =>
+    // RecipeCategoryRevision
+    modelBuilder.Entity<RecipeCategoryRevision>(entity =>
     {
-      entity.HasKey(e => e.Id);
-      entity.HasIndex(e => new { e.CategoryId, e.Status });
-      entity.Property(e => e.ProposedBy).IsRequired();
-      entity.Property(e => e.Payload).IsRequired();
-      entity.Property(e => e.CreatedAt).IsRequired();
+      entity.HasKey(r => r.Id);
+      entity.HasIndex(r => new { r.RecipeCategoryId, r.Status });
+      entity.HasIndex(r => new { r.Status, r.CreatedAtUtc })
+        .HasDatabaseName("IX_RecipeCategoryRevision_Pending")
+        .HasFilter("\"Status\" = 1");
+      entity.Property(r => r.Payload).IsRequired();
+      entity.Property(r => r.CreatedAtUtc).IsRequired();
+      entity.Property(r => r.UpdatedAtUtc).IsRequired();
+
+      entity.HasOne(r => r.CreatedByUser)
+        .WithMany()
+        .HasForeignKey(r => r.CreatedByUserId)
+        .HasPrincipalKey(u => u.Id)
+        .OnDelete(DeleteBehavior.Restrict);
+
+      entity.HasOne(r => r.ReviewedByUser)
+        .WithMany()
+        .HasForeignKey(r => r.ReviewedByUserId)
+        .HasPrincipalKey(u => u.Id)
+        .OnDelete(DeleteBehavior.SetNull);
     });
 
     // Icon
@@ -231,6 +257,31 @@ public class AppDbContext : DbContext
       entity.Property(e => e.ProposedBy).IsRequired();
       entity.Property(e => e.Payload).IsRequired();
       entity.Property(e => e.CreatedAt).IsRequired();
+    });
+
+    // FoodRevision
+    modelBuilder.Entity<FoodRevision>(entity =>
+    {
+      entity.HasKey(r => r.Id);
+      entity.HasIndex(r => new { r.FoodId, r.Status });
+      entity.HasIndex(r => new { r.Status, r.CreatedAtUtc })
+        .HasDatabaseName("IX_FoodRevision_Pending")
+        .HasFilter("\"Status\" = 1");
+      entity.Property(r => r.Payload).IsRequired();
+      entity.Property(r => r.CreatedAtUtc).IsRequired();
+      entity.Property(r => r.UpdatedAtUtc).IsRequired();
+
+      entity.HasOne(r => r.CreatedByUser)
+        .WithMany()
+        .HasForeignKey(r => r.CreatedByUserId)
+        .HasPrincipalKey(u => u.Id)
+        .OnDelete(DeleteBehavior.Restrict);
+
+      entity.HasOne(r => r.ReviewedByUser)
+        .WithMany()
+        .HasForeignKey(r => r.ReviewedByUserId)
+        .HasPrincipalKey(u => u.Id)
+        .OnDelete(DeleteBehavior.SetNull);
     });
 
     // UserProfile
@@ -412,6 +463,11 @@ public class AppDbContext : DbContext
         .OnDelete(DeleteBehavior.Cascade);
     });
 
+  }
+
+  private static int ParsePositiveInt(string value)
+  {
+    return int.TryParse(value.Trim(), out var parsed) ? parsed : 0;
   }
 
   private static TEnum? TryParseEnum<TEnum>(string value) where TEnum : struct, Enum

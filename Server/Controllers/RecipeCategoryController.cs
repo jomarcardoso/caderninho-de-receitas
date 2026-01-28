@@ -154,23 +154,36 @@ public class RecipeCategoryController : ControllerBase
   private RecipeCategoryRevisionResponse BuildRevisionResponse(
     RecipeCategoryRevision revision,
     RecipeCategoryDto? payload,
-    RecipeCategory? category = null)
+    RecipeCategory? category = null,
+    RecipeCategoryResponse? originalOverride = null)
   {
-    var slug = category?.Slug;
-    if (string.IsNullOrWhiteSpace(slug))
+    RecipeCategoryResponse? original = null;
+    if (revision.Type != RevisionType.Create)
     {
-      slug = payload is null ? string.Empty : NormalizeSlug(PickLabel(payload));
+      original = originalOverride ?? (category is not null ? ToResponse(category) : null);
     }
 
-    var id = revision.Type == RevisionType.Create ? 0 : (category?.Id ?? revision.RecipeCategoryId ?? 0);
-    var recipeCategory = category is not null
-      ? ToResponse(category, id)
-      : ToResponse(payload ?? new RecipeCategoryDto { Name = new LanguageText { En = slug, Pt = slug } }, slug ?? string.Empty, id);
+    RecipeCategoryResponse? proposed = null;
+    if (revision.Type != RevisionType.Delete)
+    {
+      var dto = payload ?? DeserializePayload(revision.Payload);
+      if (dto is not null)
+      {
+        var slug = category?.Slug;
+        if (string.IsNullOrWhiteSpace(slug))
+        {
+          slug = NormalizeSlug(PickLabel(dto));
+        }
+        var id = revision.Type == RevisionType.Create ? 0 : (category?.Id ?? revision.RecipeCategoryId ?? 0);
+        proposed = ToResponse(dto, slug ?? string.Empty, id);
+      }
+    }
 
     return new RecipeCategoryRevisionResponse
     {
       Id = revision.Id,
-      RecipeCategory = recipeCategory,
+      Original = original,
+      Proposed = proposed,
       CreatedAt = revision.CreatedAtUtc,
       UpdatedAt = revision.UpdatedAtUtc,
       CreatedByUser = BuildUserResponse(revision.CreatedByUser, revision.CreatedByUserId),
@@ -274,6 +287,7 @@ public class RecipeCategoryController : ControllerBase
     var category = await _context.RecipeCategory.FindAsync(id);
     if (category is null) return NotFound();
 
+    var originalSnapshot = ToResponse(category);
     var merged = MergeDto(category, dto);
     var now = DateTime.UtcNow;
     var revision = new RecipeCategoryRevision
@@ -298,7 +312,7 @@ public class RecipeCategoryController : ControllerBase
     await _context.SaveChangesAsync();
 
     revision.CreatedByUser = await _context.UserProfile.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
-    return Ok(BuildRevisionResponse(revision, merged, category));
+    return Ok(BuildRevisionResponse(revision, merged, category, originalSnapshot));
   }
 
   [HttpDelete("{id}")]
@@ -311,6 +325,7 @@ public class RecipeCategoryController : ControllerBase
     var category = await _context.RecipeCategory.FindAsync(id);
     if (category is null) return NotFound();
 
+    var originalSnapshot = ToResponse(category);
     var payload = new RecipeCategoryDto
     {
       Name = category.Name,
@@ -343,7 +358,7 @@ public class RecipeCategoryController : ControllerBase
     await _context.SaveChangesAsync();
 
     revision.CreatedByUser = await _context.UserProfile.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
-    return Ok(BuildRevisionResponse(revision, payload, category));
+    return Ok(BuildRevisionResponse(revision, payload, category, originalSnapshot));
   }
 
   [HttpGet("revisions")]

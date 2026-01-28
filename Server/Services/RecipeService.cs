@@ -39,6 +39,13 @@ public class RecipeService
   {
     var revision = await BuildRevisionAsync(recipeDto);
     var food = await ResolveMainFoodAsync(recipeDto);
+    var categoryIds = await ResolveRecipeCategoryIdsAsync(recipeDto.Categories);
+    var newCategoryIds = await EnsureCategoriesExistAsync(recipeDto.NewCategories);
+    var mergedCategoryIds = categoryIds
+      .Concat(newCategoryIds)
+      .Distinct()
+      .ToList();
+
     var entity = new Recipe
     {
       OwnerId = string.Empty,
@@ -46,7 +53,7 @@ public class RecipeService
       Description = recipeDto.Description,
       Additional = recipeDto.Additional,
       Visibility = recipeDto.Visibility ?? Visibility.Private,
-      Categories = NormalizeCategorySlugs(recipeDto.Categories),
+      CategoryIds = mergedCategoryIds,
       Food = food,
       FoodId = food?.Id,
       CreatedAtUtc = DateTime.UtcNow,
@@ -57,8 +64,6 @@ public class RecipeService
 
     revision.Recipe = entity;
     entity.Revisions = new List<RecipeRevision> { revision };
-
-    await EnsureCategoriesExistAsync(entity.Categories);
 
     return entity;
   }
@@ -116,7 +121,7 @@ public class RecipeService
       OwnerId = ownerId,
       Slug = source.Slug,
       Revisions = new List<RecipeRevision> { newRevision },
-      Categories = source.Categories,
+      CategoryIds = source.CategoryIds,
       Description = source.Description,
       Additional = source.Additional,
       FoodId = source.FoodId,
@@ -196,11 +201,15 @@ public class RecipeService
     var mainFood = await ResolveMainFoodAsync(recipeDto);
     recipe.Description = recipeDto.Description;
     recipe.Additional = recipeDto.Additional;
-    recipe.Categories = NormalizeCategorySlugs(recipeDto.Categories);
+    var categoryIds = await ResolveRecipeCategoryIdsAsync(recipeDto.Categories);
+    var newCategoryIds = await EnsureCategoriesExistAsync(recipeDto.NewCategories);
+    recipe.CategoryIds = categoryIds
+      .Concat(newCategoryIds)
+      .Distinct()
+      .ToList();
     recipe.Food = mainFood;
     recipe.FoodId = mainFood?.Id;
     recipe.UpdatedAtUtc = DateTime.UtcNow;
-    await EnsureCategoriesExistAsync(recipe.Categories);
     PruneRevisions(recipe, revision, keepPublished ? published : null);
     return revision;
   }
@@ -363,27 +372,86 @@ public class RecipeService
     return set.ToList();
   }
 
-  private async Task EnsureCategoriesExistAsync(IEnumerable<string> slugs, string? createdBy = null)
+  private async Task<List<int>> ResolveRecipeCategoryIdsAsync(IEnumerable<int>? categoryIds)
   {
-    var normalized = NormalizeCategorySlugs(slugs);
-    if (normalized.Count == 0) return;
+    var ids = categoryIds?
+      .Where(id => id > 0)
+      .Distinct()
+      .ToList() ?? new List<int>();
+
+    if (ids.Count == 0) return new List<int>();
+
+    var existingIds = await _context.RecipeCategory
+      .AsNoTracking()
+      .Where(c => ids.Contains(c.Id))
+      .Select(c => c.Id)
+      .ToListAsync();
+
+    return existingIds
+      .Where(id => id > 0)
+      .Distinct()
+      .ToList();
+  }
+
+  private async Task<List<int>> EnsureCategoriesExistAsync(IEnumerable<string>? categories)
+  {
+    var slugMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    foreach (var entry in categories ?? Array.Empty<string>())
+    {
+      var label = (entry ?? string.Empty).Trim();
+      if (string.IsNullOrWhiteSpace(label)) continue;
+      var slug = NormalizeSlug(label);
+      if (string.IsNullOrWhiteSpace(slug)) continue;
+      if (!slugMap.ContainsKey(slug)) slugMap[slug] = label;
+    }
+
+    var normalized = NormalizeCategorySlugs(slugMap.Keys);
+    if (normalized.Count == 0) return new List<int>();
+
+    var existingIds = new List<int>();
 
     try
     {
-      var existing = await _context.RecipeCategoryOpen
+      var existing = await _context.RecipeCategory
         .Where(c => normalized.Contains(c.Slug))
-        .Select(c => c.Slug)
+        .Select(c => new { c.Slug, c.Id })
         .ToListAsync();
 
-      var missing = normalized.Except(existing, StringComparer.OrdinalIgnoreCase).ToList();
-      if (missing.Count == 0) return;
+      var existingBySlug = existing
+        .GroupBy(x => x.Slug, StringComparer.OrdinalIgnoreCase)
+        .ToDictionary(g => g.Key, g => g.First().Id, StringComparer.OrdinalIgnoreCase);
+
+      existingIds = existingBySlug.Values
+        .Where(id => id > 0)
+        .Distinct()
+        .ToList();
+
+      var missing = normalized
+        .Where(slug => !existingBySlug.ContainsKey(slug))
+        .ToList();
+
+      if (missing.Count == 0)
+      {
+        return normalized
+          .Select(slug => existingBySlug.TryGetValue(slug, out var id) ? id : 0)
+          .Where(id => id > 0)
+          .Distinct()
+          .ToList();
+      }
 
       foreach (var slug in missing)
       {
-        _context.RecipeCategoryOpen.Add(new RecipeCategoryOpen
+        var label = slugMap.TryGetValue(slug, out var name) ? name : slug;
+        _context.RecipeCategory.Add(new RecipeCategory
         {
           Slug = slug,
-          Name = new LanguageText { Pt = slug, En = slug },
+          Name = new LanguageText { Pt = label, En = label },
+          NamePlural = new LanguageText { Pt = label, En = label },
+          Description = new LanguageText { Pt = string.Empty, En = string.Empty },
+          Img = string.Empty,
+          BannerImg = string.Empty,
+          Visibility = Visibility.Private,
+          Featured = false,
           CreatedAt = DateTime.UtcNow
         });
       }
@@ -393,65 +461,87 @@ public class RecipeService
     catch
     {
       // ignora seeds faltando
+      return existingIds;
     }
+
+    return await _context.RecipeCategory
+      .AsNoTracking()
+      .Where(c => normalized.Contains(c.Slug))
+      .Select(c => c.Id)
+      .Distinct()
+      .ToListAsync();
   }
 
-  public async Task<Dictionary<string, RecipeCategoryResponse>> BuildCategoryMapAsync()
+  private static void AddCategoryLookup(Dictionary<string, int> lookup, string? key, int id)
   {
-    var dict = new Dictionary<string, CategoryItem>(StringComparer.OrdinalIgnoreCase);
+    if (id <= 0 || string.IsNullOrWhiteSpace(key)) return;
+    if (!lookup.ContainsKey(key)) lookup[key] = id;
+  }
 
-    foreach (var item in RecipeCategoryDefaults.List)
+  private async Task<Dictionary<string, int>> BuildCategoryLookupAsync(bool includePrivate)
+  {
+    var map = await BuildCategoryMapAsync(includePrivate);
+    var lookup = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+    foreach (var item in map.Values)
     {
-      if (!dict.ContainsKey(item.Key))
-        dict[item.Key] = item;
+      AddCategoryLookup(lookup, item.Key, item.Id);
+      AddCategoryLookup(lookup, item.Url, item.Id);
+      AddCategoryLookup(lookup, NormalizeSlug(item.Key), item.Id);
+      AddCategoryLookup(lookup, NormalizeSlug(item.Url), item.Id);
     }
+
+    return lookup;
+  }
+
+  private Dictionary<int, RecipeCategoryResponse> BuildCategoryIdMapSync(bool includePrivate)
+  {
+    var map = BuildCategoryMapSync(includePrivate);
+    return map.Values
+      .Where(c => c.Id > 0)
+      .GroupBy(c => c.Id)
+      .ToDictionary(g => g.Key, g => g.First());
+  }
+
+  public async Task<Dictionary<string, RecipeCategoryResponse>> BuildCategoryMapAsync(bool includePrivate = false)
+  {
+    var dict = new Dictionary<string, RecipeCategoryResponse>(StringComparer.OrdinalIgnoreCase);
 
     try
     {
-      var open = await _context.RecipeCategoryOpen.AsNoTracking().ToListAsync();
+      var categories = await _context.RecipeCategory.AsNoTracking().ToListAsync();
 
-      if (open.Count == 0)
+      if (!includePrivate)
       {
-        foreach (var def in RecipeCategoryDefaults.List)
-        {
-          _context.RecipeCategoryOpen.Add(new RecipeCategoryOpen
-          {
-            Slug = def.Key,
-            Name = new LanguageText { En = def.Text.En, Pt = def.Text.Pt },
-            Description = new LanguageText { En = def.Description.En, Pt = def.Description.Pt },
-            BannerImg = def.BannerImg,
-            CreatedAt = DateTime.UtcNow,
-          });
-        }
-        await _context.SaveChangesAsync();
-        open = await _context.RecipeCategoryOpen.AsNoTracking().ToListAsync();
+        categories = categories.Where(c => c.Visibility == Visibility.Public).ToList();
       }
 
-      foreach (var oc in open)
+      foreach (var category in categories)
       {
-        var existing = dict.ContainsKey(oc.Slug) ? dict[oc.Slug] : null;
-        dict[oc.Slug] = new CategoryItem
+        var existing = dict.ContainsKey(category.Slug) ? dict[category.Slug] : null;
+        dict[category.Slug] = new RecipeCategoryResponse
         {
-          Id = oc.Id,
-          Key = oc.Slug,
-          Url = existing?.Url ?? oc.Slug,
-          Text = new LanguageTextBase
+          Id = category.Id,
+          Key = existing?.Key ?? category.Slug,
+          Url = existing?.Url ?? category.Slug,
+          Featured = category.Featured,
+          Name = new LanguageTextBase
           {
-            En = oc.Name.En,
-            Pt = oc.Name.Pt
+            En = category.Name.En,
+            Pt = category.Name.Pt
           },
-          PluralText = new LanguageTextBase
+          NamePlural = new LanguageTextBase
           {
-            En = existing?.PluralText?.En ?? oc.Name.En,
-            Pt = existing?.PluralText?.Pt ?? oc.Name.Pt
+            En = !string.IsNullOrWhiteSpace(category.NamePlural?.En) ? category.NamePlural.En : (existing?.NamePlural?.En ?? category.Name.En),
+            Pt = !string.IsNullOrWhiteSpace(category.NamePlural?.Pt) ? category.NamePlural.Pt : (existing?.NamePlural?.Pt ?? category.Name.Pt)
           },
           Description = new LanguageTextBase
           {
-            En = oc.Description.En,
-            Pt = oc.Description.Pt
+            En = category.Description.En,
+            Pt = category.Description.Pt
           },
-          Img = existing?.Img ?? string.Empty,
-          BannerImg = oc.BannerImg ?? existing?.BannerImg ?? string.Empty
+          Img = !string.IsNullOrWhiteSpace(category.Img) ? category.Img : (existing?.Img ?? string.Empty),
+          BannerImg = !string.IsNullOrWhiteSpace(category.BannerImg) ? category.BannerImg : (existing?.BannerImg ?? string.Empty)
         };
       }
     }
@@ -460,20 +550,57 @@ public class RecipeService
       // fallback apenas com defaults
     }
 
-    return dict.ToDictionary(
-      kvp => kvp.Key,
-      kvp => new RecipeCategoryResponse
+    return dict.ToDictionary(kvp => kvp.Key, kvp => kvp.Value, StringComparer.OrdinalIgnoreCase);
+  }
+
+  private Dictionary<string, RecipeCategoryResponse> BuildCategoryMapSync(bool includePrivate = false)
+  {
+    var dict = new Dictionary<string, RecipeCategoryResponse>(StringComparer.OrdinalIgnoreCase);
+
+    try
+    {
+      var categories = _context.RecipeCategory.AsNoTracking().ToList();
+
+      if (!includePrivate)
       {
-        Id = kvp.Value.Id,
-        Key = kvp.Value.Key,
-        Url = kvp.Value.Url,
-        Name = kvp.Value.Text,
-        NamePlural = kvp.Value.PluralText,
-        Description = kvp.Value.Description,
-        Img = kvp.Value.Img,
-        BannerImg = kvp.Value.BannerImg
-      },
-      StringComparer.OrdinalIgnoreCase);
+        categories = categories.Where(c => c.Visibility == Visibility.Public).ToList();
+      }
+
+      foreach (var category in categories)
+      {
+        var existing = dict.ContainsKey(category.Slug) ? dict[category.Slug] : null;
+        dict[category.Slug] = new RecipeCategoryResponse
+        {
+          Id = category.Id,
+          Key = existing?.Key ?? category.Slug,
+          Url = existing?.Url ?? category.Slug,
+          Featured = category.Featured,
+          Name = new LanguageTextBase
+          {
+            En = category.Name.En,
+            Pt = category.Name.Pt
+          },
+          NamePlural = new LanguageTextBase
+          {
+            En = !string.IsNullOrWhiteSpace(category.NamePlural?.En) ? category.NamePlural.En : (existing?.NamePlural?.En ?? category.Name.En),
+            Pt = !string.IsNullOrWhiteSpace(category.NamePlural?.Pt) ? category.NamePlural.Pt : (existing?.NamePlural?.Pt ?? category.Name.Pt)
+          },
+          Description = new LanguageTextBase
+          {
+            En = category.Description.En,
+            Pt = category.Description.Pt
+          },
+          Img = !string.IsNullOrWhiteSpace(category.Img) ? category.Img : (existing?.Img ?? string.Empty),
+          BannerImg = !string.IsNullOrWhiteSpace(category.BannerImg) ? category.BannerImg : (existing?.BannerImg ?? string.Empty)
+        };
+      }
+    }
+    catch
+    {
+      // fallback apenas com defaults
+    }
+
+    return dict.ToDictionary(kvp => kvp.Key, kvp => kvp.Value, StringComparer.OrdinalIgnoreCase);
   }
 
   public async Task<List<Recipe>> SearchRecipesAsync(string? text, IEnumerable<string>? categoryKeys, int quantity, string? userId = null)
@@ -505,7 +632,26 @@ public class RecipeService
       );
     }
 
-    var cats = NormalizeCategorySlugs(categoryKeys).ToHashSet(StringComparer.OrdinalIgnoreCase);
+    var categoryLookup = await BuildCategoryLookupAsync(includePrivate);
+    var cats = new HashSet<int>();
+
+    foreach (var key in categoryKeys ?? Array.Empty<string>())
+    {
+      var raw = (key ?? string.Empty).Trim();
+      if (string.IsNullOrWhiteSpace(raw)) continue;
+
+      if (categoryLookup.TryGetValue(raw, out var id))
+      {
+        cats.Add(id);
+        continue;
+      }
+
+      var normalized = NormalizeSlug(raw);
+      if (categoryLookup.TryGetValue(normalized, out id))
+      {
+        cats.Add(id);
+      }
+    }
 
     const int SupersetMax = 512;
     var superset = await query
@@ -516,8 +662,9 @@ public class RecipeService
     if (cats.Count > 0)
     {
       superset = superset
-        .Where(r => (r.Categories ?? new List<string>())
-          .Any(c => cats.Contains(NormalizeSlug(c))))
+        .Where(r =>
+          (r.CategoryIds ?? new List<int>())
+            .Any(id => cats.Contains(id)))
         .ToList();
     }
 
@@ -665,6 +812,11 @@ public class RecipeService
     var revision = SelectRevision(recipe, view);
     response.Imgs = ResolveRecipeImages(recipe, revision);
 
+    var categoryMap = BuildCategoryIdMapSync(includePrivate: true);
+    response.Categories = (recipe.CategoryIds ?? new List<int>())
+      .Select(id => categoryMap.TryGetValue(id, out var cat) ? cat : BuildFallbackCategory(id))
+      .ToList();
+
     if (revision is not null)
     {
       response.Name = revision.Name;
@@ -732,6 +884,24 @@ public class RecipeService
     }
 
     return response;
+  }
+
+  private static RecipeCategoryResponse BuildFallbackCategory(int id)
+  {
+    var label = id.ToString(CultureInfo.InvariantCulture);
+    var text = new LanguageTextBase { En = label, Pt = label };
+    return new RecipeCategoryResponse
+    {
+      Id = id,
+      Key = label,
+      Url = label,
+      Name = text,
+      NamePlural = text,
+      Description = new LanguageTextBase(),
+      Img = string.Empty,
+      BannerImg = string.Empty,
+      Featured = false
+    };
   }
 
   public RecipeSummaryResponse BuildRecipeSummaryResponse(Recipe recipe, RevisionView view, string? callerUserId = null)

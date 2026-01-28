@@ -54,6 +54,8 @@ public class FirebaseUserProfileService
       profile = await FindLegacyProfileAsync(record, ct);
     }
 
+    UserProfileRevision? initialRevision = null;
+
     if (profile is null)
     {
       profile = new UserProfile
@@ -90,10 +92,7 @@ public class FirebaseUserProfileService
         UpdatedAtUtc = now
       };
       profile.Revisions.Add(revision);
-      profile.PublishedRevision = revision;
-      profile.PublishedRevisionId = revision.Id;
-      profile.LatestRevision = revision;
-      profile.LatestRevisionId = revision.Id;
+      initialRevision = revision;
 
       _context.UserProfile.Add(profile);
     }
@@ -162,6 +161,16 @@ public class FirebaseUserProfileService
     }
 
     await _context.SaveChangesAsync(ct);
+
+    if (initialRevision is not null &&
+        (profile.PublishedRevisionId is null || profile.LatestRevisionId is null))
+    {
+      profile.PublishedRevisionId ??= initialRevision.Id;
+      profile.LatestRevisionId ??= initialRevision.Id;
+      profile.PublishedRevision ??= initialRevision;
+      profile.LatestRevision ??= initialRevision;
+      await _context.SaveChangesAsync(ct);
+    }
     return profile;
   }
 
